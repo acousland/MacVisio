@@ -48,4 +48,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' scripts/Info.plist)
+          # A local notarized release may have been published while this job built.
+          if gh release view "v$version" --json isDraft --jq '.isDraft == false' 2>/dev/null | rg -q true; then
+            echo 'Release is already published; keeping its original assets.'
+            exit 0
+          fi
           gh release create "v$version" "build/releases/$version/"* --title "MacVisio $version" --notes "Native macOS test build with signed Sparkle updates. Full Visio parity remains unfinished; binary VSD writing is experimental."
