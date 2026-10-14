@@ -1,0 +1,51 @@
+name: Publish signed Sparkle release
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: macvisio-release
+  cancel-in-progress: false
+jobs:
+  release:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - name: Detect an already published release
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' scripts/Info.plist)
+          if [[ "$GITHUB_REF_TYPE" == 'tag' && "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo 'Release tag must match scripts/Info.plist' >&2
+            exit 1
+          fi
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+          if gh release view "v$version" --json isDraft --jq '.isDraft == false' 2>/dev/null | rg -q true; then
+            echo 'published=true' >> "$GITHUB_OUTPUT"
+          fi
+      - name: Install legacy reader
+        if: steps.existing.outputs.published != 'true'
+        run: brew install libvisio
+      - name: Test and build
+        if: steps.existing.outputs.published != 'true'
+        run: |
+          swift test
+          scripts/build-app.sh
+          python3 scripts/verify-app.py
+      - name: Sign update and feed
+        if: steps.existing.outputs.published != 'true'
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: |
+          python3 scripts/sign-ci-release.py
+      - name: Publish
+        if: steps.existing.outputs.published != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' scripts/Info.plist)
+          gh release create "v$version" "build/releases/$version/"* --title "MacVisio $version" --notes "Native macOS test build with signed Sparkle updates. Full Visio parity remains unfinished; binary VSD writing is experimental."

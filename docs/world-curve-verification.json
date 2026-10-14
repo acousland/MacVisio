@@ -1,0 +1,27 @@
+{
+  "master": "World",
+  "nativeCubicCommands": 841,
+  "nurbsRows": 41,
+  "source": "BCKGRN_M.VSSX",
+  "sourceWarnings": [
+    "A shape without supported geometry is shown as a rectangle; its source is preserved.",
+    "Gradients and fill patterns are approximated by solid colors.",
+    "Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed.",
+    "Zero-size shape axes use a minimal editing frame; original public dimensions remain preserved in the source package."
+  ],
+  "windowsValidated": false,
+  "independentPublicGraphics": {
+    "vsdx": {
+      "parsed": true,
+      "paths": 22,
+      "cubicCommands": 302,
+      "ellipticalArcCommands": 305
+    },
+    "vsd": {
+      "parsed": true,
+      "paths": 22,
+      "cubicCommands": 815,
+      "ellipticalArcCommands": 0
+    }
+  }
+}

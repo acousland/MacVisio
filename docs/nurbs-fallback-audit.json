@@ -1,0 +1,3504 @@
+{
+  "files": [
+    "BCKGRN_M.VSSX",
+    "BCKGRN_U.VSSX",
+    "CALNDR_M.VSSX",
+    "CALNDR_U.VSSX",
+    "DTLNME_M.VSSX",
+    "DTLNME_U.VSSX",
+    "ITIL_M.VSSX",
+    "ITIL_U.VSSX",
+    "NETSME_M.VSSX",
+    "NETSME_U.VSSX",
+    "PERIME_M.VSSX",
+    "PERIME_U.VSSX",
+    "RCKSME_M.VSSX",
+    "RCKSME_U.VSSX",
+    "SERVME_M.VSSX",
+    "SERVME_U.VSSX",
+    "WFDEME_M.VSSX",
+    "WFDEME_U.VSSX",
+    "WFOBME_M.VSSX",
+    "WFOBME_U.VSSX",
+    "WFSTME_M.VSSX",
+    "WFSTME_U.VSSX",
+    "WORKFLOW_DEPARTMENTAL_M.VSTX",
+    "WORKFLOW_DEPARTMENTAL_U.VSTX",
+    "WORKFLOW_PROCESS_M.VSTX",
+    "WORKFLOW_PROCESS_U.VSTX"
+  ],
+  "rawRowFindings": [
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 19,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "33",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "52",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "67",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "74",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "148",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "160",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "183",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "17",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_M.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "9",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 19,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "33",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "52",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "67",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "72",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "146",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "157",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "177",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "17",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "part": "visio/masters/master7.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "CALNDR_M.VSSX",
+      "part": "visio/masters/master32.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "CALNDR_U.VSSX",
+      "part": "visio/masters/master32.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_M.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_M.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_M.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_M.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_U.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_U.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_U.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "DTLNME_U.VSSX",
+      "part": "visio/masters/master5.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "28",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "33",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "34",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "37",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "9",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "26",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "34",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "23",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "16",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "30",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "32",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "10",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "16",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "27",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "28",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "30",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "58",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "60",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "13",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "28",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "33",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "34",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "37",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master2.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "9",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "26",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "34",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "23",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "16",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "30",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "32",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "10",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "16",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "18",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "24",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "27",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "28",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "30",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "58",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "60",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master6.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "5",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "PERIME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "PERIME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 25,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "PERIME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "PERIME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "8",
+      "degree": 3,
+      "controls": 25,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 16,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 16,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 16,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 16,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "part": "visio/masters/master16.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "part": "visio/masters/master42.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "part": "visio/masters/master42.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "part": "visio/masters/master18.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "part": "visio/masters/master42.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "part": "visio/masters/master42.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "part": "visio/masters/master18.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master20.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master20.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "20",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master14.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master14.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master20.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master20.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "20",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 4,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "12",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master23.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 7,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master1.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master3.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master14.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master14.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master4.xml",
+      "row": "4",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master9.xml",
+      "row": "15",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "part": "visio/masters/master11.xml",
+      "row": "7",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFSTME_M.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFSTME_M.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFSTME_U.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "2",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WFSTME_U.VSSX",
+      "part": "visio/masters/master13.xml",
+      "row": "6",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_M.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_M.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_M.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_M.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_U.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_U.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_U.VSTX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_U.VSTX",
+      "part": "visio/masters/master4.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master6.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master6.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master7.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "part": "visio/masters/master7.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master3.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master4.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master4.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "3",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "part": "visio/masters/master5.xml",
+      "row": "11",
+      "degree": 3,
+      "controls": 10,
+      "reasons": [
+        "decreasing knots"
+      ]
+    }
+  ],
+  "rawRowFindingsAreUnmerged": true,
+  "provesAllFallbackCauses": false
+}

@@ -1,0 +1,24 @@
+{
+  "version": "0.16.0",
+  "installerBuild": "16.0.10730.20102",
+  "count": 856,
+  "imported": 856,
+  "failed": 0,
+  "importedByType": {
+    "templates": 320,
+    "stencils": 536
+  },
+  "decodedMasters": 12108,
+  "decodedShapes": 80465,
+  "decodedControls": 13740,
+  "filesWithControls": 606,
+  "filesWithCurveWarnings": {
+    "NURBS": 0,
+    "Polyline": 0,
+    "Spline": 0,
+    "OrphanSpline": 0
+  },
+  "failures": [],
+  "windowsValidated": false,
+  "fullBehavioralParity": false
+}

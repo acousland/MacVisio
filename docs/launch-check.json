@@ -1,0 +1,28 @@
+{
+  "activationPolicy" : 0,
+  "applicationActive" : true,
+  "canvasHasSize" : true,
+  "canvasIsFirstResponder" : true,
+  "controllerHasDocument" : true,
+  "controllerRegistered" : true,
+  "diagnosticDocumentHasExpectedShapes" : true,
+  "documentRegistered" : true,
+  "documentsInDiagnosticInstance" : 1,
+  "foregroundMenuRoutingVerified" : true,
+  "keyWindowIsEditor" : true,
+  "mainWindowIsEditor" : true,
+  "menuCount" : 8,
+  "responderChain" : [
+    "MacVisio.CanvasView",
+    "NSClipView",
+    "NSScrollView",
+    "MacVisio.EditorRootView",
+    "NSWindow",
+    "MacVisio.EditorWindowController"
+  ],
+  "saveActionRoutesViaController" : true,
+  "saveActionTargetClass" : "MacVisioDocument",
+  "shapeCount" : 8,
+  "windowCanBecomeKey" : true,
+  "windowVisible" : true
+}

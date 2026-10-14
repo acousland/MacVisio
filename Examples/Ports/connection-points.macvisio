@@ -1,0 +1,186 @@
+{
+  "activePageID" : "14A58E49-A768-426D-A806-4A20A9C66346",
+  "pages" : [
+    {
+      "edges" : [
+        {
+          "arrow" : true,
+          "color" : "#697D99",
+          "id" : "658C0C31-25D3-40A0-8ACA-2570E9A06C28",
+          "label" : "Named ports",
+          "source" : "63F788C5-FC5E-4D30-8C64-000B0454DF02",
+          "sourcePort" : "N:Output",
+          "style" : "straight",
+          "target" : "D07B609B-54A1-487F-8ADB-615715ECFE52",
+          "targetPort" : "N:Input",
+          "width" : 1.8
+        }
+      ],
+      "height" : 600,
+      "id" : "14A58E49-A768-426D-A806-4A20A9C66346",
+      "name" : "Page 1",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+              {
+                "directionX" : 0,
+                "directionY" : 0,
+                "index" : 0,
+                "name" : "Output",
+                "type" : 0,
+                "x" : {
+                  "formula" : "Width",
+                  "unit" : "",
+                  "value" : "2.5"
+                },
+                "y" : {
+                  "formula" : "Height*0.6",
+                  "unit" : "",
+                  "value" : "1"
+                }
+              },
+              {
+                "directionX" : 0,
+                "directionY" : 0,
+                "index" : 1,
+                "name" : "Aux",
+                "type" : 0,
+                "x" : {
+                  "formula" : "",
+                  "unit" : "",
+                  "value" : "0.5"
+                },
+                "y" : {
+                  "formula" : "",
+                  "unit" : "",
+                  "value" : "0.5"
+                }
+              }
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#E8F0FE",
+          "fontSize" : 14,
+          "height" : 120,
+          "id" : "63F788C5-FC5E-4D30-8C64-000B0454DF02",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#4375BC",
+          "strokeWidth" : 1.5,
+          "text" : "Source",
+          "textColor" : "#20334F",
+          "width" : 180,
+          "x" : 100,
+          "y" : 100
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+              {
+                "directionX" : 0,
+                "directionY" : 0,
+                "index" : 0,
+                "name" : "Input",
+                "type" : 0,
+                "x" : {
+                  "formula" : "0",
+                  "unit" : "",
+                  "value" : "0"
+                },
+                "y" : {
+                  "formula" : "Height*0.2",
+                  "unit" : "",
+                  "value" : "0.333333333333"
+                }
+              },
+              {
+                "directionX" : 0,
+                "directionY" : 0,
+                "index" : 1,
+                "type" : 0,
+                "x" : {
+                  "formula" : "",
+                  "unit" : "",
+                  "value" : "1"
+                },
+                "y" : {
+                  "formula" : "",
+                  "unit" : "",
+                  "value" : "0.5"
+                }
+              }
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#E8F0FE",
+          "fontSize" : 14,
+          "height" : 120,
+          "id" : "D07B609B-54A1-487F-8ADB-615715ECFE52",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#4375BC",
+          "strokeWidth" : 1.5,
+          "text" : "Target",
+          "textColor" : "#20334F",
+          "width" : 180,
+          "x" : 450,
+          "y" : 250
+        }
+      ],
+      "width" : 900
+    }
+  ],
+  "title" : "Untitled Diagram",
+  "version" : 1
+}

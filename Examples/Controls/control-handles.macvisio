@@ -1,0 +1,471 @@
+{
+  "activePageID" : "B4908017-4B68-4881-91AA-A825837A373A",
+  "pages" : [
+    {
+      "edges" : [
+
+      ],
+      "height" : 720,
+      "id" : "B4908017-4B68-4881-91AA-A825837A373A",
+      "name" : "Page 1",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 65,
+          "id" : "A4B2B279-6A3F-4E5A-9A99-0E1870A28F01",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Control handles",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 35
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 65,
+          "id" : "F2B53528-42E6-4A58-AD38-5AEC02778728",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "The handle redirects its vertical position to User.Notch.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 105
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+              {
+                "cells" : {
+                  "CanGlue" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Prompt" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "Adjust notch depth"
+                  },
+                  "X" : {
+                    "formula" : "GUARD(Width\/2)",
+                    "unit" : "",
+                    "value" : "3"
+                  },
+                  "XCon" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "1"
+                  },
+                  "XDyn" : {
+                    "formula" : "Width\/2",
+                    "unit" : "",
+                    "value" : "3"
+                  },
+                  "Y" : {
+                    "formula" : "Height-SETATREF(User.Notch,SETATREFEVAL(Height-SETATREFEXPR()))",
+                    "unit" : "",
+                    "value" : "2.5"
+                  },
+                  "YCon" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "YDyn" : {
+                    "formula" : "Height",
+                    "unit" : "",
+                    "value" : "3"
+                  }
+                },
+                "index" : 0,
+                "name" : "Notch"
+              }
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "geometry" : [
+              {
+                "cells" : {
+
+                },
+                "index" : 0,
+                "rows" : [
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 1,
+                    "type" : "MoveTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width",
+                        "unit" : "",
+                        "value" : "6"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 2,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width",
+                        "unit" : "",
+                        "value" : "6"
+                      },
+                      "Y" : {
+                        "formula" : "Height",
+                        "unit" : "",
+                        "value" : "3"
+                      }
+                    },
+                    "index" : 3,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width\/2",
+                        "unit" : "",
+                        "value" : "3"
+                      },
+                      "Y" : {
+                        "formula" : "Controls.Notch.Y",
+                        "unit" : "",
+                        "value" : "2.5"
+                      }
+                    },
+                    "index" : 4,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "Height",
+                        "unit" : "",
+                        "value" : "3"
+                      }
+                    },
+                    "index" : 5,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 6,
+                    "type" : "LineTo"
+                  }
+                ]
+              }
+            ],
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+              {
+                "commands" : [
+                  {
+                    "kind" : "M",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      0
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0.5,
+                      0.16666666666666663
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      0
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "Z",
+                    "values" : [
+
+                    ]
+                  }
+                ],
+                "fill" : true,
+                "stroke" : true
+              }
+            ],
+            "sheet" : {
+              "User.Notch" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.5"
+              }
+            },
+            "underline" : false
+          },
+          "fill" : "#E6F1FF",
+          "fontSize" : 18,
+          "height" : 216,
+          "id" : "86EA4222-AFC2-4C95-8619-226EE27AAC21",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#2463A2",
+          "strokeWidth" : 1.5,
+          "text" : "Drag the yellow handle",
+          "textColor" : "#20334F",
+          "width" : 432,
+          "x" : 160,
+          "y" : 230
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 65,
+          "id" : "A9D24DB8-D99D-4EBA-96EA-91D711960BF6",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Shape > Control Handles adds, renames or removes rows.\nShape > Control Cells edits formulas, anchors and behavior.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 510
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 65,
+          "id" : "6DE32D77-5C75-4DF7-ADBE-A09D03AA5AC5",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "VSDX retains the definitions. Experimental VSD contains the saved drawing.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 620
+        }
+      ],
+      "width" : 1000
+    }
+  ],
+  "title" : "Control handles",
+  "version" : 1
+}

@@ -1,0 +1,666 @@
+{
+  "activePageID" : "D66C5C09-2B6F-4805-89D6-D5947A395E5C",
+  "pages" : [
+    {
+      "edges" : [
+
+      ],
+      "height" : 720,
+      "id" : "D66C5C09-2B6F-4805-89D6-D5947A395E5C",
+      "name" : "Page 1",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 58,
+          "id" : "1A0C7155-0F6F-4C02-BA8E-3543F6935BE9",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Formula-driven geometry",
+          "textColor" : "#20334F",
+          "width" : 850,
+          "x" : 60,
+          "y" : 40
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 58,
+          "id" : "05060FC4-1C23-475D-A89D-A28F1545DB55",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Width, Height and User.Notch control the vertices.",
+          "textColor" : "#20334F",
+          "width" : 850,
+          "x" : 60,
+          "y" : 100
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "geometry" : [
+              {
+                "cells" : {
+
+                },
+                "index" : 0,
+                "rows" : [
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 1,
+                    "type" : "MoveTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width",
+                        "unit" : "",
+                        "value" : "3"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 2,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Geometry1.X2",
+                        "unit" : "",
+                        "value" : "3"
+                      },
+                      "Y" : {
+                        "formula" : "Height-User.Notch",
+                        "unit" : "",
+                        "value" : "1.75"
+                      }
+                    },
+                    "index" : 3,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width\/2",
+                        "unit" : "",
+                        "value" : "1.5"
+                      },
+                      "Y" : {
+                        "formula" : "Height",
+                        "unit" : "",
+                        "value" : "2"
+                      }
+                    },
+                    "index" : 4,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "Geometry1.Y3",
+                        "unit" : "",
+                        "value" : "1.75"
+                      }
+                    },
+                    "index" : 5,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 6,
+                    "type" : "LineTo"
+                  }
+                ]
+              }
+            ],
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+              {
+                "commands" : [
+                  {
+                    "kind" : "M",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      0.125
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0.5,
+                      0
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      0.125
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "Z",
+                    "values" : [
+
+                    ]
+                  }
+                ],
+                "fill" : true,
+                "stroke" : true
+              }
+            ],
+            "sheet" : {
+              "User.Notch" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.25"
+              }
+            },
+            "underline" : false
+          },
+          "fill" : "#E6F1FF",
+          "fontSize" : 17,
+          "height" : 144,
+          "id" : "7FA8A578-1226-4C22-BCAB-FCA9CE85B257",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#2463A2",
+          "strokeWidth" : 1.5,
+          "text" : "3 × 2 inches",
+          "textColor" : "#20334F",
+          "width" : 216,
+          "x" : 70,
+          "y" : 210
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "geometry" : [
+              {
+                "cells" : {
+
+                },
+                "index" : 0,
+                "rows" : [
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 1,
+                    "type" : "MoveTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width",
+                        "unit" : "",
+                        "value" : "6"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 2,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Geometry1.X2",
+                        "unit" : "",
+                        "value" : "6"
+                      },
+                      "Y" : {
+                        "formula" : "Height-User.Notch",
+                        "unit" : "",
+                        "value" : "2.25"
+                      }
+                    },
+                    "index" : 3,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "Width\/2",
+                        "unit" : "",
+                        "value" : "3"
+                      },
+                      "Y" : {
+                        "formula" : "Height",
+                        "unit" : "",
+                        "value" : "3"
+                      }
+                    },
+                    "index" : 4,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "Geometry1.Y3",
+                        "unit" : "",
+                        "value" : "2.25"
+                      }
+                    },
+                    "index" : 5,
+                    "type" : "LineTo"
+                  },
+                  {
+                    "cells" : {
+                      "X" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      },
+                      "Y" : {
+                        "formula" : "0",
+                        "unit" : "",
+                        "value" : "0"
+                      }
+                    },
+                    "index" : 6,
+                    "type" : "LineTo"
+                  }
+                ]
+              }
+            ],
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+              {
+                "commands" : [
+                  {
+                    "kind" : "M",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      1,
+                      0.25
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0.5,
+                      0
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      0.25
+                    ]
+                  },
+                  {
+                    "kind" : "L",
+                    "values" : [
+                      0,
+                      1
+                    ]
+                  },
+                  {
+                    "kind" : "Z",
+                    "values" : [
+
+                    ]
+                  }
+                ],
+                "fill" : true,
+                "stroke" : true
+              }
+            ],
+            "sheet" : {
+              "User.Notch" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.75"
+              }
+            },
+            "underline" : false
+          },
+          "fill" : "#E6F1FF",
+          "fontSize" : 17,
+          "height" : 216,
+          "id" : "078C0F34-CBBE-4259-A389-26F2D0F316AC",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#2463A2",
+          "strokeWidth" : 1.5,
+          "text" : "6 × 3 inches",
+          "textColor" : "#20334F",
+          "width" : 432,
+          "x" : 420,
+          "y" : 210
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 58,
+          "id" : "3CAF0741-1108-4A7E-A146-E3EA1818D992",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Notch = 0.25 in",
+          "textColor" : "#20334F",
+          "width" : 270,
+          "x" : 70,
+          "y" : 450
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 58,
+          "id" : "EB1E8C15-5FEE-4049-A533-A7B276C1ADB9",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Notch = 0.75 in",
+          "textColor" : "#20334F",
+          "width" : 450,
+          "x" : 420,
+          "y" : 450
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 58,
+          "id" : "57CFC28B-9BD0-491C-8684-0825F3D639C2",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Select a shape, then use Shape > Geometry to edit a cell formula.\nResizing recalculates the supported geometry cells.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 555
+        }
+      ],
+      "width" : 1000
+    }
+  ],
+  "title" : "Geometry formulas",
+  "version" : 1
+}

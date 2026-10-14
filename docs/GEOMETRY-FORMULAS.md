@@ -1,0 +1,19 @@
+# Geometry formulas — 0.12
+
+MacVisio now retains Geometry section and row indexes, types, cached values, formulas and units in its editable model. Supported numeric formulas recalculate on edits and resize, then regenerate the native paths. This extends the scalar ShapeSheet evaluator; it does not implement the complete Visio geometry engine.
+
+Select an imported shape and choose **Shape > Geometry…** to edit an existing cell's cached value or formula. References include `Width`, `Height`, `User.Notch`, `Geometry1.X2` and `Sheet.2!Width`. The editor rejects newly introduced calculation issues and supports Undo. Row creation/deletion and control handles are not exposed in this editor.
+
+The [example drawing](../Examples/Geometry/geometry-formulas.vsdx) shows two polygons with different dimensions and notch values. `Height-User.Notch` defines the upper edge, `Width/2` defines the peak and geometry-cell references share vertex coordinates. The example is also available as native JSON, experimental VSD, PDF, PNG and SVG.
+
+Public VSDX saves retain formulas and units. Source-preserving edits patch changed cells and retain untouched masters and parts. Inherited references map to the instance's shape IDs; local page references remain local. Removing modeled rows or sections produces deletion tombstones so inherited geometry does not reappear. Private VSDX metadata from earlier versions is bypassed when it omitted public geometry definitions. Earlier native JSON files need reimport from their public VSDX source to recover these definitions.
+
+The scalar evaluator supports geometry dependencies, cached fallback for unsupported formulas and cycle limits. Relative curve coordinates stay dimensionless. Absolute coordinate caches retain their local units. Supported `NoShow`, `NoFill` and `NoLine` values control native paths. Cross-scale materialization adjusts common absolute coordinate cells and clears their formulas; composite NURBS/polyline data and full Visio drop-scale behavior remain incomplete.
+
+Experimental binary VSD saves export the calculated graphics. The public binary stream does **not** retain these geometry formulas; native metadata retains the editable model for MacVisio. Unsupported binary row types use the cached native path export. This has independent-parser coverage, with no Windows Visio acceptance or dynamic binary-geometry claim.
+
+Eleven focused geometry tests and one inherited-master regression cover known vertex coordinates after resize, local and cross-shape references, relative curves and visibility, public formula/unit preservation, source patches, inherited row deletion, removal of the last section without resurrecting a primitive outline, unsupported/cyclic formulas, cross-scale coordinates, native editing/Undo, older metadata, unsigned indexes and both public parsers. The packaged verifier generates and renders the example and checks both formats. These checks do not establish every formula, row type, master workflow or Windows behavior.
+
+Outstanding work includes full dimensional expression semantics, composite NURBS/polyline expressions and splines, controls/handles, shape Boolean operations, master editing/live updates, nonuniform hierarchy transforms and Windows differential validation. Microsoft documents the available [Geometry row types](https://learn.microsoft.com/en-us/office/client-developer/visio/geometry-section) and the width/height-relative [cubic Bézier row](https://learn.microsoft.com/en-us/office/client-developer/visio/relcubbezto-row-geometry-section); retaining those definitions is only part of implementing their behavior.
+
+The later 0.13 milestone implements the supported NURBS/polyline subset described in [NURBS-GEOMETRY.md](NURBS-GEOMETRY.md), including saved public binary data and older-cache recovery. The limitations above record the original 0.12 scope; complete geometry semantics remain unfinished.

@@ -1,0 +1,7 @@
+{
+  "independentCFBParser": "olefile 0.47",
+  "filesVerified": 5,
+  "directoryRedBlackTreesVerified": true,
+  "publicVisioHeadersVerified": true,
+  "windowsVisioValidated": false
+}

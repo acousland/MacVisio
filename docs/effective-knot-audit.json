@@ -1,0 +1,140 @@
+{
+  "version": "0.14.0",
+  "files": 26,
+  "beforeIssues": 347,
+  "afterIssues": 0,
+  "effectiveRows": true,
+  "results": [
+    {
+      "file": "BCKGRN_M.VSSX",
+      "shapes": 87,
+      "issues": 0
+    },
+    {
+      "file": "BCKGRN_U.VSSX",
+      "shapes": 87,
+      "issues": 0
+    },
+    {
+      "file": "CALNDR_M.VSSX",
+      "shapes": 436,
+      "issues": 0
+    },
+    {
+      "file": "CALNDR_U.VSSX",
+      "shapes": 436,
+      "issues": 0
+    },
+    {
+      "file": "DTLNME_M.VSSX",
+      "shapes": 66,
+      "issues": 0
+    },
+    {
+      "file": "DTLNME_U.VSSX",
+      "shapes": 66,
+      "issues": 0
+    },
+    {
+      "file": "ITIL_M.VSSX",
+      "shapes": 266,
+      "issues": 0
+    },
+    {
+      "file": "ITIL_U.VSSX",
+      "shapes": 262,
+      "issues": 0
+    },
+    {
+      "file": "NETSME_M.VSSX",
+      "shapes": 70,
+      "issues": 0
+    },
+    {
+      "file": "NETSME_U.VSSX",
+      "shapes": 70,
+      "issues": 0
+    },
+    {
+      "file": "PERIME_M.VSSX",
+      "shapes": 130,
+      "issues": 0
+    },
+    {
+      "file": "PERIME_U.VSSX",
+      "shapes": 130,
+      "issues": 0
+    },
+    {
+      "file": "RCKSME_M.VSSX",
+      "shapes": 82,
+      "issues": 0
+    },
+    {
+      "file": "RCKSME_U.VSSX",
+      "shapes": 82,
+      "issues": 0
+    },
+    {
+      "file": "SERVME_M.VSSX",
+      "shapes": 82,
+      "issues": 0
+    },
+    {
+      "file": "SERVME_U.VSSX",
+      "shapes": 82,
+      "issues": 0
+    },
+    {
+      "file": "WFDEME_M.VSSX",
+      "shapes": 180,
+      "issues": 0
+    },
+    {
+      "file": "WFDEME_U.VSSX",
+      "shapes": 180,
+      "issues": 0
+    },
+    {
+      "file": "WFOBME_M.VSSX",
+      "shapes": 97,
+      "issues": 0
+    },
+    {
+      "file": "WFOBME_U.VSSX",
+      "shapes": 97,
+      "issues": 0
+    },
+    {
+      "file": "WFSTME_M.VSSX",
+      "shapes": 90,
+      "issues": 0
+    },
+    {
+      "file": "WFSTME_U.VSSX",
+      "shapes": 90,
+      "issues": 0
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_M.VSTX",
+      "shapes": 44,
+      "issues": 0
+    },
+    {
+      "file": "WORKFLOW_DEPARTMENTAL_U.VSTX",
+      "shapes": 44,
+      "issues": 0
+    },
+    {
+      "file": "WORKFLOW_PROCESS_M.VSTX",
+      "shapes": 44,
+      "issues": 0
+    },
+    {
+      "file": "WORKFLOW_PROCESS_U.VSTX",
+      "shapes": 44,
+      "issues": 0
+    }
+  ],
+  "fullVisioParity": false
+}

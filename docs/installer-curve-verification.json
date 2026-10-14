@@ -1,0 +1,25 @@
+{
+  "master": "Spiral staircase",
+  "nativeCubicCommands": 34,
+  "nurbsRows": 4,
+  "source": "BLDCOR_M.VSSX",
+  "sourceWarnings": [
+    "A shape without supported geometry is shown as a rectangle; its source is preserved.",
+    "Macros and document events are ignored.",
+    "Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed.",
+    "Zero-size shape axes use a minimal editing frame; original public dimensions remain preserved in the source package."
+  ],
+  "windowsValidated": false,
+  "independentPublicGraphics": {
+    "vsdx": {
+      "parsed": true,
+      "pathCount": 23,
+      "cubicCommands": 33
+    },
+    "vsd": {
+      "parsed": true,
+      "pathCount": 23,
+      "cubicCommands": 33
+    }
+  }
+}

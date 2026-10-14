@@ -1,0 +1,604 @@
+{
+  "activePageID" : "34D39034-200F-4CE3-9356-3FF6A581427F",
+  "pages" : [
+    {
+      "edges" : [
+
+      ],
+      "height" : 620,
+      "id" : "34D39034-200F-4CE3-9356-3FF6A581427F",
+      "name" : "Review",
+      "nodes" : [
+        {
+          "bold" : true,
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 60,
+          "id" : "B3CA526F-CAEE-4184-8A4C-DD86C3DD4E55",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Project review",
+          "textColor" : "#20334F",
+          "width" : 720,
+          "x" : 90,
+          "y" : 55
+        },
+        {
+          "bold" : true,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textBox" : {
+              "bottom" : 26,
+              "centerX" : 0.5,
+              "centerY" : 0.5,
+              "height" : 1,
+              "left" : 28,
+              "right" : 28,
+              "rotation" : 0,
+              "top" : 26,
+              "verticalAlignment" : 0,
+              "width" : 1
+            },
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 26,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Project handover\n"
+              },
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#B3261E",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 20,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nCritical path"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : " due "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#B3261E",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : true
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Friday"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : ".\n\nOwner: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : true,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Architecture team\n"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nReview ticket: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Courier New",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "ARCH-2048\n"
+              },
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#216E39",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "right",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nReady for review ✓"
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#F3F6FD",
+          "fontSize" : 26,
+          "height" : 340,
+          "id" : "BC00F869-4C55-4015-9DA5-FBE37769ED46",
+          "kind" : "roundedRectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#BECBE0",
+          "strokeWidth" : 1.5,
+          "text" : "Project handover\n\nCritical path due Friday.\n\nOwner: Architecture team\n\nReview ticket: ARCH-2048\n\nReady for review ✓",
+          "textColor" : "#20334F",
+          "width" : 720,
+          "x" : 90,
+          "y" : 150
+        },
+        {
+          "bold" : false,
+          "fill" : "#FFFFFF00",
+          "fontSize" : 14,
+          "height" : 35,
+          "id" : "4F5FD66A-FCB1-4992-BA90-2112F732A320",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Prepared for the architecture review",
+          "textColor" : "#53657D",
+          "width" : 720,
+          "x" : 90,
+          "y" : 525
+        }
+      ],
+      "width" : 900
+    },
+    {
+      "drawingScale" : {
+        "drawing" : 50,
+        "page" : 1,
+        "type" : 3
+      },
+      "edges" : [
+
+      ],
+      "height" : 31000,
+      "id" : "A9B16B33-2F8D-4316-B4E2-CC4A5773B09B",
+      "name" : "Scale 1:50",
+      "nodes" : [
+        {
+          "bold" : true,
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 3000,
+          "id" : "CD3C3D4E-D9E9-4DCC-A480-F92013FCAE1C",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Project review",
+          "textColor" : "#20334F",
+          "width" : 36000,
+          "x" : 4500,
+          "y" : 2750
+        },
+        {
+          "bold" : true,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textBox" : {
+              "bottom" : 1300,
+              "centerX" : 0.5,
+              "centerY" : 0.5,
+              "height" : 1,
+              "left" : 1400,
+              "right" : 1400,
+              "rotation" : 0,
+              "top" : 1300,
+              "verticalAlignment" : 0,
+              "width" : 1
+            },
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 26,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Project handover\n"
+              },
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#B3261E",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 20,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nCritical path"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : " due "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#B3261E",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : true
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Friday"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : ".\n\nOwner: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : true,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Architecture team\n"
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nReview ticket: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Courier New",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "left",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "ARCH-2048\n"
+              },
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#216E39",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 18,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "right",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "\nReady for review ✓"
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#F3F6FD",
+          "fontSize" : 26,
+          "height" : 17000,
+          "id" : "FE713DBD-6F81-44EA-A1F9-036F2356954A",
+          "kind" : "roundedRectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#BECBE0",
+          "strokeWidth" : 1.5,
+          "text" : "Project handover\n\nCritical path due Friday.\n\nOwner: Architecture team\n\nReview ticket: ARCH-2048\n\nReady for review ✓",
+          "textColor" : "#20334F",
+          "width" : 36000,
+          "x" : 4500,
+          "y" : 7500
+        },
+        {
+          "bold" : false,
+          "fill" : "#FFFFFF00",
+          "fontSize" : 14,
+          "height" : 1750,
+          "id" : "75260C87-DDBA-4CF8-B703-D1B3368464C8",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Prepared for the architecture review",
+          "textColor" : "#53657D",
+          "width" : 36000,
+          "x" : 4500,
+          "y" : 26250
+        }
+      ],
+      "width" : 45000
+    }
+  ],
+  "title" : "Project Handover",
+  "version" : 1
+}

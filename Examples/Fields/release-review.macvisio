@@ -1,0 +1,514 @@
+{
+  "activePageID" : "B46948B5-2A0E-44A1-A366-F62E8F2550F1",
+  "pages" : [
+    {
+      "backgroundPageID" : "B0B66BA3-482D-4921-9D8C-8277AE31C999",
+      "edges" : [
+
+      ],
+      "height" : 640,
+      "id" : "B46948B5-2A0E-44A1-A366-F62E8F2550F1",
+      "name" : "Review",
+      "nodes" : [
+        {
+          "bold" : true,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textFields" : [
+              {
+                "cached" : "Review · release readiness",
+                "cells" : {
+                  "Format" : {
+                    "formula" : "",
+                    "unit" : "STR",
+                    "value" : ""
+                  },
+                  "Type" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Value" : {
+                    "formula" : "PAGENAME() & \" · release readiness\"",
+                    "unit" : "",
+                    "value" : "Review · release readiness"
+                  }
+                },
+                "index" : 1
+              }
+            ],
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : true,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 28,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "fieldIndex" : 1,
+                "fieldToken" : "C4D736F4-739A-4B4D-B77E-77B8E4EE073C",
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Review · release readiness"
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 60,
+          "id" : "6B48D521-2BB9-46DD-9AEC-8523C20B9A71",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Review · release readiness",
+          "textColor" : "#20334F",
+          "width" : 760,
+          "x" : 70,
+          "y" : 55
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+              {
+                "format" : "",
+                "key" : "Status",
+                "label" : "Review status",
+                "prompt" : "",
+                "type" : 0,
+                "value" : "Ready for review"
+              }
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textFields" : [
+              {
+                "cached" : "Ready for review",
+                "cells" : {
+                  "Format" : {
+                    "formula" : "",
+                    "unit" : "STR",
+                    "value" : ""
+                  },
+                  "Type" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Value" : {
+                    "formula" : "Prop.Status",
+                    "unit" : "",
+                    "value" : "Ready for review"
+                  }
+                },
+                "index" : 1
+              }
+            ],
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 24,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Status: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 24,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "fieldIndex" : 1,
+                "fieldToken" : "91F1FC86-0FBE-423D-BB08-BF184825C4B9",
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Ready for review"
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#EAF2FB",
+          "fontSize" : 24,
+          "height" : 130,
+          "id" : "BB01E264-17EC-425D-9694-17A5EF3D039A",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#4375BC",
+          "strokeWidth" : 1.5,
+          "text" : "Status: Ready for review",
+          "textColor" : "#20334F",
+          "width" : 640,
+          "x" : 130,
+          "y" : 180
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textFields" : [
+              {
+                "cached" : "12.50 in.",
+                "cells" : {
+                  "Format" : {
+                    "formula" : "",
+                    "unit" : "STR",
+                    "value" : ""
+                  },
+                  "Type" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Value" : {
+                    "formula" : "FORMAT(ThePage!PageWidth,FIELDPICTURE(7))",
+                    "unit" : "",
+                    "value" : "12.50 in."
+                  }
+                },
+                "index" : 1
+              }
+            ],
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 20,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Drawing width: "
+              },
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#20334F",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 20,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "fieldIndex" : 1,
+                "fieldToken" : "0CBFD128-E3D1-4351-A076-B45653A6EBB0",
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "12.50 in."
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 20,
+          "height" : 60,
+          "id" : "9B2EFB1A-6C19-4E79-8C0E-7E50600016BD",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Drawing width: 12.50 in.",
+          "textColor" : "#20334F",
+          "width" : 760,
+          "x" : 70,
+          "y" : 365
+        }
+      ],
+      "width" : 900
+    },
+    {
+      "backgroundPageID" : "B0B66BA3-482D-4921-9D8C-8277AE31C999",
+      "edges" : [
+
+      ],
+      "height" : 640,
+      "id" : "676F9B91-77CF-4BE3-94B7-A116457AA2D7",
+      "name" : "Details",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 22,
+          "height" : 150,
+          "id" : "1F4396A5-F3E3-43FC-94C1-E9AF4261C502",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Owner: Architecture team\nReference: ARCH-2048",
+          "textColor" : "#20334F",
+          "width" : 760,
+          "x" : 70,
+          "y" : 190
+        }
+      ],
+      "width" : 900
+    },
+    {
+      "edges" : [
+
+      ],
+      "height" : 640,
+      "id" : "B0B66BA3-482D-4921-9D8C-8277AE31C999",
+      "isBackground" : true,
+      "name" : "Shared footer",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "textFields" : [
+              {
+                "cached" : "Shared footer · 0\/2",
+                "cells" : {
+                  "Format" : {
+                    "formula" : "",
+                    "unit" : "STR",
+                    "value" : ""
+                  },
+                  "Type" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Value" : {
+                    "formula" : "PAGENAME() & \" · \" & PAGENUMBER() & \"\/\" & PAGECOUNT()",
+                    "unit" : "",
+                    "value" : "Shared footer · 0\/2"
+                  }
+                },
+                "index" : 1
+              }
+            ],
+            "textRuns" : [
+              {
+                "character" : {
+                  "bold" : false,
+                  "cells" : {
+
+                  },
+                  "color" : "#53657D",
+                  "fontName" : "Arial",
+                  "italic" : false,
+                  "size" : 14,
+                  "strikethrough" : false,
+                  "underline" : false
+                },
+                "fieldIndex" : 1,
+                "fieldToken" : "2C3C896F-5BCA-449A-9EBD-CD5A4BEB8421",
+                "paragraph" : {
+                  "alignment" : "center",
+                  "cells" : {
+
+                  }
+                },
+                "text" : "Shared footer · 0\/2"
+              }
+            ],
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 14,
+          "height" : 40,
+          "id" : "26550158-6E55-4D31-A03E-F1A01FF8C6F8",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Shared footer · 0\/2",
+          "textColor" : "#53657D",
+          "width" : 760,
+          "x" : 70,
+          "y" : 565
+        }
+      ],
+      "width" : 900
+    }
+  ],
+  "title" : "Release Review",
+  "version" : 1
+}
