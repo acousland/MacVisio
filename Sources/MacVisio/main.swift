@@ -261,6 +261,10 @@ if let index = CommandLine.arguments.firstIndex(of:"--inspect-libraries"),Comman
         print("Imported \(results.count-failed)/\(results.count) libraries; \(failed) failed.");exit(failed == 0 ? 0 : 1)
     } catch { fputs("Library inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
 }
+if let index = CommandLine.arguments.firstIndex(of:"--profile-open"),CommandLine.arguments.indices.contains(index+2) {
+    do { try OpenPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
+    catch { fputs("Open profiling failed: \(error.localizedDescription)\n",stderr);exit(1) }
+}
 if let index = CommandLine.arguments.firstIndex(where:{$0 == "--convert" || $0 == "--render-document" || $0 == "--export-all-pdf"}),CommandLine.arguments.indices.contains(index+2) {
     do {
         let input = URL(fileURLWithPath:CommandLine.arguments[index+1]),output = URL(fileURLWithPath:CommandLine.arguments[index+2])

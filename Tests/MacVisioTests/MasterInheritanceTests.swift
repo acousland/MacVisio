@@ -44,6 +44,29 @@ final class MasterInheritanceTests:XCTestCase {
         var parts = try VisioPackage.read(file);stripMetadata(&parts);try VisioPackage.write(parts,to:file)
         return (try VisioFormat.read(from:file).diagram,parts)
     }
+    func testWideMasterSheetsKeepCachedValuesAndInstanceScopedFormulas() throws {
+        let source = try fixture("<Cell N=\"Custom13\" V=\"7\" F=\"Sheet.55!Width\"/>")
+        var parts = try VisioPackage.read(source)
+        let master = try VisioXML.document(parts["visio/masters/master1.xml"]!)
+        let root = master.rootElement()!.elementsLocal("Shapes")[0].elementsLocal("Shape")[0]
+        for index in 0..<300 {
+            root.addChild(try VisioXML.element("<Cell N=\"Custom\(index)\" V=\"\(index+1)\" F=\"Sheet.1!Width\"/>"))
+        }
+        root.addChild(try VisioXML.element("<Cell N=\"CachedOnly\" V=\"123\"/>"))
+        parts["visio/masters/master1.xml"] = master.xmlData(options:.nodePreserveAll)
+        try VisioPackage.write(parts,to:source)
+        let diagram = try VisioFormat.read(from:source).diagram
+        for id in ["10","20"] {
+            let node = try XCTUnwrap(diagram.page.nodes.first{$0.formatting.sourceShapeID == id})
+            for index in 0..<300 {
+                let cell = try XCTUnwrap(node.formatting.sheet["Custom\(index)"])
+                let overridden = id == "10" && index == 13
+                XCTAssertEqual(cell.value,overridden ? "7" : String(index+1))
+                XCTAssertEqual(cell.formula,overridden ? "Sheet.55!Width" : "Sheet.\(id)!Width")
+            }
+            XCTAssertEqual(node.formatting.sheet["CachedOnly"],ShapeSheetCell(value:"123"))
+        }
+    }
     func testImplicitGroupsExpandAndConnectionsAreScopedToEachInstance() throws {
         let source = try fixture(),result = try VisioFormat.read(from:source),page = result.diagram.page
         XCTAssertEqual(page.nodes.count,9);XCTAssertEqual(page.edges.count,2)

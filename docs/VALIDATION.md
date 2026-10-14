@@ -2,13 +2,13 @@
 
 ## Delivered milestone
 
-`build/MacVisio.app`, version 0.18.0, is a native arm64 Swift/AppKit application built with Swift 6.4 / Xcode 27 on this Apple Silicon Mac. The current distribution adds Sparkle updates; see [DISTRIBUTION.md](DISTRIBUTION.md). The full Visio port remains unfinished; the precise gaps are listed in [COMPATIBILITY.md](COMPATIBILITY.md). **Binary VSD writing is experimental**, with independent-parser coverage but no Microsoft Visio acceptance tests. See [BINARY-VSD.md](BINARY-VSD.md).
+Version 0.19.0 is a native arm64 Swift/AppKit application built with Swift 6.4 / Xcode 27 on this Apple Silicon Mac. It speeds up VSDX opening while retaining Sparkle updates; see [OPEN-PERFORMANCE.md](OPEN-PERFORMANCE.md) and [DISTRIBUTION.md](DISTRIBUTION.md). The full Visio port remains unfinished; the precise gaps are listed in [COMPATIBILITY.md](COMPATIBILITY.md). **Binary VSD writing is experimental**, with independent-parser coverage but no Microsoft Visio acceptance tests. See [BINARY-VSD.md](BINARY-VSD.md).
 
 The packaged app requires macOS **27.0**, reflecting the actual deployment requirement of the Homebrew-built legacy reader and libraries. The Swift target alone is macOS 13. Earlier systems and Intel Macs were not tested. The bundle includes both `vsd2xhtml` and `vss2xhtml`, six relocated native libraries (libvisio 0.1.11, librevenge 0.0.6 and ICU 78.3), statically linked ZIPFoundation 0.9.20 and Sparkle 2.10.0. Licenses and source locations accompany it. No Homebrew library paths remain in bundled Mach-O dependency references. All relative dependencies resolve inside the bundle. The distribution Developer ID signature passes `codesign --verify --deep --strict`.
 
 ## Automated source checks
 
-`swift test` passes **283 tests with zero failures**. The current output is in `build/sparkle-tests.log`. The descriptions below include earlier milestones; text/context and control additions are documented separately in [TEXT-CONTEXT.md](TEXT-CONTEXT.md) and [CONTROL-HANDLES.md](CONTROL-HANDLES.md).
+`swift test` passes **284 tests with zero failures**. The current output is in `build/Performance/tests-final.log`. The descriptions below include earlier milestones; text/context and control additions are documented separately in [TEXT-CONTEXT.md](TEXT-CONTEXT.md) and [CONTROL-HANDLES.md](CONTROL-HANDLES.md).
 
 - **15 model/template tests:** identifiers, dimensions, JSON persistence, page state, snapping, boundary geometry, attached/self connectors, example bounds and connectivity.
 - **10 editor/export tests:** native controller/window construction, actual insertion/editing, undo/redo, duplication, deletion, locking, pages, NSDocument writes/reloads, Save routing, PDF page dimensions, PNG pixels/orientation and escaped SVG.

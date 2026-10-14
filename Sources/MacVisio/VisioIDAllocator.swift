@@ -2,6 +2,7 @@ import Foundation
 
 /// Visio page shape IDs are unsigned 32-bit values, including zero.
 struct VisioIDAllocator {
+    private static let sheetReferencePattern = try? NSRegularExpression(pattern:"(?i)\\bSheet\\.([0-9]+)!")
     private var used:Set<UInt32>
     private var next:UInt64
     init(reserved:[String] = []) throws {
@@ -15,7 +16,9 @@ struct VisioIDAllocator {
         let result = String(next);used.insert(UInt32(next));next += 1;return result
     }
     static func remap(_ formula:String,using map:[String:String]) -> String {
-        guard !map.isEmpty,let pattern = try? NSRegularExpression(pattern:"(?i)\\bSheet\\.([0-9]+)!") else { return formula }
+        guard !map.isEmpty,let pattern = sheetReferencePattern else { return formula }
+        let matches = pattern.matches(in:formula,range:NSRange(formula.startIndex...,in:formula))
+        guard !matches.isEmpty else { return formula }
         let units = Array(formula.utf16);var quoted = [Bool](repeating:false,count:units.count),inside = false,index = 0
         while index < units.count {
             quoted[index] = inside
@@ -26,7 +29,7 @@ struct VisioIDAllocator {
         }
         let canonical = map.reduce(into:[UInt32:String]()){if let id = UInt32($1.key) { $0[id] = $1.value }}
         var result = formula
-        for match in pattern.matches(in:formula,range:NSRange(formula.startIndex...,in:formula)).reversed() {
+        for match in matches.reversed() {
             guard !quoted[match.range.location],let idRange = Range(match.range(at:1),in:formula),let id = UInt32(formula[idRange]),let replacement = canonical[id],let range = Range(match.range,in:result) else { continue }
             result.replaceSubrange(range,with:"Sheet.\(replacement)!")
         }

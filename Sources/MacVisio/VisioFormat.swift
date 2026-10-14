@@ -18,8 +18,9 @@ enum VisioFormat {
     private static let visioRelationship = "http://schemas.microsoft.com/visio/2010/relationships/"
     private static let nativePart = "macvisio/document.json"
 
-    static func read(from url: URL) throws -> VisioImportResult {
+    static func read(from url: URL,trace:((String)->Void)? = nil) throws -> VisioImportResult {
         let archive = try PackageReader(url: url)
+        trace?("package")
         _ = try archive.xml("[Content_Types].xml", expectedRoot: "Types")
         let rootRelationships = try relationships(in: archive, source: "")
         guard let documentRelationship = rootRelationships.values.first(where: { $0.type == visioRelationship + "document" }),
@@ -31,6 +32,7 @@ enum VisioFormat {
         let documentRelationships = try relationships(in:archive,source:documentPart)
         let hasMasters = documentRelationships.values.contains{$0.type == visioRelationship+"masters" && !$0.external}
         var warnings = Set<String>()
+        trace?("document")
 
         // Only accept the private representation if every public part still matches.
         // Editing the drawing in Visio therefore cannot make our JSON hide new content.
@@ -111,7 +113,9 @@ enum VisioFormat {
                             } }
                         }
                         diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:indexPart,pages:bindings,connectorHierarchyVersion:envelope.connectorHierarchyVersion)
-                        return VisioImportResult(diagram:try diagram.validated(),warnings:cacheWarnings)
+                        let result = VisioImportResult(diagram:try diagram.validated(),warnings:cacheWarnings)
+                        trace?("nativeMetadata")
+                        return result
                     }
                 }
                 warnings.insert("The drawing changed outside MacVisio; its public Visio content was imported.")
@@ -176,6 +180,7 @@ enum VisioFormat {
             }
         }
 
+        trace?("masters")
         if archive.names.contains(where: { $0.hasPrefix("visio/theme/") || $0.hasPrefix("visio/themes/") }) { warnings.insert("Theme effects and theme-dependent colors are approximated from cached ShapeSheet values.") }
         if documentRelationships.values.contains(where: { $0.external }) { warnings.insert("External relationships are ignored.") }
 
@@ -452,14 +457,19 @@ enum VisioFormat {
                 }
                 for (id,(local,prototype)) in instance.nodes {
                     guard let i = nodeIndices[id] else { continue }
-                    for (name,cell) in page.nodes[i].formatting.sheet {
+                    // Mutate one value per shape instead of copying its sheet for each cell.
+                    var detail = page.nodes[i].formatting
+                    for (name,cell) in detail.sheet where !cell.formula.isEmpty {
                         let own = sheetCell(name,in:local)
-                        if (own == nil || own?.value == "Inh"),sheetCell(name,in:prototype)?.formula == cell.formula,!cell.formula.isEmpty { page.nodes[i].formatting.sheet[name]?.formula = remapMasterFormula(cell.formula,identifiers:instance.identifiers) }
+                        if (own == nil || own?.value == "Inh"),sheetCell(name,in:prototype)?.formula == cell.formula {
+                            let remapped = remapMasterFormula(cell.formula,identifiers:instance.identifiers)
+                            if remapped != cell.formula { detail.sheet[name]?.formula = remapped }
+                        }
                     }
-                    if var fields = page.nodes[i].formatting.textFields {
-                        for j in fields.indices { for key in fields[j].cells.keys { let formula = fields[j].cells[key]!.formula;fields[j].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) } };page.nodes[i].formatting.textFields = fields
+                    if var fields = detail.textFields {
+                        for j in fields.indices { for key in fields[j].cells.keys { let formula = fields[j].cells[key]!.formula;fields[j].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) } };detail.textFields = fields
                     }
-                    if var sections = page.nodes[i].formatting.geometry {
+                    if var sections = detail.geometry {
                         for s in sections.indices {
                             let own = local.children(named:"Section").first{$0.attributes["N"] == "Geometry" && $0.attributes["IX"] == String(sections[s].index)}
                             for key in sections[s].cells.keys where own?.cells[key] == nil || own?.cells[key]?.value == "Inh" { let formula = sections[s].cells[key]!.formula;sections[s].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) }
@@ -467,13 +477,14 @@ enum VisioFormat {
                                 let row = own?.children(named:"Row").first{$0.attributes["IX"] == String(sections[s].rows[r].index)}
                                 for key in sections[s].rows[r].cells.keys where row?.cells[key] == nil || row?.cells[key]?.value == "Inh" { let formula = sections[s].rows[r].cells[key]!.formula;sections[s].rows[r].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) }
                             }
-                        };page.nodes[i].formatting.geometry = sections
+                        };detail.geometry = sections
                     }
-                    for c in page.nodes[i].formatting.controls.indices {
-                        let control = page.nodes[i].formatting.controls[c]
+                    for c in detail.controls.indices {
+                        let control = detail.controls[c]
                         let own = local.children(named:"Section").first{["Control","Controls"].contains($0.attributes["N"] ?? "")}?.children(named:"Row").first{$0.attributes["N"] == control.name || ($0.attributes["N"] == nil && $0.attributes["IX"] == String(control.sourceIndex ?? control.index))}
-                        for key in page.nodes[i].formatting.controls[c].cells.keys where own?.cells[key] == nil || own?.cells[key]?.value == "Inh" { let formula = page.nodes[i].formatting.controls[c].cells[key]!.formula;page.nodes[i].formatting.controls[c].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) }
+                        for key in detail.controls[c].cells.keys where own?.cells[key] == nil || own?.cells[key]?.value == "Inh" { let formula = detail.controls[c].cells[key]!.formula;detail.controls[c].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers) }
                     }
+                    page.nodes[i].formatting = detail
                 }
             }
             for (shape,cells,master,parent) in connectorElements {
@@ -526,12 +537,15 @@ enum VisioFormat {
             }
             diagram.pages.append(page)
             bindings.append(VisioPageBinding(pageID:page.id,visioID:pageElement.attributes["ID"] ?? String(pageIndex),part:pagePart,original:page,nodeIDs:Dictionary(uniqueKeysWithValues:identifiers.map { ($0.value,$0.key) }),edgeIDs:edgeIdentifiers,inheritedShapes:inheritedShapes.isEmpty ? nil : inheritedShapes))
+            trace?("page\(pageIndex+1)")
         }
         diagram.activePageID = diagram.pages.first(where:{$0.isBackground != true})?.id ?? diagram.pages[0].id
         if document.child("EventList") != nil || archive.names.contains(where: { $0.lowercased().contains("vbaproject") }) { warnings.insert("Macros and document events are ignored.") }
         warnings.insert("Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed.")
         diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:pagesPart,pages:bindings,connectorHierarchyVersion:1)
-        return VisioImportResult(diagram: try diagram.validated(), warnings: warnings.sorted())
+        let result = VisioImportResult(diagram: try diagram.validated(), warnings: warnings.sorted())
+        trace?("validation")
+        return result
     }
 
     static func write(_ diagram: Diagram, to url: URL) throws {
@@ -1284,7 +1298,13 @@ enum VisioFormat {
     private final class XElement {
         let name: String
         let attributes: [String: String]
-        var elements: [XElement] = []
+        var elements: [XElement] = [] {
+            didSet { cachedCells = nil;childrenByName = nil }
+        }
+        // XML is queried repeatedly during master expansion. Synthetic element edits
+        // invalidate these indexes through elements.didSet.
+        private var cachedCells:[String:XCell]?
+        private var childrenByName:[String:[XElement]]?
         // Ordered text includes nested cp/pp/fld runs without losing whitespace.
         var textFragments: [String] = []
         var runs:[XTextRun] = []
@@ -1292,15 +1312,24 @@ enum VisioFormat {
         var paragraphIndex = 0
         var fieldIndex:Int?
         init(name: String, attributes: [String: String]) { self.name = name; self.attributes = attributes }
-        func children(named name: String) -> [XElement] { elements.filter { $0.name == name } }
-        func child(_ name: String) -> XElement? { elements.first { $0.name == name } }
+        func children(named name: String) -> [XElement] {
+            if childrenByName == nil {
+                var index:[String:[XElement]] = [:]
+                for element in elements { index[element.name,default:[]].append(element) }
+                childrenByName = index
+            }
+            return childrenByName?[name] ?? []
+        }
+        func child(_ name: String) -> XElement? { children(named:name).first }
         func attribute(local: String) -> String? { attributes.first { $0.key.split(separator: ":").last.map(String.init) == local }?.value }
         var allText: String { textFragments.joined() }
         var cells: [String: XCell] {
+            if let cachedCells { return cachedCells }
             var values: [String: XCell] = [:]
             for cell in children(named: "Cell") {
                 if let name = cell.attributes["N"], let value = cell.attributes["V"] { values[name] = XCell(value: value, formula: cell.attributes["F"] ?? "",unit:cell.attributes["U"] ?? "") }
             }
+            cachedCells = values
             return values
         }
     }

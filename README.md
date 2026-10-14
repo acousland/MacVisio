@@ -1,10 +1,10 @@
 # MacVisio
 
-A native Swift/AppKit diagram editor. Version 0.18 adds Sparkle update checks and signed update distribution, alongside text/property-aware ShapeSheet calculation, native text measurements, text-driven dimensions and controls, live tooltips, typed cell editing and exact snapshot Undo/Redo. Native control handles, text fields, mixed text styles, NURBS/splines, drawing scales, signed dimensions, stencils/templates, connections, groups, backgrounds, images, layers, Shape Data and hyperlinks are included. Both VSDX and experimental binary VSD can be read and written. **The complete 1:1 Visio port remains unfinished. Full binary VSD semantics and Visio feature parity are not implemented. VSD output is experimental and has not been validated in Microsoft Visio.**
+A native Swift/AppKit diagram editor. Version 0.19 speeds up VSDX opening by caching XML lookups and reducing repeated work during master expansion. It includes Sparkle updates, text/property-aware ShapeSheet calculation, native text measurements, text-driven dimensions and controls, live tooltips, typed cell editing and exact snapshot Undo/Redo. Native control handles, text fields, mixed text styles, NURBS/splines, drawing scales, signed dimensions, stencils/templates, connections, groups, backgrounds, images, layers, Shape Data and hyperlinks are included. Both VSDX and experimental binary VSD can be read and written. **The complete 1:1 Visio port remains unfinished. Full binary VSD semantics and Visio feature parity are not implemented. VSD output is experimental and has not been validated in Microsoft Visio.**
 
 ## Run
 
-Download the ZIP from [GitHub releases](https://github.com/acousland/MacVisio/releases/latest), expand it and move MacVisio.app to Applications. The 0.18.0 distribution is for Apple Silicon and macOS 27 or newer. Choose **MacVisio > Check for Updates…** to check manually. Automatic checks are enabled by default and can be toggled in the same menu; installation requires your confirmation. See [release and updater setup](docs/DISTRIBUTION.md).
+Download the ZIP from [GitHub releases](https://github.com/acousland/MacVisio/releases/latest), expand it and move MacVisio.app to Applications. The 0.19.0 distribution is for Apple Silicon and macOS 27 or newer. Choose **MacVisio > Check for Updates…** to check manually. Automatic checks are enabled by default and can be toggled in the same menu; installation requires your confirmation. See [release and updater setup](docs/DISTRIBUTION.md).
 
 Open `build/MacVisio.app`. This arm64 build requires macOS 27 because its bundled legacy reader was built for that version. Earlier macOS releases and Intel Macs have not been tested. Swift source targets macOS 13, but producing an older-system bundle also requires rebuilding every legacy-reader dependency for that system.
 
@@ -66,6 +66,7 @@ build/MacVisio.app/Contents/MacOS/MacVisio --convert drawing.vsd converted.vsdx
 build/MacVisio.app/Contents/MacOS/MacVisio --convert drawing.vsdx experimental.vsd
 build/MacVisio.app/Contents/MacOS/MacVisio --render-document drawing.vsdx preview.png
 build/MacVisio.app/Contents/MacOS/MacVisio --export-all-pdf drawing.vsdx all-pages.pdf
+build/MacVisio.app/Contents/MacOS/MacVisio --profile-open drawing.vsdx open-timing.json
 ```
 
 The launch check opens a temporary native window, records document/controller/action routing, and exits. Foreground activation is recorded separately. Open `Package.swift` in Xcode to develop the app. See [remaining work](docs/PLAN.md), [installer inspection](docs/INSTALLER-INSPECTION.md) and [validation](docs/VALIDATION.md).

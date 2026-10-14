@@ -20,7 +20,7 @@ The build workflow uploads a ZIP rather than a raw app bundle so executable perm
 
 ## Validation boundaries
 
-The 0.18 source test suite passes 283 tests. Bundle verification exercises actual VSDX and experimental binary VSD conversion/export, the bundled independent parser, native rendering and relocatable dependencies. The isolated native launch check confirms a visible active editor and Save routing. Release packaging verifies archive CRCs, update signatures, the signed feed, extracted bundle signatures, executable mode and framework symlinks. The initial distribution is Developer ID signed, notarized and stapled; the extracted ZIP passes Gatekeeper assessment. See [bundle verification](bundle-verification.json), [release verification](release-verification.json) and [compatibility](COMPATIBILITY.md).
+The 0.19 source test suite passes 284 tests. Bundle verification exercises actual VSDX and experimental binary VSD conversion/export, the bundled independent parser, native rendering and relocatable dependencies. The isolated native launch check confirms a visible active editor and Save routing. Release packaging verifies archive CRCs, update signatures, the signed feed, extracted bundle signatures, executable mode and framework symlinks. Developer ID releases are notarized and stapled; their extracted ZIPs pass Gatekeeper assessment. See [bundle verification](bundle-verification.json), [release verification](release-verification.json), [opening performance](OPEN-PERFORMANCE.md) and [compatibility](COMPATIBILITY.md).
 
 To probe the live signed feed using Sparkle without installing an update:
 

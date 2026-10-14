@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Verify the built bundle, including its own reader instead of Homebrew fallback."""
 import json
+import os
 import pathlib
 import plistlib
 import subprocess
@@ -9,7 +10,7 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 root = pathlib.Path(__file__).resolve().parent.parent
-app = root / 'build/MacVisio.app'
+app = pathlib.Path(os.environ.get('MACVISIO_APP_DIR',str(root/'build/MacVisio.app'))).resolve()
 executable = app / 'Contents/MacOS/MacVisio'
 helper = app / 'Contents/Helpers/vsd2xhtml'
 subprocess.run(['codesign', '--verify', '--deep', '--strict', str(app)], check=True)
