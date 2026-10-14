@@ -1,0 +1,455 @@
+{
+  "activePageID" : "94FEC5C5-939F-4874-9A34-28C10AF56885",
+  "pages" : [
+    {
+      "edges" : [
+
+      ],
+      "height" : 740,
+      "id" : "94FEC5C5-939F-4874-9A34-28C10AF56885",
+      "name" : "Page 1",
+      "nodes" : [
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 28,
+          "height" : 60,
+          "id" : "2C0C40CA-1F68-48AE-87E9-27861AF57948",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Text-driven shapes",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 35
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 60,
+          "id" : "94EA6974-5A75-4E96-9D6C-77460111D935",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Editing a label recalculates its width, height and text block.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 110
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+              {
+                "cells" : {
+                  "Prompt" : {
+                    "formula" : "\"Reposition \"&SHAPETEXT(TheText,84)",
+                    "unit" : "",
+                    "value" : "Reposition Edited text expands the original shape"
+                  },
+                  "X" : {
+                    "formula" : "Width\/2",
+                    "unit" : "",
+                    "value" : "2.4195068359375"
+                  },
+                  "XCon" : {
+                    "formula" : "IF(User.HasText,0,5)",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Y" : {
+                    "formula" : "Height\/2",
+                    "unit" : "",
+                    "value" : "0.3229782443576389"
+                  },
+                  "YCon" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "1"
+                  }
+                },
+                "index" : 0,
+                "name" : "Label"
+              }
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+              "BottomMargin" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.18"
+              },
+              "Height" : {
+                "formula" : "TEXTHEIGHT(TheText,Width)",
+                "unit" : "",
+                "value" : "0.645956488715"
+              },
+              "TopMargin" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.18"
+              },
+              "TxtHeight" : {
+                "formula" : "Height",
+                "unit" : "",
+                "value" : "0.6459564887152778"
+              },
+              "TxtLocPinX" : {
+                "formula" : "TxtWidth\/2",
+                "unit" : "",
+                "value" : "2.4195068359375"
+              },
+              "TxtLocPinY" : {
+                "formula" : "TxtHeight\/2",
+                "unit" : "",
+                "value" : "0.3229782443576389"
+              },
+              "TxtPinX" : {
+                "formula" : "Controls.Label.X",
+                "unit" : "",
+                "value" : "2.4195068359375"
+              },
+              "TxtPinY" : {
+                "formula" : "Height\/2",
+                "unit" : "",
+                "value" : "0.3229782443576389"
+              },
+              "TxtWidth" : {
+                "formula" : "Width",
+                "unit" : "",
+                "value" : "4.839013671875"
+              },
+              "User.HasText" : {
+                "formula" : "NOT(STRSAME(SHAPETEXT(TheText),\"\"))",
+                "unit" : "",
+                "value" : "1"
+              },
+              "Width" : {
+                "formula" : "TEXTWIDTH(TheText)+0.6in",
+                "unit" : "",
+                "value" : "4.83901367188"
+              }
+            },
+            "textBox" : {
+              "bottom" : 12.959999999999999,
+              "centerX" : 0.5,
+              "centerY" : 0.5,
+              "height" : 1,
+              "left" : 0,
+              "right" : 0,
+              "rotation" : 0,
+              "top" : 12.959999999999999,
+              "verticalAlignment" : 1,
+              "width" : 1
+            },
+            "underline" : false
+          },
+          "fill" : "#E6F1FF",
+          "fontSize" : 18,
+          "height" : 46.5088671875,
+          "id" : "55CE77F3-4910-4245-90D8-1ABCD8DE2DBA",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#2463A2",
+          "strokeWidth" : 1.5,
+          "text" : "Edited text expands the original shape",
+          "textColor" : "#20334F",
+          "width" : 348.408984375,
+          "x" : 110,
+          "y" : 278.4911328125
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "center",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+              {
+                "cells" : {
+                  "Prompt" : {
+                    "formula" : "\"Reposition \"&SHAPETEXT(TheText,84)",
+                    "unit" : "",
+                    "value" : "Reposition A longer label makes a wider shape"
+                  },
+                  "X" : {
+                    "formula" : "Width\/2",
+                    "unit" : "",
+                    "value" : "2.273388671875"
+                  },
+                  "XCon" : {
+                    "formula" : "IF(User.HasText,0,5)",
+                    "unit" : "",
+                    "value" : "0"
+                  },
+                  "Y" : {
+                    "formula" : "Height\/2",
+                    "unit" : "",
+                    "value" : "0.3229782443576389"
+                  },
+                  "YCon" : {
+                    "formula" : "",
+                    "unit" : "",
+                    "value" : "1"
+                  }
+                },
+                "index" : 0,
+                "name" : "Label"
+              }
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "Arial",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+              "BottomMargin" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.18"
+              },
+              "Height" : {
+                "formula" : "TEXTHEIGHT(TheText,Width)",
+                "unit" : "",
+                "value" : "0.645956488715"
+              },
+              "TopMargin" : {
+                "formula" : "",
+                "unit" : "",
+                "value" : "0.18"
+              },
+              "TxtHeight" : {
+                "formula" : "Height",
+                "unit" : "",
+                "value" : "0.6459564887152778"
+              },
+              "TxtLocPinX" : {
+                "formula" : "TxtWidth\/2",
+                "unit" : "",
+                "value" : "2.273388671875"
+              },
+              "TxtLocPinY" : {
+                "formula" : "TxtHeight\/2",
+                "unit" : "",
+                "value" : "0.3229782443576389"
+              },
+              "TxtPinX" : {
+                "formula" : "Controls.Label.X",
+                "unit" : "",
+                "value" : "2.273388671875"
+              },
+              "TxtPinY" : {
+                "formula" : "Height\/2",
+                "unit" : "",
+                "value" : "0.3229782443576389"
+              },
+              "TxtWidth" : {
+                "formula" : "Width",
+                "unit" : "",
+                "value" : "4.54677734375"
+              },
+              "User.HasText" : {
+                "formula" : "NOT(STRSAME(SHAPETEXT(TheText),\"\"))",
+                "unit" : "",
+                "value" : "1"
+              },
+              "Width" : {
+                "formula" : "TEXTWIDTH(TheText)+0.6in",
+                "unit" : "",
+                "value" : "4.54677734375"
+              }
+            },
+            "textBox" : {
+              "bottom" : 12.959999999999999,
+              "centerX" : 0.5,
+              "centerY" : 0.5,
+              "height" : 1,
+              "left" : 0,
+              "right" : 0,
+              "rotation" : 0,
+              "top" : 12.959999999999999,
+              "verticalAlignment" : 1,
+              "width" : 1
+            },
+            "underline" : false
+          },
+          "fill" : "#E6F1FF",
+          "fontSize" : 18,
+          "height" : 46.5088671875,
+          "id" : "8A11715A-A060-4FBB-AD85-ECD7642ABF79",
+          "kind" : "rectangle",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#2463A2",
+          "strokeWidth" : 1.5,
+          "text" : "A longer label makes a wider shape",
+          "textColor" : "#20334F",
+          "width" : 327.36796875,
+          "x" : 110,
+          "y" : 438.4911328125
+        },
+        {
+          "bold" : false,
+          "details" : {
+            "alignment" : "left",
+            "connectionPoints" : [
+
+            ],
+            "controls" : [
+
+            ],
+            "data" : [
+
+            ],
+            "flipX" : false,
+            "flipY" : false,
+            "fontName" : "System",
+            "hyperlinks" : [
+
+            ],
+            "isGroup" : false,
+            "italic" : false,
+            "layerNames" : [
+
+            ],
+            "linePattern" : 1,
+            "paths" : [
+
+            ],
+            "sheet" : {
+
+            },
+            "underline" : false
+          },
+          "fill" : "#FFFFFF00",
+          "fontSize" : 17,
+          "height" : 60,
+          "id" : "D4BC1450-E51C-431C-9597-AD8532056387",
+          "kind" : "text",
+          "layer" : "Default",
+          "locked" : false,
+          "rotation" : 0,
+          "stroke" : "#FFFFFF00",
+          "strokeWidth" : 1.5,
+          "text" : "Double-click either label to edit it. The yellow handle repositions its text.\nShape > ShapeSheet edits supported text, number and date cells.",
+          "textColor" : "#20334F",
+          "width" : 880,
+          "x" : 60,
+          "y" : 570
+        }
+      ],
+      "width" : 1000
+    }
+  ],
+  "title" : "Text-driven shapes",
+  "version" : 1
+}

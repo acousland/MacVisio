@@ -18,6 +18,11 @@ jobs:
         run: scripts/build-app.sh
       - name: Verify bundle
         run: python3 scripts/verify-app.py
+      - name: Verify update signing
+        if: github.event_name == 'push'
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: python3 scripts/sign-ci-release.py
       - name: Archive test build
         run: ditto -c -k --sequesterRsrc --keepParent build/MacVisio.app build/MacVisio-test-build.zip
       - uses: actions/upload-artifact@v4

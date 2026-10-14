@@ -20,5 +20,9 @@
   "sparkleVersion": "2.10.0",
   "windowsVisioValidated": false,
   "fullVisioParity": false,
-  "binaryVSDWriting": "experimental"
+  "binaryVSDWriting": "experimental",
+  "publicDownloadVerified": true,
+  "liveSparkleSignedFeedVerified": true,
+  "sparkleReportedCurrentBuild": "18",
+  "sparkleInstallationTested": false
 }

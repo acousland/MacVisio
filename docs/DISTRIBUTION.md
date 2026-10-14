@@ -16,7 +16,7 @@ The feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/
 
 The tag/dispatch release workflow tests and builds the source, signs the update ZIP and feed using the GitHub secret, and publishes the assets. It skips an already published release. The workflow's bundle currently uses an ad hoc code signature; Apple Developer ID certificate export and CI notarization credentials have not been configured. For future notarized releases, use the local signing/notarization route above. A valid Ed25519 update signature is independent of Apple's code signature.
 
-The build workflow uploads a ZIP rather than a raw app bundle so executable permissions and framework symlinks survive artifact downloads. Test artifacts are not public Sparkle releases.
+The build workflow uploads a ZIP rather than a raw app bundle so executable permissions and framework symlinks survive artifact downloads. Push builds also verify the update/feed signing pipeline using the repository secret; pull requests run without that secret. Test artifacts are not public Sparkle releases.
 
 ## Validation boundaries
 
@@ -31,4 +31,4 @@ swiftc -F build/MacVisio.app/Contents/Frameworks -framework Sparkle \
 build/check-update build/MacVisio.app
 ```
 
-An actual installation of a later version through Sparkle has not yet been exercised. There is only one published updater-enabled version. Full Visio parity, Microsoft Visio acceptance, Intel and older macOS distributions remain unverified.
+The public ZIP was downloaded without GitHub authentication and passed the same archive, code-signing and notarization checks. A probe using the bundled Sparkle framework successfully verified the live signed feed and identified build 18 as current. An actual installation of a later version through Sparkle has not yet been exercised. There is only one published updater-enabled version. Full Visio parity, Microsoft Visio acceptance, Intel and older macOS distributions remain unverified.
