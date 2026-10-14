@@ -31,6 +31,12 @@ let probe = Probe()
 let driver = SPUStandardUserDriver(hostBundle:host,delegate:nil)
 let updater = SPUUpdater(hostBundle:host,applicationBundle:host,userDriver:driver,delegate:probe)
 do { try updater.start() } catch { fatalError("Updater initialization: \(error)") }
-DispatchQueue.main.async { updater.checkForUpdateInformation() }
+// Startup briefly owns an update session while checking for pending installations.
+let readiness = Timer.scheduledTimer(withTimeInterval:0.1,repeats:true) { timer in
+    if updater.canCheckForUpdates && !updater.sessionInProgress {
+        timer.invalidate()
+        updater.checkForUpdateInformation()
+    }
+}
 DispatchQueue.main.asyncAfter(deadline:.now()+45) { fputs("Sparkle probe timed out\n",stderr); exit(1) }
 app.run()

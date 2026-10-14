@@ -114,7 +114,15 @@ enum DiagramOperations {
         for i in page.edges.indices where page.edges[i].sourceShapeID == nil { page.edges[i].sourceShapeID = binding?.edgeIDs[page.edges[i].id] ?? String(page.nodes.count+i+1) }
         let rect = nodes.reduce(CGRect.null){$0.union($1.rect)}
         var group = DiagramNode(x:rect.minX,y:rect.minY,text:""); group.width = max(1,rect.width); group.height = max(1,rect.height); group.fill = "#FFFFFF00"; group.stroke = "#FFFFFF00"; group.formatting.isGroup = true; group.parentID = nodes[0].parentID
-        let reserved = page.nodes.enumerated().map{$0.element.formatting.sourceShapeID ?? String($0.offset+1)}+page.edges.enumerated().map{$0.element.sourceShapeID ?? String(page.nodes.count+$0.offset+1)}+(binding?.nodeIDs.values.map{$0} ?? [])+(binding?.edgeIDs.values.map{$0} ?? [])
+        let nodeIDs:[String] = page.nodes.enumerated().map { index,node in
+            node.formatting.sourceShapeID ?? String(index+1)
+        }
+        let edgeIDs:[String] = page.edges.enumerated().map { index,edge in
+            edge.sourceShapeID ?? String(page.nodes.count+index+1)
+        }
+        let boundNodeIDs:[String] = binding.map { Array($0.nodeIDs.values) } ?? []
+        let boundEdgeIDs:[String] = binding.map { Array($0.edgeIDs.values) } ?? []
+        let reserved = nodeIDs+edgeIDs+boundNodeIDs+boundEdgeIDs
         var allocator = try VisioIDAllocator(reserved:reserved);group.formatting.sourceShapeID = try allocator.allocate()
         let insert = page.nodes.firstIndex(where:{roots.contains($0.id)}) ?? 0
         for i in page.nodes.indices where roots.contains(page.nodes[i].id) { page.nodes[i].parentID = group.id }
