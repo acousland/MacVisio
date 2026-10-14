@@ -38,16 +38,19 @@ with tempfile.TemporaryDirectory(prefix='MacVisio-release-check-') as temporary:
     developer_id = 'Authority=Developer ID Application:' in signature
     notarized = False
     if developer_id:
-        subprocess.run(['xcrun','stapler','validate',str(extracted)],check=True,capture_output=True)
-        assessment = subprocess.run(['spctl','--assess','--type','execute','--verbose=2',str(extracted)],capture_output=True,text=True,check=True)
-        notarized = 'Notarized Developer ID' in assessment.stderr
-        assert notarized
+        staple = subprocess.run(['xcrun','stapler','validate',str(extracted)],capture_output=True)
+        if staple.returncode == 0:
+            assessment = subprocess.run(['spctl','--assess','--type','execute','--verbose=2',str(extracted)],capture_output=True,text=True)
+            notarized = assessment.returncode == 0 and 'Notarized Developer ID' in assessment.stderr
+        if not notarized and os.environ.get('MACVISIO_ALLOW_UNNOTARIZED') != '1':
+            raise RuntimeError('Developer ID release requires notarization; an explicit MACVISIO_ALLOW_UNNOTARIZED=1 override is available.')
 report = {'version': info['CFBundleShortVersionString'], 'build': info['CFBundleVersion'],
           'archive': str(archive), 'sha256': hashlib.sha256(archive.read_bytes()).hexdigest(),
           'bytes': archive.stat().st_size, 'zipCRCVerified': True,
           'archiveSignatureVerified': True, 'feedSignatureVerified': True, 'signedFeedRequired': True,
           'bundleSignatureVerified': True, 'executableModeVerified': True, 'frameworkSymlinksVerified': True,
           'developerIDSigned': developer_id, 'notarized': notarized,
+          'notarizationOverride': developer_id and not notarized and os.environ.get('MACVISIO_ALLOW_UNNOTARIZED') == '1',
           'feedURL': info['SUFeedURL'], 'minimumMacOS': info['LSMinimumSystemVersion']}
 (directory / 'release-verification.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

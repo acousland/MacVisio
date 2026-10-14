@@ -14,13 +14,15 @@ The feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/
 4. Run `scripts/package-release.sh`. This creates the final ZIP, signed appcast, checksum and signature verification report under `build/releases/<version>`.
 5. Publish those files together on the matching GitHub `v<version>` release. The latest release must always include `appcast.xml`.
 
+Notarization remains required by default when verifying a Developer ID release. An explicitly authorized release without notarization uses `MACVISIO_ALLOW_UNNOTARIZED=1` during packaging. The verification report records `notarized: false` and the override; archive, feed and bundle signature checks remain required. Version 0.19.0 uses this exception. Version 0.18.0 was notarized and stapled.
+
 The tag/dispatch release workflow tests and builds the source, signs the update ZIP and feed using the GitHub secret, and publishes the assets. It skips an already published release. The workflow's bundle currently uses an ad hoc code signature; Apple Developer ID certificate export and CI notarization credentials have not been configured. For future notarized releases, use the local signing/notarization route above. A valid Ed25519 update signature is independent of Apple's code signature.
 
 The build workflow uploads a ZIP rather than a raw app bundle so executable permissions and framework symlinks survive artifact downloads. Push builds also verify the update/feed signing pipeline using the repository secret; pull requests run without that secret. Test artifacts are not public Sparkle releases.
 
 ## Validation boundaries
 
-The 0.19 source test suite passes 284 tests. Bundle verification exercises actual VSDX and experimental binary VSD conversion/export, the bundled independent parser, native rendering and relocatable dependencies. The isolated native launch check confirms a visible active editor and Save routing. Release packaging verifies archive CRCs, update signatures, the signed feed, extracted bundle signatures, executable mode and framework symlinks. Developer ID releases are notarized and stapled; their extracted ZIPs pass Gatekeeper assessment. See [bundle verification](bundle-verification.json), [release verification](release-verification.json), [opening performance](OPEN-PERFORMANCE.md) and [compatibility](COMPATIBILITY.md).
+The 0.19 source test suite passes 284 tests. Bundle verification exercises actual VSDX and experimental binary VSD conversion/export, the bundled independent parser, native rendering and relocatable dependencies. The isolated native launch check confirms a visible active editor and Save routing. Release packaging verifies archive CRCs, update signatures, the signed feed, extracted bundle signatures, executable mode and framework symlinks. Version 0.19 is Developer ID signed and is not notarized; version 0.18's extracted ZIP passed Gatekeeper assessment as a notarized release. See [bundle verification](bundle-verification.json), [release verification](release-verification.json), [opening performance](OPEN-PERFORMANCE.md) and [compatibility](COMPATIBILITY.md).
 
 To probe the live signed feed using Sparkle without installing an update:
 
