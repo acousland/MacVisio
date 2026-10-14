@@ -3,8 +3,9 @@ import Foundation
 /// Resolves typed dependencies against one immutable page snapshot. Public cell
 /// names, dependency cycles and limits are shared by geometry and control edits.
 final class ShapeSheetContext {
-    private enum ThemeState { case noTheme, active, unknown }
-    private enum FormulaHost { case shape(UUID), page }
+    private enum ThemeState { case noTheme, active(VisioTheme), unavailable(String), unknown }
+    private enum ThemeColorSelector { case named(String), oneBasedIndex(Int), quickStyleReference(ShapeSheet.Expression) }
+    private enum FormulaHost { case shape(UUID,String?), page(String?) }
     let page:DiagramPage
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
@@ -38,7 +39,7 @@ final class ShapeSheetContext {
         else {
             let property = canonical.lowercased().hasPrefix("prop.") ? node.formatting.data.first{$0.key.caseInsensitiveCompare(String(canonical.dropFirst(5))) == .orderedSame} : nil
             let cell = node.formatting.sheet[canonical] ?? ConnectionGeometry.cell(canonical,on:node) ?? GeometrySheet.cell(canonical,on:node) ?? ControlGeometry.cell(canonical,on:node)
-            if let formula = cell?.formula,!formula.isEmpty,!["INH","NO FORMULA"].contains(formula.uppercased()) { result = try evaluate(formula,on:id) }
+            if let formula = cell?.formula,!formula.isEmpty,!["INH","NO FORMULA"].contains(formula.uppercased()) { result = try evaluate(formula,on:id,hostCell:canonical) }
             else if let property {
                 let stored = cell?.value ?? property.value
                 if property.type == 3 { result = .boolean(stored == "1" || stored.uppercased() == "TRUE") }
@@ -72,7 +73,7 @@ final class ShapeSheetContext {
         let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
         let result:SheetValue
         if !formula.isEmpty && !["INH","NO FORMULA"].contains(formula.uppercased()) {
-            result = try evaluate(ShapeSheet.parse(formula),on:host,host:.page)
+            result = try evaluate(ShapeSheet.parse(formula),on:host,host:.page(key))
         } else if let cell {
             let unit = cell.unit.uppercased()
             if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
@@ -90,20 +91,56 @@ final class ShapeSheetContext {
         return result
     }
     func evaluate(_ formula:String,on id:UUID) throws -> SheetValue {
-        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id))
+        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id,nil))
     }
     func evaluate(_ expression:ShapeSheet.Expression,on id:UUID) throws -> SheetValue {
-        try evaluate(expression,on:id,host:.shape(id))
+        try evaluate(expression,on:id,host:.shape(id,nil))
+    }
+    private func evaluate(_ formula:String,on id:UUID,hostCell:String?) throws -> SheetValue {
+        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id,hostCell))
     }
     private func evaluate(_ expression:ShapeSheet.Expression,on id:UUID,host:FormulaHost) throws -> SheetValue {
         try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
             if name == "THEMEVAL" {
-                guard args.count == 2 else { throw DiagramError.invalid("THEMEVAL is supported only with an explicit default when No Theme is applied.") }
-                switch self.themeState(for:host) {
-                case .noTheme: return try eval(args[1])
-                case .active: throw DiagramError.invalid("THEMEVAL for an active theme is unsupported; the original formula and cached value are retained.")
+                guard args.count <= 2 else { throw DiagramError.invalid("THEMEVAL accepts at most two arguments.") }
+                let selector:ThemeColorSelector
+                if args.isEmpty {
+                    guard let cell = self.hostCell(for:host),let selectorName = self.paletteName(cell) else {
+                        let cell = self.hostCell(for:host) ?? "<unknown>"
+                        throw DiagramError.invalid("THEMEVAL() has no supported palette mapping for host cell \(cell).")
+                    }
+                    selector = .named(selectorName)
+                } else {
+                    guard let value = self.themeColorSelector(args[0]) else {
+                        throw DiagramError.invalid("THEMEVAL theme mapping is unsupported; only palette colors and numeric color selectors are available. The original formula and cached value are retained.")
+                    }
+                    selector = value
+                }
+
+                if args.count == 2, self.hasNoThemeSelector(for:host,includingEffectsAndConnectors:true) {
+                    return try eval(args[1])
+                }
+                switch self.colorThemeState(for:host) {
+                case .noTheme:
+                    if args.count == 2 { return try eval(args[1]) }
+                    throw DiagramError.invalid("THEMEVAL No Theme column values are unavailable for this palette selector; the original formula and cached value are retained.")
+                case .active(let theme):
+                    return try self.themeValue(selector:selector,in:theme,evaluate:eval)
+                case .unavailable(let reason): throw DiagramError.invalid("THEMEVAL active theme is unavailable: \(reason). The original formula and cached value are retained.")
                 case .unknown: throw DiagramError.invalid("THEMEVAL theme state is unknown; the original formula and cached value are retained.")
                 }
+            }
+            if name == "THEMEPROP" {
+                guard args.count == 1 else { throw DiagramError.invalid("THEMEPROP expects one argument.") }
+                guard case .string(let property) = try eval(args[0]) else {
+                    throw DiagramError.invalid("THEMEPROP expects Embellishment or MultiFormat as a string.")
+                }
+                switch property.lowercased() {
+                case "embellishment","multiformat": break
+                default: throw DiagramError.invalid("THEMEPROP does not support \(property).")
+                }
+                guard let theme = try self.themePropTheme(for:host) else { return .number(0) }
+                return try self.themePropValue(property.lowercased(),for:host,in:theme)
             }
             if name == "ISTHEMED" {
                 guard args.isEmpty else { throw DiagramError.invalid("ISTHEMED expects no arguments.") }
@@ -127,13 +164,265 @@ final class ShapeSheetContext {
             return .number(name == "TEXTWIDTH" ? metrics.width : metrics.height)
         },colorPalette:colorPalette)
     }
-    private func themeState(for host:FormulaHost) -> ThemeState {
-        guard case .shape(let id) = host,let node = nodes[id],
-              let cell = node.formatting.sheet.first(where:{$0.key.caseInsensitiveCompare("ColorSchemeIndex") == .orderedSame})?.value,
+    private func colorThemeState(for host:FormulaHost) -> ThemeState {
+        let cells:[String:ShapeSheetCell]?
+        switch host {
+        case .shape(let id,_): cells = nodes[id]?.formatting.sheet
+        case .page: cells = page.sheet
+        }
+        if hasNoThemeSelector(for:host,includingEffectsAndConnectors:false) { return .noTheme }
+        guard let cell = cells?.first(where:{$0.key.caseInsensitiveCompare("ColorSchemeIndex") == .orderedSame})?.value,
               cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
               let value = Double(cell.value),value.isFinite,value.rounded(.towardZero) == value,
-              let index = Int(exactly:value),index >= 0 else { return .unknown }
-        return index == 0 ? .noTheme : .active
+              let index = Int(exactly:value),index >= 0,index <= 65535 else { return .unknown }
+        if index == 0 { return .noTheme }
+        if index == 65535 { return .unavailable("custom associated-master color schemes are unsupported") }
+
+        let inheritedPageIndex:Int?
+        if index == 65534 {
+            inheritedPageIndex = cellsValue(page.sheet,"ColorSchemeIndex")
+            guard let pageIndex = inheritedPageIndex else { return .unavailable("the page ColorSchemeIndex is missing or unresolved") }
+            if pageIndex == 0 { return .noTheme }
+            guard pageIndex < 65534 else { return .unknown }
+            guard let theme = page.theme,theme.schemeIndex == pageIndex else { return .unavailable("the selected page theme does not match ColorSchemeIndex \(pageIndex)") }
+            return .active(theme)
+        }
+
+        guard index < 65534 else { return .unknown }
+        guard let theme = page.theme,theme.schemeIndex == index else { return .unavailable("no imported page theme matches ColorSchemeIndex \(index)") }
+        return .active(theme)
+    }
+
+    private func hostCell(for host:FormulaHost) -> String? {
+        switch host { case .shape(_,let cell),.page(let cell):return cell }
+    }
+
+    private func themeColorSelector(_ expression:ShapeSheet.Expression) -> ThemeColorSelector? {
+        switch expression {
+        case .string(let name):
+            if let palette = paletteName(name) { return .named(palette) }
+            if let index = Int(name),String(index) == name,(1...8).contains(index) { return .oneBasedIndex(index) }
+        case .number(let number):
+            if let index = Int(exactly:number),(1...8).contains(index) { return .oneBasedIndex(index) }
+        case .reference(let reference):
+            let cell = reference.split(separator:"!").last.map(String.init) ?? reference
+            if ["QuickStyleFillColor","QuickStyleLineColor"].contains(where:{$0.caseInsensitiveCompare(cell) == .orderedSame}) {
+                return .quickStyleReference(expression)
+            }
+        default: break
+        }
+        return nil
+    }
+
+    private func themeValue(selector:ThemeColorSelector,in theme:VisioTheme,evaluate:(ShapeSheet.Expression)throws->SheetValue) throws -> SheetValue {
+        switch selector {
+        case .named(let name): return try themeValue(named:name,in:theme)
+        case .oneBasedIndex(let index): return try themeValue(index:index,in:theme,quickStyle:false)
+        case .quickStyleReference(let expression):
+            switch try evaluate(expression) {
+            case .number(let number):
+                guard let index = Int(exactly:number) else { throw DiagramError.invalid("THEMEVAL QuickStyle color selector must be an integer.") }
+                return try themeValue(index:index,in:theme,quickStyle:true)
+            case .string(let name): return try themeValue(named:name,in:theme)
+            default: throw DiagramError.invalid("THEMEVAL QuickStyle color selector must be a string or integer.")
+            }
+        }
+    }
+
+    private func themeValue(index:Int,in theme:VisioTheme,quickStyle:Bool) throws -> SheetValue {
+        let name:String
+        if quickStyle,(0...8).contains(index) {
+            name = ["Dark","Light","AccentColor1","AccentColor2","AccentColor3","AccentColor4","AccentColor5","AccentColor6","BackgroundColor"][index]
+        } else if (1...8).contains(index) {
+            name = ["Dark","Light","AccentColor1","AccentColor2","AccentColor3","AccentColor4","AccentColor5","AccentColor6"][index-1]
+        } else if quickStyle,(100...106).contains(index) {
+            name = "VariantColor\(index % 100 + 1)"
+        } else {
+            throw DiagramError.invalid("THEMEVAL does not support theme color index \(index).")
+        }
+        return try themeValue(named:name,in:theme)
+    }
+
+    private func themeValue(named requested:String,in theme:VisioTheme) throws -> SheetValue {
+        guard let name = paletteName(requested) else {
+            throw DiagramError.invalid("THEMEVAL theme mapping \(requested) is unsupported; only palette colors and variants are available. The original formula and cached value are retained.")
+        }
+        if let color = theme.colors.first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame})?.value {
+            guard color.count == 7,color.hasPrefix("#"),color.dropFirst().allSatisfy(\.isHexDigit) else { throw DiagramError.invalid("THEMEVAL theme color \(requested) is not a supported RGB value.") }
+            return .string(color.uppercased())
+        }
+        throw DiagramError.invalid("THEMEVAL theme mapping \(requested) is unavailable; the original formula and cached value are retained.")
+    }
+
+    private func paletteName(_ requested:String) -> String? {
+        let canonical = requested.caseInsensitiveCompare("AccentColor") == .orderedSame ? "AccentColor1" : requested
+        let names = ["Dark","Light","BackgroundColor","AccentColor1","AccentColor2","AccentColor3","AccentColor4","AccentColor5","AccentColor6"]
+            + (1...7).map { "VariantColor\($0)" }
+        return names.first{$0.caseInsensitiveCompare(canonical) == .orderedSame}
+    }
+
+    private func hasNoThemeSelector(for host:FormulaHost,includingEffectsAndConnectors:Bool) -> Bool {
+        let cells:[String:ShapeSheetCell]?
+        switch host {
+        case .shape(let id,_): cells = nodes[id]?.formatting.sheet
+        case .page: cells = page.sheet
+        }
+        let selectorNames = includingEffectsAndConnectors
+            ? ["ThemeIndex","ColorSchemeIndex","EffectSchemeIndex","ConnectorSchemeIndex","FontSchemeIndex"]
+            : ["ThemeIndex","ColorSchemeIndex","FontSchemeIndex"]
+        return selectorNames.contains { key in
+            let value = literalIndex(cells,key)
+            if value == 0 { return true }
+            guard case .shape = host,value == 65534 else { return false }
+            return literalIndex(page.sheet,key) == 0
+        }
+    }
+
+    /// Returns nil when any explicit or inherited component selector selects
+    /// the root/no-theme style. Missing or unresolved selectors stay errors;
+    /// the imported page theme alone does not prove a shape's active selection.
+    private func themePropTheme(for host:FormulaHost) throws -> VisioTheme? {
+        let selectors = ["ThemeIndex","ColorSchemeIndex","EffectSchemeIndex","ConnectorSchemeIndex","FontSchemeIndex"]
+        let indexes = selectors.map { themeComponentIndex($0,for:host) }
+        if indexes.contains(where:{$0 == 0}) { return nil }
+        guard indexes.allSatisfy({$0 != nil}) else {
+            throw DiagramError.invalid("THEMEPROP theme component selectors are missing or unresolved; the original formula and cached value are retained.")
+        }
+        let values = indexes.map{$0!}
+        guard values.enumerated().allSatisfy({offset,value in value > 0 && (offset == 1 ? value <= 65535 : value <= 65534)}) else {
+            throw DiagramError.invalid("THEMEPROP uses an unsupported custom or invalid theme component selector; the original formula and cached value are retained.")
+        }
+        let colorIndex = values[1]
+        guard colorIndex < 65534 else {
+            throw DiagramError.invalid("THEMEPROP custom associated-master color schemes are unsupported; the original formula and cached value are retained.")
+        }
+        guard let theme = page.theme,theme.schemeIndex == colorIndex else {
+            throw DiagramError.invalid("THEMEPROP has no imported theme matching ColorSchemeIndex \(colorIndex); the original formula and cached value are retained.")
+        }
+        return theme
+    }
+
+    /// Shape-level component selectors use 65534 to inherit the corresponding
+    /// PageSheet selector. Other missing/formula-backed selector sources are
+    /// deliberately unresolved.
+    private func themeComponentIndex(_ key:String,for host:FormulaHost) -> Int? {
+        let cells:[String:ShapeSheetCell]?
+        let isShape:Bool
+        switch host {
+        case .shape(let id,_): cells = nodes[id]?.formatting.sheet;isShape = true
+        case .page: cells = page.sheet;isShape = false
+        }
+        guard let value = literalIndex(cells,key) else { return nil }
+        if value == 65534 {
+            guard isShape else { return nil }
+            guard let inherited = literalIndex(page.sheet,key),inherited != 65534 else { return nil }
+            return inherited
+        }
+        return value
+    }
+
+    private func literalIndex(_ cells:[String:ShapeSheetCell]?,_ key:String) -> Int? {
+        guard let cell = cells?.first(where:{$0.key.caseInsensitiveCompare(key) == .orderedSame})?.value,
+              cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+              let number = Double(cell.value),number.isFinite,number.rounded(.towardZero) == number else { return nil }
+        return Int(exactly:number)
+    }
+
+    private func themePropValue(_ property:String,for host:FormulaHost,in theme:VisioTheme) throws -> SheetValue {
+        if property == "multiformat" {
+            let index = try variationIndex("VariationColorIndex",for:host,theme:theme)
+            guard let monotone = theme.variationColorSchemeMonotone[index] else {
+                throw DiagramError.invalid("THEMEPROP MultiFormat has no imported color variation at index \(index); the original formula and cached value are retained.")
+            }
+            return .number(monotone ? 1 : 0)
+        }
+
+        let embellishment = try embellishmentIndex(for:host)
+        if embellishment != 0 { return .number(Double(embellishment)) }
+        let index = try variationIndex("VariationStyleIndex",for:host,theme:theme)
+        guard let value = theme.variationStyleSchemes[index]?.embellishment,(0...255).contains(value) else {
+            throw DiagramError.invalid("THEMEPROP Embellishment has no imported style variation at index \(index); the original formula and cached value are retained.")
+        }
+        return .number(Double(value))
+    }
+
+    private func embellishmentIndex(for host:FormulaHost) throws -> Int {
+        let direct:ShapeSheetCell?
+        let isShape:Bool
+        switch host {
+        case .shape(let id,_): direct = nodes[id]?.formatting.sheet.first{$0.key.caseInsensitiveCompare("EmbellishmentIndex") == .orderedSame}?.value;isShape = true
+        case .page: direct = page.sheet?.first{$0.key.caseInsensitiveCompare("EmbellishmentIndex") == .orderedSame}?.value;isShape = false
+        }
+        let value:Int
+        if let direct {
+            guard direct.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+                  let parsed = Int(direct.value),parsed >= 0,parsed <= 255 || (isShape && parsed == 65534) else {
+                throw DiagramError.invalid("THEMEPROP EmbellishmentIndex is not a supported literal value; the original formula and cached value are retained.")
+            }
+            if parsed == 65534 {
+                guard isShape else { throw DiagramError.invalid("THEMEPROP PageSheet EmbellishmentIndex cannot inherit from another page.") }
+                value = try pageEmbellishmentIndex()
+            } else { value = parsed }
+        } else { value = 0 }
+        return value
+    }
+
+    private func pageEmbellishmentIndex() throws -> Int {
+        guard let cell = page.sheet?.first(where:{$0.key.caseInsensitiveCompare("EmbellishmentIndex") == .orderedSame})?.value else { return 0 }
+        guard cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+              let value = Int(cell.value),value >= 0,value <= 255 else {
+            throw DiagramError.invalid("THEMEPROP inherited PageSheet EmbellishmentIndex is missing or unresolved.")
+        }
+        return value
+    }
+
+    private func variationIndex(_ key:String,for host:FormulaHost,theme:VisioTheme) throws -> Int {
+        let pageSelected = try pageVariationIndex(key,theme:theme)
+        let direct:ShapeSheetCell?
+        let isShape:Bool
+        switch host {
+        case .shape(let id,_): direct = nodes[id]?.formatting.sheet.first{$0.key.caseInsensitiveCompare(key) == .orderedSame}?.value;isShape = true
+        case .page: direct = page.sheet?.first{$0.key.caseInsensitiveCompare(key) == .orderedSame}?.value;isShape = false
+        }
+        guard let direct else { return pageSelected }
+        guard direct.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+              let parsed = Int(direct.value),parsed >= 0 else {
+            throw DiagramError.invalid("THEMEPROP \(key) is missing or unresolved; the original formula and cached value are retained.")
+        }
+        if parsed == 65534 {
+            guard isShape else {
+                throw DiagramError.invalid("THEMEPROP inherited \(key) is unavailable; the original formula and cached value are retained.")
+            }
+            return pageSelected
+        }
+        guard parsed <= 3 else {
+            throw DiagramError.invalid("THEMEPROP \(key) index \(parsed) is outside the imported variation range.")
+        }
+        return parsed
+    }
+
+    private func pageVariationIndex(_ key:String,theme:VisioTheme) throws -> Int {
+        if let cell = page.sheet?.first(where:{$0.key.caseInsensitiveCompare(key) == .orderedSame})?.value {
+            guard cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+                  let value = Int(cell.value),value >= 0,value <= 3 else {
+                throw DiagramError.invalid("THEMEPROP PageSheet \(key) is missing or unresolved; the original formula and cached value are retained.")
+            }
+            return value
+        }
+        let selected = key.caseInsensitiveCompare("VariationStyleIndex") == .orderedSame
+            ? theme.variationStyleIndex : theme.variationColorIndex
+        guard let selected else { return 0 }
+        guard (0...3).contains(selected) else {
+            throw DiagramError.invalid("THEMEPROP selected \(key) is outside the imported variation range.")
+        }
+        return selected
+    }
+
+    private func cellsValue(_ cells:[String:ShapeSheetCell]?,_ key:String) -> Int? {
+        guard let cell = cells?.first(where:{$0.key.caseInsensitiveCompare(key) == .orderedSame})?.value,
+              cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+              let value = Double(cell.value),value.isFinite,value.rounded(.towardZero) == value else { return nil }
+        return Int(exactly:value)
     }
     static func cached(_ value:SheetValue) -> String {
         switch value { case .boolean(let value):return value ? "1" : "0";case .number(let number),.quantity(let number,_):return CompositeGeometry.number(number);default:return value.text }

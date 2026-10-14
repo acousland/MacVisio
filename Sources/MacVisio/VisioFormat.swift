@@ -15,6 +15,7 @@ struct VisioImportResult {
 enum VisioFormat {
     private static let visioNamespace = "http://schemas.microsoft.com/office/visio/2012/main"
     private static let relationshipNamespace = "http://schemas.openxmlformats.org/package/2006/relationships"
+    private static let officeThemeRelationship = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme"
     private static let visioRelationship = "http://schemas.microsoft.com/visio/2010/relationships/"
     private static let nativePart = "macvisio/document.json"
 
@@ -30,8 +31,11 @@ enum VisioFormat {
         let documentPart = try resolve(documentRelationship.target, relativeTo: "")
         let document = try archive.xml(documentPart, expectedRoot: "VisioDocument")
         let documentRelationships = try relationships(in:archive,source:documentPart)
-        let hasMasters = documentRelationships.values.contains{$0.type == visioRelationship+"masters" && !$0.external}
         var warnings = Set<String>()
+        var officeTheme: VisioTheme?
+        do { officeTheme = try selectedOfficeTheme(in:documentRelationships,documentPart:documentPart,archive:archive) }
+        catch { warnings.insert("The Office theme could not be imported; its package parts are preserved.") }
+        let hasMasters = documentRelationships.values.contains{$0.type == visioRelationship+"masters" && !$0.external}
         trace?("document")
 
         // Only accept the private representation if every public part still matches.
@@ -121,7 +125,17 @@ enum VisioFormat {
                                 if bindings[i].original.backgroundPageID == nil { bindings[i].original.backgroundPageID = page.backgroundPageID }
                             } }
                         }
-                        diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:indexPart,pages:bindings,connectorHierarchyVersion:envelope.connectorHierarchyVersion)
+                        if officeTheme != nil {
+                            for index in diagram.pages.indices {
+                                let rawColorVariation = diagram.pages[index].sheet?["VariationColorIndex"].flatMap { Int($0.value) }
+                                let rawStyleVariation = diagram.pages[index].sheet?["VariationStyleIndex"].flatMap { Int($0.value) }
+                                diagram.pages[index].theme = pageTheme(officeTheme,variationColorIndex:rawColorVariation,variationStyleIndex:rawStyleVariation)
+                            }
+                            for index in bindings.indices {
+                                bindings[index].original.theme = diagram.pages.first(where:{$0.id == bindings[index].pageID})?.theme
+                            }
+                        }
+                        diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:indexPart,pages:bindings,connectorHierarchyVersion:envelope.connectorHierarchyVersion,theme:officeTheme)
                         let result = VisioImportResult(diagram:try diagram.validated(),warnings:cacheWarnings)
                         trace?("nativeMetadata")
                         return result
@@ -190,7 +204,7 @@ enum VisioFormat {
         }
 
         trace?("masters")
-        if archive.names.contains(where: { $0.hasPrefix("visio/theme/") || $0.hasPrefix("visio/themes/") }) { warnings.insert("Theme effects and theme-dependent colors are approximated from cached ShapeSheet values.") }
+        if archive.names.contains(where: { $0.hasPrefix("visio/theme/") || $0.hasPrefix("visio/themes/") }) { warnings.insert("Theme effects and unsupported theme colors are approximated from cached ShapeSheet values.") }
         if documentRelationships.values.contains(where: { $0.external }) { warnings.insert("External relationships are ignored.") }
 
         var diagram = Diagram()
@@ -209,6 +223,9 @@ enum VisioFormat {
             page.id = pageIDs[UInt32(pageElement.attributes["ID"]!)!]!
             page.name = pageElement.attributes["Name"] ?? pageElement.attributes["NameU"] ?? "Page \(pageIndex + 1)"
             page.sheet = pageSheetCells(pageElement.child("PageSheet"))
+            page.theme = pageTheme(officeTheme,
+                variationColorIndex:page.sheet?["VariationColorIndex"].flatMap { Int($0.value) },
+                variationStyleIndex:page.sheet?["VariationStyleIndex"].flatMap { Int($0.value) })
             page.drawingScale = try DrawingScale.read(pageCells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)})
             page.width = try dimension(pageCells, "PageWidth", default: 11.0,factor:page.paperScale) * 72
             page.height = try dimension(pageCells, "PageHeight", default: 8.5,factor:page.paperScale) * 72
@@ -562,7 +579,7 @@ enum VisioFormat {
         diagram.activePageID = diagram.pages.first(where:{$0.isBackground != true})?.id ?? diagram.pages[0].id
         if document.child("EventList") != nil || archive.names.contains(where: { $0.lowercased().contains("vbaproject") }) { warnings.insert("Macros and document events are ignored.") }
         warnings.insert("Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed.")
-        diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:pagesPart,pages:bindings,connectorHierarchyVersion:1)
+        diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:pagesPart,pages:bindings,connectorHierarchyVersion:1,theme:officeTheme)
         let result = VisioImportResult(diagram: try diagram.validated(), warnings: warnings.sorted())
         trace?("validation")
         return result
@@ -779,6 +796,91 @@ enum VisioFormat {
         return result
     }
     private struct Relationship { let type: String; let target: String; let external: Bool }
+
+    /// A VSDX document selects its Office theme through a document-level OPC
+    /// relationship. The theme part itself contains DrawingML color slots and
+    /// Visio extensions; unsupported color encodings remain typed raw metadata.
+    private static func selectedOfficeTheme(in relationships:[String:Relationship],documentPart:String,archive:PackageReader) throws -> VisioTheme? {
+        let candidates = relationships.filter{$0.value.type == officeThemeRelationship}
+        guard !candidates.isEmpty else { return nil }
+        guard candidates.count == 1,let (relationshipID,relationship) = candidates.first else {
+            throw DiagramError.invalid("The document has an ambiguous Office theme relationship.")
+        }
+        guard !relationship.external else { return nil }
+        let part = try resolve(relationship.target,relativeTo:documentPart)
+        let root = try archive.xml(part,expectedRoot:"theme")
+        let colorScheme = root.child("themeElements")?.child("clrScheme")
+        var rawColors:[String:VisioThemeColor] = [:],colors:[String:String] = [:]
+        let colorSlots:[String:String] = ["dk1":"Dark","lt1":"Light","dk2":"Dark2","lt2":"Light2",
+            "accent1":"AccentColor1","accent2":"AccentColor2","accent3":"AccentColor3",
+            "accent4":"AccentColor4","accent5":"AccentColor5","accent6":"AccentColor6",
+            "hlink":"Hyperlink","folHlink":"FollowedHyperlink"]
+        func hexColor(_ element:XElement?) -> String? {
+            guard let element else { return nil }
+            let raw = element.name == "sysClr" ? (element.attributes["lastClr"] ?? "") : (element.attributes["val"] ?? "")
+            guard raw.count == 6,raw.allSatisfy({$0.isHexDigit}) else { return nil }
+            return "#"+raw.uppercased()
+        }
+        for (slot,key) in colorSlots {
+            guard let entry = colorScheme?.child(slot),let color = entry.elements.first else { continue }
+            rawColors[slot] = VisioThemeColor(type:color.name,value:color.attributes["val"],lastColor:color.attributes["lastClr"])
+            if let value = hexColor(color) { colors[key] = value }
+        }
+        func descendants(_ element:XElement?,named name:String) -> [XElement] {
+            guard let element else { return [] }
+            return element.elements.flatMap{child in child.name == name ? [child]+descendants(child,named:name) : descendants(child,named:name)}
+        }
+        func schemeEnum(_ element:XElement?) -> Int? {
+            descendants(element,named:"schemeID").first?.attributes["schemeEnum"].flatMap(Int.init)
+        }
+        var variationColorSchemes:[Int:[String:String]] = [:],variationColorSchemeMonotone:[Int:Bool] = [:]
+        if let list = descendants(colorScheme,named:"variationClrSchemeLst").first {
+            let schemes = list.elements.filter{$0.name == "variationClrScheme"}
+            for (index,scheme) in schemes.enumerated() {
+                variationColorSchemeMonotone[index] = scheme.attributes["monotone"].map{["1","true"].contains($0.lowercased())} ?? false
+                var variation:[String:String] = [:]
+                for entry in scheme.elements where entry.name.hasPrefix("varColor") {
+                    guard let number = Int(entry.name.dropFirst("varColor".count)),(1...7).contains(number),
+                          let color = entry.elements.first,let value = hexColor(color) else { continue }
+                    variation["VariantColor\(number)"] = value
+                }
+                if !variation.isEmpty { variationColorSchemes[index] = variation }
+            }
+        }
+        var variationStyleSchemes:[Int:VisioThemeVariationStyleScheme] = [:]
+        if let list = descendants(root,named:"variationStyleSchemeLst").first {
+            for (index,scheme) in list.elements.filter({$0.name == "variationStyleScheme"}).enumerated() {
+                let styles = scheme.elements.filter{$0.name == "varStyle"}.map{entry in
+                    VisioThemeVariationStyle(fillIndex:entry.attributes["fillIdx"].flatMap{Int($0)},
+                        lineIndex:entry.attributes["lineIdx"].flatMap{Int($0)},
+                        effectIndex:entry.attributes["effectIdx"].flatMap{Int($0)},
+                        fontIndex:entry.attributes["fontIdx"].flatMap{Int($0)})
+                }
+                variationStyleSchemes[index] = VisioThemeVariationStyleScheme(embellishment:scheme.attributes["embellishment"].flatMap{Int($0)},styles:styles)
+            }
+        }
+        if let background = descendants(colorScheme,named:"bkgnd").first,
+           let rgb = descendants(background,named:"srgbClr").first ?? descendants(background,named:"sysClr").first,
+           let value = hexColor(rgb) { colors["BackgroundColor"] = value }
+        return VisioTheme(relationshipID:relationshipID,relationshipType:relationship.type,target:relationship.target,part:part,
+            name:root.attributes["name"],colorSchemeName:colorScheme?.attributes["name"],schemeIndex:schemeEnum(colorScheme),
+            colorScheme:rawColors,variationColorSchemes:variationColorSchemes,variationColorSchemeMonotone:variationColorSchemeMonotone,
+            variationStyleSchemes:variationStyleSchemes,values:[:],colors:colors)
+    }
+
+    /// Build a page-specific theme view, retaining the full variation list and
+    /// exposing the selected variation as VariantColor1...VariantColor7.
+    private static func pageTheme(_ source:VisioTheme?,variationColorIndex:Int?,variationStyleIndex:Int?) -> VisioTheme? {
+        guard var theme = source else { return nil }
+        theme.variationColorIndex = variationColorIndex
+        theme.variationStyleIndex = variationStyleIndex
+        let selected = variationColorIndex ?? 0
+        let index = theme.variationColorSchemes[selected] == nil ? 0 : selected
+        if let colors = theme.variationColorSchemes[index] {
+            theme.colors.merge(colors,uniquingKeysWith:{_,new in new})
+        }
+        return theme
+    }
 
     static func hash(_ data: Data) -> String { SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined() }
 

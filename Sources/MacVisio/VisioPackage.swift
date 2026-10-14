@@ -60,6 +60,60 @@ struct VisioDocumentArchive: Codable, Equatable {
     var pagesPart: String
     var pages: [VisioPageBinding]
     var connectorHierarchyVersion:Int? = nil
+    /// The Office theme selected through the document's theme relationship.
+    /// The package parts remain authoritative for round-trip preservation.
+    var theme: VisioTheme? = nil
+}
+
+/// Imported theme metadata needed by ShapeSheet evaluation. `colors` contains
+/// only concrete RGB values we can resolve without Office's system palette or
+/// theme effects; `colorScheme` retains each DrawingML color node's base data.
+struct VisioTheme: Codable, Equatable {
+    var relationshipID: String
+    var relationshipType: String
+    var target: String
+    var part: String
+    var name: String?
+    var colorSchemeName: String?
+    var schemeIndex: Int?
+    var colorScheme: [String: VisioThemeColor] = [:]
+    /// Visio's variation color schemes in their zero-based XML list order.
+    var variationColorSchemes: [Int: [String: String]] = [:]
+    /// Monotone attributes keyed by the same zero-based color scheme index.
+    var variationColorSchemeMonotone: [Int: Bool] = [:]
+    /// Variation styles in their zero-based XML list order.
+    var variationStyleSchemes: [Int: VisioThemeVariationStyleScheme] = [:]
+    /// PageSheet VariationColorIndex selected for a page-specific copy.
+    var variationColorIndex: Int?
+    /// PageSheet VariationStyleIndex selected for a page-specific copy.
+    var variationStyleIndex: Int?
+    /// Property-specific values are populated only when the package provides
+    /// an explicit mapped value. Theme StyleSheet THEMEVAL() placeholders do
+    /// not define such a value.
+    var values: [String: ShapeSheetCell] = [:]
+    /// Normalized RGB colors keyed as Dark, Light, BackgroundColor and
+    /// AccentColor1...AccentColor6.
+    var colors: [String: String] = [:]
+}
+
+struct VisioThemeColor: Codable, Equatable {
+    /// DrawingML color node, such as `srgbClr` or `sysClr`.
+    var type: String
+    var value: String?
+    /// DrawingML `lastClr`, commonly the concrete fallback for `sysClr`.
+    var lastColor: String?
+}
+
+struct VisioThemeVariationStyleScheme: Codable, Equatable {
+    var embellishment: Int?
+    var styles: [VisioThemeVariationStyle] = []
+}
+
+struct VisioThemeVariationStyle: Codable, Equatable {
+    var fillIndex: Int?
+    var lineIndex: Int?
+    var effectIndex: Int?
+    var fontIndex: Int?
 }
 
 struct VisioPageBinding: Codable, Equatable {

@@ -112,6 +112,9 @@ struct DiagramPage: Codable, Equatable, Identifiable {
     /// Supported PageSheet cells retained from VSDX. Keys use Visio cell names
     /// (for example `PageLeftMargin`, `User.Code`, and `Prop.Owner`).
     var sheet: [String:ShapeSheetCell]? = nil
+    /// Office theme selected by this page's document package. PageSheet theme
+    /// indices remain in `sheet`; this carries the selected theme part's data.
+    var theme: VisioTheme? = nil
     var paperScale:Double { drawingScale?.factor ?? 1 }
     var isMeasured:Bool { paperScale != 1 || (drawingScale?.type ?? 0) != 0 }
     var paperWidth:Double { width*paperScale }
