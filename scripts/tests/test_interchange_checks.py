@@ -73,7 +73,7 @@ class InterchangeChecks(unittest.TestCase):
         with self.assertRaises(ValueError): windows.assess({"schemaVersion": 1}, report)
 
     def test_real_public_example_comparison_ignores_private_model(self):
-        baseline = public.snapshot(ROOT / "Examples" / "flowchart.vsdx")
+        baseline = public.snapshot(ROOT / "Examples" / "Groups" / "grouped-connectors.vsdx")
         self.assertEqual(public.compare(baseline, copy.deepcopy(baseline), 1e-7), [])
         changed = copy.deepcopy(baseline)
         first = next(iter(next(iter(changed.values()))["shapes"].values()))
@@ -85,7 +85,7 @@ class InterchangeChecks(unittest.TestCase):
         self.assertTrue(any(item["path"].endswith("/cells/PinX") for item in differences))
 
     def test_reordered_shapes_are_reported(self):
-        baseline = public.snapshot(ROOT / "Examples" / "flowchart.vsdx")
+        baseline = public.snapshot(ROOT / "Examples" / "Groups" / "grouped-connectors.vsdx")
         changed = copy.deepcopy(baseline)
         page = next(iter(changed.values()))
         page["shapes"] = dict(reversed(list(page["shapes"].items())))
