@@ -3,12 +3,16 @@ import Foundation
 /// Resolves typed dependencies against one immutable page snapshot. Public cell
 /// names, dependency cycles and limits are shared by geometry and control edits.
 final class ShapeSheetContext {
+    private enum ThemeState { case noTheme, active, unknown }
+    private enum FormulaHost { case shape(UUID), page }
     let page:DiagramPage
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
     private var cache:[String:SheetValue] = [:],visiting = Set<String>(),steps = 0
-    init(page:DiagramPage,binding:VisioPageBinding? = nil) {
+    private let colorPalette:ShapeSheetColorPalette
+    init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) {
         self.page = page;nodes = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
+        self.colorPalette = colorPalette
         for (i,n) in page.nodes.enumerated() { let id = binding?.nodeIDs[n.id] ?? n.formatting.sourceShapeID ?? String(i+1);if identifiers[id] == nil { identifiers[id] = n.id } }
     }
     func target(_ reference:String,from id:UUID) throws -> (UUID,String) {
@@ -20,8 +24,7 @@ final class ShapeSheetContext {
     func number(_ id:UUID,_ reference:String) throws -> Double { try value(id,reference).numeric() }
     func value(_ id:UUID,_ reference:String) throws -> SheetValue {
         if reference.uppercased().hasPrefix("THEPAGE!") {
-            let key = String(reference.dropFirst(8)).lowercased(),values = ["pagewidth":page.width/72,"pageheight":page.height/72,"pagescale":page.drawingScale?.page ?? 1,"drawingscale":page.drawingScale?.drawing ?? 1]
-            guard let number = values[key] else { throw DiagramError.invalid("Unknown page cell: \(reference).") };return .number(number)
+            return try pageValue(String(reference.dropFirst(8)),from:id)
         }
         let (id,key) = try target(reference,from:id)
         steps += 1;guard steps < 100000,visiting.count < 64,let node = nodes[id] else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
@@ -55,11 +58,57 @@ final class ShapeSheetContext {
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
         };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;return result
     }
+    private func pageValue(_ reference:String,from host:UUID) throws -> SheetValue {
+        steps += 1
+        guard steps < 100000,visiting.count < 64 else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
+        let storedKey = page.sheet?.keys.first{$0.caseInsensitiveCompare(reference) == .orderedSame}
+        let key = storedKey ?? reference
+        let token = page.id.uuidString+"!"+key.lowercased()
+        if let value = cache[token] { return value }
+        guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at ThePage!\(key).") }
+        defer { visiting.remove(token) }
+
+        let cell = storedKey.flatMap{page.sheet?[$0]}
+        let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
+        let result:SheetValue
+        if !formula.isEmpty && !["INH","NO FORMULA"].contains(formula.uppercased()) {
+            result = try evaluate(ShapeSheet.parse(formula),on:host,host:.page)
+        } else if let cell {
+            let unit = cell.unit.uppercased()
+            if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
+            else if unit == "BOOL" { result = .boolean(cell.value == "1" || cell.value.uppercased() == "TRUE") }
+            else if unit == "DATE",let date = FieldFormatting.date(cell.value) { result = .date(date) }
+            else if let number = Double(cell.value),number.isFinite { result = .number(number) }
+            else { result = .string(cell.value) }
+        } else {
+            let values = ["pagewidth":page.width/72,"pageheight":page.height/72,"pagescale":page.drawingScale?.page ?? 1,"drawingscale":page.drawingScale?.drawing ?? 1]
+            guard let number = values[key.lowercased()] else { throw DiagramError.invalid("Unknown page cell: ThePage!\(reference).") }
+            result = .number(number)
+        }
+        guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet page value.") }
+        cache[token] = result
+        return result
+    }
     func evaluate(_ formula:String,on id:UUID) throws -> SheetValue {
-        try evaluate(ShapeSheet.parse(formula),on:id)
+        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id))
     }
     func evaluate(_ expression:ShapeSheet.Expression,on id:UUID) throws -> SheetValue {
+        try evaluate(expression,on:id,host:.shape(id))
+    }
+    private func evaluate(_ expression:ShapeSheet.Expression,on id:UUID,host:FormulaHost) throws -> SheetValue {
         try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
+            if name == "THEMEVAL" {
+                guard args.count == 2 else { throw DiagramError.invalid("THEMEVAL is supported only with an explicit default when No Theme is applied.") }
+                switch self.themeState(for:host) {
+                case .noTheme: return try eval(args[1])
+                case .active: throw DiagramError.invalid("THEMEVAL for an active theme is unsupported; the original formula and cached value are retained.")
+                case .unknown: throw DiagramError.invalid("THEMEVAL theme state is unknown; the original formula and cached value are retained.")
+                }
+            }
+            if name == "ISTHEMED" {
+                guard args.isEmpty else { throw DiagramError.invalid("ISTHEMED expects no arguments.") }
+                return .boolean(try self.value(id,"ColorSchemeIndex").numeric() > 0)
+            }
             guard ["SHAPETEXT","TEXTWIDTH","TEXTHEIGHT"].contains(name) else { return nil }
             guard (1...2).contains(args.count),case .reference(let reference) = args[0] else { throw DiagramError.invalid("\(name) requires a TheText reference and an optional parameter.") }
             let (owner,key) = try self.target(reference,from:id);guard key.caseInsensitiveCompare("TheText") == .orderedSame,let source = self.nodes[owner] else { throw DiagramError.invalid("\(name) requires a shape's TheText cell.") }
@@ -76,7 +125,15 @@ final class ShapeSheetContext {
             }
             let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil,metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum)
             return .number(name == "TEXTWIDTH" ? metrics.width : metrics.height)
-        })
+        },colorPalette:colorPalette)
+    }
+    private func themeState(for host:FormulaHost) -> ThemeState {
+        guard case .shape(let id) = host,let node = nodes[id],
+              let cell = node.formatting.sheet.first(where:{$0.key.caseInsensitiveCompare("ColorSchemeIndex") == .orderedSame})?.value,
+              cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
+              let value = Double(cell.value),value.isFinite,value.rounded(.towardZero) == value,
+              let index = Int(exactly:value),index >= 0 else { return .unknown }
+        return index == 0 ? .noTheme : .active
     }
     static func cached(_ value:SheetValue) -> String {
         switch value { case .boolean(let value):return value ? "1" : "0";case .number(let number),.quantity(let number,_):return CompositeGeometry.number(number);default:return value.text }

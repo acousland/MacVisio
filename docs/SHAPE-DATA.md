@@ -1,0 +1,9 @@
+# Shape Data editing
+
+MacVisio imports and exports public VSDX Shape Data rows. The editor offers fixed-list choices for Type 1, `TRUE`/`FALSE` choices for Type 3, and an editable list for Type 4. A fixed-list edit must match one of the semicolon-delimited `Format` entries; an unchanged legacy value outside that list is retained. Entering a new variable-list value appends it to the semicolon-delimited format. Boolean edits accept `TRUE`, `FALSE`, `1`, or `0`, while unchanged source encodings are preserved.
+
+Type 2 edits accept finite numeric literals and the recognized Visio measurement forms supported by the ShapeSheet parser. Values keep the spelling the user entered, and the `Format` picture remains untouched. Untouched legacy values are retained even if they do not pass this validation. Visio's Type 2 can represent dimensions, scalars, angles, dates, times, and currency depending on its `Format`; this editor does not interpret those format pictures or retain a separate value-unit field.
+
+Type 5 is date/time, Type 6 is elapsed duration, and Type 7 is currency. Their values and `Format` pictures pass through unchanged; MacVisio does not yet provide specialized date, duration, currency, locale, or picture-format editing. Type 0 strings also pass through unchanged. Data-link refresh and external data behavior are not implemented. Round-trip tests remove MacVisio's private metadata and verify edited choice and number values, Undo/Redo, and preservation of other type values and format pictures.
+
+Microsoft references: [Shape Data row](https://learn.microsoft.com/en-us/office/client-developer/visio/shape-data-row-shape-data-section), [Type cell](https://learn.microsoft.com/en-us/office/client-developer/visio/type-cell-shape-data-section), and [Format cell](https://learn.microsoft.com/en-us/office/client-developer/visio/format-cell-shape-data-section).

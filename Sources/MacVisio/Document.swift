@@ -149,6 +149,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
     func connect(_ source:UUID,to target:UUID,sourcePort:String? = nil,targetPort:String? = nil) {
         var next = diagramDocument.diagram
+        guard let targetNode = next.page.nodes.first(where:{$0.id == target}),next.page.permitsGlue(to:targetNode) else { return }
         var edge = DiagramEdge(source:source,target:target);edge.parentID = DiagramOperations.commonGroup(source,target,in:next.page)
         edge.sourcePort = sourcePort;edge.targetPort = targetPort
         next.page.edges.append(edge); diagramDocument.replace(with:next,action:"Connect Shapes"); canvas.select([],edge:edge.id)

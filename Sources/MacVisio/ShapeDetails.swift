@@ -129,4 +129,36 @@ struct DiagramLayer: Codable, Equatable, Identifiable {
     var visible = true
     var locked = false
     var printable = true
+    /// Whether shapes on this layer can snap to other shapes.
+    var snap = true
+    /// Whether shapes on this layer can glue to other shapes.
+    var glue = true
+    /// Optional display color override. `nil` means that the layer has no color.
+    var color: String?
+    /// Layer color transparency, as a percentage from 0 (opaque) to 100 (clear).
+    var colorTransparency: Double = 0
+    /// ShapeSheet cells retained from the source Layer row, including unknown cells.
+    var sheet: [String:ShapeSheetCell] = [:]
+    /// Semantic color values decoded at import time, used to retain source formulas on unrelated edits.
+    var sourceColor: String?
+    var sourceColorTransparency: Double?
+    enum CodingKeys: String,CodingKey { case id,name,visible,locked,printable,snap,glue,color,colorTransparency,sheet,sourceColor,sourceColorTransparency }
+    init(id:UUID = UUID(),name:String,visible:Bool = true,locked:Bool = false,printable:Bool = true,snap:Bool = true,glue:Bool = true,color:String? = nil,colorTransparency:Double = 0,sheet:[String:ShapeSheetCell] = [:],sourceColor:String? = nil,sourceColorTransparency:Double? = nil) {
+        self.id = id;self.name = name;self.visible = visible;self.locked = locked;self.printable = printable;self.snap = snap;self.glue = glue;self.color = color;self.colorTransparency = colorTransparency;self.sheet = sheet;self.sourceColor = sourceColor;self.sourceColorTransparency = sourceColorTransparency
+    }
+    init(from decoder:Decoder) throws {
+        let c = try decoder.container(keyedBy:CodingKeys.self)
+        id = try c.decodeIfPresent(UUID.self,forKey:.id) ?? UUID()
+        name = try c.decode(String.self,forKey:.name)
+        visible = try c.decodeIfPresent(Bool.self,forKey:.visible) ?? true
+        locked = try c.decodeIfPresent(Bool.self,forKey:.locked) ?? false
+        printable = try c.decodeIfPresent(Bool.self,forKey:.printable) ?? true
+        snap = try c.decodeIfPresent(Bool.self,forKey:.snap) ?? true
+        glue = try c.decodeIfPresent(Bool.self,forKey:.glue) ?? true
+        color = try c.decodeIfPresent(String.self,forKey:.color)
+        colorTransparency = try c.decodeIfPresent(Double.self,forKey:.colorTransparency) ?? 0
+        sheet = try c.decodeIfPresent([String:ShapeSheetCell].self,forKey:.sheet) ?? [:]
+        sourceColor = try c.decodeIfPresent(String.self,forKey:.sourceColor)
+        sourceColorTransparency = try c.decodeIfPresent(Double.self,forKey:.sourceColorTransparency)
+    }
 }

@@ -57,7 +57,8 @@ enum VisioPreservation {
                 if page.width != binding.original.width { VisioXML.set(sheet,"PageWidth",page.width/72) }
                 if page.height != binding.original.height { VisioXML.set(sheet,"PageHeight",page.height/72) }
                 if page.drawingScale != binding.original.drawingScale { DrawingScale.write(page,to:sheet) }
-                if page.layers != binding.original.layers { patchLayers(page,sheet:sheet) }
+                if page.sheet != binding.original.sheet { patchPageSheetCells(page.sheet ?? [:],from:binding.original.sheet ?? [:],sheet:sheet) }
+                if page.layers != binding.original.layers { patchLayers(page,sheet:sheet,originalLayers:binding.original.layers ?? []) }
                 var updated = binding
                 if contentsChanged(page,from:binding.original) {
                     guard let pageData = parts[binding.part] else { throw DiagramError.invalid("A Visio page is missing.") }
@@ -79,7 +80,7 @@ enum VisioPreservation {
                 let relation = XMLElement(name:"Relationship"); relation.setAttr("Id",rid); relation.setAttr("Type",visioRel+"page"); relation.setAttr("Target",(part as NSString).lastPathComponent); relationships.addChild(relation)
                 let entry = XMLElement(name:"Page"); entry.setAttr("ID",pageID); entry.setAttr("Name",page.name); entry.setAttr("NameU",page.name)
                 if page.isBackground == true { entry.setAttr("Background","1") };entry.setAttr("BackPage",page.backgroundPageID.flatMap{pageIDs[$0]})
-                let sheet = XMLElement(name:"PageSheet"); VisioXML.set(sheet,"PageWidth",page.width/72); VisioXML.set(sheet,"PageHeight",page.height/72); DrawingScale.write(page,to:sheet);patchLayers(page,sheet:sheet); entry.addChild(sheet)
+                let sheet = XMLElement(name:"PageSheet"); VisioXML.set(sheet,"PageWidth",page.width/72); VisioXML.set(sheet,"PageHeight",page.height/72); DrawingScale.write(page,to:sheet);patchPageSheetCells(page.sheet ?? [:],from:[:],sheet:sheet);patchLayers(page,sheet:sheet); entry.addChild(sheet)
                 let rel = XMLElement(name:"Rel"); rel.setAttr("r:id",rid); entry.addChild(rel)
                 let root = try VisioXML.element("<PageContents xmlns=\"http://schemas.microsoft.com/office/visio/2012/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><Shapes/><Connects/></PageContents>")
                 var binding = VisioPageBinding(pageID:page.id,visioID:entry.attr("ID")!,part:part,original:page,nodeIDs:[:],edgeIDs:[:])
@@ -452,14 +453,71 @@ enum VisioPreservation {
         }
         if section.childCount == 0 && section.attr("Del") != "1" { section.detach() }
     }
-    static func patchLayers(_ page:DiagramPage,sheet:XMLElement) {
+    static func patchLayers(_ page:DiagramPage,sheet:XMLElement,originalLayers:[DiagramLayer] = []) {
         let section = VisioXML.section(sheet,"Layer"), original = VisioXML.section(sheet,"Layer").elementsLocal("Row")
         var next = (original.compactMap{Int($0.attr("IX") ?? "")}.max() ?? -1)+1
         for row in original { row.detach() }
         for layer in page.layers ?? [] {
-            let row = original.first(where:{VisioXML.value($0,"Name") == layer.name}) ?? XMLElement(name:"Row")
+            let sourceName = originalLayers.first(where:{$0.id == layer.id})?.name
+            let row = original.first(where:{VisioXML.value($0,"Name") == layer.name}) ?? sourceName.flatMap{name in original.first(where:{VisioXML.value($0,"Name") == name})} ?? XMLElement(name:"Row")
             if row.attr("IX") == nil { row.setAttr("IX",String(next)); next += 1 }
-            VisioXML.set(row,"Name",layer.name); VisioXML.set(row,"Visible",layer.visible ? 1 : 0); VisioXML.set(row,"Lock",layer.locked ? 1 : 0); VisioXML.set(row,"Print",layer.printable ? 1 : 0); section.addChild(row)
+            for (name,cell) in layer.sheet where VisioXML.value(row,name) == nil {
+                let node = VisioXML.set(row,name,cell.value,formula:cell.formula.isEmpty ? nil : cell.formula);node.setAttr("U",cell.unit.isEmpty ? nil : cell.unit)
+            }
+            func setIfChanged(_ name:String,_ value:String) { if VisioXML.value(row,name) != value { VisioXML.set(row,name,value) } }
+            setIfChanged("Name",layer.name);setIfChanged("Visible",layer.visible ? "1" : "0");setIfChanged("Lock",layer.locked ? "1" : "0");setIfChanged("Print",layer.printable ? "1" : "0")
+            setIfChanged("Snap",layer.snap ? "1" : "0");setIfChanged("Glue",layer.glue ? "1" : "0")
+            func matchesImportedCell(_ name:String) -> Bool {
+                let current = row.elementsLocal("Cell").first{$0.attr("N") == name},source = layer.sheet[name]
+                guard let source else { return current == nil }
+                return current?.attr("V") == source.value && (current?.attr("F") ?? "") == source.formula && (current?.attr("U") ?? "") == source.unit
+            }
+            if layer.color != layer.sourceColor || !matchesImportedCell("Color") {
+                let value = layer.color ?? "255"
+                if VisioXML.value(row,"Color") != value { VisioXML.set(row,"Color",value) }
+            }
+            if let sourceTransparency = layer.sourceColorTransparency {
+                if abs(layer.colorTransparency-sourceTransparency) > 0.001 || !matchesImportedCell("ColorTrans") {
+                    VisioXML.set(row,"ColorTrans",String(format:"%.6g",locale:Locale(identifier:"en_US_POSIX"),max(0,min(100,layer.colorTransparency))/100))
+                }
+            } else if layer.colorTransparency != 0 {
+                VisioXML.set(row,"ColorTrans",String(format:"%.6g",locale:Locale(identifier:"en_US_POSIX"),max(0,min(100,layer.colorTransparency))/100))
+            }
+            section.addChild(row)
+        }
+    }
+    static func patchPageSheetCells(_ current:[String:ShapeSheetCell],from original:[String:ShapeSheetCell],sheet:XMLElement) {
+        for key in Set(current.keys).union(original.keys) where current[key] != original[key] {
+            if ["PageWidth","PageHeight","PageScale","DrawingScale","DrawingScaleType"].contains(where:{$0.caseInsensitiveCompare(key) == .orderedSame}) { continue }
+            let cellValue = current[key]
+            if key.hasPrefix("User.") || key.hasPrefix("Prop.") {
+                let sectionName = key.hasPrefix("User.") ? "User" : "Property"
+                let remainder = String(key.dropFirst(sectionName == "User" ? 5 : 5))
+                let parts = remainder.split(separator:".",omittingEmptySubsequences:false).map(String.init)
+                guard let rowName = parts.first,!rowName.isEmpty else { continue }
+                let cellName = parts.count > 1 ? parts.dropFirst().joined(separator:".") : "Value"
+                let existingSection = sheet.elementsLocal("Section").first{$0.attr("N") == sectionName}
+                if cellValue == nil,let row = existingSection?.elementsLocal("Row").first(where:{$0.attr("N") == rowName}) {
+                    row.elementsLocal("Cell").first(where:{$0.attr("N") == cellName})?.detach();continue
+                }
+                let section = existingSection ?? VisioXML.section(sheet,sectionName)
+                var row = section.elementsLocal("Row").first{$0.attr("N") == rowName}
+                if row == nil {
+                    row = XMLElement(name:"Row");row!.setAttr("N",rowName)
+                    let next = (section.elementsLocal("Row").compactMap{Int($0.attr("IX") ?? "")}.max() ?? -1)+1
+                    row!.setAttr("IX",String(next));section.addChild(row!)
+                }
+                guard let cellValue else { continue }
+                let cell = row!.elementsLocal("Cell").first{$0.attr("N") == cellName} ?? XMLElement(name:"Cell")
+                if cell.parent == nil { row!.addChild(cell) }
+                cell.setAttr("N",cellName);cell.setAttr("V",cellValue.value);cell.setAttr("F",cellValue.formula.isEmpty ? nil : cellValue.formula);cell.setAttr("U",cellValue.unit.isEmpty ? nil : cellValue.unit)
+            } else {
+                let existing = sheet.elementsLocal("Cell").first{$0.attr("N") == key}
+                guard let cellValue else { existing?.detach();continue }
+                let cell = existing ?? XMLElement(name:"Cell")
+                if cell.parent == nil { sheet.insertChild(cell,at:0) }
+                cell.setAttr("N",key);cell.setAttr("V",cellValue.value);cell.setAttr("F",cellValue.formula.isEmpty ? nil : cellValue.formula);cell.setAttr("U",cellValue.unit.isEmpty ? nil : cellValue.unit)
+            }
         }
     }
     private static func scaleCachedGeometry(_ element:XMLElement,x:Double,y:Double) {

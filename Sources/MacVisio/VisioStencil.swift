@@ -8,11 +8,18 @@ struct StencilDefinition: Identifiable {
 }
 enum VisioStencil {
     static func read(from url:URL) throws -> (items:[StencilDefinition],warnings:[String]) {
+        let imported = try readWithPalette(from:url)
+        return (imported.items,imported.warnings)
+    }
+    static func readForCalculationAudit(from url:URL) throws -> (items:[StencilDefinition],warnings:[String],paletteArchive:VisioDocumentArchive?) {
+        try readWithPalette(from:url)
+    }
+    private static func readWithPalette(from url:URL) throws -> (items:[StencilDefinition],warnings:[String],paletteArchive:VisioDocumentArchive?) {
         if url.pathExtension.lowercased() == "vss" {
             let imported = try LegacyVisioFormat.graphicPages(from:url,stencils:true)
             let usable = imported.pages.filter{!$0.nodes.isEmpty || !$0.edges.isEmpty}
             guard !usable.isEmpty else { throw DiagramError.invalid("This binary stencil has no supported visible masters.") }
-            return (try definitions(usable,family:url.deletingPathExtension().lastPathComponent),imported.warnings+["Binary stencil masters are imported as editable cached graphics. Original master names, formulas, shape data and glue are not retained."])
+            return (try definitions(usable,family:url.deletingPathExtension().lastPathComponent),imported.warnings+["Binary stencil masters are imported as editable cached graphics. Original master names, formulas, shape data and glue are not retained."],nil)
         }
         var parts = try VisioPackage.read(url)
         let relType = "http://schemas.microsoft.com/visio/2010/relationships/"
@@ -63,7 +70,26 @@ enum VisioStencil {
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent("Stencil-\(UUID()).vsdx");defer{try? FileManager.default.removeItem(at:temp)}
         try VisioPackage.write(parts,to:temp)
         let imported = try VisioFormat.read(from:temp)
-        return (try definitions(imported.diagram.pages,family:url.deletingPathExtension().lastPathComponent),imported.warnings)
+        // Calculate supported RGB formulas while the stencil's ColorEntry table is
+        // still available, before its master fragments are detached from the package.
+        let calculated = cacheRGBValues(imported.diagram)
+        return (try definitions(calculated.pages,family:url.deletingPathExtension().lastPathComponent),imported.warnings,imported.diagram.visioArchive)
+    }
+    private static func cacheRGBValues(_ input:Diagram) -> Diagram {
+        var diagram = input
+        let palette = ShapeSheetColorPalette(documentArchive:input.visioArchive)
+        for pageIndex in diagram.pages.indices {
+            let binding = diagram.visioArchive?.pages.first{$0.pageID == diagram.pages[pageIndex].id}
+            let context = ShapeSheetContext(page:diagram.pages[pageIndex],binding:binding,colorPalette:palette)
+            for nodeIndex in diagram.pages[pageIndex].nodes.indices {
+                let node = diagram.pages[pageIndex].nodes[nodeIndex]
+                for key in node.formatting.sheet.keys {
+                    guard let cell = node.formatting.sheet[key],cell.formula.localizedCaseInsensitiveContains("RGB(") else { continue }
+                    if let value = try? context.value(node.id,key) { diagram.pages[pageIndex].nodes[nodeIndex].formatting.sheet[key]?.value = ShapeSheetContext.cached(value) }
+                }
+            }
+        }
+        return diagram
     }
     static func definitions(_ pages:[DiagramPage],family:String) throws -> [StencilDefinition] {
         try pages.map { page -> StencilDefinition in

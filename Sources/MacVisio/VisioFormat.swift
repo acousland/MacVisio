@@ -107,6 +107,15 @@ enum VisioFormat {
                             for i in diagram.pages.indices where diagram.pages[i].backgroundPageID == nil {
                                 if let binding = bindings.first(where:{$0.pageID == diagram.pages[i].id}),let entry = entries.first(where:{UInt32($0.attr("ID") ?? "") == UInt32(binding.visioID)}),let id = entry.attr("BackPage").flatMap(UInt32.init),let target = ids[id],diagram.pages.contains(where:{$0.id == target && $0.isBackground == true}) { diagram.pages[i].backgroundPageID = target }
                             }
+                            // Older native envelopes predate PageSheet retention. Rehydrate
+                            // supported cells from the hashed public page index on load.
+                            for i in diagram.pages.indices where diagram.pages[i].sheet == nil {
+                                guard let bindingIndex = bindings.firstIndex(where:{$0.pageID == diagram.pages[i].id}),
+                                      let entry = entries.first(where:{$0.attr("ID") == bindings[bindingIndex].visioID}) else { continue }
+                                let cells = pageSheetCells(entry.firstLocal("PageSheet"))
+                                diagram.pages[i].sheet = cells
+                                bindings[bindingIndex].original.sheet = cells
+                            }
                             for i in bindings.indices { if let page = diagram.pages.first(where:{$0.id == bindings[i].pageID}) {
                                 if bindings[i].original.isBackground == nil { bindings[i].original.isBackground = page.isBackground }
                                 if bindings[i].original.backgroundPageID == nil { bindings[i].original.backgroundPageID = page.backgroundPageID }
@@ -199,6 +208,7 @@ enum VisioFormat {
             var page = DiagramPage()
             page.id = pageIDs[UInt32(pageElement.attributes["ID"]!)!]!
             page.name = pageElement.attributes["Name"] ?? pageElement.attributes["NameU"] ?? "Page \(pageIndex + 1)"
+            page.sheet = pageSheetCells(pageElement.child("PageSheet"))
             page.drawingScale = try DrawingScale.read(pageCells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)})
             page.width = try dimension(pageCells, "PageWidth", default: 11.0,factor:page.paperScale) * 72
             page.height = try dimension(pageCells, "PageHeight", default: 8.5,factor:page.paperScale) * 72
@@ -248,7 +258,17 @@ enum VisioFormat {
             }
             if !layerRows.isEmpty { page.layers = layerRows.compactMap { row in
                 guard let id = row.attributes["IX"],let name = layerNames[id] else { return nil }
-                return DiagramLayer(name:name,visible:number(row.cells["Visible"]) != 0,locked:number(row.cells["Lock"]) == 1,printable:number(row.cells["Print"]) != 0)
+                let cells = row.children(named:"Cell").reduce(into:[String:ShapeSheetCell]()) { result,cell in
+                    guard let name = cell.attributes["N"] else { return }
+                    result[name] = ShapeSheetCell(value:cell.attributes["V"] ?? "",formula:cell.attributes["F"] ?? "",unit:cell.attributes["U"] ?? "")
+                }
+                let rawColor = row.cells["Color"],numericColor = number(rawColor)
+                let parsedColor = numericColor == 255 ? "" : color(rawColor,palette:palette,fallback:"")
+                let layerColor:String? = parsedColor.isEmpty ? nil : parsedColor
+                let rawTransparency = number(row.cells["ColorTrans"]) ?? 0
+                // VSDX stores the percentage as a 0...1 ratio; accept legacy 0...100 values too.
+                let transparency = max(0,min(100,rawTransparency <= 1 ? rawTransparency*100 : rawTransparency))
+                return DiagramLayer(name:name,visible:number(row.cells["Visible"]) != 0,locked:number(row.cells["Lock"]) == 1,printable:number(row.cells["Print"]) != 0,snap:number(row.cells["Snap"]) != 0,glue:number(row.cells["Glue"]) != 0,color:layerColor,colorTransparency:transparency,sheet:cells,sourceColor:layerColor,sourceColorTransparency:transparency)
             } }
             func visit(_ shapes:[XElement],parent:DiagramNode? = nil,inheritedMaster:MasterDefinition? = nil,context:MasterInstance? = nil,depth:Int = 0) throws {
               guard depth < 64 else { throw DiagramError.invalid("Shape groups are nested too deeply.") }
@@ -585,6 +605,7 @@ enum VisioFormat {
             pageContentTypes += "<Override PartName=\"/visio/pages/\(file)\" ContentType=\"application/vnd.ms-visio.page+xml\"/>"
             let sheet = XMLElement(name:"PageSheet"); sheet.setAttr("LineStyle","0"); sheet.setAttr("FillStyle","0"); sheet.setAttr("TextStyle","0")
             VisioXML.set(sheet,"PageWidth",page.width/72); VisioXML.set(sheet,"PageHeight",page.height/72); DrawingScale.write(page,to:sheet)
+            VisioPreservation.patchPageSheetCells(page.sheet ?? [:],from:[:],sheet:sheet)
             if !(page.layers ?? []).isEmpty { VisioPreservation.patchLayers(page,sheet:sheet) }
             let backgroundFlag = page.isBackground == true ? " Background=\"1\"" : ""
             let backPage = page.backgroundPageID.flatMap{pageIDs[$0]}.map{" BackPage=\"\($0)\""} ?? ""
@@ -879,6 +900,48 @@ enum VisioFormat {
         let faces = document.child("FaceNames")?.children(named:"FaceName") ?? []
         if faces.indices.contains(index),let name = faces[index].attributes["NameU"] { return name }
         return faces.first{$0.attributes["ID"] == value}?.attributes["Name"] ?? "Arial"
+    }
+
+    private static func pageSheetCells(_ element:XElement?) -> [String:ShapeSheetCell]? {
+        guard let element else { return nil }
+        let structural = Set(["pagewidth","pageheight","pagescale","drawingscale","drawingscaletype"])
+        var result = element.cells.reduce(into:[String:ShapeSheetCell]()) { result,entry in
+            guard !structural.contains(entry.key.lowercased()) else { return }
+            result[entry.key] = ShapeSheetCell(value:entry.value.value,formula:entry.value.formula,unit:entry.value.unit)
+        }
+        for section in element.children(named:"Section") where ["User","Property"].contains(section.attributes["N"] ?? "") {
+            let prefix = section.attributes["N"] == "Property" ? "Prop." : "User."
+            for row in section.children(named:"Row") {
+                guard let rowName = row.attributes["N"] else { continue }
+                for (cellName,cell) in row.cells {
+                    let key = cellName == "Value" ? prefix+rowName : prefix+rowName+"."+cellName
+                    result[key] = ShapeSheetCell(value:cell.value,formula:cell.formula,unit:cell.unit)
+                }
+            }
+        }
+        return result.isEmpty ? nil : result
+    }
+    private static func pageSheetCells(_ element:XMLElement?) -> [String:ShapeSheetCell]? {
+        guard let element else { return nil }
+        var result = [String:ShapeSheetCell]()
+        let structural = Set(["pagewidth","pageheight","pagescale","drawingscale","drawingscaletype"])
+        for cell in element.elementsLocal("Cell") {
+            guard let name = cell.attr("N"),let value = cell.attr("V") else { continue }
+            guard !structural.contains(name.lowercased()) else { continue }
+            result[name] = ShapeSheetCell(value:value,formula:cell.attr("F") ?? "",unit:cell.attr("U") ?? "")
+        }
+        for section in element.elementsLocal("Section") where ["User","Property"].contains(section.attr("N") ?? "") {
+            let prefix = section.attr("N") == "Property" ? "Prop." : "User."
+            for row in section.elementsLocal("Row") {
+                guard let rowName = row.attr("N") else { continue }
+                for cell in row.elementsLocal("Cell") {
+                    guard let cellName = cell.attr("N"),let value = cell.attr("V") else { continue }
+                    let key = cellName == "Value" ? prefix+rowName : prefix+rowName+"."+cellName
+                    result[key] = ShapeSheetCell(value:value,formula:cell.attr("F") ?? "",unit:cell.attr("U") ?? "")
+                }
+            }
+        }
+        return result.isEmpty ? nil : result
     }
 
     private static func number(_ cell: XCell?) -> Double? {

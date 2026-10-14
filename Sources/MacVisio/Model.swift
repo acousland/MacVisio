@@ -109,6 +109,9 @@ struct DiagramPage: Codable, Equatable, Identifiable {
     var backgroundPageID: UUID?
     var isBackground: Bool?
     var drawingScale:DrawingScale?
+    /// Supported PageSheet cells retained from VSDX. Keys use Visio cell names
+    /// (for example `PageLeftMargin`, `User.Code`, and `Prop.Owner`).
+    var sheet: [String:ShapeSheetCell]? = nil
     var paperScale:Double { drawingScale?.factor ?? 1 }
     var isMeasured:Bool { paperScale != 1 || (drawingScale?.type ?? 0) != 0 }
     var paperWidth:Double { width*paperScale }
@@ -306,6 +309,7 @@ enum DiagramGeometry {
             if let p = targetFixed { route[route.count-1] = p } else if let b = target { route[route.count-1] = boundary(of:b,toward:route[route.count-2]) }
             return route
         }
+        if edge.style == .orthogonal, let route = OrthogonalRouter.route(edge,in:page) { return route }
         if sourceFixed != nil || targetFixed != nil {
             guard let p = sourceFixed ?? source?.center ?? edge.sourcePosition?.cgPoint,let q = targetFixed ?? target?.center ?? edge.targetPosition?.cgPoint else { return [] }
             let first = sourceFixed ?? source.map{boundary(of:$0,toward:q)} ?? p,last = targetFixed ?? target.map{boundary(of:$0,toward:p)} ?? q

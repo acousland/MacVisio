@@ -1,0 +1,15 @@
+# Visio layer properties
+
+MacVisio reads and writes the Visio layer ShapeSheet `Snap` and `Glue` cells. Snap controls whether other shapes can snap to shapes on that layer; Glue controls whether shapes on that layer can be glued to. Both settings are included in public VSDX layer rows, including exports without MacVisio's private metadata. Unknown layer cells and their formulas and units are retained in the model for round trips. The Layer Properties editor exposes both settings.
+
+With the canvas Snap toggle enabled, moving a selection snaps its bounds and center to visible shapes assigned to Snap-enabled layers. It keeps the existing grid snap and gives nearby alignment marks priority over the grid. Holding Option bypasses both. When a shape belongs to multiple layers, any matching layer that disables snapping blocks it as a target; this conservative combination is an implementation rule, not a documented Visio precedence guarantee. Rotated targets use their transformed rectangular bounds, so exact outline snapping and alignment guides are not implemented.
+
+The connector tool only offers connection points on Glue-enabled layers and refuses to attach a connector to a target assigned to any Glue-disabled layer. Existing imported connector glue is preserved regardless of current layer settings. This is a local editing rule; Visio's full Snap & Glue engine also includes document-wide glue targets and shape-specific behavior that remains outside this subset.
+
+Microsoft references: [Layer Snap](https://learn.microsoft.com/en-us/office/client-developer/visio/snap-cell-layers-section), [Layer Glue](https://learn.microsoft.com/en-us/office/client-developer/visio/glue-cell-layers-section), and [Layer cell XML](https://learn.microsoft.com/en-us/office/client-developer/visio/cell-element-layer-sectionvisio-xml).
+
+MacVisio also reads and writes layer `Color` and `ColorTrans` cells. Layer Color can be a palette color, custom RGB, or `255` for no color. The editor exposes custom colors as six-digit RGB hex values, with a blank field disabling the override. It accepts transparency as a percentage; VSDX stores `ColorTrans` as a 0–1 ratio. The layer color and transparency temporarily override vector shape fills, strokes, text, and connector strokes when a shape belongs to exactly one layer. Shapes on multiple layers retain their own colors, matching Microsoft's documented behavior.
+
+Layer color cells using dynamic or unsupported color formulas remain in the VSDX data but are not evaluated for MacVisio rendering. Raster image pixels are left unchanged by the color override, so the renderer does not claim full Visio layer-color behavior for those cases.
+
+Microsoft references: [layer Color cell](https://learn.microsoft.com/en-us/office/client-developer/visio/color-cell-layers-section), [layer Transparency cell](https://learn.microsoft.com/en-us/office/client-developer/visio/transparency-cell-layers-section), and [layer properties and color behavior](https://support.microsoft.com/en-us/visio/use-layers-to-set-properties-for-multiple-shapes).

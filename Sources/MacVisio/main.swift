@@ -199,6 +199,10 @@ if CommandLine.arguments.contains("--launch-check") {
 }
 let application = NSApplication.shared
 application.setActivationPolicy(.regular)
+if let index = CommandLine.arguments.firstIndex(of:"--prepare-interchange-fixtures"),CommandLine.arguments.indices.contains(index+1) {
+    do { try InterchangeFixtures.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated synthetic public-content interchange fixtures");exit(0) }
+    catch { fputs("Interchange fixture generation failed: \(error.localizedDescription)\n",stderr);exit(1) }
+}
 if let index = CommandLine.arguments.firstIndex(of:"--inspect-calculation"),CommandLine.arguments.indices.contains(index+2) {
     do { try CalculationAudit.inspect(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
     catch { fputs("Calculation inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }

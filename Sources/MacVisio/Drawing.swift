@@ -21,6 +21,25 @@ extension NSColor {
 
 enum DiagramDrawing {
     private static let imageCache = NSCache<NSData,NSImage>()
+    private static func layerColor(_ color:String,transparency:Double) -> String {
+        NSColor(hex:color).withAlphaComponent(1-max(0,min(100,transparency))/100).hexString
+    }
+    private static func layerColored(_ node:DiagramNode,in page:DiagramPage) -> DiagramNode {
+        let names = Set(node.formatting.layerNames+[node.layer])
+        guard names.count == 1,let name = names.first,let layer = page.layers?.first(where:{$0.name == name}),let color = layer.color else { return node }
+        var result = node;let displayColor = layerColor(color,transparency:layer.colorTransparency)
+        result.fill = displayColor;result.stroke = displayColor;result.textColor = displayColor
+        var details = result.formatting
+        if var runs = details.textRuns {
+            for index in runs.indices { runs[index].character.color = displayColor }
+            details.textRuns = runs;result.formatting = details
+        }
+        return result
+    }
+    private static func layerColored(_ edge:DiagramEdge,in page:DiagramPage) -> DiagramEdge {
+        guard let name = edge.layer,let layer = page.layers?.first(where:{$0.name == name}),let color = layer.color else { return edge }
+        var result = edge;result.color = layerColor(color,transparency:layer.colorTransparency);return result
+    }
     static func vectorPath(_ vector:VectorPath,in r:CGRect) -> NSBezierPath {
         let path = NSBezierPath()
         path.windingRule = vector.evenOdd == true ? .evenOdd : .nonZero
@@ -179,9 +198,9 @@ enum DiagramDrawing {
         }
     }
     static func drawContents(_ page:DiagramPage,printing:Bool = true,shadow:Bool = false) {
-        for n in page.nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(n,shadow:false,paperScale:page.paperScale) }
-        for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(e,in:page) }
-        for n in page.nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(n,shadow:shadow,paperScale:page.paperScale) }
+        for n in page.nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
+        for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(layerColored(e,in:page),in:page) }
+        for n in page.nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:shadow,paperScale:page.paperScale) }
     }
     static func drawPage(_ page:DiagramPage) { drawPage(DiagramScene(page:page)) }
     static func drawPage(_ scene:DiagramScene) {
@@ -221,7 +240,7 @@ enum DiagramDrawing {
         }
         let unit = 1/page.paperScale
         func shape(_ original: DiagramNode) -> String {
-            var n = original;n.fontSize *= unit;n.strokeWidth *= unit
+            var n = layerColored(original,in:page);n.fontSize *= unit;n.strokeWidth *= unit
             var geometry = ""
             let dash = self.dash(n.formatting.linePattern).map{String(Double($0)*unit)}.joined(separator:",")
             let dashAttribute = dash.isEmpty ? "" : " stroke-dasharray=\"\(dash)\""
@@ -272,7 +291,7 @@ enum DiagramDrawing {
         }
         var body = page.nodes.filter { $0.kind == .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")
         for original in page.edges where page.isVisible(original,printing:true) {
-            var e = original;e.width *= unit
+            var e = layerColored(original,in:page);e.width *= unit
             let points = DiagramGeometry.route(e,in:page); guard let first = points.first,let last = points.last else { continue }
             let d = points.enumerated().map { "\($0.offset == 0 ? "M" : "L") \($0.element.x) \($0.element.y)" }.joined(separator:" ")
             let pattern = dash(e.dash ?? 1).map{String(Double($0)*unit)}.joined(separator:",")

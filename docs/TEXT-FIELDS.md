@@ -8,6 +8,8 @@ Shape > Insert Text Field offers page name/number/count, dimensions, current dat
 
 The field evaluator supports strings, booleans, numeric values, measured lengths/angles and dates. String literals, concatenation, conditional expressions, numeric functions and basic string functions are available. Page functions include PAGENAME, PAGENUMBER, PAGECOUNT and BKGPAGENAME; background pages are excluded from the foreground page count. References can resolve local Shape Data/User/geometry cells, Sheet IDs, ThePage dimensions and indexed Fields.Value cells. Master and clipboard references are scoped to the inserted instance.
 
+`INDEX(index,list[,delimiter[,errorvalue]])` supports zero-based selection, the default semicolon delimiter, multi-character delimiters, and empty list entries caused by leading, trailing or repeated delimiters. It returns an empty string by default when out of range, or the evaluated errorvalue token when supplied. The index must be a finite whole-number literal; a negative whole number is out of range, while fractions and non-number index values are rejected. An explicitly empty delimiter is rejected. Very large list/delimiter searches and text inputs are bounded; string-to-number and other index coercion rules are not claimed as Visio-compatible.
+
 Supported formatting includes general/fixed decimal numeric codes, unit labels, basic numeric pictures, common Gregorian date pictures and selected internal date codes. NOW, TODAY and DATE use the host's calendar/time context. Complete dimensional coercion, all date/calendar/locale semantics, complex units, currencies and every Visio format remain incomplete. This is not a complete ShapeSheet evaluator.
 
 Shared background fields are calculated in a foreground render context without mutating their stored page. PNG/SVG/PDF composition and native background display can show different page names and numbers on each foreground page. The independent reader uses saved caches rather than all Visio formulas; its background output is not proof of dynamic Windows behavior.
@@ -34,4 +36,5 @@ The real MWFC_MEDIA_R2L template's point-valued width field updates to `200 pt.`
 - [Field format pictures](https://learn.microsoft.com/en-us/office/client-developer/visio/format-cell-text-fields-section)
 - [Format codes](https://learn.microsoft.com/en-us/office/vba/api/visio.visfieldformats)
 - [Page numbering](https://learn.microsoft.com/en-us/office/client-developer/visio/pagenumber-function) and [foreground page count](https://learn.microsoft.com/en-us/office/client-developer/visio/pagecount-function)
+- [INDEX function](https://learn.microsoft.com/en-us/office/client-developer/visio/index-function)
 - The pinned libvisio source in `build/third-party/libvisio` supplies the cached binary field/name record and UTF-16 placeholder evidence. No Windows Visio runtime has been observed.

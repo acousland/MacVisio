@@ -12,10 +12,10 @@ enum SheetValue:Equatable {
     var valid:Bool { switch self { case .number(let n):return n.isFinite;case .quantity(let n,let u):return n.isFinite && Self.factor(u) != nil;case .string(let s):return s.utf8.count <= 1_000_000;case .date(let d):return d.timeIntervalSince1970.isFinite;case .boolean:return true } }
 }
 enum TypedShapeSheet {
-    static func evaluate(_ formula:String,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil}) throws -> SheetValue {
-        try evaluate(ShapeSheet.parse(formula),resolve:resolve,call:call,scalar:scalar,specialCall:specialCall)
+    static func evaluate(_ formula:String,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil},colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> SheetValue {
+        try evaluate(ShapeSheet.parse(formula),resolve:resolve,call:call,scalar:scalar,specialCall:specialCall,colorPalette:colorPalette)
     }
-    static func evaluate(_ expression:ShapeSheet.Expression,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil}) throws -> SheetValue {
+    static func evaluate(_ expression:ShapeSheet.Expression,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil},colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> SheetValue {
         var operations = 0
         func eval(_ expression:ShapeSheet.Expression,_ depth:Int = 0) throws -> SheetValue {
             operations += 1;guard operations < 10000,depth < 64 else { throw DiagramError.invalid("ShapeSheet calculation limit exceeded.") }
@@ -25,6 +25,7 @@ enum TypedShapeSheet {
             case .measure(let n,let u):result = .quantity(n,u)
             case .string(let s):result = .string(s)
             case .reference(let name):if name.uppercased() == "TRUE" { return .boolean(true) };if name.uppercased() == "FALSE" { return .boolean(false) };result = try resolve(name)
+            case .omitted:throw DiagramError.invalid("An omitted argument is valid only in an optional function position.")
             case .unary(let op,let value):let value = try eval(value,depth+1),n = try value.numeric(),number = op == "-" ? -n : n;result = value.unit.map{.quantity(number,$0)} ?? .number(number)
             case .binary(let op,let a,let b):
                 let x = try eval(a,depth+1),y = try eval(b,depth+1)
@@ -43,6 +44,19 @@ enum TypedShapeSheet {
                 }
             case .call(let name,let arguments):
                 let name = name.uppercased()
+                if name == "INDEX" {
+                    let values = try arguments.enumerated().map { offset, argument -> SheetValue in
+                        if case .omitted = argument {
+                            // Omitted optional delimiter means the documented
+                            // semicolon default; an omitted errorvalue is empty.
+                            return offset == 2 ? .string(";") : .string("")
+                        }
+                        return try eval(argument,depth+1)
+                    }
+                    let value = try ShapeStringFunctions.evaluate(name,values)
+                    guard value.valid else { throw DiagramError.invalid("Invalid or oversized ShapeSheet result.") }
+                    return value
+                }
                 if name == "IF",arguments.count == 3 { return try eval(eval(arguments[0],depth+1).numeric() != 0 ? arguments[1] : arguments[2],depth+1) }
                 if name == "IFERROR",arguments.count == 2 { do { return try eval(arguments[0],depth+1) } catch { return try eval(arguments[1],depth+1) } }
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1).numeric() != 0 { return .number(0) };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
@@ -53,15 +67,65 @@ enum TypedShapeSheet {
                 let values = try arguments.map{try eval($0,depth+1)}
                 func arity(_ n:Int) throws { guard values.count == n else { throw DiagramError.invalid("\(name) expects \(n) arguments.") } }
                 switch name {
-                case "GUARD","SETATREFEXPR","SETATREFEVAL":try arity(1);result = values[0]
+                case "GUARD","THEMEGUARD","SETATREFEXPR","SETATREFEVAL":try arity(1);result = values[0]
                 case "STRSAME":guard (2...3).contains(values.count) else { throw DiagramError.invalid("STRSAME expects two or three arguments.") };let ignoreCase = values.count == 3 ? try values[2].numeric() != 0 : false;result = .boolean(values[0].text.compare(values[1].text,options:ignoreCase ? .caseInsensitive : []) == .orderedSame)
+                case "STRSAMEEX":
+                    try arity(4)
+                    let locale = try values[2].numeric(),flags = try values[3].numeric()
+                    guard let localeID = Int(exactly:locale),let options = Int(exactly:flags),localeID >= 0,options >= 0 else { result = .boolean(false);break }
+                    // Visio specifies invalid locale IDs and comparison flags as FALSE.
+                    let documentedFlags = 0x30007
+                    guard options & ~documentedFlags == 0 else { result = .boolean(false);break }
+                    // This portable subset handles invariant ASCII comparisons. Other
+                    // locales, Unicode collation, and the remaining .NET options are
+                    // deliberately left to a platform-compatible collation provider.
+                    guard localeID == 0,options == 0 || options == 1 else { throw DiagramError.invalid("STRSAMEEX supports invariant ASCII comparisons with flags 0 or 1 only.") }
+                    let first = Array(values[0].text.utf8),second = Array(values[1].text.utf8)
+                    guard first.allSatisfy({$0 < 0x80}),second.allSatisfy({$0 < 0x80}) else { throw DiagramError.invalid("STRSAMEEX Unicode collation is not supported.") }
+                    if options == 0 { result = .boolean(first == second) }
+                    else { result = .boolean(first.count == second.count && zip(first,second).allSatisfy { asciiFold($0.0) == asciiFold($0.1) }) }
                 case "UPPER":try arity(1);result = .string(values[0].text.uppercased())
                 case "LOWER":try arity(1);result = .string(values[0].text.lowercased())
-                case "LEN":try arity(1);result = .number(Double(values[0].text.utf16.count))
-                case "LEFT","RIGHT":try arity(2);let n = try values[1].numeric();guard n >= 0,n <= 1_000_000 else { throw DiagramError.invalid("Invalid text length.") };let chars = values[0].text;result = .string(name == "LEFT" ? String(chars.prefix(Int(n))) : String(chars.suffix(Int(n))))
+                case "LEN","LEFT","RIGHT","MID","FIND","REPLACE","SUBSTITUTE","REPT","INDEX","CHAR","UNICHAR":result = try ShapeStringFunctions.evaluate(name,values)
                 case "TRIM":try arity(1);result = .string(values[0].text.split(whereSeparator:{$0.isWhitespace}).joined(separator:" "))
                 case "CONCATENATE":result = .string(values.map(\.text).joined())
                 case "FIELDPICTURE":try arity(1);let n = try values[0].numeric();guard let index = Int(exactly:n),index >= 0,index <= 10000 else { throw DiagramError.invalid("Invalid field format code.") };result = .string("esc(\(index))")
+                case "SIGN":
+                    guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
+                    if !scalar,values.count == 2,let fuzzDimension = values[1].dimension {
+                        guard let numberDimension = values[0].dimension,numberDimension == fuzzDimension else { throw DiagramError.invalid("SIGN values use incompatible units.") }
+                    }
+                    result = .number(try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9))
+                case "CEILING","FLOOR":
+                    guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
+                    let first = try values[0].numeric()
+                    if scalar {
+                        let multiple = values.count == 2 ? try values[1].numeric() : (first < 0 ? -1 : 1)
+                        result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
+                    } else if let unit = values[0].unit {
+                        guard let factor = SheetValue.factor(unit) else { throw DiagramError.invalid("Rounding uses an unsupported unit.") }
+                        let displayNumber = first*factor
+                        let displayMultiple:Double
+                        if values.count == 2 {
+                            let multiple = try values[1].numeric()
+                            if let multipleUnit = values[1].unit {
+                                guard values[0].dimension == values[1].dimension,SheetValue.factor(multipleUnit) != nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
+                                displayMultiple = multiple*factor
+                            } else { displayMultiple = multiple }
+                        } else { displayMultiple = displayNumber < 0 ? -1 : 1 }
+                        result = .quantity(try ShapeSheet.rounded(displayNumber,toMultiple:displayMultiple,awayFromZero:name == "CEILING")/factor,unit)
+                    } else {
+                        guard values.count == 1 || values[1].unit == nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
+                        let multiple = values.count == 2 ? try values[1].numeric() : (first < 0 ? -1 : 1)
+                        result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
+                    }
+                case "RGB":
+                    try arity(3)
+                    let components = try values.map { value -> Double in
+                        guard case .number(let number) = value else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
+                        return number
+                    }
+                    result = .number(try colorPalette.index(for:components))
                 default:
                     let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","ATAN2","LN","EXP","INT","SIGN","ROUND","MODULUS","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
@@ -81,4 +145,6 @@ enum TypedShapeSheet {
         }
         return try eval(expression)
     }
+
+    private static func asciiFold(_ byte:UInt8) -> UInt8 { (0x41...0x5A).contains(byte) ? byte + 0x20 : byte }
 }

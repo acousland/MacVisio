@@ -1,0 +1,21 @@
+{
+  "description": "Compare the formulas against Windows Visio via Shape.CellsU('User.Probe').FormulaU. The expected values describe this evaluator and are probes for host compatibility, not claims that Visio has been verified.",
+  "cases": [
+    { "formula": "LEN(\"A😀B\")", "expected": "4", "purpose": "UTF-16 length of supplementary character" },
+    { "formula": "LEFT(\"A😀B\",2)", "expected": "error", "purpose": "left range ends inside surrogate pair" },
+    { "formula": "RIGHT(\"A😀B\",2)", "expected": "error", "purpose": "right range starts inside surrogate pair" },
+    { "formula": "MID(\"A😀B\",2,2)", "expected": "😀", "purpose": "whole surrogate pair by UTF-16 positions" },
+    { "formula": "MID(\"A😀B\",2,1)", "expected": "error", "purpose": "MID range ends inside surrogate pair" },
+    { "formula": "FIND(\"B\",\"A😀B\")", "expected": "4", "purpose": "FIND reports UTF-16 position" },
+    { "formula": "FIND(\"\",\"A😀B\",2)", "expected": "2", "purpose": "empty search at a valid UTF-16 position" },
+    { "formula": "FIND(\"\",\"A😀B\",3)", "expected": "error", "purpose": "empty search starts inside surrogate pair" },
+    { "formula": "FIND(\"\",\"\")", "expected": "error", "purpose": "empty search in empty text with default start" },
+    { "formula": "FIND(\"\",\"\",1)", "expected": "error", "purpose": "empty search in empty text at explicit start" },
+    { "formula": "LEN(\"é\")", "expected": "2", "purpose": "decomposed letter and combining mark" },
+    { "formula": "LEFT(\"é\",1)", "expected": "e", "purpose": "slice at a Unicode scalar boundary within a grapheme" },
+    { "formula": "SUBSTITUTE(\"a a a\",\"a\",\"x\",2)", "expected": "a x a", "purpose": "replace only the selected occurrence" },
+    { "formula": "SUBSTITUTE(\"a a a\",\"a\",\"x\",99)", "expected": "a a a", "purpose": "selected occurrence beyond matches" },
+    { "formula": "REPLACE(\"abc\",3,99,\"x\")", "expected": "abx", "purpose": "replacement range extends beyond source end" },
+    { "formula": "REPT(\"*\",4.9)", "expected": "****", "purpose": "fractional repeat count truncation" }
+  ]
+}

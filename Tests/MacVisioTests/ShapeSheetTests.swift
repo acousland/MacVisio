@@ -17,6 +17,103 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try value("ROUND(123.654,99)"),123.654)
         XCTAssertEqual(try value("50% * 4"),2)
     }
+    func testCeilingAndFloorRoundToSameSignMultiples() throws {
+        func value(_ formula:String) throws -> Double { try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference") } }
+        XCTAssertEqual(try value("CEILING(3.7)"),4)
+        XCTAssertEqual(try value("CEILING(-3.7)"),-4)
+        XCTAssertEqual(try value("CEILING(3.7,0.25)"),3.75,accuracy:1e-12)
+        XCTAssertEqual(try value("CEILING(-3.7,-0.25)"),-3.75,accuracy:1e-12)
+        XCTAssertEqual(try value("FLOOR(3.7)"),3)
+        XCTAssertEqual(try value("FLOOR(-3.7)"),-3)
+        XCTAssertEqual(try value("FLOOR(3.7,0.5)"),3.5,accuracy:1e-12)
+        XCTAssertEqual(try value("FLOOR(-3.7,-0.5)"),-3.5,accuracy:1e-12)
+        XCTAssertEqual(try value("CEILING(0,-0.25)"),0)
+        XCTAssertEqual(try value("FLOOR(3.7,0)"),0)
+        for formula in ["CEILING(3.7,-0.25)","FLOOR(-3.7,0.5)","CEILING(1,2,3)","CEILING(1e308,1e-308)"] { XCTAssertThrowsError(try value(formula),formula) }
+    }
+    func testSignUsesOptionalFuzzAndDefaultsToOneNanounit() throws {
+        func value(_ formula:String) throws -> Double { try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference") } }
+        XCTAssertEqual(try value("SIGN(-5)"),-1)
+        XCTAssertEqual(try value("SIGN(0)"),0)
+        XCTAssertEqual(try value("SIGN(1e-11)"),0)
+        XCTAssertEqual(try value("SIGN(-1e-11)"),0)
+        XCTAssertEqual(try value("SIGN(1e-9)"),0)
+        XCTAssertEqual(try value("SIGN(-1e-9)"),0)
+        XCTAssertEqual(try value("SIGN(1e-8)"),1)
+        XCTAssertEqual(try value("SIGN(-1e-8)"),-1)
+        XCTAssertEqual(try value("SIGN(0.1,0.1)"),0)
+        XCTAssertEqual(try value("SIGN(-0.1,0.1)"),0)
+        XCTAssertEqual(try value("SIGN(0.1001,0.1)"),1)
+        XCTAssertEqual(try value("SIGN(-0.1001,0.1)"),-1)
+        XCTAssertEqual(try value("SIGN(1e-11,0)"),1)
+        XCTAssertEqual(try value("SIGN(-1e-11,0)"),-1)
+        XCTAssertEqual(try value("SIGN(0,0)"),0)
+        for formula in ["SIGN()","SIGN(1,0,3)","SIGN(1,-0.1)"] { XCTAssertThrowsError(try value(formula),formula) }
+    }
+    func testTypedSignReturnsUnitlessValueAndComparesCompatibleMeasures() throws {
+        func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }
+        XCTAssertEqual(try typed("SIGN(1e-11)"),.number(0))
+        XCTAssertEqual(try typed("SIGN(0.005in,1mm)"),.number(0))
+        XCTAssertEqual(try typed("SIGN(-0.005in,0.1mm)"),.number(-1))
+        XCTAssertEqual(try typed("SIGN(0.005in,0.1)"),.number(0))
+        XCTAssertThrowsError(try typed("SIGN(0.005in,1rad)"))
+        XCTAssertThrowsError(try typed("SIGN(0.005,1mm)"))
+    }
+    func testInstallerSIGNFuzzFormulaEvaluatesFromHVACCStencil() throws {
+        let root = URL(fileURLWithPath:#filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent(),source = root.appendingPathComponent("build/Visio2019-Libraries/HVACC_U.VSSX")
+        guard FileManager.default.fileExists(atPath:source.path) else { throw XCTSkip("Installer assets are absent") }
+        let parts = try VisioPackage.read(source)
+        var formulas:[String] = []
+        for (part,data) in parts where part.hasPrefix("visio/masters/master") && part.hasSuffix(".xml") {
+            guard let root = try VisioXML.document(data).rootElement() else { continue }
+            var pending = [root]
+            while let element = pending.popLast() {
+                if element.localTag == "Cell",let formula = element.attr("F") { formulas.append(formula) }
+                pending.append(contentsOf:(element.children ?? []).compactMap{$0 as? XMLElement})
+            }
+        }
+        let formula = try XCTUnwrap(formulas.first{$0 == "Height+SIGN(Height,0.01)*0.14"})
+        XCTAssertEqual(try ShapeSheet.evaluate(formula){reference in
+            guard reference == "Height" else { throw DiagramError.invalid("Unexpected installer reference: \(reference)") };return -0.005
+        },-0.005,accuracy:1e-12)
+    }
+    func testTypedRoundingRetainsCompatibleMeasureUnits() throws {
+        func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }
+        XCTAssertEqual(try typed("CEILING(1.1in,0.25in)"),.quantity(1.25,"IN"))
+        XCTAssertEqual(try typed("CEILING(26mm,1in)"),.quantity(2,"MM"))
+        XCTAssertEqual(try typed("FLOOR(26mm,1in)"),.quantity(1,"MM"))
+        let defaultMillimeters = try typed("CEILING(26mm)"),unitlessMillimeterStep = try typed("CEILING(26mm,1)")
+        XCTAssertEqual(try defaultMillimeters.numeric(),26/25.4,accuracy:1e-12);XCTAssertEqual(defaultMillimeters.unit,"MM")
+        XCTAssertEqual(try unitlessMillimeterStep.numeric(),26/25.4,accuracy:1e-12);XCTAssertEqual(unitlessMillimeterStep.unit,"MM")
+        XCTAssertEqual(try typed("CEILING(26mm,1mm)"),.quantity(26/25.4,"MM"))
+        XCTAssertEqual(try typed("FLOOR(-3.7,-0.5)"),.number(-3.5))
+        XCTAssertThrowsError(try typed("CEILING(1in,1rad)"))
+        XCTAssertThrowsError(try typed("FLOOR(1,1in)"))
+    }
+    func testInstallerCEILINGAndFLOORFormulasEvaluateFromBLDCORStencil() throws {
+        let root = URL(fileURLWithPath:#filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent(),source = root.appendingPathComponent("build/Visio2019-Libraries/BLDCOR_M.VSSX")
+        guard FileManager.default.fileExists(atPath:source.path) else { throw XCTSkip("Installer assets are absent") }
+        let parts = try VisioPackage.read(source)
+        var formulas:[String] = []
+        for (part,data) in parts where part.hasPrefix("visio/masters/master") && part.hasSuffix(".xml") {
+            guard let root = try VisioXML.document(data).rootElement() else { continue }
+            var pending = [root]
+            while let element = pending.popLast() {
+                if element.localTag == "Cell",let formula = element.attr("F") { formulas.append(formula) }
+                pending.append(contentsOf:(element.children ?? []).compactMap{$0 as? XMLElement})
+            }
+        }
+        let ceiling = try XCTUnwrap(formulas.first{$0 == "CEILING(Sheet.5!User.ActualTreadNumber*User.LandingCount)"})
+        let floorSource = try XCTUnwrap(formulas.first{$0.contains("FLOOR(User.ItemCtr)")})
+        let floor = "FLOOR(User.ItemCtr)"
+        XCTAssertTrue(floorSource.contains(floor))
+        XCTAssertEqual(try ShapeSheet.evaluate(ceiling){reference in
+            switch reference { case "Sheet.5!User.ActualTreadNumber":return 3.7;case "User.LandingCount":return 1;default:throw DiagramError.invalid("Unexpected installer reference: \(reference)") }
+        },4)
+        XCTAssertEqual(try ShapeSheet.evaluate(floor){reference in
+            guard reference == "User.ItemCtr" else { throw DiagramError.invalid("Unexpected installer reference: \(reference)") };return 5.8
+        },5)
+    }
     func testUnsupportedFunctionsMalformedExpressionsAndCalculationBoundsThrow() {
         for formula in ["RUNADDON(1)","Width+","IF(1,2)","1/0","SQRT(-1)",String(repeating:"(",count:200)+"1"+String(repeating:")",count:200),"1e999","1 2","system('x')"] {
             XCTAssertThrowsError(try ShapeSheet.evaluate(formula){_ in 1},formula)

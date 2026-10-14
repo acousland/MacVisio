@@ -6,6 +6,7 @@ enum ControlEditing {
         switch e { case .number(let n),.measure(let n,_):return CompositeGeometry.number(n)
         case .string(let s):return "\""+s.replacingOccurrences(of:"\"",with:"\"\"")+"\""
         case .reference(let s):return s
+        case .omitted:return ""
         case .unary(let op,let e):return "("+op+expression(e)+")"
         case .binary(let op,let a,let b):return "("+expression(a)+op+expression(b)+")"
         case .call(let name,let args):return name+"("+args.map(expression).joined(separator:",")+")" }
@@ -15,6 +16,7 @@ enum ControlEditing {
         guard let index = next.page.nodes.firstIndex(where:{$0.id == id}),!next.page.isLocked(next.page.nodes[index]),let control = next.page.nodes[index].formatting.controls.first(where:{$0.name == name}),control.visible else { return input }
         let node = next.page.nodes[index],p = DiagramCoordinates.local(world,in:node),values = ["X":(p.x+node.sheetOrigin.x)/72,"Y":(node.height-p.y+node.sheetOrigin.y)/72]
         guard values.values.allSatisfy({$0.isFinite && abs($0)<100000}) else { throw DiagramError.invalid("The control position is outside the supported range.") }
+        let colorPalette = ShapeSheetColorPalette(documentArchive:next.visioArchive)
         func target(_ reference:String,from i:Int) throws -> (Int,String) {
             if let bang = reference.firstIndex(of:"!") {
                 let sheet = String(reference[..<bang]),key = String(reference[reference.index(after:bang)...]),binding = next.visioArchive?.pages.first{$0.pageID == next.page.id}
@@ -22,10 +24,10 @@ enum ControlEditing {
             };return (i,reference)
         }
         func read(_ i:Int,_ key:String,_ depth:Int = 0) throws -> Double {
-            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id}).number(next.page.nodes[i].id,key)
+            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette).number(next.page.nodes[i].id,key)
         }
         func evaluate(_ expression:ShapeSheet.Expression,_ i:Int) throws -> Double {
-            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id}).evaluate(expression,on:next.page.nodes[i].id).numeric()
+            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette).evaluate(expression,on:next.page.nodes[i].id).numeric()
         }
         func contains(_ e:ShapeSheet.Expression,_ name:String) -> Bool {
             switch e { case .call(let f,let args):return f.uppercased() == name || args.contains{contains($0,name)};case .unary(_,let e):return contains(e,name);case .binary(_,let a,let b):return contains(a,name) || contains(b,name);default:return false }

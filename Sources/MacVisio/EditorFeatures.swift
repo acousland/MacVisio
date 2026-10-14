@@ -1,6 +1,34 @@
 import AppKit
 import UniformTypeIdentifiers
 
+enum LayerPropertiesEditing {
+    static func apply(_ rows:[[String]],previous:[DiagramLayer]) throws -> [DiagramLayer] {
+        func text(_ row:[String],_ index:Int) -> String { row.indices.contains(index) ? row[index].trimmingCharacters(in:.whitespacesAndNewlines) : "" }
+        func yes(_ value:String,_ fallback:Bool) -> Bool { value.isEmpty ? fallback : ["yes","true","1","on"].contains(value.lowercased()) }
+        let updated = try rows.enumerated().filter{!text($0.element,0).isEmpty}.map { index,row in
+            let name = text(row,0)
+            let old = previous.first(where:{$0.name == name}) ?? (rows.count == previous.count && previous.indices.contains(index) ? previous[index] : nil)
+            var layer = old ?? DiagramLayer(name:name)
+            layer.visible = yes(text(row,1),true);layer.locked = yes(text(row,2),false);layer.printable = yes(text(row,3),true);layer.snap = yes(text(row,4),true);layer.glue = yes(text(row,5),true)
+            let color = text(row,6)
+            if color.isEmpty || color.caseInsensitiveCompare("none") == .orderedSame { layer.color = nil }
+            else {
+                let digits = color.hasPrefix("#") ? String(color.dropFirst()) : color
+                guard digits.count == 6,digits.allSatisfy({$0.isHexDigit}) else { throw DiagramError.invalid("Layer colors must be six-digit RGB hex values, or blank for no color.") }
+                layer.color = "#"+digits.uppercased()
+            }
+            let transparency = text(row,7)
+            if !transparency.isEmpty {
+                guard let value = Double(transparency),value.isFinite,(0...100).contains(value) else { throw DiagramError.invalid("Layer color transparency must be a number from 0 to 100.") }
+                layer.colorTransparency = value
+            }
+            return layer
+        }
+        guard Set(updated.map(\.name)).count == updated.count else { throw DiagramError.invalid("Layer names must be unique.") }
+        return updated
+    }
+}
+
 extension EditorWindowController {
     @objc func exportSelectionStencil(_ sender:Any?) {
         canvas.finishEditing(commit:true)
@@ -49,8 +77,9 @@ final class PropertyGrid: FlippedView, NSTableViewDataSource, NSTableViewDelegat
     let columns: [String]
     var rows: [[String]]
     let table = NSTableView()
-    init(columns:[String],rows:[[String]],width:CGFloat = 700) {
-        self.columns = columns; self.rows = rows; super.init(frame:CGRect(x:0,y:0,width:width,height:300))
+    private let editsShapeData:Bool
+    init(columns:[String],rows:[[String]],width:CGFloat = 700,editsShapeData:Bool = false) {
+        self.columns = columns; self.rows = rows; self.editsShapeData = editsShapeData; super.init(frame:CGRect(x:0,y:0,width:width,height:300))
         let scroll = NSScrollView(frame:CGRect(x:0,y:0,width:width,height:260)); scroll.hasVerticalScroller = true; scroll.hasHorizontalScroller = true; scroll.borderType = .bezelBorder; scroll.documentView = table; addSubview(scroll)
         for (i,title) in columns.enumerated() { let column = NSTableColumn(identifier:NSUserInterfaceItemIdentifier(String(i))); column.title = title; column.width = max(90,width/CGFloat(columns.count)-4); column.minWidth = 60; table.addTableColumn(column) }
         table.delegate = self; table.dataSource = self; table.usesAlternatingRowBackgroundColors = true; table.rowHeight = 27; table.columnAutoresizingStyle = .uniformColumnAutoresizingStyle
@@ -61,9 +90,60 @@ final class PropertyGrid: FlippedView, NSTableViewDataSource, NSTableViewDelegat
     func numberOfRows(in tableView:NSTableView) -> Int { rows.count }
     func tableView(_ tableView:NSTableView,viewFor tableColumn:NSTableColumn?,row:Int) -> NSView? {
         guard let id = tableColumn?.identifier.rawValue,let index = Int(id) else { return nil }
+        if editsShapeData,index == 3 { return shapeDataTypeEditor(row:row) }
+        if editsShapeData,index == 2 { return shapeDataValueEditor(row:row) }
         let field = NSTextField(string:rows[row].indices.contains(index) ? rows[row][index] : ""); field.isBordered = false; field.drawsBackground = false; field.font = .systemFont(ofSize:12); field.identifier = NSUserInterfaceItemIdentifier(id); field.tag = row; field.delegate = self; field.target = self; field.action = #selector(changed(_:)); return field
     }
+    private func shapeDataTypeEditor(row:Int) -> NSView {
+        let popup = NSPopUpButton(frame:.zero,pullsDown:false)
+        let value = Int(rows[row].indices.contains(3) ? rows[row][3] : "") ?? 0
+        for type in ShapeDataEditing.supportedTypes {
+            popup.addItem(withTitle:"\(type) · \(ShapeDataEditing.typeNames[type])")
+            popup.lastItem?.representedObject = NSNumber(value:type)
+        }
+        if !ShapeDataEditing.supportedTypes.contains(value) {
+            popup.addItem(withTitle:"\(value) · Other")
+            popup.lastItem?.representedObject = NSNumber(value:value)
+        }
+        if let item = popup.itemArray.first(where:{($0.representedObject as? NSNumber)?.intValue == value}) { popup.select(item) }
+        popup.identifier = NSUserInterfaceItemIdentifier("3");popup.tag = row;popup.target = self;popup.action = #selector(shapeDataTypeChanged(_:))
+        return popup
+    }
+    private func shapeDataValueEditor(row:Int) -> NSView? {
+        guard rows[row].count > 3,let type = Int(rows[row][3]) else { return nil }
+        let value = rows[row][2]
+        if type == 1 || type == 3 {
+            let popup = NSPopUpButton(frame:.zero,pullsDown:false)
+            var choices = type == 1 ? ShapeDataEditing.formatChoices(rows[row][4]) : ["TRUE","FALSE"]
+            let display = type == 3 ? booleanDisplay(value) : value
+            if !display.isEmpty && !choices.contains(display) { choices.append(display) }
+            if display.isEmpty || choices.isEmpty { choices.insert("",at:0) }
+            popup.addItems(withTitles:choices)
+            popup.selectItem(withTitle:display)
+            popup.identifier = NSUserInterfaceItemIdentifier("2");popup.tag = row;popup.target = self;popup.action = #selector(shapeDataValueChanged(_:))
+            return popup
+        }
+        if type == 4 {
+            let combo = NSComboBox(frame:.zero)
+            combo.addItems(withObjectValues:ShapeDataEditing.formatChoices(rows[row][4]))
+            combo.stringValue = value;combo.isBordered = false;combo.drawsBackground = false;combo.font = .systemFont(ofSize:12);combo.identifier = NSUserInterfaceItemIdentifier("2");combo.tag = row;combo.target = self;combo.action = #selector(changed(_:))
+            return combo
+        }
+        return nil
+    }
+    private func booleanDisplay(_ value:String) -> String {
+        switch value.trimmingCharacters(in:.whitespacesAndNewlines).uppercased() { case "1","TRUE":return "TRUE";case "0","FALSE":return "FALSE";default:return value }
+    }
     @objc func changed(_ sender:NSTextField) { guard rows.indices.contains(sender.tag),let index = Int(sender.identifier?.rawValue ?? ""),rows[sender.tag].indices.contains(index) else { return }; rows[sender.tag][index] = sender.stringValue }
+    @objc private func shapeDataTypeChanged(_ sender:NSPopUpButton) {
+        guard rows.indices.contains(sender.tag),rows[sender.tag].indices.contains(3),let type = sender.selectedItem?.representedObject as? NSNumber else { return }
+        rows[sender.tag][3] = type.stringValue
+        table.reloadData(forRowIndexes:IndexSet(integer:sender.tag),columnIndexes:IndexSet(integersIn:2...3))
+    }
+    @objc private func shapeDataValueChanged(_ sender:NSPopUpButton) {
+        guard rows.indices.contains(sender.tag),rows[sender.tag].indices.contains(2) else { return }
+        rows[sender.tag][2] = sender.titleOfSelectedItem ?? ""
+    }
     func controlTextDidEndEditing(_ obj:Notification) { if let field = obj.object as? NSTextField { changed(field) } }
     @objc func addRow(_ sender:Any?) { window?.makeFirstResponder(table); rows.append(Array(repeating:"",count:columns.count)); table.reloadData(); table.selectRowIndexes(IndexSet(integer:rows.count-1),byExtendingSelection:false) }
     @objc func removeRow(_ sender:Any?) { window?.makeFirstResponder(table); let row = table.selectedRow; guard rows.indices.contains(row) else { return }; rows.remove(at:row); table.reloadData() }
@@ -89,9 +169,11 @@ extension EditorWindowController {
     @objc func editShapeData(_ sender:Any?) {
         guard let node = selection.first,selection.count == 1,!diagramDocument.diagram.page.isLocked(node) else { return }
         let data = node.formatting.data
-        let grid = PropertyGrid(columns:["Key","Label","Value","Type","Format","Prompt"],rows:data.map{[$0.key,$0.label,$0.value,String($0.type),$0.format,$0.prompt]},width:820)
-        guard grid.run(title:"Shape Data",message:"Type: 0 text · 1 list · 2 number · 3 Boolean · 5 date. Values and definitions are stored in the Visio shape.") else { return }
-        let properties = grid.rows.filter{!$0[0].isEmpty}.map{ShapeDataProperty(key:$0[0],label:$0[1],value:$0[2],type:Int($0[3]) ?? 0,format:$0[4],prompt:$0[5])}
+        let grid = PropertyGrid(columns:["Key","Label","Value","Type","Format","Prompt"],rows:data.map{[$0.key,$0.label,ShapeDataEditing.displayedValue($0),String($0.type),$0.format,$0.prompt]},width:820,editsShapeData:true)
+        guard grid.run(title:"Shape Data",message:"Type 1 uses fixed choices from semicolon-separated Format entries; Type 4 lets you add choices there. Type 3 uses TRUE/FALSE. Type 2 accepts finite numbers and supported Visio measurements. Format pictures stay unchanged.") else { return }
+        let entered = grid.rows.filter{!$0[0].isEmpty}.map{ShapeDataProperty(key:$0[0],label:$0[1],value:$0[2],type:Int($0[3]) ?? 0,format:$0[4],prompt:$0[5])}
+        let properties:[ShapeDataProperty]
+        do { properties = try ShapeDataEditing.validated(entered,previous:data) } catch { presentError(error); return }
         guard Set(properties.map(\.key)).count == properties.count else { presentError(DiagramError.invalid("Each Shape Data key must be unique.")); return }
         modifySelection("Shape Data") { $0.formatting.data = properties }
     }
@@ -109,16 +191,20 @@ extension EditorWindowController {
     }
     @objc func editLayers(_ sender:Any?) {
         let layers = diagramDocument.diagram.page.layers ?? [DiagramLayer(name:"Default")]
-        let grid = PropertyGrid(columns:["Name","Visible","Locked","Print"],rows:layers.map{[$0.name,$0.visible ? "Yes" : "No",$0.locked ? "Yes" : "No",$0.printable ? "Yes" : "No"]},width:640)
-        guard grid.run(title:"Drawing Layers",message:"Use Yes / No for visibility, locking and printing. Assign shapes to a layer in the inspector.") else { return }
-        func yes(_ value:String,_ fallback:Bool) -> Bool { value.isEmpty ? fallback : ["yes","true","1","on"].contains(value.lowercased()) }
-        let updated = grid.rows.filter{!$0[0].isEmpty}.map { row -> DiagramLayer in
-            var layer = layers.first(where:{$0.name == row[0]}) ?? DiagramLayer(name:row[0]); layer.visible = yes(row[1],true); layer.locked = yes(row[2],false); layer.printable = yes(row[3],true); return layer
-        }
-        guard Set(updated.map(\.name)).count == updated.count else { presentError(DiagramError.invalid("Layer names must be unique.")); return }
+        let columns = ["Name","Visible","Locked","Print","Snap","Glue","Color (#RRGGBB)","Transparency (%)"]
+        let grid = PropertyGrid(columns:columns,rows:layers.map{[$0.name,$0.visible ? "Yes" : "No",$0.locked ? "Yes" : "No",$0.printable ? "Yes" : "No",$0.snap ? "Yes" : "No",$0.glue ? "Yes" : "No",$0.color ?? "",String($0.colorTransparency)]},width:1050)
+        guard grid.run(title:"Drawing Layers",message:"Snap lets other shapes align to shapes on the layer. Glue lets connectors attach to shapes on the layer. A color overrides a shape's colors when it belongs to exactly one layer; blank disables it. Enter six-digit RGB hex. Transparency is 0% opaque to 100% clear.") else { return }
+        let updated:[DiagramLayer]
+        do { updated = try LayerPropertiesEditing.apply(grid.rows,previous:layers) } catch { presentError(error); return }
         var next = diagramDocument.diagram; next.page.layers = updated
         let names = Set(updated.map(\.name))
-        for i in next.page.nodes.indices { if !names.contains(next.page.nodes[i].layer) { next.page.nodes[i].layer = "Default" }; next.page.nodes[i].formatting.layerNames.removeAll{!names.contains($0)} }
+        let renamed = Dictionary(uniqueKeysWithValues:layers.compactMap { old in updated.first(where:{$0.id == old.id}).map{(old.name,$0.name)} })
+        for i in next.page.nodes.indices {
+            next.page.nodes[i].layer = renamed[next.page.nodes[i].layer] ?? next.page.nodes[i].layer
+            if !names.contains(next.page.nodes[i].layer) { next.page.nodes[i].layer = "Default" }
+            next.page.nodes[i].formatting.layerNames = next.page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
+        }
+        for i in next.page.edges.indices { if let name = next.page.edges[i].layer { next.page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) } }
         diagramDocument.replace(with:next,action:"Layer Properties")
     }
     @objc func insertImage(_ sender:Any?) {

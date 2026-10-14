@@ -79,7 +79,9 @@ final class EditingCompatibilityTests:XCTestCase {
     }
     func testDetachedConnectorCanSwitchBetweenOrthogonalAndStraightRouting() {
         var line = DiagramEdge(source:UUID(),target:UUID());line.sourcePosition = DiagramPoint(x:10,y:20);line.targetPosition = DiagramPoint(x:200,y:150)
-        let route = DiagramGeometry.route(line,in:DiagramPage());XCTAssertEqual(route.count,4)
+        let route = DiagramGeometry.route(line,in:DiagramPage())
+        XCTAssertGreaterThanOrEqual(route.count,3)
+        XCTAssertEqual(route.first,line.sourcePosition?.cgPoint);XCTAssertEqual(route.last,line.targetPosition?.cgPoint)
         for (a,b) in zip(route,route.dropFirst()) { XCTAssertTrue(a.x == b.x || a.y == b.y) }
         line.style = .straight;XCTAssertEqual(DiagramGeometry.route(line,in:DiagramPage()).count,2)
     }

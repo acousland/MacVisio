@@ -17,6 +17,8 @@ jobs:
         run: brew install libvisio
       - name: Test
         run: swift test
+      - name: Test public interchange comparison tools
+        run: python3 -m unittest discover -s scripts/tests -v
       - name: Build native bundle
         run: scripts/build-app.sh
       - name: Verify bundle

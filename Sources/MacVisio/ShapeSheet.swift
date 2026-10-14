@@ -1,18 +1,92 @@
 import Foundation
 
+/// A per-document view of Visio's indexed color table. RGB() returns a color
+/// index, so callers evaluating several formulas should share this palette.
+final class ShapeSheetColorPalette {
+    private static let standardColors = [
+        "#000000", "#FFFFFF", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF",
+        "#800000", "#008000", "#000080", "#808000", "#800080", "#008080", "#C0C0C0", "#E6E6E6",
+        "#CDCDCD", "#B3B3B3", "#9A9A9A", "#808080", "#666666", "#4D4D4D", "#333333", "#1A1A1A"
+    ]
+    private var indices: [String: Int] = [:]
+    private var nextIndex: UInt64
+    private let allowsAddingColors: Bool
+
+    convenience init(documentArchive: VisioDocumentArchive?) {
+        self.init(entries: Self.documentEntries(documentArchive))
+    }
+
+    /// `entries` contains additional document ColorEntry indices and `#RRGGBB` values.
+    /// Enable allocation only when the caller will persist new ColorEntry values.
+    init(entries: [Int: String] = [:], allowsAddingColors: Bool = false) {
+        self.allowsAddingColors = allowsAddingColors
+        for (index, color) in Self.standardColors.enumerated() { indices[color] = index }
+        for (index, color) in entries.sorted(by: { $0.key < $1.key }) where index > 23 && index <= Int(UInt32.max) {
+            guard let normalized = Self.normalize(color), indices[normalized] == nil else { continue }
+            indices[normalized] = index
+        }
+        nextIndex = UInt64(max(23, entries.keys.filter { (24...Int(UInt32.max)).contains($0) }.max() ?? 23)) + 1
+    }
+
+    private static func documentEntries(_ archive: VisioDocumentArchive?) -> [Int: String] {
+        guard let archive else { return [:] }
+        // Visio packages conventionally store the document part at this path.
+        // Fall back to identifying a custom-path VisioDocument root when needed.
+        let preferred = archive.parts["visio/document.xml"]
+        let candidates = preferred.map { [$0] } ?? archive.parts.keys.sorted().compactMap { name -> Data? in
+            guard name.lowercased().hasSuffix(".xml"), let data = archive.parts[name],
+                  let text = String(data: data, encoding: .utf8),
+                  text.range(of: "<(?:(?:[A-Za-z_][A-Za-z0-9_.-]*):)?VisioDocument(?:\\s|>)", options: .regularExpression) != nil else { return nil }
+            return data
+        }
+        for data in candidates {
+            guard let root = try? VisioXML.document(data).rootElement(), root.localTag == "VisioDocument" else { continue }
+            return Dictionary(root.firstLocal("Colors")?.elementsLocal("ColorEntry").compactMap { entry -> (Int, String)? in
+                guard let index = entry.attr("IX").flatMap(Int.init), let color = entry.attr("RGB") else { return nil }
+                return (index, color)
+            } ?? [], uniquingKeysWith: { first, _ in first })
+        }
+        return [:]
+    }
+
+    func index(for components: [Double]) throws -> Double {
+        guard components.count == 3 else { throw DiagramError.invalid("RGB expects three color components.") }
+        let bytes = try components.map { component -> Int in
+            guard component.isFinite, let byte = Int(exactly: component), (0...255).contains(byte) else {
+                throw DiagramError.invalid("RGB components must be whole numbers from 0 through 255.")
+            }
+            return byte
+        }
+        let color = String(format: "#%02X%02X%02X", bytes[0], bytes[1], bytes[2])
+        if let index = indices[color] { return Double(index) }
+        guard allowsAddingColors else { throw DiagramError.invalid("RGB color is absent from the supplied Visio color table.") }
+        guard nextIndex <= UInt64(UInt32.max) else { throw DiagramError.invalid("The Visio color table is full.") }
+        let index = Int(nextIndex)
+        indices[color] = index
+        nextIndex += 1
+        return Double(index)
+    }
+
+    private static func normalize(_ value: String) -> String? {
+        let text = value.hasPrefix("#") ? String(value.dropFirst()) : value
+        guard text.count == 6, text.allSatisfy(\.isHexDigit) else { return nil }
+        return "#" + text.uppercased()
+    }
+}
+
 /// A bounded numeric ShapeSheet interpreter. Unsupported functions throw; callers
 /// can retain a file's cached value without substituting a made-up calculation.
 enum ShapeSheet {
-    indirect enum Expression { case number(Double),measure(Double,String),string(String),reference(String),unary(String,Expression),binary(String,Expression,Expression),call(String,[Expression]) }
+    indirect enum Expression { case number(Double),measure(Double,String),string(String),reference(String),omitted,unary(String,Expression),binary(String,Expression,Expression),call(String,[Expression]) }
     enum Token: Equatable { case number(Double),measure(Double,String),string(String),name(String),op(String),left,right,comma,end }
     static func parse(_ formula:String,characterLimit:Int = 16384) throws -> Expression {
         var parser = try Parser(formula,characterLimit:characterLimit);let result = try parser.expression()
         guard parser.token == .end else { throw DiagramError.invalid("Unexpected ShapeSheet expression content.") };return result
     }
-    static func evaluate(_ formula:String,resolve:(String)throws->Double) throws -> Double {
-        try evaluate(parse(formula),resolve:resolve)
+    static func evaluate(_ formula:String,resolve:(String)throws->Double,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> Double {
+        try evaluate(parse(formula),resolve:resolve,colorPalette:colorPalette)
     }
-    static func evaluate(_ expression:Expression,resolve:(String)throws->Double) throws -> Double {
+    static func evaluate(_ expression:Expression,resolve:(String)throws->Double,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> Double {
         var operations = 0
         func eval(_ expression:Expression,_ depth:Int = 0) throws -> Double {
             operations += 1
@@ -22,6 +96,7 @@ enum ShapeSheet {
             case .number(let value): result = value
             case .measure(let value,_):result = value
             case .string: throw DiagramError.invalid("This cell requires a numeric ShapeSheet value.")
+            case .omitted: throw DiagramError.invalid("An omitted argument is valid only in an optional function position.")
             case .reference(let name):
                 if name.uppercased() == "TRUE" { return 1 }; if name.uppercased() == "FALSE" { return 0 }
                 result = try resolve(name)
@@ -47,7 +122,8 @@ enum ShapeSheet {
                 let values = try arguments.map{try eval($0,depth+1)}
                 func arity(_ n:Int) throws { guard values.count == n else { throw DiagramError.invalid("\(name) expects \(n) arguments.") } }
                 switch name {
-                case "GUARD","SETATREFEXPR","SETATREFEVAL":try arity(1);result = values[0]
+                case "GUARD","THEMEGUARD","SETATREFEXPR","SETATREFEVAL":try arity(1);result = values[0]
+                case "ISTHEMED":try arity(0);result = try eval(.reference("ColorSchemeIndex"),depth+1) > 0 ? 1 : 0
                 case "PI":try arity(0);result = .pi
                 case "ABS":try arity(1);result = abs(values[0])
                 case "SQRT":try arity(1);result = sqrt(values[0])
@@ -55,8 +131,18 @@ enum ShapeSheet {
                 case "ASIN":try arity(1);result = asin(values[0]); case "ACOS":try arity(1);result = acos(values[0]); case "ATAN":try arity(1);result = atan(values[0])
                 case "ATAN2":try arity(2);result = atan2(values[0],values[1])
                 case "LN":try arity(1);result = log(values[0]); case "EXP":try arity(1);result = exp(values[0])
-                case "INT":try arity(1);result = floor(values[0]); case "SIGN":try arity(1);result = values[0] == 0 ? 0 : values[0] > 0 ? 1 : -1
+                case "INT":try arity(1);result = floor(values[0]); case "SIGN":
+                    guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
+                    result = try sign(values[0],fuzz:values.count == 2 ? values[1] : 1e-9)
                 case "ROUND":try arity(2);let digits = values[1].rounded(.towardZero);let scale = pow(10,digits);result = digits <= -9 || digits > 15 ? values[0] : (values[0]*scale).rounded()/scale
+                case "CEILING","FLOOR":
+                    guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
+                    let multiple = values.count == 2 ? values[1] : (values[0] < 0 ? -1 : 1)
+                    result = try rounded(values[0],toMultiple:multiple,awayFromZero:name == "CEILING")
+                case "RGB":
+                    try arity(3)
+                    guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
+                    result = try colorPalette.index(for:values)
                 case "MODULUS":try arity(2);guard values[1] != 0 else { throw DiagramError.invalid("MODULUS divisor cannot be zero.") };result = values[0]-values[1]*floor(values[0]/values[1])
                 case "DEG":try arity(1);result = values[0]*180 / .pi
                 case "RAD":try arity(1);result = values[0] * .pi/180
@@ -68,6 +154,33 @@ enum ShapeSheet {
             }
             guard result.isFinite else { throw DiagramError.invalid("ShapeSheet calculation produced a non-finite value.") }; return result
         }; return try eval(expression)
+    }
+    static func rounded(_ number:Double,toMultiple multiple:Double,awayFromZero:Bool) throws -> Double {
+        guard number.isFinite,multiple.isFinite else { throw DiagramError.invalid("Rounding requires finite values.") }
+        if number == 0 || multiple == 0 { return 0 }
+        guard number.sign == multiple.sign else { throw DiagramError.invalid("Rounding values must have the same sign.") }
+        let quotient = number/multiple
+        guard quotient.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        let count = awayFromZero ? ceil(quotient) : quotient.rounded(.towardZero)
+        let result = count*multiple
+        guard result.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        return result
+    }
+    static func sign(_ number:Double,fuzz:Double) throws -> Double {
+        guard number.isFinite,fuzz.isFinite else { throw DiagramError.invalid("SIGN requires finite values.") }
+        guard fuzz >= 0 else { throw DiagramError.invalid("SIGN fuzz must be nonnegative.") }
+        if abs(number) <= fuzz { return 0 }
+        return number > 0 ? 1 : -1
+    }
+    private static func containsMeasure(_ expression:Expression) -> Bool {
+        switch expression {
+        case .measure:return true
+        case .unary(_,let child):return containsMeasure(child)
+        case .binary(_,let lhs,let rhs):return containsMeasure(lhs) || containsMeasure(rhs)
+        case .call(_,let arguments):return arguments.contains(where:containsMeasure)
+        case .omitted:return false
+        default:return false
+        }
     }
     private struct Parser {
         var tokens:[Token] = [],index = 0,depth = 0
@@ -128,7 +241,22 @@ enum ShapeSheet {
                 index += 1
                 if token == .left {
                     index += 1;var arguments:[Expression] = []
-                    if token != .right { while true { if name.uppercased() == "BOUND",arguments.isEmpty,token == .comma { arguments.append(.number(0)) } else { arguments.append(try expression()) };if token == .comma { index += 1;continue };break } }
+                    if name.uppercased() == "INDEX" {
+                        // INDEX permits an omitted delimiter while specifying
+                        // errorvalue, as in INDEX(54,";1;2;3;,,"ERROR").
+                        if token != .right {
+                            while true {
+                                if token == .comma { arguments.append(.omitted) }
+                                else { arguments.append(try expression()) }
+                                if token == .comma {
+                                    index += 1
+                                    if token == .right { arguments.append(.omitted);break }
+                                    continue
+                                }
+                                break
+                            }
+                        }
+                    } else if token != .right { while true { if name.uppercased() == "BOUND",arguments.isEmpty,token == .comma { arguments.append(.number(0)) } else { arguments.append(try expression()) };if token == .comma { index += 1;continue };break } }
                     guard token == .right else { throw DiagramError.invalid("Missing function closing parenthesis.") };index += 1;left = .call(name,arguments)
                 } else { left = .reference(name) }
             default:throw DiagramError.invalid("Expected a ShapeSheet value.")

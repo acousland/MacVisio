@@ -4,6 +4,8 @@ A native Swift/AppKit diagram editor. Version 0.19 speeds up VSDX opening by cac
 
 ## Run
 
+Development after the 0.19 release adds bounded ShapeSheet string functions and obstacle-aware orthogonal connectors. The 0.20 candidate is under validation; [the resumed plan](docs/PLAN.md) and [public Windows comparison corpus](docs/INTERCHANGE-CORPUS.md) describe the next compatibility checks. The latest published release remains 0.19.0.
+
 Download the ZIP from [GitHub releases](https://github.com/acousland/MacVisio/releases/latest), expand it and move MacVisio.app to Applications. The 0.19.0 distribution is for Apple Silicon and macOS 27 or newer. Choose **MacVisio > Check for Updates…** to check manually. Automatic checks are enabled by default and can be toggled in the same menu; installation requires your confirmation. See [release and updater setup](docs/DISTRIBUTION.md).
 
 Open `build/MacVisio.app`. This arm64 build requires macOS 27 because its bundled legacy reader was built for that version. Earlier macOS releases and Intel Macs have not been tested. Swift source targets macOS 13, but producing an older-system bundle also requires rebuilding every legacy-reader dependency for that system.

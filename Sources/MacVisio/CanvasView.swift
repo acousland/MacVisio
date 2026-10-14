@@ -164,7 +164,7 @@ final class CanvasView: NSView {
         for e in page.edges where page.isVisible(e) { DiagramDrawing.drawEdge(e,in:page,selected:e.id == selectedEdge) }
         for n in page.nodes where n.kind != .swimlane && page.isVisible(n) { DiagramDrawing.drawNode(n,paperScale:page.paperScale) }
         if tool == .connector {
-            for node in page.nodes where page.isVisible(node) && !page.isLocked(node) {
+            for node in page.nodes where page.isVisible(node) && !page.isLocked(node) && page.permitsGlue(to:node) {
                 for port in node.formatting.connectionPoints {
                     let p = ConnectionGeometry.point(port,on:node),mark = NSBezierPath(ovalIn:CGRect(x:p.x-3/coordinateZoom,y:p.y-3/coordinateZoom,width:6/coordinateZoom,height:6/coordinateZoom))
                     NSColor.white.setFill();mark.fill();NSColor.controlAccentColor.setStroke();mark.lineWidth = 1/coordinateZoom;mark.stroke()
@@ -205,8 +205,8 @@ final class CanvasView: NSView {
         if tool == .line { lineStart = p; needsDisplay = true; return }
         if tool == .text { editor?.insertShape(.text,at:p); if let id = selectedNodes.first { beginEditing(id) }; return }
         if tool == .connector {
-            let nearby = page.nodes.reversed().first{page.isVisible($0) && !page.isLocked($0) && connectionPoint(at:p,on:$0) != nil}
-            guard let hit = nearby ?? node(at:p,includeLocked:false),hit.kind != .swimlane else { return }
+            let nearby = page.nodes.reversed().first{page.isVisible($0) && !page.isLocked($0) && page.permitsGlue(to:$0) && connectionPoint(at:p,on:$0) != nil}
+            guard let hit = nearby ?? node(at:p,includeLocked:false),hit.kind != .swimlane,page.permitsGlue(to:hit) else { return }
             let port = connectionPoint(at:p,on:hit)?.id
             if let source = pendingSource,source != hit.id || pendingSourcePort != port { editor?.connect(source,to:hit.id,sourcePort:pendingSourcePort,targetPort:port);pendingSource = nil;pendingSourcePort = nil }
             else { pendingSource = hit.id;pendingSourcePort = port;select([hit.id]) }
@@ -248,6 +248,22 @@ final class CanvasView: NSView {
         }
         let snap = snapsToGrid && !event.modifierFlags.contains(.option)
         var next = beforeDrag ?? document.diagram
+        var group = originalRects.values.reduce(CGRect.null) { $0.union($1) }
+        var movement: CGPoint?
+        if resizeHandle == nil,!group.isNull {
+            let dx = p.x-start.x,dy = p.y-start.y
+            let anchor = originalRects.values.min { $0.minX < $1.minX } ?? group
+            var moveX = snap ? DiagramGeometry.snapped(anchor.minX+dx,grid:10/page.paperScale)-anchor.minX : dx
+            var moveY = snap ? DiagramGeometry.snapped(anchor.minY+dy,grid:10/page.paperScale)-anchor.minY : dy
+            if snap {
+                let selected = Set(originalRects.keys)
+                let targets = page.nodes.filter { !selected.contains($0.id) && page.isVisible($0) && page.permitsShapeSnap(to:$0) }.map(ShapeSnapping.bounds(of:))
+                let adjustment = ShapeSnapping.alignmentDelta(moving:group.offsetBy(dx:moveX,dy:moveY),targets:targets,tolerance:CGFloat(6/coordinateZoom))
+                moveX += adjustment.x;moveY += adjustment.y
+            }
+            moveX = max(-group.minX,min(page.width-group.maxX,moveX));moveY = max(-group.minY,min(page.height-group.maxY,moveY))
+            movement = CGPoint(x:moveX,y:moveY)
+        }
         for i in next.page.nodes.indices {
             let id = next.page.nodes[i].id
             guard let r = originalRects[id] else { continue }
@@ -260,14 +276,7 @@ final class CanvasView: NSView {
                 next.page.nodes[i].x = max(0,minX); next.page.nodes[i].y = max(0,minY)
                 next.page.nodes[i].width = min(page.width-next.page.nodes[i].x,maxX-minX); next.page.nodes[i].height = min(page.height-next.page.nodes[i].y,maxY-minY)
             } else {
-                let dx = p.x-start.x,dy = p.y-start.y
-                // Snap the group by its first shape, preserving spacing between shapes.
-                let anchor = originalRects.values.min { $0.minX < $1.minX } ?? r
-                let moveX = snap ? DiagramGeometry.snapped(anchor.minX+dx,grid:10/page.paperScale)-anchor.minX : dx
-                let moveY = snap ? DiagramGeometry.snapped(anchor.minY+dy,grid:10/page.paperScale)-anchor.minY : dy
-                let group = originalRects.values.reduce(CGRect.null) { $0.union($1) }
-                let clampX = max(-group.minX,min(page.width-group.maxX,moveX)), clampY = max(-group.minY,min(page.height-group.maxY,moveY))
-                next.page.nodes[i].x = r.minX+clampX; next.page.nodes[i].y = r.minY+clampY
+                next.page.nodes[i].x = r.minX+(movement?.x ?? 0); next.page.nodes[i].y = r.minY+(movement?.y ?? 0)
             }
         }
         if resizeHandle != nil,let id = selectedNodes.first,let before = beforeDrag,
@@ -284,7 +293,7 @@ final class CanvasView: NSView {
             if hypot(end.x-start.x,end.y-start.y)>3 { editor?.addFreeLine(from:start,to:end) }
             lineStart = nil; needsDisplay = true; return
         }
-        if tool == .connector, let source = pendingSource, let target = node(at:pointInPage(event)), target.id != source, target.kind != .swimlane { editor?.connect(source,to:target.id); pendingSource = nil; needsDisplay = true; editor?.updateStatus() }
+        if tool == .connector, let source = pendingSource, let target = node(at:pointInPage(event),includeLocked:false), target.id != source, target.kind != .swimlane,page.permitsGlue(to:target) { editor?.connect(source,to:target.id); pendingSource = nil; needsDisplay = true; editor?.updateStatus() }
         if let before = beforeDrag, before != document.diagram {
             let next = document.diagram; document.diagram = before; document.replace(with:next,action:controlDrag != nil ? "Adjust Control Handle" : resizeHandle == nil ? "Move Shapes" : "Resize Shape")
         }

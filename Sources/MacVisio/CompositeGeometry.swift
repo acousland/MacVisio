@@ -18,7 +18,7 @@ struct CompositeGeometry:Equatable {
             case .reference(let key):return try data(key)
             case .call(let name,let args):
                 let name = name.uppercased()
-                if ["GUARD","SETATREFEXPR"].contains(name),args.count == 1 { return try resolve(args[0],depth+1) }
+                if ["GUARD","THEMEGUARD","SETATREFEXPR"].contains(name),args.count == 1 { return try resolve(args[0],depth+1) }
                 if name == "IF",args.count == 3 { return try resolve(value(args[0]) != 0 ? args[1] : args[2],depth+1) }
                 if name == "IFERROR",args.count == 2 { do { return try resolve(args[0],depth+1) } catch { return try resolve(args[1],depth+1) } }
                 guard ["NURBS","POLYLINE"].contains(name),args.count <= 4096 else { throw DiagramError.invalid("Unsupported composite geometry expression.") }

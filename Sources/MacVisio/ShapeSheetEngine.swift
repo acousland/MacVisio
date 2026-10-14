@@ -22,6 +22,7 @@ enum ShapeSheetEngine {
     static func recalculate(_ input:Diagram,previous:Diagram? = nil) -> Calculation {
         guard input.pages.contains(where:{$0.nodes.contains{!$0.formatting.sheet.isEmpty || !$0.formatting.connectionPoints.isEmpty || !$0.formatting.controls.isEmpty || $0.formatting.geometry != nil}}) else { return Calculation(diagram:input,issues:[]) }
         var diagram = input,issues = Set<String>()
+        let colorPalette = ShapeSheetColorPalette(documentArchive:diagram.visioArchive)
         for pageIndex in diagram.pages.indices {
             var page = diagram.pages[pageIndex]
             let old = previous?.pages.first(where:{$0.id == page.id})
@@ -48,7 +49,7 @@ enum ShapeSheetEngine {
             var sheetIDs:[String:UUID] = [:]
             let binding = diagram.visioArchive?.pages.first(where:{$0.pageID == page.id})
             for (i,node) in source.nodes.enumerated() { let id = binding?.nodeIDs[node.id] ?? node.formatting.sourceShapeID ?? String(i+1); if sheetIDs[id] == nil { sheetIDs[id] = node.id } }
-            let context = ShapeSheetContext(page:source,binding:binding)
+            let context = ShapeSheetContext(page:source,binding:binding,colorPalette:colorPalette)
             var steps = 0
             func resolve(_ nodeID:UUID,_ key:String,_ depth:Int = 0) throws -> Double {
                 try context.number(nodeID,key)
