@@ -12,9 +12,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationDidFinishLaunching(_ notification:Notification) {
         NSColorPanel.shared.showsAlpha = true
         buildMenus()
-        if !CommandLine.arguments.contains("--launch-check") { updates.start() }
+        if !CommandLine.arguments.contains("--launch-check") && !CommandLine.arguments.contains("--open-check") { updates.start() }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            if let index = CommandLine.arguments.firstIndex(of:"--open-check"),CommandLine.arguments.indices.contains(index+2) {
+                LiveOpenCheck.run(self,input:URL(fileURLWithPath:CommandLine.arguments[index+1]),output:URL(fileURLWithPath:CommandLine.arguments[index+2]));return
+            }
             if CommandLine.arguments.contains("--launch-check") { self.diagnosticDocument = self.newDiagram(template:.flowchart) }
             else if NSDocumentController.shared.documents.isEmpty && !self.openedAtLaunch { self.newDiagram(template:.flowchart) }
             NSApp.activate(ignoringOtherApps:true)
@@ -99,7 +102,6 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func open(_ url:URL) {
         if let existing = NSDocumentController.shared.documents.first(where:{$0.fileURL == url}) { existing.showWindows(); return }
         do {
-            let doc = MacVisioDocument()
             let ext = url.pathExtension.lowercased()
             if ext == "vssx" || ext == "vss" {
                 if NSDocumentController.shared.documents.isEmpty { newDiagram(template:.blank) }
@@ -107,14 +109,19 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 editor?.showWindow(nil);editor?.loadStencil(url);return
             }
             let type = (ext == "vsdx" || ext == "vstx") ? MacVisioDocument.visioType : (ext == "vsd" || ext == "vst") ? MacVisioDocument.legacyType : MacVisioDocument.nativeType
-            try doc.read(from:url,ofType:type)
+            let doc = try MacVisioDocument(contentsOf:url,ofType:type)
             let asNew = ext == "vstx" || ext == "vst" || ext == "vsd" && !doc.legacyNative
             doc.fileURL = asNew ? nil : url; doc.fileType = asNew ? MacVisioDocument.visioType : type
             if asNew { doc.updateChangeCount(.changeDone) }
             NSDocumentController.shared.addDocument(doc); doc.makeWindowControllers(); doc.showWindows()
         } catch { NSApp.presentError(error) }
     }
-    func application(_ sender:NSApplication,openFiles filenames:[String]) { openedAtLaunch = true; for name in filenames { open(URL(fileURLWithPath:name)) }; sender.reply(toOpenOrPrint:.success) }
+    func application(_ sender:NSApplication,openFiles filenames:[String]) {
+        // Diagnostic arguments include paths which AppKit may also deliver as
+        // opening events at launch. The diagnostic opens its input explicitly.
+        if CommandLine.arguments.contains("--open-check") { sender.reply(toOpenOrPrint:.success);return }
+        openedAtLaunch = true; for name in filenames { open(URL(fileURLWithPath:name)) }; sender.reply(toOpenOrPrint:.success)
+    }
     func applicationShouldHandleReopen(_ sender:NSApplication,hasVisibleWindows flag:Bool) -> Bool { if !flag { newDiagram(template:.blank) }; return true }
     func applicationShouldTerminate(_ sender:NSApplication) -> NSApplication.TerminateReply {
         for document in NSDocumentController.shared.documents { (document as? MacVisioDocument)?.commitTextEditing() }

@@ -65,6 +65,7 @@ final class MacVisioDocument: NSDocument {
         super.canClose(withDelegate:delegate,shouldClose:shouldCloseSelector,contextInfo:contextInfo)
     }
     func replace(with next:Diagram,action:String) {
+        guard next != diagram else { return }
         let calculation = DiagramCalculation.recalculate(ShapeRichText.synchronize(next,previous:diagram),previous:diagram)
         applyCalculated(calculation.diagram,issues:calculation.issues,action:action)
     }

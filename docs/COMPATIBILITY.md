@@ -1,4 +1,4 @@
-# Visio compatibility — 0.22.1
+# Visio compatibility — 0.22.2
 
 The requested acceptance target is a native macOS application with every Visio Professional 2019 function and read/write support for both binary VSD and VSDX. **That target is not met.** The ISO supplies Windows installation artifacts rather than a source project that can be recompiled for macOS.
 

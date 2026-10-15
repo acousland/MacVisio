@@ -142,6 +142,7 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
 final class InspectorPanel: FlippedView {
     weak var editor: EditorWindowController?
     private var fields: [String:NSTextField] = [:]
+    private var displayedFieldValues: [String:String] = [:]
     private var colorWells: [String:NSColorWell] = [:]
     private var currentKey = ""
     private var applying = false
@@ -155,7 +156,7 @@ final class InspectorPanel: FlippedView {
     private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular) { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l) }
     private func section(_ text:String,y:Double) { label(text,18,y,190,size:10,weight:.bold) }
     private func field(_ key:String,_ value:String,x:Double = 18,y:Double,width:Double = 194,height:Double = 24) {
-        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f
+        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
     }
     private func well(_ key:String,color:String,y:Double) {
         label(key,18,y+5,130)
@@ -165,7 +166,7 @@ final class InspectorPanel: FlippedView {
         guard !applying,let editor = editor else { return }
         let focused = window?.firstResponder as? NSTextView
         if let textField = focused?.delegate as? NSTextField,fields.values.contains(where:{$0 === textField}) { return }
-        for view in subviews { view.removeFromSuperview() }; fields = [:]; colorWells = [:]
+        for view in subviews { view.removeFromSuperview() }; fields = [:]; displayedFieldValues = [:]; colorWells = [:]
         let selection = editor.selection
         let page = editor.diagramDocument.diagram.page
         label(!selection.isEmpty || editor.canvas.selectedEdge != nil ? "Format Shape" : "Format Page",18,18,210,size:17,weight:.semibold)
@@ -215,8 +216,12 @@ final class InspectorPanel: FlippedView {
         }
     }
     @objc private func fieldChanged(_ sender:NSTextField) {
-        guard let editor = editor,let key = sender.identifier?.rawValue else { return }
+        guard let editor = editor,let key = sender.identifier?.rawValue,fields[key] === sender else { return }
         let raw = sender.stringValue
+        // AppKit also sends the action when an untouched field loses focus.
+        // Displayed numbers may be rounded; only commit an actual text change.
+        guard raw != displayedFieldValues[key] else { return }
+        displayedFieldValues[key] = raw
         if currentKey == "node" {
             if key == "Text" { editor.modifySelection("Edit Text") { $0.text = raw }; return }
             if key == "Font" { editor.modifySelection("Font") { $0.formatting.fontName = raw.isEmpty ? "System" : raw }; return }

@@ -1,0 +1,80 @@
+import AppKit
+import XCTest
+@testable import MacVisio
+
+final class DocumentOpeningTests: XCTestCase {
+    func testApplicationOpenUsesDocumentBookkeepingAndLeavesUntouchedSourceClean() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let source = try fixture()
+            let marker = Data([0x00, 0x41, 0xFF, 0x09])
+            var parts = try VisioPackage.read(source)
+            parts["vendor/opening-probe.bin"] = marker
+            try VisioPackage.write(parts, to: source)
+            let sourceBytes = try Data(contentsOf: source)
+            let diskDate = try XCTUnwrap((try FileManager.default.attributesOfItem(atPath: source.path)[.modificationDate]) as? Date)
+
+            // Keep a probe of the old manual path: read(url) plus assigning the
+            // visible URL/type does not establish NSDocument's modification baseline.
+            let manual = MacVisioDocument()
+            try manual.read(from: source, ofType: MacVisioDocument.visioType)
+            manual.fileURL = source
+            manual.fileType = MacVisioDocument.visioType
+            XCTAssertNil(manual.fileModificationDate)
+            XCTAssertFalse(manual.isDocumentEdited)
+
+            // Exercise the same entry point used by the app's Open command.
+            AppDelegate().open(source)
+            let document = try XCTUnwrap(NSDocumentController.shared.documents.first { $0.fileURL?.standardizedFileURL == source.standardizedFileURL } as? MacVisioDocument)
+            XCTAssertFalse(document.isDocumentEdited, "A newly opened source should start clean before window interaction.")
+            XCTAssertEqual(document.fileURL?.standardizedFileURL, source.standardizedFileURL)
+            XCTAssertEqual(document.fileType, MacVisioDocument.visioType)
+            XCTAssertEqual(document.fileModificationDate, diskDate, "NSDocument should track the source modification date for save conflict checks.")
+
+            let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+            defer {
+                document.close()
+                NSDocumentController.shared.removeDocument(document)
+            }
+            editor.window?.contentView?.layoutSubtreeIfNeeded()
+            RunLoop.main.run(until: Date().addingTimeInterval(0.2))
+
+            XCTAssertFalse(document.isDocumentEdited, "Showing, focusing, and fitting an untouched document must not mark it edited.")
+            XCTAssertEqual(document.fileURL?.standardizedFileURL, source.standardizedFileURL)
+            XCTAssertEqual(document.fileType, MacVisioDocument.visioType)
+            XCTAssertEqual(document.fileModificationDate, diskDate)
+            assertFitted(editor.canvas, file: #filePath, line: #line)
+            XCTAssertEqual(try Data(contentsOf: source), sourceBytes, "Opening and fitting must leave the source file byte-for-byte unchanged.")
+            XCTAssertEqual(try VisioPackage.read(source)["vendor/opening-probe.bin"], marker)
+        }
+    }
+
+    private func assertFitted(_ canvas: CanvasView, file: StaticString, line: UInt) {
+        guard let size = canvas.enclosingScrollView?.contentSize, size.width > 0, size.height > 0 else {
+            XCTFail("The editor scroll view must have a laid-out viewport.", file: file, line: line)
+            return
+        }
+        let page = canvas.page
+        let expected = max(0.2, min(3, min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight)))
+        XCTAssertEqual(canvas.zoom, expected, accuracy: 0.02, "The page should be fit to the visible canvas.", file: file, line: line)
+        XCTAssertGreaterThan(canvas.frame.width, 0, file: file, line: line)
+        XCTAssertGreaterThan(canvas.frame.height, 0, file: file, line: line)
+    }
+
+    private func fixture() throws -> URL {
+        let directory = FileManager.default.temporaryDirectory.appendingPathComponent("MacVisioOpeningTests-\(UUID().uuidString)", isDirectory: true)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        addTeardownBlock { try? FileManager.default.removeItem(at: directory) }
+        let source = directory.appendingPathComponent("synthetic-source.vsdx")
+        var diagram = Diagram()
+        diagram.title = "Synthetic open-state fixture"
+        diagram.page.nodes = [DiagramNode(kind: .diamond, x: 240, y: 180, text: "Source shapes")]
+        try VisioFormat.write(diagram, to: source)
+        return source
+    }
+
+    private func onMain<T>(_ body: () throws -> T) rethrows -> T {
+        if Thread.isMainThread { return try body() }
+        return try DispatchQueue.main.sync(execute: body)
+    }
+}

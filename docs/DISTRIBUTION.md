@@ -6,6 +6,10 @@ The MacVisio menu includes **Check for Updates…** and **Automatically Check fo
 
 The feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/appcast.xml`. Both the appcast and the ZIP use the app's Ed25519 update key; signed feeds and signature verification before extraction are required by the bundle. The public key is committed in Info.plist. The private key is stored in the local Keychain under the MacVisio account and in the encrypted GitHub Actions secret `SPARKLE_PRIVATE_KEY`. It is excluded from source and release assets.
 
+## Version 0.22.2
+
+Version 0.22.2 prevents untouched inspector fields from triggering document-wide recalculation after opening, preserves exact values behind rounded fields, and uses normal NSDocument file metadata. The source suite passes 391 Swift tests and the bundled readers/renderers pass verification. A live event-loop diagnostic confirms unchanged document state and post-open responsiveness on the local drawing. See [release notes](RELEASE-0.22.2.md) and [opening performance](OPEN-PERFORMANCE.md).
+
 ## Version 0.22.1
 
 Version 0.22.1 fixes group labels being painted over by member backgrounds, honors cached text visibility, and reduces repeated style inheritance work during import. Compatibility notes are available in the status bar. The app is Developer ID signed, notarized, and stapled; Gatekeeper assessment passes. The source suite passes 387 Swift tests. See [release notes](RELEASE-0.22.1.md) and [opening performance](OPEN-PERFORMANCE.md). The distribution requires Apple Silicon and macOS 27 or newer.
