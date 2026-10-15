@@ -2,6 +2,20 @@ import XCTest
 @testable import MacVisio
 
 final class ShapeSheetLookupTests:XCTestCase {
+    func testCaseInsensitiveCellIndexRetainsUnicodeAndFirstMatchSemantics() throws {
+        var page = DiagramPage(),node = DiagramNode()
+        node.formatting.sheet = ["User.Size":ShapeSheetCell(value:"7"),"USER.SIZE":ShapeSheetCell(value:"9")]
+        page.nodes = [node]
+        let expected = node.formatting.sheet.first{$0.key.caseInsensitiveCompare("user.size") == .orderedSame}!.value.value
+        let context = ShapeSheetContext(page:page)
+        XCTAssertEqual(try context.number(node.id,"user.size"),Double(expected)!)
+        XCTAssertEqual(try context.number(node.id,"user.size"),Double(expected)!)
+
+        node.formatting.sheet = ["User.K":ShapeSheetCell(value:"11")]
+        page.nodes = [node]
+        XCTAssertEqual(try ShapeSheetContext(page:page).number(node.id,"user.k"),11)
+        XCTAssertEqual(try ShapeSheetContext(page:page).number(node.id,"USER.K"),11)
+    }
     func testIndexedLookupsMatchPageScansForNestedTransformedShapes() throws {
         var page = DiagramPage()
         var outer = DiagramNode(x:130,y:115,text:"Outer")

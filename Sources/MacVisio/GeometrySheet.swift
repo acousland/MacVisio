@@ -13,8 +13,11 @@ struct ShapeGeometrySection:Codable,Equatable {
 }
 enum GeometrySheet {
     struct Address { var section:Int;var row:Int?;var cell:String }
+    private static let addressRegex = try! NSRegularExpression(pattern:"^Geometry([1-9][0-9]*)\\.([A-Za-z]+)([0-9]*)$",options:.caseInsensitive)
     static func address(_ reference:String) -> Address? {
-        guard let regex = try? NSRegularExpression(pattern:"^Geometry([1-9][0-9]*)\\.([A-Za-z]+)([0-9]*)$",options:.caseInsensitive),let match = regex.firstMatch(in:reference,range:NSRange(reference.startIndex...,in:reference)),let s = Range(match.range(at:1),in:reference),let c = Range(match.range(at:2),in:reference),let r = Range(match.range(at:3),in:reference),let section = Int(reference[s]),section <= Int(UInt32.max)+1 else { return nil }
+        guard reference.count >= 8,reference.prefix(8).caseInsensitiveCompare("Geometry") == .orderedSame,
+              let match = addressRegex.firstMatch(in:reference,range:NSRange(reference.startIndex...,in:reference)),
+              let s = Range(match.range(at:1),in:reference),let c = Range(match.range(at:2),in:reference),let r = Range(match.range(at:3),in:reference),let section = Int(reference[s]),section <= Int(UInt32.max)+1 else { return nil }
         var row:Int?;if !reference[r].isEmpty { guard let index = UInt32(reference[r]) else { return nil };row = Int(index) };return Address(section:section-1,row:row,cell:String(reference[c]))
     }
     static func cell(_ reference:String,on node:DiagramNode) -> ShapeSheetCell? {

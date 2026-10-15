@@ -13,6 +13,12 @@ final class ShapeSheetContext {
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
     private var cache:[String:SheetValue] = [:],visiting = Set<String>(),steps = 0
+    // Exact spellings are safe aliases inside this immutable page snapshot.
+    // Resolve them before repeating control and case-insensitive cell scans.
+    private var referenceCache:[UUID:[String:SheetValue]] = [:]
+    private var expressions:[String:ShapeSheet.Expression] = [:]
+    private var sheetKeyIndices:[UUID:[String:String]] = [:]
+    private var unicodeSheetKeys = Set<UUID>()
     private var defaultsCache:[UUID:[String:Double]] = [:]
     private let colorPalette:ShapeSheetColorPalette
     init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) {
@@ -32,12 +38,14 @@ final class ShapeSheetContext {
             return try pageValue(String(reference.dropFirst(8)),from:id)
         }
         let (id,key) = try target(reference,from:id)
-        steps += 1;guard steps < 100000,visiting.count < 64,let node = nodes[id] else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
+        steps += 1;guard steps < 100000,visiting.count < 64 else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
+        if let value = referenceCache[id]?[key] { return value }
+        guard let node = nodes[id] else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
         let canonical:String
         if let (c,axis) = ControlGeometry.address(key,on:node) { canonical = "Controls."+node.formatting.controls[c].name+"."+axis }
-        else { canonical = node.formatting.sheet.keys.first{$0.caseInsensitiveCompare(key) == .orderedSame} ?? key }
+        else { canonical = sheetKey(key,on:node) ?? key }
         let token = id.uuidString+"!"+canonical.lowercased()
-        if let value = cache[token] { return value };guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(canonical).") };defer { visiting.remove(token) }
+        if let value = cache[token] { referenceCache[id,default:[:]][key] = value;return value };guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(canonical).") };defer { visiting.remove(token) }
         let result:SheetValue
         if canonical.caseInsensitiveCompare("TheText") == .orderedSame { result = .string(node.text) }
         else {
@@ -62,13 +70,28 @@ final class ShapeSheetContext {
             else if canonical.caseInsensitiveCompare("TxtLocPinY") == .orderedSame { result = .number(try number(id,"TxtHeight")/2) }
             else if let number = defaults(for:node).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = .number(number) }
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
-        };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;return result
+        };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;referenceCache[id,default:[:]][key] = result;return result
     }
     private func defaults(for node:DiagramNode) -> [String:Double] {
         if let values = defaultsCache[node.id] { return values }
         let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes)
         defaultsCache[node.id] = values
         return values
+    }
+    private func sheetKey(_ reference:String,on node:DiagramNode) -> String? {
+        // ASCII ShapeSheet names have an exact case-folded index. Retain
+        // Foundation's comparison rules for Unicode names and references.
+        func scan() -> String? { node.formatting.sheet.keys.first{$0.caseInsensitiveCompare(reference) == .orderedSame} }
+        guard reference.utf8.allSatisfy({$0 < 128}),!unicodeSheetKeys.contains(node.id) else { return scan() }
+        if let keys = sheetKeyIndices[node.id] { return keys[reference.lowercased()] }
+        var keys:[String:String] = [:]
+        for key in node.formatting.sheet.keys {
+            guard key.utf8.allSatisfy({$0 < 128}) else { unicodeSheetKeys.insert(node.id);return scan() }
+            let folded = key.lowercased()
+            if keys[folded] == nil { keys[folded] = key }
+        }
+        sheetKeyIndices[node.id] = keys
+        return keys[reference.lowercased()]
     }
     private func pageValue(_ reference:String,from host:UUID) throws -> SheetValue {
         steps += 1
@@ -84,7 +107,7 @@ final class ShapeSheetContext {
         let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
         let result:SheetValue
         if !formula.isEmpty && !["INH","NO FORMULA"].contains(formula.uppercased()) {
-            result = try evaluate(ShapeSheet.parse(formula),on:host,host:.page(key))
+            result = try evaluate(expression(formula),on:host,host:.page(key))
         } else if let cell {
             let unit = cell.unit.uppercased()
             if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
@@ -103,13 +126,19 @@ final class ShapeSheetContext {
         return result
     }
     func evaluate(_ formula:String,on id:UUID) throws -> SheetValue {
-        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id,nil))
+        try evaluate(expression(formula),on:id,host:.shape(id,nil))
     }
     func evaluate(_ expression:ShapeSheet.Expression,on id:UUID) throws -> SheetValue {
         try evaluate(expression,on:id,host:.shape(id,nil))
     }
     private func evaluate(_ formula:String,on id:UUID,hostCell:String?) throws -> SheetValue {
-        try evaluate(ShapeSheet.parse(formula),on:id,host:.shape(id,hostCell))
+        try evaluate(expression(formula),on:id,host:.shape(id,hostCell))
+    }
+    private func expression(_ formula:String) throws -> ShapeSheet.Expression {
+        if let parsed = expressions[formula] { return parsed }
+        let parsed = try ShapeSheet.parse(formula)
+        expressions[formula] = parsed
+        return parsed
     }
     private func evaluate(_ expression:ShapeSheet.Expression,on id:UUID,host:FormulaHost) throws -> SheetValue {
         try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in

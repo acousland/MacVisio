@@ -58,6 +58,31 @@ enum ShapeRichText {
     private static let paragraphKey = NSAttributedString.Key("MacVisioParagraphRun")
     private static let fieldKey = NSAttributedString.Key("MacVisioTextField")
     private static let emptyFieldKey = NSAttributedString.Key("MacVisioEmptyField")
+
+    /// The previous diagram is immutable for the duration of synchronization.
+    /// Index it once so each current node can find its baseline without
+    /// rescanning (and copying) every preceding page and node.
+    private struct PreviousNodeLookup {
+        var pageIndex: Int
+        var nodeIndices: [UUID:Int]
+    }
+
+    private static func previousNodeLookup(_ diagram:Diagram) -> [UUID:PreviousNodeLookup] {
+        var result:[UUID:PreviousNodeLookup] = [:]
+        for pageIndex in diagram.pages.indices {
+            let page = diagram.pages[pageIndex]
+            // Keep the same first-match behavior as `first(where:)` if an
+            // invalid intermediate model contains duplicate page IDs.
+            guard result[page.id] == nil else { continue }
+            var nodeIndices:[UUID:Int] = [:]
+            for nodeIndex in page.nodes.indices {
+                let id = page.nodes[nodeIndex].id
+                if nodeIndices[id] == nil { nodeIndices[id] = nodeIndex }
+            }
+            result[page.id] = PreviousNodeLookup(pageIndex:pageIndex,nodeIndices:nodeIndices)
+        }
+        return result
+    }
     static func logicalSelection(_ selection:NSRange,in text:NSAttributedString) -> NSRange {
         func offset(_ limit:Int) -> Int {
             var removed = 0
@@ -155,40 +180,63 @@ enum ShapeRichText {
     }
     /// Inspector changes apply to all runs; text-view edits supply their own runs.
     static func synchronize(_ input:Diagram,previous:Diagram) -> Diagram {
+        let previousIndices = previousNodeLookup(previous)
         var result = input
-        for p in result.pages.indices { for n in result.pages[p].nodes.indices {
+        for p in result.pages.indices {
+            guard let pageLookup = previousIndices[result.pages[p].id] else { continue }
+            for n in result.pages[p].nodes.indices {
             var node = result.pages[p].nodes[n]
-            guard let old = previous.pages.first(where:{$0.id == result.pages[p].id})?.nodes.first(where:{$0.id == node.id}),let runs = node.formatting.textRuns else { continue }
+            guard let oldIndex = pageLookup.nodeIndices[node.id],let runs = node.formatting.textRuns else { continue }
+            let old = previous.pages[pageLookup.pageIndex].nodes[oldIndex]
+            let sizeChanged = node.fontSize != old.fontSize
+            let colorChanged = node.textColor != old.textColor
+            let boldChanged = node.bold != old.bold
+            let fontChanged = node.formatting.fontName != old.formatting.fontName
+            let italicChanged = node.formatting.italic != old.formatting.italic
+            let underlineChanged = node.formatting.underline != old.formatting.underline
+            let alignmentChanged = node.formatting.alignment != old.formatting.alignment
+
+            // Text or geometry edits do not need a rich-text rewrite. Besides
+            // avoiding an allocation, this preserves the exact run array (and
+            // its source indices) for ordinary text replacement.
+            guard sizeChanged || colorChanged || boldChanged || fontChanged || italicChanged || underlineChanged || alignmentChanged else { continue }
             let expected = old.formatting.textRuns.map{old.text == node.text ? $0 : replacingText(old.text,with:node.text,runs:$0)}
             guard node.formatting.textRuns == expected else { continue }
             node.formatting.textRuns = runs.map { run in
                 var run = run
-                if node.fontSize != old.fontSize { run.character.size = node.fontSize }
-                if node.textColor != old.textColor { run.character.color = node.textColor }
-                if node.bold != old.bold { run.character.bold = node.bold }
-                if node.formatting.fontName != old.formatting.fontName { run.character.fontName = node.formatting.fontName }
-                if node.formatting.italic != old.formatting.italic { run.character.italic = node.formatting.italic }
-                if node.formatting.underline != old.formatting.underline { run.character.underline = node.formatting.underline }
-                if node.formatting.alignment != old.formatting.alignment { run.paragraph.alignment = node.formatting.alignment }
+                if sizeChanged { run.character.size = node.fontSize }
+                if colorChanged { run.character.color = node.textColor }
+                if boldChanged { run.character.bold = node.bold }
+                if fontChanged { run.character.fontName = node.formatting.fontName }
+                if italicChanged { run.character.italic = node.formatting.italic }
+                if underlineChanged { run.character.underline = node.formatting.underline }
+                if alignmentChanged { run.paragraph.alignment = node.formatting.alignment }
                 return run
             }
             result.pages[p].nodes[n] = node
-        } }
+            }
+        }
         return result
     }
     static func withoutSourceIndices(_ input:[DiagramPage]) -> [DiagramPage] {
         input.map { page in var page = page;for i in page.nodes.indices { if let runs = page.nodes[i].formatting.textRuns { page.nodes[i].formatting.textRuns = runs.map{run in var run = run;run.character.sourceIndex = nil;run.paragraph.sourceIndex = nil;return run} } };return page }
     }
     static func synchronizeCalculation(_ input:Diagram,previous:Diagram) -> Diagram {
+        let previousIndices = previousNodeLookup(previous)
         var result = input
-        for p in result.pages.indices { for i in result.pages[p].nodes.indices {
+        for p in result.pages.indices {
+            guard let pageLookup = previousIndices[result.pages[p].id] else { continue }
+            for i in result.pages[p].nodes.indices {
             var node = result.pages[p].nodes[i]
-            guard let old = previous.pages.first(where:{$0.id == result.pages[p].id})?.nodes.first(where:{$0.id == node.id}),node.fontSize != old.fontSize,node.formatting.textRuns == old.formatting.textRuns,let runs = node.formatting.textRuns,let first = runs.first else { continue }
+            guard let oldIndex = pageLookup.nodeIndices[node.id],node.formatting.textRuns != nil else { continue }
+            let old = previous.pages[pageLookup.pageIndex].nodes[oldIndex]
+            guard node.fontSize != old.fontSize,node.formatting.textRuns == old.formatting.textRuns,let runs = node.formatting.textRuns,let first = runs.first else { continue }
             node.formatting.textRuns = runs.enumerated().map { index,run in var run = run
                 if first.character.sourceIndex.map({$0 == run.character.sourceIndex}) ?? (index == 0) { run.character.size = node.fontSize };return run
             }
             result.pages[p].nodes[i] = node
-        } }
+            }
+        }
         return result
     }
     private static func indices<S:Equatable>(_ styles:[S],source:(S)->Int?,preferred:(S)->Bool = {_ in false},reserved:Set<Int> = []) -> ([S],[Int],[Int]) {

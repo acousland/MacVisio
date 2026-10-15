@@ -3,7 +3,7 @@ import Foundation
 enum ShapeSheetEngine {
     static let geometryKeys = ["Width","Height","PinX","PinY","LocPinX","LocPinY","Angle","LineWeight","Char.Size"]
     static let textKeys = ["TxtWidth","TxtHeight","TxtPinX","TxtPinY","TxtLocPinX","TxtLocPinY","TxtAngle","LeftMargin","RightMargin","TopMargin","BottomMargin","VerticalAlign"]
-    struct Calculation { var diagram:Diagram; var issues:[String] }
+    struct Calculation { var diagram:Diagram; var issues:[String]; var issuesByPage:[UUID:[String]] = [:] }
     static func defaults(_ node:DiagramNode,page:DiagramPage) -> [String:Double] {
         defaults(node,page:page,nodesByID:nil)
     }
@@ -25,12 +25,33 @@ enum ShapeSheetEngine {
         var values = ["Width":node.sheetWidth/72,"Height":node.sheetHeight/72,"PinX":local.center.x/72-dx*cos(a)+dy*sin(a),"PinY":(height-local.center.y)/72-dx*sin(a)-dy*cos(a),"LocPinX":lx,"LocPinY":ly,"Angle":a,"LineWeight":node.strokeWidth/72,"Char.Size":node.fontSize/72]
         values.merge(["TxtWidth":tw,"TxtHeight":th,"TxtPinX":tx-(tw/2-tlx)*cos(ta)+(th/2-tly)*sin(ta),"TxtPinY":ty-(tw/2-tlx)*sin(ta)-(th/2-tly)*cos(ta),"TxtLocPinX":tlx,"TxtLocPinY":tly,"TxtAngle":ta,"LeftMargin":(box?.left ?? 0)/72,"RightMargin":(box?.right ?? 0)/72,"TopMargin":(box?.top ?? 0)/72,"BottomMargin":(box?.bottom ?? 0)/72,"VerticalAlign":Double(box?.verticalAlignment ?? 1)]){_,new in new};return values
     }
-    static func recalculate(_ input:Diagram,previous:Diagram? = nil) -> Calculation {
-        guard input.pages.contains(where:{$0.nodes.contains{!$0.formatting.sheet.isEmpty || !$0.formatting.connectionPoints.isEmpty || !$0.formatting.controls.isEmpty || $0.formatting.geometry != nil}}) else { return Calculation(diagram:input,issues:[]) }
-        var diagram = input,issues = Set<String>()
+    static func recalculate(_ input:Diagram,previous:Diagram? = nil,skipUnchangedPagesComparedTo comparison:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:]) -> Calculation {
+        guard input.pages.contains(where:{$0.nodes.contains{!$0.formatting.sheet.isEmpty || !$0.formatting.connectionPoints.isEmpty || !$0.formatting.controls.isEmpty || $0.formatting.geometry != nil}}) else {
+            let emptyIssues = input.pages.reduce(into:[UUID:[String]]()){$0[$1.id] = []}
+            return Calculation(diagram:input,issues:[],issuesByPage:emptyIssues)
+        }
+        var diagram = input,issues = Set<String>(),issuesByPage:[UUID:[String]] = [:]
         let colorPalette = ShapeSheetColorPalette(documentArchive:diagram.visioArchive)
+        var comparisonPageIndices:[UUID:Int]? = nil
+        if let comparison,comparison.visioArchive == input.visioArchive {
+            var indices:[UUID:Int] = [:]
+            for pageIndex in comparison.pages.indices where indices[comparison.pages[pageIndex].id] == nil {
+                indices[comparison.pages[pageIndex].id] = pageIndex
+            }
+            comparisonPageIndices = indices
+        }
         for pageIndex in diagram.pages.indices {
+            let pageID = diagram.pages[pageIndex].id
+            if let comparison,let comparisonPageIndices,
+               let comparisonPageIndex = comparisonPageIndices[pageID],
+               diagram.pages[pageIndex] == comparison.pages[comparisonPageIndex] {
+                let retained = retainedIssuesByPage[pageID] ?? []
+                issuesByPage[pageID] = retained
+                issues.formUnion(retained)
+                continue
+            }
             var page = diagram.pages[pageIndex]
+            var pageIssues = Set<String>()
             let old = previous?.pages.first(where:{$0.id == page.id})
             let oldNodesByID = old.map { Dictionary(uniqueKeysWithValues:$0.nodes.map{($0.id,$0)}) }
             var pageNodesByID = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
@@ -88,12 +109,12 @@ enum ShapeSheetEngine {
                         let value = try resolve(node.id,key);values[key] = value
                         if node.formatting.sheet[key].flatMap({Double($0.value)}).map({abs($0-value)>1e-10}) ?? true { node.formatting.sheet[key]?.value = format(value) }
                     }
-                    catch { issues.insert(error.localizedDescription) }
+                    catch { pageIssues.insert(error.localizedDescription) }
                 }
                 for key in node.formatting.sheet.keys.sorted() where key.hasPrefix("User.") || key.hasPrefix("Prop.") {
                     guard let cell = node.formatting.sheet[key],!cell.formula.isEmpty,!["No Formula","Inh"].contains(cell.formula) else { continue }
                     do { let value = try context.value(node.id,key),cached = ShapeSheetContext.cached(value);if cell.value != cached { node.formatting.sheet[key]?.value = cached } }
-                    catch { if let data = try? resolveData(node.id,key) { node.formatting.sheet[key]?.value = data.formula } else { issues.insert(error.localizedDescription) } }
+                    catch { if let data = try? resolveData(node.id,key) { node.formatting.sheet[key]?.value = data.formula } else { pageIssues.insert(error.localizedDescription) } }
                 }
                 for j in node.formatting.data.indices { let key = "Prop."+node.formatting.data[j].key;if let cell = node.formatting.sheet[key],!cell.formula.isEmpty,!["No Formula","Inh"].contains(cell.formula) { node.formatting.data[j].value = cell.value } }
                 for j in node.formatting.connectionPoints.indices {
@@ -103,7 +124,7 @@ enum ShapeSheetEngine {
                             let value = try resolve(node.id,key)
                             if isX { if Double(port.x.value).map({abs($0-value)>1e-10}) ?? true { node.formatting.connectionPoints[j].x.value = format(value) } }
                             else { if Double(port.y.value).map({abs($0-value)>1e-10}) ?? true { node.formatting.connectionPoints[j].y.value = format(value) } }
-                        } catch { issues.insert(error.localizedDescription) }
+                        } catch { pageIssues.insert(error.localizedDescription) }
                     }
                 }
                 let signedWidth = (values["Width"] ?? node.sheetWidth/72)*72,signedHeight = (values["Height"] ?? node.sheetHeight/72)*72
@@ -123,14 +144,14 @@ enum ShapeSheetEngine {
                         node.x = parent.center.x+dx*cos(a)-dy*sin(a)-width/2;node.y = parent.center.y+dx*sin(a)+dy*cos(a)-height/2
                         node.rotation = parent.rotation+(parent.formatting.flipX != parent.formatting.flipY ? angle : -angle)*180 / .pi
                     } else { node.x = cx*72-width/2;node.y = source.height-cy*72-height/2;node.rotation = -angle*180 / .pi }
-                } else { issues.insert("A ShapeSheet dimension is outside the supported range; its cached geometry was retained.") }
+                } else { pageIssues.insert("A ShapeSheet dimension is outside the supported range; its cached geometry was retained.") }
                 if let size = values["Char.Size"],(1...500).contains(size*72) { node.fontSize = size*72 }
                 if let weight = values["LineWeight"],(0...100).contains(weight*72) { node.strokeWidth = weight*72 }
                 if source.nodes[i].formatting.sheet.keys.contains(where:{textKeys.contains($0)}) {
                     var textValues = defaults(node,page:source,nodesByID:sourceNodesByID)
                     for key in textKeys where node.formatting.sheet[key] != nil {
                         do { let value = try resolve(node.id,key);textValues[key] = value;if node.formatting.sheet[key].flatMap({Double($0.value)}).map({abs($0-value)>1e-10}) ?? true { node.formatting.sheet[key]?.value = CompositeGeometry.number(value) } }
-                        catch { issues.insert("\(key): \(error.localizedDescription)") }
+                        catch { pageIssues.insert("\(key): \(error.localizedDescription)") }
                     }
                     let tw = (textValues["TxtWidth"] ?? node.width/72)*72,th = (textValues["TxtHeight"] ?? node.height/72)*72,tx = (textValues["TxtPinX"] ?? node.width/144)*72,ty = (textValues["TxtPinY"] ?? node.height/144)*72
                     let lx = (textValues["TxtLocPinX"] ?? tw/144)*72,ly = (textValues["TxtLocPinY"] ?? th/144)*72,a = textValues["TxtAngle"] ?? 0
@@ -140,13 +161,13 @@ enum ShapeSheetEngine {
                         if let original = node.formatting.textBox {
                             for path in [\ShapeTextBox.centerX,\.centerY,\.width,\.height,\.rotation,\.left,\.right,\.top,\.bottom] where abs(box[keyPath:path]-original[keyPath:path])<1e-9 { box[keyPath:path] = original[keyPath:path] }
                         };node.formatting.textBox = box
-                    } else { issues.insert("Calculated text dimensions exceeded the supported range; its cached text block was retained.") }
+                    } else { pageIssues.insert("Calculated text dimensions exceeded the supported range; its cached text block was retained.") }
                 }
                 for c in node.formatting.controls.indices {
                     for key in node.formatting.controls[c].cells.keys {
                         guard var cell = node.formatting.controls[c].cells[key],!cell.formula.isEmpty,!["Inh","No Formula"].contains(cell.formula) else { continue }
                         do { cell.value = ShapeSheetContext.cached(try context.value(node.id,"Controls."+node.formatting.controls[c].name+"."+key));node.formatting.controls[c].cells[key] = cell }
-                        catch { issues.insert("Controls.\(node.formatting.controls[c].name).\(key): \(error.localizedDescription)") }
+                        catch { pageIssues.insert("Controls.\(node.formatting.controls[c].name).\(key): \(error.localizedDescription)") }
                     }
                 }
                 if let sections = node.formatting.geometry {
@@ -155,14 +176,14 @@ enum ShapeSheetEngine {
                         if cell.formula.isEmpty || ["Inh","No Formula"].contains(cell.formula) { continue }
                         if let type = GeometrySheet.compositeType(key,on:node) {
                             do { let data = try resolveData(node.id,key);guard data.name == type else { throw DiagramError.invalid("Wrong composite geometry type.") };if cell.value != data.formula { cell.value = data.formula;try GeometrySheet.set(key,cell,on:&node) } }
-                            catch { issues.insert("\(key): \(error.localizedDescription)") };continue
+                            catch { pageIssues.insert("\(key): \(error.localizedDescription)") };continue
                         }
                         do { let value = try resolve(node.id,key);if Double(cell.value).map({abs($0-value)>1e-10}) ?? true { cell.value = CompositeGeometry.number(value);try GeometrySheet.set(key,cell,on:&node) } }
-                        catch { issues.insert("\(key): \(error.localizedDescription)") }
+                        catch { pageIssues.insert("\(key): \(error.localizedDescription)") }
                     }
                     let rendered = VisioFormat.geometryPaths(node.formatting.geometry!,width:node.sheetWidth/72,height:node.sheetHeight/72)
-                    if rendered.paths.allSatisfy({$0.commands.allSatisfy{$0.isValid(xScale:node.width*page.paperScale,yScale:node.height*page.paperScale)}}) { node.formatting.paths = rendered.paths } else { issues.insert("Calculated geometry exceeded the drawing bounds; its previous path was retained.") }
-                    issues.formUnion(rendered.warnings)
+                    if rendered.paths.allSatisfy({$0.commands.allSatisfy{$0.isValid(xScale:node.width*page.paperScale,yScale:node.height*page.paperScale)}}) { node.formatting.paths = rendered.paths } else { pageIssues.insert("Calculated geometry exceeded the drawing bounds; its previous path was retained.") }
+                    pageIssues.formUnion(rendered.warnings)
                 }
                 let originalNode = source.nodes[i]
                 if abs(node.x-originalNode.x)<1e-9 { node.x = originalNode.x };if abs(node.y-originalNode.y)<1e-9 { node.y = originalNode.y }
@@ -171,8 +192,11 @@ enum ShapeSheetEngine {
                 page.nodes[i] = node
             }
             diagram.pages[pageIndex] = page
+            let pageIssueList = pageIssues.sorted()
+            issuesByPage[pageID] = pageIssueList
+            issues.formUnion(pageIssueList)
         }
-        return Calculation(diagram:ShapeRichText.synchronizeCalculation(diagram,previous:input),issues:issues.sorted())
+        return Calculation(diagram:ShapeRichText.synchronizeCalculation(diagram,previous:input),issues:issues.sorted(),issuesByPage:issuesByPage)
     }
     static func format(_ value:Double) -> String { String(format:"%.12g",locale:Locale(identifier:"en_US_POSIX"),value) }
 }

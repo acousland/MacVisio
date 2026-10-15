@@ -6,6 +6,13 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let updates = AppUpdates()
     private var openedAtLaunch = false
     private weak var diagnosticDocument:MacVisioDocument?
+    private var openingTokens:[UUID:String] = [:]
+    private var openingOrder:[UUID] = []
+    private struct PendingDocumentOpen {
+        let token:UUID
+        var completions:[(MacVisioDocument?,Error?)->Void]
+    }
+    private var pendingDocumentOpens:[URL:PendingDocumentOpen] = [:]
     lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check"))
     // This delegate owns startup templates and file-opening behavior. Letting
     // AppKit also create an untitled document produces a second blank window.
@@ -20,7 +27,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 LiveOpenCheck.run(self,input:URL(fileURLWithPath:CommandLine.arguments[index+1]),output:URL(fileURLWithPath:CommandLine.arguments[index+2]));return
             }
             if CommandLine.arguments.contains("--launch-check") { self.diagnosticDocument = self.newDiagram(template:.flowchart) }
-            else { self.workflow.start(showHome:!self.openedAtLaunch) }
+            else { self.workflow.start(showHome:!self.openedAtLaunch); self.refreshOpeningIndicator() }
             NSApp.activate(ignoringOtherApps:true)
             if let index = CommandLine.arguments.firstIndex(of:"--launch-check"),CommandLine.arguments.indices.contains(index+1) {
                 DispatchQueue.main.asyncAfter(deadline:.now()+0.5) {
@@ -102,17 +109,58 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard panel.runModal() == .OK,let url = panel.url else { return }
         do { guard !(try VisioLibrary.entries(in:url)).isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") };UserDefaults.standard.set(url.path,forKey:"MacVisioLibraryDirectory");openVisioLibrary(sender) } catch { NSApp.presentError(error) }
     }
-    func open(_ url:URL) {
-        if let existing = workflow.drawings.first(where:{$0.fileURL.map(RecentDrawingStore.canonical) == RecentDrawingStore.canonical(url)}) { workflow.noteRecent(url);workflow.activate(existing);return }
-        workflow.welcome?.showOpening(url.lastPathComponent)
-        workflow.welcome?.window?.displayIfNeeded()
-        defer { workflow.welcome?.showOpening(nil) }
+    @discardableResult private func beginOpening(_ url:URL) -> UUID {
+        let token = UUID();openingTokens[token] = url.lastPathComponent;openingOrder.append(token)
+        refreshOpeningIndicator();workflow.welcome?.window?.displayIfNeeded();return token
+    }
+    private func finishOpening(_ token:UUID) {
+        openingTokens.removeValue(forKey:token);openingOrder.removeAll{$0 == token};refreshOpeningIndicator()
+    }
+    private func refreshOpeningIndicator() {
+        let name = openingOrder.compactMap{openingTokens[$0]}.first
+        workflow.welcome?.showOpening(name)
+    }
+    func open(_ url:URL,completion:((MacVisioDocument?,Error?)->Void)? = nil) {
+        if let existing = workflow.drawings.first(where:{$0.fileURL.map(RecentDrawingStore.canonical) == RecentDrawingStore.canonical(url)}) {
+            workflow.noteRecent(url);workflow.activate(existing);completion?(existing,nil);return
+        }
+        let ext = url.pathExtension.lowercased()
+        if ext == "vsdx" || ext == "macvisio" {
+            let key = RecentDrawingStore.canonical(url)
+            if var pending = pendingDocumentOpens[key] {
+                if let completion { pending.completions.append(completion) }
+                pendingDocumentOpens[key] = pending
+                return
+            }
+            let token = beginOpening(url)
+            pendingDocumentOpens[key] = PendingDocumentOpen(token:token,completions:completion.map{[$0]} ?? [])
+            let controller = NSDocumentController.shared
+            let type = ext == "vsdx" ? MacVisioDocument.visioType : MacVisioDocument.nativeType
+            // Initialize explicitly on a worker, retaining NSDocument's file
+            // bookkeeping. Controller-managed opening adds file coordination
+            // that can stall before the actual reader is reached.
+            DispatchQueue.global(qos:.userInitiated).async { [weak self] in
+                let result = Result { try MacVisioDocument(contentsOf:url,ofType:type) }
+                DispatchQueue.main.async {
+                    guard let self else { return }
+                    switch result {
+                    case .success(let document):
+                        controller.addDocument(document)
+                        self.finishAsyncOpen(document,wasAlreadyOpen:false,error:nil,url:url,key:key)
+                    case .failure(let error):
+                        self.finishAsyncOpen(nil,wasAlreadyOpen:false,error:error,url:url,key:key)
+                    }
+                }
+            }
+            return
+        }
+        let token = beginOpening(url)
+        defer { finishOpening(token) }
         do {
-            let ext = url.pathExtension.lowercased()
             if ext == "vssx" || ext == "vss" {
                 if NSDocumentController.shared.documents.isEmpty { newDiagram(template:.blank) }
                 let editor = (NSApp.keyWindow?.windowController as? EditorWindowController) ?? NSDocumentController.shared.documents.compactMap{$0.windowControllers.first as? EditorWindowController}.last
-                editor?.showWindow(nil);editor?.loadStencil(url);return
+                editor?.showWindow(nil);editor?.loadStencil(url);completion?(nil,nil);return
             }
             let type = (ext == "vsdx" || ext == "vstx") ? MacVisioDocument.visioType : (ext == "vsd" || ext == "vst") ? MacVisioDocument.legacyType : MacVisioDocument.nativeType
             let doc = try MacVisioDocument(contentsOf:url,ofType:type)
@@ -120,13 +168,46 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             doc.fileURL = asNew ? nil : url; doc.fileType = asNew ? MacVisioDocument.visioType : type
             if asNew { doc.updateChangeCount(.changeDone) }
             NSDocumentController.shared.addDocument(doc);workflow.documentOpened(doc,sourceURL:url); doc.makeWindowControllers(); doc.showWindows()
-        } catch { NSApp.presentError(error) }
+            completion?(doc,nil)
+        } catch { NSApp.presentError(error);completion?(nil,error) }
+    }
+    private func finishAsyncOpen(_ document:MacVisioDocument?,wasAlreadyOpen:Bool,error:Error?,url:URL,key:URL) {
+        guard let pending = pendingDocumentOpens.removeValue(forKey:key) else { return }
+        finishOpening(pending.token)
+        var resultDocument:MacVisioDocument?,resultError = error
+        if let error {
+            NSApp.presentError(error)
+        } else if let document {
+            resultDocument = document
+            let alreadyManaged = workflow.drawings.contains{$0 === document}
+            if wasAlreadyOpen || alreadyManaged {
+                workflow.documentOpened(document,sourceURL:url)
+                if document.windowControllers.isEmpty { document.makeWindowControllers();document.showWindows() }
+                else { workflow.activate(document) }
+            } else {
+                workflow.documentOpened(document,sourceURL:url)
+                document.makeWindowControllers();document.showWindows()
+            }
+        } else {
+            let failure = DiagramError.invalid("This file could not be opened as a MacVisio drawing.")
+            resultError = failure;NSApp.presentError(failure)
+        }
+        for completion in pending.completions { completion(resultDocument,resultError) }
     }
     func application(_ sender:NSApplication,openFiles filenames:[String]) {
         // Diagnostic arguments include paths which AppKit may also deliver as
         // opening events at launch. The diagnostic opens its input explicitly.
         if CommandLine.arguments.contains("--open-check") { sender.reply(toOpenOrPrint:.success);return }
-        openedAtLaunch = true; for name in filenames { open(URL(fileURLWithPath:name)) }; sender.reply(toOpenOrPrint:.success)
+        openedAtLaunch = true
+        guard !filenames.isEmpty else { sender.reply(toOpenOrPrint:.success);return }
+        var remaining = filenames.count,failed = false
+        for name in filenames {
+            open(URL(fileURLWithPath:name)) { _,error in
+                if error != nil { failed = true }
+                remaining -= 1
+                if remaining == 0 { sender.reply(toOpenOrPrint:failed ? .failure : .success) }
+            }
+        }
     }
     func applicationShouldHandleReopen(_ sender:NSApplication,hasVisibleWindows flag:Bool) -> Bool {
         if !flag { if let document = workflow.activeDrawing { workflow.activate(document) } else { workflow.showWelcome() } };return true
@@ -294,6 +375,10 @@ if let index = CommandLine.arguments.firstIndex(of:"--inspect-libraries"),Comman
         try JSONSerialization.data(withJSONObject:report,options:[.prettyPrinted,.sortedKeys]).write(to:URL(fileURLWithPath:CommandLine.arguments[index+2]),options:.atomic)
         print("Imported \(results.count-failed)/\(results.count) libraries; \(failed) failed.");exit(failed == 0 ? 0 : 1)
     } catch { fputs("Library inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
+}
+if let index = CommandLine.arguments.firstIndex(of:"--profile-interactions"),CommandLine.arguments.indices.contains(index+2) {
+    do { try InteractionPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
+    catch { fputs("Interaction profiling failed: \(error.localizedDescription)\n",stderr);exit(1) }
 }
 if let index = CommandLine.arguments.firstIndex(of:"--profile-open"),CommandLine.arguments.indices.contains(index+2) {
     do { try OpenPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }

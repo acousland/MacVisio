@@ -35,8 +35,14 @@ final class DocumentOpeningTests: XCTestCase {
                 workflow.welcome?.close()
                 defaults.removePersistentDomain(forName: suite)
             }
-            appDelegate.open(source)
+            var opened:MacVisioDocument?,openError:Error?,openFinished = false
+            appDelegate.open(source) { document,error in opened = document;openError = error;openFinished = true }
+            let deadline = Date().addingTimeInterval(30)
+            while !openFinished && Date() < deadline { RunLoop.main.run(mode:.default,before:Date().addingTimeInterval(0.05)) }
+            XCTAssertTrue(openFinished,"The asynchronous open request should complete.")
+            XCTAssertNil(openError)
             let document = try XCTUnwrap(NSDocumentController.shared.documents.first { $0.fileURL?.standardizedFileURL == source.standardizedFileURL } as? MacVisioDocument)
+            XCTAssertTrue(opened === document)
             XCTAssertFalse(document.isDocumentEdited, "A newly opened source should start clean before window interaction.")
             XCTAssertEqual(document.fileURL?.standardizedFileURL, source.standardizedFileURL)
             XCTAssertEqual(document.fileType, MacVisioDocument.visioType)

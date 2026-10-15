@@ -9,28 +9,66 @@ final class MacVisioDocument: NSDocument {
     var diagram = Diagram()
     var importWarnings: [String] = []
     var calculationIssues: [String] = []
+    private var geometryIssuesByPage:[UUID:[String]] = [:]
     var legacyNative = false
     weak var documentWorkflow:DocumentWorkflow?
+    private struct SaveSnapshot { let id:UUID;let diagram:Diagram }
+    private struct QueuedSave {
+        let id:UUID
+        let url:URL
+        let typeName:String
+        let operation:NSDocument.SaveOperationType
+        let completion:(Error?)->Void
+    }
+    private let saveSnapshotLock = NSLock()
+    private var pendingSaveSnapshot:SaveSnapshot?
+    private var activeAsyncSaveID:UUID?
+    private var queuedSaves:[QueuedSave] = []
+    private var saveDrainScheduled = false
+    private var saveInProgress = false
     override class var autosavesInPlace: Bool { true }
     override class var writableTypes: [String] { [visioType,nativeType,legacyType] }
     override class var readableTypes: [String] { [visioType,legacyType,nativeType] }
+    override class func canConcurrentlyReadDocuments(ofType typeName:String) -> Bool {
+        // These readers construct value models with Foundation/XML only. AppKit
+        // creates and presents their editor windows on the main thread afterward.
+        typeName == visioType || typeName == nativeType
+    }
     override init() { super.init(); hasUndoManager = true }
     override func makeWindowControllers() {
         let controller = EditorWindowController(document:self)
         addWindowController(controller)
     }
     override func data(ofType typeName:String) throws -> Data {
-        for controller in windowControllers { (controller as? EditorWindowController)?.canvas.finishEditing(commit:true) }
-        if typeName == Self.legacyType { return try VSDBinaryFormat.encoded(diagram) }
+        let snapshot:Diagram
+        if Thread.isMainThread {
+            commitTextEditing()
+            snapshot = diagram
+        } else {
+            saveSnapshotLock.lock()
+            let saved = activeAsyncSaveID.flatMap{id in pendingSaveSnapshot.flatMap{$0.id == id ? $0.diagram : nil}}
+            if saved != nil { pendingSaveSnapshot = nil }
+            saveSnapshotLock.unlock()
+            guard let saved else {
+                unblockUserInteraction()
+                throw DiagramError.invalid("The document has no prepared snapshot for background saving.")
+            }
+            snapshot = saved
+            unblockUserInteraction()
+        }
+        return try data(ofType:typeName,diagram:snapshot)
+    }
+    private func data(ofType typeName:String,diagram snapshot:Diagram) throws -> Data {
+        if typeName == Self.legacyType { return try VSDBinaryFormat.encoded(snapshot) }
         if typeName == Self.visioType {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("MacVisio-save-\(UUID()).vsdx")
             defer { try? FileManager.default.removeItem(at:url) }
-            try VisioFormat.write(diagram,to:url)
+            try VisioFormat.write(snapshot,to:url)
             return try Data(contentsOf:url)
         }
         guard typeName == Self.nativeType else { throw DiagramError.invalid("This file type cannot be written.") }
         let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted,.sortedKeys]
-        return try encoder.encode(diagram.validated())
+        return try encoder.encode(snapshot.validated())
     }
     override func read(from data:Data,ofType typeName:String) throws {
         guard data.count <= 256_000_000 else { throw DiagramError.invalid("This diagram exceeds the supported document size.") }
@@ -58,13 +96,69 @@ final class MacVisioDocument: NSDocument {
         guard (ext != "vsd" || typeName == Self.legacyType),(ext != "vsdx" || typeName == Self.visioType) else { throw DiagramError.invalid("The file extension does not match its selected format.") }
         try super.write(to:url,ofType:typeName)
     }
+    override func canAsynchronouslyWrite(to url:URL,ofType typeName:String,for saveOperation:NSDocument.SaveOperationType) -> Bool {
+        guard Self.writableTypes.contains(typeName),
+              (url.pathExtension.lowercased() != "vsd" || typeName == Self.legacyType),
+              (url.pathExtension.lowercased() != "vsdx" || typeName == Self.visioType) else { return false }
+        saveSnapshotLock.lock();defer { saveSnapshotLock.unlock() }
+        guard let pendingSaveSnapshot else { return false }
+        if activeAsyncSaveID == pendingSaveSnapshot.id { return true }
+        guard activeAsyncSaveID == nil else { return false }
+        activeAsyncSaveID = pendingSaveSnapshot.id
+        return true
+    }
     override func save(to url:URL,ofType typeName:String,for saveOperation:NSDocument.SaveOperationType,completionHandler:@escaping (Error?)->Void) {
-        super.save(to:url,ofType:typeName,for:saveOperation) { [weak self] error in
-            if error == nil,[NSDocument.SaveOperationType.saveOperation,.saveAsOperation,.autosaveInPlaceOperation].contains(saveOperation) {
-                DispatchQueue.main.async { [weak self] in self?.documentWorkflow?.noteRecent(url) }
+        guard Thread.isMainThread else {
+            DispatchQueue.main.async { [self] in
+                save(to:url,ofType:typeName,for:saveOperation,completionHandler:completionHandler)
             }
-            completionHandler(error)
+            return
         }
+        let saveID = UUID()
+        let request = QueuedSave(id:saveID,url:url,typeName:typeName,operation:saveOperation,completion:completionHandler)
+        if saveInProgress || !queuedSaves.isEmpty || saveDrainScheduled {
+            queuedSaves.append(request)
+            return
+        }
+        performSave(request)
+    }
+    private func performSave(_ request:QueuedSave) {
+        saveInProgress = true
+        commitTextEditing()
+        let snapshot = diagram
+        saveSnapshotLock.lock()
+        pendingSaveSnapshot = SaveSnapshot(id:request.id,diagram:snapshot)
+        saveSnapshotLock.unlock()
+        super.save(to:request.url,ofType:request.typeName,for:request.operation) { [weak self] error in
+            guard let self else {
+                request.completion(error)
+                return
+            }
+            self.finishSaveSnapshot(request.id)
+            if error == nil,[NSDocument.SaveOperationType.saveOperation,.saveAsOperation,.autosaveInPlaceOperation].contains(request.operation) {
+                DispatchQueue.main.async { [weak self] in self?.documentWorkflow?.noteRecent(request.url) }
+            }
+            request.completion(error)
+            self.saveInProgress = false
+            self.scheduleQueuedSaveDrain()
+        }
+    }
+    private func finishSaveSnapshot(_ id:UUID) {
+        saveSnapshotLock.lock();defer { saveSnapshotLock.unlock() }
+        if pendingSaveSnapshot?.id == id { pendingSaveSnapshot = nil }
+        if activeAsyncSaveID == id { activeAsyncSaveID = nil }
+    }
+    private func scheduleQueuedSaveDrain() {
+        guard Thread.isMainThread,!saveInProgress,!queuedSaves.isEmpty,!saveDrainScheduled else { return }
+        saveDrainScheduled = true
+        DispatchQueue.main.async { [weak self] in self?.drainQueuedSave() }
+    }
+    private func drainQueuedSave() {
+        guard Thread.isMainThread else { return }
+        saveDrainScheduled = false
+        guard !saveInProgress,!queuedSaves.isEmpty else { return }
+        let request = queuedSaves.removeFirst()
+        performSave(request)
     }
     override func willPresentError(_ error:Error) -> Error {
         let presented = super.willPresentError(error) as NSError
@@ -97,14 +191,18 @@ final class MacVisioDocument: NSDocument {
     }
     func replace(with next:Diagram,action:String) {
         guard next != diagram else { return }
-        let calculation = DiagramCalculation.recalculate(ShapeRichText.synchronize(next,previous:diagram),previous:diagram)
-        applyCalculated(calculation.diagram,issues:calculation.issues,action:action)
+        let calculation = DiagramCalculation.recalculate(ShapeRichText.synchronize(next,previous:diagram),previous:diagram,
+            previousIssues:calculationIssues,previousGeometryIssuesByPage:geometryIssuesByPage)
+        applyCalculated(calculation.diagram,issues:calculation.issues,geometryIssuesByPage:calculation.geometryIssuesByPage,action:action)
     }
-    private func applyCalculated(_ next:Diagram,issues:[String],action:String) {
-        let previousIssues = calculationIssues;calculationIssues = issues
+    private func applyCalculated(_ next:Diagram,issues:[String],geometryIssuesByPage nextGeometryIssuesByPage:[UUID:[String]],action:String) {
+        let previousIssues = calculationIssues,previousGeometryIssuesByPage = geometryIssuesByPage
+        calculationIssues = issues;geometryIssuesByPage = nextGeometryIssuesByPage
         guard next != diagram else { return }
         let previous = diagram
-        undoManager?.registerUndo(withTarget:self) { target in target.applyCalculated(previous,issues:previousIssues,action:action) }
+        undoManager?.registerUndo(withTarget:self) { target in
+            target.applyCalculated(previous,issues:previousIssues,geometryIssuesByPage:previousGeometryIssuesByPage,action:action)
+        }
         undoManager?.setActionName(action)
         diagram = next
         updateChangeCount(.changeDone)
