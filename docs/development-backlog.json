@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "Proposed execution backlog; no implementation or release action has been performed",
+  "status": "Execution started in isolated M0–M3 worktrees; statuses and evidence are scoped per task; no release acceptance implied",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -77,7 +77,11 @@
         "Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform.",
         "Material import/calculation issues are visible and release claims match the accepted slice."
       ],
-      "status": "Proposed"
+      "status": "In progress — independent preparation; unaccepted",
+      "execution_evidence": [
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+        "docs/delivery/M2-NATIVE-CONTRACTS.md"
+      ]
     },
     {
       "id": "M3",
@@ -1800,7 +1804,7 @@
           "deliverable": "Preserve existing welcome-window work; add missing Locate/Remove, read-only and duplicate-file cases.",
           "acceptance_criteria": "Multiple windows retain dirty/selection/view state and commands target the correct document.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-01",
@@ -1831,7 +1835,8 @@
             "AR-05",
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "Recent-store Locate/Remove prepared and focused storage tests passed; separate Home UI and full window/read-only journeys remain open."
         },
         {
           "id": "WP-10-T02",
@@ -1839,7 +1844,7 @@
           "deliverable": "Provide enabled-state explanations and text/shape/data results across pages.",
           "acceptance_criteria": "Replace preserves unselected rich formatting; canvas shortcuts never fire during text input.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-10-T01"
           ],
@@ -1871,7 +1876,8 @@
           "architecture_findings": [
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "Bounded value-model search/replacement preparation underway; command UI and event routing wait accepted M1."
         },
         {
           "id": "WP-10-T03",
@@ -1953,7 +1959,10 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress — independent preparation; unaccepted",
+      "execution_evidence": [
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+      ]
     },
     {
       "id": "WP-11",
@@ -2054,7 +2063,7 @@
           "deliverable": "Exercise selected-run formatting, IME, RTL, combining characters, emoji and deterministic substitutions.",
           "acceptance_criteria": "Text indexes remain intact and original requested font metadata is preserved.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-11-T02"
           ],
@@ -2078,7 +2087,8 @@
           "architecture_findings": [
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "UTF-16/run/font preparation underway; real IME/RTL input acceptance remains open."
         },
         {
           "id": "WP-11-T04",
@@ -2113,7 +2123,10 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress — independent preparation; unaccepted",
+      "execution_evidence": [
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+      ]
     },
     {
       "id": "WP-12",
@@ -2152,7 +2165,7 @@
           "deliverable": "Audit ZIP/XML/CFB/formula/resource limits and prohibited automatic external actions/fetching.",
           "acceptance_criteria": "Malformed/resource-exhaustion fixtures fail safely; opening does not execute imported actions.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [],
           "requirement_ids": [
             "MV-SEC-01",
@@ -2172,7 +2185,8 @@
           "priority": "P0",
           "qualification_dependencies": [],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "XML budgets moved before DOM; 7 input-trust tests passed. Full audit/converter-resource qualification remains open."
         },
         {
           "id": "WP-12-T02",
@@ -2180,7 +2194,7 @@
           "deliverable": "Require a stable manifest and intended signing/notarization/platform evidence before publishing.",
           "acceptance_criteria": "An ad hoc build cannot take the stable publishing path; development artifacts remain distinct.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-12-T01"
           ],
@@ -2204,7 +2218,8 @@
           "architecture_findings": [
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "Stable/development release gate implementation in progress; no signed candidate accepted."
         },
         {
           "id": "WP-12-T03",
@@ -2244,7 +2259,7 @@
           "deliverable": "Derive minimum OS/architectures from bundles; record content rights and provide local redacted support reports.",
           "acceptance_criteria": "All advertised combinations have evidence; no secrets/drawing text leak by default.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-12-T03"
           ],
@@ -2269,10 +2284,14 @@
             "AR-09",
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "Bundle-derived platform and redacted evidence tooling in progress; platform/content/update acceptance remains open."
         }
       ],
-      "status": "Proposed"
+      "status": "In progress — independent preparation; unaccepted",
+      "execution_evidence": [
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+      ]
     },
     {
       "id": "WP-13",
@@ -2414,7 +2433,10 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress — independent preparation; unaccepted",
+      "execution_evidence": [
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+      ]
     },
     {
       "id": "WP-14",
