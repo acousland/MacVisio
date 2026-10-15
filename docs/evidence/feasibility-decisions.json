@@ -1,0 +1,1879 @@
+{
+  "schema_version": 1,
+  "date_local": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "parent_task": "WP-04-T04",
+  "state": "deferred_unaccepted",
+  "purpose": "Bounded downstream feasibility/acceptance proposals; no implementation approach or exclusion approved.",
+  "reference_exact_build": null,
+  "full_baseline_retained": true,
+  "approved_scope_exclusions": [],
+  "implementation_path_selected": null,
+  "cost_estimate": null,
+  "cost_limit": "Qualitative cost drivers only; no effort/budget commitment before exact-build/member/version/driver denominators and probe results.",
+  "shared_acceptance_contract": {
+    "dimensions": [
+      "preservation",
+      "rendering",
+      "editing",
+      "behavior",
+      "interchange"
+    ],
+    "public_evidence": "Synthetic-only public fixtures. Local/private licensed libraries, protected content, identity secrets and guest images are never copied into public evidence.",
+    "runtime_boundary": "Use an existing appropriately licensed supported installation/session. Do not alter unrelated running sessions, install components without entitlement, or bypass rights restrictions.",
+    "truthfulness": "Source occurrences, parser success, preserved opaque parts and translated native scripts cannot qualify unmodified runtime compatibility. Failed/skipped/intermittent runs remain visible.",
+    "unknown_denominator": "All proposals are bounded initial slices; unresolved named members, generations, add-ins and integrations remain counted in the inventory until enumerated."
+  },
+  "evidence_records": [
+    {
+      "id": "E-SOURCE",
+      "kind": "documentation_source_only",
+      "status": "observed_unaccepted",
+      "paths": [
+        "docs/PRODUCT-SPEC.md",
+        "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+        "docs/evidence/M0-CHILD-SLICES.md"
+      ],
+      "limit": "Individual source/test anchors do not imply their tests were rerun or runtime support exists."
+    },
+    {
+      "id": "E-BINARY-LOCAL",
+      "kind": "local_independent_parser_regression",
+      "status": "passed_local_unaccepted",
+      "artifact": {
+        "path": "build/M0/binary-tests.log",
+        "sha256": "95830b09257b70df23f05958397ddac01928572046aa941f88ee7b26f5960f6a",
+        "local_ignored": true
+      },
+      "tests": 14,
+      "failures": 0,
+      "limit": "Graphics/CFB/Unicode/curves/images/endpoints, unchanged bytes and opaque-root-stream retention. No exact-build formula/master/data/glue semantics or Visio acceptance."
+    },
+    {
+      "id": "E-MASTER-LOCAL",
+      "kind": "local_independent_parser_regression",
+      "status": "passed_local_unaccepted",
+      "artifact": {
+        "path": "build/M0/public-master-probe.log",
+        "sha256": "1a95049edd3d710ab9ec765768b8e76ef23b669786b4c160df50337bfb7a7964",
+        "local_ignored": true
+      },
+      "tests": 1,
+      "failures": 0,
+      "test_anchor": {
+        "path": "Tests/MacVisioTests/MasterInheritanceTests.swift",
+        "anchor": "testPublicMasterOverrideAndExpandedBinaryOutputParseIndependently",
+        "line": 221,
+        "evidence_type": "source_only_not_executed"
+      },
+      "limit": "Independent public VSDX override/expanded-binary graphics parse, not preserved binary master identity/inheritance or Visio reference behavior."
+    },
+    {
+      "id": "E-REFERENCE-UNAVAILABLE",
+      "kind": "fresh_guest_observation_and_failed_smoke",
+      "status": "failed_reference_unaccepted",
+      "summary": {
+        "path": "docs/evidence/reference-summary.json",
+        "sha256": "4fefa9485c74d4cb55098197882bb6df1e1308fcadf71183b339bc616a6697af"
+      },
+      "observed": {
+        "visio_com_registration": false,
+        "standard_visio_executable": false,
+        "smoke_open_error": "0x80040154 REGDB_E_CLASSNOTREG",
+        "later_smoke_phases": "skipped",
+        "odbc_registration": "SQL Server registered in both views; historical x86 names do not establish working source connections"
+      },
+      "limit": "Bounded standard-path/registry inventory only; no activation, exact edition/build, runtime member/filter/solution inventory or round-trip acceptance."
+    }
+  ],
+  "candidate_path_boundaries": [
+    {
+      "area": "binary_vsd",
+      "candidates": [
+        "direct public semantic record implementation",
+        "appropriately licensed adapter path"
+      ],
+      "selected": null,
+      "reason": "Local graphics/metadata preservation does not decide semantic feasibility."
+    },
+    {
+      "area": "automation",
+      "candidates": [
+        "native facade for explicitly translated/native clients",
+        "explicit supported Windows bridge/runtime for unmodified VBA/COM clients"
+      ],
+      "selected": null,
+      "reason": "Native facade support is separate from MV-AUT-04 unmodified script compatibility; bridge activation is currently unavailable."
+    },
+    {
+      "area": "addins_objects_protection_cad_database",
+      "candidates": [
+        "supported native adapter where qualified",
+        "explicit supported bridge where qualified",
+        "unresolved dependency recorded until feasibility evidence exists"
+      ],
+      "selected": null,
+      "reason": "No supported runtime/server/filter/driver path has been selected or accepted."
+    }
+  ],
+  "requirement_mapping": [
+    {
+      "requirement_id": "MV-IO-02",
+      "scope": "B",
+      "requirement": "Read/write binary VSD with the geometry and semantics needed by the declared baseline matrix.",
+      "acceptance_contract": "Independent Visio create/open/edit/save/reopen tests verify formulas, masters, data, glue and text beyond graphics.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-30-T01-M0-F01",
+        "WP-30-T02-M0-F02",
+        "WP-30-T02-M0-F03",
+        "WP-30-T02-M0-F04",
+        "WP-30-T04-M0-F05"
+      ]
+    },
+    {
+      "requirement_id": "MV-IO-05",
+      "scope": "B",
+      "requirement": "Handle macro-enabled files with preservation, execution policy and signature awareness.",
+      "acceptance_contract": "Macros are never stored in a macro-free extension; modifications disclose invalidated signatures.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-32-T01-M0-M01"
+      ]
+    },
+    {
+      "requirement_id": "MV-IO-09",
+      "scope": "B",
+      "requirement": "Preserve/render reference-confirmed WMF/EMF and linked/embedded object content.",
+      "acceptance_contract": "Known fixtures retain previews, metadata and placement; unsupported activation is explicitly identified.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-32-T02-M0-O01",
+        "WP-32-T02-M0-O02"
+      ]
+    },
+    {
+      "requirement_id": "MV-AUT-03",
+      "scope": "B",
+      "requirement": "Inventory the baseline automation members, event order and transaction behavior.",
+      "acceptance_contract": "Every confirmed member maps to native support, bridge support or an explicit unresolved compatibility entry.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-31-T01-M0-A01",
+        "WP-31-T02-M0-A02",
+        "WP-31-T04-M0-A05"
+      ]
+    },
+    {
+      "requirement_id": "MV-AUT-04",
+      "scope": "B",
+      "requirement": "Provide an execution strategy for confirmed VBA/COM workflows.",
+      "acceptance_contract": "Representative unmodified compatibility scripts pass via the declared bridge/runtime; translated native scripts are labeled separately.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-31-T02-M0-A02",
+        "WP-31-T03-M0-A03",
+        "WP-31-T03-M0-A04",
+        "WP-31-T04-M0-A05"
+      ]
+    },
+    {
+      "requirement_id": "MV-AUT-05",
+      "scope": "B",
+      "requirement": "Address confirmed COM/VSTO/VSL/ActiveX and third-party add-in workflows.",
+      "acceptance_contract": "A published compatibility matrix names tested add-ins/versions; no claim follows solely from preserving their files.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-32-T03-M0-C01",
+        "WP-32-T03-M0-C02",
+        "WP-32-T03-M0-C03",
+        "WP-32-T03-M0-C04"
+      ]
+    },
+    {
+      "requirement_id": "MV-AUT-06",
+      "scope": "B",
+      "requirement": "Address linked/embedded OLE workflows and external-document editing.",
+      "acceptance_contract": "Reference cases retain object identity and changes, with a bridge or clear unsupported activation state.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-32-T02-M0-O02",
+        "WP-32-T02-M0-O03"
+      ]
+    },
+    {
+      "requirement_id": "MV-AUT-07",
+      "scope": "B",
+      "requirement": "Reproduce baseline-confirmed Office, reporting and process-integration user outcomes.",
+      "acceptance_contract": "Each integration has an exact host version, authentication/setup path and end-to-end test.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-33-T01-M0-I01",
+        "WP-33-T03-M0-I02"
+      ]
+    },
+    {
+      "requirement_id": "MV-SEC-04",
+      "scope": "B",
+      "requirement": "Address baseline rights-managed/protected documents without bypassing their restrictions.",
+      "acceptance_contract": "Authorized cases use a supported mechanism; unsupported protected files fail with a useful explanation.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-32-T04-M0-P01"
+      ]
+    },
+    {
+      "requirement_id": "MV-SOL-15",
+      "scope": "B",
+      "requirement": "Implement database-schema import/reverse engineering wherever confirmed in the reference build.",
+      "acceptance_contract": "A declared database/driver matrix produces inspectable schema and diagnostics without writing to the source database.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-26-T01-M0-S01",
+        "WP-23-T05-M0-S02",
+        "WP-26-T03-M0-S03"
+      ]
+    },
+    {
+      "requirement_id": "MV-IO-08",
+      "scope": "B",
+      "requirement": "Import/insert declared CAD and graphics formats with clear conversion semantics.",
+      "acceptance_contract": "Unsupported entities are reported; an inserted reference and converted editable shapes are visibly distinguished.",
+      "decision_state": "deferred_unaccepted",
+      "proposed_child_ids": [
+        "WP-28-T01-M0-D01",
+        "WP-28-T03-M0-D02",
+        "WP-28-T03-M0-D03"
+      ]
+    }
+  ],
+  "child_count": 27,
+  "children": [
+    {
+      "id": "WP-30-T01-M0-F01",
+      "proposal_only": true,
+      "parent_task_id": "WP-30-T01",
+      "work_package": "WP-30",
+      "requirement_ids": [
+        "MV-IO-02"
+      ],
+      "title": "Freeze one binary VSD version/record probe",
+      "size": "S",
+      "bounded_deliverable": "For one exact reference VSD generation, enumerate record ownership needed for one two-shape document; retain direct writer and adapter as unselected alternatives.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Reference-authored synthetic VSD with two shapes, Unicode text and one edit; expected record/part ownership manifest."
+      },
+      "acceptance_checks": [
+        "Bind actual Visio build and VSD generation to fixture hashes.",
+        "Separate public VisioDocument records from MacVisioModel recovery.",
+        "Produce one direct-versus-adapter comparison with missing records explicit; no approach decision before reference result."
+      ],
+      "cost_drivers": [
+        "Undocumented/public-record coverage",
+        "Version differences",
+        "Independent reader limitations"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VSDBinaryFormat.swift",
+          "anchor": "static let nativeStream = \"MacVisioModel\"",
+          "line": 7,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-02",
+          "line": 329,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/BinaryVisioTests.swift",
+          "anchor": "testPrototypeBinaryExportParsesIndependentlyWithUnicodeTextAndCurves",
+          "line": 53,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-BINARY-LOCAL",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-30-T02-M0-F02",
+      "proposal_only": true,
+      "parent_task_id": "WP-30-T02",
+      "work_package": "WP-30",
+      "requirement_ids": [
+        "MV-IO-02"
+      ],
+      "title": "Probe one binary formula edit/recalculation",
+      "size": "S",
+      "bounded_deliverable": "One dimensional formula dependency and intentional input-cell edit; record formula, cached value, units and resulting geometry.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-30-T01-M0-F01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic two-shape VSD using a simple width formula; Visio-authored expected pre/post values."
+      },
+      "acceptance_checks": [
+        "Reopen without MacVisioModel and inspect public formula/cached values in exact-build Visio.",
+        "Change input in each editor, recalculate, save/reopen and compare geometry/text.",
+        "Report unsupported public formula serialization without replacing it with native metadata success."
+      ],
+      "cost_drivers": [
+        "Binary formula records",
+        "Typed units/cached values",
+        "Reference recalculation"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VSDBinaryFormat.swift",
+          "anchor": "static let nativeStream = \"MacVisioModel\"",
+          "line": 7,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-02",
+          "line": 329,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/BinaryVisioTests.swift",
+          "anchor": "testExternalBinaryEditInvalidatesNativeMetadata",
+          "line": 85,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-30-T02-M0-F03",
+      "proposal_only": true,
+      "parent_task_id": "WP-30-T02",
+      "work_package": "WP-30",
+      "requirement_ids": [
+        "MV-IO-02"
+      ],
+      "title": "Probe one master/instance public binary identity",
+      "size": "S",
+      "bounded_deliverable": "One master with two instances and one local text override; compare identity/inheritance with expanded graphics fallback.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-30-T01-M0-F01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic source master plus two instances; baseline expected identity and inherited update behavior."
+      },
+      "acceptance_checks": [
+        "Inspect reference master identity and instance override before/after save.",
+        "Distinguish expanded independent graphics from true master semantics.",
+        "Run both directions with private metadata excluded; record any lost inheritance."
+      ],
+      "cost_drivers": [
+        "Master and instance records",
+        "Inherited formula context",
+        "Expanded graphics versus identity"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VSDBinaryFormat.swift",
+          "anchor": "static let nativeStream = \"MacVisioModel\"",
+          "line": 7,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-02",
+          "line": 329,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/MasterInheritanceTests.swift",
+          "anchor": "testPublicMasterOverrideAndExpandedBinaryOutputParseIndependently",
+          "line": 221,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-MASTER-LOCAL",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-30-T02-M0-F04",
+      "proposal_only": true,
+      "parent_task_id": "WP-30-T02",
+      "work_package": "WP-30",
+      "requirement_ids": [
+        "MV-IO-02"
+      ],
+      "title": "Probe one binary Shape Data row and glued edge",
+      "size": "S",
+      "bounded_deliverable": "One typed data property on each of two shapes and one glued connector; edit one property then move one endpoint.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-30-T01-M0-F01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic two-node/one-edge VSD with named connection points and a numeric Shape Data value."
+      },
+      "acceptance_checks": [
+        "Inspect data type/value and from/to sheet/cell records after both saves.",
+        "Move target in Visio and verify attachment behavior, then repeat after MacVisio save.",
+        "Do not count public 1-D endpoint geometry alone as glue semantics."
+      ],
+      "cost_drivers": [
+        "Data row typing",
+        "Glue records versus cached endpoints",
+        "Movement behavior"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VSDBinaryFormat.swift",
+          "anchor": "static let nativeStream = \"MacVisioModel\"",
+          "line": 7,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-02",
+          "line": 329,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/BinaryVisioTests.swift",
+          "anchor": "testBinaryEdgesArePublicOneDimensionalShapesWithEndpointRecords",
+          "line": 158,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-BINARY-LOCAL",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-30-T04-M0-F05",
+      "proposal_only": true,
+      "parent_task_id": "WP-30-T04",
+      "work_package": "WP-30",
+      "requirement_ids": [
+        "MV-IO-02"
+      ],
+      "title": "Qualify one edited binary opaque-stream retention case",
+      "size": "S",
+      "bounded_deliverable": "One allowed text edit against a synthetic document with one unrelated opaque stream and one unrelated shape record.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-30-T02-M0-F02",
+        "WP-30-T02-M0-F03",
+        "WP-30-T02-M0-F04",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic binary drawing with known opaque stream hash and object-level preservation expectations."
+      },
+      "acceptance_checks": [
+        "Keep unchanged bytes/opaque streams where policy requires and explicitly report rewrite impact.",
+        "Independently parse plus exact-build open/edit/save/reopen without repair prompts.",
+        "Retain limitations for edited public record structures; unchanged-source preservation alone cannot pass."
+      ],
+      "cost_drivers": [
+        "Record pointer rebasing",
+        "Opaque stream dependencies",
+        "Silent-loss detection"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VSDBinaryFormat.swift",
+          "anchor": "static let nativeStream = \"MacVisioModel\"",
+          "line": 7,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-02",
+          "line": 329,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/BinaryVisioTests.swift",
+          "anchor": "testUnchangedLegacySourceIsPreservedByteForByteAcrossNativeAndVSDXRecovery",
+          "line": 94,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Tests/MacVisioTests/BinaryVisioTests.swift",
+          "anchor": "testEditedLegacyExportRetainsOpaqueRootStreams",
+          "line": 103,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-BINARY-LOCAL",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-31-T01-M0-A01",
+      "proposal_only": true,
+      "parent_task_id": "WP-31-T01",
+      "work_package": "WP-31",
+      "requirement_ids": [
+        "MV-AUT-03"
+      ],
+      "title": "Enumerate one document/page/shape API vertical workflow",
+      "size": "S",
+      "bounded_deliverable": "On the frozen reference, enumerate only members/events needed to open/create, add a shape, set text/cell, undo and save; map each to native facade, candidate bridge or unresolved.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic automation script and captured type-library member signatures/event trace for this exact workflow."
+      },
+      "acceptance_checks": [
+        "List named members, signature/version/bitness and observed event order.",
+        "Assign a separate member case for each discovered unsupported call.",
+        "Record rollback/reentrancy behavior; CLI translation is labeled native-only."
+      ],
+      "cost_drivers": [
+        "Type-library/member denominator",
+        "Transaction/event ordering",
+        "COM apartment and bitness"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "scripts/windows/Invoke-VisioFixture.ps1",
+          "anchor": "New-Object -ComObject Visio.Application",
+          "line": 194,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-03",
+          "line": 351,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-31-T02-M0-A02",
+      "proposal_only": true,
+      "parent_task_id": "WP-31-T02",
+      "work_package": "WP-31",
+      "requirement_ids": [
+        "MV-AUT-03",
+        "MV-AUT-04"
+      ],
+      "title": "Document native facade equivalence boundaries",
+      "size": "S",
+      "bounded_deliverable": "Compare one existing CLI/model edit transaction with the A01 script; publish semantic correspondence and unimplemented calls, without representing translation as unmodified script compatibility.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-05 committed-state contract",
+        "WP-06 transaction/runtime contract"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic text/cell edit invoked through a future native facade alongside the unchanged reference script."
+      },
+      "acceptance_checks": [
+        "Native operation produces explicit document/revision/undo outcome.",
+        "Publish original-script bytes versus translated invocation separately.",
+        "Native success cannot close MV-AUT-04 unless the original unmodified script also passes a declared compatible runtime."
+      ],
+      "cost_drivers": [
+        "Native API versioning",
+        "Error/identity mapping",
+        "Undo/revision semantics"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/main.swift",
+          "anchor": "--prepare-interchange-fixtures",
+          "line": 313,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-04",
+          "line": 352,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-31-T03-M0-A03",
+      "proposal_only": true,
+      "parent_task_id": "WP-31-T03",
+      "work_package": "WP-31",
+      "requirement_ids": [
+        "MV-AUT-04"
+      ],
+      "title": "Probe one isolated unmodified COM client",
+      "size": "S",
+      "bounded_deliverable": "Run one unchanged PowerShell/COM create/edit/save script in an isolated supported same-bitness reference session; compare candidate bridge lifecycle with direct reference execution.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Unmodified synthetic COM script with input/output hashes and expected text/cell/event results."
+      },
+      "acceptance_checks": [
+        "Real COM activation succeeds; preserve REGDB_E_CLASSNOTREG if it does not.",
+        "Unchanged script passes through proposed supported path with explicit version/bitness.",
+        "Cancel/time out safely, leave unrelated sessions untouched, and report errors; path selection remains deferred until results reviewed."
+      ],
+      "cost_drivers": [
+        "Licensed Windows lifecycle",
+        "COM bitness/apartment",
+        "IPC identity and cancellation"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "scripts/windows/Invoke-VisioFixture.ps1",
+          "anchor": "New-Object -ComObject Visio.Application",
+          "line": 194,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-04",
+          "line": 352,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-31-T03-M0-A04",
+      "proposal_only": true,
+      "parent_task_id": "WP-31-T03",
+      "work_package": "WP-31",
+      "requirement_ids": [
+        "MV-AUT-04"
+      ],
+      "title": "Probe one unmodified VBA document macro",
+      "size": "S",
+      "bounded_deliverable": "One authorized macro that changes one synthetic shape property, with disabled-by-default execution and captured transaction rollback.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-32-T01-M0-M01",
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored synthetic macro-enabled document plus unmodified source module, expected change/event trace and trust policy."
+      },
+      "acceptance_checks": [
+        "User-authorized unmodified VBA executes through an explicitly declared runtime.",
+        "Opening alone does not execute the macro.",
+        "Capture refusal, execution, error and rollback states without translating VBA into native API claims."
+      ],
+      "cost_drivers": [
+        "VBA runtime availability",
+        "Macro trust policy",
+        "Event/rollback behavior"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-04",
+          "line": 352,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-31-T04-M0-A05",
+      "proposal_only": true,
+      "parent_task_id": "WP-31-T04",
+      "work_package": "WP-31",
+      "requirement_ids": [
+        "MV-AUT-03",
+        "MV-AUT-04"
+      ],
+      "title": "Probe one script reentrancy/bridge failure case",
+      "size": "S",
+      "bounded_deliverable": "One event callback that attempts a nested edit and one forced bridge disconnect during a bounded synthetic transaction.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T03-M0-A03",
+        "WP-05 committed-state contract",
+        "WP-09 job lifecycle contract",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "A01 workflow with deterministic event trace and injected disconnect before save acknowledgement."
+      },
+      "acceptance_checks": [
+        "Documented event order/reentrancy policy matches reference where required.",
+        "Abort/rollback or recover without falsely acknowledging save.",
+        "Repeat same failure scenario and retain failed runs; a clean isolated rerun does not erase intermittency."
+      ],
+      "cost_drivers": [
+        "Cross-process failures",
+        "Reentrancy and revision races",
+        "Session cleanup"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "scripts/windows/Invoke-VisioFixture.ps1",
+          "anchor": "New-Object -ComObject Visio.Application",
+          "line": 194,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-03",
+          "line": 351,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T01-M0-M01",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T01",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-IO-05"
+      ],
+      "title": "Probe one macro package/signature edit lifecycle",
+      "size": "S",
+      "bounded_deliverable": "One self-authored signed synthetic macro-enabled drawing, one inert open, and one allowed drawing edit; compare unchanged preservation and signature invalidation.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Authorized synthetic macro-enabled file signed by a test certificate with no production credentials; known macro/package hashes."
+      },
+      "acceptance_checks": [
+        "Never save macros into a macro-free extension.",
+        "Retain opaque macro parts on an allowed save and disclose signature changes.",
+        "Opening remains nonexecuting; modification either preserves valid signatures correctly or visibly reports invalidation."
+      ],
+      "cost_drivers": [
+        "Macro content types/relationships",
+        "Signature coverage",
+        "Safe trust UI and test certificate setup"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-05",
+          "line": 332,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [
+        {
+          "path": "Tests/MacVisioTests/VisioPreservationTests.swift",
+          "anchor": "testTextAndPositionEditsKeepOpaquePartsAndShapeExtensions",
+          "line": 41,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T02-M0-O01",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T02",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-IO-09"
+      ],
+      "title": "Probe one WMF and one EMF preview/placement case",
+      "size": "S",
+      "bounded_deliverable": "Two independently authored synthetic pictures containing text and a curve; record exact filter generation and geometry bounding box.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic WMF/EMF pair with expected bitmap/vector preview, physical bounds and original metadata hashes."
+      },
+      "acceptance_checks": [
+        "Preserve bytes/metadata and placement across save/reopen.",
+        "Compare rendered output against actual reference export.",
+        "Report unsupported records and distinguish static preview rendering from editable vector conversion."
+      ],
+      "cost_drivers": [
+        "Metafile record versions",
+        "Fonts and preview rendering",
+        "Filter availability"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-09",
+          "line": 336,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/COMPATIBILITY.md",
+          "anchor": "WMF/EMF, OLE preview/editing",
+          "line": 15,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T02-M0-O02",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T02",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-IO-09",
+        "MV-AUT-06"
+      ],
+      "title": "Probe one embedded Office OLE object edit",
+      "size": "S",
+      "bounded_deliverable": "One synthetic embedded object from one named Office server version; invoke one authorized external edit and return to the drawing.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored embedded object with stable identity, preview, placement and expected post-edit content hash; licensed server required."
+      },
+      "acceptance_checks": [
+        "Preserve identity and metadata through inactive open/save.",
+        "If supported activation exists, edit in named server and persist refreshed preview/content after return.",
+        "If activation unavailable, expose an explicit unsupported state without destructive conversion."
+      ],
+      "cost_drivers": [
+        "Named server licensing/version/bitness",
+        "OLE container lifecycle",
+        "Cross-process identity/preview updates"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-06",
+          "line": 354,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-09",
+          "line": 336,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T02-M0-O03",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T02",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-AUT-06"
+      ],
+      "title": "Probe one linked OLE object missing-target/update case",
+      "size": "S",
+      "bounded_deliverable": "One synthetic external document link with one permitted update and one intentionally unavailable target; no credential-bearing paths.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-32-T02-M0-O02",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic linked document and drawing in a disposable directory; expected identity, stale preview and update/refusal outcomes."
+      },
+      "acceptance_checks": [
+        "Preserve link identity and placement without unsolicited external execution.",
+        "Authorized update reflects source change; missing target is actionable and preserves cached content.",
+        "Save/reopen retains link distinction and policy; no unrequested live user session is reused."
+      ],
+      "cost_drivers": [
+        "Link resolution/authentication",
+        "Missing-target cache",
+        "Security prompts and update policy"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-06",
+          "line": 354,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T03-M0-C01",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T03",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-AUT-05"
+      ],
+      "title": "Probe one named COM component/version",
+      "size": "S",
+      "bounded_deliverable": "First enumerate one reference-confirmed COM component/version; then one meaningful add-in/control action and unload/error case. This is a discovery/probe child, not family-wide hosting implementation.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored or appropriately licensed synthetic COM component, exact version/bitness and one action with expected document/UI state change."
+      },
+      "acceptance_checks": [
+        "Record confirmed applicability, named component/version, dependencies and trust prerequisites.",
+        "Run original component without translation through candidate declared path and inspect meaningful action/state.",
+        "Unload/fail safely; retaining files or loading a module alone cannot pass."
+      ],
+      "cost_drivers": [
+        "COM runtime/ABI/bitness",
+        "Licensed component provenance",
+        "Host lifecycle and security"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-05",
+          "line": 353,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T03-M0-C02",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T03",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-AUT-05"
+      ],
+      "title": "Probe one named VSTO component/version",
+      "size": "S",
+      "bounded_deliverable": "First enumerate one reference-confirmed VSTO component/version; then one meaningful add-in/control action and unload/error case. This is a discovery/probe child, not family-wide hosting implementation.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored or appropriately licensed synthetic VSTO component, exact version/bitness and one action with expected document/UI state change."
+      },
+      "acceptance_checks": [
+        "Record confirmed applicability, named component/version, dependencies and trust prerequisites.",
+        "Run original component without translation through candidate declared path and inspect meaningful action/state.",
+        "Unload/fail safely; retaining files or loading a module alone cannot pass."
+      ],
+      "cost_drivers": [
+        "VSTO runtime/ABI/bitness",
+        "Licensed component provenance",
+        "Host lifecycle and security"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-05",
+          "line": 353,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T03-M0-C03",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T03",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-AUT-05"
+      ],
+      "title": "Probe one named VSL component/version",
+      "size": "S",
+      "bounded_deliverable": "First enumerate one reference-confirmed VSL component/version; then one meaningful add-in/control action and unload/error case. This is a discovery/probe child, not family-wide hosting implementation.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored or appropriately licensed synthetic VSL component, exact version/bitness and one action with expected document/UI state change."
+      },
+      "acceptance_checks": [
+        "Record confirmed applicability, named component/version, dependencies and trust prerequisites.",
+        "Run original component without translation through candidate declared path and inspect meaningful action/state.",
+        "Unload/fail safely; retaining files or loading a module alone cannot pass."
+      ],
+      "cost_drivers": [
+        "VSL runtime/ABI/bitness",
+        "Licensed component provenance",
+        "Host lifecycle and security"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-05",
+          "line": 353,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T03-M0-C04",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T03",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-AUT-05"
+      ],
+      "title": "Probe one named ActiveX component/version",
+      "size": "S",
+      "bounded_deliverable": "First enumerate one reference-confirmed ActiveX component/version; then one meaningful add-in/control action and unload/error case. This is a discovery/probe child, not family-wide hosting implementation.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-31-T01-M0-A01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored or appropriately licensed synthetic ActiveX component, exact version/bitness and one action with expected document/UI state change."
+      },
+      "acceptance_checks": [
+        "Record confirmed applicability, named component/version, dependencies and trust prerequisites.",
+        "Run original component without translation through candidate declared path and inspect meaningful action/state.",
+        "Unload/fail safely; retaining files or loading a module alone cannot pass."
+      ],
+      "cost_drivers": [
+        "ActiveX runtime/ABI/bitness",
+        "Licensed component provenance",
+        "Host lifecycle and security"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-05",
+          "line": 353,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-32-T04-M0-P01",
+      "proposal_only": true,
+      "parent_task_id": "WP-32-T04",
+      "work_package": "WP-32",
+      "requirement_ids": [
+        "MV-SEC-04"
+      ],
+      "title": "Probe one authorized protected-file allow/deny case",
+      "size": "S",
+      "bounded_deliverable": "One rights-managed/protected synthetic drawing with one permitted view/edit/save role and one denied role, through a supported entitled mechanism.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Self-authored protected synthetic file and disposable authorized test identities; no secrets or license tokens in public corpus."
+      },
+      "acceptance_checks": [
+        "Enforce source restrictions and never bypass protection.",
+        "Allowed role uses supported mechanism; denied/unsupported case fails with useful explanation and preserves source.",
+        "Audit output/preview/export restrictions and diagnostics without retaining confidential payloads."
+      ],
+      "cost_drivers": [
+        "Supported rights provider/platform",
+        "Entitled test identities",
+        "Restriction enforcement across save/export"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-SEC-04",
+          "line": 382,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+          "anchor": "OLE and protected files",
+          "line": 33,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-28-T01-M0-D01",
+      "proposal_only": true,
+      "parent_task_id": "WP-28-T01",
+      "work_package": "WP-28",
+      "requirement_ids": [
+        "MV-IO-08"
+      ],
+      "title": "Enumerate one exact-build CAD filter/version boundary",
+      "size": "S",
+      "bounded_deliverable": "Read actual exact-build DWG/DXF filter names/options and select one reference-confirmed generation per format for subsequent distinct cases.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Tiny synthetic DWG and DXF probe files per selected generation, with provenance and reference filter response."
+      },
+      "acceptance_checks": [
+        "Record actual installed filter/version/options and rejected generations.",
+        "Separate format applicability from source filename/graphics conversion.",
+        "Expand further generations/entities into new children without reducing baseline obligations."
+      ],
+      "cost_drivers": [
+        "Licensed CAD fixture generation",
+        "Exact-build filter availability",
+        "Version/entity denominator"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-08",
+          "line": 335,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/SVGImport.swift",
+          "anchor": "enum SVGImport",
+          "line": 3,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-28-T03-M0-D02",
+      "proposal_only": true,
+      "parent_task_id": "WP-28-T03",
+      "work_package": "WP-28",
+      "requirement_ids": [
+        "MV-IO-08"
+      ],
+      "title": "Probe one DWG generation with units and unsupported entity",
+      "size": "S",
+      "bounded_deliverable": "One D01-selected DWG generation with a line, text, block and one deliberately unsupported entity; insert-reference and editable-conversion outcomes remain distinct.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-28-T01-M0-D01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic DWG file with physical units/scale and expected visible bounds, block transform and unsupported-entity diagnostic."
+      },
+      "acceptance_checks": [
+        "Compare physical scale/unit/origin and rendered output against exact-build Visio.",
+        "Preserve original inserted reference or explicitly record conversion semantics.",
+        "Report unsupported entity loss before save; edit one converted supported entity and verify public output."
+      ],
+      "cost_drivers": [
+        "CAD adapter licensing/availability",
+        "Units/blocks/fonts",
+        "Unsupported entity reporting"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-08",
+          "line": 335,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/SVGImport.swift",
+          "anchor": "static func page(",
+          "line": 9,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-28-T03-M0-D03",
+      "proposal_only": true,
+      "parent_task_id": "WP-28-T03",
+      "work_package": "WP-28",
+      "requirement_ids": [
+        "MV-IO-08"
+      ],
+      "title": "Probe one DXF generation with units and unsupported entity",
+      "size": "S",
+      "bounded_deliverable": "One D01-selected DXF generation with a line, text, block and one deliberately unsupported entity; insert-reference and editable-conversion outcomes remain distinct.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-28-T01-M0-D01",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic DXF file with physical units/scale and expected visible bounds, block transform and unsupported-entity diagnostic."
+      },
+      "acceptance_checks": [
+        "Compare physical scale/unit/origin and rendered output against exact-build Visio.",
+        "Preserve original inserted reference or explicitly record conversion semantics.",
+        "Report unsupported entity loss before save; edit one converted supported entity and verify public output."
+      ],
+      "cost_drivers": [
+        "CAD adapter licensing/availability",
+        "Units/blocks/fonts",
+        "Unsupported entity reporting"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-IO-08",
+          "line": 335,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/SVGImport.swift",
+          "anchor": "static func page(",
+          "line": 9,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-26-T01-M0-S01",
+      "proposal_only": true,
+      "parent_task_id": "WP-26-T01",
+      "work_package": "WP-26",
+      "requirement_ids": [
+        "MV-SOL-15"
+      ],
+      "title": "Settle one database reverse-engineering applicability probe",
+      "size": "S",
+      "bounded_deliverable": "Inspect frozen reference menus/solution with one authorized synthetic schema connection; determine whether this exact edition/build provides the proposed import path.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Read-only disposable database with two related tables; exact source/driver versions and no DSNs/credentials in public evidence."
+      },
+      "acceptance_checks": [
+        "Observe actual solution/command and driver prerequisites, including architecture.",
+        "Retain unresolved or negative applicability with explicit reason; broad product documentation and ERD graphics cannot decide it.",
+        "No scope exclusion without separate approved decision."
+      ],
+      "cost_drivers": [
+        "Historical edition applicability",
+        "Driver availability/bitness",
+        "Authorized synthetic server setup"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-SOL-15",
+          "line": 313,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "scripts/windows/Inspect-ReferenceEnvironment.ps1",
+          "anchor": "SOFTWARE\\ODBC\\ODBCINST.INI\\ODBC Drivers",
+          "line": 32,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-23-T05-M0-S02",
+      "proposal_only": true,
+      "parent_task_id": "WP-23-T05",
+      "work_package": "WP-23",
+      "requirement_ids": [
+        "MV-SOL-15"
+      ],
+      "title": "Probe one confirmed database/driver read-only connection",
+      "size": "S",
+      "bounded_deliverable": "For the S01-confirmed path, verify one exact source/driver/bitness pair can read table/column/key metadata using a disposable least-privilege account.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-26-T01-M0-S01",
+        "WP-23-T04 credential isolation",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic two-table schema and one unavailable-driver/permission-denied variant; isolate credentials outside reports."
+      },
+      "acceptance_checks": [
+        "Prove actual connection and metadata query; ODBC registration alone is not a pass.",
+        "Record table/key/type mapping and actionable connection errors.",
+        "Verify no source writes and no secret leakage in diagnostics."
+      ],
+      "cost_drivers": [
+        "Source/driver licensing",
+        "Architecture and authentication",
+        "Schema metadata/type mapping"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-SOL-15",
+          "line": 313,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/evidence/reference-summary.json",
+          "anchor": "odbcDrivers",
+          "line": 28,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-26-T03-M0-S03",
+      "proposal_only": true,
+      "parent_task_id": "WP-26-T03",
+      "work_package": "WP-26",
+      "requirement_ids": [
+        "MV-SOL-15"
+      ],
+      "title": "Probe one confirmed two-table schema import workflow",
+      "size": "S",
+      "bounded_deliverable": "Use one S02-qualified connection to create inspectable table/key/relationship model content and retain unsupported type diagnostics.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-23-T05-M0-S02",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic two-table primary/foreign-key schema with a type boundary and expected inspectable model, not a bitmap diagram."
+      },
+      "acceptance_checks": [
+        "Compare imported keys/cardinality/types and diagnostic handling against exact-build reference.",
+        "Save/reopen editable schema model and verify relationships persist.",
+        "Read-only source audit shows no source database writes."
+      ],
+      "cost_drivers": [
+        "ERD domain identities",
+        "Schema/type semantic coverage",
+        "Reference model inspectability"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-SOL-15",
+          "line": 313,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/COMPATIBILITY.md",
+          "anchor": "Visio BPMN/UML/database semantics",
+          "line": 26,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-33-T01-M0-I01",
+      "proposal_only": true,
+      "parent_task_id": "WP-33-T01",
+      "work_package": "WP-33",
+      "requirement_ids": [
+        "MV-AUT-07"
+      ],
+      "title": "Enumerate one baseline Office/reporting integration outcome",
+      "size": "S",
+      "bounded_deliverable": "On the exact reference, select one observed Office/reporting/process integration command and record named host/version and setup/authentication requirements.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic drawing plus synthetic host document and one observed integration action; exact host and identity setup manifest."
+      },
+      "acceptance_checks": [
+        "Distinguish historical baseline outcome from modern Microsoft extensions.",
+        "Record actual host command, named version/bitness and authentication/setup prerequisite.",
+        "Retain remaining integration catalog as unresolved and create separate per-outcome children."
+      ],
+      "cost_drivers": [
+        "Host/version matrix",
+        "Entitled account/setup",
+        "Historical versus modern applicability"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-07",
+          "line": 355,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "docs/COMPATIBILITY.md",
+          "anchor": "Office integrations",
+          "line": 27,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    },
+    {
+      "id": "WP-33-T03-M0-I02",
+      "proposal_only": true,
+      "parent_task_id": "WP-33-T03",
+      "work_package": "WP-33",
+      "requirement_ids": [
+        "MV-AUT-07"
+      ],
+      "title": "Probe one selected host integration create/update/error journey",
+      "size": "S",
+      "bounded_deliverable": "Use I01-selected single outcome to create or transfer one synthetic diagram/report, perform one permitted update, and force one unavailable-host/authentication error.",
+      "implementation_path_selected": false,
+      "state": "deferred_unaccepted",
+      "dependencies": [
+        "WP-33-T01-M0-I01",
+        "WP-31-T03-M0-A03 if chosen candidate requires COM",
+        "WP-01-T02 licensed supported exact-build installation/activation",
+        "WP-01-T03 frozen edition/executable hash/architecture/COM bitness/OS/locale/fonts",
+        "WP-03-T03-c isolated real bidirectional public-content reference workflow"
+      ],
+      "fixture_need": {
+        "synthetic_only": true,
+        "existing_fixture_qualifies": false,
+        "description": "Synthetic host/drawing pair, expected user-visible output and round-trip edit state, with private authentication kept outside reports."
+      },
+      "acceptance_checks": [
+        "End-to-end named-host/version user outcome matches reference and persists expected document state.",
+        "Report unavailable host/authentication failure without losing drawing data.",
+        "Preserving embedded source parts or opening a URL cannot substitute for actual host integration."
+      ],
+      "cost_drivers": [
+        "Host automation lifecycle",
+        "Authentication boundaries",
+        "Cross-application persistence/error handling"
+      ],
+      "scope_limits": [
+        "One named synthetic case or one explicitly bounded enumeration probe; expand newly discovered members/version combinations as separate children.",
+        "No local parser/source/test result closes exact-build behavior, editing, rendering or interchange acceptance."
+      ],
+      "source_anchors": [
+        {
+          "path": "docs/PRODUCT-SPEC.md",
+          "anchor": "MV-AUT-07",
+          "line": 355,
+          "evidence_type": "source_only_not_executed"
+        },
+        {
+          "path": "Sources/MacVisio/VisioFormat.swift",
+          "anchor": "ShapeSheet formulas, VBA and external links never run.",
+          "line": 14,
+          "evidence_type": "source_only_not_executed"
+        }
+      ],
+      "test_anchors": [],
+      "evidence_refs": [
+        "E-SOURCE",
+        "E-REFERENCE-UNAVAILABLE"
+      ]
+    }
+  ],
+  "self_review": {
+    "coverage": "All 10 WP-04 scope requirements plus CAD MV-IO-08 mapped; baseline scope remains B for every mapped requirement.",
+    "boundedness": "Each child is a single workflow/member-version case or initial catalog probe; further discovered matrix cells need their own child.",
+    "state": "reviewed_for_traceability_and_scope_only",
+    "qualification_accepted": false
+  }
+}

@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "accepted": false,
+  "build_configuration": "Debug, instrumentation enabled",
+  "baseline_planning_commit": "7c270124993bac09967109f95e603ebb47bd98ff",
+  "binary_sha256": "ff963b1e8a7dbdb2060a2dddfdab326d51e3d3105c3e81d689fbcc9a85044a7e",
+  "hardware": "Apple M4",
+  "memory_bytes": 17179869184,
+  "os": "27.0.1",
+  "cache_condition": "uncontrolled; no cold/warm qualification",
+  "fixture": {
+    "path": "build/M0/benchmarks/objects-100-balanced.vsdx",
+    "sha256": "3c2577e047da206328dbf0a22111cfb9677bea5b851d6c6e26022ef8e6d47fe6",
+    "corpus_manifest_sha256": "1c04ebc83b89514f667663629b3131f380bc3f5ee6a41b8d404040b5cefa7e9a"
+  },
+  "profiles": [
+    {
+      "kind": "open",
+      "artifact": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/open-100-balanced.json",
+      "sha256": "5b3b6c0811e7e023ddd9657388116c6dfbe26362d2f613679523da064e9c7192",
+      "scope": "Single debug exploratory profile; no p95/cache-control or compatibility acceptance",
+      "operation_results": {
+        "edges": [
+          33
+        ],
+        "nodes": [
+          67
+        ],
+        "pages": 1,
+        "stagesSeconds": {
+          "document": 0.0009804583387449384,
+          "documentValidation": 0.001964583352673799,
+          "editorSetup": 0.08254204166587442,
+          "firstViewport": 0.09554929164005443,
+          "masters": 0.00046191667206585407,
+          "package": 0.003774374956265092,
+          "page1": 0.016442875028587878,
+          "validation": 0.0032353749847970903
+        },
+        "totalSeconds": 0.2049509166390635,
+        "viewportHeight": 680,
+        "viewportWidth": 1000,
+        "warnings": 1
+      },
+      "instrumentation": {
+        "stages": {
+          "draw": {
+            "count": 2,
+            "totalSeconds": 0.06425183330429718,
+            "maxSeconds": 0.032328333298210055,
+            "droppedSamples": 0
+          },
+          "open": {
+            "count": 1,
+            "totalSeconds": 0.024909749976359308,
+            "maxSeconds": 0.024909749976359308,
+            "droppedSamples": 0
+          },
+          "route": {
+            "count": 66,
+            "totalSeconds": 0.0006990000838413835,
+            "maxSeconds": 2.0833336748182774e-05,
+            "droppedSamples": 0
+          },
+          "scenePreparation": {
+            "count": 4,
+            "totalSeconds": 0.0003514583804644644,
+            "maxSeconds": 0.00019179168157279491,
+            "droppedSamples": 0
+          },
+          "textLayout": {
+            "count": 214,
+            "totalSeconds": 0.005096916283946484,
+            "maxSeconds": 0.0008569583296775818,
+            "droppedSamples": 0
+          }
+        },
+        "workCounts": {
+          "drawnObjects": 214,
+          "routeRequests": 66,
+          "sceneObjectsPrepared": 134,
+          "textMeasurements": 214
+        },
+        "unfinishedSpans": 0,
+        "heartbeat_samples": null,
+        "missing_stages": [
+          "event",
+          "save",
+          "snapshot",
+          "encoding",
+          "close"
+        ]
+      }
+    },
+    {
+      "kind": "interactions",
+      "artifact": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/interactions-100-balanced.json",
+      "sha256": "7a40a2f91ea90a00d54f583bb2f9d3006bd8c29b20c80555dc208c45198d4022",
+      "scope": "Single debug exploratory profile; no p95/cache-control or compatibility acceptance",
+      "operation_results": {
+        "calculationIssueCount": 0,
+        "inputSaved": false,
+        "insertUndoRedoPassed": true,
+        "nodes": [
+          68
+        ],
+        "pages": 1,
+        "stagesSeconds": {
+          "firstDraw": 0.090525041683577,
+          "insertShape": 0.09065675002057105,
+          "read": 0.018649166624527425,
+          "redo": 0.06686137500219047,
+          "selection0": 0.07760087499627843,
+          "selection1": 0.07128116668900475,
+          "selection2": 0.07047391665400937,
+          "undo": 0.07058158330619335
+        }
+      },
+      "instrumentation": {
+        "stages": {
+          "calculation": {
+            "count": 1,
+            "totalSeconds": 0.012655291648115963,
+            "maxSeconds": 0.012655291648115963,
+            "droppedSamples": 0
+          },
+          "commit": {
+            "count": 3,
+            "totalSeconds": 0.008552125073038042,
+            "maxSeconds": 0.0052233749884180725,
+            "droppedSamples": 0
+          },
+          "draw": {
+            "count": 14,
+            "totalSeconds": 0.407269291812554,
+            "maxSeconds": 0.03146212501451373,
+            "droppedSamples": 0
+          },
+          "open": {
+            "count": 1,
+            "totalSeconds": 0.01823795831296593,
+            "maxSeconds": 0.01823795831296593,
+            "droppedSamples": 0
+          },
+          "route": {
+            "count": 462,
+            "totalSeconds": 0.004576707724481821,
+            "maxSeconds": 2.154166577383876e-05,
+            "droppedSamples": 0
+          },
+          "scenePreparation": {
+            "count": 28,
+            "totalSeconds": 0.0018678332562558353,
+            "maxSeconds": 0.00015575002180412412,
+            "droppedSamples": 0
+          },
+          "textLayout": {
+            "count": 1460,
+            "totalSeconds": 0.026735460094641894,
+            "maxSeconds": 0.0008257500012405217,
+            "droppedSamples": 0
+          }
+        },
+        "workCounts": {
+          "drawnObjects": 1460,
+          "evaluatedCells": 402,
+          "routeRequests": 462,
+          "sceneObjectsPrepared": 942,
+          "textMeasurements": 1460,
+          "transactionsCommitted": 3,
+          "visitedObjects": 67
+        },
+        "unfinishedSpans": 0,
+        "heartbeat_samples": null,
+        "missing_stages": [
+          "event",
+          "save",
+          "snapshot",
+          "encoding",
+          "close"
+        ]
+      }
+    }
+  ],
+  "notes": [
+    "Original architecture findings remain open; this public fixture is different from the private reviewed drawing.",
+    "Open reported one import warning; warning count is preserved, not filtered.",
+    "Interaction profile is programmatic, not input-to-feedback/frame-time evidence.",
+    "No main-queue heartbeat delivered during these synchronous profiles; missing responsiveness evidence is not zero gap.",
+    "All timings are observed single-run debug values, not performance target acceptance."
+  ],
+  "source_commit": "3c22d00",
+  "source_note": "Initial instrumented Debug profiles before the additive benchmark entry point; binary SHA is retained separately. Final repeated campaign binds the final app SHA in benchmark-observed-summary.json."
+}

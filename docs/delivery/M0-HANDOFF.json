@@ -1,0 +1,362 @@
+{
+  "schema_version": 1,
+  "milestone": "M0",
+  "title": "Reference, inventory and evidence foundation",
+  "date_local": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "thread_id": "01a141d8-f9bc-7431-857b-778e382cec81",
+  "worktree": "/Users/acousland/.codex/worktrees/c767/MacVisio",
+  "branch": "codex/m0-reference-foundation",
+  "planning_commit": "7c270124993bac09967109f95e603ebb47bd98ff",
+  "implementation_head": "fc69ccb88a3f6c7123f9f7e352cb2ea11c9ca5a2",
+  "head_note": "Implementation head before handoff-only evidence commit; final delivery commit is published in the shared M0-status.json.",
+  "state": "implemented_unaccepted",
+  "reference_state": "needs_input",
+  "acceptance": {
+    "M0": false,
+    "G0": false,
+    "exact_build_reference": false,
+    "Visio_bidirectional_roundtrip": false,
+    "absolute_performance": false,
+    "local_tooling_validation": true,
+    "scope_exclusions_approved": [],
+    "architecture_findings_closed": [],
+    "architecture_contracts_closed": []
+  },
+  "commits": [
+    {
+      "commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
+      "title": "Add requirement evidence ledger and bounded runtime inventory"
+    },
+    {
+      "commit": "3c22d0068e626123fc3d6d8b4a8da3ddcb8d08c4",
+      "title": "Add opt-in product stage and work-count evidence"
+    },
+    {
+      "commit": "f8e3aacc646dd76033befb5646801b84837b960f",
+      "title": "Add current reference probe and public semantic validation safeguards"
+    },
+    {
+      "commit": "f9ba1d1f295d75efee7a82aac7366fe655ef680d",
+      "title": "Add deterministic public benchmark corpus and strict sample runner"
+    },
+    {
+      "commit": "81f61402d78303e8578fc2b7241fcd848269074a",
+      "title": "Preserve optional overall benchmark adapter failures"
+    },
+    {
+      "commit": "b5375f386a333a73ce7dcd19022150854b89994b",
+      "title": "Slice unresolved compatibility feasibility into bounded proposals"
+    },
+    {
+      "commit": "fc69ccb88a3f6c7123f9f7e352cb2ea11c9ca5a2",
+      "title": "Drive real synthetic product benchmark samples"
+    }
+  ],
+  "completed_task_ids": [
+    "WP-01-T01",
+    "WP-02-T01",
+    "WP-03-T01",
+    "WP-03-T02",
+    "WP-03-T05"
+  ],
+  "blocked_task_ids": [
+    "WP-01-T02",
+    "WP-01-T03",
+    "WP-01-T04",
+    "WP-04-T02"
+  ],
+  "unaccepted_task_ids": [
+    "WP-02-T02",
+    "WP-02-T03",
+    "WP-02-T04",
+    "WP-03-T03",
+    "WP-03-T04",
+    "WP-04-T01",
+    "WP-04-T03",
+    "WP-04-T04"
+  ],
+  "task_records": [
+    {
+      "id": "WP-01-T01",
+      "state": "Completed (local)",
+      "note": "Fresh 32/64-bit guest inventory and isolated synthetic smoke retained; absence of reference is observed, not accepted.",
+      "evidence_path": "docs/evidence/reference-summary.json"
+    },
+    {
+      "id": "WP-01-T02",
+      "state": "Blocked",
+      "note": "No installed/registered exact-build Visio; entitlement/activation and supported historical installation path unverified.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-01-T03",
+      "state": "Blocked",
+      "note": "No qualified reference image exists; powered-off owned-image restore and known-good smoke pending.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-01-T04",
+      "state": "Blocked",
+      "note": "Fresh synthetic blank smoke failed COM 0x80040154; all later phases skipped.",
+      "evidence_path": "docs/evidence/reference-summary.json"
+    },
+    {
+      "id": "WP-02-T01",
+      "state": "Completed (local)",
+      "note": "All 154 requirement IDs and original feature snapshot states reconcile exactly; no compatibility promotion.",
+      "evidence_path": "docs/evidence/requirement-ledger.json"
+    },
+    {
+      "id": "WP-02-T02",
+      "state": "Partial / unaccepted",
+      "note": "Bounded documented/source inventory with unknown remainder and seven small children; exact-build runtime enumeration pending.",
+      "evidence_path": "docs/evidence/runtime-inventory.json"
+    },
+    {
+      "id": "WP-02-T03",
+      "state": "Implemented / unaccepted",
+      "note": "Five-dimension evidence, artifact/hash/reference and scope-decision guards pass locally; semantic evidence remains unverified.",
+      "evidence_path": "docs/evidence/README.md"
+    },
+    {
+      "id": "WP-02-T04",
+      "state": "Partial / unaccepted",
+      "note": "Every bounded entry has a mapped workflow child; named exact-build catalogs and fixtures remain unresolved.",
+      "evidence_path": "docs/evidence/runtime-inventory.json"
+    },
+    {
+      "id": "WP-03-T01",
+      "state": "Completed (local)",
+      "note": "Deterministic public 19-fixture corpus retains 100/1000/5000/20000 variants and exact target fixtures; targets separate from observations.",
+      "evidence_path": "docs/evidence/benchmark-manifest-summary.json"
+    },
+    {
+      "id": "WP-03-T02",
+      "state": "Completed (local)",
+      "note": "Actual event/commit/calculation/scene/route/draw/text/snapshot/encoding/save/close and delivered heartbeat evidence validated; typed counts remain scoped and separate from timing/feature acceptance.",
+      "evidence_path": "docs/evidence/INSTRUMENTATION.md"
+    },
+    {
+      "id": "WP-03-T03",
+      "state": "Partial / unaccepted",
+      "note": "Formula/master identity/data/glue comparison and safe public-copy tools pass local guards; bidirectional reimport/graphics/reference runs pending.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-03-T04",
+      "state": "Partial / unaccepted",
+      "note": "Repeatable runner retained 60 real Debug warm-filesystem pipeline samples (30 each for 100/1000 objects), all phase/count checks complete. Full controlled Release size/variant/cache/fault/recovery/memory evidence remains pending.",
+      "evidence_path": "docs/evidence/benchmark-observed-summary.json"
+    },
+    {
+      "id": "WP-03-T05",
+      "state": "Completed (local)",
+      "note": "Versioned synthetic manifests/hashes/expected counts and public/private evidence policy published; no confidential fixture staged.",
+      "evidence_path": "docs/evidence/BENCHMARK-CORPUS.md"
+    },
+    {
+      "id": "WP-04-T01",
+      "state": "Partial / unaccepted",
+      "note": "Existing public binary tests and master parser probe pass locally; formula/master/glue/data reference path choice still deferred.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-04-T02",
+      "state": "Blocked",
+      "note": "Current native API is distinct from unmodified Windows COM/VBA/add-ins; absent COM blocks bridge/runtime prototype qualification.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-04-T03",
+      "state": "Partial / unaccepted",
+      "note": "ODBC views/file versions inventoried; OLE/rights/CAD/database runtime cases remain unavailable and unresolved.",
+      "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    },
+    {
+      "id": "WP-04-T04",
+      "state": "Partial / unaccepted",
+      "note": "27 bounded downstream proposals cover all WP-04 requirements plus CAD; source/test anchors and local evidence hashes retained. All feasibility decisions deferred; exact-build probes and path selection pending.",
+      "evidence_path": "docs/evidence/feasibility-decisions.json"
+    }
+  ],
+  "delivered": {
+    "requirements": 154,
+    "baseline_native_requirements": 148,
+    "extensions": 6,
+    "bounded_inventory_entries": 171,
+    "unknown_category_remainders": 8,
+    "public_fixtures": 19,
+    "public_corpus_objects": 138900,
+    "public_archive_bytes": 2928896,
+    "deferred_feasibility_proposals": 27,
+    "retained_product_samples": 60,
+    "product_sample_conditions": "100 and1000 total objects, balanced,30 attempts each, warm filesystem bytes/fresh process, shared Debug host",
+    "schemas": [
+      "docs/evidence/README.md",
+      "docs/evidence/INSTRUMENTATION.md",
+      "docs/evidence/BENCHMARK-CORPUS.md",
+      "docs/evidence/BENCHMARK-ADAPTER.md",
+      "docs/evidence/REFERENCE-AND-FEASIBILITY.md"
+    ]
+  },
+  "validation": {
+    "full_swift_suite": {
+      "executed": 470,
+      "skipped": 12,
+      "failures": 0,
+      "configuration": "Debug",
+      "skip_boundary": "Installer asset-dependent cases remain skipped; one public-master helper-path skip was subsequently exercised with installed libvisio in this worktree."
+    },
+    "python_tests": {
+      "executed": 55,
+      "failures": 0
+    },
+    "real_product_campaign": {
+      "attempts": 60,
+      "failed_attempts": 0,
+      "phase_count_evidence_complete": true,
+      "absolute_acceptance": "unaccepted",
+      "report": "docs/evidence/benchmark-observed-summary.json"
+    },
+    "historical_intermittency": "No closure claimed; isolated/focused/full green runs do not resolve the existing suite-context saved-state finding."
+  },
+  "evidence": [
+    {
+      "path": "build/M0/final-full-suite.log",
+      "sha256": "c739be01480fa7d838290b15b3914b2c32aa297050948724de55826e1d5cad02",
+      "scope": "470 tests,12 skipped,0 failures; skips remain explicit",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/final-python-tests.log",
+      "sha256": "6adb4c28c5f75607909a52c39e869810d6ef5291468dd0dae9f080c6d858176d",
+      "scope": "55 local tooling guard tests,0 failures",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/instrumentation-tests.log",
+      "sha256": "a4f307b6ae56c236f37e81dc5c7cdae33219f533d5f3e42e800f74c3e932874d",
+      "scope": "12 focused instrumentation tests",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/benchmark-profile-tests.log",
+      "sha256": "7ff2190efb72be09768d2dc41d21098e11af4a4e73a91b56b63fffdebd3fcd16",
+      "scope": "16 focused adapter/instrumentation tests",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/binary-tests.log",
+      "sha256": "95830b09257b70df23f05958397ddac01928572046aa941f88ee7b26f5960f6a",
+      "scope": "14 local binary parser/CFB regressions; not Visio acceptance",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/public-master-probe.log",
+      "sha256": "1a95049edd3d710ab9ec765768b8e76ef23b669786b4c160df50337bfb7a7964",
+      "scope": "One local public-master independent parser probe",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/reference/current-guest.json",
+      "sha256": "af1f4b07c938cc999e367e7f81d2843c9ad4ea8aa26e80654ceb6848e4ff9071",
+      "scope": "Fresh bounded read-only guest inventory",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/reference/windows-smoke.json",
+      "sha256": "067095dbf981ab98d483a76b351046745ed1f2a66c1821ad880b225786d742a8",
+      "scope": "Fresh synthetic smoke failed COM activation; later phases skipped",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/reference/windows-comparison.json",
+      "sha256": "706691fcc4c60947860f33e52b0f5c51905ea1069f86fe517afeb9a41eb9cf00",
+      "scope": "Failed smoke preserved as12 differences",
+      "local_ignored": true
+    },
+    {
+      "path": "build/M0/reference/powershell-syntax.json",
+      "sha256": "40ee332c447f9b4d6f4c5df0408675fef694da3ae8e3f1c971df362474585a32",
+      "scope": "Guest syntax checks bound to exact script-input SHA; no optional-field COM execution",
+      "local_ignored": true
+    },
+    {
+      "path": "docs/evidence/benchmark-observed-summary.json",
+      "sha256": "81b5377efe68dfe4b031633beb233930e815297f8619b6ad67e1b281dcde3246",
+      "scope": "Small public diagnostic sample summary",
+      "local_ignored": false
+    },
+    {
+      "path": "docs/evidence/benchmark-manifest-summary.json",
+      "sha256": "ec76b0bf7aa3b393482af6f44c6bfa933508789c2b16163b28d28201bc7fe603",
+      "scope": "Generated structural-only public corpus summary",
+      "local_ignored": false
+    },
+    {
+      "path": "docs/evidence/reference-summary.json",
+      "sha256": "4fefa9485c74d4cb55098197882bb6df1e1308fcadf71183b339bc616a6697af",
+      "scope": "Small bounded reference observation summary",
+      "local_ignored": false
+    },
+    {
+      "path": "docs/evidence/feasibility-decisions.json",
+      "sha256": "b21bfba89698377eb46fc614682c73e5b4e5d3eb1ff40a43a6c6c670e01f9d4a",
+      "scope": "27 deferred bounded proposals; no approved implementation path",
+      "local_ignored": false
+    }
+  ],
+  "remaining_prerequisites": [
+    {
+      "prerequisite": "Licensed existing historical exact-build reference",
+      "blocks": [
+        "WP-01-T02",
+        "WP-01-T03",
+        "WP-01-T04",
+        "Runtime catalog and reference-dependent WP-02/03/04 acceptance"
+      ],
+      "observed": "No COM registration in either view, standard-path Visio executable, Click-to-Run configuration/service; smoke REGDB_E_CLASSNOTREG. Entitlement/activation/support combination unverified."
+    },
+    {
+      "prerequisite": "Named exact-build runtime enumeration",
+      "blocks": [
+        "WP-02-T02",
+        "WP-02-T04"
+      ],
+      "observed": "171 bounded source/document entries and eight unknown remainders retained; complete named commands/masters/cells/functions/API/events/filters/solutions/integrations remain unresolved."
+    },
+    {
+      "prerequisite": "Independent bidirectional public-content/visual workflows",
+      "blocks": [
+        "WP-03-T03"
+      ],
+      "observed": "Optional formula/master identity/Shape Data/glue snapshots and public-copy safeguards implemented; reverse-direction reimport, complete master semantics, graphics inspection and actual Visio runs remain pending."
+    },
+    {
+      "prerequisite": "Controlled Release matrix and M1 lifecycle/resource contracts",
+      "blocks": [
+        "WP-03-T04"
+      ],
+      "observed": "60 small warm-filesystem Debug pipeline attempts retained. Remaining size/feature/cache profiles, actual drag/pan/frame/stall metrics, real cold preparation, fault/recovery and sustained-process20-cycle memory evidence remain unaccepted. Current adapter refuses cold/memory/recovery; no such result is fabricated."
+    },
+    {
+      "prerequisite": "Exact-build feasibility cases and approach selection",
+      "blocks": [
+        "WP-04-T01",
+        "WP-04-T02",
+        "WP-04-T03",
+        "WP-04-T04"
+      ],
+      "observed": "27 bounded downstream proposals and current ODBC prerequisites retained. Local parser/source evidence cannot choose or accept binary semantic, COM/VBA/add-in/OLE/protected/CAD/database compatibility paths."
+    }
+  ],
+  "integration_notes": [
+    "M1 transaction/runtime design was read from its own worktree; instrumentation is additive and uses typed stages/counts. M1 must move hooks to its new actual dependency/cache/runtime boundaries, preserving counter scope.",
+    "M3 already has separate public fixture/oracle work; consume optional semantic comparison fields without treating them as complete master/formula/graphics acceptance.",
+    "Merge M0 task execution records from both backlog formats without overwriting peers' independently owned milestone updates. Canonical154 requirement IDs and snapshot states are unchanged.",
+    "Public scripts reject non-synthetic/linked/hash-changed/native-metadata evidence. Private libraries/drawings/guest images remain local and were not copied into public fixtures.",
+    "No push, publication, release, main merge, license purchase, activation change, original-checkout mutation or unrelated guest shutdown was performed."
+  ],
+  "status_record": "/Users/acousland/Documents/code/MacVisio/build/m0-m3-orchestration/M0-status.json"
+}

@@ -1,18 +1,46 @@
 # MacVisio development backlog and work packages
 
-Version 1.1 · 16 October 2026 · Status: proposed execution plan
+Version 1.1 · 16 October 2026 · Status: baseline plan with M0 execution evidence
 
 **9 milestones, 39 work packages and 161 initial tasks**, covering all 154 specification requirements: 148 baseline/native obligations and six extensions. Large catalog and specialist tasks require child decomposition; the initial task count is not the total effort or an exhaustive runtime inventory.
 
 **Recommended next engineering milestone: M1 — correct, responsive editing foundation.** Start M0 reference/discovery alongside it. The architecture review reports a reproduced cancelled-drag/save mismatch, an intermittent saved-state test failure, synchronous broad calculation and unnecessary scene/UI reconstruction. Those findings take priority over adding more specialist features.
 
-This backlog plans work only. It does not implement features, install/activate Visio, publish issues, start services or release a build. Existing implemented slices are preserved and qualified; they are not scheduled for automatic replacement. Concurrent welcome-window/product changes remain separate.
+The M0 execution supplement below records implemented local evidence/tooling and unresolved reference prerequisites. The remaining roadmap retains its frozen scope and acceptance contracts. No publication or release is authorized by this record. Concurrent welcome-window/product changes remain separate.
 
 The earlier feature snapshot describes local implementation presence. The later architecture review identifies correctness defects within some of those implemented workflows, notably gesture/save state. Those labels are not acceptance: the backlog requires defect closure and qualification before release.
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; this planning update does not claim remediation. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
+
+## M0 execution supplement — 16 October 2026
+
+M0 remains **implemented/unaccepted**. Its local artifacts are reviewable on `codex/m0-reference-foundation`; the real exact-build reference is unavailable. Fresh COM smoke failed `0x80040154`; later phases were skipped. All 11 architecture findings and eight acceptance contracts retain their original acceptance obligations. No scope exclusion, baseline reduction or compatibility acceptance is recorded.
+
+The [handoff](delivery/M0-HANDOFF.json), [evidence note](delivery/M0-EVIDENCE.md), [requirement ledger](evidence/README.md), [reference/feasibility note](evidence/REFERENCE-AND-FEASIBILITY.md), [corpus](evidence/BENCHMARK-CORPUS.md) and [instrumentation contract](evidence/INSTRUMENTATION.md) retain exact evidence and limitations. Large tasks were decomposed before implementation in [child contracts](evidence/M0-CHILD-SLICES.md) and the inventory/corpus artifacts. Task counts do not establish compatibility.
+
+| Task | Current state | Local evidence / remaining prerequisite |
+| --- | --- | --- |
+| WP-01-T01 | Completed (local) | Fresh 32/64-bit guest inventory and isolated synthetic smoke retained; absence of reference is observed, not accepted. |
+| WP-01-T02 | Blocked | No installed/registered exact-build Visio; entitlement/activation and supported historical installation path unverified. |
+| WP-01-T03 | Blocked | No qualified reference image exists; powered-off owned-image restore and known-good smoke pending. |
+| WP-01-T04 | Blocked | Fresh synthetic blank smoke failed COM 0x80040154; all later phases skipped. |
+| WP-02-T01 | Completed (local) | All 154 requirement IDs and original feature snapshot states reconcile exactly; no compatibility promotion. |
+| WP-02-T02 | Partial / unaccepted | Bounded documented/source inventory with unknown remainder and seven small children; exact-build runtime enumeration pending. |
+| WP-02-T03 | Implemented / unaccepted | Five-dimension evidence, artifact/hash/reference and scope-decision guards pass locally; semantic evidence remains unverified. |
+| WP-02-T04 | Partial / unaccepted | Every bounded entry has a mapped workflow child; named exact-build catalogs and fixtures remain unresolved. |
+| WP-03-T01 | Completed (local) | Deterministic public 19-fixture corpus retains 100/1000/5000/20000 variants and exact target fixtures; targets separate from observations. |
+| WP-03-T02 | Completed (local) | Actual stage/work-count/signpost and delivered heartbeat evidence validated by the owned synthetic event/save driver; performance and compatibility acceptance remain separate. |
+| WP-03-T03 | Partial / unaccepted | Formula/master identity/data/glue comparison and safe public-copy tools pass local guards; bidirectional reimport/graphics/reference runs pending. |
+| WP-03-T04 | Partial / unaccepted | Repeatable runner retained 60 real Debug warm-filesystem pipeline samples (30 each for 100/1000 objects), all phase/count checks complete; full controlled Release/cache/fault/memory evidence pending. |
+| WP-03-T05 | Completed (local) | Versioned synthetic manifests/hashes/expected counts and public/private evidence policy published; no confidential fixture staged. |
+| WP-04-T01 | Partial / unaccepted | Existing public binary tests and master parser probe pass locally; formula/master/glue/data reference path choice still deferred. |
+| WP-04-T02 | Blocked | Current native API is distinct from unmodified Windows COM/VBA/add-ins; absent COM blocks bridge/runtime prototype qualification. |
+| WP-04-T03 | Partial / unaccepted | ODBC views/file versions inventoried; OLE/rights/CAD/database runtime cases remain unavailable and unresolved. |
+| WP-04-T04 | Partial / unaccepted | 27 bounded downstream feasibility proposals retain exact requirement/source/test/evidence mappings; all decisions deferred and no full path chosen, exclusion or scope amendment approved. |
+
+A local completion label applies only to the task's stated local contract. Full M0 requires a licensed exact-build application, restore qualification, real public-content round trip, expanded runtime catalog and completed independent feasibility/measurement evidence. Synthetic parser/structural tests, generated object counts and green reruns do not satisfy that gate.
 
 ## 1. Planning and scope rules
 
@@ -100,14 +128,14 @@ M0 reference/inventory and M1 local engineering start together. The arrows show 
 | [WP-38](#wp-38) | MX | Add contemporary Microsoft service integrations | P2 | Integration | High | WP-23, WP-31, WP-33, WP-35 | Local evidence; global release gates apply | 3 |
 | [WP-39](#wp-39) | MX | Build native collaborative editing | P2 | Collaboration/Distributed Systems | High | WP-05, WP-06, WP-09, WP-31, WP-35 | Local evidence; global release gates apply | 4 |
 
-Owner roles are proposed accountabilities, not named assignees or a headcount plan. Every package is Proposed; existing capability is recorded in the feature snapshot.
+Owner roles are proposed accountabilities, not named assignees or a headcount plan. M0 package/task dispositions are recorded in the execution supplement; other packages retain their independently owned planning status. Existing capability is recorded in the feature snapshot.
 
 ## 4. Work packages and task backlog
 
 <a id="wp-01"></a>
 ### WP-01 — Establish the Visio reference environment
 
-**Milestone:** M0 · **Priority:** P0 · **Owner:** Compatibility/QA · **Risk:** High · **Status:** Proposed
+**Milestone:** M0 · **Priority:** P0 · **Owner:** Compatibility/QA · **Risk:** High · **Status:** Blocked (local inventory complete)
 
 **Readiness:** Ready to inspect; installation externally constrained.
 
@@ -131,7 +159,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-02"></a>
 ### WP-02 — Build the scope, coverage and decision ledger
 
-**Milestone:** M0 · **Priority:** P0 · **Owner:** Product/Compatibility · **Risk:** High · **Status:** Proposed
+**Milestone:** M0 · **Priority:** P0 · **Owner:** Product/Compatibility · **Risk:** High · **Status:** Partial / unaccepted
 
 **Readiness:** Ready for documentation-led inventory; runtime inventory pending WP-01.
 
@@ -155,7 +183,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-03"></a>
 ### WP-03 — Create the qualification harness and benchmark corpus
 
-**Milestone:** M0 · **Priority:** P0 · **Owner:** QA/Performance · **Risk:** High · **Status:** Proposed
+**Milestone:** M0 · **Priority:** P0 · **Owner:** QA/Performance · **Risk:** High · **Status:** Partial / unaccepted
 
 **Readiness:** Ready for local corpus/instrumentation; Visio evidence requires WP-01.
 
@@ -180,7 +208,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-04"></a>
 ### WP-04 — Resolve high-risk compatibility approaches early
 
-**Milestone:** M0 · **Priority:** P0 · **Owner:** Architecture/Interchange · **Risk:** High · **Status:** Proposed
+**Milestone:** M0 · **Priority:** P0 · **Owner:** Architecture/Interchange · **Risk:** High · **Status:** Partial / unaccepted
 
 **Readiness:** Ready to design probes; reference execution requires WP-01.
 
