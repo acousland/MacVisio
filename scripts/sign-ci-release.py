@@ -4,6 +4,7 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+import sys
 
 key = os.environ.get('SPARKLE_PRIVATE_KEY')
 if not key:
@@ -13,4 +14,8 @@ with tempfile.TemporaryDirectory(prefix='macvisio-signing-') as directory:
     path.write_text(key)
     path.chmod(0o600)
     environment = dict(os.environ,SPARKLE_PRIVATE_KEY_FILE=str(path))
-    subprocess.run(['scripts/package-release.sh'],env=environment,check=True)
+    if len(sys.argv) > 1 and sys.argv[1] == '--verify-only':
+        command = ['python3', 'scripts/verify-release.py', *sys.argv[2:]]
+    else:
+        command = ['scripts/package-release.sh', *sys.argv[1:]]
+    subprocess.run(command,env=environment,check=True)
