@@ -216,6 +216,12 @@ def read_parts(path: Path) -> dict[str, bytes]:
 
 def snapshot(path: Path) -> dict:
     parts = read_parts(path)
+    class PublicXMLBuilder(ET.TreeBuilder):
+        def doctype(self, name, public_id, system_id):
+            # Parser callbacks operate on decoded XML, unlike a UTF-8 byte
+            # substring check that UTF-16/32 declarations could bypass.
+            raise ValueError("DTD/entity declarations are unsupported")
+
     # Exclude only the recognized native payload family, retaining other public
     # JSON/relationships and all opaque content. Never evaluate formulas here.
     private = {name for name in parts if is_private_part(name)}
@@ -228,7 +234,7 @@ def snapshot(path: Path) -> dict:
             continue
         if b"<!DOCTYPE" in data.upper() or b"<!ENTITY" in data.upper():
             raise ValueError("DTD/entity declarations are unsupported")
-        root = ET.fromstring(data)
+        root = ET.fromstring(data, parser=ET.XMLParser(target=PublicXMLBuilder()))
         if root.tag == "{" + R + "}Relationships":
             for child in list(root):
                 if child.get("Type") == PRIVATE_REL:

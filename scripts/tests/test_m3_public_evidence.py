@@ -56,7 +56,7 @@ class M3PublicEvidenceTests(unittest.TestCase):
                 element.attrib = dict(reversed(list(element.attrib.items())))
             if name.endswith(".rels") or name == "[Content_Types].xml":
                 root[:] = list(reversed(list(root)))
-            self.parts[name] = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+            self.parts[name] = ET.tostring(root, encoding="utf-16" if name == "visio/document.xml" else "utf-8", xml_declaration=True)
         self.assertEqual(self.compare(), [])
 
     def test_same_display_name_does_not_merge_distinct_master_and_style_ids(self):
@@ -127,6 +127,9 @@ class M3PublicEvidenceTests(unittest.TestCase):
             self.compare()
         self.parts = m3.authored_parts()
         self.parts["visio/pages/page1.xml"] = b'<!DOCTYPE x [<!ENTITY e "a">]><x>&e;</x>'
+        with self.assertRaisesRegex(ValueError, "DTD/entity"):
+            self.compare()
+        self.parts["visio/pages/page1.xml"] = '<?xml version="1.0" encoding="UTF-16"?><!DOCTYPE x [<!ENTITY e "a">]><x>&e;</x>'.encode("utf-16")
         with self.assertRaisesRegex(ValueError, "DTD/entity"):
             self.compare()
         with zipfile.ZipFile(self.changed, "w") as archive:

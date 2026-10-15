@@ -40,3 +40,9 @@ COM smoke failed with class-not-registered. Its
 All five compatibility dimensions remain unverified. Source formulas, IDs and
 metadata-stripped validation copies must remain independently testable when the
 accepted engineering prerequisites permit M3 implementation.
+
+A final evidence-tool review reproduced a UTF-16 DTD guard bypass (one local
+regression failure). The XML parser now rejects DTDs through its decoded parser
+callback; valid UTF-16 XML still compares correctly. All nine oracle tests pass
+after the fix. Both the failing probe and corrected run are retained; this is
+tool validation and does not promote any M3 compatibility dimension.
