@@ -76,6 +76,53 @@
           }
         ]
       }
+    },
+    {
+      "file": "m3-physical.vsdx",
+      "case": "m3-physical",
+      "format": "vsdx",
+      "sha256": "81d57b4748671012c10ddb3487c2b98ff89c1edfb655443c26e76313063f1cfc",
+      "bytes": 3495,
+      "containsNativeMetadata": false,
+      "expectedPhysical": {
+        "printerScalePercent": 100,
+        "objectWidthMM": 20,
+        "pageWidthMM": 210,
+        "pageHeightMM": 297,
+        "printedToleranceMM": 0.2,
+        "calibratedPrinterEvidence": "pending"
+      },
+      "expected": {
+        "pages": [
+          {
+            "index": 1,
+            "name": "One metre at 1 to 50",
+            "background": false,
+            "width": 413.38582677165357,
+            "height": 584.6456692913387,
+            "shapes": [
+              {
+                "id": "1",
+                "parentID": null,
+                "text": "",
+                "cells": {
+                  "Width": 39.37007874015748,
+                  "Height": 9.84251968503937
+                }
+              },
+              {
+                "id": "2",
+                "parentID": null,
+                "text": "Nonprinting guide",
+                "cells": {
+                  "Width": 39.37007874015748,
+                  "Height": 9.84251968503937
+                }
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

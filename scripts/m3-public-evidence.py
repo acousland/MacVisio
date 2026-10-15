@@ -124,6 +124,44 @@ def write_package(parts: dict[str, bytes], path: Path) -> None:
             archive.writestr(entry, data)
 
 
+def physical_parts() -> dict[str, bytes]:
+    """One metre in drawing space, 20 mm on A4 paper at 1:50.
+
+    Constants below are authored in physical millimetres and converted to public
+    drawing inches. This avoids deriving expected dimensions from native output.
+    """
+    parts = authored_parts()
+    for name in list(parts):
+        if name.startswith("visio/masters/") or name == "visio/pages/page2.xml":
+            del parts[name]
+    parts["visio/_rels/document.xml.rels"] = rels([("pages", T + "pages", "pages/pages.xml"), ("theme", O + "/theme", "theme/theme1.xml")])
+    parts["visio/pages/_rels/pages.xml.rels"] = rels([("p0", T + "page", "page1.xml")])
+    width, height = 210 * 50 / 25.4, 297 * 50 / 25.4
+    parts["visio/pages/pages.xml"] = xml(f'''<Pages xmlns="{V}" xmlns:r="{O}"><Page ID="0" Name="One metre at 1 to 50" NameU="PhysicalScale"><PageSheet>
+      <Cell N="PageWidth" V="{width:.15g}"/><Cell N="PageHeight" V="{height:.15g}"/>
+      <Cell N="PageScale" V="1"/><Cell N="DrawingScale" V="50"/><Cell N="DrawingScaleType" V="3"/>
+      <Cell N="PageLeftMargin" V="{10/25.4:.15g}"/><Cell N="PageRightMargin" V="{10/25.4:.15g}"/>
+      <Section N="Layer"><Row IX="0"><Cell N="Name" V="Guides"/><Cell N="Visible" V="1"/><Cell N="Print" V="0"/><Cell N="Snap" V="1"/><Cell N="Glue" V="0"/></Row></Section>
+      </PageSheet><Rel r:id="p0"/></Page></Pages>''')
+    # 1000 mm is the object's real width. Its paper width is 1000 / 50 = 20 mm.
+    parts["visio/pages/page1.xml"] = xml(f'''<PageContents xmlns="{V}"><Shapes>
+      <Shape ID="1" NameU="OneMetre"><Cell N="PinX" V="{2500/25.4:.15g}"/><Cell N="PinY" V="{2500/25.4:.15g}"/>
+      <Cell N="Width" V="{1000/25.4:.15g}"/><Cell N="Height" V="{250/25.4:.15g}"/>
+      <Cell N="LocPinX" V="{500/25.4:.15g}"/><Cell N="LocPinY" V="{125/25.4:.15g}"/>
+      <Cell N="LineColor" V="#000000"/><Cell N="LineWeight" V="0.00393700787401575"/><Cell N="FillForegnd" V="#000000"/><Text/></Shape>
+      <Shape ID="2" NameU="NonprintingGuide"><Cell N="PinX" V="{5000/25.4:.15g}"/><Cell N="PinY" V="{5000/25.4:.15g}"/>
+      <Cell N="Width" V="{1000/25.4:.15g}"/><Cell N="Height" V="{250/25.4:.15g}"/>
+      <Cell N="LayerMember" V="0"/><Text>Nonprinting guide</Text></Shape>
+      </Shapes></PageContents>''')
+    types = ET.fromstring(parts["[Content_Types].xml"])
+    for entry in list(types):
+        name = entry.get("PartName", "").lstrip("/")
+        if name and name not in parts:
+            types.remove(entry)
+    parts["[Content_Types].xml"] = ET.tostring(types, encoding="utf-8", xml_declaration=True)
+    return parts
+
+
 def generate(directory: Path) -> dict:
     directory.mkdir(parents=True, exist_ok=True)
     if any(directory.iterdir()):
@@ -141,6 +179,16 @@ def generate(directory: Path) -> dict:
                                       {"id": "30", "parentID": None, "text": "Link 東京", "cells": {"BeginX": 3, "BeginY": 6, "EndX": 4.5, "EndY": 6}}]},
                                   {"index": 2, "name": "Background scale", "background": True, "width": 8, "height": 10, "shapes": [
                                       {"id": "1", "parentID": None, "text": "Public background", "cells": {"PinX": 4, "PinY": 1, "Width": 2, "Height": 0.5}}]}]}}]}
+    physical = directory / "m3-physical.vsdx"
+    write_package(physical_parts(), physical)
+    manifest["fixtures"].append({"file": physical.name, "case": "m3-physical", "format": "vsdx", "sha256": digest(physical.read_bytes()),
+                                 "bytes": physical.stat().st_size, "containsNativeMetadata": False,
+                                 "expectedPhysical": {"printerScalePercent": 100, "objectWidthMM": 20, "pageWidthMM": 210, "pageHeightMM": 297,
+                                                      "printedToleranceMM": 0.2, "calibratedPrinterEvidence": "pending"},
+                                 "expected": {"pages": [{"index": 1, "name": "One metre at 1 to 50", "background": False,
+                                                         "width": 210*50/25.4, "height": 297*50/25.4, "shapes": [
+                                                             {"id": "1", "parentID": None, "text": "", "cells": {"Width": 1000/25.4, "Height": 250/25.4}},
+                                                             {"id": "2", "parentID": None, "text": "Nonprinting guide", "cells": {"Width": 1000/25.4, "Height": 250/25.4}}]}]}})
     (directory / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
     return manifest
 

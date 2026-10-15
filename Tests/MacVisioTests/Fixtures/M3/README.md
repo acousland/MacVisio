@@ -13,6 +13,11 @@ text and character runs; an intelligent connector sheet with its own formula;
 an Office theme; background links, scale and a nonprinting layer; and an opaque
 public payload. This bounded fixture does not cover every M3 catalog entry.
 
+`m3-physical.vsdx` independently authors a 1000 mm object at 1:50 on A4 paper,
+with a visible nonprinting guide. Its expected output width is 20 mm at printer
+scale 100%. The local Swift check measures page dimensions and the black object's
+width in a rendered PDF; calibrated physical printing remains pending.
+
 Run `python3 scripts/m3-public-evidence.py compare BEFORE.vsdx AFTER.vsdx` for
 public structural differences (exit 1 means content changed). This is a strict
 preservation oracle; reference Visio may legitimately rewrite formulas/structure.
