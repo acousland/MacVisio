@@ -15,6 +15,7 @@ enum OpenPerformance {
         let result = try VisioFormat.read(from:input,trace:mark)
         let document = MacVisioDocument()
         document.diagram = try result.diagram.validated()
+        document.importWarnings = result.warnings
         mark("documentValidation")
         document.makeWindowControllers()
         defer { document.windowControllers.forEach{$0.close()} }

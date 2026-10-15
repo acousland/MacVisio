@@ -68,6 +68,7 @@ enum DiagramDrawing {
         if n.formatting.italic { font = NSFontManager.shared.convert(font,toHaveTrait:.italicFontMask) }; return font
     }
     static func dash(_ pattern:Int) -> [CGFloat] { switch pattern { case 2:return [6,4]; case 3:return [1,3]; case 4:return [7,3,1,3]; case 5:return [7,3,1,3,1,3]; default:return [] } }
+    static func isTextHidden(for node:DiagramNode) -> Bool { Double(node.formatting.sheet["HideText"]?.value ?? "0") == 1 }
     static func textRect(for n:DiagramNode) -> CGRect {
         if let box = n.formatting.textBox { return box.rect(in:n) }
         var rect = n.rect.insetBy(dx:10,dy:8)
@@ -144,7 +145,9 @@ enum DiagramDrawing {
             let separator = NSBezierPath(); separator.move(to:CGPoint(x:n.x+header,y:n.y)); separator.line(to:CGPoint(x:n.x+header,y:n.y+n.height)); separator.lineWidth = n.strokeWidth; separator.stroke()
         }
         // Keep text glyphs readable while reflecting their block's placement.
-        NSGraphicsContext.restoreGraphicsState();NSGraphicsContext.saveGraphicsState()
+        NSGraphicsContext.restoreGraphicsState()
+        guard !isTextHidden(for:n) else { return }
+        NSGraphicsContext.saveGraphicsState()
         let textFrame = NSAffineTransform();textFrame.translateX(by:n.center.x,yBy:n.center.y);textFrame.rotate(byDegrees:n.rotation);textFrame.translateX(by:-n.center.x,yBy:-n.center.y);textFrame.concat()
         let paper = NSAffineTransform();paper.scale(by:1/paperScale);paper.concat();n = DrawingScale.paperNode(input,factor:paperScale)
         let layout = textLayout(for:n);var textRect = layout.rect
@@ -197,10 +200,14 @@ enum DiagramDrawing {
             (edge.label as NSString).draw(at:CGPoint(x:box.minX+5,y:box.minY+3),withAttributes:attrs);NSGraphicsContext.restoreGraphicsState()
         }
     }
+    static func orderedNodes(in page:DiagramPage) -> [DiagramNode] {
+        ShapeDrawingOrder.ordered(page.nodes,id:\.id,parentID:\.parentID,isGroup:{$0.formatting.isGroup},displayMode:{Double($0.formatting.sheet["DisplayMode"]?.value ?? "").flatMap{Int(exactly:$0)}})
+    }
     static func drawContents(_ page:DiagramPage,printing:Bool = true,shadow:Bool = false) {
-        for n in page.nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
+        let nodes = orderedNodes(in:page)
+        for n in nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
         for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(layerColored(e,in:page),in:page) }
-        for n in page.nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:shadow,paperScale:page.paperScale) }
+        for n in nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:shadow,paperScale:page.paperScale) }
     }
     static func drawPage(_ page:DiagramPage) { drawPage(DiagramScene(page:page)) }
     static func drawPage(_ scene:DiagramScene) {
@@ -257,6 +264,7 @@ enum DiagramDrawing {
             if n.kind == .cylinder && n.formatting.paths.isEmpty && n.formatting.image == nil && n.formatting.geometry == nil { extra = "<ellipse cx=\"\(n.center.x)\" cy=\"\(n.y+n.height*0.13)\" rx=\"\(n.width/2)\" ry=\"\(n.height*0.13)\" fill=\"none\" stroke=\"\(color(n.stroke))\" stroke-width=\"\(n.strokeWidth)\"/>" }
             if n.kind == .swimlane && n.formatting.geometry == nil { extra = "<path d=\"M \(n.x+min(110,n.width*0.25)) \(n.y) V \(n.y+n.height)\" stroke=\"\(color(n.stroke))\" fill=\"none\"/>" }
             let transform = "translate(\(n.center.x) \(n.center.y)) rotate(\(n.rotation)) scale(\(n.formatting.flipX ? -1 : 1) \(n.formatting.flipY ? -1 : 1)) translate(\(-n.center.x) \(-n.center.y))"
+            if isTextHidden(for:n) { return "<g transform=\"\(transform)\">\(geometry)\(extra)</g>" }
             let textNode = DrawingScale.paperNode(original,factor:page.paperScale)
             if textNode.formatting.textRuns != nil {
                 let layout = textLayout(for:textNode),text = ShapeRichText.svg(textNode,rect:layout.rect)
@@ -289,7 +297,8 @@ enum DiagramDrawing {
             let paperTransform = unit == 1 ? "" : "scale(\(unit)) "
             return "<g transform=\"\(transform)\">\(geometry)\(extra)</g><g transform=\"\(paperTransform)rotate(\(textNode.rotation) \(textNode.center.x) \(textNode.center.y))\"><text text-anchor=\"\(anchor)\" font-family=\"\(family)\" font-size=\"\(textNode.fontSize)\" font-weight=\"\(n.bold ? 600 : 400)\" fill=\"\(color(n.textColor))\"\(style)\(textTransform)>\(text)</text></g>"
         }
-        var body = page.nodes.filter { $0.kind == .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")
+        let nodes = orderedNodes(in:page)
+        var body = nodes.filter { $0.kind == .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")
         for original in page.edges where page.isVisible(original,printing:true) {
             var e = layerColored(original,in:page);e.width *= unit
             let points = DiagramGeometry.route(e,in:page); guard let first = points.first,let last = points.last else { continue }
@@ -309,7 +318,7 @@ enum DiagramDrawing {
                 body += "<text x=\"\(mid.x)\" y=\"\(mid.y-5*unit)\" text-anchor=\"middle\" font-family=\"Helvetica,Arial,sans-serif\" font-size=\"\(12*unit)\" fill=\"\(color(e.color))\" stroke=\"white\" stroke-width=\"\(5*unit)\" paint-order=\"stroke\">\(xml(e.label))</text>"
             }
         }
-        body += page.nodes.filter { $0.kind != .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")
+        body += nodes.filter { $0.kind != .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")
         return body
     }
 }

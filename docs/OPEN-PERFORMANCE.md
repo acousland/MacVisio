@@ -6,6 +6,8 @@ The import retains the existing size limits, ZIP checksum verification, public X
 
 In local validation, loading and exporting a large three-page drawing fell from roughly 17–19 seconds to 3.1–3.4 seconds. Every page's SVG content matched the earlier build after normalizing generated clip IDs. The native editor's first viewport completed in about 3.1 seconds: package extraction took about 7 ms, page import about 2.75 seconds, validation about 160 ms, editor setup about 50 ms and the viewport draw about 100 ms. These measurements describe one drawing and machine, rather than a universal speed guarantee. All 284 local tests pass.
 
+Version 0.22.1 also caches each resolved style family/ID for the duration of an import, preserving per-shape/master overrides and the existing inheritance depth bound. This avoids repeated style-chain traversal and theme-selector comparisons. In three alternating runs per version on the same machine and locally available drawing, the median import plus first viewport fell from 4.27 seconds in 0.22.0 to 1.92 seconds in 0.22.1. Shape/connector counts remain unchanged; all 52 source package parts survive an unchanged save byte for byte. These are local results, excluding process startup and cloud download time. Rendering now honors cached group DisplayMode and HideText values, so recovered labels intentionally change the preview.
+
 Use the diagnostic CLI to measure a drawing:
 
 ```sh

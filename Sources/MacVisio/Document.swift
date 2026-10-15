@@ -122,7 +122,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let page = diagramDocument.diagram.page
         canvas.selectedNodes.formIntersection(Set(page.nodes.map(\.id)))
         if !page.edges.contains(where:{$0.id == canvas.selectedEdge}) { canvas.selectedEdge = nil }
-        root.refreshPages(); root.inspector.refresh(); canvas.refreshSize(); updateStatus()
+        root.refreshPages(); root.refreshImportNotes(); root.inspector.refresh(); canvas.refreshSize(); updateStatus()
     }
     func selectionChanged() { root.inspector.refresh(); updateStatus() }
     func updateStatus() {

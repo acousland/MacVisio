@@ -276,6 +276,7 @@ final class EditorRootView: FlippedView {
     let pageScroll = NSScrollView()
     let snapButton = NSButton(checkboxWithTitle:"Snap to Grid",target:nil,action:nil)
     let status = uiLabel("",size:11)
+    let importNotesButton = NSButton(title:"Import notes",target:nil,action:nil)
     let zoomLabel = uiLabel("100%",size:11,weight:.medium)
     private var zoomMinus:NSButton!
     private var zoomPlus:NSButton!
@@ -296,6 +297,13 @@ final class EditorRootView: FlippedView {
         fit = symbolButton("arrow.up.left.and.arrow.down.right",label:"Fit page",target:editor,action:#selector(EditorWindowController.fitPage(_:)))
         addPageButton = symbolButton("plus",label:"Add page",target:editor,action:#selector(EditorWindowController.addPage(_:)))
         [status,snapButton,zoomMinus,zoomLabel,zoomPlus,fit].forEach{footer.addSubview($0)}
+        importNotesButton.target = editor;importNotesButton.action = #selector(EditorWindowController.showImportNotes(_:))
+        importNotesButton.bezelStyle = .recessed;importNotesButton.font = .systemFont(ofSize:11)
+        importNotesButton.identifier = NSUserInterfaceItemIdentifier("importNotes")
+        importNotesButton.setAccessibilityLabel("View import compatibility notes")
+        importNotesButton.toolTip = "This drawing has import compatibility limitations. Click to view the details."
+        footer.addSubview(importNotesButton)
+        refreshImportNotes()
         addSubview(addPageButton)
         refreshAppearance()
     }
@@ -321,7 +329,8 @@ final class EditorRootView: FlippedView {
         pageScroll.frame = CGRect(x:left+1,y:h-bottom-pages,width:max(1,w-left-right-36),height:pages)
         addPageButton.frame = CGRect(x:w-right-33,y:h-bottom-pages+3,width:30,height:27)
         footer.frame = CGRect(x:0,y:h-bottom,width:w,height:bottom)
-        status.frame = CGRect(x:16,y:8,width:max(150,w-420),height:17)
+        status.frame = CGRect(x:16,y:8,width:max(150,w-(importNotesButton.isHidden ? 420 : 600)),height:17)
+        importNotesButton.frame = CGRect(x:w-552,y:3,width:180,height:24)
         snapButton.frame = CGRect(x:w-358,y:4,width:112,height:22)
         zoomMinus.frame = CGRect(x:w-236,y:3,width:28,height:24)
         zoomLabel.frame = CGRect(x:w-202,y:7,width:48,height:17);zoomLabel.alignment = .center
@@ -343,6 +352,12 @@ final class EditorRootView: FlippedView {
             button.frame = CGRect(x:x,y:0,width:width,height:33);pageStrip.addSubview(button);x += width+1
         }
         pageStrip.frame = CGRect(x:0,y:0,width:max(x,pageScroll.contentSize.width),height:33)
+    }
+    func refreshImportNotes() {
+        let count = editor?.diagramDocument.importWarnings.count ?? 0
+        importNotesButton.isHidden = count == 0
+        importNotesButton.title = "Import notes (\(count))"
+        needsLayout = true
     }
     func showMessage(_ text:String) {
         status.stringValue = text

@@ -197,9 +197,10 @@ final class CanvasView: NSView {
                 for y in stride(from:floor(clip.minY*page.paperScale/20)*20/page.paperScale,through:min(page.height,clip.maxY),by:20/page.paperScale) { dots.appendOval(in:CGRect(x:x-0.65/page.paperScale,y:y-0.65/page.paperScale,width:1.3/page.paperScale,height:1.3/page.paperScale)) }
             }; dots.fill()
         }
-        for n in page.nodes where n.kind == .swimlane && page.isVisible(n) { DiagramDrawing.drawNode(n,shadow:false,paperScale:page.paperScale) }
+        let drawingNodes = DiagramDrawing.orderedNodes(in:page)
+        for n in drawingNodes where n.kind == .swimlane && page.isVisible(n) { DiagramDrawing.drawNode(n,shadow:false,paperScale:page.paperScale) }
         for e in page.edges where page.isVisible(e) { DiagramDrawing.drawEdge(e,in:page,selected:e.id == selectedEdge) }
-        for n in page.nodes where n.kind != .swimlane && page.isVisible(n) { DiagramDrawing.drawNode(n,paperScale:page.paperScale) }
+        for n in drawingNodes where n.kind != .swimlane && page.isVisible(n) { DiagramDrawing.drawNode(n,paperScale:page.paperScale) }
         if tool == .connector {
             for node in page.nodes where page.isVisible(node) && !page.isLocked(node) && page.permitsGlue(to:node) {
                 for port in node.formatting.connectionPoints {

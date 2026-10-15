@@ -111,11 +111,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let asNew = ext == "vstx" || ext == "vst" || ext == "vsd" && !doc.legacyNative
             doc.fileURL = asNew ? nil : url; doc.fileType = asNew ? MacVisioDocument.visioType : type
             if asNew { doc.updateChangeCount(.changeDone) }
-            let warnings = doc.importWarnings
             NSDocumentController.shared.addDocument(doc); doc.makeWindowControllers(); doc.showWindows()
-            if !warnings.isEmpty,let window = doc.windowControllers.first?.window {
-                let alert = NSAlert(); alert.messageText = "Visio import notes"; alert.informativeText = warnings.prefix(12).joined(separator:"\n"); alert.addButton(withTitle:"Continue"); alert.beginSheetModal(for:window)
-            }
         } catch { NSApp.presentError(error) }
     }
     func application(_ sender:NSApplication,openFiles filenames:[String]) { openedAtLaunch = true; for name in filenames { open(URL(fileURLWithPath:name)) }; sender.reply(toOpenOrPrint:.success) }

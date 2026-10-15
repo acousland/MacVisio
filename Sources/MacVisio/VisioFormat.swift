@@ -167,6 +167,7 @@ enum VisioFormat {
             if let index = entry.attributes["IX"], let value = entry.attributes["RGB"] { palette[index] = value }
         }
         let styles = Dictionary(uniqueKeysWithValues: try uniqueElements(document.child("StyleSheets")?.children(named: "StyleSheet") ?? [], key: "ID"))
+        let resolvedStyles = ResolvedStyleCells(styles:styles)
         var masters: [String: MasterDefinition] = [:]
         if let relation = documentRelationships.values.first(where: { $0.type == visioRelationship + "masters" }), !relation.external {
             let part = try resolve(relation.target, relativeTo: documentPart)
@@ -310,7 +311,7 @@ enum VisioFormat {
                     instance?.identifiers[masterShape] = shapeID
                     if inheritanceByShape[shapeID] == nil { inheritanceByShape[shapeID] = VisioInheritedShape(masterShapeID:masterShape,parentID:parent.id,implicit:false) }
                 }
-                let cells = inheritedCells(shape, master: master?.shape, styles: styles)
+                let cells = inheritedCells(shape, master: master?.shape, styles: resolvedStyles)
                 let hasEndpoints = cells["BeginX"] != nil && cells["EndX"] != nil
                 if number(cells["OneD"]) == 1 || hasEndpoints {
                     connectorElements.append((shape, cells, master?.shape, parent)); continue
@@ -962,11 +963,25 @@ enum VisioFormat {
         return result
     }
 
-    private static func inheritedCells(_ shape: XElement, master: XElement?, styles: [String: XElement]) -> [String: XCell] {
+    /// Styles are immutable during one import. Resolve each family/ID once,
+    /// retaining the existing bounded inheritance rules and per-shape overrides.
+    private final class ResolvedStyleCells {
+        let styles:[String:XElement]
+        private var cache:[String:[String:[String:XCell]]] = [:]
+        init(styles:[String:XElement]) { self.styles = styles }
+        func cells(_ id:String,family:String) -> [String:XCell] {
+            if let result = cache[family]?[id] { return result }
+            let result = VisioFormat.styleCells(id,styles:styles,styleKey:family,depth:0)
+            cache[family,default:[:]][id] = result
+            return result
+        }
+    }
+
+    private static func inheritedCells(_ shape: XElement, master: XElement?, styles: ResolvedStyleCells) -> [String: XCell] {
         var cells: [String: XCell] = [:]
         for key in ["LineStyle", "FillStyle", "TextStyle"] {
             let id = shape.attributes[key] ?? master?.attributes[key] ?? "0"
-            for (name, value) in styleCells(id, styles: styles, styleKey: key, depth: 0) { cells[name] = value }
+            for (name, value) in styles.cells(id,family:key) { cells[name] = value }
         }
         if let master { cells.merge(master.cells) { _, new in new } }
         cells.merge(shape.cells) { old, new in new.value == "Inh" ? old : new }
