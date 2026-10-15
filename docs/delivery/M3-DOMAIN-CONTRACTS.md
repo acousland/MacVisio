@@ -119,6 +119,36 @@ uses M0/M2's preservation/editing policy and object-level diagnostic contract
 (AC-08). Native metadata may accelerate reopening but cannot be the only carrier
 of any claimed public capability.
 
+## Source integration checks before implementation
+
+These are source-confirmed boundaries in the frozen implementation, not defects
+claimed in features it does not yet implement:
+
+- `VisioPreservation.write` returns early when archived original pages equal live
+  pages. A new master/style/document-sheet edit must participate in that decision.
+  Test an edit to a definition with no directly edited page, then a second save,
+  public-only reopen, explicit instance override and failed-write retry together.
+- `VisioFormat.NativeEnvelope` stores a page-oriented model and bindings, with
+  versioned hydration of previously missing public semantics. New domain storage
+  needs an explicit migration/version contract and hash-checked public hydration.
+  A valid older cache must not hide newly modeled master/style/connector content.
+  Test both source-backed and source-free older native documents; never invent
+  source identities for the latter.
+- `ShapeSheetContext` builds `Sheet.*` identifiers from nodes only. Adding a sheet
+  dictionary to an edge alone will not make connector references work. Extend the
+  shared owner/dependency path, including node→connector and connector→node cells,
+  scoped numeric IDs, host-dependent errors and local cyclic components. The
+  accepted M1 dependency runtime must receive the resulting invalidation.
+- Selection/stencil fragments currently transport page nodes and edges. New
+  intelligent instances need their master/style/media/row dependencies and scoped
+  remapping plan in a fresh empty host. A flattened fragment that looks correct
+  immediately after drop cannot establish update/replacement behavior. Test the
+  fresh-host public package, mutate its master, preserve explicit instance cells,
+  and check expected-only source changes with native metadata removed.
+
+No provisional M1/M2 method names are prescribed here. Integrate their actual
+accepted contracts before choosing adapters or implementing these checks.
+
 ## Current evidence and open gates
 
 `scripts/m3-public-evidence.py` compares public XML structure, all formula/value/
