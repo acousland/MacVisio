@@ -1,0 +1,359 @@
+{
+  "containsNativeMetadata": false,
+  "corpusDirectory": "build/M0/benchmarks",
+  "fixtureCount": 19,
+  "fixtures": [
+    {
+      "bytes": 5734,
+      "counts": {
+        "connectors": 33,
+        "formulaCells": 56,
+        "images": 4,
+        "maxGroupDepth": 0,
+        "objects": 100,
+        "shapes": 67
+      },
+      "file": "objects-100-balanced.vsdx",
+      "format": "vsdx",
+      "pages": 1,
+      "sha256": "3c2577e047da206328dbf0a22111cfb9677bea5b851d6c6e26022ef8e6d47fe6",
+      "targetProfile": "scaling",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 5714,
+      "counts": {
+        "connectors": 33,
+        "formulaCells": 268,
+        "images": 4,
+        "maxGroupDepth": 0,
+        "objects": 100,
+        "shapes": 67
+      },
+      "file": "objects-100-formula-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 1,
+      "sha256": "f509a834223c994aa19177857321a60752fee7ff6c51f1f336c31f3ba50e698b",
+      "targetProfile": "scaling",
+      "variant": "formula-heavy"
+    },
+    {
+      "bytes": 5668,
+      "counts": {
+        "connectors": 33,
+        "formulaCells": 56,
+        "images": 34,
+        "maxGroupDepth": 0,
+        "objects": 100,
+        "shapes": 67
+      },
+      "file": "objects-100-image-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 1,
+      "sha256": "27c618eab39dd63ea26735ca998d1b17032c46dd36dd5eec44e713bbae899657",
+      "targetProfile": "scaling",
+      "variant": "image-heavy"
+    },
+    {
+      "bytes": 4351,
+      "counts": {
+        "connectors": 33,
+        "formulaCells": 56,
+        "images": 0,
+        "maxGroupDepth": 15,
+        "objects": 100,
+        "shapes": 67
+      },
+      "file": "objects-100-hierarchy.vsdx",
+      "format": "vsdx",
+      "pages": 1,
+      "sha256": "8c43a43a4db43408d38c1f512df66baa64d962bbf02fc987f7194470a8d6f13c",
+      "targetProfile": "scaling",
+      "variant": "hierarchy"
+    },
+    {
+      "bytes": 24551,
+      "counts": {
+        "connectors": 333,
+        "formulaCells": 536,
+        "images": 34,
+        "maxGroupDepth": 0,
+        "objects": 1000,
+        "shapes": 667
+      },
+      "file": "objects-1000-balanced.vsdx",
+      "format": "vsdx",
+      "pages": 2,
+      "sha256": "a62735dfa52dd81d1958f1a1087bcf686c442e10b8340a4504bb20cdf299f201",
+      "targetProfile": "scaling",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 25034,
+      "counts": {
+        "connectors": 333,
+        "formulaCells": 2668,
+        "images": 34,
+        "maxGroupDepth": 0,
+        "objects": 1000,
+        "shapes": 667
+      },
+      "file": "objects-1000-formula-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 2,
+      "sha256": "fad87f541d5a6c8bc84a28ed9cd9e2e3d642c698e34044c3d2a2277faaec61c4",
+      "targetProfile": "scaling",
+      "variant": "formula-heavy"
+    },
+    {
+      "bytes": 23964,
+      "counts": {
+        "connectors": 333,
+        "formulaCells": 536,
+        "images": 334,
+        "maxGroupDepth": 0,
+        "objects": 1000,
+        "shapes": 667
+      },
+      "file": "objects-1000-image-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 2,
+      "sha256": "02bdedf3b5481c416f3d861b2176dd97f3f81fa0be5baa9a7195c6126a68d31b",
+      "targetProfile": "scaling",
+      "variant": "image-heavy"
+    },
+    {
+      "bytes": 19547,
+      "counts": {
+        "connectors": 333,
+        "formulaCells": 536,
+        "images": 0,
+        "maxGroupDepth": 15,
+        "objects": 1000,
+        "shapes": 667
+      },
+      "file": "objects-1000-hierarchy.vsdx",
+      "format": "vsdx",
+      "pages": 2,
+      "sha256": "dec14bcc597d1005837bbfa105c3c5e84e8c8e997725b2883af125d8ce047724",
+      "targetProfile": "scaling",
+      "variant": "hierarchy"
+    },
+    {
+      "bytes": 110895,
+      "counts": {
+        "connectors": 1666,
+        "formulaCells": 2680,
+        "images": 171,
+        "maxGroupDepth": 0,
+        "objects": 5000,
+        "shapes": 3334
+      },
+      "file": "objects-5000-balanced.vsdx",
+      "format": "vsdx",
+      "pages": 9,
+      "sha256": "4798003e60594a3d7171969eaa0fff6f5ea328dd90cfa404d280cbf1ecc54f90",
+      "targetProfile": "scaling",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 113355,
+      "counts": {
+        "connectors": 1666,
+        "formulaCells": 13336,
+        "images": 171,
+        "maxGroupDepth": 0,
+        "objects": 5000,
+        "shapes": 3334
+      },
+      "file": "objects-5000-formula-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 9,
+      "sha256": "36c9154b6b88aa2c6e2f54c20d1cd85721101d65141fbd204286a09cb4b2db75",
+      "targetProfile": "scaling",
+      "variant": "formula-heavy"
+    },
+    {
+      "bytes": 107954,
+      "counts": {
+        "connectors": 1666,
+        "formulaCells": 2680,
+        "images": 1669,
+        "maxGroupDepth": 0,
+        "objects": 5000,
+        "shapes": 3334
+      },
+      "file": "objects-5000-image-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 9,
+      "sha256": "f1694a345babd81a6e7bf2ad3873247c16aceb747cbfc2198f72003083a4d46c",
+      "targetProfile": "scaling",
+      "variant": "image-heavy"
+    },
+    {
+      "bytes": 89464,
+      "counts": {
+        "connectors": 1666,
+        "formulaCells": 2680,
+        "images": 0,
+        "maxGroupDepth": 15,
+        "objects": 5000,
+        "shapes": 3334
+      },
+      "file": "objects-5000-hierarchy.vsdx",
+      "format": "vsdx",
+      "pages": 9,
+      "sha256": "7dc09bfd5af35f9c8d793e321eef63b58683b54d83fd7b354535d6b5bd49dda9",
+      "targetProfile": "scaling",
+      "variant": "hierarchy"
+    },
+    {
+      "bytes": 433020,
+      "counts": {
+        "connectors": 6666,
+        "formulaCells": 10744,
+        "images": 680,
+        "maxGroupDepth": 0,
+        "objects": 20000,
+        "shapes": 13334
+      },
+      "file": "objects-20000-balanced.vsdx",
+      "format": "vsdx",
+      "pages": 34,
+      "sha256": "e151ff8cc4eaa94e63f86a8a29bd8e718755ffc7d5f1ad7ae0a6886b02014e0e",
+      "targetProfile": "scaling",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 443249,
+      "counts": {
+        "connectors": 6666,
+        "formulaCells": 53336,
+        "images": 680,
+        "maxGroupDepth": 0,
+        "objects": 20000,
+        "shapes": 13334
+      },
+      "file": "objects-20000-formula-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 34,
+      "sha256": "90772b9cdad4ac05b7195d60c0c7799385f3703da287ead911b54ad2414ce1fe",
+      "targetProfile": "scaling",
+      "variant": "formula-heavy"
+    },
+    {
+      "bytes": 421397,
+      "counts": {
+        "connectors": 6666,
+        "formulaCells": 10744,
+        "images": 6670,
+        "maxGroupDepth": 0,
+        "objects": 20000,
+        "shapes": 13334
+      },
+      "file": "objects-20000-image-heavy.vsdx",
+      "format": "vsdx",
+      "pages": 34,
+      "sha256": "5ffc0737a3cf02ab0a4a5f4f299b5f57fd7e0f6e14e055bb9225fa2f4daf38c1",
+      "targetProfile": "scaling",
+      "variant": "image-heavy"
+    },
+    {
+      "bytes": 340278,
+      "counts": {
+        "connectors": 6666,
+        "formulaCells": 10744,
+        "images": 0,
+        "maxGroupDepth": 15,
+        "objects": 20000,
+        "shapes": 13334
+      },
+      "file": "objects-20000-hierarchy.vsdx",
+      "format": "vsdx",
+      "pages": 34,
+      "sha256": "606564b8d22d5d8cb4ec8e05cf22dbae9665d45abfe44a4d1cccc0f389fab29e",
+      "targetProfile": "scaling",
+      "variant": "hierarchy"
+    },
+    {
+      "bytes": 32661,
+      "counts": {
+        "connectors": 500,
+        "formulaCells": 800,
+        "images": 50,
+        "maxGroupDepth": 0,
+        "objects": 1500,
+        "shapes": 1000
+      },
+      "file": "spec-interaction.vsdx",
+      "format": "vsdx",
+      "pages": 1,
+      "sha256": "46b133596a74e7c1e937037e6a7fb066edbb5a8dfdf5f0478b3b5c7e38c9a23b",
+      "targetProfile": "interaction",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 73677,
+      "counts": {
+        "connectors": 1000,
+        "formulaCells": 1600,
+        "images": 100,
+        "maxGroupDepth": 0,
+        "objects": 3000,
+        "shapes": 2000
+      },
+      "file": "spec-standard.vsdx",
+      "format": "vsdx",
+      "pages": 10,
+      "sha256": "9f80155fbac2711cebbf45beb46a3b442ba4e89c6b22b7d91d1e7baf569fb017",
+      "targetProfile": "standard",
+      "variant": "balanced"
+    },
+    {
+      "bytes": 648383,
+      "counts": {
+        "connectors": 10000,
+        "formulaCells": 16000,
+        "images": 1000,
+        "maxGroupDepth": 0,
+        "objects": 30000,
+        "shapes": 20000
+      },
+      "file": "spec-large.vsdx",
+      "format": "vsdx",
+      "pages": 50,
+      "sha256": "20a040f6e53154c047e52b45ba892ce4d00f18b023a7ba82cf8e88469a1a5302",
+      "targetProfile": "large",
+      "variant": "balanced"
+    }
+  ],
+  "generator": {
+    "path": "scripts/generate-benchmark-corpus.py",
+    "sha256": "a7d8120cdd97a9506215a2a4d75fa013ccd5caeea5030d32b4c2d20a15bcf598"
+  },
+  "limitations": [
+    "Generated structure and local parser evidence do not establish real Visio open/edit/save/reopen/render behavior.",
+    "No product measurement adapter has supplied complete 30-sample named-hardware/cache-condition observations.",
+    "Image-heavy cases use many image shapes sharing one generated 16x16 PNG; this is an image-instance workload, not a high-resolution distinct-bitmap memory stress case.",
+    "Memory leak and injected-fault matrix acceptance require independent product evidence; a successful adapter protocol alone cannot qualify them."
+  ],
+  "manifestSha256": "1c04ebc83b89514f667663629b3131f380bc3f5ee6a41b8d404040b5cefa7e9a",
+  "performanceObservations": [],
+  "productPerformanceAccepted": false,
+  "runner": {
+    "path": "scripts/run-benchmark-samples.py",
+    "sha256": "4aedf517bf5724cdfde951b48174362d7c7becd9f319ce7241fb855f9b29a516"
+  },
+  "schemaVersion": 1,
+  "scope": "generated-structural-only",
+  "state": "implemented_unaccepted",
+  "syntheticOnly": true,
+  "totalArchiveBytes": 2928896,
+  "totalObjects": 138900,
+  "validation": [
+    "Deterministic source generation and generated public XML/count/hash/native-metadata audit passed.",
+    "Existing host Windows synthetic fixture validator accepted all 19 fixture inputs; this did not execute Windows or Visio.",
+    "Independent direct public VSDX snapshots recounted all fixture pages and object cardinalities."
+  ],
+  "visioCompatibilityAccepted": false
+}

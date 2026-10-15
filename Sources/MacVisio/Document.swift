@@ -43,7 +43,10 @@ final class MacVisioDocument: NSDocument {
         let snapshot:Diagram
         if Thread.isMainThread {
             commitTextEditing()
-            snapshot = diagram
+            snapshot = PerformanceEvidence.measure(.snapshot) {
+                PerformanceEvidence.count(.snapshotsCaptured)
+                return diagram
+            }
         } else {
             saveSnapshotLock.lock()
             let saved = activeAsyncSaveID.flatMap{id in pendingSaveSnapshot.flatMap{$0.id == id ? $0.diagram : nil}}
@@ -59,18 +62,24 @@ final class MacVisioDocument: NSDocument {
         return try data(ofType:typeName,diagram:snapshot)
     }
     private func data(ofType typeName:String,diagram snapshot:Diagram) throws -> Data {
-        if typeName == Self.legacyType { return try VSDBinaryFormat.encoded(snapshot) }
-        if typeName == Self.visioType {
+        let evidence = PerformanceEvidence.begin(.encoding);defer { PerformanceEvidence.end(evidence) }
+        let data:Data
+        if typeName == Self.legacyType { data = try VSDBinaryFormat.encoded(snapshot) }
+        else if typeName == Self.visioType {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("MacVisio-save-\(UUID()).vsdx")
             defer { try? FileManager.default.removeItem(at:url) }
             try VisioFormat.write(snapshot,to:url)
-            return try Data(contentsOf:url)
+            data = try Data(contentsOf:url)
+        } else {
+            guard typeName == Self.nativeType else { throw DiagramError.invalid("This file type cannot be written.") }
+            let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted,.sortedKeys]
+            data = try encoder.encode(snapshot.validated())
         }
-        guard typeName == Self.nativeType else { throw DiagramError.invalid("This file type cannot be written.") }
-        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted,.sortedKeys]
-        return try encoder.encode(snapshot.validated())
+        PerformanceEvidence.count(.encodedDocuments)
+        return data
     }
     override func read(from data:Data,ofType typeName:String) throws {
+        let evidence = PerformanceEvidence.begin(.open);defer { PerformanceEvidence.end(evidence) }
         guard data.count <= 256_000_000 else { throw DiagramError.invalid("This diagram exceeds the supported document size.") }
         if typeName == Self.legacyType {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("MacVisio-read-\(UUID()).vsd");defer{try? FileManager.default.removeItem(at:url)}
@@ -85,6 +94,7 @@ final class MacVisioDocument: NSDocument {
         diagram = GeometrySheet.refreshCompositeCaches(try JSONDecoder().decode(Diagram.self,from:data).validated())
     }
     override func read(from url:URL,ofType typeName:String) throws {
+        let evidence = PerformanceEvidence.begin(.open);defer { PerformanceEvidence.end(evidence) }
         if ["vsd","vst"].contains(url.pathExtension.lowercased()) || typeName == Self.legacyType {
             let result = try LegacyVisioFormat.read(from:url); diagram = result.diagram; importWarnings = result.warnings;legacyNative = result.legacyNative
         } else if (url.pathExtension.lowercased() == "vsdx" || url.pathExtension.lowercased() == "vstx") {
@@ -123,13 +133,18 @@ final class MacVisioDocument: NSDocument {
         performSave(request)
     }
     private func performSave(_ request:QueuedSave) {
+        let saveEvidence = PerformanceEvidence.begin(.save)
         saveInProgress = true
         commitTextEditing()
-        let snapshot = diagram
+        let snapshot = PerformanceEvidence.measure(.snapshot) {
+            PerformanceEvidence.count(.snapshotsCaptured)
+            return diagram
+        }
         saveSnapshotLock.lock()
         pendingSaveSnapshot = SaveSnapshot(id:request.id,diagram:snapshot)
         saveSnapshotLock.unlock()
         super.save(to:request.url,ofType:request.typeName,for:request.operation) { [weak self] error in
+            defer { PerformanceEvidence.end(saveEvidence) }
             guard let self else {
                 request.completion(error)
                 return
@@ -178,6 +193,7 @@ final class MacVisioDocument: NSDocument {
         return NSError(domain:presented.domain,code:presented.code,userInfo:details)
     }
     override func close() {
+        let evidence = PerformanceEvidence.begin(.close);defer { PerformanceEvidence.end(evidence) }
         let workflow = documentWorkflow
         super.close()
         workflow?.documentClosed(self)
@@ -196,9 +212,11 @@ final class MacVisioDocument: NSDocument {
         applyCalculated(calculation.diagram,issues:calculation.issues,geometryIssuesByPage:calculation.geometryIssuesByPage,action:action)
     }
     private func applyCalculated(_ next:Diagram,issues:[String],geometryIssuesByPage nextGeometryIssuesByPage:[UUID:[String]],action:String) {
+        let evidence = PerformanceEvidence.begin(.commit);defer { PerformanceEvidence.end(evidence) }
         let previousIssues = calculationIssues,previousGeometryIssuesByPage = geometryIssuesByPage
         calculationIssues = issues;geometryIssuesByPage = nextGeometryIssuesByPage
         guard next != diagram else { return }
+        PerformanceEvidence.count(.transactionsCommitted)
         let previous = diagram
         undoManager?.registerUndo(withTarget:self) { target in
             target.applyCalculated(previous,issues:previousIssues,geometryIssuesByPage:previousGeometryIssuesByPage,action:action)

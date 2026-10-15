@@ -376,6 +376,10 @@ if let index = CommandLine.arguments.firstIndex(of:"--inspect-libraries"),Comman
         print("Imported \(results.count-failed)/\(results.count) libraries; \(failed) failed.");exit(failed == 0 ? 0 : 1)
     } catch { fputs("Library inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
 }
+if let index = CommandLine.arguments.firstIndex(of:"--benchmark-sample"),CommandLine.arguments.indices.contains(index+2) {
+    do { exit(try BenchmarkProfile.sample(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2])) ? 0 : 1) }
+    catch { fputs("Benchmark failed: \(error.localizedDescription)\n",stderr);exit(1) }
+}
 if let index = CommandLine.arguments.firstIndex(of:"--profile-interactions"),CommandLine.arguments.indices.contains(index+2) {
     do { try InteractionPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
     catch { fputs("Interaction profiling failed: \(error.localizedDescription)\n",stderr);exit(1) }

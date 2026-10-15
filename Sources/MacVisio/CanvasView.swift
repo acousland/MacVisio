@@ -12,6 +12,7 @@ final class InlineTextView: NSTextView {
         textStorage?.setAttributedString(value);didChangeText()
     }
     override func keyDown(with event:NSEvent) {
+        let evidence = PerformanceEvidence.begin(.event);defer { PerformanceEvidence.end(evidence) }
         if event.keyCode == 53 { finish?(false); return }
         if event.keyCode == 36 && event.modifierFlags.contains(.command) { finish?(true); return }
         super.keyDown(with:event)
@@ -130,6 +131,7 @@ final class CanvasView: NSView {
         return [CGPoint(x:r.minX,y:r.minY),CGPoint(x:r.midX,y:r.minY),CGPoint(x:r.maxX,y:r.minY),CGPoint(x:r.maxX,y:r.midY),CGPoint(x:r.maxX,y:r.maxY),CGPoint(x:r.midX,y:r.maxY),CGPoint(x:r.minX,y:r.maxY),CGPoint(x:r.minX,y:r.midY)]
     }
     override func draw(_ dirtyRect:NSRect) {
+        let evidence = PerformanceEvidence.begin(.draw);defer { PerformanceEvidence.end(evidence) }
         guard editor != nil else { return }
         EditorPalette.workspace.setFill(); bounds.fill()
         let paper = pageFrame
@@ -234,6 +236,7 @@ final class CanvasView: NSView {
         addCursorRect(bounds,cursor:tool == .pointer ? .arrow : tool == .text ? .iBeam : .crosshair)
     }
     override func mouseDown(with event:NSEvent) {
+        let evidence = PerformanceEvidence.begin(.event);defer { PerformanceEvidence.end(evidence) }
         finishEditing(commit:true); window?.makeFirstResponder(self)
         let p = pointInPage(event); pointer = p
         if tool == .pointer,selectedNodes.count == 1,let id = selectedNodes.first,let n = page.nodes.first(where:{$0.id == id}),page.isVisible(n),!page.isLocked(n),let control = n.formatting.controls.first(where:{$0.visible && hypot(ControlGeometry.point($0,on:n).x-p.x,ControlGeometry.point($0,on:n).y-p.y)<9/coordinateZoom}) {
@@ -270,6 +273,7 @@ final class CanvasView: NSView {
         }
     }
     override func mouseDragged(with event:NSEvent) {
+        let evidence = PerformanceEvidence.begin(.event);defer { PerformanceEvidence.end(evidence) }
         let p = pointInPage(event); pointer = p
         if tool == .connector || tool == .line { needsDisplay = true; return }
         guard let start = dragStart else { return }
@@ -326,6 +330,7 @@ final class CanvasView: NSView {
         autoscroll(with:event)
     }
     override func mouseUp(with event:NSEvent) {
+        let evidence = PerformanceEvidence.begin(.event);defer { PerformanceEvidence.end(evidence) }
         if tool == .line,let start = lineStart {
             let point = pointInPage(event),end = CGPoint(x:max(0,min(page.width,point.x)),y:max(0,min(page.height,point.y)))
             if hypot(end.x-start.x,end.y-start.y)>3 { editor?.addFreeLine(from:start,to:end) }
@@ -348,6 +353,7 @@ final class CanvasView: NSView {
         if let error = controlDragError { editor?.root.showMessage(error.localizedDescription) };controlDragError = nil;updateControlToolTips()
     }
     override func keyDown(with event:NSEvent) {
+        let evidence = PerformanceEvidence.begin(.event);defer { PerformanceEvidence.end(evidence) }
         if event.keyCode == 53 {
             finishEditing(commit:false)
             if let before = beforeDrag { document.diagram = before }

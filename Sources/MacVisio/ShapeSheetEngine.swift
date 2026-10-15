@@ -103,6 +103,7 @@ enum ShapeSheetEngine {
                 dataCache[token] = result;return result
             }
             for i in source.nodes.indices where !source.nodes[i].formatting.sheet.isEmpty || !source.nodes[i].formatting.connectionPoints.isEmpty || !source.nodes[i].formatting.controls.isEmpty || source.nodes[i].formatting.geometry != nil {
+                PerformanceEvidence.count(.visitedObjects)
                 var node = source.nodes[i],values = defaults(node,page:source,nodesByID:sourceNodesByID)
                 for key in geometryKeys where node.formatting.sheet[key] != nil {
                     do {

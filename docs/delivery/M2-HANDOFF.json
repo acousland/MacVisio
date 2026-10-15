@@ -18,7 +18,9 @@
     "2b070fe0141387569dbfb1f859a2405d60af82f1"
   ],
   "accepted_upstream_commits": {
-    "M0": [],
+    "M0": [
+      "02dea53354784dce057b046ea0e7f3df82cee1b9"
+    ],
     "M1": []
   },
   "completed_task_ids": [],
@@ -34,8 +36,8 @@
   ],
   "dependencies": {
     "M0": {
-      "state": "in_progress",
-      "commit": "b5375f386a333a73ce7dcd19022150854b89994b",
+      "state": "implemented_unaccepted",
+      "commit": "02dea53354784dce057b046ea0e7f3df82cee1b9",
       "evidence_paths": [
         "docs/evidence/README.md",
         "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
@@ -78,7 +80,10 @@
     "build/m2-stable-ad-hoc-rejection.json",
     "build/m2-content-inventory.json",
     "build/m2-redacted-support.json",
-    "build/m2-signing-prerequisite.json"
+    "build/m2-signing-prerequisite.json",
+    "build/m2-m0-integrated-native.log",
+    "build/m2-m0-integrated-python.log",
+    "build/m2-integrated-ledger.log"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -97,7 +102,8 @@
     "This is an interim handoff/status, not M2 milestone delivery or permission for M3 dependent implementation.",
     "Original Home working changes were inspected read-only and not copied.",
     "Developer ID identity available; exact final-candidate/team/notarization and installed journeys unaccepted.",
-    "One green debug suite is not a disposition of historical release-suite intermittency."
+    "One green debug suite is not a disposition of historical release-suite intermittency.",
+    "All14 M0 retained artifact hashes were checked against its handoff before integration. M2 task states preserved when merging backlog formats."
   ],
   "tests": {
     "native_debug": {
@@ -122,8 +128,23 @@
       "log": "build/m2-python.log"
     },
     "native_release": {
-      "state": "running",
-      "log": "build/m2-release-suite.log"
+      "executed": 487,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-release-suite.log",
+      "scope": "M2 preparation before M0 integration"
+    },
+    "M0_integrated_debug": {
+      "executed": 503,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-m0-integrated-native.log"
+    },
+    "M0_integrated_python": {
+      "executed": 76,
+      "failures": 0,
+      "log": "build/m2-m0-integrated-python.log"
     }
-  }
+  },
+  "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted"
 }

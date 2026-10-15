@@ -19,6 +19,8 @@ enum ShapeTextFunctions {
     struct Metrics { var width:Double;var height:Double }
     static func metrics(_ node:DiagramNode,page:DiagramPage,maximumWidth:Double? = nil) throws -> Metrics {
         if let width = maximumWidth { guard width.isFinite,width > 0,width*72*page.paperScale < 1e7 else { throw DiagramError.invalid("Invalid text measurement width.") } }
+        let evidence = PerformanceEvidence.begin(.textLayout);defer { PerformanceEvidence.end(evidence) }
+        PerformanceEvidence.count(.textMeasurements)
         let scale = page.paperScale,box = node.formatting.textBox
         let left = (box?.left ?? 0)*scale,right = (box?.right ?? 0)*scale,top = (box?.top ?? 0)*scale,bottom = (box?.bottom ?? 0)*scale
         let width = maximumWidth.map{$0*72*scale} ?? 1e7,inner = max(0.001,width-left-right)

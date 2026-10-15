@@ -6,6 +6,10 @@ enum InteractionPerformance {
         guard input.resolvingSymlinksInPath().standardizedFileURL != output.resolvingSymlinksInPath().standardizedFileURL else {
             throw DiagramError.invalid("The timing report must differ from the drawing.")
         }
+        guard let evidenceRun = PerformanceEvidence.beginRun(heartbeatInterval:1.0/60) else {
+            throw DiagramError.invalid("Another qualification run is already active.")
+        }
+        defer { _ = PerformanceEvidence.endRun(evidenceRun) }
         var stages:[String:Double] = [:]
         func measure(_ name:String,_ action:()->Void) {
             let began = ProcessInfo.processInfo.systemUptime
@@ -52,8 +56,9 @@ enum InteractionPerformance {
             measure("undoOnPage\(index)") { document.undoManager?.undo();draw() }
             guard document.diagram.page.nodes.count == count else { throw DiagramError.invalid("Page undo check failed.") }
         }
-        let report:[String:Any] = ["stagesSeconds":stages,"pages":document.diagram.pages.count,"calculationIssueCount":document.calculationIssues.count,
+        var report:[String:Any] = ["stagesSeconds":stages,"pages":document.diagram.pages.count,"calculationIssueCount":document.calculationIssues.count,
             "nodes":document.diagram.pages.map{$0.nodes.count},"insertUndoRedoPassed":true,"inputSaved":false]
+        if let evidence = PerformanceEvidence.endRun(evidenceRun) { report["instrumentation"] = try evidence.jsonObject() }
         let data = try JSONSerialization.data(withJSONObject:report,options:[.prettyPrinted,.sortedKeys])
         try data.write(to:output,options:.atomic)
         print(String(decoding:data,as:UTF8.self))
