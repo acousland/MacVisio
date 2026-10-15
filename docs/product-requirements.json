@@ -1,0 +1,2811 @@
+{
+  "schema_version": 1,
+  "product": "MacVisio",
+  "spec_version": "1.0",
+  "research_date": "2026-10-16",
+  "baseline": "Microsoft Visio Professional 2019 for Windows, exact build to be frozen",
+  "canonical_spec": "PRODUCT-SPEC.md",
+  "canonical_spec_sha256": "f19da93dbab02bfd78fe81f5092080e41542f485b55c6554cb09b2c47fb5b13d",
+  "note": "Derived from normative Markdown tables. Source IDs identify benchmark context, not proof that every proposed detail exists in Microsoft Visio. Edit the specification first, then regenerate this register. Acceptance includes the shared rules in section 2.1.",
+  "source_register": "PRODUCT-RESEARCH.md",
+  "sources": {
+    "S01": "https://support.microsoft.com/en-us/visio/compare-visio-versions-and-features",
+    "S02": "https://support.microsoft.com/en-us/visio/visio-for-the-web-faq",
+    "S03": "https://support.microsoft.com/en-us/visio/what-s-new-in-visio-2024",
+    "S04": "https://support.microsoft.com/en-us/accessibility/visio/keyboard-shortcuts-for-visio",
+    "S05": "https://support.microsoft.com/en-us/visio/beginner-tutorial-for-visio",
+    "S06": "https://support.microsoft.com/en-us/visio/add-connectors-between-visio-shapes",
+    "S07": "https://support.microsoft.com/en-us/visio/create-save-and-share-custom-stencils",
+    "S08": "https://support.microsoft.com/en-au/visio/apply-a-professional-look-to-your-drawings-with-themes",
+    "S09": "https://learn.microsoft.com/en-us/office/client-developer/visio/about-the-shapesheet-spreadsheet",
+    "S10": "https://learn.microsoft.com/en-us/office/client-developer/visio/about-cell-references",
+    "S11": "https://learn.microsoft.com/en-us/office/client-developer/visio/cells-visio-shapesheet-reference",
+    "S12": "https://learn.microsoft.com/en-us/office/client-developer/visio/functions-visio-shapesheet-reference",
+    "S13": "https://support.microsoft.com/en-us/visio/video-manage-shapes-by-adding-layers",
+    "S14": "https://support.microsoft.com/en-us/visio/clarify-the-structure-of-diagrams-by-using-containers-and-lists",
+    "S15": "https://support.microsoft.com/en-us/visio/importing-data-into-visio-an-overview",
+    "S16": "https://support.microsoft.com/en-us/visio/data-graphics-an-overview",
+    "S17": "https://support.microsoft.com/en-us/visio/create-a-data-visualizer-diagram",
+    "S18": "https://support.microsoft.com/en-us/visio/create-a-diagram-in-excel-with-the-visio-data-visualizer-add-in?ad=us&rs=en-us&ui=en-us",
+    "S19": "https://support.microsoft.com/en-us/visio/process-diagrams-in-visio",
+    "S20": "https://support.microsoft.com/en-us/visio/create-bpmn-compliant-processes",
+    "S21": "https://support.microsoft.com/en-au/visio/validate-a-structured-diagram",
+    "S22": "https://support.microsoft.com/en-gb/visio/uml-diagrams-in-visio",
+    "S23": "https://support.microsoft.com/en-us/visio/create-an-organization-chart-automatically-from-employee-data",
+    "S24": "https://support.microsoft.com/en-us/visio/video-create-a-floor-plan",
+    "S25": "https://support.microsoft.com/en-us/visio/create-a-timeline-in-visio",
+    "S26": "https://support.microsoft.com/en-us/visio/share-schedule-and-task-details-with-a-visio-gantt-chart",
+    "S27": "https://support.microsoft.com/en-us/visio/create-a-database-model-also-known-as-entity-relationship-diagram-in-visio",
+    "S28": "https://learn.microsoft.com/en-us/office/client-developer/visio/introduction-to-the-visio-file-formatvsdx",
+    "S29": "https://learn.microsoft.com/en-us/openspecs/sharepoint_protocols/ms-vsdx/50c23601-c943-4ff2-b4a1-02445f52daf0",
+    "S30": "https://support.microsoft.com/en-us/visio/import-or-insert-graphics-into-visio-drawings",
+    "S31": "https://support.microsoft.com/en-us/visio/import-an-autocad-drawing",
+    "S32": "https://learn.microsoft.com/en-us/visualstudio/vsto/visio-object-model-overview?view=visualstudio",
+    "S33": "https://support.microsoft.com/en-us/visio/work-together-on-visio-drawings",
+    "S34": "https://learn.microsoft.com/en-us/office365/servicedescriptions/visio-online-service-description/visio-online-service-description",
+    "S35": "https://support.microsoft.com/en-us/accessibility/visio/make-your-visio-diagram-accessible-to-people-with-disabilities",
+    "S36": "https://support.microsoft.com/en-us/accessibility/visio/screen-reader-support-for-visio"
+  },
+  "scope_definitions": {
+    "B": "Baseline obligation, subject to exact-build applicability",
+    "N": "Native MacVisio product requirement",
+    "X": "Extension beyond the frozen baseline"
+  },
+  "requirements": [
+    {
+      "id": "MV-UX-01",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Keep document state, selection, view position and active tool independent per window.",
+      "acceptance_evidence": "Switching among three edited drawings preserves each state and routes commands to the active document.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 130
+    },
+    {
+      "id": "MV-UX-02",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Provide searchable commands with enabled/disabled explanations.",
+      "acceptance_evidence": "A user can find align, connection points and drawing scale without knowing the menu location.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 131
+    },
+    {
+      "id": "MV-UX-03",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Use native file dialogs, standard save/close behavior and discoverable Command-key shortcuts.",
+      "acceptance_evidence": "Keyboard-only New/Open/Save/Save As/Close/Undo succeeds; typing text never triggers canvas tools.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 132
+    },
+    {
+      "id": "MV-UX-04",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Support Light, Dark and System appearances independently of document colors.",
+      "acceptance_evidence": "The same file exports identical colors in all appearances; controls and selection remain legible.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 133
+    },
+    {
+      "id": "MV-UX-05",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Show selection context, mixed values and units in inspectors.",
+      "acceptance_evidence": "Mixed formatting is identified and changing one property preserves unrelated properties.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 134
+    },
+    {
+      "id": "MV-UX-06",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Provide clear, reversible previews for destructive or document-wide operations.",
+      "acceptance_evidence": "Layout, master replacement and unit changes identify scope; cancel leaves the model untouched.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 135
+    },
+    {
+      "id": "MV-UX-07",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Provide a compatibility pane with page/shape navigation and actionable limitations.",
+      "acceptance_evidence": "Selecting an issue reveals its object, affected capability and safe alternatives.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 136
+    },
+    {
+      "id": "MV-UX-08",
+      "family": "UX",
+      "section": "4.2 Interaction requirements",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Make long work cancellable and communicate progress without blocking other documents.",
+      "acceptance_evidence": "Cancelling an open/import leaves no partial active document; saving another drawing remains possible.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S02",
+        "S04",
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 137
+    },
+    {
+      "id": "MV-REF-01",
+      "family": "REF",
+      "section": "5.0 Reference evidence and scope control",
+      "scope": "N",
+      "qualification_gate": "G0",
+      "requirement": "Establish a working licensed Visio Professional 2019 reference installation with a frozen build and prerequisites.",
+      "acceptance_evidence": "Record successful application launch, COM activation where needed, locale/fonts and required data/solution dependencies.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S01",
+        "S11",
+        "S12",
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 151
+    },
+    {
+      "id": "MV-REF-02",
+      "family": "REF",
+      "section": "5.0 Reference evidence and scope control",
+      "scope": "B",
+      "qualification_gate": "G0",
+      "requirement": "Inventory every baseline command, template/solution, filter, cell/function and automation surface.",
+      "acceptance_evidence": "All discovered items have stable inventory IDs, version/edition evidence and a requirement/workflow mapping.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S01",
+        "S11",
+        "S12",
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 152
+    },
+    {
+      "id": "MV-REF-03",
+      "family": "REF",
+      "section": "5.0 Reference evidence and scope control",
+      "scope": "N",
+      "qualification_gate": "G0",
+      "requirement": "Maintain independent reference fixtures and expected semantic/visual outcomes.",
+      "acceptance_evidence": "Each requirement maps to at least one fixture or explicit non-document check; positive and failure cases have authored expectations.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S01",
+        "S11",
+        "S12",
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 153
+    },
+    {
+      "id": "MV-REF-04",
+      "family": "REF",
+      "section": "5.0 Reference evidence and scope control",
+      "scope": "N",
+      "qualification_gate": "G0",
+      "requirement": "Record preservation, rendering, editing, behavior and interchange evidence separately.",
+      "acceptance_evidence": "Coverage reports cannot mark full compatibility from a parser result or native-metadata reopen alone.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S01",
+        "S11",
+        "S12",
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 154
+    },
+    {
+      "id": "MV-REF-05",
+      "family": "REF",
+      "section": "5.0 Reference evidence and scope control",
+      "scope": "N",
+      "qualification_gate": "G0",
+      "requirement": "Keep unresolved applicability and scope changes visible.",
+      "acceptance_evidence": "Unknown prerequisites remain in the denominator; removing a confirmed baseline obligation requires a recorded product-scope decision.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S01",
+        "S11",
+        "S12",
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 155
+    },
+    {
+      "id": "MV-DOC-01",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Create blank drawings and drawings from metric/US/custom templates.",
+      "acceptance_evidence": "New documents inherit intended pages, styles, masters, scale and defaults without editing the template.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 161
+    },
+    {
+      "id": "MV-DOC-02",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Maintain recent and pinned drawings with missing-file recovery.",
+      "acceptance_evidence": "A moved/deleted recent file produces Locate/Remove actions without changing other recents.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 162
+    },
+    {
+      "id": "MV-DOC-03",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Open supported documents read/write or read-only, and prevent duplicate writable windows for the same file.",
+      "acceptance_evidence": "Opening one file twice activates the existing document; a read-only source cannot be overwritten.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 163
+    },
+    {
+      "id": "MV-DOC-04",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Save atomically with original-file preservation on write failure.",
+      "acceptance_evidence": "Disk-full, permission and interrupted-write cases leave the last valid destination readable.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 164
+    },
+    {
+      "id": "MV-DOC-05",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Save immutable snapshots while retaining edits made during the write.",
+      "acceptance_evidence": "An edit made after snapshot capture remains dirty and is present after the next successful save.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 165
+    },
+    {
+      "id": "MV-DOC-06",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Support Save, Save As and copy/export with clearly distinct destination semantics.",
+      "acceptance_evidence": "Save As changes the active destination; exporting a copy does not silently change it.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 166
+    },
+    {
+      "id": "MV-DOC-07",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Provide autosave and crash recovery with explicit recovered-version state.",
+      "acceptance_evidence": "Forced interruption recovers the last completed recovery checkpoint and identifies unsaved work.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 167
+    },
+    {
+      "id": "MV-DOC-08",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Detect external modification before replacing a file.",
+      "acceptance_evidence": "A second writer's change offers reload, compare where available, or save copy; it is never silently overwritten.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 168
+    },
+    {
+      "id": "MV-DOC-09",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Support undo/redo for model edits as coherent user actions.",
+      "acceptance_evidence": "A drag, text commit, import and layout operation each undo without leaving orphaned references.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 169
+    },
+    {
+      "id": "MV-DOC-10",
+      "family": "DOC",
+      "section": "5.1 Documents, persistence and recovery",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Version native storage and migrate only during an intentional save.",
+      "acceptance_evidence": "Older supported documents open read-only without migration; saving produces a documented current version.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 170
+    },
+    {
+      "id": "MV-EDT-01",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Insert, duplicate, delete, copy and paste shapes and connectors across pages/documents.",
+      "acceptance_evidence": "Copies remap IDs and internal references, preserve glue and include required resources.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 178
+    },
+    {
+      "id": "MV-EDT-02",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Support single, range, additive, marquee and nested-group selection.",
+      "acceptance_evidence": "Locked/hidden objects respect policy; overlapping and nested shapes can be selected predictably.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 179
+    },
+    {
+      "id": "MV-EDT-03",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Move, nudge, resize, rotate, flip and numerically position shapes.",
+      "acceptance_evidence": "Transform tests preserve off-center pins, signed dimensions and nested coordinate systems.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 180
+    },
+    {
+      "id": "MV-EDT-04",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Align, distribute, space and reorder selected objects.",
+      "acceptance_evidence": "Operations use defined bounds and retain relative connector attachment and text.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 181
+    },
+    {
+      "id": "MV-EDT-05",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide guides, guide points, ruler origins, grid and configurable snap/glue targets.",
+      "acceptance_evidence": "Snapping visibly identifies its target; bypass and per-layer settings work at multiple zooms.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 182
+    },
+    {
+      "id": "MV-EDT-06",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support nested grouping, ungrouping and editing members without unintended flattening.",
+      "acceptance_evidence": "Regrouped/ungrouped drawings retain world geometry, text, data and connections.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 183
+    },
+    {
+      "id": "MV-EDT-07",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Draw and edit lines, rectangles, ellipses, freeform paths, arcs, Béziers, polylines and NURBS.",
+      "acceptance_evidence": "Representative geometry rows remain editable after public-format exchange.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 184
+    },
+    {
+      "id": "MV-EDT-08",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support baseline shape operations such as union, combine, fragment, intersect, subtract and trim where reference-confirmed.",
+      "acceptance_evidence": "Curves, holes, fill rules and text behavior match registered reference fixtures.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 185
+    },
+    {
+      "id": "MV-EDT-09",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Apply fill, line, dash, transparency, gradients, patterns, shadows and supported effects.",
+      "acceptance_evidence": "Explicit formatting and theme-derived formatting remain distinguishable and round-trip.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 186
+    },
+    {
+      "id": "MV-EDT-10",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Respect selection, resize, movement, rotation and other shape protection settings.",
+      "acceptance_evidence": "Protected operations explain the constraint and do not overwrite guarded formulas.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 187
+    },
+    {
+      "id": "MV-EDT-11",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Find text, shapes and data across pages, with replace where applicable.",
+      "acceptance_evidence": "Unicode search reveals the result and preserves unselected rich-text formatting on replace.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 188
+    },
+    {
+      "id": "MV-EDT-12",
+      "family": "EDT",
+      "section": "5.2 Canvas and shape editing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Insert, crop, resize and manage supported images and foreign graphic previews.",
+      "acceptance_evidence": "Image identity, aspect ratio, transparency and intended clipping survive save/reopen.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S05",
+        "S30"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 189
+    },
+    {
+      "id": "MV-TXT-01",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Edit shape, connector and independent text with mixed character formatting.",
+      "acceptance_evidence": "Multi-run font, weight, color, size and decorations survive selected-text edits and exchange.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 195
+    },
+    {
+      "id": "MV-TXT-02",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support paragraph alignment, spacing, indentation, tabs, bullets and vertical alignment.",
+      "acceptance_evidence": "Multiparagraph fixtures match approved text-flow and exported layout expectations.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 196
+    },
+    {
+      "id": "MV-TXT-03",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Move, resize and rotate text blocks independently of shape geometry.",
+      "acceptance_evidence": "Rotated/grouped/scaled text retains margins, orientation and placement in all render paths.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 197
+    },
+    {
+      "id": "MV-TXT-04",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide fields for shape data, document/page information, dates, dimensions and formulas.",
+      "acceptance_evidence": "Editing referenced data updates the displayed field; source formulas and format pictures persist.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 198
+    },
+    {
+      "id": "MV-TXT-05",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support Unicode, bidirectional text, international input and reference-confirmed complex text behavior.",
+      "acceptance_evidence": "IME composition, combining characters, RTL paragraphs and emoji do not corrupt text indexes.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 199
+    },
+    {
+      "id": "MV-TXT-06",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Report missing fonts and apply deterministic substitution.",
+      "acceptance_evidence": "Opening a missing-font file lists substitutions; save preserves the original requested font metadata.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 200
+    },
+    {
+      "id": "MV-TXT-07",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide text measurement and shape-size behavior driven by text/formulas.",
+      "acceptance_evidence": "Label edits update dependent geometry once without layout oscillation or losing caret state.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 201
+    },
+    {
+      "id": "MV-TXT-08",
+      "family": "TXT",
+      "section": "5.3 Text, fields and formatting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide reference-confirmed spelling/proofing and text-format defaults.",
+      "acceptance_evidence": "Language/default changes affect intended text scope and preserve unsupported proofing metadata.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S11"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 202
+    },
+    {
+      "id": "MV-CON-01",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Create and edit directed/undirected connectors with endpoint, line and arrow styles.",
+      "acceptance_evidence": "Endpoints, labels and arrowheads remain independently editable after exchange.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 210
+    },
+    {
+      "id": "MV-CON-02",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Distinguish static glue to a port from dynamic attachment to a shape.",
+      "acceptance_evidence": "Moving/resizing/rotating the shape preserves the chosen attachment semantics.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 211
+    },
+    {
+      "id": "MV-CON-03",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Create/edit named connection points, direction/type and glue rules.",
+      "acceptance_evidence": "Valid/invalid endpoint combinations behave like reference cases, including group members.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 212
+    },
+    {
+      "id": "MV-CON-04",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support straight, orthogonal and curved routing with editable route handles.",
+      "acceptance_evidence": "Manual bends remain stable until explicitly rerouted; auto routes avoid registered obstacles.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 213
+    },
+    {
+      "id": "MV-CON-05",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide line jumps, crossing styles, corner rounding and connector label placement.",
+      "acceptance_evidence": "Crossing changes update jump presentation without modifying graph connectivity.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 214
+    },
+    {
+      "id": "MV-CON-06",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide auto-connect, connector splitting and reference-confirmed healing on deletion.",
+      "acceptance_evidence": "Inserting/removing a process shape updates only intended edges and retains labels/data.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 215
+    },
+    {
+      "id": "MV-CON-07",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Route correctly through groups, containers, lanes and page-scale transforms.",
+      "acceptance_evidence": "Nested/rotated/scaled fixture endpoints resolve to the same world location after reopen.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 216
+    },
+    {
+      "id": "MV-CON-08",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Offer hierarchical, flowchart, tree and reference-confirmed general layout commands.",
+      "acceptance_evidence": "Preview identifies changed objects; pinned positions and explicit route constraints are honored.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 217
+    },
+    {
+      "id": "MV-CON-09",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Make layout deterministic for a fixed graph, configuration and engine version.",
+      "acceptance_evidence": "Repeated layout of identical input produces identical positions and routes.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 218
+    },
+    {
+      "id": "MV-CON-10",
+      "family": "CON",
+      "section": "5.4 Connections, routing and automatic layout",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Preserve unedited imported routes until a relevant edit requires recalculation.",
+      "acceptance_evidence": "A text-only edit does not reroute an unrelated page or connector.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S06"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 219
+    },
+    {
+      "id": "MV-LIB-01",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Open, search, browse, pin and reuse stencils with master previews and metadata.",
+      "acceptance_evidence": "A user can find/drop a custom master offline without copying a whole drawing.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 227
+    },
+    {
+      "id": "MV-LIB-02",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Retain master IDs, universal/local names, group trees, geometry and behavior.",
+      "acceptance_evidence": "Distinct masters with similar names do not merge; instance references remain valid.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 228
+    },
+    {
+      "id": "MV-LIB-03",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Apply inherited cells/sections and local overrides with correct precedence.",
+      "acceptance_evidence": "A master edit updates inherited values while protected local overrides remain unchanged.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 229
+    },
+    {
+      "id": "MV-LIB-04",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Create, rename, edit, reorder and delete custom masters/stencils.",
+      "acceptance_evidence": "Modified custom stencils reopen in both applications with usable editable masters.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 230
+    },
+    {
+      "id": "MV-LIB-05",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Export a selection as a reusable master including dependencies.",
+      "acceptance_evidence": "The exported master works in a new empty document with images, data, controls and glue intact.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 231
+    },
+    {
+      "id": "MV-LIB-06",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Create/save templates with page settings, defaults, libraries and solution metadata.",
+      "acceptance_evidence": "New drawings from the template reproduce intended settings without sharing writable state.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 232
+    },
+    {
+      "id": "MV-LIB-07",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support document masters, replacement and update behaviors confirmed in the baseline.",
+      "acceptance_evidence": "Replacement maps connections/data intentionally and reports unmapped features before commit.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 233
+    },
+    {
+      "id": "MV-LIB-08",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Apply themes, variants and quick styles while retaining explicit overrides.",
+      "acceptance_evidence": "Changing theme updates inherited appearance and preserves fixed brand colors.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 234
+    },
+    {
+      "id": "MV-LIB-09",
+      "family": "LIB",
+      "section": "5.5 Stencils, masters, templates and themes",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Maintain content provenance and redistribution permissions for bundled libraries.",
+      "acceptance_evidence": "Every shipped library has origin, version and documented distribution permission.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S07",
+        "S08"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 235
+    },
+    {
+      "id": "MV-SHS-01",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Model document, page, style, master and shape sheets with stable section/row/cell identity.",
+      "acceptance_evidence": "Source formulas, cached values, units and inherited/local state remain individually inspectable.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 245
+    },
+    {
+      "id": "MV-SHS-02",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Parse reference-confirmed expressions, operators, literal types and units.",
+      "acceptance_evidence": "A versioned expression corpus covers precedence, coercion, errors and localized/universal forms.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 246
+    },
+    {
+      "id": "MV-SHS-03",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Resolve names, sheet IDs, escaped row names and cross-object references.",
+      "acceptance_evidence": "Rename, duplicate, delete and cross-document paste update references without collisions.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 247
+    },
+    {
+      "id": "MV-SHS-04",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Recalculate through an incremental dependency graph with cycle/error diagnostics.",
+      "acceptance_evidence": "A changed property updates all dependents; unrelated pages are not recalculated.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 248
+    },
+    {
+      "id": "MV-SHS-05",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Implement guarded values, inheritance and reference-redirection behavior.",
+      "acceptance_evidence": "GUARD/SETATREF and master overrides match reference fixtures during drag and cell editing.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 249
+    },
+    {
+      "id": "MV-SHS-06",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Implement baseline geometry, text, color/theme, string, numeric, date/time and lookup functions.",
+      "acceptance_evidence": "Every inventory function has version-specific semantic tests, including invalid inputs and contextual evaluation.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 250
+    },
+    {
+      "id": "MV-SHS-07",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide control handles, constraints, live tooltips and formula-driven shape behavior.",
+      "acceptance_evidence": "Dragging a control updates its intended cells; cancel restores the exact pre-gesture state.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 251
+    },
+    {
+      "id": "MV-SHS-08",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Support confirmed actions/events and formula-triggered commands through an explicit execution policy.",
+      "acceptance_evidence": "User gestures produce documented action order; opening untrusted documents cannot silently execute external commands.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 252
+    },
+    {
+      "id": "MV-SHS-09",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Provide a ShapeSheet editor with formula/value views, typed editing and diagnostics.",
+      "acceptance_evidence": "Users can add/remove permitted rows/sections and navigate from an error to its source cell.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 253
+    },
+    {
+      "id": "MV-SHS-10",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Preserve unsupported formulas and expose stale cached results.",
+      "acceptance_evidence": "Unsupported expressions remain unchanged; the UI distinguishes cached display from verified calculation.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 254
+    },
+    {
+      "id": "MV-SHS-11",
+      "family": "SHS",
+      "section": "5.6 ShapeSheet and intelligent behavior",
+      "scope": "N",
+      "qualification_gate": "G0",
+      "requirement": "Maintain a function/cell coverage registry independent of raw occurrence counts.",
+      "acceptance_evidence": "Each entry records syntax, types, context, version, tests and known differences; parser success is a separate metric.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S09",
+        "S10",
+        "S11",
+        "S12"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 255
+    },
+    {
+      "id": "MV-PAG-01",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Add, duplicate, rename, reorder, navigate and delete foreground/background pages.",
+      "acceptance_evidence": "Page links and background associations remain valid; deletion identifies dependents.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 265
+    },
+    {
+      "id": "MV-PAG-02",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Compose backgrounds, borders/title blocks and foreground-context fields.",
+      "acceptance_evidence": "One shared background displays correct page-specific fields on different foreground pages.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 266
+    },
+    {
+      "id": "MV-PAG-03",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Manage layer membership, visibility, lock, print, color, snap, glue and active defaults.",
+      "acceptance_evidence": "Multiple membership and connector cases match registered reference rules.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 267
+    },
+    {
+      "id": "MV-PAG-04",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide containers with membership, headings, padding, fit-to-content and lock behavior.",
+      "acceptance_evidence": "Moving a container moves intended members while preserving graph connections.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 268
+    },
+    {
+      "id": "MV-PAG-05",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide ordered lists and swimlane/phase structures with insertion and reordering.",
+      "acceptance_evidence": "Reordering lanes updates contained items and headings as one reversible transaction.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 269
+    },
+    {
+      "id": "MV-PAG-06",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Separate paper dimensions, drawing units, drawing scale and printer scaling.",
+      "acceptance_evidence": "A one-metre object at 1:50 prints at 20 mm when output is explicitly 100%.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 270
+    },
+    {
+      "id": "MV-PAG-07",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide dimension lines, measured shapes and reference-confirmed area/length tools.",
+      "acceptance_evidence": "Dimensions recalculate after geometry edits and remain correct across unit changes.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 271
+    },
+    {
+      "id": "MV-PAG-08",
+      "family": "PAG",
+      "section": "5.7 Pages, layers, containers and physical drawing",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Support page auto-size, fixed pages, orientation, margins and tiled output.",
+      "acceptance_evidence": "Preview and printed/exported page bounds agree, including backgrounds and page breaks.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S13",
+        "S14",
+        "S24"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 272
+    },
+    {
+      "id": "MV-DAT-01",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Create/edit typed Shape Data fields, labels, prompts, lists, ordering and display formats.",
+      "acceptance_evidence": "Text, list, number, Boolean, date, duration and currency values round-trip with locale-safe storage.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 280
+    },
+    {
+      "id": "MV-DAT-02",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Import tabular data with header/type preview, validation and reusable column mapping.",
+      "acceptance_evidence": "Empty values, duplicate headers, malformed dates and large tables produce row-level diagnostics.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 281
+    },
+    {
+      "id": "MV-DAT-03",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Link rows to shapes by explicit stable keys, including one-to-many links where reference-confirmed.",
+      "acceptance_evidence": "Reordered source rows preserve identity; ambiguous keys require user resolution.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 282
+    },
+    {
+      "id": "MV-DAT-04",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Refresh manually/on a configured schedule with a change preview and conflict policy.",
+      "acceptance_evidence": "Additions, deletions, changed types and local overrides are resolved before commit.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 283
+    },
+    {
+      "id": "MV-DAT-05",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Define reusable data graphics with thresholds, legends, missing-value behavior and placement.",
+      "acceptance_evidence": "Refresh updates presentation without replacing shape geometry or original data.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 284
+    },
+    {
+      "id": "MV-DAT-06",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Generate filtered/grouped/summarized reports from shape data.",
+      "acceptance_evidence": "Report totals reconcile to the selected pages/shapes and export to CSV and a printable view.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 285
+    },
+    {
+      "id": "MV-DAT-07",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "N",
+      "qualification_gate": "G3",
+      "requirement": "Retain a local last-known data snapshot and expose source freshness.",
+      "acceptance_evidence": "Offline open remains useful; the UI shows last successful refresh and failed connection state.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 286
+    },
+    {
+      "id": "MV-DAT-08",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Supply baseline-confirmed source connectors through native adapters or a documented bridge.",
+      "acceptance_evidence": "Each Excel/Access/SQL/SharePoint/ODBC/OLEDB source type has an explicit version/authentication/support matrix.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 287
+    },
+    {
+      "id": "MV-DAT-09",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Generate process diagrams from tabular data with explicit mapping and reconciliation.",
+      "acceptance_evidence": "A changed source updates graph structure while retaining matched shapes' manual annotations.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 288
+    },
+    {
+      "id": "MV-DAT-10",
+      "family": "DAT",
+      "section": "5.8 Shape data, external data and reporting",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Offer controlled two-way synchronization for selected table workflows.",
+      "acceptance_evidence": "Conflicting edits require a preview; the user can export a change set without modifying the source.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S15",
+        "S16",
+        "S17",
+        "S18"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 289
+    },
+    {
+      "id": "MV-SOL-01",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G1",
+      "requirement": "Provide basic flowchart shapes, decisions, branches, subprocess and off-page references.",
+      "acceptance_evidence": "A multipage branching process remains navigable and editable after exchange.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 299
+    },
+    {
+      "id": "MV-SOL-02",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide cross-functional flowcharts with lanes, phases, orientation and automatic membership.",
+      "acceptance_evidence": "Inserting/reordering lanes preserves process relationships and associated labels.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 300
+    },
+    {
+      "id": "MV-SOL-03",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide BPMN 2.0 notation and the reference-confirmed Analytic graphical validation behavior.",
+      "acceptance_evidence": "Events, activities, gateways, pools/lanes and flow types retain attributes; known invalid cases produce issues.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 301
+    },
+    {
+      "id": "MV-SOL-04",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide UML families confirmed for the 2019 baseline, with notation-specific editing.",
+      "acceptance_evidence": "Class, sequence, activity, state, use-case, component, deployment and communication fixtures have independent acceptance cases.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 302
+    },
+    {
+      "id": "MV-SOL-05",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide entity-relationship/database notation, keys, attributes and relationship endpoints.",
+      "acceptance_evidence": "Crow's-foot/other registered notations retain cardinality, optionality and editable labels.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 303
+    },
+    {
+      "id": "MV-SOL-06",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide basic/detailed network and rack workflows with equipment data and connections.",
+      "acceptance_evidence": "Ports, rack placement and equipment reports remain meaningful after layout and export.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 304
+    },
+    {
+      "id": "MV-SOL-07",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide baseline cloud/infrastructure libraries with versioned content.",
+      "acceptance_evidence": "Each library entry has a provenance/version record and works with scale, connectors and themes.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 305
+    },
+    {
+      "id": "MV-SOL-08",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide org-chart authoring, data import, hierarchy layout, photos and secondary reporting.",
+      "acceptance_evidence": "A source hierarchy with duplicate display names uses stable identity and detects cycles/missing managers.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 306
+    },
+    {
+      "id": "MV-SOL-09",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide floor-plan/office workflows with walls, doors, windows, measured equipment and dimensions.",
+      "acceptance_evidence": "A scale-changing plan retains real measurements and properly attached architectural elements.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 307
+    },
+    {
+      "id": "MV-SOL-10",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide engineering families, including electrical, circuits/logic and piping/instrumentation where inventoried.",
+      "acceptance_evidence": "Each family's symbols, connection rules, data and solution commands pass family-specific workflows.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 308
+    },
+    {
+      "id": "MV-SOL-11",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide timeline, calendar, Gantt and PERT workflows confirmed in the baseline.",
+      "acceptance_evidence": "Date/task edits update intended geometry and labels; scheduling behavior is documented per solution.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 309
+    },
+    {
+      "id": "MV-SOL-12",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide brainstorming, business, quality, audit, fault-tree, EPC/ITIL, Six Sigma and value-stream families where inventoried.",
+      "acceptance_evidence": "Every registered family has a create/edit/save/reopen/print case rather than only a parser test.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 310
+    },
+    {
+      "id": "MV-SOL-13",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide baseline wireframe and other specialist template behaviors.",
+      "acceptance_evidence": "Controls, lists and annotation relationships remain editable; a mockup is not advertised as an executable prototype.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 311
+    },
+    {
+      "id": "MV-SOL-14",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Provide diagram validation with rule sets, issue navigation, ignore state and extension points.",
+      "acceptance_evidence": "Invalid fixtures produce expected rule IDs and object links; corrections clear issues deterministically.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 312
+    },
+    {
+      "id": "MV-SOL-15",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Implement database-schema import/reverse engineering wherever confirmed in the reference build.",
+      "acceptance_evidence": "A declared database/driver matrix produces inspectable schema and diagnostics without writing to the source database.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 313
+    },
+    {
+      "id": "MV-SOL-16",
+      "family": "SOL",
+      "section": "5.9 Specialist diagram solutions",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Add newer Azure, AWS, Kubernetes and other contemporary libraries independently of the frozen baseline.",
+      "acceptance_evidence": "Updates do not alter old diagrams' stored master definitions or imply broader baseline compatibility.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S19",
+        "S20",
+        "S21",
+        "S22",
+        "S23",
+        "S24",
+        "S25",
+        "S26",
+        "S27"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 314
+    },
+    {
+      "id": "MV-IO-01",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Read/write genuine public VSDX drawing content, including relationships and dependencies.",
+      "acceptance_evidence": "Microsoft Visio opens without repair, edits and saves the output; private MacVisio metadata is removed for validation.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 328
+    },
+    {
+      "id": "MV-IO-02",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Read/write binary VSD with the geometry and semantics needed by the declared baseline matrix.",
+      "acceptance_evidence": "Independent Visio create/open/edit/save/reopen tests verify formulas, masters, data, glue and text beyond graphics.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 329
+    },
+    {
+      "id": "MV-IO-03",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Preserve unknown/unmodified source parts and avoid broad unrelated rewrites.",
+      "acceptance_evidence": "No-edit saves retain part payloads; supported local edits change only expected semantic dependencies.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 330
+    },
+    {
+      "id": "MV-IO-04",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Read/write baseline drawing, stencil and template families with correct public content types.",
+      "acceptance_evidence": "VSDX/VSSX/VSTX and baseline-confirmed legacy counterparts pass distinct interoperability suites.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 331
+    },
+    {
+      "id": "MV-IO-05",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Handle macro-enabled files with preservation, execution policy and signature awareness.",
+      "acceptance_evidence": "Macros are never stored in a macro-free extension; modifications disclose invalidated signatures.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 332
+    },
+    {
+      "id": "MV-IO-06",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Export SVG, raster images and vector PDF with explicit page, bounds, resolution and background settings.",
+      "acceptance_evidence": "Output size and clipping match preview; all-page PDF uses each foreground page's physical size.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 333
+    },
+    {
+      "id": "MV-IO-07",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G2",
+      "requirement": "Print page ranges/all pages with scale, tiling, margins and backgrounds.",
+      "acceptance_evidence": "Print preview and physical dimensions reconcile on a measured reference output.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 334
+    },
+    {
+      "id": "MV-IO-08",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Import/insert declared CAD and graphics formats with clear conversion semantics.",
+      "acceptance_evidence": "Unsupported entities are reported; an inserted reference and converted editable shapes are visibly distinguished.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 335
+    },
+    {
+      "id": "MV-IO-09",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Preserve/render reference-confirmed WMF/EMF and linked/embedded object content.",
+      "acceptance_evidence": "Known fixtures retain previews, metadata and placement; unsupported activation is explicitly identified.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 336
+    },
+    {
+      "id": "MV-IO-10",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Produce a compatibility report before saving an edit that would degrade unsupported content.",
+      "acceptance_evidence": "The report identifies affected objects and offers cancel, alternate format or safe copy.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 337
+    },
+    {
+      "id": "MV-IO-11",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Never use private metadata as the sole carrier of a claimed interoperable feature.",
+      "acceptance_evidence": "Stripping native metadata leaves claimed pages, shapes, data and behavior independently testable.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 338
+    },
+    {
+      "id": "MV-IO-12",
+      "family": "IO",
+      "section": "5.10 Import, export and print",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Inventory and support reference-confirmed legacy XML, graphics and export filters individually.",
+      "acceptance_evidence": "VDX/VSX/VTX and other target filters have explicit read/write/version status rather than an umbrella claim.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29",
+        "S30",
+        "S31"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 339
+    },
+    {
+      "id": "MV-AUT-01",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Provide a stable local automation API for documents, pages, shapes, cells and export.",
+      "acceptance_evidence": "A versioned script creates a connected multipage drawing and exports it with structured errors.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 349
+    },
+    {
+      "id": "MV-AUT-02",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Provide noninteractive convert, render, export and inspect commands.",
+      "acceptance_evidence": "Commands have documented exit codes, no interactive prompts and prevent output from replacing input accidentally.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 350
+    },
+    {
+      "id": "MV-AUT-03",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Inventory the baseline automation members, event order and transaction behavior.",
+      "acceptance_evidence": "Every confirmed member maps to native support, bridge support or an explicit unresolved compatibility entry.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 351
+    },
+    {
+      "id": "MV-AUT-04",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Provide an execution strategy for confirmed VBA/COM workflows.",
+      "acceptance_evidence": "Representative unmodified compatibility scripts pass via the declared bridge/runtime; translated native scripts are labeled separately.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 352
+    },
+    {
+      "id": "MV-AUT-05",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Address confirmed COM/VSTO/VSL/ActiveX and third-party add-in workflows.",
+      "acceptance_evidence": "A published compatibility matrix names tested add-ins/versions; no claim follows solely from preserving their files.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 353
+    },
+    {
+      "id": "MV-AUT-06",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Address linked/embedded OLE workflows and external-document editing.",
+      "acceptance_evidence": "Reference cases retain object identity and changes, with a bridge or clear unsupported activation state.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 354
+    },
+    {
+      "id": "MV-AUT-07",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Reproduce baseline-confirmed Office, reporting and process-integration user outcomes.",
+      "acceptance_evidence": "Each integration has an exact host version, authentication/setup path and end-to-end test.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 355
+    },
+    {
+      "id": "MV-AUT-08",
+      "family": "AUT",
+      "section": "5.11 Automation, integrations and Windows-dependent behavior",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Add contemporary Microsoft 365, Power BI, Teams and workflow integrations selectively.",
+      "acceptance_evidence": "Availability depends on verified APIs and tenant policy; no undocumented coauthoring protocol is assumed.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S32"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 356
+    },
+    {
+      "id": "MV-COL-01",
+      "family": "COL",
+      "section": "5.12 Comments, sharing and coauthoring",
+      "scope": "B",
+      "qualification_gate": "G3",
+      "requirement": "Read/write baseline comments and review annotations with author/time/object anchors.",
+      "acceptance_evidence": "Moving a shape retains its comments; imported threads do not acquire fabricated authorship.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S33",
+        "S34"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 364
+    },
+    {
+      "id": "MV-COL-02",
+      "family": "COL",
+      "section": "5.12 Comments, sharing and coauthoring",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Work with local/cloud-synced folders using conflict-safe file access.",
+      "acceptance_evidence": "Concurrent external changes trigger conflict handling; sync storage is not presented as coauthoring.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S33",
+        "S34"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 365
+    },
+    {
+      "id": "MV-COL-03",
+      "family": "COL",
+      "section": "5.12 Comments, sharing and coauthoring",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Inventory and address baseline review/sharing/coauthoring workflows where confirmed.",
+      "acceptance_evidence": "Required storage/service prerequisites and tested combinations are documented.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S33",
+        "S34"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 366
+    },
+    {
+      "id": "MV-COL-04",
+      "family": "COL",
+      "section": "5.12 Comments, sharing and coauthoring",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Provide optional native collaborative sessions with permissions, presence and anchored threads.",
+      "acceptance_evidence": "Two authorized users converge after simultaneous edits; revocation stops future access.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S33",
+        "S34"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 367
+    },
+    {
+      "id": "MV-COL-05",
+      "family": "COL",
+      "section": "5.12 Comments, sharing and coauthoring",
+      "scope": "X",
+      "qualification_gate": "GX",
+      "requirement": "Support reconnect/offline reconciliation and selective collaborative undo.",
+      "acceptance_evidence": "A concurrent text edit and deletion resolve deterministically without resurrecting deleted data unexpectedly.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S33",
+        "S34"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 368
+    },
+    {
+      "id": "MV-ACC-01",
+      "family": "ACC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Expose controls, canvas objects, text, relations and data through a meaningful accessibility tree.",
+      "acceptance_evidence": "VoiceOver can identify, select, inspect, move and connect shapes in a test process.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S04",
+        "S35",
+        "S36"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 376
+    },
+    {
+      "id": "MV-ACC-02",
+      "family": "ACC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Provide visible keyboard focus and keyboard alternatives for required workflows.",
+      "acceptance_evidence": "A keyboard-only journey creates, labels, connects, saves and exports a drawing.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S04",
+        "S35",
+        "S36"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 377
+    },
+    {
+      "id": "MV-ACC-03",
+      "family": "ACC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Support alternative text, meaningful reading order, accessible link text and non-color-only status.",
+      "acceptance_evidence": "Accessibility inspection identifies missing descriptions and ambiguous status indicators.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S04",
+        "S35",
+        "S36"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 378
+    },
+    {
+      "id": "MV-SEC-01",
+      "family": "SEC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Bound archive expansion, parser depth, resource sizes, formulas and imported object complexity.",
+      "acceptance_evidence": "Crafted ZIP/XML/compound-file inputs fail safely without arbitrary file writes or unbounded main-thread work.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 379
+    },
+    {
+      "id": "MV-SEC-02",
+      "family": "SEC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Disable document-driven external execution/network fetching by default.",
+      "acceptance_evidence": "Opening a drawing never launches macros, remote images, commands or data refresh without the applicable trust action.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 380
+    },
+    {
+      "id": "MV-SEC-03",
+      "family": "SEC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G3",
+      "requirement": "Store credentials in Keychain and separate them from drawings, logs and exported diagnostics.",
+      "acceptance_evidence": "Inspecting a saved drawing or diagnostic bundle reveals no token/password.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 381
+    },
+    {
+      "id": "MV-SEC-04",
+      "family": "SEC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "B",
+      "qualification_gate": "G4",
+      "requirement": "Address baseline rights-managed/protected documents without bypassing their restrictions.",
+      "acceptance_evidence": "Authorized cases use a supported mechanism; unsupported protected files fail with a useful explanation.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "exact-build verification required",
+      "spec_line": 382
+    },
+    {
+      "id": "MV-SEC-05",
+      "family": "SEC",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Keep diagnostics local by default and make any telemetry opt-in and content-minimal.",
+      "acceptance_evidence": "Counts/timing can be collected without drawing text, data values or file contents.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [
+        "S28",
+        "S29"
+      ],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 383
+    },
+    {
+      "id": "MV-OPS-01",
+      "family": "OPS",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Ship signed/notarized reproducible application artifacts with dependency/license records.",
+      "acceptance_evidence": "Release checks verify signature, dependency loading, provenance and installation on supported systems.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 384
+    },
+    {
+      "id": "MV-OPS-02",
+      "family": "OPS",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Provide authenticated updates, release notes, opt-out and user-controlled installation.",
+      "acceptance_evidence": "An invalid update signature is rejected; interrupted update retains a runnable application.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 385
+    },
+    {
+      "id": "MV-OPS-03",
+      "family": "OPS",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Publish exact macOS/architecture and feature-support matrices.",
+      "acceptance_evidence": "Installer and startup reject unsupported systems clearly; each advertised combination has release evidence.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 386
+    },
+    {
+      "id": "MV-OPS-04",
+      "family": "OPS",
+      "section": "5.13 Accessibility, security and operation",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Provide safe document diagnostics and a user-selected exportable support report.",
+      "acceptance_evidence": "The report includes app/format versions, counts, warnings and timings; sensitive content is excluded by default.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 387
+    },
+    {
+      "id": "MV-NFR-01",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Prevent lost committed edits across normal save, save failure, external conflict and recovery.",
+      "acceptance_evidence": "Fault-injection cases preserve the last valid file and recoverable checkpoint; no known silent-loss defect ships.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 486
+    },
+    {
+      "id": "MV-NFR-02",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Keep common direct manipulation responsive.",
+      "acceptance_evidence": "On a 1,000-shape active page, p95 input-to-feedback ≤50 ms and p95 frame time ≤33 ms during a defined drag/pan trace.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 487
+    },
+    {
+      "id": "MV-NFR-03",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Open a standard document promptly.",
+      "acceptance_evidence": "A 10-page/2,000-shape/1,000-connector fixture opens to a usable first viewport in ≤3 s warm and ≤5 s cold at p95.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 488
+    },
+    {
+      "id": "MV-NFR-04",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Bound large-document loading and support cancellation.",
+      "acceptance_evidence": "A 50-page/20,000-shape/10,000-connector fixture opens in ≤15 s warm at p95 with progress and no post-open UI stall >250 ms.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 489
+    },
+    {
+      "id": "MV-NFR-05",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Save without freezing interaction.",
+      "acceptance_evidence": "Standard fixture saves in ≤3 s and large fixture in ≤10 s at p95; main-thread save work has no single >100 ms stall.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 490
+    },
+    {
+      "id": "MV-NFR-06",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Bound memory and avoid unbounded growth over repeated document cycles.",
+      "acceptance_evidence": "Peak RSS ≤1 GB standard and ≤3 GB large; 20 open/edit/close cycles show no sustained leak after caches settle.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 491
+    },
+    {
+      "id": "MV-NFR-07",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Preserve geometry and print dimensions within approved tolerances.",
+      "acceptance_evidence": "Numeric geometry ≤max(1e-6 inch, 1e-6 relative); printed dimension error ≤0.2 mm on a calibrated test pipeline.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 492
+    },
+    {
+      "id": "MV-NFR-08",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G2",
+      "requirement": "Evaluate appearance with both numeric and visual checks.",
+      "acceptance_evidence": "All benchmark pages receive same-font reference renders; raster diffs are triaged by region and all material differences have dispositions.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 493
+    },
+    {
+      "id": "MV-NFR-09",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Support localization-safe storage and UI.",
+      "acceptance_evidence": "English/Australian and decimal-comma locale tests preserve numeric/date meaning; UI accommodates longer labels.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 494
+    },
+    {
+      "id": "MV-NFR-10",
+      "family": "NFR",
+      "section": "7.5 Extension interfaces",
+      "scope": "N",
+      "qualification_gate": "G1",
+      "requirement": "Establish a tested OS/architecture support policy.",
+      "acceptance_evidence": "Every advertised minimum/current OS and architecture passes installation, document, font, print and update smoke checks.",
+      "origin": "MacVisio proposed requirement",
+      "benchmark_source_ids": [],
+      "implementation_status": "not reassessed in this research task",
+      "baseline_applicability": "MacVisio product decision",
+      "spec_line": 495
+    }
+  ]
+}
