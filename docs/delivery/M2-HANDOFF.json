@@ -8,14 +8,18 @@
   "state": "in_progress",
   "milestone_acceptance": "unaccepted",
   "integration_allowed": false,
-  "head_commit": "2b070fe0141387569dbfb1f859a2405d60af82f1",
   "local_commits": [
     "46c76e0b1beac6b415c73509aa396a6570944333",
     "d85ce5da08440935a869fd3f6a8bde7edf1cbddd",
     "df0b086a1e74dc43fca1e7953179512b7eab4e72",
     "b75598064c3ce03e7a875613dfef8da32d7b6d66",
     "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
-    "2b070fe0141387569dbfb1f859a2405d60af82f1"
+    "2b070fe0141387569dbfb1f859a2405d60af82f1",
+    "526bca91928df948f31667c517161a5d724066d8",
+    "73eea321b6472c845ad42fcfa205cf7d0cdc5bbe",
+    "7921840a9f0645ad5f4d8d0f91440ab440a58d7e",
+    "3c9f148c14ede7841df85a896b3d51578d6fdd83",
+    "83670dc0f617b3b5b4498d3c717719b8f2eda56e"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -32,7 +36,9 @@
     "WP-12-T01 pre-DOM XML budgets and native trust fixtures",
     "WP-12-T02 exact stable/development release gate",
     "WP-12-T04 bundle platform inventory and redacted support script",
-    "WP-13-T01 typed diagnostic transport"
+    "WP-13-T01 typed diagnostic transport",
+    "WP-12-T04 native count/diagnostic/timing support summary with strict redaction",
+    "WP-12-T02 runtime development update checks guarded despite persisted preferences"
   ],
   "dependencies": {
     "M0": {
@@ -83,7 +89,11 @@
     "build/m2-signing-prerequisite.json",
     "build/m2-m0-integrated-native.log",
     "build/m2-m0-integrated-python.log",
-    "build/m2-integrated-ledger.log"
+    "build/m2-integrated-ledger.log",
+    "docs/delivery/M2-SUPPORT-REPORT.md",
+    "build/m2-preparation-final-native.log",
+    "build/m2-support-report.log",
+    "build/m2-update-runtime-policy.log"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -96,7 +106,9 @@
     "architectures": [
       "arm64"
     ],
-    "minimumMacOS": "27.0"
+    "minimumMacOS": "27.0",
+    "status": "superseded_unaccepted_preparation_archive",
+    "note": "Predates M0 integration, NativeSupportReport and runtime update-channel fix; current source is the reviewable candidate. No native integration acceptance is implied."
   },
   "notes": [
     "This is an interim handoff/status, not M2 milestone delivery or permission for M3 dependent implementation.",
@@ -144,7 +156,133 @@
       "executed": 76,
       "failures": 0,
       "log": "build/m2-m0-integrated-python.log"
+    },
+    "final_preparation_debug": {
+      "executed": 512,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-preparation-final-native.log",
+      "scope": "M0+M2 independent preparation; no M1 interfaces integrated"
+    },
+    "support_summary": {
+      "executed": 6,
+      "failures": 0,
+      "log": "build/m2-support-report.log"
+    },
+    "runtime_update_policy": {
+      "executed": 3,
+      "failures": 0,
+      "log": "build/m2-update-runtime-policy.log"
     }
   },
-  "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted"
+  "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
+  "implementation_head": "83670dc0f617b3b5b4498d3c717719b8f2eda56e",
+  "head_note": "Implementation head before this handoff-only evidence update; shared M2-status.json records the actual current branch head.",
+  "evidence": [
+    {
+      "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+      "sha256": "e117d7b3cdd328dd47077e3badf5bcd31e9ef4cfbafc73283f564573e4a2e8ca",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
+      "sha256": "f1d3cb679cc6d67285e057b365fc644c1866b55026b50a05dead4f46dab56437",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "docs/delivery/M2-SEARCH-TEXT.md",
+      "sha256": "14f16e11d474dc4760094d21449c1fb6da6cf9a46b70586b3f2c4f75dd95fdf7",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "docs/delivery/M2-RELEASE-TRUST.md",
+      "sha256": "f58552e1bb06461dd3a2febee9324c2e8a17e21aef3d4560328fbdd93246f257",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-full-native.log",
+      "sha256": "ac8c3d345b0a4761dd4283e952a425621630bfc53a36a34387c566dc777fbe32",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-input-trust.log",
+      "sha256": "ed018276ff8a38aa95b3d155038ddb061d5761be3458384cfd408995275f77a6",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-text-routing.log",
+      "sha256": "b23c00889e03ae1bd4048c84a2aae2fd59960fdc5d39a9792bff6c225723edbe",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-python.log",
+      "sha256": "7b9144e657da576b27e85479b30bf5321e2b03f06cbd8cda0e70f4a11844b68b",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-bundle-platform.json",
+      "sha256": "fae70e1ca8291ca26654624e4c22a225bd7057f5e18fcfb89b3529dde12ef93e",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-stable-ad-hoc-rejection.json",
+      "sha256": "c3113735d16927eb808a530d43f7013702357aae09d7caf8dd9a5f22ac46c379",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-content-inventory.json",
+      "sha256": "5244d79e2e1817074efee6312edb3d92ccca349343bc350f84f0d398c1f97217",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-redacted-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-signing-prerequisite.json",
+      "sha256": "10db7b072f8c9271a67cfbdee12d11e4b8ffa00b192b43dc4fa6f38886953ca8",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-m0-integrated-native.log",
+      "sha256": "5344ed279a0a055201d70481d3fabd53ba1ece3cace0cbe231f5cc875bfb9cb1",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-m0-integrated-python.log",
+      "sha256": "d11252d93e0056ec8a1a728db98a7b42b6e9ca9a4453745d3d5cd23c61c114a7",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-integrated-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "docs/delivery/M2-SUPPORT-REPORT.md",
+      "sha256": "f7223283e3f704a72b9e8d52f91d5b4697372708138700e0bb094bf26910914a",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-preparation-final-native.log",
+      "sha256": "a63914893ea18b8e86c2fc4c192e3a9e130955b2c9b71a1032ac284ef8b651b0",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-support-report.log",
+      "sha256": "8a8f5690608ac98946a8b68ecee1c362fcafac9572db347ce8e4c23acb379c55",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-update-runtime-policy.log",
+      "sha256": "8c6215960caffb4bdbf83fbfb71ee71f046b8ac2db9c8cf9fbb3c2f438b0479e",
+      "scope": "local preparation, not milestone acceptance"
+    }
+  ]
 }
