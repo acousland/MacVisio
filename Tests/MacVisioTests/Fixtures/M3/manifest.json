@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "syntheticOnly": true,
+  "scope": "M3 authored public content; reference/render/behavior acceptance pending",
+  "fixtures": [
+    {
+      "file": "m3-intelligent.vsdx",
+      "case": "m3-intelligent",
+      "format": "vsdx",
+      "sha256": "59d32c7e9cfd24fe8041e3a1829c1f293aa4d3365e3afd5e9a91ac03e6cdf5a1",
+      "bytes": 5987,
+      "containsNativeMetadata": false,
+      "expected": {
+        "pages": [
+          {
+            "index": 1,
+            "name": "Intelligent foreground",
+            "background": false,
+            "width": 8,
+            "height": 10,
+            "shapes": [
+              {
+                "id": "10",
+                "parentID": null,
+                "text": "Café 東京 🙂 bold\nSecond paragraph",
+                "cells": {
+                  "PinX": 2,
+                  "PinY": 6,
+                  "Width": 2,
+                  "Height": 1
+                }
+              },
+              {
+                "id": "20",
+                "parentID": null,
+                "text": "Local override",
+                "cells": {
+                  "PinX": 6,
+                  "PinY": 6,
+                  "Width": 3,
+                  "Height": 1
+                }
+              },
+              {
+                "id": "30",
+                "parentID": null,
+                "text": "Link 東京",
+                "cells": {
+                  "BeginX": 3,
+                  "BeginY": 6,
+                  "EndX": 4.5,
+                  "EndY": 6
+                }
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Background scale",
+            "background": true,
+            "width": 8,
+            "height": 10,
+            "shapes": [
+              {
+                "id": "1",
+                "parentID": null,
+                "text": "Public background",
+                "cells": {
+                  "PinX": 4,
+                  "PinY": 1,
+                  "Width": 2,
+                  "Height": 0.5
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
