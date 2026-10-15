@@ -370,6 +370,10 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 | --- | --- | --- |
 | WP-11-T03 | In progress — unaccepted | UTF-16/run/font preparation underway; real IME/RTL input acceptance remains open. |
 
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-11-T02 | In progress — unaccepted | Prepared native NSWindow/responder-chain tool-letter/cancel fixture passes; full focus/resize/connect/no-pointer journey waits accepted M1. |
+
 **Outcome:** Meaningful keyboard/VoiceOver authoring, reliable international text input and font/proofing feedback.
 
 **Delivery dependencies:** WP-06, WP-08, WP-10. **Qualification prerequisites:** Local acceptance plus applicable overall release gates.
@@ -398,9 +402,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-12-T01 | In progress — unaccepted | XML budgets moved before DOM; 7 input-trust tests passed. Full audit/converter-resource qualification remains open. |
-| WP-12-T02 | In progress — unaccepted | Stable/development release gate implementation in progress; no signed candidate accepted. |
-| WP-12-T04 | In progress — unaccepted | Bundle-derived platform and redacted evidence tooling in progress; platform/content/update acceptance remains open. |
+| WP-12-T01 | In progress — unaccepted | XML preflight and 8 trust fixtures pass, including calibrated loopback SVG no-fetch. Full hostile corpus/converter resource qualification remains open. |
+| WP-12-T02 | In progress — unaccepted | Release gate implemented:28 Python checks, actual development archive signatures verify, stable ad hoc build rejected. Exact stable candidate acceptance remains open. |
+| WP-12-T04 | In progress — unaccepted | Actual14-binary inventory derives arm64/macOS27.0 floor and redacted report works. Tested platform matrix, content rights and installed-update acceptance remain open. |
 
 **Outcome:** Stable release gates, truthful platform support, safe diagnostics and installed-update evidence.
 

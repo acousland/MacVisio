@@ -2031,7 +2031,7 @@
           "deliverable": "Define focus traversal, object movement/resizing/connection and visible focus states.",
           "acceptance_criteria": "No-pointer full drawing journey works without focus traps or unintended tool shortcuts.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-11-T01"
           ],
@@ -2055,7 +2055,8 @@
           "architecture_findings": [
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_note": "Prepared native NSWindow/responder-chain tool-letter/cancel fixture passes; full focus/resize/connect/no-pointer journey waits accepted M1."
         },
         {
           "id": "WP-11-T03",
@@ -2186,7 +2187,7 @@
           "qualification_dependencies": [],
           "architecture_findings": [],
           "architecture_contracts": [],
-          "execution_note": "XML budgets moved before DOM; 7 input-trust tests passed. Full audit/converter-resource qualification remains open."
+          "execution_note": "XML preflight and 8 trust fixtures pass, including calibrated loopback SVG no-fetch. Full hostile corpus/converter resource qualification remains open."
         },
         {
           "id": "WP-12-T02",
@@ -2219,7 +2220,7 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Stable/development release gate implementation in progress; no signed candidate accepted."
+          "execution_note": "Release gate implemented:28 Python checks, actual development archive signatures verify, stable ad hoc build rejected. Exact stable candidate acceptance remains open."
         },
         {
           "id": "WP-12-T03",
@@ -2285,7 +2286,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Bundle-derived platform and redacted evidence tooling in progress; platform/content/update acceptance remains open."
+          "execution_note": "Actual14-binary inventory derives arm64/macOS27.0 floor and redacted report works. Tested platform matrix, content rights and installed-update acceptance remain open."
         }
       ],
       "status": "In progress — independent preparation; unaccepted",
