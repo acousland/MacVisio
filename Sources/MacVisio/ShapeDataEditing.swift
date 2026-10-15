@@ -11,6 +11,7 @@ enum ShapeDataEditing {
     }
 
     static func displayedValue(_ property:ShapeDataProperty) -> String {
+        // Keep cached Date/Duration/Currency values literal because Format pictures are opaque here.
         guard property.type == 3 else { return property.value }
         switch property.value.trimmingCharacters(in:.whitespacesAndNewlines).uppercased() {
         case "1", "TRUE": return "TRUE"
@@ -19,9 +20,9 @@ enum ShapeDataEditing {
         }
     }
 
-    /// Validates the types with explicit choice semantics and keeps untouched legacy values intact.
-    /// Type 2 accepts simple finite numeric literals and recognized Visio measurements; its
-    /// Format picture remains opaque. Types 0, 5, 6, and 7 are passed through unchanged.
+    /// Validates typed values while keeping untouched legacy values and source spelling intact.
+    /// Date values use the ISO form found in Visio XML. Durations are numeric day values and
+    /// currency values are numeric amounts; their Format pictures remain opaque.
     static func validated(_ properties:[ShapeDataProperty],previous:[ShapeDataProperty]) throws -> [ShapeDataProperty] {
         let oldByKey = Dictionary(previous.map{($0.key,$0)},uniquingKeysWith:{$1})
         var result = properties
@@ -58,6 +59,18 @@ enum ShapeDataEditing {
                         else { property.format += ";" + property.value }
                     }
                 }
+            case 5:
+                if !valueWasUnchanged && !isISODateOrDateTime(property.value) {
+                    throw DiagramError.invalid("\(property.label.isEmpty ? property.key : property.label) must be an ISO date (YYYY-MM-DD) or date and time (YYYY-MM-DDTHH:MM:SS).")
+                }
+            case 6:
+                if !valueWasUnchanged && !isFiniteScalar(property.value) {
+                    throw DiagramError.invalid("\(property.label.isEmpty ? property.key : property.label) must be a finite duration in days.")
+                }
+            case 7:
+                if !valueWasUnchanged && !isFiniteScalar(property.value) {
+                    throw DiagramError.invalid("\(property.label.isEmpty ? property.key : property.label) must be a finite numeric currency amount.")
+                }
             default:
                 break
             }
@@ -89,5 +102,47 @@ enum ShapeDataEditing {
         case .unary(let operation,.measure(let value,_)) where operation == "+" || operation == "-": return value.isFinite
         default: return false
         }
+    }
+
+    private static func isFiniteScalar(_ source:String) -> Bool {
+        let text = source.trimmingCharacters(in:.whitespacesAndNewlines)
+        guard !text.isEmpty else { return true }
+        if let value = Double(text) { return value.isFinite }
+        guard let expression = try? ShapeSheet.parse(text) else { return false }
+        switch expression {
+        case .number(let value): return value.isFinite
+        case .unary(let operation,.number(let value)) where operation == "+" || operation == "-": return value.isFinite
+        default: return false
+        }
+    }
+
+    private static func isISODateOrDateTime(_ source:String) -> Bool {
+        let text = source.trimmingCharacters(in:.whitespacesAndNewlines)
+        guard !text.isEmpty else { return true }
+        let localPatterns = [
+            ("^\\d{4}-\\d{2}-\\d{2}$", "yyyy-MM-dd"),
+            ("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,9})?$", "yyyy-MM-dd'T'HH:mm:ss")
+        ]
+        for (pattern,format) in localPatterns {
+            guard text.range(of:pattern,options:.regularExpression) != nil else { continue }
+            let formatter = DateFormatter()
+            formatter.locale = Locale(identifier:"en_US_POSIX")
+            formatter.calendar = Calendar(identifier:.gregorian)
+            formatter.timeZone = TimeZone(secondsFromGMT:0)
+            formatter.isLenient = false
+            formatter.dateFormat = format
+            if formatter.date(from:text) != nil { return true }
+            if format == "yyyy-MM-dd'T'HH:mm:ss",text.contains(".") {
+                for fractionalFormat in ["yyyy-MM-dd'T'HH:mm:ss.SSS", "yyyy-MM-dd'T'HH:mm:ss.SSSSSS", "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS"] {
+                    formatter.dateFormat = fractionalFormat
+                    if formatter.date(from:text) != nil { return true }
+                }
+            }
+        }
+        let iso = ISO8601DateFormatter()
+        iso.formatOptions = [.withInternetDateTime,.withFractionalSeconds]
+        if iso.date(from:text) != nil { return true }
+        iso.formatOptions = [.withInternetDateTime]
+        return iso.date(from:text) != nil
     }
 }

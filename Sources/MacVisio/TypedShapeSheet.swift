@@ -1,15 +1,57 @@
 import Foundation
 
+struct ShapeSheetColor:Equatable {
+    let red:Int,green:Int,blue:Int
+    private let hslComponents:(hue:Int,saturation:Int,luminosity:Int)?
+    init(red:Int,green:Int,blue:Int,hsl:(hue:Int,saturation:Int,luminosity:Int)? = nil) { self.red = red;self.green = green;self.blue = blue;hslComponents = hsl }
+    init?(hex:String) {
+        let digits = hex.hasPrefix("#") ? String(hex.dropFirst()) : hex
+        guard digits.count == 6,let value = UInt32(digits,radix:16) else { return nil }
+        self.init(red:Int((value >> 16) & 0xFF),green:Int((value >> 8) & 0xFF),blue:Int(value & 0xFF))
+    }
+    var hex:String { String(format:"#%02X%02X%02X",red,green,blue) }
+    var hsl:(hue:Int,saturation:Int,luminosity:Int) {
+        if let hslComponents { return hslComponents }
+        let r = Double(red)/255,g = Double(green)/255,b = Double(blue)/255
+        let maximum = max(r,g,b),minimum = min(r,g,b),delta = maximum-minimum
+        let luminosity = (maximum+minimum)/2
+        let saturation = delta == 0 ? 0 : delta/(1-abs(2*luminosity-1))
+        var hue = 0.0
+        if delta != 0 {
+            if maximum == r { hue = (g-b)/delta+(g < b ? 6 : 0) }
+            else if maximum == g { hue = (b-r)/delta+2 }
+            else { hue = (r-g)/delta+4 }
+        }
+        return (Int((hue*40).rounded()) % 240,Int((saturation*240).rounded()),Int((luminosity*240).rounded()))
+    }
+    static func fromHSL(hue:Int,saturation:Int,luminosity:Int) -> ShapeSheetColor {
+        let h = Double(hue)/40,s = Double(saturation)/240,l = Double(luminosity)/240
+        let chroma = (1-abs(2*l-1))*s,x = chroma*(1-abs(h.truncatingRemainder(dividingBy:2)-1))
+        let (r,g,b):(Double,Double,Double)
+        switch h {
+        case 0..<1:(r,g,b) = (chroma,x,0)
+        case 1..<2:(r,g,b) = (x,chroma,0)
+        case 2..<3:(r,g,b) = (0,chroma,x)
+        case 3..<4:(r,g,b) = (0,x,chroma)
+        case 4..<5:(r,g,b) = (x,0,chroma)
+        default:(r,g,b) = (chroma,0,x)
+        }
+        let m = l-chroma/2
+        return ShapeSheetColor(red:Int(((r+m)*255).rounded()),green:Int(((g+m)*255).rounded()),blue:Int(((b+m)*255).rounded()),hsl:(hue,saturation,luminosity))
+    }
+    static func ==(lhs:ShapeSheetColor,rhs:ShapeSheetColor) -> Bool { lhs.red == rhs.red && lhs.green == rhs.green && lhs.blue == rhs.blue }
+}
+
 enum SheetValue:Equatable {
-    case number(Double),quantity(Double,String),string(String),boolean(Bool),date(Date)
-    var text:String { switch self { case .number(let value),.quantity(let value,_):return ShapeSheetEngine.format(value);case .string(let value):return value;case .boolean(let value):return value ? "TRUE" : "FALSE";case .date(let value):return ISO8601DateFormatter().string(from:value) } }
+    case number(Double),quantity(Double,String),string(String),boolean(Bool),date(Date),color(ShapeSheetColor)
+    var text:String { switch self { case .number(let value),.quantity(let value,_):return ShapeSheetEngine.format(value);case .string(let value):return value;case .boolean(let value):return value ? "TRUE" : "FALSE";case .date(let value):return ISO8601DateFormatter().string(from:value);case .color(let value):return value.hex } }
     var unit:String? { if case .quantity(_,let unit) = self { return unit };return nil }
     var dimension:String? { unit.map{["DEG","RAD","DA"].contains($0.uppercased()) ? "angle" : $0.uppercased() == "DE" ? "duration" : "length"} }
     static func factor(_ unit:String) -> Double? { ["IN":1,"INCH":1,"INCHES":1,"PT":72,"MM":25.4,"CM":2.54,"M":0.0254,"FT":1/12,"YD":1/36,"DEG":180 / .pi,"RAD":1,"DL":1,"DP":1,"DT":1,"DA":1,"DE":1][unit.uppercased()] }
     func numeric() throws -> Double {
-        switch self { case .number(let value),.quantity(let value,_):return value;case .boolean(let value):return value ? 1 : 0;case .date(let value):return value.timeIntervalSince1970/86400+25569;case .string(let value):if let n = Double(value),n.isFinite { return n };throw DiagramError.invalid("A numeric value was required.") }
+        switch self { case .number(let value),.quantity(let value,_):return value;case .boolean(let value):return value ? 1 : 0;case .date(let value):return value.timeIntervalSince1970/86400+25569;case .string(let value):if let n = Double(value),n.isFinite { return n };throw DiagramError.invalid("A numeric value was required.");case .color:throw DiagramError.invalid("A numeric value was required; a color result was supplied.") }
     }
-    var valid:Bool { switch self { case .number(let n):return n.isFinite;case .quantity(let n,let u):return n.isFinite && Self.factor(u) != nil;case .string(let s):return s.utf8.count <= 1_000_000;case .date(let d):return d.timeIntervalSince1970.isFinite;case .boolean:return true } }
+    var valid:Bool { switch self { case .number(let n):return n.isFinite;case .quantity(let n,let u):return n.isFinite && Self.factor(u) != nil;case .string(let s):return s.utf8.count <= 1_000_000;case .date(let d):return d.timeIntervalSince1970.isFinite;case .boolean:return true;case .color(let c):return (0...255).contains(c.red) && (0...255).contains(c.green) && (0...255).contains(c.blue) } }
 }
 enum TypedShapeSheet {
     static func evaluate(_ formula:String,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil},colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> SheetValue {
@@ -126,6 +168,32 @@ enum TypedShapeSheet {
                         return number
                     }
                     result = .number(try colorPalette.index(for:components))
+                case "HSL":
+                    try arity(3)
+                    let components = try values.map { value -> Int in
+                        let number = try value.numeric()
+                        guard let integer = Int(exactly:number),integer >= 0 else { throw DiagramError.invalid("HSL components must be non-negative whole numbers.") }
+                        return integer
+                    }
+                    guard components[0] <= 239,components[1] <= 240,components[2] <= 240 else { throw DiagramError.invalid("HSL components are outside the documented Visio ranges.") }
+                    let color = ShapeSheetColor.fromHSL(hue:components[0],saturation:components[1],luminosity:components[2])
+                    result = .number(try colorPalette.index(for:color,function:"HSL"))
+                case "RED","GREEN","BLUE","HUE","SAT","LUM":
+                    try arity(1)
+                    let color = try colorValue(values[0],palette:colorPalette)
+                    switch name {
+                    case "RED":result = .number(Double(color.red))
+                    case "GREEN":result = .number(Double(color.green))
+                    case "BLUE":result = .number(Double(color.blue))
+                    case "HUE":result = .number(Double(color.hsl.hue))
+                    case "SAT":result = .number(Double(color.hsl.saturation))
+                    default:result = .number(Double(color.hsl.luminosity))
+                    }
+                case "LUMDIFF":
+                    try arity(2)
+                    let first = try colorValue(values[0],palette:colorPalette).hsl.luminosity
+                    let second = try colorValue(values[1],palette:colorPalette).hsl.luminosity
+                    result = .number(Double(first-second))
                 default:
                     let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","ATAN2","LN","EXP","INT","SIGN","ROUND","MODULUS","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
@@ -147,4 +215,12 @@ enum TypedShapeSheet {
     }
 
     private static func asciiFold(_ byte:UInt8) -> UInt8 { (0x41...0x5A).contains(byte) ? byte + 0x20 : byte }
+
+    private static func colorValue(_ value:SheetValue,palette:ShapeSheetColorPalette) throws -> ShapeSheetColor {
+        switch value {
+        case .color(let color):return color
+        case .number(let index):return palette.color(at:index) ?? ShapeSheetColor(red:0,green:0,blue:0)
+        default:throw DiagramError.invalid("A color index or color result was required.")
+        }
+    }
 }

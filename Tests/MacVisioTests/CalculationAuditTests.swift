@@ -98,4 +98,49 @@ final class CalculationAuditTests:XCTestCase {
         let failures = try XCTUnwrap(withFormula["failuresByMessage"] as? [String:Int])
         XCTAssertNil(failures["RGB color is absent from the supplied Visio color table."])
     }
+
+    func testPackageInventoryIncludesFormulaCellsInMastersAndDocumentStyles() throws {
+        var diagram = Diagram()
+        var node = DiagramNode(x:50,y:60,text:"Package inventory")
+        node.formatting.sheet["User.PageFormula"] = ShapeSheetCell(value:"1",formula:"PI()")
+        diagram.page.nodes = [node]
+        let source = temporary("vsdx")
+        try VisioFormat.write(diagram,to:source)
+        var parts = try VisioPackage.read(source)
+        parts.removeValue(forKey:"macvisio/document.json")
+
+        let document = try VisioXML.document(try XCTUnwrap(parts["visio/document.xml"]))
+        let root = try XCTUnwrap(document.rootElement())
+        let styles = root.firstLocal("StyleSheets") ?? XMLElement(name:"StyleSheets")
+        if styles.parent == nil { root.addChild(styles) }
+        let style = XMLElement(name:"StyleSheet")
+        style.setAttr("ID","777")
+        let styledFormula = XMLElement(name:"Cell")
+        styledFormula.setAttr("N","LineWeight");styledFormula.setAttr("V","1");styledFormula.setAttr("F","SUM(1,2)")
+        style.addChild(styledFormula);styles.addChild(style)
+        parts["visio/document.xml"] = document.xmlData(options:.nodePreserveAll)
+        parts["visio/masters/master1.xml"] = Data("<MasterContents><Shapes><Shape ID=\"1\"><Cell N=\"Width\" V=\"1\" F=\"MAX(1,2)\"/></Shape></Shapes></MasterContents>".utf8)
+        try VisioPackage.write(parts,to:source)
+
+        let reportURL = temporary("json")
+        try CalculationAudit.inspect(source,to:reportURL)
+        let report = try XCTUnwrap(JSONSerialization.jsonObject(with:Data(contentsOf:reportURL)) as? [String:Any])
+        let inventory = try XCTUnwrap(report["packageFormulaInventory"] as? [String:Any])
+        let packageFormulaCells = try XCTUnwrap(inventory["formulaCells"] as? Int)
+        XCTAssertGreaterThanOrEqual(packageFormulaCells,3)
+        XCTAssertEqual(inventory["parsedFormulas"] as? Int,packageFormulaCells)
+        XCTAssertEqual(inventory["formulaParseFailures"] as? Int,0)
+        let roles = try XCTUnwrap(inventory["formulaCellsByPartRole"] as? [String:Int])
+        XCTAssertGreaterThanOrEqual(roles["pages"] ?? 0,1)
+        XCTAssertEqual(roles["documentAndStyles"],1)
+        XCTAssertEqual(roles["masters"],1)
+        XCTAssertEqual(packageFormulaCells,roles.values.reduce(0,+))
+        let packageFunctions = try XCTUnwrap(inventory["functionCalls"] as? [String:Int])
+        XCTAssertGreaterThanOrEqual(packageFunctions["PI"] ?? 0,1)
+        XCTAssertEqual(packageFunctions["SUM"],1)
+        XCTAssertEqual(packageFunctions["MAX"],1)
+        // Only formulas modeled in page shape context count as evaluated.
+        XCTAssertGreaterThanOrEqual(report["formulaCells"] as? Int ?? 0,1)
+        XCTAssertGreaterThanOrEqual(report["evaluated"] as? Int ?? 0,1)
+    }
 }

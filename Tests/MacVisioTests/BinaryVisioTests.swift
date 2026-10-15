@@ -78,6 +78,27 @@ final class BinaryVisioTests:XCTestCase {
         let parts = try VisioPackage.read(package);XCTAssertTrue(parts.keys.contains{$0.hasSuffix(".mvsd")})
         let reopened = try VisioFormat.read(from:package).diagram;XCTAssertEqual(reopened.legacySource?.data,original);XCTAssertEqual(try VSDBinaryFormat.encoded(reopened),original)
     }
+    func testEditedLegacyExportRetainsOpaqueRootStreams() throws {
+        let fixture = try XCTUnwrap(Bundle.module.url(forResource:"no-bgcolor",withExtension:"vsd",subdirectory:"Fixtures")),originalData = try Data(contentsOf:fixture)
+        let original = try CompoundFile.read(originalData)
+        XCTAssertNotNil(original.streams["\u{0005}SummaryInformation"])
+        XCTAssertNotNil(original.streams["\u{0005}DocumentSummaryInformation"])
+
+        var diagram = try LegacyVisioFormat.read(from:fixture).diagram
+        diagram.pages[0].width += 72
+        let output = try VSDBinaryFormat.encoded(diagram,includeMetadata:false),rewritten = try CompoundFile.read(output)
+        XCTAssertEqual(rewritten.rootClassID,original.rootClassID)
+        XCTAssertNotEqual(rewritten.streams["VisioDocument"],original.streams["VisioDocument"])
+        let generated = Set(["VisioDocument","VisioInformation",VSDBinaryFormat.nativeStream].map{$0.uppercased()})
+        let opaque = original.streams.filter{!$0.key.contains("/") && !generated.contains($0.key.uppercased())}
+        XCTAssertFalse(opaque.isEmpty)
+        for (name,data) in opaque { XCTAssertEqual(rewritten.streams[name],data,name) }
+
+        let url = temp();try output.write(to:url)
+        let independentlyRead = try LegacyVisioFormat.read(from:url).diagram
+        XCTAssertEqual(independentlyRead.pages.count,diagram.pages.count)
+        XCTAssertEqual(independentlyRead.pages.first?.width ?? 0,diagram.pages[0].width,accuracy:0.01)
+    }
     func testUnsupportedBinaryImageTypeFailsWithoutOverwritingDestination() throws {
         var diagram = Diagram();var node = DiagramNode();node.formatting.image = EmbeddedImage(data:Data("%PDF".utf8),mimeType:"application/pdf");diagram.page.nodes = [node]
         let url = temp(),original = Data("Existing file".utf8);try original.write(to:url)

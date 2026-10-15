@@ -197,6 +197,7 @@ enum VSDBinaryFormat {
     static func encoded(_ diagram:Diagram,includeMetadata:Bool = true) throws -> Data {
         let diagram = try diagram.validated()
         if includeMetadata,let source = diagram.legacySource,ShapeRichText.withoutSourceIndices(source.pages) == ShapeRichText.withoutSourceIndices(diagram.pages),source.title == diagram.title { return source.data }
+        let sourceFile = try diagram.legacySource.map{try CompoundFile.read($0.data)}
         var stream = Data(repeating:0,count:128);stream.replaceSubrange(0..<21,with:Data("Visio (TM) Drawing\r\n\0".utf8));stream[26] = 11;stream.set(UInt32(0x00018400),at:32)
         func append(_ data:Data,type:UInt32,format:UInt16) throws -> Pointer {
             guard stream.count<=100*1024*1024-data.count else { throw DiagramError.invalid("The binary drawing exceeds the supported size.") }
@@ -226,9 +227,16 @@ enum VSDBinaryFormat {
         pages.append(try append(container(names),type:0x32,format:0x54));pages.append(try append(nameIndex,type:0xC9,format:0x40))
         let pageIndex = try append(container(pages),type:0x27,format:0x54)
         let root = try append(container([fontIndex,pageIndex]),type:0x14,format:0x54);stream.replaceSubrange(36..<54,with:pointer(root));stream.set(UInt32(stream.count),at:28)
-        let classID = Data([0x14,0x1A,0x02,0,0,0,0,0,0xC0,0,0,0,0,0,0,0x46])
+        let classID = sourceFile?.rootClassID ?? Data([0x14,0x1A,0x02,0,0,0,0,0,0xC0,0,0,0,0,0,0,0x46])
         var info = Data([0xFE,0xFF,0,0,4,0,2,0]);info.append(Data(repeating:0,count:20))
         var streams = ["VisioDocument":stream,"VisioInformation":info]
+        if let sourceFile {
+            // A regenerated public document cannot retain pointers into its old
+            // streams. Preserve only opaque, root-level streams whose contents do
+            // not need to be rewritten; nested storage paths are not writable yet.
+            let generated = Set(["VisioDocument","VisioInformation",nativeStream].map{$0.uppercased()})
+            for (name,data) in sourceFile.streams where !name.contains("/") && !generated.contains(name.uppercased()) { streams[name] = data }
+        }
         if includeMetadata {
             let hashes = streams.mapValues{VisioFormat.hash($0)}
             streams[nativeStream] = try JSONEncoder().encode(NativeEnvelope(hashes:hashes,classID:classID,diagram:diagram))

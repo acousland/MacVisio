@@ -20,6 +20,78 @@ enum CalculationAudit {
         }
     }
 
+    /// A package-wide inventory keeps formulas in masters and document styles
+    /// visible even when the page evaluator cannot give them a faithful host
+    /// context. These counts are syntax inventory only, not evaluated results.
+    private struct PackageInventory {
+        var formulaCells = 0
+        var parsedFormulas = 0
+        var formulaParseFailures = 0
+        var xmlParts = 0
+        var malformedXMLParts = 0
+        var byPartRole:[String:Int] = [:]
+        var functions:[String:Int] = [:]
+
+        mutating func merge(_ other:PackageInventory) {
+            formulaCells += other.formulaCells;parsedFormulas += other.parsedFormulas
+            formulaParseFailures += other.formulaParseFailures;xmlParts += other.xmlParts
+            malformedXMLParts += other.malformedXMLParts
+            for (key,value) in other.byPartRole { byPartRole[key,default:0] += value }
+            for (key,value) in other.functions { functions[key,default:0] += value }
+        }
+
+        mutating func inspect(_ parts:[String:Data]) {
+            for (name,data) in parts where name.lowercased().hasSuffix(".xml") {
+                xmlParts += 1
+                let root:XMLElement
+                do {
+                    let document = try VisioXML.document(data)
+                    guard let parsedRoot = document.rootElement() else { throw DiagramError.invalid("Missing XML root.") }
+                    root = parsedRoot
+                }
+                catch { malformedXMLParts += 1;continue }
+                let role = Self.role(for:name)
+                func walk(_ element:XMLElement) {
+                    if element.localTag == "Cell",let formula = element.attr("F") {
+                        let source = formula.trimmingCharacters(in:.whitespacesAndNewlines)
+                        if !source.isEmpty && !["INH","NO FORMULA"].contains(source.uppercased()) {
+                            formulaCells += 1;byPartRole[role,default:0] += 1
+                            do { collectFunctions(try ShapeSheet.parse(source),into:&functions);parsedFormulas += 1 }
+                            catch { formulaParseFailures += 1 }
+                        }
+                    }
+                    for child in (element.children ?? []).compactMap({$0 as? XMLElement}) { walk(child) }
+                }
+                walk(root)
+            }
+        }
+
+        var report:[String:Any] { [
+            "xmlParts":xmlParts,
+            "malformedXMLParts":malformedXMLParts,
+            "formulaCells":formulaCells,
+            "parsedFormulas":parsedFormulas,
+            "formulaParseFailures":formulaParseFailures,
+            "formulaCellsByPartRole":byPartRole,
+            "functionCalls":functions,
+            "scope":"Syntax inventory only across XML package parts; formulas are not evaluated here."
+        ] }
+
+        private static func role(for part:String) -> String {
+            let key = part.lowercased()
+            if key == "visio/document.xml" { return "documentAndStyles" }
+            if key.hasPrefix("visio/pages/") { return "pages" }
+            if key.hasPrefix("visio/masters/") { return "masters" }
+            if key.hasPrefix("visio/theme/") || key.hasPrefix("visio/themes/") { return "themes" }
+            return "other"
+        }
+    }
+
+    private struct FileAudit {
+        var totals:Totals
+        var packageInventory:PackageInventory
+    }
+
     static func inspect(_ input:URL,to output:URL) throws {
         let files:[URL]
         if (try? input.resourceValues(forKeys:[.isDirectoryKey]).isDirectory) == true {
@@ -30,12 +102,12 @@ enum CalculationAudit {
                 .sorted{$0.path.localizedStandardCompare($1.path) == .orderedAscending}
         } else { files = [input] }
 
-        var total = Totals(),perFile:[[String:Any]] = []
+        var total = Totals(),packageInventory = PackageInventory(),perFile:[[String:Any]] = []
         for file in files {
             do {
                 let result = try inspect(file)
-                total.merge(result)
-                perFile.append(["file":file.lastPathComponent,"formulaCells":result.formulas,"evaluated":result.evaluated,"failed":result.failed,"parseFailures":result.parseFailures])
+                total.merge(result.totals);packageInventory.merge(result.packageInventory)
+                perFile.append(["file":file.lastPathComponent,"formulaCells":result.totals.formulas,"evaluated":result.totals.evaluated,"failed":result.totals.failed,"parseFailures":result.totals.parseFailures])
             } catch {
                 perFile.append(["file":file.lastPathComponent,"loadError":error.localizedDescription])
                 total.failures["File load: \(error.localizedDescription)",default:0] += 1
@@ -51,15 +123,16 @@ enum CalculationAudit {
             "functions":total.functions,
             "formulaCellsBySection":total.sections,
             "failuresByMessage":total.failures,
+            "packageFormulaInventory":packageInventory.report,
             "files":perFile,
-            "scope":"Evaluates imported shape, geometry, connection, control, User, and Property formulas against cached page snapshots; it does not prove Windows or full stencil behavior.",
+            "scope":"Evaluates imported shape, geometry, connection, control, User, and Property formulas against cached page snapshots. A separate packageFormulaInventory counts and parses formulas in all package XML parts, including masters and styles, without claiming those formulas were evaluated. Neither scope proves Windows or full stencil behavior.",
             "windowsValidated":false,
             "fullBehavioralParity":false
         ]
         try JSONSerialization.data(withJSONObject:report,options:[.prettyPrinted,.sortedKeys]).write(to:output,options:.atomic)
     }
 
-    private static func inspect(_ input:URL) throws -> Totals {
+    private static func inspect(_ input:URL) throws -> FileAudit {
         let pages:[DiagramPage],bindings:[VisioPageBinding],paletteArchive:VisioDocumentArchive?
         if ["vssx","vss"].contains(input.pathExtension.lowercased()) {
             let stencil = try VisioStencil.readForCalculationAudit(from:input)
@@ -69,7 +142,8 @@ enum CalculationAudit {
             try doc.read(from:input,ofType:input.pathExtension.lowercased() == "vsd" || input.pathExtension.lowercased() == "vst" ? MacVisioDocument.legacyType : MacVisioDocument.visioType)
             pages = doc.diagram.pages;bindings = doc.diagram.visioArchive?.pages ?? [];paletteArchive = doc.diagram.visioArchive
         }
-        var total = Totals();let colorPalette = ShapeSheetColorPalette(documentArchive:paletteArchive)
+        var total = Totals(),packageInventory = PackageInventory();packageInventory.inspect(paletteArchive?.parts ?? [:])
+        let colorPalette = ShapeSheetColorPalette(documentArchive:paletteArchive)
         for page in pages {
             let context = ShapeSheetContext(page:page,binding:bindings.first{$0.pageID == page.id},colorPalette:colorPalette)
             for node in page.nodes {
@@ -101,7 +175,7 @@ enum CalculationAudit {
                 }
             }
         }
-        return total
+        return FileAudit(totals:total,packageInventory:packageInventory)
     }
 
     private static func collectFunctions(_ expression:ShapeSheet.Expression,into counts:inout [String:Int]) {

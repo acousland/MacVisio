@@ -9,6 +9,7 @@ final class ShapeSheetColorPalette {
         "#CDCDCD", "#B3B3B3", "#9A9A9A", "#808080", "#666666", "#4D4D4D", "#333333", "#1A1A1A"
     ]
     private var indices: [String: Int] = [:]
+    private var colorsByIndex: [Int: String] = [:]
     private var nextIndex: UInt64
     private let allowsAddingColors: Bool
 
@@ -20,10 +21,11 @@ final class ShapeSheetColorPalette {
     /// Enable allocation only when the caller will persist new ColorEntry values.
     init(entries: [Int: String] = [:], allowsAddingColors: Bool = false) {
         self.allowsAddingColors = allowsAddingColors
-        for (index, color) in Self.standardColors.enumerated() { indices[color] = index }
+        for (index, color) in Self.standardColors.enumerated() { indices[color] = index;colorsByIndex[index] = color }
         for (index, color) in entries.sorted(by: { $0.key < $1.key }) where index > 23 && index <= Int(UInt32.max) {
-            guard let normalized = Self.normalize(color), indices[normalized] == nil else { continue }
-            indices[normalized] = index
+            guard let normalized = Self.normalize(color) else { continue }
+            if indices[normalized] == nil { indices[normalized] = index }
+            colorsByIndex[index] = normalized
         }
         nextIndex = UInt64(max(23, entries.keys.filter { (24...Int(UInt32.max)).contains($0) }.max() ?? 23)) + 1
     }
@@ -64,6 +66,22 @@ final class ShapeSheetColorPalette {
         let index = Int(nextIndex)
         indices[color] = index
         nextIndex += 1
+        return Double(index)
+    }
+
+    func color(at index:Double) -> ShapeSheetColor? {
+        guard let integer = Int(exactly:index),integer >= 0,let hex = colorsByIndex[integer] else { return nil }
+        return ShapeSheetColor(hex:hex)
+    }
+
+    func index(for color:ShapeSheetColor,function:String) throws -> Double {
+        if let index = indices[color.hex] { return Double(index) }
+        guard allowsAddingColors else {
+            throw DiagramError.invalid("\(function) color is absent from the supplied Visio color table; palette allocation is unsupported.")
+        }
+        guard nextIndex <= UInt64(UInt32.max) else { throw DiagramError.invalid("The Visio color table is full.") }
+        let index = Int(nextIndex)
+        indices[color.hex] = index;colorsByIndex[index] = color.hex;nextIndex += 1
         return Double(index)
     }
 

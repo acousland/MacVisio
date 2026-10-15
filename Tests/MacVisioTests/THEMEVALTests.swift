@@ -43,14 +43,55 @@ final class THEMEVALTests:XCTestCase {
         shape.formatting.sheet["ColorSchemeIndex"] = cell("65534")
         let context = ShapeSheetContext(page:page(with:shape,theme:theme(),pageScheme:33))
 
-        XCTAssertEqual(try context.evaluate("THEMEVAL(\"Dark\")",on:shape.id),.string("#111111"))
-        XCTAssertEqual(try context.evaluate("THEMEVAL(\"AccentColor\")",on:shape.id),.string("#123456"))
-        XCTAssertEqual(try context.evaluate("THEMEVAL(\"AccentColor6\")",on:shape.id),.string("#6789AB"))
-        XCTAssertEqual(try context.evaluate("THEMEVAL(1)",on:shape.id),.string("#111111"))
-        XCTAssertEqual(try context.evaluate("THEMEVAL(8)",on:shape.id),.string("#6789AB"))
-        XCTAssertEqual(try context.evaluate("THEMEVAL(\"5\")",on:shape.id),.string("#345678"))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"Dark\")",on:shape.id),.color(ShapeSheetColor(red:17,green:17,blue:17)))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"AccentColor\")",on:shape.id),.color(ShapeSheetColor(red:18,green:52,blue:86)))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"AccentColor6\")",on:shape.id),.color(ShapeSheetColor(red:103,green:137,blue:171)))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(1)",on:shape.id),.color(ShapeSheetColor(red:17,green:17,blue:17)))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(8)",on:shape.id),.color(ShapeSheetColor(red:103,green:137,blue:171)))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"5\")",on:shape.id),.color(ShapeSheetColor(red:52,green:86,blue:120)))
         XCTAssertThrowsError(try context.evaluate("THEMEVAL(0)",on:shape.id))
         XCTAssertThrowsError(try context.evaluate("THEMEVAL(9)",on:shape.id))
+    }
+
+    func testColorComponentsAndLuminosityWorkThroughThemeFormulaChains() throws {
+        var shape = DiagramNode(text:"Theme color arithmetic")
+        shape.formatting.sheet["ColorSchemeIndex"] = cell("33")
+        shape.formatting.sheet["User.ThemeColor"] = cell("#000000","THEMEVAL(\"AccentColor1\")")
+        shape.formatting.sheet["User.ThemeRed"] = cell("0","RED(User.ThemeColor)")
+        shape.formatting.sheet["User.ThemeLum"] = cell("0","LUM(User.ThemeColor)")
+        shape.formatting.sheet["User.ThemeTint"] = cell("#000000","HSL(HUE(User.ThemeColor),SAT(User.ThemeColor),MIN(LUM(User.ThemeColor)+100,240))")
+        let context = ShapeSheetContext(page:page(with:shape,theme:theme(colors:["Dark":"#111111","Light":"#EEEEEE","BackgroundColor":"#FEFFFF",
+            "AccentColor1":"#5B9BD5","AccentColor2":"#234567","AccentColor3":"#345678","AccentColor4":"#456789","AccentColor5":"#56789A","AccentColor6":"#6789AB"])))
+
+        XCTAssertEqual(try context.value(shape.id,"User.ThemeColor"),.color(ShapeSheetColor(red:91,green:155,blue:213)))
+        XCTAssertEqual(try context.value(shape.id,"User.ThemeRed"),.number(91))
+        XCTAssertEqual(try context.value(shape.id,"User.ThemeLum"),.number(143))
+        XCTAssertEqual(try context.value(shape.id,"User.ThemeTint"),.number(1))
+        XCTAssertEqual(ShapeSheetContext.cached(.color(ShapeSheetColor(red:91,green:155,blue:213))),"#5B9BD5")
+    }
+
+    func testColorTransformsRetainNumericPaletteIndexSemantics() throws {
+        var shape = DiagramNode(text:"Indexed colors")
+        shape.formatting.sheet["ColorSchemeIndex"] = cell("33")
+        shape.formatting.sheet["FillForegnd"] = cell("#ADADAD")
+        let context = ShapeSheetContext(page:page(with:shape,theme:theme()),colorPalette:ShapeSheetColorPalette(entries:[31:"#ADADAD"]))
+
+        XCTAssertEqual(try context.evaluate("RGB(0,0,0)",on:shape.id),.number(0))
+        XCTAssertEqual(try context.evaluate("LUM(6)",on:shape.id),.number(120))
+        XCTAssertEqual(try context.evaluate("HUE(7)",on:shape.id),.number(120))
+        XCTAssertEqual(try context.evaluate("SAT(31)",on:shape.id),.number(0))
+        XCTAssertEqual(try context.evaluate("LUM(FillForegnd)",on:shape.id),.number(163))
+        XCTAssertEqual(try context.evaluate("RED(HSL(160,240,120))",on:shape.id),.number(0))
+        XCTAssertEqual(try context.evaluate("LUMDIFF(6,0)",on:shape.id),.number(120))
+        XCTAssertEqual(try context.evaluate("HSL(160,240,120)",on:shape.id),.number(4))
+        XCTAssertEqual(try context.evaluate("HSL(160,240,120)+1",on:shape.id),.number(5))
+        XCTAssertEqual(try context.evaluate("HUE(HSL(160,240,120))",on:shape.id),.number(160))
+        XCTAssertEqual(try context.evaluate("SAT(HSL(160,240,120))",on:shape.id),.number(240))
+        XCTAssertEqual(try context.evaluate("LUM(HSL(160,240,120))",on:shape.id),.number(120))
+        XCTAssertThrowsError(try context.evaluate("HSL(10,20,30)",on:shape.id)) { error in
+            XCTAssertTrue(error.localizedDescription.contains("HSL color is absent"),error.localizedDescription)
+            XCTAssertTrue(error.localizedDescription.contains("allocation is unsupported"),error.localizedDescription)
+        }
     }
 
     func testUnquotedQuickStyleColorSelectorsUseVSDXIndicesAndSelectedVariants() throws {
@@ -61,14 +102,14 @@ final class THEMEVALTests:XCTestCase {
             shape.formatting.sheet["QuickStyleFillColor"] = cell(String(index))
             shape.formatting.sheet["User.QuickStyle"] = cell("0","THEMEVAL(QuickStyleFillColor)")
             let context = ShapeSheetContext(page:page(with:shape,theme:theme(),pageScheme:33))
-            XCTAssertEqual(try context.value(shape.id,"User.QuickStyle"),.string(color))
+            XCTAssertEqual(try context.value(shape.id,"User.QuickStyle"),.color(try XCTUnwrap(ShapeSheetColor(hex:color))))
         }
 
         var line = DiagramNode(text:"Quick style line")
         line.formatting.sheet["ColorSchemeIndex"] = cell("33")
         line.formatting.sheet["QuickStyleLineColor"] = cell("7")
         line.formatting.sheet["User.QuickStyle"] = cell("0","THEMEVAL(QuickStyleLineColor)")
-        XCTAssertEqual(try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"),.string("#6789AB"))
+        XCTAssertEqual(try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"),.color(ShapeSheetColor(red:103,green:137,blue:171)))
 
         line.formatting.sheet["QuickStyleLineColor"] = cell("200")
         XCTAssertThrowsError(try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"))
@@ -81,7 +122,7 @@ final class THEMEVALTests:XCTestCase {
         let sourceTheme = theme(values:["LineWeight":cell("0.5","","PT"),"LineColor":cell("#ABCDEF"),"FillColor":cell("#FEDCBA")])
         let context = ShapeSheetContext(page:page(with:shape,theme:sourceTheme,pageScheme:33))
 
-        XCTAssertEqual(try context.value(shape.id,"AccentColor1"),.string("#123456"))
+        XCTAssertEqual(try context.value(shape.id,"AccentColor1"),.color(ShapeSheetColor(red:18,green:52,blue:86)))
 
         var unresolved = shape
         unresolved.formatting.sheet["LineColor"] = cell("#000000","THEMEVAL()")
@@ -94,7 +135,7 @@ final class THEMEVALTests:XCTestCase {
         var active = DiagramNode(text:"Themed")
         active.formatting.sheet["ColorSchemeIndex"] = cell("33")
         let activeContext = ShapeSheetContext(page:page(with:active,theme:theme(),pageScheme:33))
-        XCTAssertEqual(try activeContext.evaluate("THEMEVAL(\"Dark\",1/0)",on:active.id),.string("#111111"))
+        XCTAssertEqual(try activeContext.evaluate("THEMEVAL(\"Dark\",1/0)",on:active.id),.color(ShapeSheetColor(red:17,green:17,blue:17)))
         XCTAssertThrowsError(try activeContext.evaluate("THEMEVAL(\"FillColor\",7)",on:active.id)) { error in
             XCTAssertTrue(error.localizedDescription.contains("unsupported"),error.localizedDescription)
         }
@@ -109,7 +150,7 @@ final class THEMEVALTests:XCTestCase {
     func testPageAndAssociatedMasterSelectorsRequireTheirOwnSourceData() throws {
         var pageSelected = DiagramNode(text:"Inherit page")
         pageSelected.formatting.sheet["ColorSchemeIndex"] = cell("65534")
-        XCTAssertEqual(try ShapeSheetContext(page:page(with:pageSelected,theme:theme(),pageScheme:33)).evaluate("THEMEVAL(\"Dark\")",on:pageSelected.id),.string("#111111"))
+        XCTAssertEqual(try ShapeSheetContext(page:page(with:pageSelected,theme:theme(),pageScheme:33)).evaluate("THEMEVAL(\"Dark\")",on:pageSelected.id),.color(ShapeSheetColor(red:17,green:17,blue:17)))
 
         var pageNoTheme = DiagramNode(text:"Inherit no theme")
         pageNoTheme.formatting.sheet["ColorSchemeIndex"] = cell("65534")
@@ -145,7 +186,7 @@ final class THEMEVALTests:XCTestCase {
         inheritedActive.formatting.sheet["EffectSchemeIndex"] = cell("65534")
         var activePage = page(with:inheritedActive,theme:theme(),pageScheme:33)
         activePage.sheet?["EffectSchemeIndex"] = cell("33")
-        XCTAssertEqual(try ShapeSheetContext(page:activePage).evaluate("THEMEVAL(\"Dark\",9)",on:inheritedActive.id),.string("#111111"))
+        XCTAssertEqual(try ShapeSheetContext(page:activePage).evaluate("THEMEVAL(\"Dark\",9)",on:inheritedActive.id),.color(ShapeSheetColor(red:17,green:17,blue:17)))
     }
 
     func testTHEMEPROPRejectsOutOfRangeEmbellishmentIndexAndKeepsCachedValue() {
@@ -175,7 +216,7 @@ final class THEMEVALTests:XCTestCase {
 
     func testImportedVSDXThemeAndRealThemevalFormulaUseAvailableColorsOnly() throws {
         let fixture = URL(fileURLWithPath:#filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/blue-box.vsdx")
-        let imported = try VisioFormat.read(from:fixture).diagram
+        var imported = try VisioFormat.read(from:fixture).diagram
         let shape = try XCTUnwrap(imported.page.nodes.first)
         XCTAssertEqual(imported.page.theme?.schemeIndex,33)
         XCTAssertEqual(imported.page.sheet?["ColorSchemeIndex"]?.value,"33")
@@ -192,6 +233,12 @@ final class THEMEVALTests:XCTestCase {
             XCTAssertTrue(error.localizedDescription.contains("unsupported"),error.localizedDescription)
         }
         XCTAssertTrue(pageXML.contains("V='#feffff' F='\(realFormula)'"),"An unresolved real VSDX formula keeps its imported cached value.")
+
+        var themedShape = shape
+        themedShape.formatting.sheet["ColorSchemeIndex"] = cell("33")
+        themedShape.formatting.sheet["User.ThemeLum"] = cell("0","LUM(THEMEVAL(\"AccentColor1\"))")
+        imported.page.nodes[0] = themedShape
+        XCTAssertEqual(try ShapeSheetContext(page:imported.page).value(themedShape.id,"User.ThemeLum"),.number(143))
     }
 
     func testImportedPageVariationIndexesApplyWhenShapeSelectorsAreAbsent() throws {

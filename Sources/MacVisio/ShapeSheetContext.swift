@@ -49,6 +49,7 @@ final class ShapeSheetContext {
             } else if let cell {
                 if cell.unit.uppercased() == "STR" || ["PROMPT","TIP"].contains(canonical.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
                 else if cell.unit.uppercased() == "DATE",let date = FieldFormatting.date(cell.value) { result = .date(date) }
+                else if let color = literalColor(cell,key:canonical) { result = .color(color) }
                 else if let number = Double(cell.value),number.isFinite { result = .number(number) }
                 else { result = .string(cell.value) }
             } else if canonical.caseInsensitiveCompare("TxtWidth") == .orderedSame { result = .number(try number(id,"Width")*(node.formatting.textBox?.width ?? 1)) }
@@ -79,6 +80,7 @@ final class ShapeSheetContext {
             if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
             else if unit == "BOOL" { result = .boolean(cell.value == "1" || cell.value.uppercased() == "TRUE") }
             else if unit == "DATE",let date = FieldFormatting.date(cell.value) { result = .date(date) }
+            else if let color = literalColor(cell,key:key) { result = .color(color) }
             else if let number = Double(cell.value),number.isFinite { result = .number(number) }
             else { result = .string(cell.value) }
         } else {
@@ -249,7 +251,8 @@ final class ShapeSheetContext {
         }
         if let color = theme.colors.first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame})?.value {
             guard color.count == 7,color.hasPrefix("#"),color.dropFirst().allSatisfy(\.isHexDigit) else { throw DiagramError.invalid("THEMEVAL theme color \(requested) is not a supported RGB value.") }
-            return .string(color.uppercased())
+            guard let rgb = ShapeSheetColor(hex:color) else { throw DiagramError.invalid("THEMEVAL theme color \(requested) is not a supported RGB value.") }
+            return .color(rgb)
         }
         throw DiagramError.invalid("THEMEVAL theme mapping \(requested) is unavailable; the original formula and cached value are retained.")
     }
@@ -423,6 +426,14 @@ final class ShapeSheetContext {
               cell.formula.trimmingCharacters(in:.whitespacesAndNewlines).isEmpty,
               let value = Double(cell.value),value.isFinite,value.rounded(.towardZero) == value else { return nil }
         return Int(exactly:value)
+    }
+    private func literalColor(_ cell:ShapeSheetCell,key:String) -> ShapeSheetColor? {
+        let name = key.lowercased()
+        let colorCell = cell.unit.caseInsensitiveCompare("COLOR") == .orderedSame
+            || name == "fillforegnd" || name == "fillbkgnd" || name == "color"
+            || name.hasSuffix(".color") || name.hasSuffix("fillcolor") || name.hasSuffix("linecolor")
+            || name.hasSuffix("shdwcolor") || name.hasSuffix("backgroundcolor")
+        return colorCell ? ShapeSheetColor(hex:cell.value) : nil
     }
     static func cached(_ value:SheetValue) -> String {
         switch value { case .boolean(let value):return value ? "1" : "0";case .number(let number),.quantity(let number,_):return CompositeGeometry.number(number);default:return value.text }

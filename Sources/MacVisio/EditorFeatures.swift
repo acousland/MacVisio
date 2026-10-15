@@ -129,7 +129,10 @@ final class PropertyGrid: FlippedView, NSTableViewDataSource, NSTableViewDelegat
             combo.stringValue = value;combo.isBordered = false;combo.drawsBackground = false;combo.font = .systemFont(ofSize:12);combo.identifier = NSUserInterfaceItemIdentifier("2");combo.tag = row;combo.target = self;combo.action = #selector(changed(_:))
             return combo
         }
-        return nil
+        let field = NSTextField(string:value)
+        field.isBordered = false;field.drawsBackground = false;field.font = .systemFont(ofSize:12)
+        field.identifier = NSUserInterfaceItemIdentifier("2");field.tag = row;field.delegate = self;field.target = self;field.action = #selector(changed(_:))
+        return field
     }
     private func booleanDisplay(_ value:String) -> String {
         switch value.trimmingCharacters(in:.whitespacesAndNewlines).uppercased() { case "1","TRUE":return "TRUE";case "0","FALSE":return "FALSE";default:return value }
@@ -170,7 +173,7 @@ extension EditorWindowController {
         guard let node = selection.first,selection.count == 1,!diagramDocument.diagram.page.isLocked(node) else { return }
         let data = node.formatting.data
         let grid = PropertyGrid(columns:["Key","Label","Value","Type","Format","Prompt"],rows:data.map{[$0.key,$0.label,ShapeDataEditing.displayedValue($0),String($0.type),$0.format,$0.prompt]},width:820,editsShapeData:true)
-        guard grid.run(title:"Shape Data",message:"Type 1 uses fixed choices from semicolon-separated Format entries; Type 4 lets you add choices there. Type 3 uses TRUE/FALSE. Type 2 accepts finite numbers and supported Visio measurements. Format pictures stay unchanged.") else { return }
+        guard grid.run(title:"Shape Data",message:"Type 1 uses fixed choices from semicolon-separated Format entries; Type 4 lets you add choices there. Type 3 uses TRUE/FALSE. Type 2 accepts finite numbers and supported Visio measurements. Type 5 accepts ISO dates and date-times. Type 6 uses finite day values; Type 7 uses finite numeric currency amounts. Format pictures stay unchanged.") else { return }
         let entered = grid.rows.filter{!$0[0].isEmpty}.map{ShapeDataProperty(key:$0[0],label:$0[1],value:$0[2],type:Int($0[3]) ?? 0,format:$0[4],prompt:$0[5])}
         let properties:[ShapeDataProperty]
         do { properties = try ShapeDataEditing.validated(entered,previous:data) } catch { presentError(error); return }
