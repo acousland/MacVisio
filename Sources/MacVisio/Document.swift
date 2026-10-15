@@ -66,6 +66,23 @@ final class MacVisioDocument: NSDocument {
             completionHandler(error)
         }
     }
+    override func willPresentError(_ error:Error) -> Error {
+        let presented = super.willPresentError(error) as NSError
+        guard presented.localizedFailureReason == nil else { return presented }
+        var cause = presented
+        var visited = Set<ObjectIdentifier>()
+        for _ in 0..<16 {
+            guard visited.insert(ObjectIdentifier(cause)).inserted,
+                  let underlying = cause.userInfo[NSUnderlyingErrorKey] as? NSError else { break }
+            cause = underlying
+        }
+        let diagramErrorDomain = (DiagramError.invalid("") as NSError).domain
+        guard cause.domain == diagramErrorDomain,
+              cause.localizedDescription != presented.localizedDescription else { return presented }
+        var details = presented.userInfo
+        details[NSLocalizedFailureReasonErrorKey] = cause.localizedDescription
+        return NSError(domain:presented.domain,code:presented.code,userInfo:details)
+    }
     override func close() {
         let workflow = documentWorkflow
         super.close()

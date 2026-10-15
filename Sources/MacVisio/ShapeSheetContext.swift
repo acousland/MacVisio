@@ -13,6 +13,7 @@ final class ShapeSheetContext {
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
     private var cache:[String:SheetValue] = [:],visiting = Set<String>(),steps = 0
+    private var defaultsCache:[UUID:[String:Double]] = [:]
     private let colorPalette:ShapeSheetColorPalette
     init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) {
         self.page = page;nodes = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
@@ -59,9 +60,15 @@ final class ShapeSheetContext {
             else if canonical.caseInsensitiveCompare("TxtHeight") == .orderedSame { result = .number(try number(id,"Height")*(node.formatting.textBox?.height ?? 1)) }
             else if canonical.caseInsensitiveCompare("TxtLocPinX") == .orderedSame { result = .number(try number(id,"TxtWidth")/2) }
             else if canonical.caseInsensitiveCompare("TxtLocPinY") == .orderedSame { result = .number(try number(id,"TxtHeight")/2) }
-            else if let number = ShapeSheetEngine.defaults(node,page:page).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = .number(number) }
+            else if let number = defaults(for:node).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = .number(number) }
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
         };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;return result
+    }
+    private func defaults(for node:DiagramNode) -> [String:Double] {
+        if let values = defaultsCache[node.id] { return values }
+        let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes)
+        defaultsCache[node.id] = values
+        return values
     }
     private func pageValue(_ reference:String,from host:UUID) throws -> SheetValue {
         steps += 1

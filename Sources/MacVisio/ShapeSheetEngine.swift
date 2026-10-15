@@ -5,8 +5,14 @@ enum ShapeSheetEngine {
     static let textKeys = ["TxtWidth","TxtHeight","TxtPinX","TxtPinY","TxtLocPinX","TxtLocPinY","TxtAngle","LeftMargin","RightMargin","TopMargin","BottomMargin","VerticalAlign"]
     struct Calculation { var diagram:Diagram; var issues:[String] }
     static func defaults(_ node:DiagramNode,page:DiagramPage) -> [String:Double] {
-        let local = VisioPreservation.localNode(node,in:page)
-        let height = node.parentID.flatMap{id in page.nodes.first(where:{$0.id == id})?.height} ?? page.height
+        defaults(node,page:page,nodesByID:nil)
+    }
+    static func defaults(_ node:DiagramNode,page:DiagramPage,nodesByID:[UUID:DiagramNode]) -> [String:Double] {
+        defaults(node,page:page,nodesByID:Optional(nodesByID))
+    }
+    private static func defaults(_ node:DiagramNode,page:DiagramPage,nodesByID:[UUID:DiagramNode]?) -> [String:Double] {
+        let local = nodesByID.map { VisioPreservation.localNode(node,in:page,nodesByID:$0) } ?? VisioPreservation.localNode(node,in:page)
+        let height = node.parentID.flatMap{id in nodesByID?[id]?.height ?? page.nodes.first(where:{$0.id == id})?.height} ?? page.height
         func loc(_ key:String,_ fallback:Double) -> Double {
             guard let cell = node.formatting.sheet[key] else { return fallback }
             if !cell.formula.isEmpty,let result = try? ShapeSheet.evaluate(cell.formula,resolve:{ name in if name.lowercased() == "width" { return node.sheetWidth/72 };if name.lowercased() == "height" { return node.sheetHeight/72 };throw DiagramError.invalid("Unresolved pin formula") }) { return result }
@@ -26,10 +32,12 @@ enum ShapeSheetEngine {
         for pageIndex in diagram.pages.indices {
             var page = diagram.pages[pageIndex]
             let old = previous?.pages.first(where:{$0.id == page.id})
+            let oldNodesByID = old.map { Dictionary(uniqueKeysWithValues:$0.nodes.map{($0.id,$0)}) }
+            var pageNodesByID = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
             for i in page.nodes.indices where !page.nodes[i].formatting.sheet.isEmpty || !page.nodes[i].formatting.connectionPoints.isEmpty || !page.nodes[i].formatting.controls.isEmpty || page.nodes[i].formatting.geometry != nil {
-                if let prior = old?.nodes.first(where:{$0.id == page.nodes[i].id}),let oldPage = old {
+                if let prior = oldNodesByID?[page.nodes[i].id],let oldPage = old,let oldNodesByID {
                     if prior.width != page.nodes[i].width || prior.height != page.nodes[i].height { page.nodes[i].formatting.controls = ControlGeometry.resized(page.nodes[i].formatting.controls,from:prior,to:page.nodes[i]) }
-                    let before = defaults(prior,page:oldPage),after = defaults(page.nodes[i],page:page)
+                    let before = defaults(prior,page:oldPage,nodesByID:oldNodesByID),after = defaults(page.nodes[i],page:page,nodesByID:pageNodesByID)
                     for key in geometryKeys where abs((before[key] ?? 0)-(after[key] ?? 0)) > 1e-10 {
                         let existing = page.nodes[i].formatting.sheet[key]
                         if existing == prior.formatting.sheet[key],!(existing?.formula.trimmingCharacters(in:.whitespacesAndNewlines).uppercased().hasPrefix("GUARD(") ?? false) {
@@ -40,12 +48,14 @@ enum ShapeSheetEngine {
                         page.nodes[i].formatting.sheet["Prop."+property.key] = ShapeSheetCell(value:property.value)
                     }
                 } else if previous != nil {
-                    let values = defaults(page.nodes[i],page:page)
+                    let values = defaults(page.nodes[i],page:page,nodesByID:pageNodesByID)
                     for key in ["PinX","PinY","Angle"] { page.nodes[i].formatting.sheet[key] = ShapeSheetCell(value:format(values[key]!)) }
                 }
+                pageNodesByID[page.nodes[i].id] = page.nodes[i]
             }
             let source = page
             let nodeIndices = Dictionary(uniqueKeysWithValues:source.nodes.enumerated().map{($0.element.id,$0.offset)})
+            let sourceNodesByID = Dictionary(uniqueKeysWithValues:source.nodes.map{($0.id,$0)})
             var sheetIDs:[String:UUID] = [:]
             let binding = diagram.visioArchive?.pages.first(where:{$0.pageID == page.id})
             for (i,node) in source.nodes.enumerated() { let id = binding?.nodeIDs[node.id] ?? node.formatting.sourceShapeID ?? String(i+1); if sheetIDs[id] == nil { sheetIDs[id] = node.id } }
@@ -72,7 +82,7 @@ enum ShapeSheetEngine {
                 dataCache[token] = result;return result
             }
             for i in source.nodes.indices where !source.nodes[i].formatting.sheet.isEmpty || !source.nodes[i].formatting.connectionPoints.isEmpty || !source.nodes[i].formatting.controls.isEmpty || source.nodes[i].formatting.geometry != nil {
-                var node = source.nodes[i],values = defaults(node,page:source)
+                var node = source.nodes[i],values = defaults(node,page:source,nodesByID:sourceNodesByID)
                 for key in geometryKeys where node.formatting.sheet[key] != nil {
                     do {
                         let value = try resolve(node.id,key);values[key] = value
@@ -99,15 +109,15 @@ enum ShapeSheetEngine {
                 let signedWidth = (values["Width"] ?? node.sheetWidth/72)*72,signedHeight = (values["Height"] ?? node.sheetHeight/72)*72
                 let width = abs(signedWidth),height = abs(signedHeight)
                 if width > 0,width*page.paperScale <= 20000,height > 0,height*page.paperScale <= 20000 {
-                    let local = VisioPreservation.localNode(node,in:source)
+                    let local = VisioPreservation.localNode(node,in:source,nodesByID:sourceNodesByID)
                     let angle = values["Angle"] ?? -local.rotation * .pi/180
                     let lx = values["LocPinX"] ?? signedWidth/144,ly = values["LocPinY"] ?? signedHeight/144
                     let dx = (signedWidth/144-lx)*(local.formatting.flipX ? -1 : 1),dy = (signedHeight/144-ly)*(local.formatting.flipY ? -1 : 1)
                     let cx = (values["PinX"] ?? local.center.x/72)+dx*cos(angle)-dy*sin(angle)
-                    let cy = (values["PinY"] ?? ((node.parentID.flatMap{id in source.nodes.first{$0.id == id}?.height} ?? source.height)-local.center.y)/72)+dx*sin(angle)+dy*cos(angle)
+                    let cy = (values["PinY"] ?? ((node.parentID.flatMap{id in sourceNodesByID[id]?.height} ?? source.height)-local.center.y)/72)+dx*sin(angle)+dy*cos(angle)
                     node.width = width;node.height = height
                     node.formatting.negativeWidth = signedWidth < 0 ? true : nil;node.formatting.negativeHeight = signedHeight < 0 ? true : nil
-                    if let parentID = node.parentID,let parent = source.nodes.first(where:{$0.id == parentID}) {
+                    if let parentID = node.parentID,let parent = sourceNodesByID[parentID] {
                         var dx = cx*72-parent.sheetOrigin.x-parent.width/2,dy = parent.height-(cy*72-parent.sheetOrigin.y)-parent.height/2;let a = parent.rotation * .pi/180
                         if parent.formatting.flipX { dx = -dx };if parent.formatting.flipY { dy = -dy }
                         node.x = parent.center.x+dx*cos(a)-dy*sin(a)-width/2;node.y = parent.center.y+dx*sin(a)+dy*cos(a)-height/2
@@ -117,7 +127,7 @@ enum ShapeSheetEngine {
                 if let size = values["Char.Size"],(1...500).contains(size*72) { node.fontSize = size*72 }
                 if let weight = values["LineWeight"],(0...100).contains(weight*72) { node.strokeWidth = weight*72 }
                 if source.nodes[i].formatting.sheet.keys.contains(where:{textKeys.contains($0)}) {
-                    var textValues = defaults(node,page:source)
+                    var textValues = defaults(node,page:source,nodesByID:sourceNodesByID)
                     for key in textKeys where node.formatting.sheet[key] != nil {
                         do { let value = try resolve(node.id,key);textValues[key] = value;if node.formatting.sheet[key].flatMap({Double($0.value)}).map({abs($0-value)>1e-10}) ?? true { node.formatting.sheet[key]?.value = CompositeGeometry.number(value) } }
                         catch { issues.insert("\(key): \(error.localizedDescription)") }

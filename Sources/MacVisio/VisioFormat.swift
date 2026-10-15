@@ -42,7 +42,8 @@ enum VisioFormat {
         // Editing the drawing in Visio therefore cannot make our JSON hide new content.
         if archive.names.contains(nativePart) {
             do {
-                let envelope = try JSONDecoder().decode(NativeEnvelope.self, from: archive.data(nativePart))
+                let storedMetadata = try NativeMetadataStorage.load(archive.data(nativePart), parts: archive.parts)
+                let envelope = try JSONDecoder().decode(NativeEnvelope.self, from: storedMetadata.data)
                 if (1...2).contains(envelope.format), !envelope.publicHashes.isEmpty {
                     let needsPorts = envelope.connectionPointsVersion != 1 && archive.parts.contains{part in
                         guard part.key.hasSuffix(".xml"),let xml = String(data:part.value,encoding:.utf8) else { return false }
@@ -54,7 +55,7 @@ enum VisioFormat {
                         guard archive.names.contains(part) else { matches = false; break }
                         if hash(try archive.data(part)) != expected { matches = false; break }
                     }
-                    let publicNames = Set(archive.names.filter { envelope.format == 2 ? $0 != nativePart : $0.hasPrefix("visio/") && ($0.hasSuffix(".xml") || $0.hasSuffix(".rels")) })
+                    let publicNames = Set(archive.names.filter { envelope.format == 2 ? $0 != nativePart && !storedMetadata.storageParts.contains($0) : $0.hasPrefix("visio/") && ($0.hasSuffix(".xml") || $0.hasSuffix(".rels")) })
                     if hasMasters,envelope.masterExpansionVersion != 1 { warnings.insert("Older native metadata did not expand master subshapes; the public Visio content was reimported.") }
                     let needsTransforms = envelope.coordinateTransformVersion != 1 && archive.parts.contains { part in
                         guard part.key.hasSuffix(".xml"),let xml = String(data:part.value,encoding:.utf8) else { return false }
@@ -709,11 +710,13 @@ enum VisioFormat {
         }
     }
     static func nativeMetadata(_ diagram:Diagram,parts:inout [String:Data],bindings:[VisioPageBinding]?) throws -> Data {
+        NativeMetadataStorage.removeSegments(from: &parts)
         var content = diagram; content.visioArchive = nil
         var synchronizedBindings = bindings
         func synchronize(_ page:inout DiagramPage) {
+            let nodesByID = Dictionary(uniqueKeysWithValues: page.nodes.map { ($0.id, $0) })
             for i in page.nodes.indices where !page.nodes[i].formatting.sheet.isEmpty || !page.nodes[i].formatting.connectionPoints.isEmpty {
-                let values = ShapeSheetEngine.defaults(page.nodes[i],page:page)
+                let values = ShapeSheetEngine.defaults(page.nodes[i],page:page,nodesByID:nodesByID)
                 for key in ShapeSheetEngine.geometryKeys {
                     guard var cell = page.nodes[i].formatting.sheet[key],let value = values[key],value.isFinite else { continue }
                     if Double(cell.value).map({abs($0-value)>1e-10}) ?? true { cell.value = ShapeSheetEngine.format(value);page.nodes[i].formatting.sheet[key] = cell }
@@ -722,11 +725,21 @@ enum VisioFormat {
             }
             if let binding = bindings?.first(where:{$0.pageID == page.id}),let data = parts[binding.part],let root = try? VisioXML.document(data).rootElement() {
                 let shapes = root.firstLocal("Shapes")?.allShapes ?? []
-                for i in page.nodes.indices { if let runs = page.nodes[i].formatting.textRuns,let id = binding.nodeIDs[page.nodes[i].id],let text = shapes.first(where:{$0.attr("ID") == id})?.firstLocal("Text") { page.nodes[i].formatting.textRuns = ShapeRichText.synchronizeSources(runs,text:text) } }
+                let shapesByID = Dictionary(shapes.compactMap { shape in shape.attr("ID").map { ($0, shape) } }, uniquingKeysWith: { first, _ in first })
+                for i in page.nodes.indices { if let runs = page.nodes[i].formatting.textRuns,let id = binding.nodeIDs[page.nodes[i].id],let text = shapesByID[id]?.firstLocal("Text") { page.nodes[i].formatting.textRuns = ShapeRichText.synchronizeSources(runs,text:text) } }
             }
         }
         for i in content.pages.indices { synchronize(&content.pages[i]) }
-        if synchronizedBindings != nil { for i in synchronizedBindings!.indices { synchronize(&synchronizedBindings![i].original) } }
+        let originalPages = Dictionary(uniqueKeysWithValues: diagram.pages.map { ($0.id, $0) })
+        let synchronizedPages = Dictionary(uniqueKeysWithValues: content.pages.map { ($0.id, $0) })
+        if synchronizedBindings != nil { for i in synchronizedBindings!.indices {
+            let original = synchronizedBindings![i].original
+            if originalPages[original.id] == original, let synchronized = synchronizedPages[original.id] {
+                synchronizedBindings![i].original = synchronized
+            } else {
+                synchronize(&synchronizedBindings![i].original)
+            }
+        } }
         var segments:[String]?
         if let source = diagram.legacySource {
             let directory = "macvisio/legacy/"+hash(source.data)
@@ -742,7 +755,16 @@ enum VisioFormat {
             content.legacySource?.data = Data();segments = names
         }
         let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
-        return try encoder.encode(NativeEnvelope(format:2,publicHashes:parts.filter { $0.key != nativePart }.mapValues(hash),diagram:content,bindings:synchronizedBindings,pagesPart:diagram.visioArchive?.pagesPart,legacyParts:segments,masterExpansionVersion:1,connectorHierarchyVersion:1,connectionPointsVersion:1,coordinateTransformVersion:1,textRunsVersion:1,textFieldsVersion:1,geometryVersion:4,controlsVersion:1))
+        func encodedEnvelope() throws -> Data {
+            try encoder.encode(NativeEnvelope(format:2,publicHashes:parts.filter { $0.key != nativePart }.mapValues(hash),diagram:content,bindings:synchronizedBindings,pagesPart:diagram.visioArchive?.pagesPart,legacyParts:segments,masterExpansionVersion:1,connectorHierarchyVersion:1,connectionPointsVersion:1,coordinateTransformVersion:1,textRunsVersion:1,textFieldsVersion:1,geometryVersion:4,controlsVersion:1))
+        }
+        var payload = try encodedEnvelope()
+        if payload.count > VisioPackage.partLimit {
+            // Register the segment content type before hashing public package parts.
+            try NativeMetadataStorage.registerContentType(in: &parts)
+            payload = try encodedEnvelope()
+        }
+        return try NativeMetadataStorage.store(payload, in: &parts)
     }
     private struct MasterDefinition {
         let name:String

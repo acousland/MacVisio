@@ -324,6 +324,15 @@ enum VisioPreservation {
 
     static func localNode(_ node:DiagramNode,in page:DiagramPage) -> DiagramNode {
         guard let id = node.parentID,let parent = page.nodes.first(where:{$0.id == id}) else { return node }
+        return localNode(node,parent:parent)
+    }
+
+    static func localNode(_ node:DiagramNode,in page:DiagramPage,nodesByID:[UUID:DiagramNode]) -> DiagramNode {
+        guard let id = node.parentID,let parent = nodesByID[id] ?? page.nodes.first(where:{$0.id == id}) else { return node }
+        return localNode(node,parent:parent)
+    }
+
+    private static func localNode(_ node:DiagramNode,parent:DiagramNode) -> DiagramNode {
         var local = node; let angle = -parent.rotation * .pi/180
         let dx = node.center.x-parent.center.x,dy = node.center.y-parent.center.y
         local.x = dx*cos(angle)-dy*sin(angle)+parent.width/2-node.width/2
