@@ -45,6 +45,8 @@ def assess(manifest, report, tolerance=1e-7):
             path = "page/" + str(index)
             for key in ("index", "name", "background", "width", "height"):
                 same(file, phase, path + "/" + key, old[key], new.get(key))
+            if "connects" in old:
+                same(file, phase, path + "/connects", old["connects"], new.get("connects"))
             expected_shapes = old.get("shapes", [])
             actual_shapes = new.get("shapes", [])
             if not isinstance(actual_shapes, list):
@@ -62,6 +64,11 @@ def assess(manifest, report, tolerance=1e-7):
                 shape_path = path + "/shape/" + shape_id
                 for key in ("text", "parentID"):
                     same(file, phase, shape_path + "/" + key, shape[key], current.get(key))
+                if "masterID" in shape:
+                    same(file, phase, shape_path + "/masterID", shape["masterID"], current.get("masterID"))
+                for field in ("formulas", "data"):
+                    for key, value in shape.get(field, {}).items():
+                        same(file, phase, shape_path + "/" + field + "/" + key, value, current.get(field, {}).get(key))
                 for key, value in shape.get("cells", {}).items():
                     same(file, phase, shape_path + "/cells/" + key, value, current.get("cells", {}).get(key))
 
@@ -77,6 +84,9 @@ def assess(manifest, report, tolerance=1e-7):
         phases = result.get("phases", {})
         for name in ("open", "inspect", "saveAs", "close", "reopen", "exportPdf", "exportSvg"):
             same(file, name, "status", "passed", phases.get(name, {}).get("status"))
+        for phase in ("inspect", "reopen"):
+            if "masters" in fixture["expected"]:
+                same(file, phase, "masters", fixture["expected"]["masters"], phases.get(phase, {}).get("masters"))
         pages(file, "inspect", expected, phases.get("inspect", {}).get("pages"))
         edited = copy.deepcopy(expected)
         mutation = phases.get("mutation", {})
@@ -106,7 +116,7 @@ def assess(manifest, report, tolerance=1e-7):
     if extra:
         issue("*", "execution", "unexpectedFiles", [], extra)
     return {"schemaVersion": 1, "matched": not issues, "fixtures": len(fixtures),
-        "scope": "Windows open/edit/save/reopen and authored cached public content only; rendered fidelity and complete Visio parity are separate acceptance criteria",
+        "scope": "Windows open/edit/save/reopen and authored public snapshots, including optional formulas/master identity/data/glue; formula execution, master inheritance, graphics fidelity and bidirectional reimport are separate acceptance criteria",
         "differences": issues}
 
 

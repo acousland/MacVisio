@@ -47,11 +47,31 @@ function Add-ShapeSnapshot {
         }
     }
 
+    $formulas = [ordered]@{}
+    $data = [ordered]@{}
+    if ($null -ne $expectedShape) {
+        foreach ($name in $expectedShape.formulas.PSObject.Properties.Name) {
+            $formulas[$name] = if ($Shape.CellExistsU([string]$name, 0)) { [string]$Shape.CellsU([string]$name).FormulaU } else { $null }
+        }
+        foreach ($name in $expectedShape.data.PSObject.Properties.Name) {
+            if ([string]$name -notmatch '^Prop\.') { throw "Shape Data snapshots require a Prop. cell: $name" }
+            $data[$name] = if ($Shape.CellExistsU([string]$name, 0)) { [string]$Shape.CellsU([string]$name).ResultStrU(0) } else { $null }
+        }
+    }
+    $masterId = $null
+    if ($null -ne $expectedShape -and $null -ne $expectedShape.PSObject.Properties['masterID']) {
+        $master = $Shape.Master
+        if ($null -ne $master) { $masterId = ([string]$master.ID).Trim() }
+    }
+
     $Output.Add([ordered]@{
         id       = $shapeId
         parentID = $ParentId
         text     = (Normalize-VisioText ([string]$Shape.Text))
         cells    = $cellValues
+        formulas = $formulas
+        data     = $data
+        masterID = $masterId
     })
 
     for ($childIndex = 1; $childIndex -le $Shape.Shapes.Count; $childIndex++) {
@@ -77,6 +97,13 @@ function Get-DocumentSnapshot {
         for ($shapeIndex = 1; $shapeIndex -le $page.Shapes.Count; $shapeIndex++) {
             Add-ShapeSnapshot -Shape $page.Shapes.Item($shapeIndex) -ParentId $null -ExpectedById $expectedById -Output $shapes
         }
+        $connects = New-Object 'System.Collections.Generic.List[object]'
+        if ($null -ne $expectedPage -and $null -ne $expectedPage.PSObject.Properties['connects']) {
+            for ($connectionIndex = 1; $connectionIndex -le $page.Connects.Count; $connectionIndex++) {
+                $connection = $page.Connects.Item($connectionIndex)
+                $connects.Add([ordered]@{ fromShape = ([string]$connection.FromSheet.ID).Trim(); fromCell = [string]$connection.FromCell.NameU; toShape = ([string]$connection.ToSheet.ID).Trim(); toCell = [string]$connection.ToCell.NameU })
+            }
+        }
         $pages.Add([ordered]@{
             index      = $pageIndex
             name       = [string]$page.NameU
@@ -84,9 +111,20 @@ function Get-DocumentSnapshot {
             width      = [double]$page.PageSheet.CellsU('PageWidth').ResultIU
             height     = [double]$page.PageSheet.CellsU('PageHeight').ResultIU
             shapes     = $shapes.ToArray()
+            connects   = $connects.ToArray()
         })
     }
     return $pages.ToArray()
+}
+
+function Get-MasterSnapshot {
+    param([object]$Document)
+    $masters = New-Object 'System.Collections.Generic.List[object]'
+    for ($index = 1; $index -le $Document.Masters.Count; $index++) {
+        $master = $Document.Masters.Item($index)
+        $masters.Add([ordered]@{ id = ([string]$master.ID).Trim(); name = [string]$master.NameU; shapeCount = [int]$master.Shapes.Count })
+    }
+    return $masters.ToArray()
 }
 
 function Find-TextLeaf {
@@ -179,6 +217,7 @@ try {
     if ($null -ne $document) {
         try {
             $result.phases.inspect.pages = Get-DocumentSnapshot -Document $document -ExpectedPages $fixture.expected.pages
+            if ($null -ne $fixture.expected.PSObject.Properties['masters']) { $result.phases.inspect['masters'] = @(Get-MasterSnapshot -Document $document) }
             $result.phases.inspect.status = 'passed'
         } catch {
             Set-PhaseError $result.phases.inspect $_.Exception
@@ -243,6 +282,7 @@ try {
         try {
             $reopened = $application.Documents.Open([string]$result.phases.saveAs.path)
             $result.phases.reopen.pages = Get-DocumentSnapshot -Document $reopened -ExpectedPages $fixture.expected.pages
+            if ($null -ne $fixture.expected.PSObject.Properties['masters']) { $result.phases.reopen['masters'] = @(Get-MasterSnapshot -Document $reopened) }
             $result.phases.reopen.status = 'passed'
         } catch {
             Set-PhaseError $result.phases.reopen $_.Exception
