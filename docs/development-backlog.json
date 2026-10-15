@@ -2327,7 +2327,7 @@
           "deliverable": "Keep page/shape/cell IDs, severity, cached state, feature dimension and safe actions.",
           "acceptance_criteria": "Issues retain provenance instead of collapsing into anonymous string sets.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-07",
@@ -2346,7 +2346,8 @@
           ],
           "architecture_contracts": [
             "AC-08"
-          ]
+          ],
+          "execution_note": "Independent typed diagnostic transport and 4 focused provenance tests pass; producer adapters, navigable presentation and dependency keys wait accepted M0/M1."
         },
         {
           "id": "WP-13-T02",

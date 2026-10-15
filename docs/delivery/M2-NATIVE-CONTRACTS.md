@@ -29,3 +29,7 @@ A basic multipage flow fixture includes start/process/decision/subprocess, branc
 - M1 actual commits and handoff: committed/preview ownership, change sets, saved-state tokens, bounded indexes/scene, diagnostic/revision behavior, long-job and resources contracts; full-suite intermittency disposition.
 - M0 actual ledger/harness commits: feature dimension vocabulary, unsupported-source policy, synthetic public fixtures/evidence schema; exact reference prerequisites may remain open.
 - Separate Home changes: intentional integration commit or clearly isolated extension points; never copy the unrelated original dirty diff automatically.
+
+## Prepared diagnostic transport slice
+
+`DocumentDiagnostic.swift` supplies the independent Codable provenance record: typed target/source, five feature dimensions, cache/display state, producer input key and safe declarative actions. Identity excludes presentation wording; equal failures on distinct objects/cells remain distinct. The legacy note bridge truthfully stays document-scoped and cannot expose an invented object/cell action. This is **implemented, unaccepted preparation** for WP-13-T01; adapters, dependency-key checks, navigable pane, affected-source save policy and end-to-end accuracy are gated on accepted M0/M1 interfaces. No current calculation or importer output is relabelled as object-aware by this addition.

@@ -428,6 +428,10 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits.
 
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-13-T01 | In progress — unaccepted | Independent typed diagnostic transport and 4 focused provenance tests pass; producer adapters, navigable presentation and dependency keys wait accepted M0/M1. |
+
 **Outcome:** One navigable, object-aware pane for import, calculation, stale cache and save-impact issues.
 
 **Delivery dependencies:** WP-02, WP-06, WP-07, WP-08. **Qualification prerequisites:** Local acceptance plus applicable overall release gates.
