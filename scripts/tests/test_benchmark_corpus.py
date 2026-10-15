@@ -148,7 +148,7 @@ class BenchmarkCorpusTests(unittest.TestCase):
     def test_missing_skipped_failed_malformed_phase_or_counts_cannot_qualify(self):
         result = self.result()
         self.assertEqual(runner.validate_result(result, self.fixture, "warm", 1, "performance"), [])
-        for change in ("missing", "skipped", "failed", "malformed", "count", "zeroWork", "noCalculation", "cache", "hash", "nan", "extraFailure"):
+        for change in ("missing", "skipped", "failed", "malformed", "count", "zeroWork", "noCalculation", "cache", "hash", "nan", "overallFailure", "reportedError", "extraFailure"):
             current = copy.deepcopy(result)
             if change == "missing": del current["phases"]["textLayout"]
             elif change in ("failed", "skipped"): current["phases"]["open"]["status"] = change
@@ -159,6 +159,8 @@ class BenchmarkCorpusTests(unittest.TestCase):
             elif change == "cache": current["cachePreparation"]["status"] = "skipped"
             elif change == "hash": current["fixtureSha256"] = "bad"
             elif change == "nan": current["phases"]["draw"]["elapsedMs"] = float("nan")
+            elif change == "overallFailure": current["status"] = "failed"
+            elif change == "reportedError": current["errors"] = ["Retained adapter failure"]
             else: current["phases"]["export"] = {"status": "failed"}
             errors = runner.validate_result(current, self.fixture, "warm", 1, "performance")
             self.assertTrue(errors, change)

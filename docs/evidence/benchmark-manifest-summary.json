@@ -342,7 +342,7 @@
   "productPerformanceAccepted": false,
   "runner": {
     "path": "scripts/run-benchmark-samples.py",
-    "sha256": "5925a6aabecaf2fa9767a9acb119f0111f0c5763b3eb3c0f7cf40d4fd3100632"
+    "sha256": "4aedf517bf5724cdfde951b48174362d7c7becd9f319ce7241fb855f9b29a516"
   },
   "schemaVersion": 1,
   "scope": "generated-structural-only",

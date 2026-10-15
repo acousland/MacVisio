@@ -52,6 +52,10 @@ def validate_environment(environment):
 
 def validate_result(result, fixture, cache, index, mode):
     errors = []
+    if "status" in result and result["status"] != "passed":
+        errors.append("Adapter overall status is not passed")
+    if result.get("errors"):
+        errors.append("Adapter reported errors")
     for key, expected in (("schemaVersion", 1), ("fixtureSha256", fixture["sha256"]), ("cacheCondition", cache), ("sampleIndex", index), ("mode", mode)):
         if type(result.get(key)) != type(expected) or result.get(key) != expected:
             errors.append(f"{key}: expected {expected!r}")
