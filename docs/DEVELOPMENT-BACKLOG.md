@@ -1490,7 +1490,9 @@ connectors, output and package variants remain owned prerequisites.
 The actual M0 inventory commit `78c6c56` is integrated as `6ba6901`; its 154
 requirement/evidence ledger and bounded inventory retain every original snapshot
 state and unverified evidence dimension. Committed M0 instrumentation, benchmark
-corpus and public harness safeguards through `81f6140` are also integrated.
+corpus and public harness safeguards through `02dea53` are also integrated.
+M0 local execution statuses and its explicit unaccepted G0/reference state are
+retained alongside this M3 refinement.
 M3 production implementation waits for actual accepted M1+M2 engineering commits
 and contracts. The observed missing Visio installation independently blocks G2;
 it does not remove any implementation obligation.

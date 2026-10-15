@@ -22975,7 +22975,10 @@
     "catalog_complete": false,
     "reference_exact_build": null,
     "reference_state": "pending",
-    "qualification": "All five M0 dimensions remain unverified. IDs are canonical source inventory entries, not accepted runtime support."
+    "qualification": "All five M0 dimensions remain unverified. IDs are canonical source inventory entries, not accepted runtime support.",
+    "final_local_handoff_commit": "02dea53",
+    "current_entry_count": 171,
+    "note_final_integration": "M0 added a benchmark CLI inventory entry; all existing mapped IDs, named72 functions/21 cells and unknown remainders are retained. Reference remains unaccepted."
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work."

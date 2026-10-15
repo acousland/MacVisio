@@ -57,6 +57,17 @@
       "id": "catalog-and-backlog-consistency",
       "outcome": "passed",
       "scope": "unique/scoped child and requirement/inventory IDs, all parents/L tasks split, local paths, dependency acyclicity and matching backlog child arrays; no semantic acceptance"
+    },
+    {
+      "id": "final-M0-integrated-regressions",
+      "outcome": "passed",
+      "python_tests": 64,
+      "swift_tests": 19,
+      "failures": 0,
+      "skips": 0,
+      "swift_command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|BenchmarkProfileTests|PerformanceEvidenceTests'",
+      "python_command": "python3 -m unittest discover -s scripts/tests -v",
+      "scope": "M3 public preservation/physical PDF plus actual M0 instrumentation/benchmark adapter and Python tooling; no full M3 milestone run"
     }
   ],
   "artifacts": [
@@ -83,6 +94,14 @@
     {
       "path": "build/m3-evidence/M0-integrated-python-final.log",
       "sha256": "c9f4ce29be387192f77bd635234a5e4476326b2605fc13d0d9c4b04698b3f55d"
+    },
+    {
+      "path": "build/m3-evidence/M0-final-swift.log",
+      "sha256": "2c3b486c3c22941df174c8b4bd0f9f2947cda2f80e1712d38dc53dc3739b9b95"
+    },
+    {
+      "path": "build/m3-evidence/M0-final-python.log",
+      "sha256": "8b86d2fbf0217c40c122047a0cf5501004823929b27b8b80bf72170c434977a3"
     }
   ],
   "five_compatibility_dimensions": {
@@ -92,5 +111,6 @@
     "behavior": "unverified",
     "interchange": "unverified"
   },
-  "unresolved_intermittency": "Historical saved-state intermittency belongs to M1 and remains pending its accepted disposition; M3 focused green runs cannot close it."
+  "unresolved_intermittency": "Historical saved-state intermittency belongs to M1 and remains pending its accepted disposition; M3 focused green runs cannot close it.",
+  "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc"
 }

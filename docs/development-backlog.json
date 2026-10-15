@@ -146,7 +146,7 @@
       "id": "M7",
       "title": "Full baseline qualification and release",
       "outcome": "Accept and release the complete frozen Visio Professional 2019 compatibility scope.",
-      "specification_gate_relationship": "G4 final; all applicable G0\u2013G4 criteria",
+      "specification_gate_relationship": "G4 final; all applicable G0–G4 criteria",
       "depends_on": [
         "M5",
         "M6"
@@ -1543,7 +1543,7 @@
           "id": "WP-08-T02",
           "title": "Implement spatial culling and cheap overlays",
           "deliverable": "Reject unrelated items before path/text work; keep selection/handles/guides as lightweight overlays.",
-          "acceptance_criteria": "A 16\u00d716 dirty region visits relevant visible candidates rather than reconstructing the page.",
+          "acceptance_criteria": "A 16×16 dirty region visits relevant visible candidates rather than reconstructing the page.",
           "complexity": "L",
           "status": "Proposed",
           "depends_on": [
@@ -6264,7 +6264,7 @@
         "AR-09"
       ],
       "outcome": "A frozen signed/notarized release with truthful public capability/support and update evidence.",
-      "package_acceptance": "Release manifest/hashes/evidence match the shipped bundle and all declared G0\u2013G4 acceptance is closed.",
+      "package_acceptance": "Release manifest/hashes/evidence match the shipped bundle and all declared G0–G4 acceptance is closed.",
       "tasks": [
         {
           "id": "WP-35-T01",
@@ -8639,7 +8639,7 @@
         "review_priority": "P1",
         "title": "Incremental calculation and reusable evaluation",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "One insertion spent 222.7\u20131,312.2 ms in ShapeSheet and 68.5\u201373.6 ms in text fields. Control dragging recalculates both baseline and moved documents.",
+        "evidence": "One insertion spent 222.7–1,312.2 ms in ShapeSheet and 68.5–73.6 ms in text fields. Control dragging recalculates both baseline and moved documents.",
         "limitations": "Insertion timings are individual observations. No large-document control-drag timing was measured.",
         "response": "Track affected closures, dynamic references, volatility and local cycles; retain compiled expressions/contexts; audit text measurement and reject stale workers.",
         "task_ids": [
@@ -8668,7 +8668,7 @@
         "review_priority": "P1",
         "title": "Retained rendering and dirty-region rejection",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "On 3,909 shapes, a 16\u00d716 draw took 92.4 ms versus 99.3 ms for the viewport; painting can also enter background-field recalculation.",
+        "evidence": "On 3,909 shapes, a 16×16 draw took 92.4 ms versus 99.3 ms for the viewport; painting can also enter background-field recalculation.",
         "limitations": "Draw timings are five-run medians after one warmup; they do not establish p95 or event-loop frame pacing.",
         "response": "Prepare immutable evaluated scenes; retain paths/text/order/bounds; cull before preparation; use lightweight interaction overlays.",
         "task_ids": [
@@ -8718,7 +8718,7 @@
         "review_priority": "P2",
         "title": "Selective UI updates and persistent controls",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "Single selection cost 8.1\u20138.8 ms before drawing; editor refresh cost 9.3\u201310.4 ms. Inspector/page/stencil refresh reconstructs controls or lists.",
+        "evidence": "Single selection cost 8.1–8.8 ms before drawing; editor refresh cost 9.3–10.4 ms. Inspector/page/stencil refresh reconstructs controls or lists.",
         "limitations": "Large-stencil allocation/layout scaling was not quantified.",
         "response": "Publish typed changes; keep inspector and page controls alive; reuse library rows/thumbnails and compute availability once per selection revision.",
         "task_ids": [
@@ -9053,7 +9053,7 @@
         "finding": "AR-03"
       },
       {
-        "label": "Canvas 16\u00d716 draw",
+        "label": "Canvas 16×16 draw",
         "unit": "ms",
         "values": [
           16.7,
@@ -9091,7 +9091,9 @@
         "all M3 production feature children",
         "complete exact-build inventories and bidirectional Visio/render/physical-printer qualification"
       ],
-      "M0_harness_integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003"
+      "M0_harness_integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+      "M0_final_local_handoff_commit": "02dea53",
+      "M0_final_integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc"
     }
   ],
   "m0_execution": {

@@ -6,7 +6,7 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "preparing",
   "handoff_kind": "interim",
-  "candidate_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "candidate_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
   "milestone_acceptance": {
     "local_engineering": "pending: accepted M1+M2 engineering prerequisite and M3 implementation not yet delivered",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
@@ -19,10 +19,14 @@
         "3c22d00",
         "f8e3aac",
         "f9ba1d1",
-        "81f6140"
+        "81f6140",
+        "b5375f3",
+        "fc69ccb",
+        "02dea53"
       ],
-      "integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
-      "accepted_scope": "available local inventory/instrumentation/corpus/public harness contracts only; M0/G0 remains unaccepted"
+      "integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+      "accepted_scope": "Final locally validated M0 tooling/inventory/instrumentation/corpus/harness contracts; M0/G0 and exact-build reference acceptance remain false",
+      "handoff": "docs/delivery/M0-HANDOFF.json"
     },
     "M1": null,
     "M2": null
@@ -30,7 +34,8 @@
   "own_delivery_commits": [
     "eb84c98",
     "f0182cb",
-    "4790d71"
+    "4790d71",
+    "1cf64ed"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
