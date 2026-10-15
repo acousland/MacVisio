@@ -32,3 +32,10 @@ L children, recorded before implementation:
 | WP-09-T04 | a: decoded-image budget; b: undo bounds; c: twenty-cycle memory/resource evidence |
 
 WP-05-T01 baseline evidence: the existing timer-driven `AsyncDocumentSaveTests.testNativeSaveUnblocksMainAndWritesCapturedDiagramSnapshot` remains intact; the new native event regression captures Save before Escape. Suite runs and boundary traces must be retained; isolated reruns cannot close the historical intermittent failure.
+
+## WP-05 initial evidence
+
+- Baseline release suite: 454 tests, 13 optional installer/reference skips, 0 failures (`build/m1-evidence/baseline-suite.log`). This green run does not dispose of the historical intermittent defect.
+- Native event regression fails on the baseline: committed node (100,100), saved node (140,140), Escape restores (100,100) while clean (`gesture-before.log`).
+- After preview/state identity change: 60 focused tests pass, one optional installer fixture skipped (`wp05-focused.log`). Includes the retained timer-driven async save, overlapping saves, invalid writes, geometry/control/group undo, explicit snapshot-before-AppKit-token edit, and undo/redo through saved identities.
+- The deterministic boundary test demonstrates and covers a snapshot/token ordering hazard; it does not prove that this was the only cause of the historical suite-context failure. Final acceptance still requires retained repeated full suites and lifecycle/recovery tests.

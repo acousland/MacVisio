@@ -3,6 +3,64 @@ import XCTest
 @testable import MacVisio
 
 final class GestureSaveContractTests: XCTestCase {
+    func testEditExactlyBetweenSnapshotAndAppKitTokenRemainsDirty() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let document = MacVisioDocument()
+            defer { document.close() }
+            document.diagram.page.nodes = [DiagramNode(text: "Captured")]
+            document.updateChangeCount(.changeDone)
+            document.didCaptureSaveSnapshot = {
+                document.diagram.page.nodes[0].text = "Newer edit"
+                document.updateChangeCount(.changeDone)
+            }
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("M1-token-\(UUID()).macvisio")
+            defer { try? FileManager.default.removeItem(at: url) }
+            try save(document, to: url)
+            let disk = try JSONDecoder().decode(Diagram.self, from: Data(contentsOf: url))
+            XCTAssertEqual(disk.page.nodes[0].text, "Captured")
+            XCTAssertEqual(document.diagram.page.nodes[0].text, "Newer edit")
+            XCTAssertTrue(document.isDocumentEdited)
+            XCTAssertEqual(document.saveEvents.map(\.phase), ["captured", "succeeded"])
+            let event = try XCTUnwrap(document.saveEvents.last)
+            XCTAssertNotEqual(event.snapshotStateID, event.currentStateID)
+            document.didCaptureSaveSnapshot = nil
+            try save(document, to: url)
+            XCTAssertFalse(document.isDocumentEdited)
+        }
+    }
+
+    func testUndoRedoRestoresSavedIdentity() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let document = MacVisioDocument()
+            defer { document.close() }
+            document.undoManager?.groupsByEvent = false
+            document.diagram.page.nodes = [DiagramNode(text: "Before")]
+            document.updateChangeCount(.changeDone)
+            let url = FileManager.default.temporaryDirectory.appendingPathComponent("M1-undo-\(UUID()).macvisio")
+            defer { try? FileManager.default.removeItem(at: url) }
+            try save(document, to: url)
+            let savedID = document.stateID
+            var next = document.diagram
+            next.page.nodes[0].text = "After"
+            document.undoManager?.beginUndoGrouping()
+            document.replace(with: next, action: "Text")
+            document.undoManager?.endUndoGrouping()
+            XCTAssertTrue(document.isDocumentEdited)
+            document.undoManager?.undo()
+            XCTAssertEqual(document.stateID, savedID)
+            XCTAssertFalse(document.isDocumentEdited)
+            document.undoManager?.redo()
+            XCTAssertTrue(document.isDocumentEdited)
+            try save(document, to: url)
+            document.undoManager?.undo()
+            XCTAssertTrue(document.isDocumentEdited)
+            document.undoManager?.redo()
+            XCTAssertFalse(document.isDocumentEdited)
+        }
+    }
+
     func testDragSaveEscapeSerializesCommittedState() throws {
         try onMain {
             _ = NSApplication.shared
@@ -39,5 +97,20 @@ final class GestureSaveContractTests: XCTestCase {
     private func onMain<T>(_ body: () throws -> T) rethrows -> T {
         if Thread.isMainThread { return try body() }
         return try DispatchQueue.main.sync(execute: body)
+    }
+
+    private func save(_ document: MacVisioDocument, to url: URL) throws {
+        var completed = false
+        var failure: Error?
+        document.save(to: url, ofType: MacVisioDocument.nativeType, for: .saveAsOperation) {
+            failure = $0
+            completed = true
+        }
+        let deadline = Date().addingTimeInterval(15)
+        while !completed && Date() < deadline {
+            _ = RunLoop.main.run(mode: .default, before: Date().addingTimeInterval(0.01))
+        }
+        XCTAssertTrue(completed)
+        if let failure { throw failure }
     }
 }

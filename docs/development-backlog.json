@@ -62,7 +62,7 @@
         "Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants.",
         "Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence."
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "M2",
@@ -838,7 +838,7 @@
           "deliverable": "Retain regression cases for drag-save-Escape and the intermittent suite-context snapshot dirty-state failure.",
           "acceptance_criteria": "The failing state transition is deterministic or instrumented; isolated green reruns do not close the issue.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Complete",
           "depends_on": [],
           "requirement_ids": [
             "MV-DOC-04",
@@ -859,7 +859,11 @@
             "AR-01",
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-IMPLEMENTATION.md",
+            "../build/m1-evidence/gesture-before.log"
+          ]
         },
         {
           "id": "WP-05-T02",
@@ -867,7 +871,7 @@
           "deliverable": "Add explicit change sets and commit/cancel ownership for drag/resize/control/text operations. Explicitly define Save and autosave behavior during an active gesture.",
           "acceptance_criteria": "Preview/selection/zoom never modify committed state; one gesture produces one undo action. Saving during a gesture follows the documented policy; cancelled preview state cannot be serialized as clean committed state.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Implemented; acceptance pending full suites/lifecycle",
           "depends_on": [
             "WP-05-T01"
           ],
@@ -892,7 +896,8 @@
           "architecture_contracts": [
             "AC-02",
             "AC-03"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-05-T03",
@@ -900,7 +905,7 @@
           "deliverable": "Integrate snapshot identity with NSDocument change-count acknowledgement, overlapping saves and failure.",
           "acceptance_criteria": "Edits during saving stay dirty; undo/redo across the saved state reports the correct status.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Implemented; acceptance pending full suites/lifecycle",
           "depends_on": [
             "WP-05-T02"
           ],
@@ -924,7 +929,8 @@
           ],
           "architecture_contracts": [
             "AC-05"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-05-T04",
@@ -957,7 +963,8 @@
           ],
           "architecture_contracts": [
             "AC-05"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-05-T05",
@@ -990,7 +997,7 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-06",
@@ -1082,7 +1089,8 @@
           ],
           "architecture_contracts": [
             "AC-03"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-06-T03",
@@ -1114,7 +1122,8 @@
           ],
           "architecture_contracts": [
             "AC-01"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-06-T04",
@@ -1148,7 +1157,8 @@
           "architecture_contracts": [
             "AC-02",
             "AC-03"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-06-T05",
@@ -1181,7 +1191,7 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-07",
@@ -1233,7 +1243,8 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-07-T02",
@@ -1264,7 +1275,8 @@
           ],
           "architecture_contracts": [
             "AC-06"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-07-T03",
@@ -1294,7 +1306,8 @@
           ],
           "architecture_contracts": [
             "AC-02"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-07-T04",
@@ -1324,7 +1337,8 @@
           ],
           "architecture_contracts": [
             "AC-04"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-07-T05",
@@ -1355,7 +1369,7 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-08",
@@ -1416,7 +1430,8 @@
           "architecture_contracts": [
             "AC-01",
             "AC-07"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-08-T02",
@@ -1447,7 +1462,8 @@
           ],
           "architecture_contracts": [
             "AC-01"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-08-T03",
@@ -1480,7 +1496,8 @@
           "architecture_contracts": [
             "AC-04",
             "AC-06"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-08-T04",
@@ -1511,7 +1528,8 @@
           ],
           "architecture_contracts": [
             "AC-02"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-08-T05",
@@ -1547,7 +1565,7 @@
           ]
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-09",
@@ -1612,7 +1630,8 @@
           ],
           "architecture_contracts": [
             "AC-04"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-09-T02",
@@ -1645,7 +1664,8 @@
           "architecture_findings": [
             "AR-07"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-09-T03",
@@ -1680,7 +1700,8 @@
           ],
           "architecture_contracts": [
             "AC-05"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-09-T04",
@@ -1716,7 +1737,8 @@
           ],
           "architecture_contracts": [
             "AC-06"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md"
         },
         {
           "id": "WP-09-T05",
@@ -1752,7 +1774,7 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-10",

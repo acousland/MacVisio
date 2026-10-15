@@ -12,6 +12,8 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
+M1 implementation is in progress on `codex/m1-editing-foundation`. Child slices and live contracts are recorded in [M1 delivery](delivery/M1-IMPLEMENTATION.md); no M1 acceptance is claimed yet.
+
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; this planning update does not claim remediation. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
 ## 1. Planning and scope rules
@@ -204,7 +206,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-05"></a>
 ### WP-05 — Fix committed state, gesture, undo and save semantics
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** In progress
 
 **Readiness:** Ready: reproduce and fix source-confirmed correctness defect.
 
@@ -215,6 +217,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-DOC-04, MV-DOC-05, MV-DOC-07, MV-DOC-08, MV-DOC-09, MV-DOC-10, MV-NFR-01.
 
 **Architecture findings:** AR-01, AR-07, AR-09 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** WP-05-T01 complete with retained failing native-event evidence. WP-05-T02/T03 implemented; full-suite/lifecycle acceptance pending. [Evidence and contract](delivery/M1-IMPLEMENTATION.md).
 
 **Package exit:** Cancelled gestures cannot be serialized as clean committed state; saving acknowledges exactly the captured saved state.
 
@@ -229,7 +233,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-06"></a>
 ### WP-06 — Introduce indexed page runtime and transaction boundaries
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** In progress
 
 **Readiness:** Design first; implementation follows WP-05 transaction contract.
 
@@ -254,7 +258,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-07"></a>
 ### WP-07 — Make calculation incremental and revision-safe
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** In progress
 
 **Readiness:** Design required; measure against WP-03 corpus.
 
@@ -279,7 +283,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-08"></a>
 ### WP-08 — Retain rendering state and update UI selectively
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** In progress
 
 **Readiness:** Design required; can develop alongside WP-07 after WP-06.
 
@@ -304,7 +308,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-09"></a>
 ### WP-09 — Unify long jobs, resources and document lifecycle
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** In progress
 
 **Readiness:** Design required; preserve current public-format regressions.
 

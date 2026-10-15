@@ -22,7 +22,24 @@ final class InlineTextView: NSTextView {
 final class CanvasView: NSView {
     weak var editor: EditorWindowController?
     var document: MacVisioDocument { editor!.diagramDocument }
-    var page: DiagramPage { document.diagram.page }
+    /// Geometry previews are view state. Persistence always reads document.diagram.
+    private(set) var interactionPreview: Diagram?
+    private var previewStateID: UUID?
+    var displayedDiagram: Diagram {
+        previewStateID == document.stateID ? (interactionPreview ?? document.diagram) : document.diagram
+    }
+    var page: DiagramPage { displayedDiagram.page }
+    private func beginGesturePreview() {
+        beforeDrag = document.diagram
+        previewStateID = document.stateID
+        interactionPreview = document.diagram
+    }
+    private func commitGesturePreview() {
+        let next = previewStateID == document.stateID ? interactionPreview : nil
+        interactionPreview = nil
+        previewStateID = nil
+        if let next { document.replace(with: next, action: controlDrag != nil ? "Adjust Control Handle" : resizeHandle == nil ? "Move Shapes" : "Resize Shape") }
+    }
     var selectedNodes = Set<UUID>()
     var selectedEdge: UUID?
     var tool: CanvasTool = .pointer { didSet { pendingSource = nil;pendingSourcePort = nil;needsDisplay = true; window?.invalidateCursorRects(for:self) } }
@@ -185,7 +202,7 @@ final class CanvasView: NSView {
         NSGraphicsContext.saveGraphicsState()
         let transform = NSAffineTransform(); transform.translateX(by:paper.minX,yBy:paper.minY); transform.scale(by:coordinateZoom); transform.concat()
         NSBezierPath(rect:CGRect(x:0,y:0,width:page.width,height:page.height)).addClip()
-        let scene = document.diagram.scene()
+        let scene = displayedDiagram.scene()
         for background in scene.backgrounds {
             NSGraphicsContext.saveGraphicsState();let offset = scene.offset(for:background),t = NSAffineTransform();t.translateX(by:offset.x/page.paperScale,yBy:offset.y/page.paperScale);t.scale(by:background.paperScale/page.paperScale);t.concat();DiagramDrawing.drawContents(background,printing:false);NSGraphicsContext.restoreGraphicsState()
         }
@@ -237,7 +254,7 @@ final class CanvasView: NSView {
         finishEditing(commit:true); window?.makeFirstResponder(self)
         let p = pointInPage(event); pointer = p
         if tool == .pointer,selectedNodes.count == 1,let id = selectedNodes.first,let n = page.nodes.first(where:{$0.id == id}),page.isVisible(n),!page.isLocked(n),let control = n.formatting.controls.first(where:{$0.visible && hypot(ControlGeometry.point($0,on:n).x-p.x,ControlGeometry.point($0,on:n).y-p.y)<9/coordinateZoom}) {
-            dragStart = p;beforeDrag = document.diagram;controlDrag = (id,control.name);controlDragError = nil;return
+            dragStart = p;beginGesturePreview();controlDrag = (id,control.name);controlDragError = nil;return
         }
         guard CGRect(x:0,y:0,width:page.width,height:page.height).contains(p) else { select([]); return }
         if tool == .line { lineStart = p; needsDisplay = true; return }
@@ -252,7 +269,7 @@ final class CanvasView: NSView {
         }
         if selectedNodes.count == 1, let id = selectedNodes.first, let n = page.nodes.first(where:{$0.id == id}), !page.isLocked(n), n.rotation == 0,
            let handle = handles(for:n).firstIndex(where:{ hypot($0.x-p.x,$0.y-p.y) < 9/coordinateZoom }) {
-            dragStart = p; beforeDrag = document.diagram; originalRects = [id:n.rect]; resizeHandle = handle; return
+            dragStart = p; beginGesturePreview(); originalRects = [id:n.rect]; resizeHandle = handle; return
         }
         if var hit = node(at:p) {
             if !event.modifierFlags.contains(.option) && event.clickCount != 2 {
@@ -261,7 +278,7 @@ final class CanvasView: NSView {
             if event.clickCount == 2 { select([hit.id]); beginEditing(hit.id); return }
             if event.modifierFlags.contains(.shift) { var ids = selectedNodes; if ids.contains(hit.id) { ids.remove(hit.id) } else { ids.insert(hit.id) }; select(ids) }
             else if !selectedNodes.contains(hit.id) { select([hit.id]) }
-            if !page.isLocked(hit) { dragStart = p; beforeDrag = document.diagram; let ids = editor?.editableSelectionIDs ?? selectedNodes; originalRects = Dictionary(uniqueKeysWithValues:page.nodes.filter{ids.contains($0.id)}.map{($0.id,$0.rect)}) }
+            if !page.isLocked(hit) { dragStart = p; beginGesturePreview(); let ids = editor?.editableSelectionIDs ?? selectedNodes; originalRects = Dictionary(uniqueKeysWithValues:page.nodes.filter{ids.contains($0.id)}.map{($0.id,$0.rect)}) }
         } else if let edge = edge(at:p) {
             select([],edge:edge.id); if event.clickCount == 2 { editor?.editConnectorLabel() }
         } else {
@@ -280,8 +297,8 @@ final class CanvasView: NSView {
         }
         guard beforeDrag != nil else { return }
         if let (id,name) = controlDrag,let before = beforeDrag {
-            do { document.diagram = try ControlEditing.moved(before,node:id,control:name,to:p);controlDragError = nil }
-            catch { document.diagram = before;controlDragError = error }
+            do { interactionPreview = try ControlEditing.moved(before,node:id,control:name,to:p);controlDragError = nil }
+            catch { interactionPreview = before;controlDragError = error }
             updateControlToolTips();needsDisplay = true;autoscroll(with:event);return
         }
         let snap = snapsToGrid && !event.modifierFlags.contains(.option)
@@ -322,7 +339,7 @@ final class CanvasView: NSView {
             DiagramOperations.transformChildren(in:&next.page,from:old,to:new)
         }
         if let before = beforeDrag { DiagramOperations.transformGroupedEdges(in:&next.page,from:before.page) }
-        document.diagram = next; needsDisplay = true
+        interactionPreview = next; needsDisplay = true
         autoscroll(with:event)
     }
     override func mouseUp(with event:NSEvent) {
@@ -332,25 +349,21 @@ final class CanvasView: NSView {
             lineStart = nil; needsDisplay = true; return
         }
         if tool == .connector, let source = pendingSource, let target = node(at:pointInPage(event),includeLocked:false), target.id != source, target.kind != .swimlane,page.permitsGlue(to:target) { editor?.connect(source,to:target.id); pendingSource = nil; needsDisplay = true; editor?.updateStatus() }
-        if let before = beforeDrag, before != document.diagram {
-            let next = document.diagram; document.diagram = before; document.replace(with:next,action:controlDrag != nil ? "Adjust Control Handle" : resizeHandle == nil ? "Move Shapes" : "Resize Shape")
-        }
+        if beforeDrag != nil { commitGesturePreview() }
         dragStart = nil; beforeDrag = nil; resizeHandle = nil;controlDrag = nil; originalRects = [:]; marquee = nil
         if let error = controlDragError { editor?.root.showMessage(error.localizedDescription) };controlDragError = nil;updateControlToolTips()
         editor?.selectionChanged(); needsDisplay = true
     }
     func finishPageInteraction() {
         finishEditing(commit:true)
-        if let before = beforeDrag,before != document.diagram {
-            let next = document.diagram;document.diagram = before;document.replace(with:next,action:controlDrag != nil ? "Adjust Control Handle" : resizeHandle == nil ? "Move Shapes" : "Resize Shape")
-        }
+        if beforeDrag != nil { commitGesturePreview() }
         dragStart = nil;beforeDrag = nil;resizeHandle = nil;controlDrag = nil;originalRects = [:];marquee = nil;lineStart = nil;pendingSource = nil
         if let error = controlDragError { editor?.root.showMessage(error.localizedDescription) };controlDragError = nil;updateControlToolTips()
     }
     override func keyDown(with event:NSEvent) {
         if event.keyCode == 53 {
             finishEditing(commit:false)
-            if let before = beforeDrag { document.diagram = before }
+            interactionPreview = nil; previewStateID = nil
             dragStart = nil;beforeDrag = nil;resizeHandle = nil;controlDrag = nil;controlDragError = nil;originalRects = [:];marquee = nil;pendingSource = nil;pendingSourcePort = nil;lineStart = nil
             select([]);editor?.setTool(.pointer);return
         }

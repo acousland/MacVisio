@@ -144,10 +144,11 @@ final class GroupedConnectorTests:XCTestCase {
         let before = document.diagram;canvas.mouseDown(with:try event(.leftMouseDown,CGPoint(x:580,y:420)))
         canvas.mouseDragged(with:try event(.leftMouseDragged,CGPoint(x:660,y:460)))
         canvas.mouseDragged(with:try event(.leftMouseDragged,CGPoint(x:740,y:500)))
-        XCTAssertEqual(document.diagram.page.nodes[0].width,640,accuracy:0.000001)
-        XCTAssertEqual(document.diagram.page.nodes[1].width,90*640/480,accuracy:0.000001)
-        let actualX = try XCTUnwrap(document.diagram.page.edges[1].points?[1].x),expectedX = 100+(before.page.edges[1].points![1].x-100)*640/480
+        XCTAssertEqual(canvas.page.nodes[0].width,640,accuracy:0.000001)
+        XCTAssertEqual(canvas.page.nodes[1].width,90*640/480,accuracy:0.000001)
+        let actualX = try XCTUnwrap(canvas.page.edges[1].points?[1].x),expectedX = 100+(before.page.edges[1].points![1].x-100)*640/480
         XCTAssertEqual(actualX,expectedX,accuracy:0.000001)
+        XCTAssertEqual(document.diagram,before)
         canvas.mouseUp(with:try event(.leftMouseUp,CGPoint(x:740,y:500)))
         document.undoManager?.undo();XCTAssertEqual(document.diagram.page.nodes[0].width,480)
     }

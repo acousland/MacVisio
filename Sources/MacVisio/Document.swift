@@ -6,13 +6,41 @@ final class MacVisioDocument: NSDocument {
     static let nativeType = "com.macvisio.diagram"
     static let visioType = "com.microsoft.visio.vsdx"
     static let legacyType = "com.microsoft.visio.vsd"
-    var diagram = Diagram()
+    /// Monotonic revision rejects derived results; state identity is restored by undo.
+    private(set) var revision: UInt64 = 0
+    private(set) var stateID = UUID()
+    private var savedStateID: UUID?
+    var diagram = Diagram() {
+        didSet {
+            revision &+= 1
+            stateID = UUID()
+        }
+    }
+    override var isDocumentEdited: Bool {
+        if let savedStateID { return stateID != savedStateID }
+        return super.isDocumentEdited
+    }
+    struct SaveEvent {
+        let phase: String
+        let saveID: UUID
+        let snapshotStateID: UUID
+        let currentStateID: UUID
+        let revision: UInt64
+    }
+    private(set) var saveEvents: [SaveEvent] = []
+    /// An exact boundary hook lets regressions force the historical timing race.
+    var didCaptureSaveSnapshot: (() -> Void)?
+    private func recordSave(_ phase: String, id: UUID, state: UUID) {
+        saveEvents.append(SaveEvent(phase: phase, saveID: id, snapshotStateID: state,
+                                   currentStateID: stateID, revision: revision))
+        if saveEvents.count > 64 { saveEvents.removeFirst(saveEvents.count - 64) }
+    }
     var importWarnings: [String] = []
     var calculationIssues: [String] = []
     private var geometryIssuesByPage:[UUID:[String]] = [:]
     var legacyNative = false
     weak var documentWorkflow:DocumentWorkflow?
-    private struct SaveSnapshot { let id:UUID;let diagram:Diagram }
+    private struct SaveSnapshot { let id:UUID;let stateID:UUID;let diagram:Diagram }
     private struct QueuedSave {
         let id:UUID
         let url:URL
@@ -42,8 +70,11 @@ final class MacVisioDocument: NSDocument {
     override func data(ofType typeName:String) throws -> Data {
         let snapshot:Diagram
         if Thread.isMainThread {
-            commitTextEditing()
-            snapshot = diagram
+            saveSnapshotLock.lock()
+            let prepared = pendingSaveSnapshot?.diagram
+            saveSnapshotLock.unlock()
+            if let prepared { snapshot = prepared }
+            else { commitTextEditing(); snapshot = diagram }
         } else {
             saveSnapshotLock.lock()
             let saved = activeAsyncSaveID.flatMap{id in pendingSaveSnapshot.flatMap{$0.id == id ? $0.diagram : nil}}
@@ -126,15 +157,27 @@ final class MacVisioDocument: NSDocument {
         saveInProgress = true
         commitTextEditing()
         let snapshot = diagram
+        let snapshotStateID = stateID
         saveSnapshotLock.lock()
-        pendingSaveSnapshot = SaveSnapshot(id:request.id,diagram:snapshot)
+        pendingSaveSnapshot = SaveSnapshot(id:request.id,stateID:snapshotStateID,diagram:snapshot)
         saveSnapshotLock.unlock()
+        recordSave("captured", id: request.id, state: snapshotStateID)
+        didCaptureSaveSnapshot?()
         super.save(to:request.url,ofType:request.typeName,for:request.operation) { [weak self] error in
             guard let self else {
                 request.completion(error)
                 return
             }
             self.finishSaveSnapshot(request.id)
+            let acknowledgesDocument = [NSDocument.SaveOperationType.saveOperation, .saveAsOperation, .autosaveInPlaceOperation].contains(request.operation)
+            if error == nil && acknowledgesDocument {
+                self.savedStateID = snapshotStateID
+                // Reconcile AppKit's visible counters against our exact snapshot.
+                // Its token may have been captured after a reentrant edit.
+                self.updateChangeCount(.changeCleared)
+                if self.stateID != snapshotStateID { self.updateChangeCount(.changeDone) }
+            }
+            self.recordSave(error == nil ? "succeeded" : "failed", id: request.id, state: snapshotStateID)
             if error == nil,[NSDocument.SaveOperationType.saveOperation,.saveAsOperation,.autosaveInPlaceOperation].contains(request.operation) {
                 DispatchQueue.main.async { [weak self] in self?.documentWorkflow?.noteRecent(request.url) }
             }
@@ -195,16 +238,19 @@ final class MacVisioDocument: NSDocument {
             previousIssues:calculationIssues,previousGeometryIssuesByPage:geometryIssuesByPage)
         applyCalculated(calculation.diagram,issues:calculation.issues,geometryIssuesByPage:calculation.geometryIssuesByPage,action:action)
     }
-    private func applyCalculated(_ next:Diagram,issues:[String],geometryIssuesByPage nextGeometryIssuesByPage:[UUID:[String]],action:String) {
+    private func applyCalculated(_ next:Diagram,issues:[String],geometryIssuesByPage nextGeometryIssuesByPage:[UUID:[String]],action:String, restoringStateID: UUID? = nil) {
         let previousIssues = calculationIssues,previousGeometryIssuesByPage = geometryIssuesByPage
         calculationIssues = issues;geometryIssuesByPage = nextGeometryIssuesByPage
         guard next != diagram else { return }
         let previous = diagram
+        let previousStateID = stateID
+        if savedStateID == nil && !super.isDocumentEdited { savedStateID = previousStateID }
         undoManager?.registerUndo(withTarget:self) { target in
-            target.applyCalculated(previous,issues:previousIssues,geometryIssuesByPage:previousGeometryIssuesByPage,action:action)
+            target.applyCalculated(previous,issues:previousIssues,geometryIssuesByPage:previousGeometryIssuesByPage,action:action,restoringStateID:previousStateID)
         }
         undoManager?.setActionName(action)
         diagram = next
+        if let restoringStateID { stateID = restoringStateID }
         updateChangeCount(.changeDone)
         for controller in windowControllers { (controller as? EditorWindowController)?.refresh() }
     }
