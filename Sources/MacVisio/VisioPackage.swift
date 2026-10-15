@@ -68,6 +68,8 @@ struct VisioDocumentArchive: Codable, Equatable {
 /// Imported theme metadata needed by ShapeSheet evaluation. `colors` contains
 /// only concrete RGB values we can resolve without Office's system palette or
 /// theme effects; `colorScheme` retains each DrawingML color node's base data.
+/// Line matrix widths/caps are imported separately from the Visio lineEx
+/// extension records; only the former currently have exact selector mapping.
 struct VisioTheme: Codable, Equatable {
     var relationshipID: String
     var relationshipType: String
@@ -76,7 +78,20 @@ struct VisioTheme: Codable, Equatable {
     var name: String?
     var colorSchemeName: String?
     var schemeIndex: Int?
+    /// Effect-scheme selector stored in the Visio fmtSchemeEx extension.
+    var effectSchemeIndex: Int?
+    /// Connector-scheme selector stored in the Visio fmtConnectorSchemeEx extension.
+    var connectorSchemeIndex: Int?
     var colorScheme: [String: VisioThemeColor] = [:]
+    /// Ordered DrawingML line matrix entries. QuickStyleLineMatrix 1...6
+    /// selects the corresponding one-based entry when it is present.
+    var effectLineStyles: [VisioThemeLineStyle] = []
+    var connectorLineStyles: [VisioThemeLineStyle] = []
+    /// Visio lineEx records are retained as typed metadata. Their sequence
+    /// offset relative to QuickStyleLineMatrix is not specified by the public
+    /// schema, so the evaluator does not currently resolve these properties.
+    var effectLineExtensions: [VisioThemeLineExtension] = []
+    var connectorLineExtensions: [VisioThemeLineExtension] = []
     /// Visio's variation color schemes in their zero-based XML list order.
     var variationColorSchemes: [Int: [String: String]] = [:]
     /// Monotone attributes keyed by the same zero-based color scheme index.
@@ -94,6 +109,56 @@ struct VisioTheme: Codable, Equatable {
     /// Normalized RGB colors keyed as Dark, Light, BackgroundColor and
     /// AccentColor1...AccentColor6.
     var colors: [String: String] = [:]
+}
+
+extension VisioTheme {
+    private enum CodingKeys:String,CodingKey {
+        case relationshipID,relationshipType,target,part,name,colorSchemeName,schemeIndex
+        case effectSchemeIndex,connectorSchemeIndex,colorScheme
+        case effectLineStyles,connectorLineStyles,effectLineExtensions,connectorLineExtensions
+        case variationColorSchemes,variationColorSchemeMonotone,variationStyleSchemes
+        case variationColorIndex,variationStyleIndex,values,colors
+    }
+
+    init(from decoder:Decoder) throws {
+        let container = try decoder.container(keyedBy:CodingKeys.self)
+        relationshipID = try container.decode(String.self,forKey:.relationshipID)
+        relationshipType = try container.decode(String.self,forKey:.relationshipType)
+        target = try container.decode(String.self,forKey:.target)
+        part = try container.decode(String.self,forKey:.part)
+        name = try container.decodeIfPresent(String.self,forKey:.name)
+        colorSchemeName = try container.decodeIfPresent(String.self,forKey:.colorSchemeName)
+        schemeIndex = try container.decodeIfPresent(Int.self,forKey:.schemeIndex)
+        effectSchemeIndex = try container.decodeIfPresent(Int.self,forKey:.effectSchemeIndex)
+        connectorSchemeIndex = try container.decodeIfPresent(Int.self,forKey:.connectorSchemeIndex)
+        colorScheme = try container.decodeIfPresent([String:VisioThemeColor].self,forKey:.colorScheme) ?? [:]
+        effectLineStyles = try container.decodeIfPresent([VisioThemeLineStyle].self,forKey:.effectLineStyles) ?? []
+        connectorLineStyles = try container.decodeIfPresent([VisioThemeLineStyle].self,forKey:.connectorLineStyles) ?? []
+        effectLineExtensions = try container.decodeIfPresent([VisioThemeLineExtension].self,forKey:.effectLineExtensions) ?? []
+        connectorLineExtensions = try container.decodeIfPresent([VisioThemeLineExtension].self,forKey:.connectorLineExtensions) ?? []
+        variationColorSchemes = try container.decodeIfPresent([Int:[String:String]].self,forKey:.variationColorSchemes) ?? [:]
+        variationColorSchemeMonotone = try container.decodeIfPresent([Int:Bool].self,forKey:.variationColorSchemeMonotone) ?? [:]
+        variationStyleSchemes = try container.decodeIfPresent([Int:VisioThemeVariationStyleScheme].self,forKey:.variationStyleSchemes) ?? [:]
+        variationColorIndex = try container.decodeIfPresent(Int.self,forKey:.variationColorIndex)
+        variationStyleIndex = try container.decodeIfPresent(Int.self,forKey:.variationStyleIndex)
+        values = try container.decodeIfPresent([String:ShapeSheetCell].self,forKey:.values) ?? [:]
+        colors = try container.decodeIfPresent([String:String].self,forKey:.colors) ?? [:]
+    }
+}
+
+struct VisioThemeLineStyle: Codable, Equatable {
+    /// DrawingML line width in EMUs (914,400 EMUs per inch).
+    var widthEMU: Int?
+    /// DrawingML cap token (`rnd`, `sq`, or another preserved token).
+    var cap: String?
+}
+
+struct VisioThemeLineExtension: Codable, Equatable {
+    var roundingEMU: Int?
+    var beginArrow: Int?
+    var beginSize: Int?
+    var endArrow: Int?
+    var endSize: Int?
 }
 
 struct VisioThemeColor: Codable, Equatable {

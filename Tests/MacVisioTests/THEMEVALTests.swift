@@ -21,6 +21,103 @@ final class THEMEVALTests:XCTestCase {
         return page
     }
 
+    func testThemeLineWeightAndCapUseSelectedRealLineMatrix() throws {
+        let fixture = URL(fileURLWithPath:#filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/blue-box.vsdx")
+        let imported = try VisioFormat.read(from:fixture).diagram
+        var theme = try XCTUnwrap(imported.page.theme)
+        theme.connectorSchemeIndex = 48
+        var shape = DiagramNode(text:"Selected dynamic line")
+        shape.formatting.sheet["EffectSchemeIndex"] = cell(String(try XCTUnwrap(theme.effectSchemeIndex)))
+        shape.formatting.sheet["ConnectorSchemeIndex"] = cell("48")
+        shape.formatting.sheet["QuickStyleType"] = cell("0")
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("4")
+        shape.formatting.sheet["LineWeight"] = cell("0.01","THEMEVAL()")
+        shape.formatting.sheet["LineCap"] = cell("0","THEMEVAL()")
+        shape.formatting.sheet["User.ExplicitLineWeight"] = cell("0","THEMEVAL(\"LineWeight\")")
+        shape.formatting.sheet["User.ExplicitLineCap"] = cell("0","THEMEVAL(\"LineCap\")")
+        var page = imported.page;page.nodes = [shape];page.theme = theme
+        let context = ShapeSheetContext(page:page)
+        let matrixFourWeight = SheetValue.quantity(3175.0/914400.0,"IN")
+
+        XCTAssertEqual(try context.value(shape.id,"LineWeight"),matrixFourWeight)
+        XCTAssertEqual(try context.value(shape.id,"LineCap"),.number(1))
+        XCTAssertEqual(try context.value(shape.id,"User.ExplicitLineWeight"),matrixFourWeight)
+        XCTAssertEqual(try context.value(shape.id,"User.ExplicitLineCap"),.number(1))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"LineWeight\",1/0)",on:shape.id),matrixFourWeight)
+
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("2")
+        shape.formatting.sheet["QuickStyleType"] = cell("2")
+        shape.formatting.sheet["LineWeight"] = cell("0","THEMEVAL()")
+        shape.formatting.sheet["LineCap"] = cell("0","THEMEVAL()")
+        shape.formatting.sheet["User.ConnectorWeight"] = cell("0","THEMEVAL(\"ConnectorWeight\")")
+        page.nodes = [shape]
+        let connectorContext = ShapeSheetContext(page:page)
+        XCTAssertEqual(try connectorContext.value(shape.id,"LineWeight"),.quantity(9525.0/914400.0,"IN"))
+        XCTAssertEqual(try connectorContext.value(shape.id,"LineCap"),.number(1))
+        XCTAssertEqual(try connectorContext.value(shape.id,"User.ConnectorWeight"),.quantity(12700.0/914400.0,"IN"))
+
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("3")
+        shape.formatting.sheet["QuickStyleType"] = cell("3")
+        page.nodes = [shape]
+        let explicitConnectorContext = ShapeSheetContext(page:page)
+        XCTAssertEqual(try explicitConnectorContext.value(shape.id,"LineWeight"),.quantity(25400.0/914400.0,"IN"))
+        XCTAssertEqual(try explicitConnectorContext.value(shape.id,"LineCap"),.number(0))
+    }
+
+    func testThemeLineVariationSelectorsAndNoThemeFallbackAreBounded() throws {
+        let fixture = URL(fileURLWithPath:#filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/testfile1.vsdx")
+        let imported = try VisioFormat.read(from:fixture).diagram
+        let theme = try XCTUnwrap(imported.page.theme)
+        var shape = DiagramNode(text:"Variation-selected line")
+        shape.formatting.sheet["EffectSchemeIndex"] = cell(String(try XCTUnwrap(theme.effectSchemeIndex)))
+        shape.formatting.sheet["QuickStyleType"] = cell("1")
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("102")
+        shape.formatting.sheet["User.VariationWeight"] = cell("0","THEMEVAL(\"LineWeight\")")
+        var page = imported.page;page.nodes = [shape]
+        let variation = try XCTUnwrap(theme.variationStyleSchemes[2]?.styles[2].lineIndex)
+        let expectedEMU = try XCTUnwrap(theme.effectLineStyles[variation-1].widthEMU)
+        XCTAssertEqual(try ShapeSheetContext(page:page).value(shape.id,"User.VariationWeight"),.quantity(Double(expectedEMU)/914400.0,"IN"))
+
+        var noTheme = shape
+        noTheme.formatting.sheet["EffectSchemeIndex"] = cell("0")
+        noTheme.formatting.sheet["User.Fallback"] = cell("0","THEMEVAL(\"LineWeight\",0.25pt)")
+        page.nodes = [noTheme]
+        XCTAssertEqual(try ShapeSheetContext(page:page).value(noTheme.id,"User.Fallback"),.quantity(0.25/72.0,"PT"))
+
+        noTheme.formatting.sheet["EffectSchemeIndex"] = cell(String(try XCTUnwrap(theme.effectSchemeIndex)))
+        noTheme.formatting.sheet["QuickStyleLineMatrix"] = cell("0")
+        page.nodes = [noTheme]
+        XCTAssertThrowsError(try ShapeSheetContext(page:page).evaluate("THEMEVAL(\"LineWeight\",0.25pt)",on:noTheme.id))
+        noTheme.formatting.sheet["QuickStyleLineMatrix"] = cell("7")
+        page.nodes = [noTheme]
+        XCTAssertThrowsError(try ShapeSheetContext(page:page).evaluate("THEMEVAL(\"LineWeight\")",on:noTheme.id))
+
+        var mismatched = shape
+        mismatched.formatting.sheet["EffectSchemeIndex"] = cell("34")
+        mismatched.formatting.sheet["User.CachedWeight"] = cell("0.021","THEMEVAL(\"LineWeight\")")
+        page.nodes = [mismatched]
+        var diagram = Diagram();diagram.page = page
+        let result = ShapeSheetEngine.recalculate(diagram)
+        XCTAssertEqual(result.diagram.page.nodes[0].formatting.sheet["User.CachedWeight"]?.value,"0.021")
+        XCTAssertTrue(result.issues.contains{$0.localizedCaseInsensitiveContains("does not match the imported theme")},result.issues.joined(separator:"\n"))
+    }
+
+    func testDrawingMLFlatAndDefaultCapsMapToVisioLineCapValues() throws {
+        let source = try XCTUnwrap(VisioFormat.read(from:URL(fileURLWithPath:#filePath).deletingLastPathComponent().appendingPathComponent("Fixtures/blue-box.vsdx")).diagram.page.theme)
+        var theme = source
+        theme.effectLineStyles[0].cap = "flat"
+        theme.effectLineStyles[1].cap = nil
+        var shape = DiagramNode(text:"Cap enum")
+        shape.formatting.sheet["EffectSchemeIndex"] = cell(String(try XCTUnwrap(theme.effectSchemeIndex)))
+        shape.formatting.sheet["QuickStyleType"] = cell("1")
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("1")
+        var page = page(with:shape,theme:theme)
+        XCTAssertEqual(try ShapeSheetContext(page:page).evaluate("THEMEVAL(\"LineCap\")",on:shape.id),.number(2))
+        shape.formatting.sheet["QuickStyleLineMatrix"] = cell("2")
+        page.nodes = [shape]
+        XCTAssertEqual(try ShapeSheetContext(page:page).evaluate("THEMEVAL(\"LineCap\")",on:shape.id),.number(1))
+    }
+
     func testTwoArgumentColorDefaultIsLazyAndPreservesItsTypeWhenNoThemeIsApplied() throws {
         var shape = DiagramNode(text:"No Theme")
         shape.formatting.sheet["ColorSchemeIndex"] = cell("0")

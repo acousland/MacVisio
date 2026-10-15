@@ -809,7 +809,8 @@ enum VisioFormat {
         guard !relationship.external else { return nil }
         let part = try resolve(relationship.target,relativeTo:documentPart)
         let root = try archive.xml(part,expectedRoot:"theme")
-        let colorScheme = root.child("themeElements")?.child("clrScheme")
+        let themeElements = root.child("themeElements")
+        let colorScheme = themeElements?.child("clrScheme")
         var rawColors:[String:VisioThemeColor] = [:],colors:[String:String] = [:]
         let colorSlots:[String:String] = ["dk1":"Dark","lt1":"Light","dk2":"Dark2","lt2":"Light2",
             "accent1":"AccentColor1","accent2":"AccentColor2","accent3":"AccentColor3",
@@ -833,6 +834,33 @@ enum VisioFormat {
         func schemeEnum(_ element:XElement?) -> Int? {
             descendants(element,named:"schemeID").first?.attributes["schemeEnum"].flatMap(Int.init)
         }
+        func standardLineStyles(_ scheme:XElement?) -> [VisioThemeLineStyle] {
+            guard let list = scheme?.child("lnStyleLst") else { return [] }
+            return list.elements.filter{$0.name == "ln"}.map { line in
+                let widthEMU:Int?
+                if let rawWidth = line.attributes["w"] { widthEMU = Int(rawWidth) }
+                else { widthEMU = 0 }
+                return VisioThemeLineStyle(widthEMU:widthEMU,cap:line.attributes["cap"])
+            }
+        }
+        func extensionLineStyles(_ list:XElement?) -> [VisioThemeLineExtension] {
+            guard let list else { return [] }
+            return list.elements.filter{$0.name == "lineStyle"}.map { style in
+                let line = style.child("lineEx")
+                return VisioThemeLineExtension(roundingEMU:line?.attributes["rndg"].flatMap(Int.init),
+                    beginArrow:line?.attributes["start"].flatMap(Int.init),beginSize:line?.attributes["startSize"].flatMap(Int.init),
+                    endArrow:line?.attributes["end"].flatMap(Int.init),endSize:line?.attributes["endSize"].flatMap(Int.init))
+            }
+        }
+        let effectScheme = themeElements?.child("fmtScheme")
+        let connectorScheme = descendants(themeElements,named:"fmtConnectorScheme").first
+        let lineStylesExtension = descendants(themeElements,named:"lineStyles").first
+        let effectLineStyles = standardLineStyles(effectScheme)
+        let connectorLineStyles = standardLineStyles(connectorScheme)
+        let effectLineExtensions = extensionLineStyles(lineStylesExtension?.child("fmtSchemeLineStyles"))
+        let connectorLineExtensions = extensionLineStyles(lineStylesExtension?.child("fmtConnectorSchemeLineStyles"))
+        let effectSchemeIndex = schemeEnum(descendants(themeElements,named:"fmtSchemeEx").first)
+        let connectorSchemeIndex = schemeEnum(descendants(themeElements,named:"fmtConnectorSchemeEx").first)
         var variationColorSchemes:[Int:[String:String]] = [:],variationColorSchemeMonotone:[Int:Bool] = [:]
         if let list = descendants(colorScheme,named:"variationClrSchemeLst").first {
             let schemes = list.elements.filter{$0.name == "variationClrScheme"}
@@ -864,7 +892,11 @@ enum VisioFormat {
            let value = hexColor(rgb) { colors["BackgroundColor"] = value }
         return VisioTheme(relationshipID:relationshipID,relationshipType:relationship.type,target:relationship.target,part:part,
             name:root.attributes["name"],colorSchemeName:colorScheme?.attributes["name"],schemeIndex:schemeEnum(colorScheme),
-            colorScheme:rawColors,variationColorSchemes:variationColorSchemes,variationColorSchemeMonotone:variationColorSchemeMonotone,
+            effectSchemeIndex:effectSchemeIndex,connectorSchemeIndex:connectorSchemeIndex,
+            colorScheme:rawColors,
+            effectLineStyles:effectLineStyles,connectorLineStyles:connectorLineStyles,
+            effectLineExtensions:effectLineExtensions,connectorLineExtensions:connectorLineExtensions,
+            variationColorSchemes:variationColorSchemes,variationColorSchemeMonotone:variationColorSchemeMonotone,
             variationStyleSchemes:variationStyleSchemes,values:[:],colors:colors)
     }
 
@@ -945,11 +977,14 @@ enum VisioFormat {
         guard let style = styles[id], depth < 10 else { return [:] }
         var values = style.attributes[styleKey].map { styleCells($0, styles: styles, styleKey: styleKey, depth: depth + 1) } ?? [:]
         // A shape can use different line, fill and text styles; do not let one overwrite another.
-        let filtered = style.cells.filter {
+        let themeSelectorNames = ["QuickStyleLineMatrix","QuickStyleType","EffectSchemeIndex","ConnectorSchemeIndex","ThemeIndex","ColorSchemeIndex","FontSchemeIndex"]
+        let filtered = style.cells.filter { name,_ in
             switch styleKey {
-            case "LineStyle": return $0.key.hasPrefix("Line") || $0.key.contains("Arrow")
-            case "FillStyle": return $0.key.hasPrefix("Fill") || $0.key.hasPrefix("Shdw")
-            default: return !$0.key.hasPrefix("Line") && !$0.key.hasPrefix("Fill") && !$0.key.hasPrefix("Shdw")
+            case "LineStyle":
+                return name.hasPrefix("Line") || name.contains("Arrow")
+                    || themeSelectorNames.contains(where:{selector in selector.caseInsensitiveCompare(name) == .orderedSame})
+            case "FillStyle": return name.hasPrefix("Fill") || name.hasPrefix("Shdw")
+            default: return !name.hasPrefix("Line") && !name.hasPrefix("Fill") && !name.hasPrefix("Shdw")
             }
         }
         values.merge(filtered) { old, new in new.value == "Inh" ? old : new }

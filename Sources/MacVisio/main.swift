@@ -197,8 +197,15 @@ if CommandLine.arguments.contains("--launch-check") {
     arguments["ApplePersistenceIgnoreState"] = true;arguments["NSQuitAlwaysKeepsWindows"] = false
     UserDefaults.standard.setVolatileDomain(arguments,forName:UserDefaults.argumentDomain)
 }
+if let index = CommandLine.arguments.firstIndex(of:"--appearance"),CommandLine.arguments.indices.contains(index+1),
+   ["dark","light","system"].contains(CommandLine.arguments[index+1]) {
+    var arguments = UserDefaults.standard.volatileDomain(forName:UserDefaults.argumentDomain)
+    arguments[EditorAppearance.preferenceKey] = CommandLine.arguments[index+1]
+    UserDefaults.standard.setVolatileDomain(arguments,forName:UserDefaults.argumentDomain)
+}
 let application = NSApplication.shared
 application.setActivationPolicy(.regular)
+EditorAppearance.apply()
 if let index = CommandLine.arguments.firstIndex(of:"--prepare-interchange-fixtures"),CommandLine.arguments.indices.contains(index+1) {
     do { try InterchangeFixtures.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated synthetic public-content interchange fixtures");exit(0) }
     catch { fputs("Interchange fixture generation failed: \(error.localizedDescription)\n",stderr);exit(1) }
@@ -291,6 +298,10 @@ if let index = CommandLine.arguments.firstIndex(where:{$0 == "--convert" || $0 =
 if let index = CommandLine.arguments.firstIndex(of:"--render-ui"),CommandLine.arguments.indices.contains(index+1) {
     let doc = MacVisioDocument(); doc.diagram = CommandLine.arguments.contains("--page-example") ? PageExample.make() : DiagramTemplate.flowchart.makeDiagram(); doc.makeWindowControllers()
     if let controller = doc.windowControllers.first as? EditorWindowController,let view = controller.window?.contentView {
+        if CommandLine.arguments.contains("--compact-ui") { controller.window?.setContentSize(CGSize(width:1000,height:680)) }
+        if let tab = CommandLine.arguments.firstIndex(of:"--ribbon-tab"),CommandLine.arguments.indices.contains(tab+1) {
+            controller.root.ribbon.selectTab(CommandLine.arguments[tab+1])
+        }
         view.layoutSubtreeIfNeeded(); controller.canvas.fitPage(); view.layoutSubtreeIfNeeded()
         if let bitmap = view.bitmapImageRepForCachingDisplay(in:view.bounds) {
             view.cacheDisplay(in:view.bounds,to:bitmap)

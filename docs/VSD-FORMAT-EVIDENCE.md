@@ -276,7 +276,7 @@ Rows below are source-established reader offsets, with observed physical suffix 
 | LocPinY | 45 | 46 |
 | Angle (radians) | 54 | 55 |
 
-XForm then flipX u8@63,flipY u8@64 (nonzero true). TextXForm stops before flips. Shortest observed XForm69bytes in NoBg: suffix@65..68=`00 01 0f 00`; other shapes include formula blocks after a fixed prefix. TextXForm shortest observed69bytes as well, though the reader only consumes63. XForm1D stores BeginX,BeginY,EndX,EndY as four successive unit+double pairs at0/1,9/10,18/19,27/28; shortest observed38bytes (36parsed+2unknown).
+XForm then flipX u8@63,flipY u8@64 (nonzero true). TextXForm stops before flips. Shortest observed XForm69bytes in NoBg: suffix@65..68=`00 01 0f 00`; other shapes include formula blocks after a fixed prefix. TextXForm shortest observed69bytes as well, though the reader only consumes63. XForm1D stores BeginX,BeginY,EndX,EndY as four successive unit+double pairs at0/1,9/10,18/19,27/28; shortest observed38bytes (36parsed+2unknown). `VSDParser.cpp:1147–1159` dispatches chunk `9d` to this reader and reads those four doubles after skipping each unit byte. The experimental writer now emits that parsed prefix for model edges and uses the observed `0010` shape-header value as a connector marker; the marker's meaning remains inferred from the fixture, and the two-byte suffix is not interpreted by the reader. This is source-reader-guided output, not evidence of Windows acceptance or glue behavior.
 
 ### PageProps `92`
 

@@ -83,7 +83,7 @@ enum VSDBinaryFormat {
             var p = Data();p.put(UInt32(run.fieldIndex == nil ? run.text.utf16.count : 1));for value in [0.0,0,0,-1.2,0,0] { p.append(scalar(value,unit:0x20)) };p.put(UInt8(run.paragraph.alignment == .left ? 0 : run.paragraph.alignment == .right ? 2 : 1));p.put(UInt8(0));p.append(Data(repeating:0,count:8));p.putDouble(0);p.append(scalar(0));p.put(UInt32(0));p.append(Data(repeating:0,count:34));out.append(chunk(0x95,id:UInt32(i),level:3,payload:p))
         };return out
     }
-    private static func shape(_ node:DiagramNode,id:UInt32,parent:UInt32,pageHeight:Double,children:[(UInt32,UInt32)],fonts:[String:UInt16]) throws -> Data {
+    private static func shape(_ node:DiagramNode,id:UInt32,parent:UInt32,pageHeight:Double,children:[(UInt32,UInt32)],fonts:[String:UInt16],oneDimensionalEndpoints:(CGPoint,CGPoint)? = nil) throws -> Data {
         var publicNode = node
         let supported = Set(["MoveTo","RelMoveTo","LineTo","RelLineTo","Ellipse","CubBezTo","RelCubBezTo","NURBSTo","PolylineTo","PolyLineTo","SplineStart","SplineKnot"])
         if node.formatting.geometry?.contains(where:{$0.rows.contains{ row in
@@ -94,10 +94,19 @@ enum VSDBinaryFormat {
         }}) == true { publicNode.formatting.geometry = nil }
         let xml = try VisioXML.element(VisioFormat.shapeXML(publicNode,id:Int(id),pageHeight:pageHeight))
         let group = node.formatting.isGroup,type:UInt32 = node.formatting.image != nil ? 0x4E : group ? 0x47 : 0x48
-        var out = sectionHeader(type,id:id,listCount:5,subheader:68,children:[0,1,2,3,4],parent:parent)
-        let propIDs:[UInt32] = node.formatting.textBox == nil ? [0,1,2,3] : [0,1,2,3,4]
+        let sectionIDs:[UInt32] = oneDimensionalEndpoints == nil ? [0,1,2,3,4] : [0,1,2,3,4,5]
+        var out = sectionHeader(type,id:id,listCount:UInt32(sectionIDs.count),subheader:68,children:sectionIDs,parent:parent,connector:oneDimensionalEndpoints != nil)
+        var propIDs:[UInt32] = node.formatting.textBox == nil ? [0,1,2,3] : [0,1,2,3,4]
+        if oneDimensionalEndpoints != nil { propIDs.append(5) }
         out.append(listChunk(0x68,id:0,children:propIDs))
         var transform = Data();for key in ["PinX","PinY","Width","Height","LocPinX","LocPinY","Angle"] { transform.append(scalar(VisioXML.number(xml,key),unit:key == "Angle" ? 0x20 : 0x40)) };transform.put(UInt8(node.formatting.flipX ? 1 : 0));transform.put(UInt8(node.formatting.flipY ? 1 : 0));out.append(chunk(0x9B,level:3,payload:transform))
+        if let (begin,end) = oneDimensionalEndpoints {
+            // XForm1D uses inches in the containing page or group's coordinate space.
+            var endpoints = Data()
+            for point in [begin,end] { endpoints.append(scalar(point.x/72));endpoints.append(scalar((pageHeight-point.y)/72)) }
+            endpoints.append(Data(repeating:0,count:2))
+            out.append(chunk(0x9D,id:5,level:3,payload:endpoints))
+        }
         out.append(line(node.stroke,width:node.strokeWidth,pattern:rgb(node.stroke)[3] == 255 ? 0 : node.formatting.linePattern));out.append(fill(node.fill))
         let box = node.formatting.textBox
         var block = Data();for v in [box?.left ?? 5,box?.right ?? 5,box?.top ?? 5,box?.bottom ?? 5] { block.append(scalar(v/72)) };block.put(UInt8(clamping:box?.verticalAlignment ?? 1));block.append(Data(repeating:0,count:5));block.append(scalar(0.5));block.append(Data(repeating:0,count:13));out.append(chunk(0x87,id:3,level:3,payload:block))
@@ -186,7 +195,7 @@ enum VSDBinaryFormat {
             let minX = points.map(\.x).min()!,maxX = points.map(\.x).max()!,minY = points.map(\.y).min()!,maxY = points.map(\.y).max()!
             var n = DiagramNode(x:minX,y:minY,text:edge.label);n.width = max(0.072,maxX-minX);n.height = max(0.072,maxY-minY);n.fill = "#FFFFFF00";n.stroke = edge.color;n.strokeWidth = edge.width;n.fontSize = 12;n.textColor = edge.color
             n.formatting.linePattern = edge.dash ?? 1;n.formatting.paths = [VectorPath(commands:points.enumerated().map{VectorCommand($0.offset == 0 ? "M" : "L",($0.element.x-minX)/n.width,($0.element.y-minY)/n.height)},fill:false)]
-            var data = try shape(n,id:UInt32(page.nodes.count+i+1),parent:edge.parentID.flatMap{ids[$0]} ?? 0,pageHeight:coordinates.page.height,children:[],fonts:fonts)
+            var data = try shape(n,id:UInt32(page.nodes.count+i+1),parent:edge.parentID.flatMap{ids[$0]} ?? 0,pageHeight:coordinates.page.height,children:[],fonts:fonts,oneDimensionalEndpoints:(points[0],points[points.count-1]))
             // Line properties are independent of the cached path; add the markers in a
             // fresh property section after the existing geometry, before the next shape.
             data.append(listChunk(0x68,id:6,children:[0]));data.append(line(edge.color,width:edge.width,pattern:edge.dash ?? 1,start:edge.startArrow == true,end:edge.arrow));out.append(data)

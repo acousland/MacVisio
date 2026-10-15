@@ -253,6 +253,14 @@ final class GroupedConnectorTests:XCTestCase {
     func testBinaryGroupedRouteParsesAtItsTransformedWorldPositionWithoutMetadata() throws {
         var model = diagram(true);transform(&model);let source = try url("grouped.vsd")
         try VSDBinaryFormat.encoded(model,includeMetadata:false).write(to:source)
+        let publicStream = try BinaryVSDTestRecords.publicStream(source),connectorShape = try BinaryVSDTestRecords.find(0x48,id:6,in:publicStream)
+        XCTAssertEqual(connectorShape.level,1);XCTAssertEqual(connectorShape.list,6)
+        let bytes = BinaryBytes(publicStream);XCTAssertEqual(try bytes.u16(connectorShape.offset+19+54),0x10)
+        let xform = try BinaryVSDTestRecords.find(0x9D,id:5,in:publicStream,after:connectorShape.offset)
+        XCTAssertEqual(xform.level,3)
+        let local = DiagramCoordinates.connector(model.page.edges[1],in:model.page),localRoute = DiagramGeometry.route(local.edge,in:local.page)
+        let expectedEndpoints = [localRoute[0].x/72,(local.page.height-localRoute[0].y)/72,localRoute.last!.x/72,(local.page.height-localRoute.last!.y)/72]
+        for (index,value) in expectedEndpoints.enumerated() { XCTAssertEqual(try bytes.double(xform.offset+19+index*9+1),value,accuracy:1e-10) }
         let restored = try LegacyVisioFormat.read(from:source).diagram
         let paths = restored.page.nodes.filter{$0.stroke.uppercased().hasPrefix("#C0392B") && !$0.formatting.paths.isEmpty}
         XCTAssertFalse(paths.isEmpty)

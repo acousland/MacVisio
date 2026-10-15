@@ -54,7 +54,7 @@ final class CanvasView: NSView {
     static let fragmentPasteboardType = NSPasteboard.PasteboardType("com.macvisio.fragment")
     override var isFlipped: Bool { true }
     override var acceptsFirstResponder: Bool { true }
-    var pageOrigin: CGPoint { CGPoint(x:max(48*zoom,(bounds.width-page.width*coordinateZoom)/2),y:44*zoom) }
+    var pageOrigin: CGPoint { CGPoint(x:max(44,(bounds.width-page.width*coordinateZoom)/2),y:36) }
     var pageFrame: CGRect { CGRect(x:pageOrigin.x,y:pageOrigin.y,width:page.width*coordinateZoom,height:page.height*coordinateZoom) }
     override init(frame:NSRect) {
         super.init(frame:frame)
@@ -62,10 +62,11 @@ final class CanvasView: NSView {
         setAccessibilityIdentifier("diagramCanvas"); setAccessibilityLabel("Diagram canvas")
     }
     required init?(coder:NSCoder) { fatalError() }
+    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance(); needsDisplay = true }
     func refreshSize() {
         guard editor != nil else { return }
         let size = enclosingScrollView?.contentSize ?? .zero
-        frame.size = CGSize(width:max(size.width,(page.paperWidth+96)*zoom),height:max(size.height,(page.paperHeight+88)*zoom))
+        frame.size = CGSize(width:max(size.width,page.paperWidth*zoom+88),height:max(size.height,page.paperHeight*zoom+72))
         updateControlToolTips()
         needsDisplay = true
     }
@@ -80,7 +81,7 @@ final class CanvasView: NSView {
     }
     func fitPage() {
         guard let size = enclosingScrollView?.contentSize, size.width > 0 else { return }
-        setZoom(min((size.width-70)/page.paperWidth,(size.height-65)/page.paperHeight)); scroll(.zero)
+        setZoom(min((size.width-88)/page.paperWidth,(size.height-72)/page.paperHeight)); scroll(.zero)
     }
     func select(_ ids:Set<UUID>, edge:UUID? = nil) {
         selectedNodes = ids; selectedEdge = edge;updateControlToolTips(); needsDisplay = true; editor?.selectionChanged()
@@ -130,21 +131,57 @@ final class CanvasView: NSView {
     }
     override func draw(_ dirtyRect:NSRect) {
         guard editor != nil else { return }
-        NSColor(hex:"#E9EDF3").setFill(); bounds.fill()
+        EditorPalette.workspace.setFill(); bounds.fill()
         let paper = pageFrame
         NSGraphicsContext.saveGraphicsState()
         let shadow = NSShadow(); shadow.shadowColor = NSColor(hex:"#263953").withAlphaComponent(0.15); shadow.shadowBlurRadius = 16; shadow.shadowOffset = NSSize(width:0,height:2); shadow.set()
         NSColor.white.setFill(); paper.fill()
         NSGraphicsContext.restoreGraphicsState()
         // Ruler remains outside the drawing and is never included in exports.
-        let attrs: [NSAttributedString.Key:Any] = [.font:NSFont.monospacedDigitSystemFont(ofSize:9,weight:.regular),.foregroundColor:NSColor(hex:"#8A98AB")]
-        let ruler = NSBezierPath()
-        for (index,x) in stride(from:0.0,through:page.width,by:20/page.paperScale).enumerated() {
-            let px = paper.minX+x*coordinateZoom
-            ruler.move(to:CGPoint(x:px,y:paper.minY-5)); ruler.line(to:CGPoint(x:px,y:paper.minY-(index%5 == 0 ? 12 : 8)))
-            if index%5 == 0 { ("\(Int(x))" as NSString).draw(at:CGPoint(x:px+3,y:paper.minY-26),withAttributes:attrs) }
+        let rulerFont = NSFont.monospacedDigitSystemFont(ofSize:9,weight:.regular)
+        let rulerAttrs: [NSAttributedString.Key:Any] = [.font:rulerFont,.foregroundColor:NSColor.secondaryLabelColor]
+        let verticalRulerStyle = NSMutableParagraphStyle(); verticalRulerStyle.alignment = .right
+        let verticalRulerAttrs: [NSAttributedString.Key:Any] = [.font:rulerFont,.foregroundColor:NSColor.secondaryLabelColor,.paragraphStyle:verticalRulerStyle]
+        let tickStep = 20/page.paperScale
+        let pixelStep = tickStep*coordinateZoom
+        let topBand = CGRect(x:paper.minX,y:paper.minY-31,width:paper.width,height:31)
+        let visibleTop = dirtyRect.intersection(topBand)
+        if !visibleTop.isNull, pixelStep > 0 {
+            // Restrict iteration to ticks intersecting this draw pass. Large pages
+            // should not make a small invalidation walk every ruler division.
+            let first = max(0,ceil((visibleTop.minX-paper.minX-48)/pixelStep))
+            let last = min(floor(page.width/tickStep),floor((visibleTop.maxX-paper.minX)/pixelStep))
+            let ruler = NSBezierPath()
+            if first <= last {
+                var index = first
+                while index <= last {
+                    let x = index*tickStep, px = paper.minX+x*coordinateZoom
+                    let major = index.truncatingRemainder(dividingBy:5) == 0
+                    ruler.move(to:CGPoint(x:px,y:paper.minY-5)); ruler.line(to:CGPoint(x:px,y:paper.minY-(major ? 12 : 8)))
+                    if major { ("\(Int(x))" as NSString).draw(at:CGPoint(x:px+3,y:paper.minY-26),withAttributes:rulerAttrs) }
+                    index += 1
+                }
+            }
+            EditorPalette.ruler.setStroke(); ruler.lineWidth = 0.5; ruler.stroke()
         }
-        NSColor(hex:"#B8C4D3").setStroke(); ruler.lineWidth = 0.5; ruler.stroke()
+        let leftBand = CGRect(x:paper.minX-43,y:paper.minY,width:43,height:paper.height)
+        let visibleLeft = dirtyRect.intersection(leftBand)
+        if !visibleLeft.isNull, pixelStep > 0 {
+            let first = max(0,ceil((visibleLeft.minY-paper.minY-6)/pixelStep))
+            let last = min(floor(page.height/tickStep),floor((visibleLeft.maxY-paper.minY)/pixelStep))
+            let ruler = NSBezierPath()
+            if first <= last {
+                var index = first
+                while index <= last {
+                    let y = index*tickStep, py = paper.minY+y*coordinateZoom
+                    let major = index.truncatingRemainder(dividingBy:5) == 0
+                    ruler.move(to:CGPoint(x:paper.minX-5,y:py)); ruler.line(to:CGPoint(x:paper.minX-(major ? 12 : 8),y:py))
+                    if major { ("\(Int(y))" as NSString).draw(in:CGRect(x:paper.minX-39,y:py-6,width:29,height:12),withAttributes:verticalRulerAttrs) }
+                    index += 1
+                }
+            }
+            EditorPalette.ruler.setStroke(); ruler.lineWidth = 0.5; ruler.stroke()
+        }
         NSGraphicsContext.saveGraphicsState()
         let transform = NSAffineTransform(); transform.translateX(by:paper.minX,yBy:paper.minY); transform.scale(by:coordinateZoom); transform.concat()
         NSBezierPath(rect:CGRect(x:0,y:0,width:page.width,height:page.height)).addClip()

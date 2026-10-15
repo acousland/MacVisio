@@ -2,8 +2,8 @@ import AppKit
 
 class FlippedView: NSView { override var isFlipped: Bool { true } }
 
-func uiLabel(_ text:String,size:CGFloat = 12,weight:NSFont.Weight = .regular,color:String = "#52647C") -> NSTextField {
-    let label = NSTextField(labelWithString:text); label.font = .systemFont(ofSize:size,weight:weight); label.textColor = NSColor(hex:color); return label
+func uiLabel(_ text:String,size:CGFloat = 12,weight:NSFont.Weight = .regular,color:String? = nil) -> NSTextField {
+    let label = NSTextField(labelWithString:text); label.font = .systemFont(ofSize:size,weight:weight); label.textColor = color.map{NSColor(hex:$0)} ?? .secondaryLabelColor; return label
 }
 func symbolButton(_ symbol:String,label:String,target:AnyObject?,action:Selector) -> NSButton {
     let button = NSButton(image:NSImage(systemSymbolName:symbol,accessibilityDescription:label) ?? NSImage(),target:target,action:action)
@@ -25,13 +25,14 @@ final class StencilCard: FlippedView {
     override func mouseEntered(with event:NSEvent) { hover = true; needsDisplay = true }
     override func mouseExited(with event:NSEvent) { hover = false; needsDisplay = true }
     override func draw(_ dirtyRect:NSRect) {
-        if hover { NSColor(hex:"#E8EDF5").setFill(); NSBezierPath(roundedRect:bounds.insetBy(dx:0,dy:2),xRadius:7,yRadius:7).fill() }
+        if hover { EditorPalette.hover.setFill(); NSBezierPath(roundedRect:bounds.insetBy(dx:0,dy:2),xRadius:7,yRadius:7).fill() }
+        NSColor.white.setFill();NSBezierPath(roundedRect:CGRect(x:7,y:5,width:48,height:34),xRadius:2,yRadius:2).fill()
         var n = DiagramNode(kind:kind,x:13,y:10,text:""); n.width = 40; n.height = 26; n.strokeWidth = 1.2
         if kind == .person { n.x = 24; n.width = 18; n.y = 5; n.height = 34 }
         if kind == .text { n.text = "T"; n.fontSize = 21; n.width = 40; n.height = 32; n.y = 6 }
         DiagramDrawing.drawNode(n,shadow:false)
-        (kind.title as NSString).draw(at:CGPoint(x:65,y:15),withAttributes:[.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor(hex:"#33465F")])
-        ("+" as NSString).draw(at:CGPoint(x:bounds.width-20,y:14),withAttributes:[.font:NSFont.systemFont(ofSize:13),.foregroundColor:NSColor(hex:hover ? "#4777B9" : "#ABB6C5")])
+        (kind.title as NSString).draw(at:CGPoint(x:65,y:15),withAttributes:[.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor.labelColor])
+        ("+" as NSString).draw(at:CGPoint(x:bounds.width-20,y:14),withAttributes:[.font:NSFont.systemFont(ofSize:13),.foregroundColor:(hover ? EditorPalette.accent : NSColor.tertiaryLabelColor)])
     }
     override func mouseDown(with event:NSEvent) { downEvent = event; dragged = false }
     override func mouseDragged(with event:NSEvent) {
@@ -61,13 +62,14 @@ final class MasterStencilCard: FlippedView, NSDraggingSource {
     }
     required init?(coder:NSCoder) { fatalError() }
     override func draw(_ dirtyRect:NSRect) {
+        NSColor.white.setFill();NSBezierPath(roundedRect:CGRect(x:7,y:5,width:48,height:34),xRadius:2,yRadius:2).fill()
         NSGraphicsContext.saveGraphicsState()
         let p = definition.fragment,scale = min(40/max(1,p.width),32/max(1,p.height))
         let transform = NSAffineTransform();transform.translateX(by:13+(40-p.width*scale)/2,yBy:6+(32-p.height*scale)/2);transform.scale(by:scale);transform.concat()
         for edge in p.edges { DiagramDrawing.drawEdge(edge,in:p) };for node in p.nodes { DiagramDrawing.drawNode(node,shadow:false,paperScale:p.paperScale) }
         NSGraphicsContext.restoreGraphicsState()
         let style = NSMutableParagraphStyle();style.lineBreakMode = .byTruncatingTail
-        (definition.name as NSString).draw(in:CGRect(x:65,y:14,width:bounds.width-70,height:22),withAttributes:[.font:NSFont.systemFont(ofSize:12),.foregroundColor:NSColor(hex:"#33465F"),.paragraphStyle:style])
+        (definition.name as NSString).draw(in:CGRect(x:65,y:14,width:bounds.width-70,height:22),withAttributes:[.font:NSFont.systemFont(ofSize:12),.foregroundColor:NSColor.labelColor,.paragraphStyle:style])
     }
     override func mouseDown(with event:NSEvent) { down = event;dragged = false }
     override func mouseDragged(with event:NSEvent) {
@@ -87,21 +89,28 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     let category = NSPopUpButton()
     let list = FlippedView()
     let listScroll = NSScrollView()
-    let heading = uiLabel("SHAPES",size:10,weight:.bold,color:"#8795A8")
-    let subtitle = uiLabel("Drag a shape onto your page",size:11,color:"#8A98AA")
+    let heading = uiLabel("Shapes",size:17,weight:.semibold)
+    let subtitle = uiLabel("Drag shapes onto the drawing",size:10)
+    let openStencil = NSButton(title:"More Shapes…",target:nil,action:nil)
     init(editor:EditorWindowController) {
         self.editor = editor; super.init(frame:.zero)
-        wantsLayer = true; layer?.backgroundColor = NSColor(hex:"#F7F9FC").cgColor
+        wantsLayer = true; layer?.backgroundColor = EditorPalette.panel.cgColor
+        heading.textColor = .labelColor
         search.placeholderString = "Search shapes"; search.delegate = self; search.setAccessibilityIdentifier("shapeSearch")
         category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers"]); category.target = self; category.action = #selector(filterChanged(_:)); category.font = .systemFont(ofSize:12,weight:.medium)
         listScroll.documentView = list; listScroll.hasVerticalScroller = true; listScroll.autohidesScrollers = true; listScroll.drawsBackground = false
-        [heading,search,category,listScroll,subtitle].forEach { addSubview($0) }; rebuild()
+        openStencil.target = editor;openStencil.action = #selector(EditorWindowController.openStencil(_:));openStencil.bezelStyle = .recessed;openStencil.font = .systemFont(ofSize:11)
+        [heading,search,category,listScroll,subtitle,openStencil].forEach { addSubview($0) }; rebuild()
     }
     required init?(coder:NSCoder) { fatalError() }
     override func layout() {
-        super.layout(); heading.frame = CGRect(x:20,y:20,width:180,height:14); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
-        category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(100,bounds.height-180))
-        subtitle.frame = CGRect(x:17,y:bounds.height-42,width:bounds.width-20,height:18); rebuild()
+        super.layout(); heading.frame = CGRect(x:20,y:16,width:180,height:25); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
+        category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(80,bounds.height-214))
+        openStencil.frame = CGRect(x:12,y:bounds.height-72,width:bounds.width-24,height:25)
+        subtitle.frame = CGRect(x:17,y:bounds.height-34,width:bounds.width-20,height:18); rebuild()
+    }
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance();effectiveAppearance.performAsCurrentDrawingAppearance { layer?.backgroundColor = EditorPalette.panel.cgColor };needsDisplay = true
     }
     @objc func filterChanged(_ sender:Any?) { rebuild() }
     func refreshCategories(selecting family:String? = nil) {
@@ -137,10 +146,13 @@ final class InspectorPanel: FlippedView {
     private var currentKey = ""
     private var applying = false
     init(editor:EditorWindowController) {
-        self.editor = editor; super.init(frame:.zero); wantsLayer = true; layer?.backgroundColor = NSColor(hex:"#F7F9FC").cgColor
+        self.editor = editor; super.init(frame:.zero); wantsLayer = true; layer?.backgroundColor = EditorPalette.panel.cgColor
     }
     required init?(coder:NSCoder) { fatalError() }
-    private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular) { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:18); addSubview(l) }
+    override func viewDidChangeEffectiveAppearance() {
+        super.viewDidChangeEffectiveAppearance();effectiveAppearance.performAsCurrentDrawingAppearance { layer?.backgroundColor = EditorPalette.panel.cgColor };needsDisplay = true
+    }
+    private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular) { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l) }
     private func section(_ text:String,y:Double) { label(text,18,y,190,size:10,weight:.bold) }
     private func field(_ key:String,_ value:String,x:Double = 18,y:Double,width:Double = 194,height:Double = 24) {
         let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f
@@ -156,7 +168,7 @@ final class InspectorPanel: FlippedView {
         for view in subviews { view.removeFromSuperview() }; fields = [:]; colorWells = [:]
         let selection = editor.selection
         let page = editor.diagramDocument.diagram.page
-        label("FORMAT",18,20,190,size:10,weight:.bold)
+        label(!selection.isEmpty || editor.canvas.selectedEdge != nil ? "Format Shape" : "Format Page",18,18,210,size:17,weight:.semibold)
         if !selection.isEmpty {
             let node = selection[0]; currentKey = "node"
             label(selection.count == 1 ? node.kind.title : "\(selection.count) shapes",18,45,190,size:18,weight:.semibold)
@@ -200,9 +212,6 @@ final class InspectorPanel: FlippedView {
                 label("Background: \(background.name)",18,352,200,size:11)
                 let edit = NSButton(title:"Edit Background",target:editor,action:#selector(EditorWindowController.editBackgroundPage(_:)));edit.bezelStyle = .rounded;edit.frame = CGRect(x:15,y:379,width:201,height:26);addSubview(edit)
             } else if page.isBackground == true { label("Shared background page",18,352,200,size:11) }
-            section("QUICK START",y:445)
-            let tips = ["Drag shapes from the library.","Double-click to edit text.","Press C, then click two shapes.","Shift-click to select more.","⌘D duplicates your selection.","Hold ⌥ to move without snapping.","Pinch to zoom the drawing."]
-            for (i,tip) in tips.enumerated() { label(tip,18,475+Double(i)*29,200,size:11) }
         }
     }
     @objc private func fieldChanged(_ sender:NSTextField) {
@@ -261,87 +270,85 @@ final class EditorRootView: FlippedView {
     let stencil:StencilPanel
     let inspector:InspectorPanel
     let inspectorScroll = NSScrollView()
-    let ribbon = FlippedView()
+    let ribbon:VisioRibbonView
     let footer = FlippedView()
     let pageStrip = FlippedView()
-    let toolPicker = NSSegmentedControl(labels:["Pointer","Connector","Text","Line"],trackingMode:.selectOne,target:nil,action:nil)
-    let templatePicker = NSPopUpButton()
-    let exportPicker = NSPopUpButton()
-    let arrangePicker = NSPopUpButton()
-    let snapButton = NSButton(checkboxWithTitle:"Snap",target:nil,action:nil)
+    let pageScroll = NSScrollView()
+    let snapButton = NSButton(checkboxWithTitle:"Snap to Grid",target:nil,action:nil)
     let status = uiLabel("",size:11)
     let zoomLabel = uiLabel("100%",size:11,weight:.medium)
-    let product = uiLabel("M",size:17,weight:.bold,color:"#FFFFFF")
     private var zoomMinus:NSButton!
     private var zoomPlus:NSButton!
     private var fit:NSButton!
     private var addPageButton:NSButton!
     init(editor:EditorWindowController) {
-        self.editor = editor; stencil = StencilPanel(editor:editor); inspector = InspectorPanel(editor:editor); super.init(frame:.zero)
-        wantsLayer = true; layer?.backgroundColor = NSColor(hex:"#E9EDF3").cgColor
-        ribbon.wantsLayer = true; ribbon.layer?.backgroundColor = NSColor(hex:"#FFFFFF").cgColor
-        footer.wantsLayer = true; footer.layer?.backgroundColor = NSColor(hex:"#F7F9FC").cgColor
-        pageStrip.wantsLayer = true; pageStrip.layer?.backgroundColor = NSColor(hex:"#F5F7FA").cgColor
-        product.alignment = .center; product.wantsLayer = true; product.layer?.backgroundColor = NSColor(hex:"#3B69AD").cgColor; product.layer?.cornerRadius = 7
-        toolPicker.target = self; toolPicker.action = #selector(toolChanged(_:)); toolPicker.selectedSegment = 0; toolPicker.segmentStyle = .rounded; toolPicker.font = .systemFont(ofSize:12,weight:.medium); toolPicker.setAccessibilityIdentifier("drawingTools")
-        templatePicker.addItem(withTitle:"New from template…")
-        for template in DiagramTemplate.allCases { templatePicker.addItem(withTitle:template.title) }
-        templatePicker.addItem(withTitle:"Visio libraries…")
-        templatePicker.target = self; templatePicker.action = #selector(templateChanged(_:)); templatePicker.font = .systemFont(ofSize:12); templatePicker.setAccessibilityLabel("New from template")
-        exportPicker.addItems(withTitles:["Export…","PDF document","PNG image","SVG drawing","Visio drawing (.vsdx)","Binary VSD (Experimental)","All pages to PDF","Visio template (.vstx)","Selection as stencil (.vssx)"]); exportPicker.target = self; exportPicker.action = #selector(exportChanged(_:)); exportPicker.font = .systemFont(ofSize:12)
-        arrangePicker.addItems(withTitles:["Arrange…","Align left","Align center","Align top","Distribute horizontally","Distribute vertically","Bring to front","Send to back"]); arrangePicker.target = self; arrangePicker.action = #selector(arrangeChanged(_:)); arrangePicker.font = .systemFont(ofSize:12)
-        snapButton.target = editor; snapButton.action = #selector(EditorWindowController.toggleSnap(_:)); snapButton.state = .on; snapButton.font = .systemFont(ofSize:11)
-        inspectorScroll.documentView = inspector; inspectorScroll.hasVerticalScroller = true; inspectorScroll.autohidesScrollers = true; inspectorScroll.drawsBackground = false
-        [stencil,editor.scrollView,inspectorScroll,ribbon,pageStrip,footer].forEach { addSubview($0) }
-        [product,toolPicker,templatePicker,arrangePicker,exportPicker].forEach { ribbon.addSubview($0) }
+        self.editor = editor;stencil = StencilPanel(editor:editor);inspector = InspectorPanel(editor:editor)
+        ribbon = VisioRibbonView(editor:editor)
+        super.init(frame:.zero)
+        [self,footer,pageStrip].forEach{$0.wantsLayer = true}
+        ribbon.onAppearanceChanged = { EditorAppearance.apply($0) }
+        snapButton.target = editor;snapButton.action = #selector(EditorWindowController.toggleSnap(_:));snapButton.state = .on;snapButton.font = .systemFont(ofSize:11)
+        inspectorScroll.documentView = inspector;inspectorScroll.hasVerticalScroller = true;inspectorScroll.autohidesScrollers = true;inspectorScroll.drawsBackground = false
+        pageScroll.documentView = pageStrip;pageScroll.hasHorizontalScroller = true;pageScroll.autohidesScrollers = true;pageScroll.drawsBackground = false
+        [stencil,editor.scrollView,inspectorScroll,ribbon,pageScroll,footer].forEach{addSubview($0)}
         zoomMinus = symbolButton("minus",label:"Zoom out",target:editor,action:#selector(EditorWindowController.zoomOut(_:)))
         zoomPlus = symbolButton("plus",label:"Zoom in",target:editor,action:#selector(EditorWindowController.zoomIn(_:)))
         fit = symbolButton("arrow.up.left.and.arrow.down.right",label:"Fit page",target:editor,action:#selector(EditorWindowController.fitPage(_:)))
-        [status,snapButton,zoomMinus,zoomLabel,zoomPlus,fit].forEach { footer.addSubview($0) }
+        addPageButton = symbolButton("plus",label:"Add page",target:editor,action:#selector(EditorWindowController.addPage(_:)))
+        [status,snapButton,zoomMinus,zoomLabel,zoomPlus,fit].forEach{footer.addSubview($0)}
+        addSubview(addPageButton)
+        refreshAppearance()
     }
     required init?(coder:NSCoder) { fatalError() }
+    override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance();refreshAppearance() }
+    private func refreshAppearance() {
+        effectiveAppearance.performAsCurrentDrawingAppearance {
+            layer?.backgroundColor = EditorPalette.border.cgColor
+            footer.layer?.backgroundColor = EditorPalette.footer.cgColor
+            pageStrip.layer?.backgroundColor = EditorPalette.panel.cgColor
+        }
+        needsDisplay = true
+    }
     override func layout() {
-        super.layout(); guard let editor = editor else { return }
-        let w = bounds.width,h = bounds.height,left = 214.0,right = 232.0,top = 60.0,bottom = 34.0,pages = 38.0
-        ribbon.frame = CGRect(x:0,y:0,width:w,height:top); stencil.frame = CGRect(x:0,y:top+1,width:left,height:h-top-bottom-1)
-        inspectorScroll.frame = CGRect(x:w-right,y:top+1,width:right,height:h-top-bottom-1); inspector.frame.size = CGSize(width:right,height:max(1100,inspectorScroll.contentSize.height))
-        editor.scrollView.frame = CGRect(x:left+1,y:top+1,width:w-left-right-2,height:h-top-bottom-pages-2)
-        pageStrip.frame = CGRect(x:left+1,y:h-bottom-pages,width:w-left-right-2,height:pages)
+        super.layout();guard let editor else{return}
+        let w = bounds.width,h = bounds.height,left = 224.0,right = 248.0,top = 144.0,bottom = 30.0,pages = 33.0
+        let bodyHeight = max(1,h-top-bottom-1)
+        ribbon.frame = CGRect(x:0,y:0,width:w,height:top)
+        stencil.frame = CGRect(x:0,y:top+1,width:left,height:bodyHeight)
+        inspectorScroll.frame = CGRect(x:w-right,y:top+1,width:right,height:bodyHeight)
+        inspector.frame.size = CGSize(width:right,height:max(1100,inspectorScroll.contentSize.height))
+        editor.scrollView.frame = CGRect(x:left+1,y:top+1,width:max(1,w-left-right-2),height:max(1,bodyHeight-pages-1))
+        pageScroll.frame = CGRect(x:left+1,y:h-bottom-pages,width:max(1,w-left-right-36),height:pages)
+        addPageButton.frame = CGRect(x:w-right-33,y:h-bottom-pages+3,width:30,height:27)
         footer.frame = CGRect(x:0,y:h-bottom,width:w,height:bottom)
-        product.frame = CGRect(x:18,y:15,width:30,height:30); toolPicker.frame = CGRect(x:68,y:17,width:300,height:26)
-        templatePicker.frame = CGRect(x:386,y:16,width:191,height:28); arrangePicker.frame = CGRect(x:590,y:16,width:157,height:28); exportPicker.frame = CGRect(x:w-165,y:16,width:145,height:28)
-        status.frame = CGRect(x:left+18,y:10,width:max(200,w-left-390),height:17)
-        snapButton.frame = CGRect(x:w-283,y:7,width:64,height:22); zoomMinus.frame = CGRect(x:w-213,y:5,width:30,height:24); zoomLabel.frame = CGRect(x:w-177,y:10,width:45,height:17); zoomLabel.alignment = .center
-        zoomPlus.frame = CGRect(x:w-125,y:5,width:30,height:24); fit.frame = CGRect(x:w-76,y:5,width:45,height:24)
-        refreshPages(); editor.canvas.refreshSize()
+        status.frame = CGRect(x:16,y:8,width:max(150,w-420),height:17)
+        snapButton.frame = CGRect(x:w-358,y:4,width:112,height:22)
+        zoomMinus.frame = CGRect(x:w-236,y:3,width:28,height:24)
+        zoomLabel.frame = CGRect(x:w-202,y:7,width:48,height:17);zoomLabel.alignment = .center
+        zoomPlus.frame = CGRect(x:w-149,y:3,width:28,height:24)
+        fit.frame = CGRect(x:w-106,y:3,width:39,height:24)
+        refreshPages();editor.canvas.refreshSize()
     }
     func refreshPages() {
-        guard let editor = editor else { return }
-        for v in pageStrip.subviews { v.removeFromSuperview() }
-        var x = 8.0
-        for p in editor.diagramDocument.diagram.orderedPages {
-            let button = NSButton(title:p.name+(p.isBackground == true ? " ◇" : ""),target:self,action:#selector(pageClicked(_:))); button.identifier = NSUserInterfaceItemIdentifier(p.id.uuidString); button.toolTip = p.isBackground == true ? "Edit shared background" : "Edit foreground page"; button.bezelStyle = .recessed; button.font = .systemFont(ofSize:11,weight:p.id == editor.diagramDocument.diagram.activePageID ? .semibold : .regular)
-            let width = min(150,max(80,(p.name as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+28)); button.frame = CGRect(x:x,y:7,width:width,height:24); button.state = p.id == editor.diagramDocument.diagram.activePageID ? .on : .off; pageStrip.addSubview(button); x += width+4
-            if x > pageStrip.bounds.width-80 { break }
+        guard let editor else{return}
+        for view in pageStrip.subviews { view.removeFromSuperview() }
+        var x = 0.0
+        for page in editor.diagramDocument.diagram.orderedPages {
+            let button = PageTabButton(title:page.name+(page.isBackground == true ? " ◇" : ""),target:self,action:#selector(pageClicked(_:)))
+            button.identifier = NSUserInterfaceItemIdentifier(page.id.uuidString)
+            button.isCurrent = page.id == editor.diagramDocument.diagram.activePageID
+            button.setAccessibilityLabel("Page \(page.name)");button.setAccessibilityValue(button.isCurrent ? "Selected" : "")
+            button.toolTip = page.isBackground == true ? "Edit shared background" : "Edit page"
+            let width = min(180,max(90,(page.name as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+32))
+            button.frame = CGRect(x:x,y:0,width:width,height:33);pageStrip.addSubview(button);x += width+1
         }
-        let add = symbolButton("plus",label:"Add page",target:editor,action:#selector(EditorWindowController.addPage(_:))); add.frame = CGRect(x:x+3,y:6,width:30,height:25); pageStrip.addSubview(add)
+        pageStrip.frame = CGRect(x:0,y:0,width:max(x,pageScroll.contentSize.width),height:33)
     }
     func showMessage(_ text:String) {
         status.stringValue = text
-        DispatchQueue.main.asyncAfter(deadline:.now()+5) { [weak self] in self?.editor?.updateStatus() }
+        DispatchQueue.main.asyncAfter(deadline:.now()+5){[weak self] in self?.editor?.updateStatus()}
     }
-    @objc private func toolChanged(_ sender:NSSegmentedControl) { editor?.setTool(CanvasTool(rawValue:sender.selectedSegment) ?? .pointer) }
-    @objc private func templateChanged(_ sender:NSPopUpButton) {
-        let index = sender.indexOfSelectedItem-1
-        if DiagramTemplate.allCases.indices.contains(index) { (NSApp.delegate as? AppDelegate)?.newDiagram(template:DiagramTemplate.allCases[index]) }
-        else if index == DiagramTemplate.allCases.count { (NSApp.delegate as? AppDelegate)?.openVisioLibrary(nil) }
-        sender.selectItem(at:0)
+    @objc private func pageClicked(_ sender:NSButton) {
+        if let raw = sender.identifier?.rawValue,let id = UUID(uuidString:raw){editor?.switchPage(id)}
     }
-    @objc private func exportChanged(_ sender:NSPopUpButton) {
-        switch sender.indexOfSelectedItem { case 1:editor?.exportPDF(nil); case 2:editor?.exportPNG(nil); case 3:editor?.exportSVG(nil); case 4:editor?.exportVSDX(nil); case 5:editor?.exportVSD(nil); case 6:editor?.exportAllPagesPDF(nil);case 7:editor?.exportTemplate(nil);case 8:editor?.exportSelectionStencil(nil); default:break }; sender.selectItem(at:0)
-    }
-    @objc private func arrangeChanged(_ sender:NSPopUpButton) {
-        switch sender.indexOfSelectedItem { case 1:editor?.alignLeft(nil); case 2:editor?.alignCenter(nil); case 3:editor?.alignTop(nil); case 4:editor?.distributeHorizontal(nil); case 5:editor?.distributeVertical(nil); case 6:editor?.bringToFront(nil); case 7:editor?.sendToBack(nil); default:break }; sender.selectItem(at:0)
-    }
-    @objc private func pageClicked(_ sender:NSButton) { if let raw = sender.identifier?.rawValue,let id = UUID(uuidString:raw) { editor?.switchPage(id) } }
 }

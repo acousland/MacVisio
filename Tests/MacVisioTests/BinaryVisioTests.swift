@@ -2,6 +2,28 @@ import AppKit
 import XCTest
 @testable import MacVisio
 
+enum BinaryVSDTestRecords {
+    struct Record { var offset:Int;var id:UInt32;var list:UInt32;var length:UInt32;var level:UInt16;var unknown:UInt8 }
+
+    static func find(_ type:UInt32,id:UInt32,in stream:Data,after:Int = 128) throws -> Record {
+        let bytes = BinaryBytes(stream)
+        for offset in max(128,after)..<max(max(128,after),stream.count-19) {
+            guard (try? bytes.u32(offset)) == type,(try? bytes.u32(offset+4)) == id,
+                  let list = try? bytes.u32(offset+8),let length = try? bytes.u32(offset+12),
+                  let level = try? bytes.u16(offset+16),let unknown = try? bytes.u8(offset+18),
+                  Int(length) <= stream.count-offset-19 else { continue }
+            return Record(offset:offset,id:id,list:list,length:length,level:level,unknown:unknown)
+        }
+        throw DiagramError.invalid("The expected public VSD record was not found.")
+    }
+
+    static func publicStream(_ url:URL) throws -> Data {
+        let file = try CompoundFile.read(Data(contentsOf:url))
+        XCTAssertNil(file.streams[VSDBinaryFormat.nativeStream])
+        return try XCTUnwrap(file.streams["VisioDocument"])
+    }
+}
+
 final class BinaryVisioTests:XCTestCase {
     private var urls:[URL] = []
     override func tearDown() { for url in urls { try? FileManager.default.removeItem(at:url) };super.tearDown() }
@@ -131,5 +153,36 @@ final class BinaryVisioTests:XCTestCase {
         let curve = try XCTUnwrap(curveNode.formatting.paths.flatMap(\.commands).first{$0.kind == "C"})
         let world = stride(from:0,to:6,by:2).map{CGPoint(x:curveNode.x+curve.values[$0]*curveNode.width,y:curveNode.y+curve.values[$0+1]*curveNode.height)}
         for (actual,expected) in zip(world,[CGPoint(x:72,y:72),CGPoint(x:216,y:72),CGPoint(x:216,y:144)]) { XCTAssertEqual(actual.x,expected.x,accuracy:0.001);XCTAssertEqual(actual.y,expected.y,accuracy:0.001) }
+    }
+
+    func testBinaryEdgesArePublicOneDimensionalShapesWithEndpointRecords() throws {
+        var diagram = Diagram();diagram.page.width = 720;diagram.page.height = 540
+        var a = DiagramNode(x:72,y:72,text:"A"),b = DiagramNode(x:432,y:288,text:"B")
+        a.width = 108;a.height = 72;b.width = 108;b.height = 72;diagram.page.nodes = [a,b]
+        var edge = DiagramEdge(source:a.id,target:b.id,label:"Native connector",color:"#C0392B",style:.straight)
+        edge.points = [DiagramPoint(x:180,y:108),DiagramPoint(x:360,y:324)];diagram.page.edges = [edge]
+        let url = temp();try VSDBinaryFormat.encoded(diagram,includeMetadata:false).write(to:url)
+        let stream = try BinaryVSDTestRecords.publicStream(url),shape = try BinaryVSDTestRecords.find(0x48,id:3,in:stream)
+        XCTAssertEqual(shape.level,1);XCTAssertEqual(shape.unknown,0x54);XCTAssertEqual(shape.list,6)
+        let bytes = BinaryBytes(stream),shapeFlags = try bytes.u16(shape.offset+19+54)
+        XCTAssertEqual(shapeFlags,0x10)
+
+        let xform = try BinaryVSDTestRecords.find(0x9D,id:5,in:stream)
+        XCTAssertEqual(xform.level,3);XCTAssertEqual(xform.unknown,0x55);XCTAssertEqual(xform.length,38)
+        let route = DiagramGeometry.route(diagram.page.edges[0],in:diagram.page),expected = [route[0].x/72,(diagram.page.height-route[0].y)/72,route[route.count-1].x/72,(diagram.page.height-route[route.count-1].y)/72]
+        for (index,value) in expected.enumerated() {
+            let at = xform.offset+19+index*9
+            XCTAssertEqual(try bytes.u8(at),0x40)
+            XCTAssertEqual(try bytes.double(at+1),value,accuracy:1e-10)
+        }
+
+        let parsed = try LegacyVisioFormat.read(from:url).diagram
+        let rendered = parsed.page.nodes.filter{$0.stroke.uppercased() == "#C0392B" && !$0.formatting.paths.isEmpty}
+        XCTAssertFalse(rendered.isEmpty)
+        let actual = rendered.reduce(CGRect.null){$0.union($1.rect)}
+        XCTAssertEqual(actual.minX,min(route[0].x,route[route.count-1].x),accuracy:0.05)
+        XCTAssertEqual(actual.minY,min(route[0].y,route[route.count-1].y),accuracy:0.05)
+        XCTAssertEqual(actual.width,abs(route[route.count-1].x-route[0].x),accuracy:0.05)
+        XCTAssertEqual(actual.height,abs(route[route.count-1].y-route[0].y),accuracy:0.05)
     }
 }

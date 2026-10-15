@@ -97,8 +97,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let frame = CGRect(x:0,y:0,width:min(1450,screen.width-50),height:min(930,screen.height-65))
         let window = NSWindow(contentRect:frame,styleMask:[.titled,.closable,.miniaturizable,.resizable],backing:.buffered,defer:false)
         window.minSize = CGSize(width:1000,height:680)
-        window.title = document.diagram.title; window.titlebarAppearsTransparent = true; window.backgroundColor = NSColor(hex:"#F5F7FA")
-        window.appearance = NSAppearance(named:.aqua)
+        window.title = document.diagram.title; window.titlebarAppearsTransparent = true; window.backgroundColor = EditorPalette.panel
+        EditorAppearance.apply();window.appearance = nil
         window.tabbingMode = .preferred
         super.init(window:window)
         window.delegate = self; window.center(); window.setFrameAutosaveName("MacVisioEditor")
@@ -130,7 +130,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let prefix = canvas.pendingSource != nil ? "Click a destination shape" : canvas.tool == .connector ? "Click two shapes to connect" : canvas.tool == .text ? "Click the page to add text" : canvas.selectedNodes.count > 0 ? "\(canvas.selectedNodes.count) selected" : "\(page.nodes.count) shapes · \(page.edges.count) connectors"
         root.status.stringValue = "\(page.name)   /   \(prefix)"
         root.zoomLabel.stringValue = "\(Int((canvas.zoom*100).rounded()))%"
-        root.toolPicker.selectedSegment = canvas.tool.rawValue
+        root.ribbon.refreshSelection()
     }
     func setTool(_ tool:CanvasTool) { canvas.finishEditing(commit:true); canvas.tool = tool; updateStatus(); window?.makeFirstResponder(canvas) }
     func visibleCenter() -> CGPoint { CGPoint(x:(canvas.visibleRect.midX-canvas.pageOrigin.x)/canvas.coordinateZoom,y:(canvas.visibleRect.midY-canvas.pageOrigin.y)/canvas.coordinateZoom) }

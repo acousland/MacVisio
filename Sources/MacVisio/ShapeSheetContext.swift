@@ -5,6 +5,9 @@ import Foundation
 final class ShapeSheetContext {
     private enum ThemeState { case noTheme, active(VisioTheme), unavailable(String), unknown }
     private enum ThemeColorSelector { case named(String), oneBasedIndex(Int), quickStyleReference(ShapeSheet.Expression) }
+    private enum ThemeLineComponent:Equatable { case effect, connector }
+    private enum ThemeLineSelector { case weight(forceConnector:Bool), cap }
+    private enum ThemeLineState { case noTheme, active(VisioTheme,ThemeLineComponent), unavailable(String), unknown }
     private enum FormulaHost { case shape(UUID,String?), page(String?) }
     let page:DiagramPage
     private let nodes:[UUID:DiagramNode]
@@ -105,31 +108,51 @@ final class ShapeSheetContext {
         try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
             if name == "THEMEVAL" {
                 guard args.count <= 2 else { throw DiagramError.invalid("THEMEVAL accepts at most two arguments.") }
-                let selector:ThemeColorSelector
+                let colorSelector:ThemeColorSelector?
+                let lineSelector:ThemeLineSelector?
                 if args.isEmpty {
-                    guard let cell = self.hostCell(for:host),let selectorName = self.paletteName(cell) else {
-                        let cell = self.hostCell(for:host) ?? "<unknown>"
+                    guard let cell = self.hostCell(for:host) else {
+                        throw DiagramError.invalid("THEMEVAL() has no supported mapping for this host cell.")
+                    }
+                    if let selectorName = self.paletteName(cell) {
+                        colorSelector = .named(selectorName);lineSelector = nil
+                    } else if let line = self.lineSelector(forHostCell:cell) {
+                        colorSelector = nil;lineSelector = line
+                    } else {
                         throw DiagramError.invalid("THEMEVAL() has no supported palette mapping for host cell \(cell).")
                     }
-                    selector = .named(selectorName)
                 } else {
-                    guard let value = self.themeColorSelector(args[0]) else {
+                    if let value = self.themeColorSelector(args[0]) {
+                        colorSelector = value;lineSelector = nil
+                    } else if case .string(let name) = args[0],let value = self.lineSelector(named:name) {
+                        colorSelector = nil;lineSelector = value
+                    } else {
                         throw DiagramError.invalid("THEMEVAL theme mapping is unsupported; only palette colors and numeric color selectors are available. The original formula and cached value are retained.")
                     }
-                    selector = value
                 }
 
-                if args.count == 2, self.hasNoThemeSelector(for:host,includingEffectsAndConnectors:true) {
-                    return try eval(args[1])
-                }
-                switch self.colorThemeState(for:host) {
-                case .noTheme:
-                    if args.count == 2 { return try eval(args[1]) }
-                    throw DiagramError.invalid("THEMEVAL No Theme column values are unavailable for this palette selector; the original formula and cached value are retained.")
-                case .active(let theme):
-                    return try self.themeValue(selector:selector,in:theme,evaluate:eval)
-                case .unavailable(let reason): throw DiagramError.invalid("THEMEVAL active theme is unavailable: \(reason). The original formula and cached value are retained.")
-                case .unknown: throw DiagramError.invalid("THEMEVAL theme state is unknown; the original formula and cached value are retained.")
+                if let lineSelector {
+                    let state = self.lineThemeState(for:lineSelector,host:host)
+                    if args.count == 2,case .noTheme = state { return try eval(args[1]) }
+                    switch state {
+                    case .noTheme: throw DiagramError.invalid("THEMEVAL No Theme line values are unavailable; the original cached value is retained.")
+                    case .active(let theme,let component): return try self.themeLineValue(selector:lineSelector,component:component,host:host,in:theme)
+                    case .unavailable(let reason): throw DiagramError.invalid("THEMEVAL active line theme is unavailable: \(reason). The original formula and cached value are retained.")
+                    case .unknown: throw DiagramError.invalid("THEMEVAL line theme selectors are missing or unresolved; the original formula and cached value are retained.")
+                    }
+                } else if let colorSelector {
+                    if args.count == 2, self.hasNoThemeSelector(for:host,includingEffectsAndConnectors:true) {
+                        return try eval(args[1])
+                    }
+                    switch self.colorThemeState(for:host) {
+                    case .noTheme:
+                        if args.count == 2 { return try eval(args[1]) }
+                        throw DiagramError.invalid("THEMEVAL No Theme column values are unavailable for this palette selector; the original formula and cached value are retained.")
+                    case .active(let theme):
+                        return try self.themeValue(selector:colorSelector,in:theme,evaluate:eval)
+                    case .unavailable(let reason): throw DiagramError.invalid("THEMEVAL active theme is unavailable: \(reason). The original formula and cached value are retained.")
+                    case .unknown: throw DiagramError.invalid("THEMEVAL theme state is unknown; the original cached value is retained.")
+                    }
                 }
             }
             if name == "THEMEPROP" {
@@ -197,6 +220,113 @@ final class ShapeSheetContext {
 
     private func hostCell(for host:FormulaHost) -> String? {
         switch host { case .shape(_,let cell),.page(let cell):return cell }
+    }
+
+    private func lineSelector(forHostCell cell:String) -> ThemeLineSelector? {
+        switch cell.lowercased() {
+        case "lineweight": return .weight(forceConnector:false)
+        case "connectorweight": return .weight(forceConnector:true)
+        case "linecap": return .cap
+        default: return nil
+        }
+    }
+
+    private func lineSelector(named name:String) -> ThemeLineSelector? {
+        switch name.lowercased() {
+        case "lineweight": return .weight(forceConnector:false)
+        case "connectorweight": return .weight(forceConnector:true)
+        case "linecap": return .cap
+        default: return nil
+        }
+    }
+
+    private func lineThemeState(for selector:ThemeLineSelector,host:FormulaHost) -> ThemeLineState {
+        let component:ThemeLineComponent
+        switch selector {
+        case .weight(forceConnector:true): component = .connector
+        case .weight(forceConnector:false),.cap:
+            let cells:[String:ShapeSheetCell]?
+            switch host {
+            case .shape(let id,_): cells = nodes[id]?.formatting.sheet
+            case .page: cells = page.sheet
+            }
+            guard let quickStyleType = literalIndex(cells,"QuickStyleType") else { return .unknown }
+            switch quickStyleType {
+            case 0:
+                guard case .shape = host else { return .unknown }
+                component = .effect
+            case 1,2: component = .effect
+            case 3: component = .connector
+            default: return .unavailable("QuickStyleType \(quickStyleType) is outside the supported 0...3 range")
+            }
+        }
+
+        let key = component == .effect ? "EffectSchemeIndex" : "ConnectorSchemeIndex"
+        guard let index = themeComponentIndex(key,for:host) else { return .unknown }
+        if index == 0 { return .noTheme }
+        if index == 65535 { return .unavailable("custom associated-master line schemes are unsupported") }
+        guard (1...65533).contains(index) else { return .unknown }
+        guard let theme = page.theme else { return .unavailable("the page has no imported Office theme") }
+        let expectedIndex = component == .effect ? theme.effectSchemeIndex : theme.connectorSchemeIndex
+        guard let expectedIndex,expectedIndex == index else {
+            return .unavailable("the selected \(component == .effect ? "effect" : "connector") scheme does not match the imported theme")
+        }
+        return .active(theme,component)
+    }
+
+    private func themeLineValue(selector:ThemeLineSelector,component:ThemeLineComponent,host:FormulaHost,in theme:VisioTheme) throws -> SheetValue {
+        let matrix = try quickStyleLineIndex(for:host,in:theme)
+        let styles = component == .effect ? theme.effectLineStyles : theme.connectorLineStyles
+        guard styles.indices.contains(matrix) else {
+            throw DiagramError.invalid("THEMEVAL selected line matrix \(matrix + 1) is absent from the imported \(component == .effect ? "effect" : "connector") scheme.")
+        }
+        let style = styles[matrix]
+        switch selector {
+        case .weight:
+            guard let width = style.widthEMU,width >= 0 else {
+                throw DiagramError.invalid("THEMEVAL selected line matrix has no supported DrawingML width.")
+            }
+            return .quantity(Double(width)/914400.0,"IN")
+        case .cap:
+            switch style.cap?.lowercased() {
+            case "rnd": return .number(0)
+            case "sq": return .number(1)
+            case "flat": return .number(2)
+            case nil: return .number(1)
+            default: throw DiagramError.invalid("THEMEVAL selected line cap is not a supported DrawingML token.")
+            }
+        }
+    }
+
+    private func quickStyleLineIndex(for host:FormulaHost,in theme:VisioTheme) throws -> Int {
+        let cells:[String:ShapeSheetCell]?
+        switch host {
+        case .shape(let id,_): cells = nodes[id]?.formatting.sheet
+        case .page: cells = page.sheet
+        }
+        guard let matrix = literalIndex(cells,"QuickStyleLineMatrix") else {
+            throw DiagramError.invalid("THEMEVAL QuickStyleLineMatrix is missing or unresolved; the original cached value is retained.")
+        }
+        let selected:Int
+        switch matrix {
+        case 1...6: selected = matrix
+        case 100...103:
+            let variation = try variationIndex("VariationStyleIndex",for:host,theme:theme)
+            let offset = matrix - 100
+            guard let styles = theme.variationStyleSchemes[variation]?.styles,styles.indices.contains(offset),
+                  let index = styles[offset].lineIndex else {
+                throw DiagramError.invalid("THEMEVAL selected style variation has no lineIdx for QuickStyleLineMatrix \(matrix).")
+            }
+            selected = index
+        case 0:
+            throw DiagramError.invalid("THEMEVAL QuickStyleLineMatrix 0 selects the root style, whose value is not imported as a dynamic theme line.")
+        default:
+            throw DiagramError.invalid("THEMEVAL QuickStyleLineMatrix \(matrix) is outside the supported dynamic theme range.")
+        }
+        guard (1...6).contains(selected) else {
+            throw DiagramError.invalid("THEMEVAL selected lineIdx \(selected) is outside the supported dynamic theme range 1...6.")
+        }
+        return selected - 1
     }
 
     private func themeColorSelector(_ expression:ShapeSheet.Expression) -> ThemeColorSelector? {
