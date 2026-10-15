@@ -2,12 +2,18 @@ import Foundation
 
 enum VisioXML {
     static func document(_ data:Data) throws -> XMLDocument {
+        guard data.count <= VisioPackage.partLimit else {
+            throw DiagramError.invalid("Package XML exceeds the supported part size limit.")
+        }
         guard let text = String(data:data,encoding:.utf8), !text.localizedCaseInsensitiveContains("<!DOCTYPE"), !text.localizedCaseInsensitiveContains("<!ENTITY") else { throw DiagramError.invalid("Package XML must be UTF-8 without a DTD.") }
-        let document = try XMLDocument(data:data,options:[.nodePreserveAll,.nodeLoadExternalEntitiesNever])
-        // Foundation drops whitespace-only text nodes, even with xml:space and
-        // nodePreserveWhitespace. Rebuild ordered Text children with XMLParser.
-        let builder = TextBuilder(),parser = XMLParser(data:data);parser.shouldResolveExternalEntities = false;parser.delegate = builder
+        // Enforce streaming depth/node budgets BEFORE allocating the DOM. This
+        // pass also retains ordered Text children, which Foundation otherwise
+        // loses for whitespace-only runs even with nodePreserveWhitespace.
+        let builder = TextBuilder(),parser = XMLParser(data:data)
+        parser.shouldResolveExternalEntities = false
+        parser.delegate = builder
         guard parser.parse() else { throw DiagramError.invalid("Invalid or oversized package XML.") }
+        let document = try XMLDocument(data:data,options:[.nodePreserveAll,.nodeLoadExternalEntitiesNever])
         var originals:[XMLElement] = []
         func find(_ element:XMLElement) { if element.localTag == "Text" { originals.append(element) } else { for child in (element.children ?? []).compactMap({$0 as? XMLElement}) { find(child) } } }
         if let root = document.rootElement() { find(root) }
