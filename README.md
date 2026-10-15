@@ -4,11 +4,11 @@ A native Swift/AppKit diagram editor with a Visio-style ribbon and Dark, Light, 
 
 ## Run
 
-Version 0.22.2 fixes an unintended full-document recalculation when untouched inspector fields lose focus after opening. It also establishes the normal macOS document save metadata. Version 0.22.1 restored group labels, respected hidden text, and cached style inheritance during VSDX import. Compatibility notes are available from the status bar after opening. The editor includes a Visio-style ribbon and a dark theme. Use the ribbon’s **View > Appearance** control to choose Dark, Light, or System. See [editor appearance](docs/APPEARANCE.md).
+Version 0.23.0 adds a Home screen with recent and pinned drawings, a template chooser, and document switching. Drawings use separate native windows; closing the last drawing returns to Home. Switching or reopening an existing drawing preserves its zoom and selection. See [document workflow](docs/DOCUMENT-WORKFLOW.md) for the Visio reference and Mac adaptations. The editor includes a Visio-style ribbon and a dark theme. Use the ribbon’s **View > Appearance** control to choose Dark, Light, or System. See [editor appearance](docs/APPEARANCE.md).
 
 This version also adds bounded line-theme ShapeSheet evaluation and experimental VSD 1-D connector endpoints. [The resumed plan](docs/PLAN.md) and [public Windows comparison corpus](docs/INTERCHANGE-CORPUS.md) describe the remaining compatibility work.
 
-Download the ZIP from [GitHub releases](https://github.com/acousland/MacVisio/releases/latest), expand it and move MacVisio.app to Applications. The 0.22.2 distribution is for Apple Silicon and macOS 27 or newer. Choose **MacVisio > Check for Updates…** to check manually. Automatic checks are enabled by default and can be toggled in the same menu; installation requires your confirmation. See [release and updater setup](docs/DISTRIBUTION.md).
+Download the ZIP from [GitHub releases](https://github.com/acousland/MacVisio/releases/latest), expand it and move MacVisio.app to Applications. The 0.23.0 distribution is for Apple Silicon and macOS 27 or newer. Choose **MacVisio > Check for Updates…** to check manually. Automatic checks are enabled by default and can be toggled in the same menu; installation requires your confirmation. See [release and updater setup](docs/DISTRIBUTION.md).
 
 Open `build/MacVisio.app`. This arm64 build requires macOS 27 because its bundled legacy reader was built for that version. Earlier macOS releases and Intel Macs have not been tested. Swift source targets macOS 13, but producing an older-system bundle also requires rebuilding every legacy-reader dependency for that system.
 
@@ -24,6 +24,8 @@ Local builds use an ad hoc signature by default. Set `MACVISIO_SIGNING_IDENTITY`
 
 ## Use
 
+- Launch to Home for recent and pinned drawings. **New Diagram** (Command-N) opens the template chooser; **New Blank Drawing** (Shift-Command-N) creates a blank drawing. **File > Open Recent** opens recent drawings.
+- Use **View > Switch Windows**, Control-Tab, or Control-Shift-Tab to switch drawings. The ribbon’s **File** tab returns to Home. Closing the last drawing returns to Home; unsaved drawings use the native Save, Discard, or Cancel prompt.
 - Drag or click a shape in the library. Search or filter the library at the top left. **Shape > Open Stencil** loads `.vssx` or legacy `.vss` masters; click or drag a master to insert editable shapes.
 - **File > Visio Libraries** browses `build/Visio2019-Libraries`, containing the extracted installer assets. Search by filename or type, then open a stencil or template. **Choose Visio Library Folder** selects another folder. Library parsing and behavior limits are recorded in [STENCIL-LIBRARIES.md](docs/STENCIL-LIBRARIES.md).
 - Double-click a shape to edit text; select characters and use Command-B/I/U for bold, italic or underline. **Shape > Text Format > Show Fonts** changes the selected font. Command-Return commits and Escape cancels. Option-click selects a child inside a group.

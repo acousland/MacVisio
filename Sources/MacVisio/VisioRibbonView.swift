@@ -217,6 +217,7 @@ final class VisioRibbonView: FlippedView, NSTextFieldDelegate, NSComboBoxDelegat
 
     @objc private func tabPressed(_ sender: NSButton) {
         guard let tab = sender.identifier?.rawValue.replacingOccurrences(of: "tab_", with: "") else { return }
+        if tab == "File",let workflow = editor?.diagramDocument.documentWorkflow ?? (NSApp.delegate as? AppDelegate)?.workflow { workflow.showWelcome();return }
         selectTab(tab)
     }
 
@@ -482,7 +483,14 @@ final class VisioRibbonView: FlippedView, NSTextFieldDelegate, NSComboBoxDelegat
         appearancePopup = addPopup(appearance, label: "App appearance", titles: ["Dark", "Light", "System"], x: 10, y: 20, width: 190, action: #selector(appearanceChanged(_:)), target: self, identifier: "appearance")
         let current = UserDefaults.standard.string(forKey: "MacVisioAppearance") ?? "dark"
         appearancePopup.selectItem(withTitle: current.capitalized)
+        let windows = addGroup("Window",width:160,x:&x)
+        addButton(windows,title:"Switch Windows",symbol:"macwindow.on.rectangle",x:8,y:10,width:144,action:#selector(switchDrawing(_:)),target:self,identifier:"switchWindows")
         return x
+    }
+    @objc private func switchDrawing(_ sender:NSButton) {
+        guard let workflow = editor?.diagramDocument.documentWorkflow ?? (NSApp.delegate as? AppDelegate)?.workflow else { return }
+        let menu = workflow.makeSwitchMenu()
+        menu.popUp(positioning:nil,at:CGPoint(x:0,y:sender.bounds.maxY),in:sender)
     }
 
     @objc private func toolPressed(_ sender: NSButton) {

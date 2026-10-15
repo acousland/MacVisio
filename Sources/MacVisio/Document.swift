@@ -10,6 +10,7 @@ final class MacVisioDocument: NSDocument {
     var importWarnings: [String] = []
     var calculationIssues: [String] = []
     var legacyNative = false
+    weak var documentWorkflow:DocumentWorkflow?
     override class var autosavesInPlace: Bool { true }
     override class var writableTypes: [String] { [visioType,nativeType,legacyType] }
     override class var readableTypes: [String] { [visioType,legacyType,nativeType] }
@@ -57,6 +58,19 @@ final class MacVisioDocument: NSDocument {
         guard (ext != "vsd" || typeName == Self.legacyType),(ext != "vsdx" || typeName == Self.visioType) else { throw DiagramError.invalid("The file extension does not match its selected format.") }
         try super.write(to:url,ofType:typeName)
     }
+    override func save(to url:URL,ofType typeName:String,for saveOperation:NSDocument.SaveOperationType,completionHandler:@escaping (Error?)->Void) {
+        super.save(to:url,ofType:typeName,for:saveOperation) { [weak self] error in
+            if error == nil,[NSDocument.SaveOperationType.saveOperation,.saveAsOperation,.autosaveInPlaceOperation].contains(saveOperation) {
+                DispatchQueue.main.async { [weak self] in self?.documentWorkflow?.noteRecent(url) }
+            }
+            completionHandler(error)
+        }
+    }
+    override func close() {
+        let workflow = documentWorkflow
+        super.close()
+        workflow?.documentClosed(self)
+    }
     func commitTextEditing() {
         for controller in windowControllers { (controller as? EditorWindowController)?.canvas.finishEditing(commit:true) }
     }
@@ -87,6 +101,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     let scrollView = NSScrollView()
     var root: EditorRootView!
     var stencils: [StencilDefinition] = []
+    private var fittedInitialPage = false
     var selection: [DiagramNode] { diagramDocument.diagram.page.nodes.filter { canvas.selectedNodes.contains($0.id) } }
     var editableSelectionIDs: Set<UUID> {
         let page = diagramDocument.diagram.page
@@ -100,7 +115,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         window.minSize = CGSize(width:1000,height:680)
         window.title = document.diagram.title; window.titlebarAppearsTransparent = true; window.backgroundColor = EditorPalette.panel
         EditorAppearance.apply();window.appearance = nil
-        window.tabbingMode = .preferred
+        window.tabbingMode = .disallowed
         super.init(window:window)
         window.delegate = self; window.center(); window.setFrameAutosaveName("MacVisioEditor")
         canvas.editor = self
@@ -114,8 +129,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     override func showWindow(_ sender:Any?) {
         super.showWindow(sender)
         window?.makeKeyAndOrderFront(sender)
-        DispatchQueue.main.async { [weak self] in self?.canvas.fitPage(); self?.window?.makeFirstResponder(self?.canvas) }
+        let fit = !fittedInitialPage;fittedInitialPage = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            if fit { self.canvas.fitPage() }
+            self.window?.makeFirstResponder(self.canvas)
+        }
     }
+    func windowDidBecomeKey(_ notification:Notification) { diagramDocument.documentWorkflow?.documentActivated(diagramDocument) }
     func windowDidResize(_ notification:Notification) { canvas.refreshSize() }
     func windowWillClose(_ notification:Notification) { canvas.finishEditing(commit:true) }
     func refresh() {

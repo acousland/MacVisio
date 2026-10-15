@@ -6,6 +6,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let updates = AppUpdates()
     private var openedAtLaunch = false
     private weak var diagnosticDocument:MacVisioDocument?
+    lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check"))
     // This delegate owns startup templates and file-opening behavior. Letting
     // AppKit also create an untitled document produces a second blank window.
     func applicationShouldOpenUntitledFile(_ sender:NSApplication) -> Bool { false }
@@ -19,7 +20,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 LiveOpenCheck.run(self,input:URL(fileURLWithPath:CommandLine.arguments[index+1]),output:URL(fileURLWithPath:CommandLine.arguments[index+2]));return
             }
             if CommandLine.arguments.contains("--launch-check") { self.diagnosticDocument = self.newDiagram(template:.flowchart) }
-            else if NSDocumentController.shared.documents.isEmpty && !self.openedAtLaunch { self.newDiagram(template:.flowchart) }
+            else { self.workflow.start(showHome:!self.openedAtLaunch) }
             NSApp.activate(ignoringOtherApps:true)
             if let index = CommandLine.arguments.firstIndex(of:"--launch-check"),CommandLine.arguments.indices.contains(index+1) {
                 DispatchQueue.main.asyncAfter(deadline:.now()+0.5) {
@@ -66,15 +67,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     @discardableResult func newDiagram(template:DiagramTemplate) -> MacVisioDocument {
         let doc = MacVisioDocument(); doc.diagram = template.makeDiagram(); doc.fileType = MacVisioDocument.visioType
-        NSDocumentController.shared.addDocument(doc); doc.makeWindowControllers(); doc.showWindows()
+        NSDocumentController.shared.addDocument(doc);workflow.documentOpened(doc); doc.makeWindowControllers(); doc.showWindows()
         return doc
     }
-    @objc func newDocument(_ sender:Any?) { newDiagram(template:.blank) }
+    @objc func newDocument(_ sender:Any?) { workflow.showWelcome(.new) }
+    @objc func newBlankDocument(_ sender:Any?) { newDiagram(template:.blank) }
     @objc func newFlowchart(_ sender:Any?) { newDiagram(template:.flowchart) }
     @objc func newOrganization(_ sender:Any?) { newDiagram(template:.organization) }
     @objc func newNetwork(_ sender:Any?) { newDiagram(template:.network) }
     @objc func newSwimlane(_ sender:Any?) { newDiagram(template:.swimlane) }
-    @objc func openDocument(_ sender:Any?) {
+    @objc func openDocument(_ sender:Any?) { workflow.showWelcome(.open) }
+    @objc func browseDocuments(_ sender:Any?) {
         let panel = NSOpenPanel(); panel.allowedContentTypes = ["macvisio","vsdx","vsd","vstx","vst","vssx","vss"].map{UTType(filenameExtension:$0) ?? .data}; panel.allowsMultipleSelection = true
         guard panel.runModal() == .OK else { return }
         for url in panel.urls { open(url) }
@@ -100,7 +103,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         do { guard !(try VisioLibrary.entries(in:url)).isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") };UserDefaults.standard.set(url.path,forKey:"MacVisioLibraryDirectory");openVisioLibrary(sender) } catch { NSApp.presentError(error) }
     }
     func open(_ url:URL) {
-        if let existing = NSDocumentController.shared.documents.first(where:{$0.fileURL == url}) { existing.showWindows(); return }
+        if let existing = workflow.drawings.first(where:{$0.fileURL.map(RecentDrawingStore.canonical) == RecentDrawingStore.canonical(url)}) { workflow.noteRecent(url);workflow.activate(existing);return }
+        workflow.welcome?.showOpening(url.lastPathComponent)
+        workflow.welcome?.window?.displayIfNeeded()
+        defer { workflow.welcome?.showOpening(nil) }
         do {
             let ext = url.pathExtension.lowercased()
             if ext == "vssx" || ext == "vss" {
@@ -113,7 +119,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let asNew = ext == "vstx" || ext == "vst" || ext == "vsd" && !doc.legacyNative
             doc.fileURL = asNew ? nil : url; doc.fileType = asNew ? MacVisioDocument.visioType : type
             if asNew { doc.updateChangeCount(.changeDone) }
-            NSDocumentController.shared.addDocument(doc); doc.makeWindowControllers(); doc.showWindows()
+            NSDocumentController.shared.addDocument(doc);workflow.documentOpened(doc,sourceURL:url); doc.makeWindowControllers(); doc.showWindows()
         } catch { NSApp.presentError(error) }
     }
     func application(_ sender:NSApplication,openFiles filenames:[String]) {
@@ -122,14 +128,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if CommandLine.arguments.contains("--open-check") { sender.reply(toOpenOrPrint:.success);return }
         openedAtLaunch = true; for name in filenames { open(URL(fileURLWithPath:name)) }; sender.reply(toOpenOrPrint:.success)
     }
-    func applicationShouldHandleReopen(_ sender:NSApplication,hasVisibleWindows flag:Bool) -> Bool { if !flag { newDiagram(template:.blank) }; return true }
+    func applicationShouldHandleReopen(_ sender:NSApplication,hasVisibleWindows flag:Bool) -> Bool {
+        if !flag { if let document = workflow.activeDrawing { workflow.activate(document) } else { workflow.showWelcome() } };return true
+    }
+    func applicationShouldTerminateAfterLastWindowClosed(_ sender:NSApplication) -> Bool { false }
     func applicationShouldTerminate(_ sender:NSApplication) -> NSApplication.TerminateReply {
+        workflow.isTerminating = true
         for document in NSDocumentController.shared.documents { (document as? MacVisioDocument)?.commitTextEditing() }
         guard NSDocumentController.shared.documents.contains(where:{$0.isDocumentEdited}) else { return .terminateNow }
         NSDocumentController.shared.closeAllDocuments(withDelegate:self,didCloseAllSelector:#selector(documentsClosed(_:didCloseAll:contextInfo:)),contextInfo:nil)
         return .terminateLater
     }
-    @objc func documentsClosed(_ controller:NSDocumentController,didCloseAll:Bool,contextInfo:UnsafeMutableRawPointer?) { NSApp.reply(toApplicationShouldTerminate:didCloseAll) }
+    @objc func documentsClosed(_ controller:NSDocumentController,didCloseAll:Bool,contextInfo:UnsafeMutableRawPointer?) { workflow.isTerminating = didCloseAll;NSApp.reply(toApplicationShouldTerminate:didCloseAll) }
     @objc func showHelp(_ sender:Any?) {
         let alert = NSAlert(); alert.messageText = "Drawing with MacVisio"
         alert.informativeText = "Drag a shape from the left library, or click it to add it. Double-click any shape to edit its text. Select text and use ⌘B, ⌘I or ⌘U for bold, italic or underline. Shape > Text Format > Show Fonts changes the selected font. Press ⌘Return to finish editing.\n\nPress C and click two shapes to connect them. Switch back to the pointer with V. T adds a text box. Drag selection handles to resize.\n\nShift-click or drag a rectangle to select multiple shapes. ⌘D duplicates; Delete removes. Arrow keys nudge; Shift moves 10 points. Hold Option to bypass snapping.\n\nSave editable drawings as .vsdx or .macvisio. Open .vssx stencils from the Shape menu. Press L to draw a free line. Use Group, Layers, Shape Data and ShapeSheet from the menus. Export pages to PDF, PNG or SVG. Legacy .vsd imports are converted and saved as .vsdx."
@@ -154,11 +164,16 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         app.addItem(.separator()); item(app,"Hide MacVisio",#selector(NSApplication.hide(_:)),"h",target:NSApp); item(app,"Hide Others",#selector(NSApplication.hideOtherApplications(_:)),"h",modifiers:[.command,.option],target:NSApp); item(app,"Show All",#selector(NSApplication.unhideAllApplications(_:)),target:NSApp)
         app.addItem(.separator()); item(app,"Quit MacVisio",#selector(NSApplication.terminate(_:)),"q",target:NSApp)
         let file = menu("File")
+        item(file,"Home",#selector(DocumentWorkflow.showHome(_:)),target:workflow)
         item(file,"New Diagram",#selector(newDocument(_:)),"n",target:self)
+        item(file,"New Blank Drawing",#selector(newBlankDocument(_:)),"n",modifiers:[.command,.shift],target:self)
         let examples = NSMenuItem(title:"New from Template",action:nil,keyEquivalent:""); let ex = NSMenu(title:"New from Template"); examples.submenu = ex; file.addItem(examples)
         item(ex,"Flowchart",#selector(newFlowchart(_:)),target:self); item(ex,"Organization Chart",#selector(newOrganization(_:)),target:self); item(ex,"Network",#selector(newNetwork(_:)),target:self); item(ex,"Swimlanes",#selector(newSwimlane(_:)),target:self)
         item(file,"Open…",#selector(openDocument(_:)),"o",target:self)
+        item(file,"Browse Files…",#selector(browseDocuments(_:)),"o",modifiers:[.command,.shift],target:self)
+        let recent = NSMenuItem(title:"Open Recent",action:nil,keyEquivalent:"");recent.submenu = workflow.makeRecentMenu();file.addItem(recent)
         file.addItem(.separator()); item(file,"Close",#selector(NSWindow.performClose(_:)),"w"); item(file,"Save…",#selector(NSDocument.save(_:)),"s"); item(file,"Save As…",#selector(NSDocument.saveAs(_:)),"s",modifiers:[.command,.shift]); item(file,"Revert to Saved…",#selector(NSDocument.revertToSaved(_:)))
+        item(file,"Close All Drawings",#selector(DocumentWorkflow.closeAllDrawings(_:)),"w",modifiers:[.command,.option],target:workflow)
         item(file,"Visio Libraries…",#selector(openVisioLibrary(_:)),target:self);item(file,"Choose Visio Library Folder…",#selector(chooseVisioLibraryFolder(_:)),target:self)
         file.addItem(.separator()); item(file,"Export PDF…",#selector(EditorWindowController.exportPDF(_:))); item(file,"Export All Pages to PDF…",#selector(EditorWindowController.exportAllPagesPDF(_:))); item(file,"Export PNG…",#selector(EditorWindowController.exportPNG(_:))); item(file,"Export SVG…",#selector(EditorWindowController.exportSVG(_:))); item(file,"Export VSDX Drawing…",#selector(EditorWindowController.exportVSDX(_:))); item(file,"Export Binary VSD (Experimental)…",#selector(EditorWindowController.exportVSD(_:)));item(file,"Export Visio Template…",#selector(EditorWindowController.exportTemplate(_:)))
         file.addItem(.separator()); item(file,"Print…",#selector(EditorWindowController.printDiagram(_:)),"p")
@@ -188,7 +203,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item(page,"Layers…",#selector(EditorWindowController.editLayers(_:)))
         let view = menu("View"); item(view,"Zoom In",#selector(EditorWindowController.zoomIn(_:)),"+"); item(view,"Zoom Out",#selector(EditorWindowController.zoomOut(_:)),"-"); item(view,"Fit Page",#selector(EditorWindowController.fitPage(_:)),"0"); item(view,"Actual Size",#selector(EditorWindowController.actualSize(_:)),"1")
         view.addItem(.separator()); item(view,"Show Grid",#selector(EditorWindowController.toggleGrid(_:))); item(view,"Snap to Grid",#selector(EditorWindowController.toggleSnap(_:)))
-        let window = menu("Window"); item(window,"Minimize",#selector(NSWindow.performMiniaturize(_:)),"m"); item(window,"Zoom",#selector(NSWindow.performZoom(_:))); window.addItem(.separator()); item(window,"Bring All to Front",#selector(NSApplication.arrangeInFront(_:)),target:NSApp); NSApp.windowsMenu = window
+        let drawingWindows = NSMenuItem(title:"Switch Windows",action:nil,keyEquivalent:"");drawingWindows.submenu = workflow.makeSwitchMenu();view.addItem(drawingWindows)
+        let window = menu("Window"); item(window,"Minimize",#selector(NSWindow.performMiniaturize(_:)),"m"); item(window,"Zoom",#selector(NSWindow.performZoom(_:))); window.addItem(.separator())
+        item(window,"Next Drawing",#selector(DocumentWorkflow.nextDrawing(_:)),"\t",modifiers:[.control],target:workflow);item(window,"Previous Drawing",#selector(DocumentWorkflow.previousDrawing(_:)),"\t",modifiers:[.control,.shift],target:workflow)
+        item(window,"Next Drawing",#selector(DocumentWorkflow.nextDrawing(_:)),String(UnicodeScalar(NSF6FunctionKey)!),modifiers:[.control],target:workflow);window.items.last?.isAlternate = true
+        item(window,"Previous Drawing",#selector(DocumentWorkflow.previousDrawing(_:)),String(UnicodeScalar(NSF6FunctionKey)!),modifiers:[.control,.shift],target:workflow);window.items.last?.isAlternate = true
+        item(window,"Bring All to Front",#selector(NSApplication.arrangeInFront(_:)),target:NSApp); NSApp.windowsMenu = window
         let help = menu("Help"); item(help,"MacVisio Help",#selector(showHelp(_:)),"?",target:self); item(help,"Visio Compatibility",#selector(showCompatibility(_:)),target:self); NSApp.helpMenu = help
     }
 }
@@ -297,6 +317,12 @@ if let index = CommandLine.arguments.firstIndex(where:{$0 == "--convert" || $0 =
         }
         for warning in doc.importWarnings { fputs("\(warning)\n",stderr) };print("Wrote \(output.path)");exit(0)
     } catch { fputs("Document processing failed: \(error.localizedDescription)\n",stderr);exit(1) }
+}
+if let index = CommandLine.arguments.firstIndex(of:"--render-welcome"),CommandLine.arguments.indices.contains(index+1) {
+    do {
+        let section:WelcomeSection = CommandLine.arguments.contains("--welcome-new") ? .new : CommandLine.arguments.contains("--welcome-open") ? .open : .home
+        try WelcomePreview.render(to:URL(fileURLWithPath:CommandLine.arguments[index+1]),section:section,compact:CommandLine.arguments.contains("--compact-ui"),empty:CommandLine.arguments.contains("--empty-recents"));exit(0)
+    } catch { fputs("Start screen preview failed: \(error.localizedDescription)\n",stderr);exit(1) }
 }
 if let index = CommandLine.arguments.firstIndex(of:"--render-ui"),CommandLine.arguments.indices.contains(index+1) {
     let doc = MacVisioDocument(); doc.diagram = CommandLine.arguments.contains("--page-example") ? PageExample.make() : DiagramTemplate.flowchart.makeDiagram(); doc.makeWindowControllers()

@@ -24,7 +24,18 @@ final class DocumentOpeningTests: XCTestCase {
             XCTAssertFalse(manual.isDocumentEdited)
 
             // Exercise the same entry point used by the app's Open command.
-            AppDelegate().open(source)
+            let suite = "MacVisioDocumentOpeningTests-\(UUID().uuidString)"
+            let defaults = try XCTUnwrap(UserDefaults(suiteName: suite))
+            defaults.removePersistentDomain(forName: suite)
+            let appDelegate = AppDelegate()
+            let workflow = DocumentWorkflow(delegate: appDelegate, recentStore: RecentDrawingStore(defaults: defaults), recordsSystemRecents: false)
+            appDelegate.workflow = workflow
+            defer {
+                workflow.isTerminating = true
+                workflow.welcome?.close()
+                defaults.removePersistentDomain(forName: suite)
+            }
+            appDelegate.open(source)
             let document = try XCTUnwrap(NSDocumentController.shared.documents.first { $0.fileURL?.standardizedFileURL == source.standardizedFileURL } as? MacVisioDocument)
             XCTAssertFalse(document.isDocumentEdited, "A newly opened source should start clean before window interaction.")
             XCTAssertEqual(document.fileURL?.standardizedFileURL, source.standardizedFileURL)
