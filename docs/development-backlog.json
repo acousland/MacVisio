@@ -93,7 +93,8 @@
         "Screen/export/print agree under explicit layer/output policy and defined physical dimensions.",
         "All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability."
       ],
-      "status": "Proposed"
+      "status": "Preparing",
+      "delivery_note": "Independent catalog and synthetic public preservation/physical-PDF fixtures delivered; accepted M2 engineering and full M3 implementation/qualification pending."
     },
     {
       "id": "M4",
@@ -2423,7 +2424,7 @@
       "owner_role": "Core/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -2479,7 +2480,17 @@
             "AR-08",
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T01-C001",
+              "WP-14-T01-C002",
+              "WP-14-T01-C003",
+              "WP-14-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T02",
@@ -2510,7 +2521,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T02-C001",
+              "WP-14-T02-C002",
+              "WP-14-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T03",
@@ -2541,7 +2561,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T03-C001",
+              "WP-14-T03-C002",
+              "WP-14-T03-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T04",
@@ -2574,10 +2603,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T04-C001",
+              "WP-14-T04-C002",
+              "WP-14-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-15",
@@ -2586,7 +2624,7 @@
       "owner_role": "Calculation/Compatibility",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-02",
         "WP-07",
@@ -2620,7 +2658,7 @@
           "deliverable": "Create child tasks by function/context/section and prioritize real-document impact plus semantic dependencies.",
           "acceptance_criteria": "No umbrella function-library task is considered complete while catalog children remain.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-SHS-02",
@@ -2644,7 +2682,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T01-C001",
+              "WP-15-T01-C002",
+              "WP-15-T01-C003",
+              "WP-15-T01-C004",
+              "WP-15-T01-C005"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          },
+          "delivery_note": "Bounded source functions/cells/contexts mapped to canonical M0 inventory; exact-build catalog, additional reference entries and qualification remain pending."
         },
         {
           "id": "WP-15-T02",
@@ -2678,7 +2728,19 @@
           "architecture_findings": [
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T02-C001",
+              "WP-15-T02-C002",
+              "WP-15-T02-C003",
+              "WP-15-T02-C004",
+              "WP-15-T02-C005",
+              "WP-15-T02-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-15-T03",
@@ -2713,7 +2775,103 @@
             "AR-02",
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T03-C001",
+              "WP-15-T03-C002",
+              "WP-15-T03-C003",
+              "WP-15-T03-C004",
+              "WP-15-T03-C005",
+              "WP-15-T03-C006",
+              "WP-15-T03-C007",
+              "WP-15-T03-C008",
+              "WP-15-T03-C009",
+              "WP-15-T03-C010",
+              "WP-15-T03-C011",
+              "WP-15-T03-C012",
+              "WP-15-T03-C013",
+              "WP-15-T03-C014",
+              "WP-15-T03-C015",
+              "WP-15-T03-C016",
+              "WP-15-T03-C017",
+              "WP-15-T03-C018",
+              "WP-15-T03-C019",
+              "WP-15-T03-C020",
+              "WP-15-T03-C021",
+              "WP-15-T03-C022",
+              "WP-15-T03-C023",
+              "WP-15-T03-C024",
+              "WP-15-T03-C025",
+              "WP-15-T03-C026",
+              "WP-15-T03-C027",
+              "WP-15-T03-C028",
+              "WP-15-T03-C029",
+              "WP-15-T03-C030",
+              "WP-15-T03-C031",
+              "WP-15-T03-C032",
+              "WP-15-T03-C033",
+              "WP-15-T03-C034",
+              "WP-15-T03-C035",
+              "WP-15-T03-C036",
+              "WP-15-T03-C037",
+              "WP-15-T03-C038",
+              "WP-15-T03-C039",
+              "WP-15-T03-C040",
+              "WP-15-T03-C041",
+              "WP-15-T03-C042",
+              "WP-15-T03-C043",
+              "WP-15-T03-C044",
+              "WP-15-T03-C045",
+              "WP-15-T03-C046",
+              "WP-15-T03-C047",
+              "WP-15-T03-C048",
+              "WP-15-T03-C049",
+              "WP-15-T03-C050",
+              "WP-15-T03-C051",
+              "WP-15-T03-C052",
+              "WP-15-T03-C053",
+              "WP-15-T03-C054",
+              "WP-15-T03-C055",
+              "WP-15-T03-C056",
+              "WP-15-T03-C057",
+              "WP-15-T03-C058",
+              "WP-15-T03-C059",
+              "WP-15-T03-C060",
+              "WP-15-T03-C061",
+              "WP-15-T03-C062",
+              "WP-15-T03-C063",
+              "WP-15-T03-C064",
+              "WP-15-T03-C065",
+              "WP-15-T03-C066",
+              "WP-15-T03-C067",
+              "WP-15-T03-C068",
+              "WP-15-T03-C069",
+              "WP-15-T03-C070",
+              "WP-15-T03-C071",
+              "WP-15-T03-C072",
+              "WP-15-T03-C073",
+              "WP-15-T03-C074",
+              "WP-15-T03-C075",
+              "WP-15-T03-C076",
+              "WP-15-T03-C077",
+              "WP-15-T03-C078",
+              "WP-15-T03-C079",
+              "WP-15-T03-C080",
+              "WP-15-T03-C081",
+              "WP-15-T03-C082",
+              "WP-15-T03-C083",
+              "WP-15-T03-C084",
+              "WP-15-T03-C085",
+              "WP-15-T03-C086",
+              "WP-15-T03-C087",
+              "WP-15-T03-C088",
+              "WP-15-T03-C089",
+              "WP-15-T03-C090"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-15-T04",
@@ -2745,10 +2903,32 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T04-C001",
+              "WP-15-T04-C002",
+              "WP-15-T04-C003",
+              "WP-15-T04-C004",
+              "WP-15-T04-C005",
+              "WP-15-T04-C006",
+              "WP-15-T04-C007",
+              "WP-15-T04-C008",
+              "WP-15-T04-C009",
+              "WP-15-T04-C010",
+              "WP-15-T04-C011",
+              "WP-15-T04-C012",
+              "WP-15-T04-C013",
+              "WP-15-T04-C014",
+              "WP-15-T04-C015",
+              "WP-15-T04-C016"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-16",
@@ -2757,7 +2937,7 @@
       "owner_role": "Text/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -2814,7 +2994,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T01-C001",
+              "WP-16-T01-C002",
+              "WP-16-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T02",
@@ -2848,7 +3037,16 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T02-C001",
+              "WP-16-T02-C002",
+              "WP-16-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T03",
@@ -2882,7 +3080,17 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T03-C001",
+              "WP-16-T03-C002",
+              "WP-16-T03-C003",
+              "WP-16-T03-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T04",
@@ -2917,10 +3125,19 @@
             "AR-06",
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T04-C001",
+              "WP-16-T04-C002",
+              "WP-16-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-17",
@@ -2929,7 +3146,7 @@
       "owner_role": "Geometry/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -2987,7 +3204,16 @@
           "architecture_findings": [
             "AR-03"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T01-C001",
+              "WP-17-T01-C002",
+              "WP-17-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T02",
@@ -3019,7 +3245,20 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T02-C001",
+              "WP-17-T02-C002",
+              "WP-17-T02-C003",
+              "WP-17-T02-C004",
+              "WP-17-T02-C005",
+              "WP-17-T02-C006",
+              "WP-17-T02-C007"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T03",
@@ -3051,7 +3290,19 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T03-C001",
+              "WP-17-T03-C002",
+              "WP-17-T03-C003",
+              "WP-17-T03-C004",
+              "WP-17-T03-C005",
+              "WP-17-T03-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T04",
@@ -3086,10 +3337,19 @@
             "AR-06",
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T04-C001",
+              "WP-17-T04-C002",
+              "WP-17-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-18",
@@ -3098,7 +3358,7 @@
       "owner_role": "Connections/Layout",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -3164,7 +3424,17 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T01-C001",
+              "WP-18-T01-C002",
+              "WP-18-T01-C003",
+              "WP-18-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T02",
@@ -3203,7 +3473,17 @@
           "architecture_findings": [
             "AR-04"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T02-C001",
+              "WP-18-T02-C002",
+              "WP-18-T02-C003",
+              "WP-18-T02-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T03",
@@ -3240,7 +3520,19 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T03-C001",
+              "WP-18-T03-C002",
+              "WP-18-T03-C003",
+              "WP-18-T03-C004",
+              "WP-18-T03-C005",
+              "WP-18-T03-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T04",
@@ -3280,10 +3572,19 @@
             "AR-04",
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T04-C001",
+              "WP-18-T04-C002",
+              "WP-18-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-19",
@@ -3292,7 +3593,7 @@
       "owner_role": "Native/Publication",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-08",
         "WP-09",
@@ -3351,7 +3652,17 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T01-C001",
+              "WP-19-T01-C002",
+              "WP-19-T01-C003",
+              "WP-19-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T02",
@@ -3384,7 +3695,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T02-C001",
+              "WP-19-T02-C002",
+              "WP-19-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T03",
@@ -3422,7 +3742,16 @@
           ],
           "architecture_contracts": [
             "AC-07"
-          ]
+          ],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T03-C001",
+              "WP-19-T03-C002",
+              "WP-19-T03-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T04",
@@ -3457,10 +3786,18 @@
           "architecture_findings": [
             "AR-06"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T04-C001",
+              "WP-19-T04-C002"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-20",
@@ -3469,7 +3806,7 @@
       "owner_role": "Libraries/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
       "start_dependencies": [
         "WP-09",
         "WP-14",
@@ -3527,7 +3864,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T01-C001",
+              "WP-20-T01-C002",
+              "WP-20-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T02",
@@ -3559,7 +3905,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T02-C001",
+              "WP-20-T02-C002",
+              "WP-20-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T03",
@@ -3595,7 +3950,17 @@
           ],
           "architecture_contracts": [
             "AC-08"
-          ]
+          ],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T03-C001",
+              "WP-20-T03-C002",
+              "WP-20-T03-C003",
+              "WP-20-T03-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T04",
@@ -3629,10 +3994,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T04-C001",
+              "WP-20-T04-C002",
+              "WP-20-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Preparing"
     },
     {
       "id": "WP-21",
@@ -8579,5 +8953,25 @@
         "finding": "AR-04"
       }
     ]
-  }
+  },
+  "delivery_refinements": [
+    {
+      "milestone": "M3",
+      "state": "preparing",
+      "catalog": "delivery/M3-CATALOG.json",
+      "domain_contracts": "delivery/M3-DOMAIN-CONTRACTS.md",
+      "child_count": 204,
+      "accepted_child_count": 0,
+      "completed_task_ids": [],
+      "local_evidence_scope": "Authored synthetic public no-edit preservation, isolated instance-text edit, and one-metre/1:50 PDF measurement only. Does not accept new M3 domain behavior or G2.",
+      "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
+      "M0_inventory_integration_commit": "6ba6901",
+      "pending": [
+        "accepted M1+M2 engineering handoff",
+        "M0 harness contract integration",
+        "all M3 production feature children",
+        "complete exact-build inventories and bidirectional Visio/render/physical-printer qualification"
+      ]
+    }
+  ]
 }

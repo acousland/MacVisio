@@ -1407,3 +1407,71 @@ The [recommended initial queue](#5-recommended-initial-execution-queue) remains 
 The review's local Apple M4/macOS 27.0.1 fixture has pages of 689, 2,030 and 3,909 shapes and 377 connectors total. Drawing/selection/hit-test timings use five-run medians after one warmup; insertion calculation and select-all are individual observations. These demonstrate bottlenecks, not p95 or frame-pacing acceptance. Approximately 5 ms continuous main-thread preparation and comfortably under 100 ms discrete feedback are proposed engineering budgets, subject to agreed fixtures and hardware. There are no new delivery-date or effort commitments.
 
 Retain the review's `build/architecture-review-*` artifacts as local evidence; create public synthetic replacements under WP-03 rather than copying private drawing contents. Peak memory/leaks, complete VoiceOver use, real Visio acceptance, crash recovery and installed updates remain unqualified until their linked tasks supply evidence.
+
+<!-- M3-DELIVERY-REFINEMENT -->
+## 11. M3 delivery refinement — 16 October 2026
+
+Current M3 state: **Preparing**. The original package scope and 161 initial parent
+tasks remain unchanged. All 28 M3 parents, including all 22 L tasks, now have
+bounded children in [M3-CATALOG.json](delivery/M3-CATALOG.json), with exact
+requirement/canonical M0 inventory mappings and explicit reference remainders.
+The [catalog guide](delivery/M3-CATALOG.md) and
+[domain contracts](delivery/M3-DOMAIN-CONTRACTS.md) describe ownership, dependencies
+and evidence boundaries. All seven M3 packages are Preparing; no package, child,
+parent implementation task or M3/G2 gate is accepted by this refinement.
+
+| Parent task | Current status | Bounded children |
+| --- | --- | ---: |
+| WP-14-T01 | Proposed | 4 |
+| WP-14-T02 | Proposed | 3 |
+| WP-14-T03 | Proposed | 3 |
+| WP-14-T04 | Proposed | 3 |
+| WP-15-T01 | In progress | 5 |
+| WP-15-T02 | Proposed | 6 |
+| WP-15-T03 | Proposed | 90 |
+| WP-15-T04 | Proposed | 16 |
+| WP-16-T01 | Proposed | 3 |
+| WP-16-T02 | Proposed | 3 |
+| WP-16-T03 | Proposed | 4 |
+| WP-16-T04 | Proposed | 3 |
+| WP-17-T01 | Proposed | 3 |
+| WP-17-T02 | Proposed | 7 |
+| WP-17-T03 | Proposed | 6 |
+| WP-17-T04 | Proposed | 3 |
+| WP-18-T01 | Proposed | 4 |
+| WP-18-T02 | Proposed | 4 |
+| WP-18-T03 | Proposed | 6 |
+| WP-18-T04 | Proposed | 3 |
+| WP-19-T01 | Proposed | 4 |
+| WP-19-T02 | Proposed | 3 |
+| WP-19-T03 | Proposed | 3 |
+| WP-19-T04 | Proposed | 2 |
+| WP-20-T01 | Proposed | 3 |
+| WP-20-T02 | Proposed | 3 |
+| WP-20-T03 | Proposed | 4 |
+| WP-20-T04 | Proposed | 3 |
+
+WP-15-T01 is In progress because bounded source functions, cells and contexts are
+mapped; the complete exact-build catalog remains unknown. The other parents stay
+Proposed until their accepted delivery prerequisites exist. The catalog records
+198 children awaiting foundations and six proposed discovery/qualification
+children. All 204 remain unaccepted; counts are decomposition, not compatibility
+evidence. Unknown runtime functions, cells, owners, masters, text, geometry,
+connectors, output and package variants remain owned prerequisites.
+
+The actual M0 inventory commit `78c6c56` is integrated as `6ba6901`; its 154
+requirement/evidence ledger and bounded inventory retain every original snapshot
+state and unverified evidence dimension. M0 harness integration remains pending.
+M3 production implementation waits for actual accepted M1+M2 engineering commits
+and contracts. The observed missing Visio installation independently blocks G2;
+it does not remove any implementation obligation.
+
+The two [authored public fixtures](../Tests/MacVisioTests/Fixtures/M3/README.md)
+and [preservation oracle](../scripts/m3-public-evidence.py) have narrow local
+checks: no-edit package bytes, an isolated instance text edit, and the one-metre
+object at 1:50 measuring 20 mm in an A4 PDF render with a nonprinting guide
+excluded. They do not implement first-class master/style/connector sheets,
+accept a semantic function catalog, or establish Visio/render/physical-printer
+qualification. Full child-level native edit/undo/save/public exchange and all
+five evidence dimensions remain required. No private metadata may carry a
+claimed public capability.
