@@ -46,6 +46,7 @@ final class ShapeSheetContext {
         else { canonical = sheetKey(key,on:node) ?? key }
         let token = id.uuidString+"!"+canonical.lowercased()
         if let value = cache[token] { referenceCache[id,default:[:]][key] = value;return value };guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(canonical).") };defer { visiting.remove(token) }
+        PerformanceEvidence.count(.evaluatedCells)
         let result:SheetValue
         if canonical.caseInsensitiveCompare("TheText") == .orderedSame { result = .string(node.text) }
         else {
@@ -103,6 +104,7 @@ final class ShapeSheetContext {
         guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at ThePage!\(key).") }
         defer { visiting.remove(token) }
 
+        PerformanceEvidence.count(.evaluatedCells)
         let cell = storedKey.flatMap{page.sheet?[$0]}
         let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
         let result:SheetValue

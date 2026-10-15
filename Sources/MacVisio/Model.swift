@@ -171,6 +171,7 @@ struct Diagram: Codable, Equatable {
     }
     var orderedPages:[DiagramPage] { pages.filter{$0.isBackground != true}+pages.filter{$0.isBackground == true} }
     func scene(for pageID:UUID? = nil) -> DiagramScene {
+        let evidence = PerformanceEvidence.begin(.scenePreparation);defer { PerformanceEvidence.end(evidence) }
         let foreground = pageID.flatMap{id in pages.first{$0.id == id}} ?? page
         let byID = pages.reduce(into:[UUID:DiagramPage]()){if $0[$1.id] == nil { $0[$1.id] = $1 }}
         var backgrounds:[DiagramPage] = [],next = foreground.backgroundPageID,seen:Set<UUID> = [foreground.id]
@@ -304,6 +305,8 @@ enum DiagramGeometry {
         return CGPoint(x: c.x + worldX * scale, y: c.y + worldY * scale)
     }
     static func route(_ edge: DiagramEdge, in page: DiagramPage) -> [CGPoint] {
+        let evidence = PerformanceEvidence.begin(.route);defer { PerformanceEvidence.end(evidence) }
+        PerformanceEvidence.count(.routeRequests)
         let source = page.nodes.first(where: { $0.id == edge.source }), target = page.nodes.first(where: { $0.id == edge.target })
         let sourceFixed = ConnectionGeometry.fixed(edge.sourcePort,on:source),targetFixed = ConnectionGeometry.fixed(edge.targetPort,on:target)
         if let points = edge.points, points.count >= 2 {

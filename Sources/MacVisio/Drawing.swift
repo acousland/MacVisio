@@ -114,6 +114,7 @@ enum DiagramDrawing {
         return p
     }
     static func drawNode(_ input: DiagramNode, shadow: Bool = true,paperScale:Double = 1) {
+        PerformanceEvidence.count(.drawnObjects)
         var n = input;n.fontSize /= paperScale;n.strokeWidth /= paperScale
         NSGraphicsContext.saveGraphicsState()
         let transform = AffineTransform(translationByX:n.center.x,byY:n.center.y)
@@ -152,8 +153,11 @@ enum DiagramDrawing {
         let paper = NSAffineTransform();paper.scale(by:1/paperScale);paper.concat();n = DrawingScale.paperNode(input,factor:paperScale)
         let layout = textLayout(for:n);var textRect = layout.rect
         if layout.rotation != 0 { let t = NSAffineTransform();t.translateX(by:layout.center.x,yBy:layout.center.y);t.rotate(byDegrees:layout.rotation);t.translateX(by:-layout.center.x,yBy:-layout.center.y);t.concat() }
-        let string = ShapeRichText.attributed(n)
-        let measured = string.boundingRect(with:CGSize(width:max(1,textRect.width),height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading])
+        let (string,measured) = PerformanceEvidence.measure(.textLayout) {
+            PerformanceEvidence.count(.textMeasurements)
+            let string = ShapeRichText.attributed(n)
+            return (string,string.boundingRect(with:CGSize(width:max(1,textRect.width),height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]))
+        }
         let h = min(textRect.height,ceil(measured.height))
         let vertical = n.formatting.textBox?.verticalAlignment ?? 1
         textRect.origin.y += max(0,(textRect.height-h)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5)); textRect.size.height = h
@@ -171,6 +175,7 @@ enum DiagramDrawing {
         return (CGRect(x:center.x-rect.width/2,y:center.y-rect.height/2,width:rect.width,height:rect.height),center,0)
     }
     static func drawEdge(_ edge: DiagramEdge, in page: DiagramPage, selected: Bool = false) {
+        PerformanceEvidence.count(.drawnObjects)
         let unit = 1/page.paperScale;var edge = edge;edge.width *= unit
         let points = DiagramGeometry.route(edge,in:page)
         guard let first = points.first, let last = points.last else { return }
@@ -194,16 +199,23 @@ enum DiagramDrawing {
             NSGraphicsContext.saveGraphicsState();let paper = NSAffineTransform();paper.scale(by:unit);paper.concat()
             let mid = points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2),middle = CGPoint(x:mid.x*page.paperScale,y:mid.y*page.paperScale)
             let attrs: [NSAttributedString.Key:Any] = [.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor(hex:edge.color)]
-            let size = (edge.label as NSString).size(withAttributes:attrs)
+            let size = PerformanceEvidence.measure(.textLayout) {
+                PerformanceEvidence.count(.textMeasurements)
+                return (edge.label as NSString).size(withAttributes:attrs)
+            }
             let box = CGRect(x:middle.x-size.width/2-5,y:middle.y-size.height/2-3,width:size.width+10,height:size.height+6)
             NSColor.white.setFill(); NSBezierPath(roundedRect:box,xRadius:4,yRadius:4).fill()
             (edge.label as NSString).draw(at:CGPoint(x:box.minX+5,y:box.minY+3),withAttributes:attrs);NSGraphicsContext.restoreGraphicsState()
         }
     }
     static func orderedNodes(in page:DiagramPage) -> [DiagramNode] {
-        ShapeDrawingOrder.ordered(page.nodes,id:\.id,parentID:\.parentID,isGroup:{$0.formatting.isGroup},displayMode:{Double($0.formatting.sheet["DisplayMode"]?.value ?? "").flatMap{Int(exactly:$0)}})
+        PerformanceEvidence.measure(.scenePreparation) {
+            PerformanceEvidence.count(.sceneObjectsPrepared,by:page.nodes.count)
+            return ShapeDrawingOrder.ordered(page.nodes,id:\.id,parentID:\.parentID,isGroup:{$0.formatting.isGroup},displayMode:{Double($0.formatting.sheet["DisplayMode"]?.value ?? "").flatMap{Int(exactly:$0)}})
+        }
     }
     static func drawContents(_ page:DiagramPage,printing:Bool = true,shadow:Bool = false) {
+        let evidence = PerformanceEvidence.begin(.draw);defer { PerformanceEvidence.end(evidence) }
         let nodes = orderedNodes(in:page)
         for n in nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
         for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(layerColored(e,in:page),in:page) }
