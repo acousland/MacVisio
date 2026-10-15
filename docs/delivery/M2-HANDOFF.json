@@ -181,7 +181,7 @@
   "evidence": [
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "e117d7b3cdd328dd47077e3badf5bcd31e9ef4cfbafc73283f564573e4a2e8ca",
+      "sha256": "ab7f98978d23b612cde3636ccfdfb346072459bfb3939145472e7d28327ba88d",
       "scope": "local preparation, not milestone acceptance"
     },
     {
