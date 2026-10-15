@@ -17,6 +17,44 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try value("ROUND(123.654,99)"),123.654)
         XCTAssertEqual(try value("50% * 4"),2)
     }
+    func testSixteenBitBitwiseFunctionsUseUnsignedUnitlessOperands() throws {
+        func value(_ formula:String) throws -> Double {
+            try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference")}
+        }
+        XCTAssertEqual(try value("BITAND(12,6)"),4)
+        XCTAssertEqual(try value("BITXOR(12,6)"),10)
+        XCTAssertEqual(try value("BITOR(12,6)"),14)
+        XCTAssertEqual(try value("BITOR(BITAND(12,6),BITXOR(12,6))"),14)
+        XCTAssertEqual(try value("BITAND(0,65535)"),0)
+        XCTAssertEqual(try value("BITXOR(65535,65535)"),0)
+        XCTAssertEqual(try value("BITOR(0,65535)"),65535)
+        XCTAssertEqual(try value("BITAND(65535,65535)"),65535)
+        XCTAssertEqual(try value("BITXOR(0,65535)"),65535)
+
+        for function in ["BITAND","BITOR","BITXOR"] {
+            for formula in ["\(function)(1)","\(function)(1,2,3)"] {
+                XCTAssertThrowsError(try value(formula),formula)
+            }
+            for operand in ["-1","65536","1.5","1e308","1in"] {
+                let formula = "\(function)(\(operand),0)"
+                XCTAssertThrowsError(try value(formula),formula)
+            }
+        }
+    }
+    func testTypedBitwiseFunctionsRejectUnitsAndNonNumericTypes() throws {
+        func typed(_ formula:String,resolve:@escaping (String)throws->SheetValue = {_ in .number(0)}) throws -> SheetValue {
+            try TypedShapeSheet.evaluate(formula,resolve:resolve,call:{name,_ in throw DiagramError.invalid("Unexpected function: \(name)")})
+        }
+        XCTAssertEqual(try typed("BITAND(12,6)"),.number(4))
+        XCTAssertEqual(try typed("BITXOR(12,6)"),.number(10))
+        XCTAssertEqual(try typed("BITOR(12,6)"),.number(14))
+        XCTAssertThrowsError(try typed("BITAND(1in,1)"))
+        XCTAssertThrowsError(try typed("BITXOR(Mask,1)",resolve:{_ in .quantity(1,"IN")}))
+        XCTAssertThrowsError(try typed("BITOR(Mask,1)",resolve:{_ in .boolean(true)}))
+        for formula in ["BITAND(1)","BITXOR(1,2,3)"] {
+            XCTAssertThrowsError(try typed(formula),formula)
+        }
+    }
     func testCeilingAndFloorRoundToSameSignMultiples() throws {
         func value(_ formula:String) throws -> Double { try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference") } }
         XCTAssertEqual(try value("CEILING(3.7)"),4)

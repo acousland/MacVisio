@@ -168,6 +168,14 @@ enum TypedShapeSheet {
                         return number
                     }
                     result = .number(try colorPalette.index(for:components))
+                case "BITAND","BITOR","BITXOR":
+                    try arity(2)
+                    guard !arguments.contains(where:ShapeSheet.containsMeasure) else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
+                    let operands = try values.map { value -> Double in
+                        guard case .number(let number) = value else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
+                        return number
+                    }
+                    result = .number(try ShapeSheet.bitwise(name,operands))
                 case "HSL":
                     try arity(3)
                     let components = try values.map { value -> Int in

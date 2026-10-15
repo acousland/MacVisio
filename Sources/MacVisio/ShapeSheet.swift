@@ -157,6 +157,10 @@ enum ShapeSheet {
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let multiple = values.count == 2 ? values[1] : (values[0] < 0 ? -1 : 1)
                     result = try rounded(values[0],toMultiple:multiple,awayFromZero:name == "CEILING")
+                case "BITAND","BITOR","BITXOR":
+                    try arity(2)
+                    guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
+                    result = try bitwise(name,values)
                 case "RGB":
                     try arity(3)
                     guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
@@ -172,6 +176,21 @@ enum ShapeSheet {
             }
             guard result.isFinite else { throw DiagramError.invalid("ShapeSheet calculation produced a non-finite value.") }; return result
         }; return try eval(expression)
+    }
+    static func bitwise(_ name:String,_ operands:[Double]) throws -> Double {
+        let function = name.uppercased()
+        guard operands.count == 2 else { throw DiagramError.invalid("\(function) expects two arguments.") }
+        guard let lhs = UInt16(exactly:operands[0]),let rhs = UInt16(exactly:operands[1]) else {
+            throw DiagramError.invalid("\(function) requires unitless whole-number operands from 0 through 65535.")
+        }
+        let result:UInt16
+        switch function {
+        case "BITAND":result = lhs & rhs
+        case "BITOR":result = lhs | rhs
+        case "BITXOR":result = lhs ^ rhs
+        default:throw DiagramError.invalid("Unsupported ShapeSheet bitwise function: \(function).")
+        }
+        return Double(result)
     }
     static func rounded(_ number:Double,toMultiple multiple:Double,awayFromZero:Bool) throws -> Double {
         guard number.isFinite,multiple.isFinite else { throw DiagramError.invalid("Rounding requires finite values.") }
@@ -190,7 +209,7 @@ enum ShapeSheet {
         if abs(number) <= fuzz { return 0 }
         return number > 0 ? 1 : -1
     }
-    private static func containsMeasure(_ expression:Expression) -> Bool {
+    static func containsMeasure(_ expression:Expression) -> Bool {
         switch expression {
         case .measure:return true
         case .unary(_,let child):return containsMeasure(child)
