@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "Proposed execution backlog; no implementation or release action has been performed",
+  "status": "Execution started; M0 local foundation implemented with reference and qualification work unaccepted. Other milestone statuses remain independently owned.",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -49,7 +49,8 @@
         "Every known baseline inventory entry maps to a requirement and an executable check or unresolved prerequisite.",
         "Public benchmarks, five-dimension evidence ledger and high-risk feasibility decisions are retained."
       ],
-      "status": "Proposed"
+      "status": "Implemented / unaccepted",
+      "delivery_evidence": "delivery/M0-HANDOFF.json"
     },
     {
       "id": "M1",
@@ -144,7 +145,7 @@
       "id": "M7",
       "title": "Full baseline qualification and release",
       "outcome": "Accept and release the complete frozen Visio Professional 2019 compatibility scope.",
-      "specification_gate_relationship": "G4 final; all applicable G0–G4 criteria",
+      "specification_gate_relationship": "G4 final; all applicable G0\u2013G4 criteria",
       "depends_on": [
         "M5",
         "M6"
@@ -197,7 +198,7 @@
           "deliverable": "Capture current guest/Visio/COM state and supported installation options without changing existing user sessions.",
           "acceptance_criteria": "A dated inventory distinguishes observed state from old reports.",
           "complexity": "S",
-          "status": "Proposed",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-REF-01"
@@ -211,7 +212,14 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Completed (local)",
+            "note": "Fresh 32/64-bit guest inventory and isolated synthetic smoke retained; absence of reference is observed, not accepted.",
+            "evidence_path": "docs/evidence/reference-summary.json",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-01-T02",
@@ -219,7 +227,7 @@
           "deliverable": "Install the appropriately licensed reference through a supported path; record exact build and data/solution prerequisites.",
           "acceptance_criteria": "Visio launches; 32/64-bit automation and required fonts are verified.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-01-T01"
           ],
@@ -235,7 +243,14 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Blocked",
+            "note": "No installed/registered exact-build Visio; entitlement/activation and supported historical installation path unverified.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-01-T03",
@@ -243,7 +258,7 @@
           "deliverable": "Record restore procedure, environment manifest and reproducible harness setup.",
           "acceptance_criteria": "A restored environment runs the same known-good reference fixture.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-01-T02"
           ],
@@ -259,7 +274,14 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Blocked",
+            "note": "No qualified reference image exists; powered-off owned-image restore and known-good smoke pending.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-01-T04",
@@ -267,7 +289,7 @@
           "deliverable": "Execute the existing synthetic-only harness and inspect produced files/exports.",
           "acceptance_criteria": "Open, inspect, edit, save, close, reopen and export pass; repair prompts are captured.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-01-T03"
           ],
@@ -283,10 +305,17 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Blocked",
+            "note": "Fresh synthetic blank smoke failed COM 0x80040154; all later phases skipped.",
+            "evidence_path": "docs/evidence/reference-summary.json",
+            "compatibility_accepted": false
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Blocked (local inventory complete)"
     },
     {
       "id": "WP-02",
@@ -319,7 +348,7 @@
           "deliverable": "Create stable linked records for 154 requirements and current evidence without upgrading statuses.",
           "acceptance_criteria": "All requirement IDs and snapshot states reconcile exactly.",
           "complexity": "S",
-          "status": "Proposed",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-REF-02",
@@ -338,7 +367,14 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Completed (local)",
+            "note": "All 154 requirement IDs and original feature snapshot states reconcile exactly; no compatibility promotion.",
+            "evidence_path": "docs/evidence/requirement-ledger.json",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-02-T02",
@@ -346,7 +382,7 @@
           "deliverable": "Catalog commands, solutions, masters, cells/functions, filters, APIs/events and integrations by exact build.",
           "acceptance_criteria": "Observed/documented/unresolved applicability is distinct; unavailable runtime work stays pending.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-02-T01"
           ],
@@ -367,7 +403,14 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "Bounded documented/source inventory with unknown remainder and seven small children; exact-build runtime enumeration pending.",
+            "evidence_path": "docs/evidence/runtime-inventory.json",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-02-T03",
@@ -375,7 +418,7 @@
           "deliverable": "Represent preservation/rendering/editing/behavior/interchange plus scope-change decisions.",
           "acceptance_criteria": "A parser-only success cannot mark full compatibility; exclusions need an explicit decision record.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Implemented / unaccepted",
           "depends_on": [
             "WP-02-T02"
           ],
@@ -399,7 +442,14 @@
           ],
           "architecture_contracts": [
             "AC-08"
-          ]
+          ],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Implemented / unaccepted",
+            "note": "Five-dimension evidence, artifact/hash/reference and scope-decision guards pass locally; semantic evidence remains unverified.",
+            "evidence_path": "docs/evidence/README.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-02-T04",
@@ -407,7 +457,7 @@
           "deliverable": "Create one semantic workflow/member case per inventory entry and link it to work packages.",
           "acceptance_criteria": "No newly found baseline item disappears from coverage or is mislabeled extension.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-02-T03"
           ],
@@ -428,10 +478,17 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "Every bounded entry has a mapped workflow child; named exact-build catalogs and fixtures remain unresolved.",
+            "evidence_path": "docs/evidence/runtime-inventory.json",
+            "compatibility_accepted": false
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Partial / unaccepted"
     },
     {
       "id": "WP-03",
@@ -471,7 +528,7 @@
           "deliverable": "Retain the architecture findings and create public 100/1,000/5,000/20,000-object variants including formulas/images/hierarchy.",
           "acceptance_criteria": "No confidential content enters public fixtures; observed and target metrics stay separate.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-REF-03",
@@ -497,7 +554,14 @@
             "AR-02",
             "AR-03"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Completed (local)",
+            "note": "Deterministic public 19-fixture corpus retains 100/1000/5000/20000 variants and exact target fixtures; targets separate from observations.",
+            "evidence_path": "docs/evidence/benchmark-manifest-summary.json",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-03-T02",
@@ -505,7 +569,7 @@
           "deliverable": "Record event, commit, calculation, scene, route, draw, snapshot and encoding stages. Distinguish text-layout and scene-preparation stages from drawing and calculation.",
           "acceptance_criteria": "Small-change/dirty-region tests expose visited/evaluated/drawn objects independently of timing. Signposts separate text measurement, scene preparation and real event-loop gaps.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-03-T01"
           ],
@@ -533,7 +597,14 @@
             "AR-03",
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Completed (local)",
+            "note": "Actual event/commit/calculation/scene/route/draw/text/snapshot/encoding/save/close and delivered heartbeat evidence validated; typed counts remain scoped and separate from timing/feature acceptance.",
+            "evidence_path": "docs/evidence/INSTRUMENTATION.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-03-T03",
@@ -541,7 +612,7 @@
           "deliverable": "Expand the existing synthetic-only harness for cells, masters, data/glue, graphics and both directions.",
           "acceptance_criteria": "Private metadata is removed only from validation copies; reference phase failures remain visible.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-03-T02"
           ],
@@ -565,7 +636,14 @@
             "WP-01"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "Formula/master identity/data/glue comparison and safe public-copy tools pass local guards; bidirectional reimport/graphics/reference runs pending.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-03-T04",
@@ -573,7 +651,7 @@
           "deliverable": "Run at least 30 samples per defined fixture/cache condition and include save/recovery/memory cycles.",
           "acceptance_criteria": "Controlled hardware runs absolute gates; shared CI checks work-count/scaling invariants.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-03-T03"
           ],
@@ -599,7 +677,14 @@
           "architecture_findings": [
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "Repeatable runner retained 60 real Debug warm-filesystem pipeline samples (30 each for 100/1000 objects), all phase/count checks complete. Full controlled Release size/variant/cache/fault/recovery/memory evidence remains pending.",
+            "evidence_path": "docs/evidence/benchmark-observed-summary.json",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-03-T05",
@@ -607,7 +692,7 @@
           "deliverable": "Document expected outcomes, artifacts, hashes, versioning and a separate permissioned private-fixture path.",
           "acceptance_criteria": "Existing synthetic-only safety restrictions remain enforced.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-03-T04"
           ],
@@ -633,10 +718,17 @@
           "architecture_findings": [
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Completed (local)",
+            "note": "Versioned synthetic manifests/hashes/expected counts and public/private evidence policy published; no confidential fixture staged.",
+            "evidence_path": "docs/evidence/BENCHMARK-CORPUS.md",
+            "compatibility_accepted": false
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Partial / unaccepted"
     },
     {
       "id": "WP-04",
@@ -675,7 +767,7 @@
           "deliverable": "Probe formulas, masters, glue, data and edited-object preservation using isolated reference fixtures.",
           "acceptance_criteria": "Choose a measured direct/adapter path; retain experimental labeling until independently accepted.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [],
           "requirement_ids": [
             "MV-IO-02",
@@ -698,7 +790,14 @@
             "WP-01"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "Existing public binary tests and master parser probe pass locally; formula/master/glue/data reference path choice still deferred.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-04-T02",
@@ -706,7 +805,7 @@
           "deliverable": "Test native facade versus explicit Windows bridge with representative COM/VBA/add-in cases.",
           "acceptance_criteria": "Unmodified script compatibility and translated outcomes are reported separately.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-04-T01"
           ],
@@ -731,7 +830,14 @@
             "WP-01"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Blocked",
+            "note": "Current native API is distinct from unmodified Windows COM/VBA/add-ins; absent COM blocks bridge/runtime prototype qualification.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-04-T03",
@@ -739,7 +845,7 @@
           "deliverable": "Verify representative object activation, rights, driver and filter constraints.",
           "acceptance_criteria": "Record exact versions and unresolved obligations; do not bypass protection.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-04-T02"
           ],
@@ -764,7 +870,14 @@
             "WP-01"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "ODBC views/file versions inventoried; OLE/rights/CAD/database runtime cases remain unavailable and unresolved.",
+            "evidence_path": "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+            "compatibility_accepted": false
+          }
         },
         {
           "id": "WP-04-T04",
@@ -772,7 +885,7 @@
           "deliverable": "Turn feasibility results into refined WP-28/30/31/32 tasks and dependency changes.",
           "acceptance_criteria": "Infeasibility stays a baseline blocker unless an explicit scope amendment is approved.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Partial / unaccepted",
           "depends_on": [
             "WP-04-T03"
           ],
@@ -800,10 +913,17 @@
             "AR-08",
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "execution_record": {
+            "date": "2026-10-16",
+            "state": "Partial / unaccepted",
+            "note": "27 bounded downstream proposals cover all WP-04 requirements plus CAD; source/test anchors and local evidence hashes retained. All feasibility decisions deferred; exact-build probes and path selection pending.",
+            "evidence_path": "docs/evidence/feasibility-decisions.json",
+            "compatibility_accepted": false
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Partial / unaccepted"
     },
     {
       "id": "WP-05",
@@ -1422,7 +1542,7 @@
           "id": "WP-08-T02",
           "title": "Implement spatial culling and cheap overlays",
           "deliverable": "Reject unrelated items before path/text work; keep selection/handles/guides as lightweight overlays.",
-          "acceptance_criteria": "A 16×16 dirty region visits relevant visible candidates rather than reconstructing the page.",
+          "acceptance_criteria": "A 16\u00d716 dirty region visits relevant visible candidates rather than reconstructing the page.",
           "complexity": "L",
           "status": "Proposed",
           "depends_on": [
@@ -5770,7 +5890,7 @@
         "AR-09"
       ],
       "outcome": "A frozen signed/notarized release with truthful public capability/support and update evidence.",
-      "package_acceptance": "Release manifest/hashes/evidence match the shipped bundle and all declared G0–G4 acceptance is closed.",
+      "package_acceptance": "Release manifest/hashes/evidence match the shipped bundle and all declared G0\u2013G4 acceptance is closed.",
       "tasks": [
         {
           "id": "WP-35-T01",
@@ -8145,7 +8265,7 @@
         "review_priority": "P1",
         "title": "Incremental calculation and reusable evaluation",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "One insertion spent 222.7–1,312.2 ms in ShapeSheet and 68.5–73.6 ms in text fields. Control dragging recalculates both baseline and moved documents.",
+        "evidence": "One insertion spent 222.7\u20131,312.2 ms in ShapeSheet and 68.5\u201373.6 ms in text fields. Control dragging recalculates both baseline and moved documents.",
         "limitations": "Insertion timings are individual observations. No large-document control-drag timing was measured.",
         "response": "Track affected closures, dynamic references, volatility and local cycles; retain compiled expressions/contexts; audit text measurement and reject stale workers.",
         "task_ids": [
@@ -8174,7 +8294,7 @@
         "review_priority": "P1",
         "title": "Retained rendering and dirty-region rejection",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "On 3,909 shapes, a 16×16 draw took 92.4 ms versus 99.3 ms for the viewport; painting can also enter background-field recalculation.",
+        "evidence": "On 3,909 shapes, a 16\u00d716 draw took 92.4 ms versus 99.3 ms for the viewport; painting can also enter background-field recalculation.",
         "limitations": "Draw timings are five-run medians after one warmup; they do not establish p95 or event-loop frame pacing.",
         "response": "Prepare immutable evaluated scenes; retain paths/text/order/bounds; cull before preparation; use lightweight interaction overlays.",
         "task_ids": [
@@ -8224,7 +8344,7 @@
         "review_priority": "P2",
         "title": "Selective UI updates and persistent controls",
         "evidence_kind": "Measured and source-confirmed",
-        "evidence": "Single selection cost 8.1–8.8 ms before drawing; editor refresh cost 9.3–10.4 ms. Inspector/page/stencil refresh reconstructs controls or lists.",
+        "evidence": "Single selection cost 8.1\u20138.8 ms before drawing; editor refresh cost 9.3\u201310.4 ms. Inspector/page/stencil refresh reconstructs controls or lists.",
         "limitations": "Large-stencil allocation/layout scaling was not quantified.",
         "response": "Publish typed changes; keep inspector and page controls alive; reuse library rows/thumbnails and compute availability once per selection revision.",
         "task_ids": [
@@ -8559,7 +8679,7 @@
         "finding": "AR-03"
       },
       {
-        "label": "Canvas 16×16 draw",
+        "label": "Canvas 16\u00d716 draw",
         "unit": "ms",
         "values": [
           16.7,
@@ -8579,5 +8699,15 @@
         "finding": "AR-04"
       }
     ]
+  },
+  "m0_execution": {
+    "date": "2026-10-16",
+    "state": "implemented_unaccepted",
+    "exact_reference_build": null,
+    "milestone_accepted": false,
+    "evidence_root": "delivery/M0-HANDOFF.json",
+    "scope_changes_approved": [],
+    "architecture_findings_closed": [],
+    "acceptance_contracts_closed": []
   }
 }

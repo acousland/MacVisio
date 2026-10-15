@@ -1,0 +1,421 @@
+{
+  "schemaVersion": 1,
+  "state": "observed_unaccepted",
+  "scope": "60 retained shared-host Debug pipeline samples; no absolute performance or compatibility acceptance",
+  "campaign": {
+    "path": "build/M0/warm-debug-samples.json",
+    "sha256": "56b67b1d73af3c903bb290729f0c7bc3fa879f1f7fa8986bfe582c37a4703b9c",
+    "scope": "Every attempt retained; named conditions; phase/work-count evidence",
+    "local_ignored": true
+  },
+  "sourceCorpusManifestSha256": "1c04ebc83b89514f667663629b3131f380bc3f5ee6a41b8d404040b5cefa7e9a",
+  "subsetManifest": {
+    "path": "build/M0/measurement-fixtures/manifest.json",
+    "sha256": "4b235208808607891ede53a39c06a5cdcc2dc3829ec2c074640d06a9c881cc1b",
+    "scope": "Exact authored-entry subset of final public corpus",
+    "local_ignored": true
+  },
+  "environment": {
+    "appBuild": "M0 instrumented Debug candidate; exact executable SHA-256 retained in adapter sample",
+    "architecture": "AppleSilicon",
+    "cacheProcedure": "Adapter pre-reads immutable fixture bytes before a fresh app process; warm file bytes only, no warm application cache claim",
+    "controlledHardware": false,
+    "hardware": "Apple M4 shared development host",
+    "localSSD": true,
+    "memoryBytes": 17179869184,
+    "os": "macOS 27.0.1",
+    "storage": "local workspace volume; storage performance not controlled"
+  },
+  "startedUtc": "2026-10-15T23:30:06.488849+00:00",
+  "endedUtc": "2026-10-15T23:30:58.745049+00:00",
+  "appSha256": "71f344d641293c1959bbcde30f7921a93ce505c9e839a5e4ff9bd6cce1d00510",
+  "cacheScope": "Complete immutable fixture pre-read; fresh product process each attempt; no warm application cache or OS flush claim",
+  "fixtures": [
+    {
+      "file": "objects-100-balanced.vsdx",
+      "sha256": "3c2577e047da206328dbf0a22111cfb9677bea5b851d6c6e26022ef8e6d47fe6",
+      "bytes": 5734,
+      "counts": {
+        "connectors": 33,
+        "formulaCells": 56,
+        "images": 4,
+        "maxGroupDepth": 0,
+        "objects": 100,
+        "shapes": 67
+      },
+      "attempts": 30,
+      "failedAttempts": 0,
+      "evidenceComplete": true,
+      "absoluteAcceptance": "unaccepted",
+      "absoluteGates": {
+        "mainThreadSaveStall": {
+          "limit": 100,
+          "reason": "Incomplete samples, missing metric or uncontrolled hardware",
+          "status": "unaccepted"
+        }
+      },
+      "observations": {
+        "aggregationScope": "All finite reported samples; failed attempts still prevent qualification",
+        "metrics": {
+          "frameTimeMs": null,
+          "inputToFeedbackMs": {
+            "max": 109.50637498172,
+            "p50": 101.04043749743141,
+            "p95": 108.57254167785868,
+            "samples": 30
+          },
+          "maxMainThreadSaveStallMs": null,
+          "maxPostOpenStallMs": null,
+          "peakRssBytes": null
+        },
+        "phasesMs": {
+          "calculation": {
+            "max": 19.73587501561269,
+            "p50": 18.16770836012438,
+            "p95": 19.555291684810072,
+            "samples": 30
+          },
+          "close": {
+            "max": 4.223166673909873,
+            "p50": 3.73043748550117,
+            "p95": 4.122374986764044,
+            "samples": 30
+          },
+          "commit": {
+            "max": 5.343374970834702,
+            "p50": 4.444708320079371,
+            "p95": 5.198500002734363,
+            "samples": 30
+          },
+          "draw": {
+            "max": 126.6700416454114,
+            "p50": 118.66566663957201,
+            "p95": 126.15941668627784,
+            "samples": 30
+          },
+          "encoding": {
+            "max": 11.549458373337984,
+            "p50": 10.73408333468251,
+            "p95": 11.505583301186562,
+            "samples": 30
+          },
+          "event": {
+            "max": 109.5036250189878,
+            "p50": 101.0389375151135,
+            "p95": 108.57091669458896,
+            "samples": 30
+          },
+          "open": {
+            "max": 202.25508336443454,
+            "p50": 183.82950001978315,
+            "p95": 201.839083340019,
+            "samples": 30
+          },
+          "route": {
+            "max": 1.3736666878685355,
+            "p50": 1.307104161242023,
+            "p95": 1.3718337286263704,
+            "samples": 30
+          },
+          "save": {
+            "max": 29.7687083366327,
+            "p50": 27.429229172412306,
+            "p95": 29.088999959640205,
+            "samples": 30
+          },
+          "scenePreparation": {
+            "max": 0.6587084499187768,
+            "p50": 0.4983750113751739,
+            "p95": 0.6127915694378316,
+            "samples": 30
+          },
+          "snapshot": {
+            "max": 0.006375019438564777,
+            "p50": 0.004979170626029372,
+            "p95": 0.0061666942201554775,
+            "samples": 30
+          },
+          "textLayout": {
+            "max": 9.06191678950563,
+            "p50": 8.030667202547193,
+            "p95": 8.999416546430439,
+            "samples": 30
+          }
+        }
+      },
+      "actualWorkCountRange": {
+        "connectors": {
+          "min": 33,
+          "max": 33
+        },
+        "drawnObjects": {
+          "min": 421,
+          "max": 421
+        },
+        "encodedDocuments": {
+          "min": 1,
+          "max": 1
+        },
+        "evaluatedCells": {
+          "min": 804,
+          "max": 804
+        },
+        "formulaCells": {
+          "min": 56,
+          "max": 56
+        },
+        "heartbeatSamples": {
+          "min": 14,
+          "max": 16
+        },
+        "images": {
+          "min": 4,
+          "max": 4
+        },
+        "maxGroupDepth": {
+          "min": 0,
+          "max": 0
+        },
+        "objects": {
+          "min": 100,
+          "max": 100
+        },
+        "routeRequests": {
+          "min": 132,
+          "max": 132
+        },
+        "sceneObjectsPrepared": {
+          "min": 268,
+          "max": 268
+        },
+        "shapes": {
+          "min": 67,
+          "max": 67
+        },
+        "snapshotsCaptured": {
+          "min": 1,
+          "max": 1
+        },
+        "textMeasurements": {
+          "min": 421,
+          "max": 421
+        },
+        "transactionsCommitted": {
+          "min": 1,
+          "max": 1
+        },
+        "visitedObjects": {
+          "min": 134,
+          "max": 134
+        }
+      },
+      "importWarningCounts": [
+        1
+      ],
+      "calculationIssueCounts": [
+        0
+      ],
+      "unfinishedSpans": [
+        0
+      ],
+      "inputSavedInPlace": false
+    },
+    {
+      "file": "objects-1000-balanced.vsdx",
+      "sha256": "a62735dfa52dd81d1958f1a1087bcf686c442e10b8340a4504bb20cdf299f201",
+      "bytes": 24551,
+      "counts": {
+        "connectors": 333,
+        "formulaCells": 536,
+        "images": 34,
+        "maxGroupDepth": 0,
+        "objects": 1000,
+        "shapes": 667
+      },
+      "attempts": 30,
+      "failedAttempts": 0,
+      "evidenceComplete": true,
+      "absoluteAcceptance": "unaccepted",
+      "absoluteGates": {
+        "mainThreadSaveStall": {
+          "limit": 100,
+          "reason": "Incomplete samples, missing metric or uncontrolled hardware",
+          "status": "unaccepted"
+        }
+      },
+      "observations": {
+        "aggregationScope": "All finite reported samples; failed attempts still prevent qualification",
+        "metrics": {
+          "frameTimeMs": null,
+          "inputToFeedbackMs": {
+            "max": 238.2437083288096,
+            "p50": 234.95895831729285,
+            "p95": 237.1776666259393,
+            "samples": 30
+          },
+          "maxMainThreadSaveStallMs": null,
+          "maxPostOpenStallMs": null,
+          "peakRssBytes": null
+        },
+        "phasesMs": {
+          "calculation": {
+            "max": 93.74920837581158,
+            "p50": 92.32845832593739,
+            "p95": 93.43783336225897,
+            "samples": 30
+          },
+          "close": {
+            "max": 4.914125020150095,
+            "p50": 4.447541694389656,
+            "p95": 4.8440416576340795,
+            "samples": 30
+          },
+          "commit": {
+            "max": 6.599083368200809,
+            "p50": 6.063375010853633,
+            "p95": 6.588583346456289,
+            "samples": 30
+          },
+          "draw": {
+            "max": 224.5729166897945,
+            "p50": 222.53677085973322,
+            "p95": 224.33358331909403,
+            "samples": 30
+          },
+          "encoding": {
+            "max": 117.2751666745171,
+            "p50": 115.82325003109872,
+            "p95": 117.09991667885333,
+            "samples": 30
+          },
+          "event": {
+            "max": 238.2416666368954,
+            "p50": 234.9568333302159,
+            "p95": 237.17479163315147,
+            "samples": 30
+          },
+          "open": {
+            "max": 422.7295416640118,
+            "p50": 411.0373958537821,
+            "p95": 421.5313749737106,
+            "samples": 30
+          },
+          "route": {
+            "max": 26.432416634634137,
+            "p50": 25.87631272035651,
+            "p95": 26.276750839315355,
+            "samples": 30
+          },
+          "save": {
+            "max": 140.45887504471466,
+            "p50": 136.9093333487399,
+            "p95": 139.69970832113177,
+            "samples": 30
+          },
+          "scenePreparation": {
+            "max": 2.222666807938367,
+            "p50": 2.1632292482536286,
+            "p95": 2.217541739810258,
+            "samples": 30
+          },
+          "snapshot": {
+            "max": 0.003458291757851839,
+            "p50": 0.0027500209398567677,
+            "p95": 0.003249966539442539,
+            "samples": 30
+          },
+          "textLayout": {
+            "max": 38.962750521022826,
+            "p50": 38.145146623719484,
+            "p95": 38.46308606443927,
+            "samples": 30
+          }
+        }
+      },
+      "actualWorkCountRange": {
+        "connectors": {
+          "min": 333,
+          "max": 333
+        },
+        "drawnObjects": {
+          "min": 2025,
+          "max": 2025
+        },
+        "encodedDocuments": {
+          "min": 1,
+          "max": 1
+        },
+        "evaluatedCells": {
+          "min": 4008,
+          "max": 4008
+        },
+        "formulaCells": {
+          "min": 536,
+          "max": 536
+        },
+        "heartbeatSamples": {
+          "min": 64,
+          "max": 70
+        },
+        "images": {
+          "min": 34,
+          "max": 34
+        },
+        "maxGroupDepth": {
+          "min": 0,
+          "max": 0
+        },
+        "objects": {
+          "min": 1000,
+          "max": 1000
+        },
+        "routeRequests": {
+          "min": 668,
+          "max": 668
+        },
+        "sceneObjectsPrepared": {
+          "min": 1336,
+          "max": 1336
+        },
+        "shapes": {
+          "min": 667,
+          "max": 667
+        },
+        "snapshotsCaptured": {
+          "min": 1,
+          "max": 1
+        },
+        "textMeasurements": {
+          "min": 2025,
+          "max": 2025
+        },
+        "transactionsCommitted": {
+          "min": 1,
+          "max": 1
+        },
+        "visitedObjects": {
+          "min": 668,
+          "max": 668
+        }
+      },
+      "importWarningCounts": [
+        1
+      ],
+      "calculationIssueCounts": [
+        0
+      ],
+      "unfinishedSpans": [
+        0
+      ],
+      "inputSavedInPlace": false
+    }
+  ],
+  "limits": [
+    "Debug build on shared uncontrolled hardware; absolute gates remain unaccepted.",
+    "Synthesized direct-responder mouse/key trace, no drag/pan/hardware input/frame-deadline qualification.",
+    "Only100/1000 balanced object cases sampled; remaining variants and exact standard/large/interaction/cache conditions need separate runs.",
+    "Native save snapshot was verified; no Visio public round trip, crash recovery, memory/leak or save-specific maximum-stall qualification.",
+    "Instrumented phase totals are inclusive and overlapping; do not add them or equate per-item samples with end-to-end phases.",
+    "Import warnings and all attempts retained; no result replaces the historical intermittent saved-state disposition."
+  ]
+}

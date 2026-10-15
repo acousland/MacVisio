@@ -4,11 +4,11 @@ This documentation/source inventory is the local WP-02 foundation. It preserves 
 
 `requirement-ledger.json` links each requirement to its normative specification line, unchanged feature classification and note, repository evidence document, acceptance contract, applicability basis, delivery work packages, acceptance owner, unresolved fixture prerequisite, and five separate evidence dimensions. Snapshot counts remain 9 Implemented, 88 Partial, 31 Not implemented, 13 Unverified, six Planned extension, four Not evidenced, two Blocked and one Experimental. An Implemented snapshot record is local support evidence; it does not automatically pass any evidence dimension.
 
-`runtime-inventory.json` is a **bounded inventory**, with 170 stable entries and one planned semantic qualification child per entry. The counts include an explicit unknown-remainder entry in every category:
+`runtime-inventory.json` is a **bounded inventory**, with 171 stable entries and one planned semantic qualification child per entry. The counts include an explicit unknown-remainder entry in every category:
 
 | Category | Entries including unknown remainder | Observation boundary |
 | --- | ---: | --- |
-| Commands | 32 | Literal command-line switches in `main.swift`; no claim to the full menu/ribbon/context/shortcut catalog. |
+| Commands | 33 | Literal command-line switches in `main.swift`; no claim to the full menu/ribbon/context/shortcut catalog. |
 | Solutions | 16 | Fifteen baseline solution requirements from the snapshot; graphics/content import does not implement solution behavior. |
 | Masters | 1 | Unknown named-master catalog; aggregate historical parser counts are retained separately. |
 | Cells | 22 | Geometry/text key arrays in `ShapeSheetEngine.swift`; no complete owner/section/row inventory claim. |

@@ -21,3 +21,5 @@ Frozen plan: 7c270124993bac09967109f95e603ebb47bd98ff. Recorded before implement
 | WP-04-T03 | c: database drivers | Read 32/64-bit installed ODBC driver names/file versions without DSNs/credentials; actual driver/schema import pending reference. |
 
 WP-02 decomposition is retained in runtime-inventory.json and its README. WP-03 corpus/performance/fault children are retained in BENCHMARK-CORPUS.md. Every unrun child remains visible in the final handoff.
+
+The resulting 27 downstream S proposals, exact requirement mappings, source/test anchors and deferred decisions are retained in [feasibility-decisions.json](feasibility-decisions.json). These proposals do not record an implemented bridge or a chosen public binary semantic path.
