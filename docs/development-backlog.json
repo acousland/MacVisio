@@ -8968,10 +8968,10 @@
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
         "accepted M1+M2 engineering handoff",
-        "M0 harness contract integration",
         "all M3 production feature children",
         "complete exact-build inventories and bidirectional Visio/render/physical-printer qualification"
-      ]
+      ],
+      "M0_harness_integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003"
     }
   ]
 }

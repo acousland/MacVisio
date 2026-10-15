@@ -2,7 +2,10 @@
 
 `m3-intelligent.vsdx` is authored by `scripts/m3-public-evidence.py generate`.
 It contains no user content, Microsoft stencil content, or native MacVisio metadata.
-The adjacent manifest uses the existing synthetic Windows runner schema. Expected
+The adjacent manifest uses the committed M0 synthetic Windows runner schema,
+including optional master/formula/data/glue checks. Page `name` expectations use
+the runner's universal `NameU` contract; display names are retained separately in
+public XML. Expected
 text, dimensions and identities are authored in the generator, independently of
 MacVisio's serializer and reopen model.
 

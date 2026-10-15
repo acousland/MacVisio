@@ -14,7 +14,7 @@
         "pages": [
           {
             "index": 1,
-            "name": "Intelligent foreground",
+            "name": "Foreground",
             "background": false,
             "width": 8,
             "height": 10,
@@ -23,6 +23,14 @@
                 "id": "10",
                 "parentID": null,
                 "text": "Café 東京 🙂 bold\nSecond paragraph",
+                "masterID": "7",
+                "formulas": {
+                  "Width": "GUARD(2 in)",
+                  "User.Span": "Width"
+                },
+                "data": {
+                  "Prop.Owner": "Synthetic"
+                },
                 "cells": {
                   "PinX": 2,
                   "PinY": 6,
@@ -34,6 +42,10 @@
                 "id": "20",
                 "parentID": null,
                 "text": "Local override",
+                "masterID": "8",
+                "formulas": {
+                  "Width": "Sheet.10!Width+1 in"
+                },
                 "cells": {
                   "PinX": 6,
                   "PinY": 6,
@@ -45,6 +57,9 @@
                 "id": "30",
                 "parentID": null,
                 "text": "Link 東京",
+                "formulas": {
+                  "User.Weight": "Sheet.10!Width+Sheet.20!Width"
+                },
                 "cells": {
                   "BeginX": 3,
                   "BeginY": 6,
@@ -52,11 +67,25 @@
                   "EndY": 6
                 }
               }
+            ],
+            "connects": [
+              {
+                "fromShape": "30",
+                "fromCell": "BeginX",
+                "toShape": "10",
+                "toCell": "Connections.Out.X"
+              },
+              {
+                "fromShape": "30",
+                "fromCell": "EndX",
+                "toShape": "20",
+                "toCell": "PinX"
+              }
             ]
           },
           {
             "index": 2,
-            "name": "Background scale",
+            "name": "Background",
             "background": true,
             "width": 8,
             "height": 10,
@@ -96,7 +125,7 @@
         "pages": [
           {
             "index": 1,
-            "name": "One metre at 1 to 50",
+            "name": "PhysicalScale",
             "background": false,
             "width": 413.38582677165357,
             "height": 584.6456692913387,

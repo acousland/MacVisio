@@ -72,7 +72,7 @@
         "WP-02",
         "WP-03"
       ],
-      "status": "M0_inventory_integrated; harness_integration_and_reference_pending",
+      "status": "M0_inventory_and_committed_harness_integrated; reference_pending",
       "required_inputs": [
         "exact-build applicability inventory with stable canonical IDs",
         "fixture/evidence schema and five-dimension ledger",

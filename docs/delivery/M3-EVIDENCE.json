@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "kind": "local_engineering_discovery",
+  "milestone": "M3",
+  "compatibility_accepted": false,
+  "reference_run": false,
+  "code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "environment": {
+    "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
+    "target": "arm64-apple-macosx27.0.0",
+    "build_configuration": "debug",
+    "scratch_path": "build/m3-swift",
+    "swift_jobs": 2
+  },
+  "checks": [
+    {
+      "id": "m3-public-fixture",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter M3PublicFixtureTests",
+      "outcome": "passed",
+      "executed": 3,
+      "failures": 0,
+      "skips": 0,
+      "scope": [
+        "no-edit authored public parts byte equality",
+        "isolated instance text edit with public-only reopen and unchanged master/style/theme/connector/opaque content",
+        "1000mm at1:50 yields20mm in actual A4 PDF render; nonprinting guide excluded"
+      ],
+      "limitations": [
+        "calibrated physical printer not run",
+        "Visio not installed",
+        "no new M3 first-class domain implementation accepted"
+      ]
+    },
+    {
+      "id": "M0-integrated-regressions",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|PerformanceEvidenceTests'",
+      "outcome": "passed",
+      "executed": 15,
+      "failures": 0,
+      "skips": 0
+    },
+    {
+      "id": "python-evidence-tooling",
+      "command": "python3 -m unittest discover -s scripts/tests -v",
+      "outcome": "passed",
+      "executed": 58,
+      "failures": 0,
+      "scope": "M0 inventory/corpus/reference tooling and9 M3 oracle mutation tests; fabricated test records are not real reference evidence"
+    },
+    {
+      "id": "public-validation-copies",
+      "outcome": "passed",
+      "fixtures": 2,
+      "scope": "M0 tool prepared fresh public-only copies; actual M0 runner validated their hashes and absence of native payloads; no guest execution"
+    },
+    {
+      "id": "catalog-and-backlog-consistency",
+      "outcome": "passed",
+      "scope": "unique/scoped child and requirement/inventory IDs, all parents/L tasks split, local paths, dependency acyclicity and matching backlog child arrays; no semantic acceptance"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/m3-evidence/discovery/public-fixture-swift.log",
+      "sha256": "d76bef3d962addd5bbf84eb299ce5408eb51a7557f86ab198049b2170e2eda25"
+    },
+    {
+      "path": "build/m3-evidence/discovery/python-suite.log",
+      "sha256": "3aec40d040cc03b91b975d0f7540d34d9730bff65f4eae84e4061550e7c2c0ae"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-swift.log",
+      "sha256": "e6fbeaad2c0077dec38889a15a731b534557d500c47ff8ff0aed3a276a2cd220"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-python.log",
+      "sha256": "a04a2345ebc36ff3a03e5bcd568f3097649b5c0619c4c01323ee1212e6b4ea22"
+    },
+    {
+      "path": "build/m3-evidence/catalog-validation.log",
+      "sha256": "9c432a2ca3482a39f1f32570ded58fb3546ce59a037a877ca8ed94675a40d82a"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-python-final.log",
+      "sha256": "c9f4ce29be387192f77bd635234a5e4476326b2605fc13d0d9c4b04698b3f55d"
+    }
+  ],
+  "five_compatibility_dimensions": {
+    "preservation": "unverified",
+    "rendering": "unverified",
+    "editing": "unverified",
+    "behavior": "unverified",
+    "interchange": "unverified"
+  },
+  "unresolved_intermittency": "Historical saved-state intermittency belongs to M1 and remains pending its accepted disposition; M3 focused green runs cannot close it."
+}

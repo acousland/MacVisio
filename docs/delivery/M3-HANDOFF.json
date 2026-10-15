@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
+  "worktree": "/Users/acousland/.codex/worktrees/8b73/MacVisio",
+  "branch": "codex/m3-intelligent-vsdx",
+  "state": "preparing",
+  "handoff_kind": "interim",
+  "candidate_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "milestone_acceptance": {
+    "local_engineering": "pending: accepted M1+M2 engineering prerequisite and M3 implementation not yet delivered",
+    "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
+    "accepted": false
+  },
+  "integrated_upstream": {
+    "M0": {
+      "source_commits": [
+        "78c6c56",
+        "3c22d00",
+        "f8e3aac",
+        "f9ba1d1",
+        "81f6140"
+      ],
+      "integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+      "accepted_scope": "available local inventory/instrumentation/corpus/public harness contracts only; M0/G0 remains unaccepted"
+    },
+    "M1": null,
+    "M2": null
+  },
+  "own_delivery_commits": [
+    "eb84c98",
+    "f0182cb",
+    "4790d71"
+  ],
+  "completed_task_ids": [],
+  "implemented_unaccepted_task_ids": [],
+  "active_task_ids": [
+    "WP-15-T01"
+  ],
+  "pending_task_ids": [
+    "WP-14-T01",
+    "WP-14-T02",
+    "WP-14-T03",
+    "WP-14-T04",
+    "WP-15-T01",
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T02",
+    "WP-16-T03",
+    "WP-16-T04",
+    "WP-17-T01",
+    "WP-17-T02",
+    "WP-17-T03",
+    "WP-17-T04",
+    "WP-18-T01",
+    "WP-18-T02",
+    "WP-18-T03",
+    "WP-18-T04",
+    "WP-19-T01",
+    "WP-19-T02",
+    "WP-19-T03",
+    "WP-19-T04",
+    "WP-20-T01",
+    "WP-20-T02",
+    "WP-20-T03",
+    "WP-20-T04"
+  ],
+  "blocked_task_ids": [],
+  "dependent_feature_implementation_started": false,
+  "decomposition": {
+    "catalog": "docs/delivery/M3-CATALOG.json",
+    "parent_tasks": 28,
+    "large_parent_tasks": 22,
+    "children": 204,
+    "accepted_children": 0,
+    "meaning": "bounded review/ownership, not implementation or compatibility evidence"
+  },
+  "evidence_paths": [
+    "docs/delivery/M3-EVIDENCE.json",
+    "docs/delivery/M3-CATALOG.md",
+    "docs/delivery/M3-DOMAIN-CONTRACTS.md",
+    "Tests/MacVisioTests/Fixtures/M3/manifest.json"
+  ],
+  "remaining_prerequisites": [
+    "M2 actual accepted integrated M1+M2 engineering commits and handoff; source contracts must be used rather than guessed",
+    "all WP14–20 production feature children and affected/native/public milestone regressions",
+    "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
+    "same-font per-region visual evidence and calibrated physical-print evidence"
+  ],
+  "next_action": "Continue independent evidence work and retained-cursor peer waits; integrate accepted M2 candidate, then implement bounded M3 domain slices and re-run affected plus milestone regressions. This interim preparation is not the requested final integrated candidate."
+}

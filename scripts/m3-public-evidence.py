@@ -173,11 +173,17 @@ def generate(directory: Path) -> dict:
                 "fixtures": [{"file": path.name, "case": "m3-intelligent", "format": "vsdx", "sha256": digest(path.read_bytes()),
                               "bytes": path.stat().st_size, "containsNativeMetadata": False,
                               "expected": {"pages": [
-                                  {"index": 1, "name": "Intelligent foreground", "background": False, "width": 8, "height": 10, "shapes": [
-                                      {"id": "10", "parentID": None, "text": "Café 東京 🙂 bold\nSecond paragraph", "cells": {"PinX": 2, "PinY": 6, "Width": 2, "Height": 1}},
-                                      {"id": "20", "parentID": None, "text": "Local override", "cells": {"PinX": 6, "PinY": 6, "Width": 3, "Height": 1}},
-                                      {"id": "30", "parentID": None, "text": "Link 東京", "cells": {"BeginX": 3, "BeginY": 6, "EndX": 4.5, "EndY": 6}}]},
-                                  {"index": 2, "name": "Background scale", "background": True, "width": 8, "height": 10, "shapes": [
+                                  {"index": 1, "name": "Foreground", "background": False, "width": 8, "height": 10, "shapes": [
+                                      {"id": "10", "parentID": None, "text": "Café 東京 🙂 bold\nSecond paragraph", "masterID": "7",
+                                       "formulas": {"Width": "GUARD(2 in)", "User.Span": "Width"}, "data": {"Prop.Owner": "Synthetic"},
+                                       "cells": {"PinX": 2, "PinY": 6, "Width": 2, "Height": 1}},
+                                      {"id": "20", "parentID": None, "text": "Local override", "masterID": "8",
+                                       "formulas": {"Width": "Sheet.10!Width+1 in"}, "cells": {"PinX": 6, "PinY": 6, "Width": 3, "Height": 1}},
+                                      {"id": "30", "parentID": None, "text": "Link 東京", "formulas": {"User.Weight": "Sheet.10!Width+Sheet.20!Width"},
+                                       "cells": {"BeginX": 3, "BeginY": 6, "EndX": 4.5, "EndY": 6}}],
+                                   "connects": [{"fromShape": "30", "fromCell": "BeginX", "toShape": "10", "toCell": "Connections.Out.X"},
+                                                {"fromShape": "30", "fromCell": "EndX", "toShape": "20", "toCell": "PinX"}]},
+                                  {"index": 2, "name": "Background", "background": True, "width": 8, "height": 10, "shapes": [
                                       {"id": "1", "parentID": None, "text": "Public background", "cells": {"PinX": 4, "PinY": 1, "Width": 2, "Height": 0.5}}]}]}}]}
     physical = directory / "m3-physical.vsdx"
     write_package(physical_parts(), physical)
@@ -185,7 +191,7 @@ def generate(directory: Path) -> dict:
                                  "bytes": physical.stat().st_size, "containsNativeMetadata": False,
                                  "expectedPhysical": {"printerScalePercent": 100, "objectWidthMM": 20, "pageWidthMM": 210, "pageHeightMM": 297,
                                                       "printedToleranceMM": 0.2, "calibratedPrinterEvidence": "pending"},
-                                 "expected": {"pages": [{"index": 1, "name": "One metre at 1 to 50", "background": False,
+                                 "expected": {"pages": [{"index": 1, "name": "PhysicalScale", "background": False,
                                                          "width": 210*50/25.4, "height": 297*50/25.4, "shapes": [
                                                              {"id": "1", "parentID": None, "text": "", "cells": {"Width": 1000/25.4, "Height": 250/25.4}},
                                                              {"id": "2", "parentID": None, "text": "Nonprinting guide", "cells": {"Width": 1000/25.4, "Height": 250/25.4}}]}]}})
