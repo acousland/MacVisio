@@ -64,7 +64,7 @@ enum NativeMetadataStorage {
         parts["[Content_Types].xml"] = document.xmlData(options: .nodePreserveAll)
     }
 
-    /// Returns raw format-2 JSON when it fits in one OPC part. Larger payloads
+    /// Returns raw envelope JSON when it fits in one OPC part. Larger payloads
     /// are zlib-compressed, split into numbered parts, and described by a
     /// format-3 manifest.
     static func store(_ payload: Data, in parts: inout [String: Data]) throws -> Data {
@@ -105,7 +105,7 @@ enum NativeMetadataStorage {
         return manifest
     }
 
-    /// Loads a format-2 payload unchanged or validates and assembles format-3
+    /// Loads a raw envelope unchanged or validates and assembles format-3
     /// segments before returning their names for package hash bookkeeping.
     static func load(_ metadata: Data, parts: [String: Data]) throws -> (data: Data, storageParts: Set<String>) {
         guard metadata.count <= partLimit,
@@ -114,7 +114,7 @@ enum NativeMetadataStorage {
               let format = dictionary["format"] as? Int else {
             throw DiagramError.invalid("Invalid native metadata manifest.")
         }
-        if format == 1 || format == 2 { return (metadata, []) }
+        if format == 1 || format == 2 || format == 4 { return (metadata, []) }
         guard format == 3 else { throw DiagramError.invalid("Unsupported native metadata format.") }
 
         let manifest: Manifest

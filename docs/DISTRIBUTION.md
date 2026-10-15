@@ -6,6 +6,10 @@ The MacVisio menu includes **Check for Updates…** and **Automatically Check fo
 
 The feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/appcast.xml`. Both the appcast and the ZIP use the app's Ed25519 update key; signed feeds and signature verification before extraction are required by the bundle. The public key is committed in Info.plist. The private key is stored in the local Keychain under the MacVisio account and in the encrypted GitHub Actions secret `SPARKLE_PRIVATE_KEY`. It is excluded from source and release assets.
 
+## Version 0.23.3
+
+Version 0.23.3 reduces large-VSDX metadata encoding and decoding work. Existing large drawings adopt the compact representation on their next save; opening does not rewrite them. The background open/save behavior from 0.23.2 remains in place. See [release notes](RELEASE-0.23.3.md).
+
 ## Version 0.23.1
 
 Version 0.23.1 fixes complex VSDX save failures by compressing and bounding native editing metadata. Actual NSDocument save/reopen tests cover large imported payloads, repeated saves, preserved opaque parts, and safe failure handling. See [release notes](RELEASE-0.23.1.md).

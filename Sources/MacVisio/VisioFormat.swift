@@ -43,8 +43,10 @@ enum VisioFormat {
         if archive.names.contains(nativePart) {
             do {
                 let storedMetadata = try NativeMetadataStorage.load(archive.data(nativePart), parts: archive.parts)
+                trace?("metadataStorage")
                 let envelope = try JSONDecoder().decode(NativeEnvelope.self, from: storedMetadata.data)
-                if (1...2).contains(envelope.format), !envelope.publicHashes.isEmpty {
+                trace?("metadataDecode")
+                if [1, 2, 4].contains(envelope.format), !envelope.publicHashes.isEmpty {
                     let needsPorts = envelope.connectionPointsVersion != 1 && archive.parts.contains{part in
                         guard part.key.hasSuffix(".xml"),let xml = String(data:part.value,encoding:.utf8) else { return false }
                         return xml.range(of:"<[^>]*Section\\b[^>]*\\bN\\s*=\\s*[\"']Connection[\"']",options:.regularExpression) != nil
@@ -55,7 +57,8 @@ enum VisioFormat {
                         guard archive.names.contains(part) else { matches = false; break }
                         if hash(try archive.data(part)) != expected { matches = false; break }
                     }
-                    let publicNames = Set(archive.names.filter { envelope.format == 2 ? $0 != nativePart && !storedMetadata.storageParts.contains($0) : $0.hasPrefix("visio/") && ($0.hasSuffix(".xml") || $0.hasSuffix(".rels")) })
+                    trace?("metadataHashes")
+                    let publicNames = Set(archive.names.filter { envelope.format >= 2 ? $0 != nativePart && !storedMetadata.storageParts.contains($0) : $0.hasPrefix("visio/") && ($0.hasSuffix(".xml") || $0.hasSuffix(".rels")) })
                     if hasMasters,envelope.masterExpansionVersion != 1 { warnings.insert("Older native metadata did not expand master subshapes; the public Visio content was reimported.") }
                     let needsTransforms = envelope.coordinateTransformVersion != 1 && archive.parts.contains { part in
                         guard part.key.hasSuffix(".xml"),let xml = String(data:part.value,encoding:.utf8) else { return false }
@@ -84,10 +87,32 @@ enum VisioFormat {
                             diagram.legacySource?.data = bytes
                         }
                         diagram = try diagram.validated()
-                        var bindings = envelope.bindings ?? diagram.pages.enumerated().map { index, page in
-                            VisioPageBinding(pageID:page.id,visioID:String(index),part:"visio/pages/page\(index+1).xml",original:page,
-                                nodeIDs:Dictionary(uniqueKeysWithValues:page.nodes.enumerated().map { ($0.element.id,String($0.offset+1)) }),
-                                edgeIDs:Dictionary(uniqueKeysWithValues:page.edges.enumerated().map { ($0.element.id,String(page.nodes.count+$0.offset+1)) }))
+                        var bindings: [VisioPageBinding]
+                        if envelope.format == 4 {
+                            guard envelope.bindings == nil, let compact = envelope.compactBindings,
+                                  compact.count == diagram.pages.count,
+                                  Set(compact.map(\.pageID)).count == compact.count else {
+                                throw DiagramError.invalid("Invalid compact native page bindings.")
+                            }
+                            let pagesByID = Dictionary(uniqueKeysWithValues: diagram.pages.map { ($0.id, $0) })
+                            guard Set(compact.map(\.pageID)) == Set(pagesByID.keys) else {
+                                throw DiagramError.invalid("Compact native metadata references missing pages.")
+                            }
+                            bindings = try compact.map { binding in
+                                guard let currentPage = pagesByID[binding.pageID] else {
+                                    throw DiagramError.invalid("Compact native metadata references a missing page.")
+                                }
+                                return VisioPageBinding(pageID: binding.pageID, visioID: binding.visioID,
+                                    part: binding.part, original: binding.original ?? currentPage,
+                                    nodeIDs: binding.nodeIDs, edgeIDs: binding.edgeIDs,
+                                    inheritedShapes: binding.inheritedShapes)
+                            }
+                        } else {
+                            bindings = envelope.bindings ?? diagram.pages.enumerated().map { index, page in
+                                VisioPageBinding(pageID:page.id,visioID:String(index),part:"visio/pages/page\(index+1).xml",original:page,
+                                    nodeIDs:Dictionary(uniqueKeysWithValues:page.nodes.enumerated().map { ($0.element.id,String($0.offset+1)) }),
+                                    edgeIDs:Dictionary(uniqueKeysWithValues:page.edges.enumerated().map { ($0.element.id,String(page.nodes.count+$0.offset+1)) }))
+                            }
                         }
                         var cacheWarnings:[String] = []
                         if envelope.controlsVersion != 1,archive.parts.contains(where:{$0.key.hasSuffix(".xml") && String(data:$0.value,encoding:.utf8)?.range(of:"<(?:[A-Za-z_][A-Za-z0-9_.-]*:)?Section\\b[^>]*\\bN\\s*=\\s*[\"']Controls?[\"']",options:.regularExpression) != nil}) {
@@ -678,11 +703,22 @@ enum VisioFormat {
         try VisioPackage.write(parts, to: url)
     }
 
-    private struct NativeEnvelope: Codable {
+    struct NativeBinding: Codable {
+        let pageID: UUID
+        let visioID: String
+        let part: String
+        let nodeIDs: [UUID: String]
+        let edgeIDs: [UUID: String]
+        let inheritedShapes: [UUID: VisioInheritedShape]?
+        let original: DiagramPage?
+    }
+
+    struct NativeEnvelope: Codable {
         let format: Int
         let publicHashes: [String: String]
         let diagram: Diagram
-        var bindings: [VisioPageBinding]?
+        var bindings: [VisioPageBinding]? = nil
+        var compactBindings: [NativeBinding]? = nil
         var pagesPart: String?
         var legacyParts: [String]?
         var masterExpansionVersion:Int? = nil
@@ -755,14 +791,51 @@ enum VisioFormat {
             content.legacySource?.data = Data();segments = names
         }
         let encoder = JSONEncoder(); encoder.outputFormatting = [.sortedKeys]
+        var publicHashes = parts.filter { $0.key != nativePart }.mapValues(hash)
+        let currentPages = Dictionary(uniqueKeysWithValues: content.pages.map { ($0.id, $0) })
+        let compactBindings: [NativeBinding]? = synchronizedBindings.map { bindings in
+            bindings.map { binding in
+                NativeBinding(pageID: binding.pageID, visioID: binding.visioID, part: binding.part,
+                    nodeIDs: binding.nodeIDs, edgeIDs: binding.edgeIDs,
+                    inheritedShapes: binding.inheritedShapes,
+                    original: currentPages[binding.pageID] == binding.original ? nil : binding.original)
+            }
+        }
         func encodedEnvelope() throws -> Data {
-            try encoder.encode(NativeEnvelope(format:2,publicHashes:parts.filter { $0.key != nativePart }.mapValues(hash),diagram:content,bindings:synchronizedBindings,pagesPart:diagram.visioArchive?.pagesPart,legacyParts:segments,masterExpansionVersion:1,connectorHierarchyVersion:1,connectionPointsVersion:1,coordinateTransformVersion:1,textRunsVersion:1,textFieldsVersion:1,geometryVersion:4,controlsVersion:1))
+            if let compactBindings, compactBindings.count == content.pages.count {
+                let compact = try encoder.encode(NativeEnvelope(format:4,publicHashes:publicHashes,diagram:content,
+                    bindings:nil,compactBindings:compactBindings,pagesPart:diagram.visioArchive?.pagesPart,
+                    legacyParts:segments,masterExpansionVersion:1,connectorHierarchyVersion:1,
+                    connectionPointsVersion:1,coordinateTransformVersion:1,textRunsVersion:1,
+                    textFieldsVersion:1,geometryVersion:4,controlsVersion:1))
+                if compact.count > VisioPackage.partLimit { return compact }
+            }
+            return try encoder.encode(NativeEnvelope(format:2,publicHashes:publicHashes,diagram:content,
+                bindings:synchronizedBindings,pagesPart:diagram.visioArchive?.pagesPart,legacyParts:segments,
+                masterExpansionVersion:1,connectorHierarchyVersion:1,connectionPointsVersion:1,
+                coordinateTransformVersion:1,textRunsVersion:1,textFieldsVersion:1,geometryVersion:4,
+                controlsVersion:1))
         }
         var payload = try encodedEnvelope()
         if payload.count > VisioPackage.partLimit {
-            // Register the segment content type before hashing public package parts.
+            // Register the segment content type, then patch its hash into the already encoded envelope.
+            let previousContentTypes = parts["[Content_Types].xml"]
             try NativeMetadataStorage.registerContentType(in: &parts)
-            payload = try encodedEnvelope()
+            if parts["[Content_Types].xml"] != previousContentTypes {
+                guard let contentTypes = parts["[Content_Types].xml"], publicHashes["[Content_Types].xml"] != nil else {
+                    throw DiagramError.invalid("Native metadata is missing the public content-types hash.")
+                }
+                let originalHashes = publicHashes
+                publicHashes["[Content_Types].xml"] = hash(contentTypes)
+                let memberPrefix = Data("\"publicHashes\":".utf8)
+                let originalMember = memberPrefix + (try encoder.encode(originalHashes))
+                let replacementMember = memberPrefix + (try encoder.encode(publicHashes))
+                guard originalMember.count == replacementMember.count,
+                      let memberRange = payload.range(of: originalMember, options: .backwards) else {
+                    throw DiagramError.invalid("Could not safely update the native metadata content-types hash.")
+                }
+                payload.replaceSubrange(memberRange, with: replacementMember)
+            }
         }
         return try NativeMetadataStorage.store(payload, in: &parts)
     }
