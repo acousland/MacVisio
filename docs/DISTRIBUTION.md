@@ -38,7 +38,7 @@ The build defaults to `development`. Before signing, `build-app.sh` records
 update checks. Development archives live under
 `build/releases/development/<version>-<revision>/`. The release workflow publishes
 these with `--prerelease --latest=false`; they cannot replace the stable latest
-feed. Manual development update checks use that same prerelease's feed. This is
+feed. Manual development update checks use that same prerelease's feed. The runtime updater delegate rejects development background and information probes even if Sparkle has a persisted automatic-check preference from a stable build. The development automatic-check menu is disabled; the stable preference is not rewritten. Unconfigured builds reject all checks. This is
 an isolated test channel, not an accepted installed-update journey.
 
 Stable builds require `MACVISIO_RELEASE_CHANNEL=stable` and an explicit

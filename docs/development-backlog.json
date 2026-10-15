@@ -2340,7 +2340,7 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Release gate implemented:28 Python checks, actual development archive signatures verify, stable ad hoc build rejected. Exact stable candidate acceptance remains open."
+          "execution_note": "Release gate and runtime channel policy implemented:28 Python+3 runtime policy tests pass; stable ad hoc rejected. Signed final candidate/installed-update acceptance remains open."
         },
         {
           "id": "WP-12-T03",
@@ -2406,7 +2406,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Actual14-binary inventory derives arm64/macOS27.0 floor and redacted report works. Tested platform matrix, content rights and installed-update acceptance remain open."
+          "execution_note": "Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open."
         }
       ],
       "status": "In progress — independent preparation; unaccepted",
