@@ -3,6 +3,7 @@ import Foundation
 enum DiagramCalculation {
     struct Result { var diagram:Diagram;var issues:[String];var geometryIssuesByPage:[UUID:[String]] = [:] }
     static func recalculate(_ input:Diagram,previous:Diagram? = nil,previousIssues:[String] = [],previousGeometryIssuesByPage:[UUID:[String]]? = nil) -> Result {
+        let evidence = PerformanceEvidence.begin(.calculation);defer { PerformanceEvidence.end(evidence) }
         var next = input,issues = Set<String>()
         var previousPassInput:Diagram?
         var geometryIssuesByPage = previousGeometryIssuesByPage ?? [:]

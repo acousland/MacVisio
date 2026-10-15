@@ -15,6 +15,8 @@ import subprocess
 import sys
 import tempfile
 import uuid
+import zipfile
+from xml.etree import ElementTree as ET
 from pathlib import Path
 
 
@@ -52,6 +54,31 @@ def require_running_lima(instance: str) -> None:
     raise RuntimeError(f"Lima instance {instance!r} is not registered.")
 
 
+def require_public_vsdx(source: Path) -> None:
+    """Verify actual package contents as well as the manifest assertion."""
+    if source.stat().st_size > 100 * 1024 * 1024:
+        raise ValueError("Synthetic package exceeds supported size")
+    with zipfile.ZipFile(source) as archive:
+        entries = archive.infolist()
+        names = [entry.filename for entry in entries]
+        if len(entries) > 10000 or len(set(names)) != len(names):
+            raise ValueError("Too many or duplicate ZIP entries")
+        if sum(e.file_size for e in entries) > 128 * 1024 * 1024 or any(e.file_size > 16 * 1024 * 1024 for e in entries):
+            raise ValueError("Expanded synthetic package exceeds supported size")
+        for name in names:
+            if name.startswith("/") or "\\" in name or ".." in name.split("/") or ":" in name:
+                raise ValueError("Unsafe ZIP part name")
+            if name.lower().startswith("macvisio/"):
+                raise ValueError("Refusing actual native metadata part; prepare a public validation copy")
+            if name.endswith(".rels"):
+                data = archive.read(name)
+                if b"<!DOCTYPE" in data.upper() or b"<!ENTITY" in data.upper():
+                    raise ValueError("DTD/entity declarations are unsupported")
+                for relation in ET.fromstring(data):
+                    if relation.get("Type", "").lower().startswith("urn:macvisio:"):
+                        raise ValueError("Refusing native metadata relationship")
+
+
 def validate_fixture_set(folder: Path) -> tuple[dict, list[dict]]:
     folder = folder.resolve(strict=True)
     manifest_path = folder / "manifest.json"
@@ -81,6 +108,8 @@ def validate_fixture_set(folder: Path) -> tuple[dict, list[dict]]:
         source = folder / name
         if source.is_symlink() or not source.is_file():
             raise ValueError(f"Fixture is missing or not a regular file: {source}")
+        if expected_format == "vsdx":
+            require_public_vsdx(source)
         actual_hash = hashlib.sha256(source.read_bytes()).hexdigest()
         if actual_hash.lower() != str(fixture.get("sha256", "")).lower():
             raise ValueError(f"Host SHA-256 mismatch for {name}.")
@@ -234,7 +263,7 @@ def main() -> int:
                 print(run_result.stdout.strip(), file=sys.stderr)
             return 1
         return 0 if report.get("status") == "passed" else 1
-    except (OSError, ValueError, RuntimeError, json.JSONDecodeError) as error:
+    except (OSError, ValueError, RuntimeError, json.JSONDecodeError, zipfile.BadZipFile, ET.ParseError) as error:
         message = str(error)
         try:
             _, fixtures = validate_fixture_set(args.fixtures)

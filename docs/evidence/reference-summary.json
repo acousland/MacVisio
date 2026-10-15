@@ -1,0 +1,249 @@
+{
+  "schema_version": 1,
+  "observation_date_local": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "scope": "Fresh bounded inventory and failed isolated synthetic smoke, no reference acceptance",
+  "accepted": false,
+  "collected_utc": "2026-10-15T23:17:07.4250489Z",
+  "os": {
+    "caption": "Microsoft Windows 11 Pro",
+    "version": "10.0.26300",
+    "build": "26300",
+    "architecture": "ARM 64-bit Processor"
+  },
+  "culture": "en-GB",
+  "ui_culture": "en-GB",
+  "powershell": {
+    "version": "5.1.26100.9711",
+    "bitness": 64,
+    "x86Available": true
+  },
+  "registry_views": [
+    {
+      "registryView": "Registry32",
+      "visioClsid": null,
+      "visioServer": null,
+      "clickToRun": null,
+      "officeUninstalls": [],
+      "odbcDrivers": [
+        {
+          "name": "Driver da Microsoft para arquivos texto (*.txt; *.csv)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Driver do Microsoft Access (*.mdb)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Driver do Microsoft dBase (*.dbf)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Driver do Microsoft Excel(*.xls)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Driver do Microsoft Paradox (*.db )",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Access Driver (*.mdb)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Access-Treiber (*.mdb)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft dBase Driver (*.dbf)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft dBase-Treiber (*.dbf)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Excel Driver (*.xls)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Excel-Treiber (*.xls)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft ODBC for Oracle",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Paradox Driver (*.db )",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Paradox-Treiber (*.db )",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Text Driver (*.txt; *.csv)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "Microsoft Text-Treiber (*.txt; *.csv)",
+          "registration": "Installed",
+          "fileVersion": null
+        },
+        {
+          "name": "SQL Server",
+          "registration": "Installed",
+          "fileVersion": "10.0.26100.9711 (WinBuild.160101.0800)"
+        }
+      ]
+    },
+    {
+      "registryView": "Registry64",
+      "visioClsid": null,
+      "visioServer": null,
+      "clickToRun": null,
+      "officeUninstalls": [],
+      "odbcDrivers": [
+        {
+          "name": "SQL Server",
+          "registration": "Installed",
+          "fileVersion": "10.0.26100.9711 (WinBuild.160101.0800)"
+        }
+      ]
+    }
+  ],
+  "standard_visio_executables": [],
+  "relevant_processes": [],
+  "click_to_run_services": [],
+  "font_file_count": 336,
+  "font_manifest_sha256": "0bc4c0ededcdcbdf19be75233d471751f7a792cc704ee8e8449e8dfd37ad15a2",
+  "license_verification": "unverified; no activation or product-key query performed",
+  "assessment": {
+    "state": "needs_input",
+    "inventoryComplete": true,
+    "installedPrerequisiteObserved": false,
+    "sessionBusy": false,
+    "accepted": false,
+    "prerequisites": [
+      "Appropriately licensed exact-build Visio Professional 2019 installation with executable and COM registration",
+      "Verified license entitlement and activation status",
+      "Exact edition/build/bitness/OS/font manifest freeze",
+      "Isolated COM launch and real open/edit/save/reopen/export smoke",
+      "Offline reference-image restore followed by the same smoke"
+    ]
+  },
+  "smoke": {
+    "status": "failed",
+    "files": [
+      {
+        "file": "blank.vsdx",
+        "input_sha256": "4c071ecc11821c3eea8c5760dfbac7fbb787bccbaceff297fe97f33509acc821",
+        "status": "failed",
+        "phases": {
+          "open": {
+            "status": "failed",
+            "error": {
+              "type": "System.Runtime.InteropServices.COMException",
+              "message": "Retrieving the COM class factory for component with CLSID {00000000-0000-0000-0000-000000000000} failed due to the following error: 80040154 Class not registered (Exception from HRESULT: 0x80040154 (REGDB_E_CLASSNOTREG)).",
+              "hresult": "0x80040154"
+            }
+          },
+          "inspect": {
+            "status": "skipped"
+          },
+          "mutation": {
+            "status": "skipped"
+          },
+          "saveAs": {
+            "status": "skipped"
+          },
+          "close": {
+            "status": "skipped"
+          },
+          "reopen": {
+            "status": "skipped"
+          },
+          "exportPdf": {
+            "status": "skipped"
+          },
+          "exportSvg": {
+            "status": "skipped"
+          }
+        }
+      }
+    ]
+  },
+  "local_artifacts": [
+    {
+      "path": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/reference/current-guest.json",
+      "sha256": "af1f4b07c938cc999e367e7f81d2843c9ad4ea8aa26e80654ceb6848e4ff9071"
+    },
+    {
+      "path": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/reference/windows-smoke.json",
+      "sha256": "067095dbf981ab98d483a76b351046745ed1f2a66c1821ad880b225786d742a8"
+    },
+    {
+      "path": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/reference/windows-comparison.json",
+      "sha256": "706691fcc4c60947860f33e52b0f5c51905ea1069f86fe517afeb9a41eb9cf00"
+    },
+    {
+      "path": "/Users/acousland/.codex/worktrees/c767/MacVisio/build/M0/reference/powershell-syntax.json",
+      "sha256": "40ee332c447f9b4d6f4c5df0408675fef694da3ae8e3f1c971df362474585a32"
+    }
+  ],
+  "executed_inspector_sha256": "68839bb2de1449565f9d73e1f2665aff0b746a928c18fe63086d5a7ab75f7734",
+  "powershell_syntax": [
+    {
+      "script": "scripts/windows/Invoke-VisioFixture.ps1",
+      "exitCode": 0,
+      "result": {
+        "characters": 17117,
+        "sha256": "61db42d341aa7911a026bd19aa17f373dc6182e65a59bc53d9691364bef77689",
+        "status": "parsed"
+      },
+      "expectedSha256": "61db42d341aa7911a026bd19aa17f373dc6182e65a59bc53d9691364bef77689",
+      "inputHashMatched": true,
+      "scope": "PowerShell syntax only; actual script-input SHA-256 checked; no COM execution"
+    },
+    {
+      "script": "scripts/windows/Run-VisioAcceptance.ps1",
+      "exitCode": 0,
+      "result": {
+        "characters": 10905,
+        "sha256": "46d7886e5dcaf3f6db75b535def6ffbf66c86b46bbf07df01d7b0c012b9510a8",
+        "status": "parsed"
+      },
+      "expectedSha256": "46d7886e5dcaf3f6db75b535def6ffbf66c86b46bbf07df01d7b0c012b9510a8",
+      "inputHashMatched": true,
+      "scope": "PowerShell syntax only; actual script-input SHA-256 checked; no COM execution"
+    },
+    {
+      "script": "scripts/windows/Inspect-ReferenceEnvironment.ps1",
+      "exitCode": 0,
+      "result": {
+        "characters": 5595,
+        "sha256": "c2001983052b07c473d70b6aaf68ddc845b536c1cbd272d0569ad1b218d4a346",
+        "status": "parsed"
+      },
+      "expectedSha256": "c2001983052b07c473d70b6aaf68ddc845b536c1cbd272d0569ad1b218d4a346",
+      "inputHashMatched": true,
+      "scope": "PowerShell syntax only; actual script-input SHA-256 checked; no COM execution"
+    }
+  ]
+}
