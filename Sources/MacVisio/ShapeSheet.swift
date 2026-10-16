@@ -98,8 +98,12 @@ enum ShapeSheet {
     indirect enum Expression { case number(Double),measure(Double,String),string(String),reference(String),omitted,unary(String,Expression),binary(String,Expression,Expression),call(String,[Expression]) }
     enum Token: Equatable { case number(Double),measure(Double,String),string(String),name(String),op(String),left,right,comma,end }
     static func parse(_ formula:String,characterLimit:Int = 16384) throws -> Expression {
-        var parser = try Parser(formula,characterLimit:characterLimit);let result = try parser.expression()
-        guard parser.token == .end else { throw DiagramError.invalid("Unexpected ShapeSheet expression content.") };return result
+        try ShapeSheetExpressionCache.shared.expression(formula, characterLimit: characterLimit) {
+            var parser = try Parser(formula,characterLimit:characterLimit)
+            let result = try parser.expression()
+            guard parser.token == .end else { throw DiagramError.invalid("Unexpected ShapeSheet expression content.") }
+            return result
+        }
     }
     static func evaluate(_ formula:String,resolve:(String)throws->Double,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> Double {
         try evaluate(parse(formula),resolve:resolve,colorPalette:colorPalette)

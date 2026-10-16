@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import AppKit
 
 enum ShapeTextFunctions {
@@ -17,7 +18,13 @@ enum ShapeTextFunctions {
         };return text
     }
     struct Metrics { var width:Double;var height:Double }
-    static func metrics(_ node:DiagramNode,page:DiagramPage,maximumWidth:Double? = nil) throws -> Metrics {
+    static func metrics(_ node:DiagramNode,page:DiagramPage,maximumWidth:Double? = nil,cancellation:LifecycleJobCancellation? = nil) throws -> Metrics {
+        try ShapeTextMeasurementService.perform(cancellation: cancellation) {
+            try metricsOnMain(node, page: page, maximumWidth: maximumWidth)
+        }
+    }
+    private static func metricsOnMain(_ node:DiagramNode,page:DiagramPage,maximumWidth:Double?) throws -> Metrics {
+        precondition(Thread.isMainThread, "AppKit text measurement requires the main thread.")
         if let width = maximumWidth { guard width.isFinite,width > 0,width*72*page.paperScale < 1e7 else { throw DiagramError.invalid("Invalid text measurement width.") } }
         let evidence = PerformanceEvidence.begin(.textLayout);defer { PerformanceEvidence.end(evidence) }
         PerformanceEvidence.count(.textMeasurements)

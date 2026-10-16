@@ -1,0 +1,181 @@
+{
+  "schema_version": 2,
+  "milestone": "M1",
+  "thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+  "worktree": "/Users/acousland/.codex/worktrees/85af/MacVisio",
+  "branch": "codex/m1-editing-foundation",
+  "commit": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+  "commit_role": "Qualified code candidate; subsequent documentation-only commits are resolved from the branch/shared orchestration status.",
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+  "state": "ready",
+  "acceptance_passed": true,
+  "implementation_available": true,
+  "downstream_acceptance_ready": true,
+  "completion_scope": "All 25 M1 local tasks qualified, with actual automatic local app-bundle crash/relaunch recovery; original task/requirement/dependency scope retained. Whole product requirements and release/reference gates are not closed.",
+  "completed_task_ids": [
+    "WP-05-T01",
+    "WP-05-T02",
+    "WP-05-T03",
+    "WP-05-T04",
+    "WP-05-T05",
+    "WP-06-T01",
+    "WP-06-T02",
+    "WP-06-T03",
+    "WP-06-T04",
+    "WP-06-T05",
+    "WP-07-T01",
+    "WP-07-T02",
+    "WP-07-T03",
+    "WP-07-T04",
+    "WP-07-T05",
+    "WP-08-T01",
+    "WP-08-T02",
+    "WP-08-T03",
+    "WP-08-T04",
+    "WP-08-T05",
+    "WP-09-T01",
+    "WP-09-T02",
+    "WP-09-T03",
+    "WP-09-T04",
+    "WP-09-T05"
+  ],
+  "locally_qualified_task_ids": [
+    "WP-05-T01",
+    "WP-05-T02",
+    "WP-05-T03",
+    "WP-05-T04",
+    "WP-05-T05",
+    "WP-06-T01",
+    "WP-06-T02",
+    "WP-06-T03",
+    "WP-06-T04",
+    "WP-06-T05",
+    "WP-07-T01",
+    "WP-07-T02",
+    "WP-07-T03",
+    "WP-07-T04",
+    "WP-07-T05",
+    "WP-08-T01",
+    "WP-08-T02",
+    "WP-08-T03",
+    "WP-08-T04",
+    "WP-08-T05",
+    "WP-09-T01",
+    "WP-09-T02",
+    "WP-09-T03",
+    "WP-09-T04",
+    "WP-09-T05"
+  ],
+  "implemented_unaccepted_task_ids": [],
+  "blocked_task_ids": [],
+  "working_tree_changes": false,
+  "contract_commits": {
+    "planning": "7c270124993bac09967109f95e603ebb47bd98ff",
+    "child_slices": "5e31bf8",
+    "WP-05": "bbdfefa",
+    "WP-06": "873d0043d650716d3b2437f31532aedbdf712da6",
+    "implementation": "aa6ff78",
+    "critical_formatting": "4c423bc",
+    "final_correctness": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+    "native_driver_follow_up": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5"
+  },
+  "dependencies": [
+    "Applicable M0 instrumentation/corpus/adapter through fc69ccb adapted locally. The exact licensed Visio reference remains unavailable; that blocks reference acceptance, not M2 integration of accepted M1 engineering contracts.",
+    "M2 may integrate this accepted local M1 branch/source checkpoint. M3 still needs M2's accepted integrated M1+M2 engineering handoff and applicable M0 inputs."
+  ],
+  "validation": {
+    "python_tests": 34,
+    "boundary_audit_tests": 7,
+    "pure_import_audit_files": 9,
+    "critical_formatter_files": 25,
+    "foundation_code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+    "foundation_full_debug": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "foundation_consecutive_full_release_runs": 3,
+    "foundation_each_release": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "current_full_release": {
+      "tests": 607,
+      "skipped": 13,
+      "failures": 0
+    },
+    "native_focused": {
+      "tests": 5,
+      "skipped": 0,
+      "failures": 0
+    },
+    "native_public_scaling_attempts": 12,
+    "native_interaction_attempts": 30,
+    "native_attempt_failures": 0,
+    "automatic_app_recovery": {
+      "passed": true,
+      "original_pid": 63306,
+      "new_pid": 63462,
+      "no_file_operand_on_relaunch": true,
+      "page_identity_and_content_restored": true,
+      "edited_before_save": true,
+      "matching_clean_native_save_after_recovery": true,
+      "fresh_public_readback": true,
+      "source_unchanged_from_qualified_candidate": true
+    }
+  },
+  "evidence_paths": [
+    "docs/delivery/M1-QUALIFICATION.md",
+    "docs/evidence/M1-LOCAL-QUALIFICATION.json",
+    "docs/delivery/M1-TASK-EVIDENCE.json",
+    "docs/delivery/M1-IMPLEMENTATION.md",
+    "docs/delivery/M1-BOUNDARIES.md",
+    "docs/delivery/M1-WP06-CONTRACT.md",
+    "docs/delivery/M1-WP07-CONTRACT.md",
+    "docs/delivery/M1-WP08-RENDER-CONTRACT.md",
+    "docs/delivery/M1-WP08-UI-CONTRACT.md",
+    "docs/delivery/M1-WP09-LIFECYCLE-CONTRACT.md",
+    "build/m1-evidence/full-debug14.log",
+    "build/m1-evidence/full-release-1.log",
+    "build/m1-evidence/full-release-2.log",
+    "build/m1-evidence/full-release-3.log",
+    "docs/evidence/M1-NATIVE-QUALIFICATION.json",
+    "build/m1-evidence/full-release-native-final.log",
+    "build/m1-evidence/native-public-matrix.json",
+    "build/m1-evidence/native-interaction-30.json",
+    "docs/delivery/M1-ENGINEERING-HANDOFF.md",
+    "docs/delivery/M1-RECOVERY-QUALIFICATION.md",
+    "docs/evidence/M1-RECOVERY-QUALIFICATION.json"
+  ],
+  "remaining": [],
+  "limits": [
+    "No whole requirement, Windows/Visio compatibility, p95/frame/compositor, hardware-input, absence-of-leak or stable-release acceptance claim.",
+    "Full input/final commit diffs remain compatibility boundaries; warm engine counters do not represent all command work.",
+    "Path/text/image/undo/job budgets are explicit; route/diagnostic memory remains current-input/scene-lifetime bounded.",
+    "Twenty-cycle hidden editor fixture is 64 shapes, eight edits, 2 MiB opaque source per document; does not qualify standard/large workload NFR gates."
+  ],
+  "integration_allowed": true,
+  "acceptance_scope": "Local M1 engineering checkpoint: all WP-05\u2013WP-09 task/package and milestone exit criteria within their recorded local evidence scope. G1/G2, reference, platform/distribution and numerical release performance acceptance remain separate.",
+  "milestone_acceptance": {
+    "local_engineering": true,
+    "G1_release": false,
+    "G2_reference": false,
+    "stable_release": false
+  },
+  "pending_release_or_reference_qualification": [
+    {
+      "scope": "G1/M2 numerical performance and native release qualification",
+      "required": "Controlled 50 ms single-input, 33 ms compositor frame and 100 ms save-stall metrics; observed three-event/raster p95 246.7404 ms does not substitute. Supported-platform, signed/notarized shipping install/update/recovery and accessibility/IME journeys remain mandatory."
+    },
+    {
+      "scope": "M0/M3/G2/reference and broad workload qualification",
+      "required": "Licensed exact-build reference, independent public-content interoperability, standard/large loading/save/RSS and declared platform evidence remain with their owning gates."
+    }
+  ],
+  "integration_instructions": [
+    "Integrate the actual accepted codex/m1-editing-foundation commits, preserving M2's prepared slices and applicable M0 adaptations; do not copy the unrelated original Home/welcome dirty diff.",
+    "Use docs/delivery/M1-ENGINEERING-HANDOFF.md plus the accepted transaction/runtime/calculation/render/job contracts; resolve actual integration conflicts and rerun affected plus full native checks.",
+    "This releases M1's engineering checkpoint for M2. It does not accept G1/G2 or authorize M3 dependent work before its accepted M2 prerequisite."
+  ]
+}

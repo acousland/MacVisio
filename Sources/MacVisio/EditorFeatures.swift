@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import AppKit
 import UniformTypeIdentifiers
 
@@ -34,6 +35,7 @@ extension EditorWindowController {
         canvas.finishEditing(commit:true)
         guard !canvas.selectedNodes.isEmpty || canvas.selectedEdge != nil,let window = window else { return }
         let diagram = diagramDocument.diagram,page = diagram.page
+        let snapshotStateID = diagramDocument.stateID,snapshotRevision = diagramDocument.revision,sourceURL = diagramDocument.fileURL
         let ids = DiagramOperations.expandedSelection(canvas.selectedNodes,in:page)
         let binding = diagram.visioArchive?.pages.first{$0.pageID == page.id}
         let fragment = DiagramOperations.fragment(ids,edges:canvas.selectedEdge.map{Set([$0])} ?? [],from:page,binding:binding)
@@ -41,7 +43,24 @@ extension EditorWindowController {
         panel.message = "Save the selection as one reusable master. Supported geometry, text, images, data and connection points are included."
         panel.beginSheetModal(for:window) { [weak self] response in
             guard response == .OK,let url = panel.url,let self = self else { return }
-            do { let title = fragment.nodes.first(where:{$0.parentID == nil})?.text ?? "";let master = StencilDefinition(name:title.isEmpty ? "Selection" : title,family:diagram.title,fragment:fragment);try VisioReusableFormat.writeStencil([master],to:url);self.root.showMessage("Exported \(url.lastPathComponent)") } catch { self.presentError(error) }
+            let owner = self.lifecycleJobs
+            let progress = LifecycleProgressController(title:"Exporting stencil",detail:url.lastPathComponent)
+            let input = LifecycleJobInput(ownerID:owner.id,snapshotID:snapshotStateID,revision:snapshotRevision)
+            do {
+                let title = fragment.nodes.first(where:{$0.parentID == nil})?.text ?? ""
+                let master = StencilDefinition(name:title.isEmpty ? "Selection" : title,family:diagram.title,fragment:fragment)
+                let handle = try OwnedExportJobs.submitStencil(definitions:[master],input:input,sourceURL:sourceURL,
+                                                              destination:url,owner:owner,progress:{progress.update($0)}) { [weak self] result in
+                    progress.finish()
+                    switch result {
+                    case .success: self?.root.showMessage("Exported \(url.lastPathComponent)")
+                    case .failure(let error):
+                        if (error as? LifecycleJobError) != .cancelled && (error as? LifecycleJobError) != .staleInput { self?.presentError(error) }
+                    }
+                }
+                progress.onCancel = { [weak handle] in handle?.cancel() }
+                progress.show()
+            } catch { progress.finish();self.presentError(error) }
         }
     }
     @objc func editConnectionPoints(_ sender:Any?) {
@@ -62,12 +81,40 @@ extension EditorWindowController {
         let panel = NSOpenPanel();panel.allowedContentTypes = ["vssx","vss"].map{UTType(filenameExtension:$0) ?? .data};panel.allowsMultipleSelection = true
         guard panel.runModal() == .OK else { return };for url in panel.urls { loadStencil(url) }
     }
-    func loadStencil(_ url:URL) {
+    func loadStencil(_ url:URL,completion:((Error?)->Void)? = nil) {
+        let owner = lifecycleJobs
+        let jobID = UUID()
+        let input = LifecycleJobInput(ownerID:owner.id,snapshotID:diagramDocument.stateID,revision:diagramDocument.revision)
+        let progress = LifecycleProgressController(title:"Loading stencil",detail:url.lastPathComponent)
         do {
-            let result = try VisioStencil.read(from:url)
-            stencils.append(contentsOf:result.items);root.stencil.refreshCategories(selecting:result.items.first?.family)
-            if !result.warnings.isEmpty { let alert = NSAlert();alert.messageText = "Stencil import notes";alert.informativeText = result.warnings.prefix(8).joined(separator:"\n");alert.beginSheetModal(for:window!) }
-        } catch { presentError(error) }
+            let handle = try LifecycleJobService.shared.submit(id:jobID,kind:.library,input:input,accepts:{ [weak self] candidate in
+                self != nil && owner.isActive && candidate.ownerID == owner.id
+            },progress:{ progress.update($0) },work:{ context in
+                context.progress("Reading \(url.lastPathComponent)")
+                return try VisioStencil.read(from:url)
+            },completion:{ [weak self] result in
+                progress.finish()
+                owner.finish(jobID)
+                switch result {
+                case .success(let imported):
+                    guard let self,owner.isActive else { completion?(LifecycleJobError.staleInput);return }
+                    self.stencils.append(contentsOf:imported.items)
+                    self.root.stencil.refreshCategories(selecting:imported.items.first?.family)
+                    if !imported.warnings.isEmpty,let window = self.window {
+                        let alert = NSAlert();alert.messageText = "Stencil import notes"
+                        alert.informativeText = imported.warnings.prefix(8).joined(separator:"\n")
+                        alert.beginSheetModal(for:window)
+                    }
+                    completion?(nil)
+                case .failure(let error):
+                    if (error as? LifecycleJobError) != .cancelled && (error as? LifecycleJobError) != .staleInput { self?.presentError(error) }
+                    completion?(error)
+                }
+            })
+            owner.track(handle)
+            progress.onCancel = { [weak handle] in handle?.cancel() }
+            progress.show()
+        } catch { progress.finish();presentError(error);completion?(error) }
     }
 }
 
@@ -159,11 +206,11 @@ final class PropertyGrid: FlippedView, NSTableViewDataSource, NSTableViewDelegat
 extension EditorWindowController {
     @objc func groupSelection(_ sender:Any?) {
         canvas.finishEditing(commit:true)
-        do { var next = diagramDocument.diagram;let binding = next.visioArchive?.pages.first{$0.pageID == next.page.id};let id = try DiagramOperations.group(canvas.selectedNodes,in:&next.page,binding:binding); diagramDocument.replace(with:try next.validated(),action:"Group Shapes"); canvas.select([id]) } catch { presentError(error) }
+        do { var next = diagramDocument.diagram;let binding = next.visioArchive?.pages.first{$0.pageID == next.page.id};let id = try DiagramOperations.group(canvas.selectedNodes,in:&next.page,binding:binding); diagramDocument.replaceInEditor(with:try next.validated(),action:"Group Shapes"); canvas.select([id]) } catch { presentError(error) }
     }
     @objc func ungroupSelection(_ sender:Any?) {
         canvas.finishEditing(commit:true); var next = diagramDocument.diagram
-        let ids = DiagramOperations.ungroup(canvas.selectedNodes,in:&next.page); diagramDocument.replace(with:next,action:"Ungroup Shapes"); canvas.select(ids)
+        let ids = DiagramOperations.ungroup(canvas.selectedNodes,in:&next.page); diagramDocument.replaceInEditor(with:next,action:"Ungroup Shapes"); canvas.select(ids)
     }
     @objc func flipHorizontal(_ sender:Any?) { modifySelection("Flip Horizontal") { $0.formatting.flipX.toggle() } }
     @objc func flipVertical(_ sender:Any?) { modifySelection("Flip Vertical") { $0.formatting.flipY.toggle() } }
@@ -208,7 +255,7 @@ extension EditorWindowController {
             next.page.nodes[i].formatting.layerNames = next.page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
         }
         for i in next.page.edges.indices { if let name = next.page.edges[i].layer { next.page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) } }
-        diagramDocument.replace(with:next,action:"Layer Properties")
+        diagramDocument.replaceInEditor(with:next,action:"Layer Properties")
     }
     @objc func insertImage(_ sender:Any?) {
         let panel = NSOpenPanel(); panel.allowedContentTypes = [.png,.jpeg,.tiff,.gif,.bmp,.pdf]
@@ -222,7 +269,7 @@ extension EditorWindowController {
         let page = diagramDocument.diagram.page,maxWidth = min(480,page.paperWidth-40),maxHeight = min(360,page.paperHeight-40)
         let scale = min(maxWidth/image.size.width,maxHeight/image.size.height,1)
         var node = DiagramNode(x:40/page.paperScale,y:40/page.paperScale,text:""); node.width = max(1,image.size.width*scale)/page.paperScale; node.height = max(1,image.size.height*scale)/page.paperScale; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00"; node.formatting.image = EmbeddedImage(data:png,mimeType:"image/png")
-        var next = diagramDocument.diagram; next.page.nodes.append(node); diagramDocument.replace(with:next,action:"Insert Image"); canvas.select([node.id])
+        var next = diagramDocument.diagram; next.page.nodes.append(node); diagramDocument.replaceInEditor(with:next,action:"Insert Image"); canvas.select([node.id])
     }
     @objc func findShapes(_ sender:Any?) {
         let alert = NSAlert(); alert.messageText = "Find Shapes"; alert.addButton(withTitle:"Find All"); alert.addButton(withTitle:"Cancel")
@@ -234,7 +281,7 @@ extension EditorWindowController {
     }
     func addFreeLine(from start:CGPoint,to end:CGPoint) {
         var edge = DiagramEdge(source:UUID(),target:UUID()); edge.sourcePosition = DiagramPoint(start); edge.targetPosition = DiagramPoint(end); edge.style = .straight; edge.arrow = false
-        var next = diagramDocument.diagram; next.page.edges.append(edge); diagramDocument.replace(with:next,action:"Draw Line"); canvas.select([],edge:edge.id)
+        var next = diagramDocument.diagram; next.page.edges.append(edge); diagramDocument.replaceInEditor(with:next,action:"Draw Line"); canvas.select([],edge:edge.id)
     }
     @objc func lineTool(_ sender:Any?) { setTool(.line) }
     @objc func showShapeSheet(_ sender:Any?) {
@@ -264,7 +311,7 @@ extension EditorWindowController {
             let before = Set(DiagramCalculation.recalculate(diagramDocument.diagram).issues),calculation = DiagramCalculation.recalculate(next,previous:diagramDocument.diagram)
             let newIssues = Set(calculation.issues).subtracting(before)
             guard newIssues.isEmpty else { throw DiagramError.invalid(newIssues.sorted().prefix(4).joined(separator:"\n")) }
-            diagramDocument.replace(with:try calculation.diagram.validated(),action:"Edit ShapeSheet")
+            diagramDocument.replaceInEditor(with:try calculation.diagram.validated(),action:"Edit ShapeSheet")
         } catch { presentError(error) }
     }
 }

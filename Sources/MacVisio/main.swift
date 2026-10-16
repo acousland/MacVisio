@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import AppKit
 import UniformTypeIdentifiers
 import Sparkle
@@ -10,9 +11,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var openingOrder:[UUID] = []
     private struct PendingDocumentOpen {
         let token:UUID
+        let progress:LifecycleProgressController
+        var handle:LifecycleJobHandle?
         var completions:[(MacVisioDocument?,Error?)->Void]
     }
     private var pendingDocumentOpens:[URL:PendingDocumentOpen] = [:]
+    private let openJobOwner = LifecycleJobOwner()
+    private let libraryJobOwner = LifecycleJobOwner()
+    private var libraryRequestID = UUID()
     lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check"))
     // This delegate owns startup templates and file-opening behavior. Letting
     // AppKit also create an untitled document produces a second blank window.
@@ -97,17 +103,43 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let panel = NSOpenPanel();panel.canChooseFiles = false;panel.canChooseDirectories = true;panel.prompt = "Choose Library Folder";panel.message = "Choose a folder containing Visio stencils and templates."
             guard panel.runModal() == .OK,let chosen = panel.url else { return };directory = chosen
         }
-        do {
-            let entries = try VisioLibrary.entries(in:directory)
-            guard !entries.isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") }
-            defaults.set(directory.path,forKey:key)
-            if let chosen = VisioLibraryPicker(entries:entries).run() { open(chosen.url) }
-        } catch { NSApp.presentError(error) }
+        loadVisioLibrary(directory)
     }
     @objc func chooseVisioLibraryFolder(_ sender:Any?) {
         let panel = NSOpenPanel();panel.canChooseFiles = false;panel.canChooseDirectories = true;panel.prompt = "Choose Library Folder"
         guard panel.runModal() == .OK,let url = panel.url else { return }
-        do { guard !(try VisioLibrary.entries(in:url)).isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") };UserDefaults.standard.set(url.path,forKey:"MacVisioLibraryDirectory");openVisioLibrary(sender) } catch { NSApp.presentError(error) }
+        loadVisioLibrary(url)
+    }
+    private func loadVisioLibrary(_ directory:URL) {
+        let requestID = UUID();libraryRequestID = requestID
+        let owner = libraryJobOwner
+        let jobID = UUID()
+        let progress = LifecycleProgressController(title:"Scanning library",detail:directory.lastPathComponent)
+        do {
+            let input = LifecycleJobInput(ownerID:owner.id,snapshotID:requestID,revision:0)
+            let handle = try LifecycleJobService.shared.submit(id:jobID,kind:.library,input:input,accepts:{ [weak self] candidate in
+                self?.libraryRequestID == candidate.snapshotID && owner.isActive
+            },progress:{ progress.update($0) },work:{ context in
+                context.progress("Scanning \(directory.lastPathComponent)")
+                let entries = try VisioLibrary.entries(in:directory)
+                guard !entries.isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") }
+                return entries
+            },completion:{ [weak self] result in
+                progress.finish()
+                owner.finish(jobID)
+                switch result {
+                case .success(let entries):
+                    guard let self else { return }
+                    UserDefaults.standard.set(directory.path,forKey:"MacVisioLibraryDirectory")
+                    if let chosen = VisioLibraryPicker(entries:entries).run() { self.open(chosen.url) }
+                case .failure(let error):
+                    if (error as? LifecycleJobError) != .cancelled && (error as? LifecycleJobError) != .staleInput { NSApp.presentError(error) }
+                }
+            })
+            owner.track(handle,replacing:"library-scan")
+            progress.onCancel = { [weak handle] in handle?.cancel() }
+            progress.show()
+        } catch { progress.finish();NSApp.presentError(error) }
     }
     @discardableResult private func beginOpening(_ url:URL) -> UUID {
         let token = UUID();openingTokens[token] = url.lastPathComponent;openingOrder.append(token)
@@ -125,7 +157,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             workflow.noteRecent(url);workflow.activate(existing);completion?(existing,nil);return
         }
         let ext = url.pathExtension.lowercased()
-        if ext == "vsdx" || ext == "macvisio" {
+        if ext != "vssx" && ext != "vss" {
             let key = RecentDrawingStore.canonical(url)
             if var pending = pendingDocumentOpens[key] {
                 if let completion { pending.completions.append(completion) }
@@ -133,50 +165,55 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 return
             }
             let token = beginOpening(url)
-            pendingDocumentOpens[key] = PendingDocumentOpen(token:token,completions:completion.map{[$0]} ?? [])
-            let controller = NSDocumentController.shared
-            let type = ext == "vsdx" ? MacVisioDocument.visioType : MacVisioDocument.nativeType
+            let progress = LifecycleProgressController(title:"Opening drawing",detail:url.lastPathComponent)
+            pendingDocumentOpens[key] = PendingDocumentOpen(token:token,progress:progress,completions:completion.map{[$0]} ?? [])
+            let type = ["vsdx","vstx"].contains(ext) ? MacVisioDocument.visioType : ["vsd","vst"].contains(ext) ? MacVisioDocument.legacyType : MacVisioDocument.nativeType
             // Initialize explicitly on a worker, retaining NSDocument's file
             // bookkeeping. Controller-managed opening adds file coordination
             // that can stall before the actual reader is reached.
-            DispatchQueue.global(qos:.userInitiated).async { [weak self] in
-                let result = Result { try MacVisioDocument(contentsOf:url,ofType:type) }
-                DispatchQueue.main.async {
-                    guard let self else { return }
+            do {
+                let input = LifecycleJobInput(ownerID:openJobOwner.id,snapshotID:token,revision:0)
+                let handle = try LifecycleJobService.shared.submit(kind:.open,input:input,accepts:{ [weak self] candidate in
+                    self?.pendingDocumentOpens[key]?.token == candidate.snapshotID && self?.openJobOwner.isActive == true
+                },progress:{ progress.update($0) },work:{ context in
+                    context.progress("Reading \(url.lastPathComponent)")
+                    return try MacVisioDocument(contentsOf:url,ofType:type)
+                },completion:{ [weak self] result in
+                    guard let self else { progress.finish();return }
                     switch result {
                     case .success(let document):
-                        controller.addDocument(document)
+                        let asNew = ext == "vstx" || ext == "vst" || ext == "vsd" && !document.legacyNative
+                        if asNew { document.fileURL = nil;document.fileType = MacVisioDocument.visioType;document.updateChangeCount(.changeDone) }
+                        NSDocumentController.shared.addDocument(document)
                         self.finishAsyncOpen(document,wasAlreadyOpen:false,error:nil,url:url,key:key)
                     case .failure(let error):
                         self.finishAsyncOpen(nil,wasAlreadyOpen:false,error:error,url:url,key:key)
                     }
-                }
+                })
+                pendingDocumentOpens[key]?.handle = handle
+                openJobOwner.track(handle)
+                progress.onCancel = { [weak handle] in handle?.cancel() }
+                progress.show()
+            } catch {
+                finishAsyncOpen(nil,wasAlreadyOpen:false,error:error,url:url,key:key)
             }
             return
         }
         let token = beginOpening(url)
-        defer { finishOpening(token) }
-        do {
-            if ext == "vssx" || ext == "vss" {
-                if NSDocumentController.shared.documents.isEmpty { newDiagram(template:.blank) }
-                let editor = (NSApp.keyWindow?.windowController as? EditorWindowController) ?? NSDocumentController.shared.documents.compactMap{$0.windowControllers.first as? EditorWindowController}.last
-                editor?.showWindow(nil);editor?.loadStencil(url);completion?(nil,nil);return
-            }
-            let type = (ext == "vsdx" || ext == "vstx") ? MacVisioDocument.visioType : (ext == "vsd" || ext == "vst") ? MacVisioDocument.legacyType : MacVisioDocument.nativeType
-            let doc = try MacVisioDocument(contentsOf:url,ofType:type)
-            let asNew = ext == "vstx" || ext == "vst" || ext == "vsd" && !doc.legacyNative
-            doc.fileURL = asNew ? nil : url; doc.fileType = asNew ? MacVisioDocument.visioType : type
-            if asNew { doc.updateChangeCount(.changeDone) }
-            NSDocumentController.shared.addDocument(doc);workflow.documentOpened(doc,sourceURL:url); doc.makeWindowControllers(); doc.showWindows()
-            completion?(doc,nil)
-        } catch { NSApp.presentError(error);completion?(nil,error) }
+        if NSDocumentController.shared.documents.isEmpty { newDiagram(template:.blank) }
+        let editor = (NSApp.keyWindow?.windowController as? EditorWindowController) ?? NSDocumentController.shared.documents.compactMap{$0.windowControllers.first as? EditorWindowController}.last
+        guard let editor else { finishOpening(token);completion?(nil,DiagramError.invalid("No drawing is available for this stencil."));return }
+        editor.showWindow(nil)
+        editor.loadStencil(url) { [weak self] error in self?.finishOpening(token);completion?(nil,error) }
     }
     private func finishAsyncOpen(_ document:MacVisioDocument?,wasAlreadyOpen:Bool,error:Error?,url:URL,key:URL) {
         guard let pending = pendingDocumentOpens.removeValue(forKey:key) else { return }
+        pending.progress.finish()
+        if let handle = pending.handle { openJobOwner.finish(handle.id) }
         finishOpening(pending.token)
         var resultDocument:MacVisioDocument?,resultError = error
         if let error {
-            NSApp.presentError(error)
+            if (error as? LifecycleJobError) != .cancelled && (error as? LifecycleJobError) != .staleInput { NSApp.presentError(error) }
         } else if let document {
             resultDocument = document
             let alreadyManaged = workflow.drawings.contains{$0 === document}
@@ -215,6 +252,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender:NSApplication) -> Bool { false }
     func applicationShouldTerminate(_ sender:NSApplication) -> NSApplication.TerminateReply {
         workflow.isTerminating = true
+        openJobOwner.cancelAll();libraryJobOwner.cancelAll()
         for document in NSDocumentController.shared.documents { (document as? MacVisioDocument)?.commitTextEditing() }
         guard NSDocumentController.shared.documents.contains(where:{$0.isDocumentEdited}) else { return .terminateNow }
         NSDocumentController.shared.closeAllDocuments(withDelegate:self,didCloseAllSelector:#selector(documentsClosed(_:didCloseAll:contextInfo:)),contextInfo:nil)
@@ -310,159 +348,8 @@ if let index = CommandLine.arguments.firstIndex(of:"--appearance"),CommandLine.a
 let application = NSApplication.shared
 application.setActivationPolicy(.regular)
 EditorAppearance.apply()
-if let index = CommandLine.arguments.firstIndex(of:"--prepare-interchange-fixtures"),CommandLine.arguments.indices.contains(index+1) {
-    do { try InterchangeFixtures.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated synthetic public-content interchange fixtures");exit(0) }
-    catch { fputs("Interchange fixture generation failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--inspect-calculation"),CommandLine.arguments.indices.contains(index+2) {
-    do { try CalculationAudit.inspect(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
-    catch { fputs("Calculation inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--inspect-geometry"),CommandLine.arguments.indices.contains(index+2) {
-    do { try GeometryAudit.inspect(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
-    catch { fputs("Geometry inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-curve-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try CurveExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated curve example");exit(0) }
-    catch { fputs("Curve example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-curve-library-example"),CommandLine.arguments.indices.contains(index+2) {
-    do { try CurveExample.generateLibrary(from:URL(fileURLWithPath:CommandLine.arguments[index+1]),in:URL(fileURLWithPath:CommandLine.arguments[index+2]));print("Generated installer curve example");exit(0) }
-    catch { fputs("Installer curve example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-text-context-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try TextContextExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated text-context example");exit(0) }
-    catch { fputs("Text-context example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-control-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try ControlExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated control-handle example");exit(0) }
-    catch { fputs("Control example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-geometry-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try GeometryExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated geometry example");exit(0) }
-    catch { fputs("Geometry example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-field-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try FieldExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated field example");exit(0) }
-    catch { fputs("Field example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-rich-text-example"),CommandLine.arguments.indices.contains(index+1) {
-    do { try RichTextExample.generate(in:URL(fileURLWithPath:CommandLine.arguments[index+1]));print("Generated rich text example");exit(0) }
-    catch { fputs("Rich text example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-engineering-example"),CommandLine.arguments.indices.contains(index+2) {
-    do { try EngineeringExample.generate(library:URL(fileURLWithPath:CommandLine.arguments[index+1]),in:URL(fileURLWithPath:CommandLine.arguments[index+2]));print("Generated engineering example");exit(0) }
-    catch { fputs("Engineering example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-library-example"),CommandLine.arguments.indices.contains(index+2) {
-    do { try LibraryExample.generate(from:URL(fileURLWithPath:CommandLine.arguments[index+1]),in:URL(fileURLWithPath:CommandLine.arguments[index+2]));print("Generated installer library example");exit(0) }
-    catch { fputs("Library example failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--inspect-libraries"),CommandLine.arguments.indices.contains(index+2) {
-    do {
-        let entries = try VisioLibrary.entries(in:URL(fileURLWithPath:CommandLine.arguments[index+1]))
-        var results:[[String:Any]] = []
-        for entry in entries {
-            autoreleasepool {
-                do {
-                    if entry.isStencil { let imported = try VisioStencil.read(from:entry.url);results.append(["file":entry.url.lastPathComponent,"masters":imported.items.count,"shapes":imported.items.reduce(0){$0+$1.fragment.nodes.count},"controls":imported.items.reduce(0){$0+$1.fragment.nodes.reduce(0){$0+$1.formatting.controls.count}},"warnings":imported.warnings,"imported":true]) }
-                    else { let doc = MacVisioDocument();try doc.read(from:entry.url,ofType:["vst"].contains(entry.url.pathExtension.lowercased()) ? MacVisioDocument.legacyType : MacVisioDocument.visioType);results.append(["file":entry.url.lastPathComponent,"pages":doc.diagram.pages.count,"shapes":doc.diagram.pages.reduce(0){$0+$1.nodes.count},"controls":doc.diagram.pages.reduce(0){$0+$1.nodes.reduce(0){$0+$1.formatting.controls.count}},"warnings":doc.importWarnings,"imported":true]) }
-                } catch { results.append(["file":entry.url.lastPathComponent,"imported":false,"error":error.localizedDescription]) }
-            }
-        }
-        let failed = results.filter{$0["imported"] as? Bool != true}.count
-        let report:[String:Any] = ["files":results,"count":results.count,"failed":failed,"windowsValidated":false,"fullBehavioralParity":false]
-        try JSONSerialization.data(withJSONObject:report,options:[.prettyPrinted,.sortedKeys]).write(to:URL(fileURLWithPath:CommandLine.arguments[index+2]),options:.atomic)
-        print("Imported \(results.count-failed)/\(results.count) libraries; \(failed) failed.");exit(failed == 0 ? 0 : 1)
-    } catch { fputs("Library inspection failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--benchmark-sample"),CommandLine.arguments.indices.contains(index+2) {
-    do { exit(try BenchmarkProfile.sample(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2])) ? 0 : 1) }
-    catch { fputs("Benchmark failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--profile-interactions"),CommandLine.arguments.indices.contains(index+2) {
-    do { try InteractionPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
-    catch { fputs("Interaction profiling failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--profile-open"),CommandLine.arguments.indices.contains(index+2) {
-    do { try OpenPerformance.profile(URL(fileURLWithPath:CommandLine.arguments[index+1]),to:URL(fileURLWithPath:CommandLine.arguments[index+2]));exit(0) }
-    catch { fputs("Open profiling failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(where:{$0 == "--convert" || $0 == "--render-document" || $0 == "--export-all-pdf"}),CommandLine.arguments.indices.contains(index+2) {
-    do {
-        let input = URL(fileURLWithPath:CommandLine.arguments[index+1]),output = URL(fileURLWithPath:CommandLine.arguments[index+2])
-        let doc = MacVisioDocument();try doc.read(from:input,ofType:["vsd","vst"].contains(input.pathExtension.lowercased()) ? MacVisioDocument.legacyType : input.pathExtension.lowercased() == "macvisio" ? MacVisioDocument.nativeType : MacVisioDocument.visioType)
-        if CommandLine.arguments[index] == "--export-all-pdf" {
-            guard output.pathExtension.lowercased() == "pdf" else { throw DiagramError.invalid("All-page export must produce a PDF file.") };try DiagramExport.pdf(doc.diagram).write(to:output,options:.atomic)
-        } else if CommandLine.arguments[index] == "--convert" {
-            switch output.pathExtension.lowercased() { case "vsdx":try VisioFormat.write(doc.diagram,to:output);case "vsd":try VSDBinaryFormat.write(doc.diagram,to:output);case "vstx":try VisioReusableFormat.writeTemplate(doc.diagram,to:output);default:throw DiagramError.invalid("Conversion output must be a .vsdx drawing, .vsd drawing or .vstx template.") }
-        } else {
-            switch output.pathExtension.lowercased() {
-            case "png":try DiagramExport.png(doc.diagram.scene(),scale:1).write(to:output,options:.atomic)
-            case "pdf":try DiagramExport.pdf(doc.diagram.scene()).write(to:output,options:.atomic)
-            case "svg":try DiagramDrawing.svg(doc.diagram.scene()).write(to:output,atomically:true,encoding:.utf8)
-            default:throw DiagramError.invalid("Rendering output must be PNG, PDF or SVG.")
-            }
-        }
-        for warning in doc.importWarnings { fputs("\(warning)\n",stderr) };print("Wrote \(output.path)");exit(0)
-    } catch { fputs("Document processing failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--render-welcome"),CommandLine.arguments.indices.contains(index+1) {
-    do {
-        let section:WelcomeSection = CommandLine.arguments.contains("--welcome-new") ? .new : CommandLine.arguments.contains("--welcome-open") ? .open : .home
-        try WelcomePreview.render(to:URL(fileURLWithPath:CommandLine.arguments[index+1]),section:section,compact:CommandLine.arguments.contains("--compact-ui"),empty:CommandLine.arguments.contains("--empty-recents"));exit(0)
-    } catch { fputs("Start screen preview failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--render-ui"),CommandLine.arguments.indices.contains(index+1) {
-    let doc = MacVisioDocument(); doc.diagram = CommandLine.arguments.contains("--page-example") ? PageExample.make() : DiagramTemplate.flowchart.makeDiagram(); doc.makeWindowControllers()
-    if let controller = doc.windowControllers.first as? EditorWindowController,let view = controller.window?.contentView {
-        if CommandLine.arguments.contains("--compact-ui") { controller.window?.setContentSize(CGSize(width:1000,height:680)) }
-        if let tab = CommandLine.arguments.firstIndex(of:"--ribbon-tab"),CommandLine.arguments.indices.contains(tab+1) {
-            controller.root.ribbon.selectTab(CommandLine.arguments[tab+1])
-        }
-        view.layoutSubtreeIfNeeded(); controller.canvas.fitPage(); view.layoutSubtreeIfNeeded()
-        if let bitmap = view.bitmapImageRepForCachingDisplay(in:view.bounds) {
-            view.cacheDisplay(in:view.bounds,to:bitmap)
-            try bitmap.representation(using:.png,properties:[:])!.write(to:URL(fileURLWithPath:CommandLine.arguments[index+1]))
-            print("Rendered native editor to \(CommandLine.arguments[index+1])")
-            exit(0)
-        }
-    }
-    fputs("Could not render native editor\n",stderr); exit(1)
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-page-example"),CommandLine.arguments.indices.contains(index+1) {
-    do {
-        let directory = URL(fileURLWithPath:CommandLine.arguments[index+1],isDirectory:true);try FileManager.default.createDirectory(at:directory,withIntermediateDirectories:true)
-        let diagram = try PageExample.make().validated()
-        try JSONEncoder().encode(diagram).write(to:directory.appendingPathComponent("shared-pages.macvisio"),options:.atomic)
-        try VisioFormat.write(diagram,to:directory.appendingPathComponent("shared-pages.vsdx"));try VSDBinaryFormat.write(diagram,to:directory.appendingPathComponent("shared-pages.vsd"))
-        try DiagramExport.pdf(diagram).write(to:directory.appendingPathComponent("shared-pages.pdf"),options:.atomic)
-        for page in diagram.pages where page.isBackground != true {
-            let stem = page.name.replacingOccurrences(of:" ",with:"-").lowercased()
-            try DiagramExport.png(diagram.scene(for:page.id),scale:1).write(to:directory.appendingPathComponent(stem+".png"),options:.atomic)
-            try DiagramDrawing.svg(diagram.scene(for:page.id)).write(to:directory.appendingPathComponent(stem+".svg"),atomically:true,encoding:.utf8)
-        }
-        print("Generated shared-background example in \(directory.path)");exit(0)
-    } catch { fputs("Page example generation failed: \(error.localizedDescription)\n",stderr);exit(1) }
-}
-if let index = CommandLine.arguments.firstIndex(of:"--generate-examples"),CommandLine.arguments.indices.contains(index+1) {
-    do {
-        let directory = URL(fileURLWithPath:CommandLine.arguments[index+1],isDirectory:true)
-        try FileManager.default.createDirectory(at:directory,withIntermediateDirectories:true)
-        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted,.sortedKeys]
-        for template in DiagramTemplate.allCases {
-            let diagram = template.makeDiagram()
-            try encoder.encode(diagram.validated()).write(to:directory.appendingPathComponent(template.rawValue+".macvisio"),options:.atomic)
-            try VisioFormat.write(diagram,to:directory.appendingPathComponent(template.rawValue+".vsdx"))
-            try VSDBinaryFormat.write(diagram,to:directory.appendingPathComponent(template.rawValue+".vsd"))
-            try DiagramExport.pdf(diagram.page).write(to:directory.appendingPathComponent(template.rawValue+".pdf"),options:.atomic)
-            try DiagramDrawing.svg(diagram.page).write(to:directory.appendingPathComponent(template.rawValue+".svg"),atomically:true,encoding:.utf8)
-            try DiagramExport.png(diagram.page).write(to:directory.appendingPathComponent(template.rawValue+".png"),options:.atomic)
-        }
-        print("Generated five examples in \(directory.path)")
-        exit(0)
-    } catch { fputs("Example generation failed: \(error.localizedDescription)\n",stderr); exit(1) }
-}
+try DeveloperCommands.dispatch()
+
 let delegate = AppDelegate()
 application.delegate = delegate
 application.run()

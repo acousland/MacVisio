@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import AppKit
 
 struct VisioLibraryEntry:Equatable {
@@ -8,10 +9,12 @@ struct VisioLibraryEntry:Equatable {
 }
 enum VisioLibrary {
     static func entries(in directory:URL) throws -> [VisioLibraryEntry] {
+        try LifecycleJobContext.current?.checkpoint()
         let keys:Set<URLResourceKey> = [.isRegularFileKey,.isSymbolicLinkKey]
         let urls = try FileManager.default.contentsOfDirectory(at:directory,includingPropertiesForKeys:Array(keys),options:[.skipsHiddenFiles])
         guard urls.count <= 10000 else { throw DiagramError.invalid("This folder contains too many files to browse.") }
         return try urls.filter { url in
+            try LifecycleJobContext.current?.checkpoint()
             guard ["vss","vssx","vst","vstx"].contains(url.pathExtension.lowercased()) else { return false }
             let values = try url.resourceValues(forKeys:keys)
             return values.isRegularFile == true && values.isSymbolicLink != true

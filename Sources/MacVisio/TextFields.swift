@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 
 struct ShapeTextField:Codable,Equatable {
@@ -47,7 +48,7 @@ enum FieldFormatting {
 }
 
 enum TextFieldEngine {
-    struct Calculation { var diagram:Diagram;var issues:[String] }
+    struct Calculation { var diagram:Diagram;var issues:[String]; var issuesByPage:[UUID:[String]] = [:]; var work = CalculationWork(); var changedNodeIDsByPage:[UUID:Set<UUID>] = [:]; var cancelled = false }
     static func inserting(formula:String,picture:String = "",type:Int = 0,into input:DiagramNode,range requested:NSRange? = nil) throws -> DiagramNode {
         var node = input,fields = node.formatting.textFields ?? [],runs = ShapeRichText.runs(for:node)
         guard fields.count < 1000 else { throw DiagramError.invalid("Too many text fields.") }
@@ -70,18 +71,56 @@ enum TextFieldEngine {
         style.text = "";style.fieldIndex = index;style.fieldToken = UUID()
         let output = prefix+[style]+suffix;node.text = output.map(\.text).joined();node.formatting.textRuns = output;node.formatting.textFields = fields;return node
     }
-    static func recalculate(_ input:Diagram,now:Date = Date(),foreground:DiagramPage? = nil) -> Calculation {
-        guard input.pages.contains(where:{$0.nodes.contains{$0.formatting.textFields?.isEmpty == false}}) else { return Calculation(diagram:input,issues:[]) }
-        var result = input,issues = Set<String>()
+    static func recalculate(_ input:Diagram,now:Date = Date(),foreground:DiagramPage? = nil,previous:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:],session:CalculationSession? = nil,changes:DocumentChangeSet? = nil,cancellation:LifecycleJobCancellation? = nil) -> Calculation {
+        var result = input,issues = Set<String>(),issuesByPage:[UUID:[String]] = [:]
+        var work = CalculationWork()
+        var changedNodeIDsByPage:[UUID:Set<UUID>] = [:]
+        let session = session ?? CalculationSession()
+        let oldPages = previous.map { Dictionary(uniqueKeysWithValues: $0.pages.map { ($0.id, $0) }) } ?? [:]
+        func documentContext(_ diagram: Diagram) -> [DiagramPage] {
+            diagram.pages.map { page in var page = page; page.nodes = []; page.edges = []; return page }
+        }
+        let changedContext = changes.map { $0.sourceResourcesChanged || $0.documentStructureChanged || $0.pages.values.contains { $0.pagePropertiesChanged } }
+        let contextUnchanged = foreground == nil && (changedContext.map { !$0 } ?? (previous.map { $0.visioArchive == input.visioArchive && documentContext($0) == documentContext(input) } == true))
         for p in result.pages.indices {
+            if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
             let page = result.pages[p],context = foreground ?? page
-            let nodes = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
-            var identifiers:[String:UUID] = [:]
-            for node in page.nodes { if let id = node.formatting.sourceShapeID,identifiers[id] == nil { identifiers[id] = node.id } }
-            var allocator = try? VisioIDAllocator(reserved:Array(identifiers.keys))
-            for node in page.nodes where node.formatting.sourceShapeID == nil { if let id = try? allocator?.allocate() { identifiers[id] = node.id } }
+            let indexedBefore = session.indexedNodes, comparedBefore = session.comparedSources
+            let pageChanges = changes?.pages[page.id]
+            let trusted = previous != nil && changes != nil && changes?.sourceResourcesChanged == false && changes?.insertedPageIDs.contains(page.id) == false
+            let dependency = session.index(for: page, binding: nil, fieldIdentifiers: true, changes: pageChanges, trustChanges: trusted)
+            work.dependencyNodesIndexed += session.indexedNodes - indexedBefore
+            work.dependencySourcesCompared += session.comparedSources - comparedBefore
+            guard !dependency.fieldNodeIDs.isEmpty else { issuesByPage[page.id] = []; continue }
+            if contextUnchanged, (trusted ? pageChanges == nil : oldPages[page.id] == page), dependency.volatileNodes.isEmpty {
+                let retained = retainedIssuesByPage[page.id, default: []]
+                issuesByPage[page.id] = retained; issues.formUnion(retained); continue
+            }
+            var affected: Set<UUID>?
+            if contextUnchanged, let oldPage = oldPages[page.id],
+               !dependency.requiresFullPage, retainedIssuesByPage[page.id, default: []].isEmpty {
+                if trusted, let pageChanges, !pageChanges.pagePropertiesChanged, !pageChanges.hierarchyChanged,
+                   !pageChanges.nodeOrderChanged, pageChanges.insertedNodeIDs.isEmpty, pageChanges.deletedNodeIDs.isEmpty {
+                    affected = dependency.affected(by: pageChanges.changedNodeIDs)
+                } else {
+                    work.inputComparisonNodes += page.nodes.count + oldPage.nodes.count
+                    if let changed = CalculationInvalidation.changedNodes(in: page, comparedTo: oldPage) { affected = dependency.affected(by: changed) }
+                }
+            }
+            let selected = affected.map { dependency.fieldNodeIDs.intersection($0) } ?? dependency.fieldNodeIDs
+            let candidates = selected.compactMap { dependency.nodeIndices[$0] }.sorted()
+            guard !candidates.isEmpty else { issuesByPage[page.id] = []; continue }
+            work.fieldPages += 1
+            work.contexts += 1
+            var pageIssues = Set<String>()
+            let preparedBefore = session.preparedHostNodes
+            let nodes = session.nodes(for: page, changes: pageChanges, trustChanges: trusted)
+            work.hostNodesPrepared += session.preparedHostNodes - preparedBefore
+            let identifiers = dependency.identifiers
             var cache:[String:SheetValue] = [:],active = Set<String>();var resolutions = 0
             func resolve(_ id:UUID,_ key:String) throws -> SheetValue {
+                try cancellation?.check()
+                work.cellRequests += 1
                 resolutions += 1;guard resolutions < 1_000_000,active.count < 64 else { throw DiagramError.invalid("Field dependency limit exceeded.") }
                 var id = id,name = key
                 if let mark = name.lastIndex(of:"!") {
@@ -93,6 +132,7 @@ enum TextFieldEngine {
                     guard owner.lowercased().hasPrefix("sheet."),let target = identifiers[String(owner.dropFirst(6))] else { throw DiagramError.invalid("Unresolved field shape \(owner)") };id = target;name = cell
                 }
                 let token = id.uuidString+":"+name.lowercased();if let value = cache[token] { return value }
+                work.evaluatedCells += 1
                 guard active.insert(token).inserted,let node = nodes[id] else { throw DiagramError.invalid("Circular or missing field reference.") };defer{active.remove(token)}
                 let value:SheetValue
                 if let fieldIndex = indexed(name,"Fields.Value"),let field = node.formatting.textFields?.first(where:{$0.index == fieldIndex-1}) { value = try evaluate(field.cells["Value"] ?? ShapeSheetCell(value:""),id:id) }
@@ -108,16 +148,18 @@ enum TextFieldEngine {
                     if cell.unit.isEmpty,["Width","Height","PinX","PinY","LocPinX","LocPinY","LineWeight","Char.Size","Angle"].contains(where:{$0.caseInsensitiveCompare(name) == .orderedSame}) { cell.unit = name.caseInsensitiveCompare("Angle") == .orderedSame ? "RAD" : page.drawingScale?.drawingUnit ?? "IN" }
                     value = try evaluate(cell,id:id)
                 }
-                else if let n = ShapeSheetEngine.defaults(node,page:page).first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame})?.value { value = name.caseInsensitiveCompare("Angle") == .orderedSame ? .quantity(n,"RAD") : ["Width","Height","PinX","PinY","LocPinX","LocPinY","LineWeight","Char.Size"].contains(where:{$0.caseInsensitiveCompare(name) == .orderedSame}) ? .quantity(n,"IN") : .number(n) }
+                else if let n = ShapeSheetEngine.defaults(node,page:page,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1}).first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame})?.value { value = name.caseInsensitiveCompare("Angle") == .orderedSame ? .quantity(n,"RAD") : ["Width","Height","PinX","PinY","LocPinX","LocPinY","LineWeight","Char.Size"].contains(where:{$0.caseInsensitiveCompare(name) == .orderedSame}) ? .quantity(n,"IN") : .number(n) }
                 else { throw DiagramError.invalid("Unresolved field cell \(name).") }
                 cache[token] = value;return value
             }
             func evaluate(_ cell:ShapeSheetCell,id:UUID) throws -> SheetValue {
+                try cancellation?.check()
                 if cell.formula.isEmpty || ["No Formula","Inh"].contains(cell.formula) {
                     if cell.unit.uppercased() == "DATE",let date = FieldFormatting.date(cell.value) { return .date(date) }
                     if cell.unit.uppercased() == "STR" { return .string(cell.value) }
                     if let n = Double(cell.value),n.isFinite { return SheetValue.factor(cell.unit).map{_ in .quantity(n,cell.unit)} ?? .number(n) };return .string(cell.value)
                 }
+                work.formulaEvaluations += 1
                 return try TypedShapeSheet.evaluate(cell.formula,resolve:{try resolve(id,$0)},call:{name,values in
                     func count(_ n:Int) throws { guard values.count == n else { throw DiagramError.invalid("\(name) expects \(n) arguments.") } }
                     switch name {
@@ -134,8 +176,10 @@ enum TextFieldEngine {
                     }
                 })
             }
-            for i in page.nodes.indices {
+            for i in candidates {
+                if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
                 var node = page.nodes[i];guard var fields = node.formatting.textFields,!fields.isEmpty,let originalRuns = node.formatting.textRuns else { continue }
+                work.fieldNodes += 1
                 var displays:[Int:String] = [:]
                 for j in fields.indices {
                     let field = fields[j]
@@ -146,13 +190,18 @@ enum TextFieldEngine {
                         let picture = try evaluate(formatCell,id:node.id).text
                         let display = try FieldFormatting.format(value,picture:picture,unit:valueCell.unit,type:Int(field.cells["Type"]?.value ?? "0") ?? 0)
                         fields[j].cells["Value"]?.value = value.text;fields[j].cached = display;displays[field.index] = display
-                    } catch { issues.insert("Text field \(field.index+1): \(error.localizedDescription)") }
+                    } catch { pageIssues.insert("Text field \(field.index+1): \(error.localizedDescription)") }
                 }
                 let runs = originalRuns.map { run in var run = run;if let index = run.fieldIndex,let display = displays[index] { run.text = display };return run }
-                node.text = runs.map(\.text).joined();node.formatting.textRuns = runs;node.formatting.textFields = fields;result.pages[p].nodes[i] = node
+                node.text = runs.map(\.text).joined();node.formatting.textRuns = runs;node.formatting.textFields = fields
+                if node != page.nodes[i] { changedNodeIDsByPage[page.id, default: []].insert(node.id) }
+                result.pages[p].nodes[i] = node
             }
+            issuesByPage[page.id] = pageIssues.sorted()
+            issues.formUnion(pageIssues)
         }
-        return Calculation(diagram:result,issues:issues.sorted())
+        if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
+        return Calculation(diagram:result,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage)
     }
     static func patch(_ fields:[ShapeTextField],element:XMLElement,previous:[ShapeTextField] = []) {
         let section = VisioXML.section(element,"Field")

@@ -22,3 +22,5 @@ Examples/*
 !Examples/Geometry/
 !Examples/Controls/
 !Examples/TextContext/
+
+.build-*/

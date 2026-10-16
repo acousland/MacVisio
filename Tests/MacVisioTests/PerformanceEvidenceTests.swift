@@ -183,11 +183,11 @@ final class PerformanceEvidenceTests:XCTestCase {
         let full = try draw(canvas.bounds)
         let small = try draw(CGRect(x:canvas.pageFrame.minX+20,y:canvas.pageFrame.minY+20,width:20,height:20))
         XCTAssertEqual(full.workCounts["drawnObjects"],2)
-        // The baseline submits both nodes even when AppKit clips one away. This
-        // assertion remains useful when M1 reduces submissions: it does not make
-        // the existing broad draw a performance target.
+        // The retained scene culls before text/path preparation; painting performs
+        // no semantic preparation or evaluation.
         XCTAssertLessThanOrEqual(small.workCounts["drawnObjects"] ?? 0,full.workCounts["drawnObjects"] ?? 0)
-        XCTAssertGreaterThan(small.workCounts["sceneObjectsPrepared"] ?? 0,0)
+        XCTAssertEqual(small.workCounts["sceneObjectsPrepared"] ?? 0,0)
+        XCTAssertGreaterThan(small.workCounts["renderCandidates"] ?? 0,0)
         XCTAssertNil(small.workCounts["visitedObjects"])
         XCTAssertNil(small.workCounts["evaluatedCells"])
     }

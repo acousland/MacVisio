@@ -27,6 +27,12 @@ enum NativeMetadataStorage {
         let sha256: String
     }
 
+    /// Probe only the envelope discriminator. Decoding an Any dictionary here
+    /// materialized the entire model once before the actual model decoder.
+    private struct FormatHeader: Decodable {
+        let format: Int
+    }
+
     /// Removes only segment paths owned by this storage format.
     static func removeSegments(from parts: inout [String: Data]) {
         for name in parts.keys.filter(isStrictSegmentName) {
@@ -109,9 +115,7 @@ enum NativeMetadataStorage {
     /// segments before returning their names for package hash bookkeeping.
     static func load(_ metadata: Data, parts: [String: Data]) throws -> (data: Data, storageParts: Set<String>) {
         guard metadata.count <= partLimit,
-              let object = try? JSONSerialization.jsonObject(with: metadata),
-              let dictionary = object as? [String: Any],
-              let format = dictionary["format"] as? Int else {
+              let format = try? JSONDecoder().decode(FormatHeader.self, from: metadata).format else {
             throw DiagramError.invalid("Invalid native metadata manifest.")
         }
         if format == 1 || format == 2 || format == 4 { return (metadata, []) }

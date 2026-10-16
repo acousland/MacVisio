@@ -111,7 +111,13 @@ enum SVGImport {
                 collect(element,style,0);node.text = runs.map(\.text).joined();guard !node.text.isEmpty else { return [] }
                 node.formatting.textRuns = runs
                 if let first = runs.first { node.fontSize = first.character.size;node.formatting.fontName = first.character.fontName;node.bold = first.character.bold;node.textColor = first.character.color;node.formatting.italic = first.character.italic;node.formatting.underline = first.character.underline }
-                let bounds = ShapeRichText.attributed(node).boundingRect(with:CGSize(width:10000,height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]);node.width = max(1,bounds.width+4);node.height = max(1,bounds.height)
+                // Parsing remains on the owned worker. FontManager/TextKit
+                // measurement is one isolated main-thread operation per text
+                // shape, so a converter cannot perform shared AppKit work on
+                // its worker or monopolize the main loop for the whole file.
+                let measure = { ShapeRichText.attributed(node).boundingRect(with:CGSize(width:10000,height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]) }
+                let bounds = Thread.isMainThread ? measure() : DispatchQueue.main.sync(execute:measure)
+                node.width = max(1,bounds.width+4);node.height = max(1,bounds.height)
                 let x = n("x",numbers(first?.attr("x") ?? "").first ?? 0),y = n("y",numbers(first?.attr("y") ?? "").first ?? 0)
                 let point = CGPoint(x:x,y:y-size*0.8).applying(local); node.x = point.x; node.y = point.y
                 if textStyle["text-anchor"] == "middle" { node.x -= node.width/2 }; if textStyle["text-anchor"] == "end" { node.x -= node.width }

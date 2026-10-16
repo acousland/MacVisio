@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 
 struct StencilDefinition: Identifiable {
@@ -15,6 +16,8 @@ enum VisioStencil {
         try readWithPalette(from:url)
     }
     private static func readWithPalette(from url:URL) throws -> (items:[StencilDefinition],warnings:[String],paletteArchive:VisioDocumentArchive?) {
+        let job = LifecycleJobContext.current
+        try job?.checkpoint()
         if url.pathExtension.lowercased() == "vss" {
             let imported = try LegacyVisioFormat.graphicPages(from:url,stencils:true)
             let usable = imported.pages.filter{!$0.nodes.isEmpty || !$0.edges.isEmpty}
@@ -42,6 +45,8 @@ enum VisioStencil {
         guard let typeRoot = types.rootElement(),typeRoot.localTag == "Types" else { throw DiagramError.invalid("The stencil has an invalid content type index.") }
         let virtualDirectory = "visio/macvisio-stencil-\(UUID().uuidString)",indexPart = virtualDirectory+"/pages.xml"
         for (i,master) in masterElements.enumerated() {
+            try job?.checkpoint()
+            job?.progress("Importing master \(i + 1) of \(masterElements.count)",fraction:Double(i) / Double(masterElements.count))
             guard let id = master.firstLocal("Rel")?.attributes?.first(where:{$0.localName == "id" || $0.name == "r:id"})?.stringValue,
                   let relationship = masterRels.rootElement()?.elementsLocal("Relationship").first(where:{$0.attr("Id") == id}),let target = relationship.attr("Target") else { throw DiagramError.invalid("A stencil master has no content relationship.") }
             let masterPart = try VisioFormat.resolve(target,relativeTo:mastersPart)
@@ -69,6 +74,7 @@ enum VisioStencil {
         parts[documentRelsPart] = documentRels.xmlData(options:.nodePreserveAll);parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll);parts.removeValue(forKey:"macvisio/document.json")
         let temp = FileManager.default.temporaryDirectory.appendingPathComponent("Stencil-\(UUID()).vsdx");defer{try? FileManager.default.removeItem(at:temp)}
         try VisioPackage.write(parts,to:temp)
+        try job?.checkpoint()
         let imported = try VisioFormat.read(from:temp)
         // Calculate supported RGB formulas while the stencil's ColorEntry table is
         // still available, before its master fragments are detached from the package.
@@ -93,6 +99,7 @@ enum VisioStencil {
     }
     static func definitions(_ pages:[DiagramPage],family:String) throws -> [StencilDefinition] {
         try pages.map { page -> StencilDefinition in
+            try LifecycleJobContext.current?.checkpoint()
             var fragment = page
             var bounds = page.nodes.reduce(CGRect.null){ result,node in
                 var points = [CGPoint(x:0,y:0),CGPoint(x:node.width,y:0),CGPoint(x:node.width,y:node.height),CGPoint(x:0,y:node.height)]

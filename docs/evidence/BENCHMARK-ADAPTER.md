@@ -33,23 +33,40 @@ its separate manifest hash and original corpus provenance must both be recorded.
 
 The app creates its own document without registering or activating another
 document. It reads the synthetic VSDX, checks generated page/shape text markers,
-creates an editor, lays it out and rasterizes its viewport. The Python validator
+creates an editor, lays it out and rasterizes its viewport. The owned editor is briefly shown for native window event routing. The Python validator
 is the authoritative corpus/metadata/hash guard; the app's marker check is an
 additional refusal, not a replacement for that guard.
 
 The trace creates NSEvent mouse-down/up instances at a visible unlocked shape and
-delivers them to the Canvas handlers, then delivers a right-arrow key event. It
+posts them and a right-arrow key event to the NSApplication event queue, then dispatches each through NSApplication, NSWindow hit testing and the responder chain. It verifies canvas keyboard focus and all three owned event deliveries. It
 checks that selection exists, committed document state changes, and calculation
 issues are absent. It rasterizes feedback, then saves the captured committed state
 asynchronously to a new native file in its own unique temporary directory. It
 waits for the completion callback, decodes the saved file, checks exact model
 agreement, closes the owned document and removes its temporary output.
 
-This is a synthesized direct-responder event trace. It does not qualify hardware
+This is a synthesized native event-loop trace. It does not qualify hardware
 input routing, dragging, panning, compositor/frame deadlines, VoiceOver, or the
 historical suite-context saved-state intermittency. `eventTrace` records this
 scope. The runner environment should not supply an interaction-gate trace name
 based on this sample alone.
+
+Native routing requires an unlocked macOS graphics session and a key benchmark
+window in an active regular application. The product checks the graphics session before routing and reports an
+explicit event-phase failure when it is locked or unavailable. It activates its
+owned window and verifies key-window admission before dispatch. It never replaces
+a failed native route with direct Canvas handler calls. The three native
+`BenchmarkProfileTests` explicitly skip when this prerequisite is absent; refusal
+tests still run. The M1 qualification session reported
+`CGSSessionScreenIsLocked = 1`. After the user unlocked the desktop, the follow-up
+found that activation admission must dispatch AppKit's native event queue; a
+CFRunLoop turn alone did not deliver it. The driver now pumps that queue until
+both the owned window is key and the app is active, lays out the viewport, and
+scrolls its clip view before input. XCTest configures regular activation once for
+the whole native test group and restores it afterward, avoiding asynchronous
+activation-policy transitions between samples. All five native/refusal tests pass
+on the unlocked desktop. Frame/performance release gates remain separate. See
+[M1 qualification](../delivery/M1-QUALIFICATION.md).
 
 The main run loop is pumped between stages and while waiting for save completion;
 actual main-queue heartbeat deliveries and scheduling gaps are recorded. The
@@ -83,7 +100,7 @@ absence keeps the corresponding absolute gates unaccepted.
 
 ## Local verification
 
-`BenchmarkProfileTests` covers a real synthetic read/event/commit/calculation/
+When the unlocked-session prerequisite is available, `BenchmarkProfileTests` covers a real synthetic read/event/commit/calculation/
 draw/snapshot/async-save/close run, actual heartbeat delivery, byte-for-byte input
 preservation, unchanged document-controller registration, refusal of non-synthetic
 content, and preservation of existing result/input files. Logs and direct sample

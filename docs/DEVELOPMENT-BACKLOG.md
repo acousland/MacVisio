@@ -12,7 +12,9 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
-The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; this planning update does not claim remediation. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
+M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 still needs its accepted M2 checkpoint and applicable M0 inputs.
+
+The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; current local contributions have separate scope and evidence below. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
 ## M0 execution supplement — 16 October 2026
 
@@ -232,7 +234,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-05"></a>
 ### WP-05 — Fix committed state, gesture, undo and save semantics
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Ready: reproduce and fix source-confirmed correctness defect.
 
@@ -243,6 +245,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-DOC-04, MV-DOC-05, MV-DOC-07, MV-DOC-08, MV-DOC-09, MV-DOC-10, MV-NFR-01.
 
 **Architecture findings:** AR-01, AR-07, AR-09 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** All five task contributions locally qualified, including actual local app-bundle automatic recovery after interruption. Save/undo/conflict/checkpoint and native recovered-file readback pass. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Cancelled gestures cannot be serialized as clean committed state; saving acknowledges exactly the captured saved state.
 
@@ -257,7 +261,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-06"></a>
 ### WP-06 — Introduce indexed page runtime and transaction boundaries
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design first; implementation follows WP-05 transaction contract.
 
@@ -268,6 +272,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-EDT-01, MV-EDT-02, MV-EDT-03, MV-EDT-04, MV-EDT-06, MV-CON-07, MV-AUT-01.
 
 **Architecture findings:** AR-01, AR-04, AR-10 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Queries use stable IDs/draw order; selection/zoom do not calculate; small changes update bounded indexes.
 
@@ -282,7 +288,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-07"></a>
 ### WP-07 — Make calculation incremental and revision-safe
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; measure against WP-03 corpus.
 
@@ -293,6 +299,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-SHS-04, MV-SHS-10, MV-TXT-07, MV-NFR-02, MV-NFR-04.
 
 **Architecture findings:** AR-02, AR-10 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Incremental results match conservative full evaluation; unrelated work is skipped and stale jobs cannot overwrite edits.
 
@@ -307,7 +315,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-08"></a>
 ### WP-08 — Retain rendering state and update UI selectively
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; can develop alongside WP-07 after WP-06.
 
@@ -318,6 +326,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-UX-01, MV-UX-05, MV-EDT-04, MV-CON-09, MV-NFR-02, MV-NFR-08.
 
 **Architecture findings:** AR-03, AR-04, AR-05, AR-06 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** All five bounded task contributions locally qualified, including unlocked native routing and thirty interaction script samples. Controlled input/frame release gates remain unaccepted. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Painting/hit testing never calculate or mutate; small dirty regions do bounded work and output policy is explicit.
 
@@ -332,7 +342,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-09"></a>
 ### WP-09 — Unify long jobs, resources and document lifecycle
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** Proposed
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; preserve current public-format regressions.
 
@@ -343,6 +353,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 **Requirement scope:** MV-UX-08, MV-DOC-04, MV-DOC-05, MV-DOC-10, MV-IO-03, MV-AUT-02, MV-NFR-03, MV-NFR-04, MV-NFR-05, MV-NFR-06.
 
 **Architecture findings:** AR-07, AR-09 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
+
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** All long workflows preserve UI heartbeat, owned snapshots, cancellation safety and revision-aware source state.
 
@@ -1243,13 +1255,13 @@ The companion JSON is the structured execution source for this snapshot. It reco
 
 The [architecture review](ARCHITECTURAL-REVIEW.md) assessed commit `c8a57458afd124b14c7b8e632108bffd388ab3f2` and app **0.23.3 (28)** on 16 October 2026. Its findings are observations of that baseline, not a new audit of the current working tree. Preserve Swift/AppKit, NSDocument, preservation-aware interchange, bounded inputs, the shared parser, useful semantic code and existing regression/release controls.
 
-**Review priority and backlog priority use different scales.** Review P1/P2 describes foundation/quality versus scaling/maintainability concerns. Backlog P0/P1/P2 describes blockers, mandatory delivery and optional extensions. An AR finding marked P2 is not an optional extension. Finding/task links below identify concrete remediation or evidence work; broader package associations retain cross-cutting context. No finding is closed by this merge.
+**Review priority and backlog priority use different scales.** Review P1/P2 describes foundation/quality versus scaling/maintainability concerns. Backlog P0/P1/P2 describes blockers, mandatory delivery and optional extensions. An AR finding marked P2 is not an optional extension. Finding/task links below identify concrete remediation or evidence work; broader package associations retain cross-cutting context. M1 local contributions and remaining qualification are recorded below and in the [qualification record](delivery/M1-QUALIFICATION.md); no whole finding or release gate is closed by task counts.
 
 ### Finding-to-task ledger
 
 #### AR-01 — Committed state, gesture previews and saved state
 
-**Review priority:** P1 · **Evidence:** Reproduced correctness defect; separate intermittent test failure · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Reproduced correctness defect; separate intermittent test failure · **State:** Open; M1 contribution recorded
 
 Drag X=100 to 150, save, then Escape: saved X=150, live X=100, document clean. The first 454-test suite also had one dirty-state failure.
 
@@ -1261,9 +1273,11 @@ Drag X=100 to 150, save, then Escape: saved X=150, live X=100, document clean. T
 
 **Closure evidence:** Drag/save/cancel and save/undo/redo agree on live, saved and dirty state; overlapping saves and newer edits pass; intermittent failures have a documented disposition.
 
+**M1 disposition:** Local preview/save/undo identity remediation, full-suite intermittency disposition and actual automatic app recovery accepted for M1; broader release validation remains with its owning tasks. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-02 — Incremental calculation and reusable evaluation
 
-**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; M1 contribution recorded
 
 One insertion spent 222.7–1,312.2 ms in ShapeSheet and 68.5–73.6 ms in text fields. Control dragging recalculates both baseline and moved documents.
 
@@ -1275,9 +1289,11 @@ One insertion spent 222.7–1,312.2 ms in ShapeSheet and 68.5–73.6 ms in text 
 
 **Closure evidence:** Incremental/full evaluation and diagnostics agree; small edits skip unrelated work; pre-gesture issues are reused and stale results cannot overwrite edits.
 
+**M1 disposition:** Local incremental/full equivalence, affected-work and stale/cancel regressions pass; reference formula compatibility remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-03 — Retained rendering and dirty-region rejection
 
-**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; M1 contribution recorded
 
 On 3,909 shapes, a 16×16 draw took 92.4 ms versus 99.3 ms for the viewport; painting can also enter background-field recalculation.
 
@@ -1289,9 +1305,11 @@ On 3,909 shapes, a 16×16 draw took 92.4 ms versus 99.3 ms for the viewport; pai
 
 **Closure evidence:** Painting never calculates or mutates; small dirty regions visit only conservative candidates; caches remain bounded and source/render fixtures pass.
 
+**M1 disposition:** Local immutable-scene, formula-free paint/preview and dirty-region work checks pass. Unlocked native traces pass; controlled frame qualification remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-04 — Indexed hierarchy, selection, hit testing and routing
 
-**Review priority:** P1 · **Evidence:** Measured and source-confirmed; routing scaling risk · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Measured and source-confirmed; routing scaling risk · **State:** Open; M1 contribution recorded
 
 Select-all reached 300.0 ms and a miss hit-test 18.4 ms on 3,909 shapes; hierarchy and route preparation repeatedly rebuild maps/scans.
 
@@ -1303,9 +1321,11 @@ Select-all reached 300.0 ms and a miss hit-test 18.4 ms on 3,909 shapes; hierarc
 
 **Closure evidence:** Indexed hit/marquee queries match full scans and effective draw order; small changes update bounded indexes/routes; nested and uncached-connector fixtures pass.
 
+**M1 disposition:** Local indexed/full-scan, append, hierarchy and conservative route invalidation regressions pass; domain/reference workflows remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-05 — Selective UI updates and persistent controls
 
-**Review priority:** P2 · **Evidence:** Measured and source-confirmed · **State:** Open; remediation unverified
+**Review priority:** P2 · **Evidence:** Measured and source-confirmed · **State:** Open; M1 contribution recorded
 
 Single selection cost 8.1–8.8 ms before drawing; editor refresh cost 9.3–10.4 ms. Inspector/page/stencil refresh reconstructs controls or lists.
 
@@ -1317,9 +1337,11 @@ Single selection cost 8.1–8.8 ms before drawing; editor refresh cost 9.3–10.
 
 **Closure evidence:** Selection and page switching avoid unrelated reconstruction, retain per-page view state and active edits, and show mixed values and units.
 
+**M1 disposition:** Persistent inspector/page/stencil controls, mixed values and active-edit/per-page state regressions pass; broader native UX/accessibility remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-06 — Shared screen/output semantics and visible diagnostics
 
-**Review priority:** P1 · **Evidence:** Source-confirmed; observed calculation issues · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Source-confirmed; observed calculation issues · **State:** Open; M1 contribution recorded
 
 Foreground canvas bypasses layer overrides used by exports. The measured run produced 31 calculation issues, while editor notes expose import warnings only.
 
@@ -1331,9 +1353,11 @@ Foreground canvas bypasses layer overrides used by exports. The measured run pro
 
 **Closure evidence:** Layer/color/output fixtures agree across screen/export; material calculation/import issues remain navigable to the affected object/cell.
 
+**M1 disposition:** Local screen/output layer policy passes; structured object/cell diagnostics and independent output qualification remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-07 — Bounded I/O, resource ownership and save rebasing
 
-**Review priority:** P1/P2 · **Evidence:** Source-confirmed; measured load cost; unmeasured memory risk · **State:** Open; remediation unverified
+**Review priority:** P1/P2 · **Evidence:** Source-confirmed; measured load cost; unmeasured memory risk · **State:** Open; M1 contribution recorded
 
 Legacy/template/stencil opens and exports remain synchronous. Native metadata decoding took 2.38 of 2.90 seconds; saves retain the original patch baseline.
 
@@ -1345,9 +1369,11 @@ Legacy/template/stencil opens and exports remain synchronous. Native metadata de
 
 **Closure evidence:** Every long workflow preserves UI heartbeat; stale/cancel/failure keeps valid state; repeated saves and twenty lifecycle cycles satisfy declared memory budgets.
 
+**M1 disposition:** Owned jobs, revision-aware save rebase, explicit budgets and twenty-cycle local editor teardown pass; broad workload/platform qualification remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-08 — Independent compatibility and first-class domain identities
 
-**Review priority:** P1 · **Evidence:** Repository-confirmed · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Repository-confirmed · **State:** Open; outside M1 qualification
 
 The recorded Windows guest lacks registered Visio; real Visio open/edit/save/reopen acceptance is absent. Masters, connector sheets and relationship kinds need explicit domains.
 
@@ -1359,9 +1385,11 @@ The recorded Windows guest lacks registered Visio; real Visio open/edit/save/reo
 
 **Closure evidence:** Exact-build reference round trips pass; all five evidence dimensions and inventory entries remain traceable; no private-metadata or native-equivalence substitution closes compatibility.
 
+**M1 disposition:** Unchanged by M1: exact licensed reference and domain-specific compatibility qualification remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-09 — Product-quality tests and trusted stable releases
 
-**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; remediation unverified
+**Review priority:** P1 · **Evidence:** Measured and source-confirmed · **State:** Open; M1 contribution recorded
 
 The first 454-test suite had one dirty-state failure; later reruns passed. CI lacks controlled performance/accessibility/update-install gates and permits an ad hoc stable publication path.
 
@@ -1373,9 +1401,11 @@ The first 454-test suite had one dirty-state failure; later reruns passed. CI la
 
 **Closure evidence:** The exact installed candidate passes platform, update/recovery, security, performance and compatibility gates; undiagnosed release-blocking intermittency prevents acceptance.
 
+**M1 disposition:** Deterministic save boundary, repeated suites, unlocked native traces and actual local automatic app recovery pass; controlled numerical performance, signed shipping installation/update, supported-platform and trusted-release gates remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-10 — Enforced boundaries, shared semantics and readable state paths
 
-**Review priority:** P2 · **Evidence:** Source/history-confirmed; interpretation identified · **State:** Open; remediation unverified
+**Review priority:** P2 · **Evidence:** Source/history-confirmed; interpretation identified · **State:** Open; M1 contribution recorded
 
 One executable target contains app, format and profiling code; 624 source lines exceed 200 characters. Evaluation dispatch and numeric coordinate spaces span multiple contexts.
 
@@ -1387,9 +1417,11 @@ One executable target contains app, format and profiling code; 624 source lines 
 
 **Closure evidence:** Pure model/calculation boundaries exclude UI; tools leave production entry points; critical code is formatted and shared semantic/coordinate contracts have meaningful fixtures.
 
+**M1 disposition:** One infrastructure target, nine-file import audit, 25-file formatter and typed coordinate/command boundaries pass; remaining domain extraction/function parity remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 #### AR-11 — Native accessibility and whole-workflow usability
 
-**Review priority:** P2 · **Evidence:** Source-confirmed gaps; journeys unqualified · **State:** Open; remediation unverified
+**Review priority:** P2 · **Evidence:** Source-confirmed gaps; journeys unqualified · **State:** Open; outside M1 qualification
 
 Canvas lacks semantic shape/connector accessibility elements; editor panes and page/selection workflows need keyboard, mixed-value and state-retention policies.
 
@@ -1401,9 +1433,11 @@ Canvas lacks semantic shape/connector accessibility elements; editor panes and p
 
 **Closure evidence:** Real keyboard/VoiceOver journeys create, connect, edit, inspect, save and export; representative window sizes, fonts and all advertised platforms have evidence.
 
+**M1 disposition:** Unchanged by M1: complete keyboard/VoiceOver/platform journeys remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+
 ### Architecture acceptance contracts
 
-These eight review contracts are acceptance invariants, not new feature tasks. They apply when refining the linked work and remain proposed until supported by implementation evidence.
+These eight review contracts are acceptance invariants, not new feature tasks. They apply when refining the linked work. The [M1 qualification record](delivery/M1-QUALIFICATION.md) separates locally passing contract contributions from remaining task, reference and release qualification.
 
 | Contract | Invariant | Owning tasks |
 | --- | --- | --- |

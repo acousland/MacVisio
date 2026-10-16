@@ -29,6 +29,8 @@ enum PerformanceEvidence {
         case visitedObjects,evaluatedCells,drawnObjects,sceneObjectsPrepared
         case routeRequests,orthogonalRouteSearches,textMeasurements
         case transactionsCommitted,snapshotsCaptured,encodedDocuments,heartbeatSamples
+        case renderCandidates,runtimeNodeVisits,runtimeEdgeVisits,renderRoutesPrepared
+        case inputComparisonNodes,dependencySourcesCompared,hostNodesPrepared
     }
     struct StageSummary:Codable {
         var count:Int = 0

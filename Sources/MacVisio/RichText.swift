@@ -179,15 +179,38 @@ enum ShapeRichText {
         return output
     }
     /// Inspector changes apply to all runs; text-view edits supply their own runs.
-    static func synchronize(_ input:Diagram,previous:Diagram) -> Diagram {
-        let previousIndices = previousNodeLookup(previous)
+    static func synchronize(_ input:Diagram,previous:Diagram,changes:DocumentChangeSet? = nil,session:CalculationSession? = nil,onNodeVisits:((Int)->Void)? = nil) -> Diagram {
+        let previousIndices = changes == nil ? previousNodeLookup(previous) : [:]
+        if changes == nil { onNodeVisits?(previous.pages.reduce(0) { $0 + $1.nodes.count }) }
+        let priorPages = Dictionary(uniqueKeysWithValues: previous.pages.enumerated().map { ($0.element.id, $0.offset) })
         var result = input
         for p in result.pages.indices {
-            guard let pageLookup = previousIndices[result.pages[p].id] else { continue }
-            for n in result.pages[p].nodes.indices {
+            let pageID = result.pages[p].id
+            guard let previousPage = priorPages[pageID] else { continue }
+            let oldIndices: [UUID:Int]
+            let selected: [Int]
+            if let changes {
+                guard let pageChanges = changes.pages[pageID], !pageChanges.changedNodeIDs.isEmpty else { continue }
+                if !pageChanges.nodeOrderChanged, pageChanges.insertedNodeIDs.isEmpty, pageChanges.deletedNodeIDs.isEmpty,
+                   let retained = session?.retainedNodeIndices(pageID: pageID) {
+                    oldIndices = retained
+                    selected = pageChanges.changedNodeIDs.compactMap { retained[$0] }.sorted()
+                } else {
+                    oldIndices = Dictionary(uniqueKeysWithValues: previous.pages[previousPage].nodes.enumerated().map { ($0.element.id, $0.offset) })
+                    let currentIndices = Dictionary(uniqueKeysWithValues: result.pages[p].nodes.enumerated().map { ($0.element.id, $0.offset) })
+                    onNodeVisits?(previous.pages[previousPage].nodes.count + result.pages[p].nodes.count)
+                    selected = pageChanges.changedNodeIDs.compactMap { currentIndices[$0] }.sorted()
+                }
+            } else {
+                guard let pageLookup = previousIndices[pageID] else { continue }
+                oldIndices = pageLookup.nodeIndices
+                selected = Array(result.pages[p].nodes.indices)
+            }
+            onNodeVisits?(selected.count)
+            for n in selected {
             var node = result.pages[p].nodes[n]
-            guard let oldIndex = pageLookup.nodeIndices[node.id],let runs = node.formatting.textRuns else { continue }
-            let old = previous.pages[pageLookup.pageIndex].nodes[oldIndex]
+            guard let oldIndex = oldIndices[node.id],let runs = node.formatting.textRuns else { continue }
+            let old = previous.pages[previousPage].nodes[oldIndex]
             let sizeChanged = node.fontSize != old.fontSize
             let colorChanged = node.textColor != old.textColor
             let boldChanged = node.bold != old.bold
@@ -221,20 +244,38 @@ enum ShapeRichText {
     static func withoutSourceIndices(_ input:[DiagramPage]) -> [DiagramPage] {
         input.map { page in var page = page;for i in page.nodes.indices { if let runs = page.nodes[i].formatting.textRuns { page.nodes[i].formatting.textRuns = runs.map{run in var run = run;run.character.sourceIndex = nil;run.paragraph.sourceIndex = nil;return run} } };return page }
     }
-    static func synchronizeCalculation(_ input:Diagram,previous:Diagram) -> Diagram {
-        let previousIndices = previousNodeLookup(previous)
+    static func synchronizeCalculation(_ input:Diagram,previous:Diagram,affectedNodeIDsByPage:[UUID:Set<UUID>]? = nil,nodeIndicesByPage:[UUID:[UUID:Int]] = [:]) -> Diagram {
         var result = input
+        let priorPages = Dictionary(uniqueKeysWithValues: previous.pages.enumerated().map { ($0.element.id, $0.offset) })
+        let fullLookup = affectedNodeIDsByPage == nil ? previousNodeLookup(previous) : [:]
         for p in result.pages.indices {
-            guard let pageLookup = previousIndices[result.pages[p].id] else { continue }
-            for i in result.pages[p].nodes.indices {
-            var node = result.pages[p].nodes[i]
-            guard let oldIndex = pageLookup.nodeIndices[node.id],node.formatting.textRuns != nil else { continue }
-            let old = previous.pages[pageLookup.pageIndex].nodes[oldIndex]
-            guard node.fontSize != old.fontSize,node.formatting.textRuns == old.formatting.textRuns,let runs = node.formatting.textRuns,let first = runs.first else { continue }
-            node.formatting.textRuns = runs.enumerated().map { index,run in var run = run
-                if first.character.sourceIndex.map({$0 == run.character.sourceIndex}) ?? (index == 0) { run.character.size = node.fontSize };return run
+            let pageID = result.pages[p].id
+            guard let previousPage = priorPages[pageID] else { continue }
+            let selected: [Int]
+            let oldIndices: [UUID:Int]
+            if let affectedNodeIDsByPage {
+                guard let ids = affectedNodeIDsByPage[pageID], !ids.isEmpty else { continue }
+                // Calculation does not insert/remove/reorder nodes. Its supplied
+                // index addresses both snapshots and avoids rebuilding lookups.
+                oldIndices = nodeIndicesByPage[pageID] ?? Dictionary(uniqueKeysWithValues: previous.pages[previousPage].nodes.enumerated().map { ($0.element.id, $0.offset) })
+                selected = ids.compactMap { oldIndices[$0] }.sorted()
+            } else {
+                guard let lookup = fullLookup[pageID] else { continue }
+                oldIndices = lookup.nodeIndices
+                selected = Array(result.pages[p].nodes.indices)
             }
-            result.pages[p].nodes[i] = node
+            for i in selected {
+                var node = result.pages[p].nodes[i]
+                guard let oldIndex = oldIndices[node.id], node.formatting.textRuns != nil else { continue }
+                let old = previous.pages[previousPage].nodes[oldIndex]
+                guard node.fontSize != old.fontSize, node.formatting.textRuns == old.formatting.textRuns,
+                      let runs = node.formatting.textRuns, let first = runs.first else { continue }
+                node.formatting.textRuns = runs.enumerated().map { index, run in
+                    var run = run
+                    if first.character.sourceIndex.map({ $0 == run.character.sourceIndex }) ?? (index == 0) { run.character.size = node.fontSize }
+                    return run
+                }
+                result.pages[p].nodes[i] = node
             }
         }
         return result

@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 import ZIPFoundation
 
@@ -18,6 +19,7 @@ enum VisioPackage {
         let archive = try Archive(url: url, accessMode: .read)
         var parts: [String: Data] = [:], seen = Set<String>(), total = 0
         for entry in archive {
+            try LifecycleJobContext.current?.checkpoint()
             let name = entry.path
             try validatePath(name)
             guard seen.insert(name).inserted, seen.count <= 10000, entry.type != .symlink else { throw DiagramError.invalid("The archive contains duplicate, linked or too many entries.") }
@@ -25,6 +27,7 @@ enum VisioPackage {
             guard entry.type == .file, entry.uncompressedSize <= UInt64(partLimit) else { throw DiagramError.invalid("A Visio package part exceeds the supported size limit.") }
             var data = Data()
             let checksum = try archive.extract(entry, bufferSize: 65536, skipCRC32: false) { chunk in
+                try LifecycleJobContext.current?.checkpoint()
                 guard data.count + chunk.count <= partLimit, total + chunk.count <= totalLimit else { throw DiagramError.invalid("The Visio drawing exceeds the supported import size limit.") }
                 data.append(chunk); total += chunk.count
             }
@@ -44,6 +47,7 @@ enum VisioPackage {
         do {
             let archive = try Archive(url: temp, accessMode: .create)
             for name in parts.keys.sorted() {
+                try LifecycleJobContext.current?.checkpoint()
                 try validatePath(name)
                 let data = parts[name]!
                 try archive.addEntry(with: name, type: .file, uncompressedSize: Int64(data.count), compressionMethod: .deflate) { position, count in
@@ -56,13 +60,72 @@ enum VisioPackage {
 }
 
 struct VisioDocumentArchive: Codable, Equatable {
-    var parts: [String: Data]
+    private var sourceParts: ImmutableVisioParts
+    var parts: [String: Data] {
+        get { sourceParts.parts }
+        set { sourceParts = ImmutableVisioParts(newValue,lineageID:sourceParts.lineageID) }
+    }
+    var sourceResourceID: UUID { sourceParts.id }
+    var sourceLineageID: UUID { sourceParts.lineageID }
+    var sourceByteCount: Int { sourceParts.byteCount }
     var pagesPart: String
     var pages: [VisioPageBinding]
     var connectorHierarchyVersion:Int? = nil
     /// The Office theme selected through the document's theme relationship.
     /// The package parts remain authoritative for round-trip preservation.
     var theme: VisioTheme? = nil
+
+    init(parts: [String: Data], pagesPart: String, pages: [VisioPageBinding], connectorHierarchyVersion: Int? = nil, theme: VisioTheme? = nil) {
+        sourceParts = ImmutableVisioParts(parts)
+        self.pagesPart = pagesPart
+        self.pages = pages
+        self.connectorHierarchyVersion = connectorHierarchyVersion
+        self.theme = theme
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case parts, pagesPart, pages, connectorHierarchyVersion, theme
+    }
+
+    init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        sourceParts = ImmutableVisioParts(try values.decode([String: Data].self, forKey: .parts))
+        pagesPart = try values.decode(String.self, forKey: .pagesPart)
+        pages = try values.decode([VisioPageBinding].self, forKey: .pages)
+        connectorHierarchyVersion = try values.decodeIfPresent(Int.self, forKey: .connectorHierarchyVersion)
+        theme = try values.decodeIfPresent(VisioTheme.self, forKey: .theme)
+    }
+
+    func encode(to encoder: Encoder) throws {
+        var values = encoder.container(keyedBy: CodingKeys.self)
+        try values.encode(parts, forKey: .parts)
+        try values.encode(pagesPart, forKey: .pagesPart)
+        try values.encode(pages, forKey: .pages)
+        try values.encodeIfPresent(connectorHierarchyVersion, forKey: .connectorHierarchyVersion)
+        try values.encodeIfPresent(theme, forKey: .theme)
+    }
+}
+
+/// Snapshots share one immutable source store. Equality takes an identity fast
+/// path while preserving the existing value contract for separately read data.
+private final class ImmutableVisioParts: Equatable {
+    let id = UUID()
+    let lineageID: UUID
+    let parts: [String: Data]
+    let byteCount: Int
+
+    init(_ parts: [String: Data],lineageID:UUID = UUID()) {
+        self.lineageID = lineageID
+        self.parts = parts
+        byteCount = parts.values.reduce(0) { count, data in
+            let sum = count.addingReportingOverflow(data.count)
+            return sum.overflow ? Int.max : sum.partialValue
+        }
+    }
+
+    static func == (lhs: ImmutableVisioParts, rhs: ImmutableVisioParts) -> Bool {
+        lhs === rhs || lhs.parts == rhs.parts
+    }
 }
 
 /// Imported theme metadata needed by ShapeSheet evaluation. `colors` contains
