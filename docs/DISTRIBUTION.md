@@ -30,7 +30,7 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
-## Current local M2 candidate
+## Qualified M2 development prerelease
 
 Source `0839994` has a Developer ID signed, hardened, Apple-notarized and
 stapled development candidate. Gatekeeper, ZIP/feed signatures, public-key tamper
@@ -42,7 +42,7 @@ settings remain intact. Signed loopback feeds were used for this local test.
 The agreed M2 engineering checkpoint is complete on arm64/macOS27.0.1. The
 binary inventory derives a27.0 floor; installation on27.0 and broader platforms
 is not claimed. Japanese and VoiceOver testing are excluded by user instruction.
-The candidate is unpublished and `publicationAccepted` is false. Stable release,
+The exact candidate is published as the [M2 preview](https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa); its archive and all other public asset hashes match the qualified files. Stable `publicationAccepted` is false. Stable release,
 controlled performance and Visio compatibility gates retain their separate
 qualification requirements. See [final M2 qualification](delivery/M2-QUALIFICATION.md).
 

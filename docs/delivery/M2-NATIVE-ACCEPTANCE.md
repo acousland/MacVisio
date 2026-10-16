@@ -6,6 +6,11 @@ M2 is **complete for the agreed local engineering scope**. The current dispositi
 
 The detailed journal below preserves earlier candidate findings and outstanding states. Where it describes an earlier state as unaccepted, the final qualification provides the current engineering disposition.
 
+Publication follow-up: the user authorized publication after engineering closure.
+The exact qualified assets are now the public [M2 development preview](https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa).
+Anonymous downloads match all four uploaded files; stable latest is unchanged.
+Earlier unpublished descriptions below are retained as checkpoint history.
+
 ## Current notarized candidate and qualification
 
 Source commit `0839994456aa82f3533456c75f9f10da1ebcd2bb` passes **745 Release tests,

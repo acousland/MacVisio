@@ -259,6 +259,10 @@
     "build/m2-notary-profile-check.json",
     "build/m2-pinned-feed-verification.json",
     "build/m2-preparation-final-native.log",
+    "build/m2-publication/prepublish-verification.log",
+    "build/m2-publication/publication-verification.json",
+    "build/m2-publication/published-release.json",
+    "build/m2-publication/release-notes.md",
     "build/m2-python.log",
     "build/m2-qualified-application-support.json",
     "build/m2-qualified-application-support.log",
@@ -403,7 +407,7 @@
     "channel": "development",
     "publicationAccepted": false,
     "installed": true,
-    "published": false,
+    "published": true,
     "architectures": [
       "arm64"
     ],
@@ -416,14 +420,15 @@
     "notary_submission_id": "889a4950-4527-4ee1-afdb-4fc3a5577151",
     "stapled": true,
     "gatekeeperAccepted": true,
-    "status": "qualified_local_engineering_development_candidate_unpublished",
+    "status": "published_qualified_development_prerelease",
     "content_inventory": "build/m2-qualified6-content-inventory.json",
     "native_replay": "build/m2-qualified6-native-replay.json",
     "installation_scope": "Owned isolated qualification copies only; normal installation untouched.",
     "qualified_platform": {
       "architecture": "arm64",
       "macOS": "27.0.1"
-    }
+    },
+    "release_url": "https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa"
   },
   "notes": [
     "Accepted M1 integrated at d797a67. All16 local M2 task contributions qualified for source0839994.",
@@ -431,7 +436,8 @@
     "Actual official Sparkle install/rejection/interruption/retry and native prior/updated reopen pass on owned copies. No normal installation or public feed changed.",
     "745 Swift tests/12 skips/0 failures and87 Python pass on frozen source. No source change during final scope/evidence closure.",
     "Local integration is allowed; public release and specification compatibility gates remain unaccepted.",
-    "Original checkout and peer worktrees preserved; test applications quit normally."
+    "Original checkout and peer worktrees preserved; test applications quit normally.",
+    "Subsequent user-authorized publication completed: exact development prerelease public; four anonymous downloads match qualified assets; existing stable latest unchanged."
   ],
   "tests": {
     "final_integrated_release": {
@@ -479,7 +485,7 @@
       "stapled": true,
       "gatekeeperAccepted": true,
       "installed": true,
-      "published": false
+      "published": true
     },
     "actual_negative_signatures": {
       "passed": true,
@@ -507,6 +513,11 @@
       "passed": true,
       "record": "build/m2-closure/final-document-validation.json",
       "ledger_log": "build/m2-closure/final-ledger.log"
+    },
+    "public_downloads": {
+      "passed": true,
+      "assets": 4,
+      "record": "build/m2-publication/publication-verification.json"
     }
   },
   "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
@@ -1224,6 +1235,26 @@
       "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
+      "path": "build/m2-publication/prepublish-verification.log",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "10c4cf4525e5f98d7694735484d320b22ea7cbfa81421506dcd37f286e6a02b1"
+    },
+    {
+      "path": "build/m2-publication/publication-verification.json",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "8ea299cca06c673f15026e88438da105a222a46036cec46e9494dc16fb0a9bb2"
+    },
+    {
+      "path": "build/m2-publication/published-release.json",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "95c0cdde48a7865891a81661bcf194d1020d9f4bfc82beb355b6955319ba6099"
+    },
+    {
+      "path": "build/m2-publication/release-notes.md",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "83d7446458fa9206bf5d4c22330a039a8b81cffecf1c6b0fb5bc96045cb82476"
+    },
+    {
       "path": "build/m2-python.log",
       "sha256": "7b9144e657da576b27e85479b30bf5321e2b03f06cbd8cda0e70f4a11844b68b",
       "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
@@ -1841,7 +1872,7 @@
     {
       "path": "docs/DISTRIBUTION.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "73ba2304d30ed5cd2be4692bdae4905af3f8d6cb4ed2b121b3e6ed1e10215edb"
+      "sha256": "543b4f757a05121c1065d44be893e4a6ee80d565ef608ac94aacf2cd0815ec8e"
     },
     {
       "path": "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
@@ -1866,7 +1897,7 @@
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "f4070381cae402f4e4a765a7e514ea0cd3be4bdb3cdf1d1e8f914496cc4b9ae8"
+      "sha256": "89234a1c25805b24ab831a67b536850255dadf25ee79096572cbafe83a05aa28"
     },
     {
       "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
@@ -1876,7 +1907,7 @@
     {
       "path": "docs/delivery/M2-QUALIFICATION.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "3d34eed9998c0c275641b027bddb147b94ab1398cd5fd2828c4e1b24bb769792"
+      "sha256": "5a81f255002f52efac3800712d088e9882fbd3ca9da2c7d8baf2a377da6efeef"
     },
     {
       "path": "docs/delivery/M2-RELEASE-TRUST.md",
@@ -2104,7 +2135,7 @@
       "native_disposition": "build/m2-native-rich-input-before.json"
     }
   ],
-  "updated_utc": "2026-10-16T04:47:42.975686+00:00",
+  "updated_utc": "2026-10-16T04:52:38.187983+00:00",
   "native_input_followup": {
     "state": "out_of_scope_by_user_restoration_complete",
     "record": "build/m2-qualified6-japanese-input.json",
@@ -2162,7 +2193,7 @@
   "qualification": "docs/delivery/M2-QUALIFICATION.md",
   "task_evidence": "docs/delivery/M2-TASK-EVIDENCE.json",
   "continuing_release_obligations": [
-    "No stable/publication acceptance or publication.",
+    "No stable release/publication acceptance. Exact development prerelease is public and verified; stable latest remains v0.23.3.",
     "Broader platform installations, including exact27.0 binary floor, remain unqualified; actual M2 platform is arm64/macOS27.0.1.",
     "Licensed exact-build Visio compatibility and controlled numerical performance remain with their original M0/M3/release owners.",
     "Technical provenance is recorded, without a legal ownership attestation; publication must retain complete third-party source/notice obligations."
@@ -2185,5 +2216,15 @@
     "prepared_driver_executed": false
   },
   "acceptance_passed": true,
-  "downstream_acceptance_ready": true
+  "downstream_acceptance_ready": true,
+  "publication": {
+    "state": "published_verified",
+    "channel": "development",
+    "url": "https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa",
+    "tag": "development-v0.23.3-0839994456aa",
+    "published_at": "2026-10-16T04:51:48Z",
+    "verification": "build/m2-publication/publication-verification.json",
+    "stable_publication_accepted": false,
+    "stable_latest_unchanged": "v0.23.3"
+  }
 }

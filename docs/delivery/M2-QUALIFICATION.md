@@ -13,6 +13,16 @@ combining-character and emoji checks remain in scope. The prepared VoiceOver
 AppleScript driver was never executed or enabled. Earlier temporary Japanese
 input settings were fully restored.
 
+## Publication follow-up
+
+On16 October2026, the user authorized publication. The exact qualified ZIP,
+signed appcast, checksums and verification report are now publicly available as
+[MacVisio0.23.3 — M2 preview](https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa).
+All four anonymous public downloads were retrieved and matched byte-for-byte.
+The existing stable latest release remains `v0.23.3`. This is a development
+prerelease; stable `publicationAccepted` remains false. The unpublished states
+below describe the preceding engineering checkpoint.
+
 ## Qualified evidence
 
 | Area | Result and retained evidence |
@@ -47,8 +57,10 @@ the owned recent entry was removed, and test applications quit normally.
 
 ## Continuing release and compatibility obligations
 
-`publicationAccepted` remains false. No feed, release or archive was published,
-and no stable release manifest was accepted. Broader supported-platform
+Stable `publicationAccepted` remains false. At the engineering checkpoint no
+feed, release or archive had been published; the publication follow-up above
+records the subsequently authorized development prerelease. No stable release
+manifest was accepted. Broader supported-platform
 installations, controlled numerical performance and licensed exact-build Visio
 round trips retain their original release/reference owners. Original-code
 authorship and asset generation support a technical provenance classification;
