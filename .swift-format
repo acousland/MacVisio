@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "indentation": { "spaces": 4 },
+  "lineLength": 110,
+  "respectsExistingLineBreaks": true,
+  "multiElementCollectionTrailingCommas": true,
+  "rules": {
+    "DoNotUseSemicolons": true,
+    "OneCasePerLine": true,
+    "OneVariableDeclarationPerLine": true,
+    "OrderedImports": true,
+    "UseSynthesizedInitializer": false,
+    "ReplaceForEachWithForLoop": false
+  }
+}

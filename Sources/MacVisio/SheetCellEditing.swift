@@ -24,6 +24,6 @@ extension EditorWindowController {
         guard let i = next.page.nodes.firstIndex(where:{$0.id == id}),!next.page.isLocked(next.page.nodes[i]) else { throw DiagramError.invalid("Select an unlocked shape to edit ShapeSheet cells.") }
         try SheetCellEditing.set(key,value:value,formula:formula,unit:unit ?? next.page.nodes[i].formatting.sheet[key]?.unit ?? "",on:&next.page.nodes[i])
         let before = Set(DiagramCalculation.recalculate(old).issues),result = DiagramCalculation.recalculate(next,previous:old),added = Set(result.issues).subtracting(before)
-        guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) };diagramDocument.replace(with:try result.diagram.validated(),action:"Edit ShapeSheet Cell")
+        guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) };diagramDocument.replaceInEditor(with:try result.diagram.validated(),action:"Edit ShapeSheet Cell")
     }
 }

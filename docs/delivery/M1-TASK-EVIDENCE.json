@@ -1,0 +1,917 @@
+{
+  "schema_version": 1,
+  "milestone": "M1",
+  "scope": "Exact local foundation contributions, not whole-requirement or Visio compatibility closure. Final run results recorded in M1-QUALIFICATION.md.",
+  "tasks": [
+    {
+      "task_id": "WP-05-T01",
+      "state": "locally_qualified",
+      "bounded_scope": "Deterministic gesture/save and exact token-boundary reproduction",
+      "requirement_contributions": [
+        "MV-DOC-04",
+        "MV-DOC-05",
+        "MV-DOC-07",
+        "MV-DOC-09"
+      ],
+      "checks": [
+        "GestureSaveContractTests",
+        "AsyncDocumentSaveTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-05-T02",
+      "state": "locally_qualified",
+      "bounded_scope": "Canvas-owned drag/resize/control previews; explicit text commit; one release transaction",
+      "requirement_contributions": [
+        "MV-DOC-05",
+        "MV-DOC-09"
+      ],
+      "checks": [
+        "GestureSaveContractTests",
+        "PreviewCalculationContractTests",
+        "ControlHandleTests"
+      ],
+      "children": [
+        {
+          "id": "WP-05-T02-a",
+          "acceptance_scope": "canvas-owned geometry preview and Escape regression",
+          "requirement_contributions": [
+            "MV-DOC-05",
+            "MV-DOC-09"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T02-b",
+          "acceptance_scope": "one mouse-up transaction and stale-preview rejection",
+          "requirement_contributions": [
+            "MV-DOC-09"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T02-c",
+          "acceptance_scope": "committed geometry save/autosave plus text commit policy",
+          "requirement_contributions": [
+            "MV-DOC-05",
+            "MV-DOC-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-05-T03",
+      "state": "locally_qualified",
+      "bounded_scope": "Exact immutable save identity, queued/failing/copy saves, undo through saved identity",
+      "requirement_contributions": [
+        "MV-DOC-04",
+        "MV-DOC-05",
+        "MV-DOC-09"
+      ],
+      "checks": [
+        "GestureSaveContractTests",
+        "AsyncDocumentSaveTests"
+      ],
+      "children": [
+        {
+          "id": "WP-05-T03-a",
+          "acceptance_scope": "state tokens survive undo/redo",
+          "requirement_contributions": [
+            "MV-DOC-05",
+            "MV-DOC-09"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T03-b",
+          "acceptance_scope": "snapshot acknowledgement is independent of AppKit callback timing",
+          "requirement_contributions": [
+            "MV-DOC-05"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T03-c",
+          "acceptance_scope": "queued/failing/save-copy transitions retain exact identities",
+          "requirement_contributions": [
+            "MV-DOC-04",
+            "MV-DOC-05"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-05-T04",
+      "state": "locally_qualified",
+      "bounded_scope": "Actual local app-bundle unsaved-document interruption/automatic relaunch recovery and native save/readback, plus external modification refusal/revert and staged write interruption.",
+      "requirement_contributions": [
+        "MV-DOC-04",
+        "MV-DOC-07",
+        "MV-DOC-08"
+      ],
+      "checks": [
+        "SavePreservationRebaseTests",
+        "ExternalWriterRecoveryTests",
+        "AtomicJobOutputTests"
+      ],
+      "children": [
+        {
+          "id": "WP-05-T04-a",
+          "acceptance_scope": "invalid/write destination failures preserve file",
+          "requirement_contributions": [
+            "MV-DOC-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T04-b",
+          "acceptance_scope": "autosave preview and external writer conflict tests",
+          "requirement_contributions": [
+            "MV-DOC-07",
+            "MV-DOC-08"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-05-T04-c",
+          "acceptance_scope": "recovery checkpoint/reopen evidence",
+          "requirement_contributions": [
+            "MV-DOC-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md",
+      "native_ui_probe_record": "M1-RECOVERY-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-05-T05",
+      "state": "locally_qualified",
+      "bounded_scope": "Existing metadata formats remain readable; rebased bindings follow successful save",
+      "requirement_contributions": [
+        "MV-DOC-10",
+        "MV-IO-03"
+      ],
+      "checks": [
+        "NativeMetadataStorageTests",
+        "SavePreservationRebaseTests",
+        "SourceResourceOwnershipTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-06-T01",
+      "state": "locally_qualified",
+      "bounded_scope": "Committed/view/source/derived ownership, affected sets and coordinate boundaries",
+      "requirement_contributions": [
+        "MV-EDT-01",
+        "MV-EDT-03",
+        "MV-EDT-06"
+      ],
+      "checks": [
+        "PageRuntimeTests",
+        "TransactionRuntimeTests",
+        "RetainedSceneTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-06-T02",
+      "state": "locally_qualified",
+      "bounded_scope": "ID/hierarchy/adjacency indexes, atomic fallback and certified append",
+      "requirement_contributions": [
+        "MV-EDT-01",
+        "MV-EDT-06",
+        "MV-CON-07"
+      ],
+      "checks": [
+        "PageRuntimeTests",
+        "TransactionRuntimeTests"
+      ],
+      "children": [
+        {
+          "id": "WP-06-T02-a",
+          "acceptance_scope": "ID/hierarchy/adjacency ownership",
+          "requirement_contributions": [
+            "MV-EDT-06",
+            "MV-CON-07"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T02-b",
+          "acceptance_scope": "atomic updates for structural edits/undo",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T02-c",
+          "acceptance_scope": "bounded property-edit updates",
+          "requirement_contributions": [
+            "MV-EDT-03"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T02-d1",
+          "acceptance_scope": "committed-diff ordered-suffix proof",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-CON-07"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T02-d2",
+          "acceptance_scope": "bounded root foreground append indexes/eligibility/bounds with safe structural fallback",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-CON-07"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T02-d3",
+          "acceptance_scope": "counted obstacle/new-endpoint invalidation plus 1k/20k work and fresh-runtime equivalence regressions",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-CON-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-06-T03",
+      "state": "locally_qualified",
+      "bounded_scope": "Conservative indexed hit/marquee and local snapping under actual paint order",
+      "requirement_contributions": [
+        "MV-EDT-02",
+        "MV-EDT-03",
+        "MV-EDT-04"
+      ],
+      "checks": [
+        "PageRuntimeTests",
+        "RetainedSceneTests"
+      ],
+      "children": [
+        {
+          "id": "WP-06-T03-a",
+          "acceptance_scope": "conservative spatial buckets",
+          "requirement_contributions": [
+            "MV-EDT-02"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T03-b",
+          "acceptance_scope": "draw-order hit/marquee equivalence",
+          "requirement_contributions": [
+            "MV-EDT-02"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T03-c",
+          "acceptance_scope": "spatially local snapping with explicit policy",
+          "requirement_contributions": [
+            "MV-EDT-03",
+            "MV-EDT-04"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-06-T04",
+      "state": "locally_qualified",
+      "bounded_scope": "Common native commands publish change sets and presentation-only events",
+      "requirement_contributions": [
+        "MV-EDT-01",
+        "MV-EDT-03",
+        "MV-EDT-04",
+        "MV-EDT-06"
+      ],
+      "checks": [
+        "TransactionRuntimeTests",
+        "PreviewCalculationContractTests",
+        "AsyncCalculationContractTests"
+      ],
+      "children": [
+        {
+          "id": "WP-06-T04-a",
+          "acceptance_scope": "typed change sets from committed edits",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-03",
+            "MV-EDT-04",
+            "MV-EDT-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T04-b",
+          "acceptance_scope": "common command integration",
+          "requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-03",
+            "MV-EDT-04",
+            "MV-EDT-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-06-T04-c",
+          "acceptance_scope": "selection/view events bypass calculation",
+          "requirement_contributions": [
+            "MV-UX-01",
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-06-T05",
+      "state": "locally_qualified",
+      "bounded_scope": "One bounded infrastructure target, import audit, scoped formatter and isolated CLI dispatch",
+      "requirement_contributions": [
+        "MV-EDT-03",
+        "MV-AUT-01"
+      ],
+      "checks": [
+        "DeveloperCommandsTests",
+        "RetainedSceneTests",
+        "scripts/tests/test_foundation_boundaries.py"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-07-T01",
+      "state": "locally_qualified",
+      "bounded_scope": "Retained conservative dependencies, cycles, dynamics/volatility and diagnostics",
+      "requirement_contributions": [
+        "MV-SHS-04",
+        "MV-SHS-10",
+        "MV-TXT-07"
+      ],
+      "checks": [
+        "IncrementalCalculationTests"
+      ],
+      "children": [
+        {
+          "id": "WP-07-T01-a",
+          "acceptance_scope": "dependency inventory",
+          "requirement_contributions": [
+            "MV-SHS-04",
+            "MV-TXT-07"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T01-b",
+          "acceptance_scope": "local references/cycles",
+          "requirement_contributions": [
+            "MV-SHS-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T01-c",
+          "acceptance_scope": "dynamic/volatile conservative fallback",
+          "requirement_contributions": [
+            "MV-SHS-04",
+            "MV-SHS-10"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-07-T02",
+      "state": "locally_qualified",
+      "bounded_scope": "Bounded syntax cache and immutable host/source identity invalidation",
+      "requirement_contributions": [
+        "MV-SHS-04",
+        "MV-SHS-10",
+        "MV-TXT-07"
+      ],
+      "checks": [
+        "IncrementalCalculationTests"
+      ],
+      "children": [
+        {
+          "id": "WP-07-T02-a",
+          "acceptance_scope": "bounded expression cache",
+          "requirement_contributions": [
+            "MV-SHS-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T02-b",
+          "acceptance_scope": "semantic host identity",
+          "requirement_contributions": [
+            "MV-SHS-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T02-c",
+          "acceptance_scope": "cross-page/text cache invalidation tests",
+          "requirement_contributions": [
+            "MV-SHS-04",
+            "MV-TXT-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-07-T03",
+      "state": "locally_qualified",
+      "bounded_scope": "Affected closure/field convergence, zero-evaluation control baseline and pointer previews",
+      "requirement_contributions": [
+        "MV-SHS-04",
+        "MV-TXT-07",
+        "MV-NFR-02"
+      ],
+      "checks": [
+        "IncrementalCalculationTests",
+        "PreviewCalculationContractTests"
+      ],
+      "children": [
+        {
+          "id": "WP-07-T03-a",
+          "acceptance_scope": "changed-page/shape closure",
+          "requirement_contributions": [
+            "MV-SHS-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T03-b",
+          "acceptance_scope": "field/context propagation",
+          "requirement_contributions": [
+            "MV-TXT-07"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T03-c",
+          "acceptance_scope": "reused gesture diagnostic baseline",
+          "requirement_contributions": [
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-07-T04",
+      "state": "locally_qualified",
+      "bounded_scope": "Native long calculations use owned cancellable workers and exact publication gates",
+      "requirement_contributions": [
+        "MV-SHS-04",
+        "MV-TXT-07",
+        "MV-NFR-04"
+      ],
+      "checks": [
+        "AsyncCalculationContractTests",
+        "IncrementalCalculationTests"
+      ],
+      "children": [
+        {
+          "id": "WP-07-T04-a",
+          "acceptance_scope": "revision-owned jobs",
+          "requirement_contributions": [
+            "MV-SHS-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T04-b",
+          "acceptance_scope": "cancellation/stale rejection",
+          "requirement_contributions": [
+            "MV-NFR-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-07-T04-c",
+          "acceptance_scope": "AppKit ownership audit",
+          "requirement_contributions": [
+            "MV-TXT-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-07-T05",
+      "state": "locally_qualified",
+      "bounded_scope": "Full/incremental state+diagnostic equivalence and bounded evaluator work counts",
+      "requirement_contributions": [
+        "MV-SHS-04",
+        "MV-TXT-07",
+        "MV-NFR-02",
+        "MV-NFR-04"
+      ],
+      "checks": [
+        "IncrementalCalculationTests",
+        "AsyncCalculationContractTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-08-T01",
+      "state": "locally_qualified",
+      "bounded_scope": "Immutable evaluated scene values, shared layer policy and route/background identity",
+      "requirement_contributions": [
+        "MV-UX-01",
+        "MV-EDT-04",
+        "MV-CON-09",
+        "MV-NFR-08"
+      ],
+      "checks": [
+        "RetainedSceneTests",
+        "PageBackgroundTests",
+        "LayerSettingsTests"
+      ],
+      "children": [
+        {
+          "id": "WP-08-T01-a",
+          "acceptance_scope": "prepared scene identity",
+          "requirement_contributions": [
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T01-b",
+          "acceptance_scope": "shared screen/output layer policy",
+          "requirement_contributions": [
+            "MV-NFR-08"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T01-c",
+          "acceptance_scope": "route/background context identity",
+          "requirement_contributions": [
+            "MV-CON-09",
+            "MV-TXT-07"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-08-T02",
+      "state": "locally_qualified",
+      "bounded_scope": "Cull before path/text preparation and keep selection/handle overlays local",
+      "requirement_contributions": [
+        "MV-EDT-04",
+        "MV-NFR-02"
+      ],
+      "checks": [
+        "RetainedSceneTests",
+        "PerformanceEvidenceTests"
+      ],
+      "children": [
+        {
+          "id": "WP-08-T02-a",
+          "acceptance_scope": "dirty-region candidate queries",
+          "requirement_contributions": [
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T02-b",
+          "acceptance_scope": "lightweight overlays",
+          "requirement_contributions": [
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T02-c",
+          "acceptance_scope": "work-count assertions",
+          "requirement_contributions": [
+            "MV-NFR-02"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-08-T03",
+      "state": "locally_qualified",
+      "bounded_scope": "Cost/count-bounded path/text/image caches, dependency route invalidation and stale inputs",
+      "requirement_contributions": [
+        "MV-NFR-02",
+        "MV-NFR-06"
+      ],
+      "checks": [
+        "RetainedSceneTests",
+        "ResourceBudgetTests",
+        "LifecycleMemoryTests",
+        "PreviewCalculationContractTests"
+      ],
+      "children": [
+        {
+          "id": "WP-08-T03-a",
+          "acceptance_scope": "path/text/resource budgets",
+          "requirement_contributions": [
+            "MV-NFR-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T03-b",
+          "acceptance_scope": "route obstacle invalidation",
+          "requirement_contributions": [
+            "MV-CON-09"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T03-c",
+          "acceptance_scope": "repeated-cycle bounded growth",
+          "requirement_contributions": [
+            "MV-NFR-06"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-08-T04",
+      "state": "locally_qualified",
+      "bounded_scope": "Retained inspector/page/stencil controls, mixed values and per-page view state",
+      "requirement_contributions": [
+        "MV-UX-01",
+        "MV-UX-05"
+      ],
+      "checks": [
+        "RetainedEditorUITests"
+      ],
+      "children": [
+        {
+          "id": "WP-08-T04-a",
+          "acceptance_scope": "persistent inspector/page controls",
+          "requirement_contributions": [
+            "MV-UX-05"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T04-b",
+          "acceptance_scope": "per-page view state",
+          "requirement_contributions": [
+            "MV-UX-01"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-08-T04-c",
+          "acceptance_scope": "reusable library presentation/mixed values",
+          "requirement_contributions": [
+            "MV-UX-05"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-08-T05",
+      "state": "locally_qualified",
+      "bounded_scope": "Screen/output policy fixtures plus unlocked named-host native routed selection/edit/raster/save traces; twelve scaling attempts and thirty interaction samples. Controlled input/frame release gates remain unaccepted.",
+      "requirement_contributions": [
+        "MV-NFR-02",
+        "MV-NFR-08"
+      ],
+      "checks": [
+        "RetainedSceneTests",
+        "OwnedExportJobTests",
+        "BenchmarkProfileTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-09-T01",
+      "state": "locally_qualified",
+      "bounded_scope": "Bounded job admission, ownership, cancellation and stale main delivery",
+      "requirement_contributions": [
+        "MV-UX-08",
+        "MV-NFR-04"
+      ],
+      "checks": [
+        "LifecycleJobTests"
+      ],
+      "children": [
+        {
+          "id": "WP-09-T01-a",
+          "acceptance_scope": "bounded job/snapshot ownership",
+          "requirement_contributions": [
+            "MV-UX-08"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T01-b",
+          "acceptance_scope": "cancellation/stale rejection",
+          "requirement_contributions": [
+            "MV-NFR-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T01-c",
+          "acceptance_scope": "shared workflow integration",
+          "requirement_contributions": [
+            "MV-UX-08"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-09-T02",
+      "state": "locally_qualified",
+      "bounded_scope": "Native open/template/stencil/library and export owned workflow integration",
+      "requirement_contributions": [
+        "MV-UX-08",
+        "MV-NFR-03",
+        "MV-NFR-04",
+        "MV-NFR-05"
+      ],
+      "checks": [
+        "OwnedOpeningWorkflowTests",
+        "OwnedExportJobTests",
+        "LegacyConverterProcessTests"
+      ],
+      "children": [
+        {
+          "id": "WP-09-T02-a",
+          "acceptance_scope": "legacy/template open",
+          "requirement_contributions": [
+            "MV-NFR-03",
+            "MV-NFR-04"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T02-b",
+          "acceptance_scope": "library loading",
+          "requirement_contributions": [
+            "MV-UX-08"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T02-c",
+          "acceptance_scope": "atomic export with progress/cancel",
+          "requirement_contributions": [
+            "MV-AUT-02",
+            "MV-NFR-05"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-09-T03",
+      "state": "locally_qualified",
+      "bounded_scope": "Install exact written source archive/bindings while preserving newer semantic edits",
+      "requirement_contributions": [
+        "MV-DOC-05",
+        "MV-DOC-10",
+        "MV-IO-03"
+      ],
+      "checks": [
+        "SavePreservationRebaseTests",
+        "AsyncCalculationContractTests"
+      ],
+      "children": [
+        {
+          "id": "WP-09-T03-a",
+          "acceptance_scope": "saved archive/binding rebase",
+          "requirement_contributions": [
+            "MV-IO-03"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T03-b",
+          "acceptance_scope": "revision compatibility",
+          "requirement_contributions": [
+            "MV-DOC-05"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T03-c",
+          "acceptance_scope": "repeated opaque-part preservation",
+          "requirement_contributions": [
+            "MV-IO-03"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-09-T04",
+      "state": "locally_qualified",
+      "bounded_scope": "Immutable source resources, header metadata decode, image/undo budgets and twenty cycles",
+      "requirement_contributions": [
+        "MV-NFR-06"
+      ],
+      "checks": [
+        "SourceResourceOwnershipTests",
+        "NativeMetadataStorageTests",
+        "MetadataProbeEvidenceTests",
+        "LifecycleMemoryTests",
+        "UndoPayloadBudgetTests"
+      ],
+      "children": [
+        {
+          "id": "WP-09-T04-a",
+          "acceptance_scope": "decoded-image budget",
+          "requirement_contributions": [
+            "MV-NFR-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T04-b",
+          "acceptance_scope": "undo bounds",
+          "requirement_contributions": [
+            "MV-DOC-09",
+            "MV-NFR-06"
+          ],
+          "state": "locally_qualified"
+        },
+        {
+          "id": "WP-09-T04-c",
+          "acceptance_scope": "twenty-cycle memory/resource evidence",
+          "requirement_contributions": [
+            "MV-NFR-06"
+          ],
+          "state": "locally_qualified"
+        }
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    },
+    {
+      "task_id": "WP-09-T05",
+      "state": "locally_qualified",
+      "bounded_scope": "Headless exit/output contract, atomic destination safety and converter interruption",
+      "requirement_contributions": [
+        "MV-AUT-02",
+        "MV-DOC-04"
+      ],
+      "checks": [
+        "DeveloperCommandsTests",
+        "AtomicJobOutputTests",
+        "LegacyConverterProcessTests",
+        "ExternalWriterRecoveryTests"
+      ],
+      "evidence": "M1-QUALIFICATION.md"
+    }
+  ],
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+  "qualification_record": "M1-QUALIFICATION.md",
+  "milestone_acceptance_passed": true,
+  "state_definitions": {
+    "locally_qualified": "The bounded implementation contribution and named local regressions pass. Local milestone acceptance is evaluated separately in M1-HANDOFF.json; this does not close whole requirements, independent downstream dependencies, reference compatibility or release gates.",
+    "implemented_unaccepted": "Implementation and partial local checks exist; an explicit task qualification remains open."
+  },
+  "native_qualification_record": "../evidence/M1-NATIVE-QUALIFICATION.json",
+  "acceptance_scope": "Local M1 engineering checkpoint; G1/G2, reference and release acceptance remain separate.",
+  "release_acceptance_passed": false,
+  "recovery_qualification_record": "../evidence/M1-RECOVERY-QUALIFICATION.json"
+}

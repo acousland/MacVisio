@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 
 enum LegacyVisioFormat {
@@ -10,6 +11,7 @@ enum LegacyVisioFormat {
         return paths.first(where:{FileManager.default.isExecutableFile(atPath:$0)}).map{URL(fileURLWithPath:$0)}
     }
     static func read(from url:URL) throws -> VisioImportResult {
+        try LifecycleJobContext.current?.checkpoint()
         let size = try url.resourceValues(forKeys:[.fileSizeKey]).fileSize ?? 0
         guard size <= 100*1024*1024 else { throw DiagramError.invalid("This legacy drawing exceeds the 100 MB import limit.") }
         let handle = try FileHandle(forReadingFrom:url); let signature = try handle.read(upToCount:8); try handle.close()
@@ -35,20 +37,11 @@ enum LegacyVisioFormat {
         let handle = try FileHandle(forReadingFrom:url);let signature = try handle.read(upToCount:8);try handle.close()
         guard signature == CompoundFile.signature else { throw DiagramError.invalid("This is not a binary Visio compound document.") }
         guard let converter = stencils ? stencilConverterURL : converterURL else { throw DiagramError.invalid("The bundled legacy Visio reader is missing. Rebuild the app with libvisio installed.") }
-        let process = Process(),pipe = Pipe()
-        process.executableURL = converter; process.arguments = [url.path]
-        process.standardInput = FileHandle.nullDevice; process.standardOutput = pipe; process.standardError = FileHandle.nullDevice
-        try process.run()
-        let timeout = DispatchWorkItem { if process.isRunning { process.terminate() } }
-        DispatchQueue.global().asyncAfter(deadline:.now()+30,execute:timeout)
-        defer { timeout.cancel(); try? pipe.fileHandleForReading.close() }
-        var data = Data()
-        while let chunk = try pipe.fileHandleForReading.read(upToCount:65536),!chunk.isEmpty {
-            guard data.count+chunk.count <= 64*1024*1024 else { process.terminate(); process.waitUntilExit(); throw DiagramError.invalid("The converted drawing exceeds the supported size.") }
-            data.append(chunk)
-        }
-        process.waitUntilExit()
-        guard process.terminationStatus == 0,let html = String(data:data,encoding:.utf8) else { throw DiagramError.invalid("The binary Visio drawing could not be decoded by libvisio.") }
+        let context = LifecycleJobContext.current
+        try context?.checkpoint()
+        context?.progress("Converting \(url.lastPathComponent)")
+        let data = try LegacyConverterProcess.run(executable: converter, arguments: [url.path], cancellation: context?.cancellation)
+        guard let html = String(data:data,encoding:.utf8) else { throw DiagramError.invalid("The binary Visio drawing could not be decoded by libvisio.") }
         let pattern = "<((?:[A-Za-z_][A-Za-z0-9_.-]*:)?svg)(?=\\s|>)[\\s\\S]*?</\\1\\s*>"
         let regex = try NSRegularExpression(pattern:pattern)
         let matches = regex.matches(in:html,range:NSRange(html.startIndex...,in:html))
@@ -56,6 +49,8 @@ enum LegacyVisioFormat {
         var pages:[DiagramPage] = []
         var warnings = Set<String>()
         for (index,match) in matches.enumerated() {
+            try context?.checkpoint()
+            context?.progress("Importing page \(index + 1) of \(matches.count)", fraction: Double(index) / Double(matches.count))
             guard let range = Range(match.range,in:html) else { continue }
             let result = try SVGImport.page(Data(html[range].utf8),name:stencils ? "Master \(index+1)" : "Page \(index+1)")
             pages.append(result.page); warnings.formUnion(result.warnings)

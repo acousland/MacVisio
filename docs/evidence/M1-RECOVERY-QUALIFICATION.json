@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "milestone": "M1",
+  "task": "WP-05-T04",
+  "date": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+  "local_acceptance_passed": true,
+  "scope": "Actual local macOS app-bundle interruption and automatic untitled-document relaunch recovery; prerequisite for the local M1 engineering checkpoint, separate from shipping installation/release acceptance.",
+  "wrapper": {
+    "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+    "source_executable_sha256": "7c1baefbb9572ea40cd29c3f8c40a14abe84c2e1ac67aafa66c538d650997072",
+    "probe_executable_sha256": "7c1baefbb9572ea40cd29c3f8c40a14abe84c2e1ac67aafa66c538d650997072",
+    "bundle_id": "com.macvisio.m1recovery.20261016",
+    "bundle_path": "/Users/acousland/.codex/worktrees/85af/MacVisio/build/m1-evidence/installed-recovery/M1 Recovery Probe.app",
+    "scope": "Isolated local bundle from exact executable; no release-signing or shipping-bundle identity acceptance. Document type ranks None; no default-handler assignment. Updates disabled for the probe."
+  },
+  "interruption": {
+    "pid": 63306,
+    "arguments": "/Users/acousland/.codex/worktrees/85af/MacVisio/build/m1-evidence/installed-recovery/M1 Recovery Probe.app/Contents/MacOS/MacVisio -SUEnableAutomaticChecks NO -NSQuitAlwaysKeepsWindows YES -ApplePersistenceIgnoreState NO",
+    "signal": "SIGKILL",
+    "timestamp": "2026-10-16T01:34:41.682850+00:00",
+    "source_executable_sha256": "7c1baefbb9572ea40cd29c3f8c40a14abe84c2e1ac67aafa66c538d650997072",
+    "ui_observation": "Actual unsaved Untitled editor; committed page name M1 recovery checkpoint 20261016; Edited indicator; no explicit Save. Hidden through normal app command before interruption."
+  },
+  "automatic_relaunch": {
+    "timestamp": "2026-10-16T01:35:47.723575+00:00",
+    "original_pid": 63306,
+    "new_process": {
+      "pid": 63462,
+      "arguments": "/Users/acousland/.codex/worktrees/85af/MacVisio/build/m1-evidence/installed-recovery/M1 Recovery Probe.app/Contents/MacOS/MacVisio"
+    },
+    "launch_had_file_arguments": false,
+    "automatic_recovery_observation": {
+      "window_menu": "Untitled",
+      "editor_window": "Untitled",
+      "page_name": "M1 recovery checkpoint 20261016",
+      "page_id": "4A8D749A-E3A0-4B36-9DD4-BCF195CA345F",
+      "shapes": 8,
+      "connectors": 8,
+      "edited_indicator": true,
+      "manual_open_or_recovery_initializer_before_observation": false
+    },
+    "frontmost_home_limit": "Home initially covers recovered editor; inspected Window menu and selected already restored Untitled editor."
+  },
+  "recovered_file": {
+    "timestamp": "2026-10-16T01:38:01.752128+00:00",
+    "path": "/Users/acousland/.codex/worktrees/85af/MacVisio/build/m1-evidence/installed-recovery/Recovered UI.macvisio",
+    "bytes": 73732,
+    "sha256": "2c8aba01bf89f9a07723df9da13c919f64afa61bb659bd60ccde5aa8368c3759",
+    "page_id": "4A8D749A-E3A0-4B36-9DD4-BCF195CA345F",
+    "page_name": "M1 recovery checkpoint 20261016",
+    "nodes": 8,
+    "edges": 8,
+    "node_ids": [
+      "992DA495-2BFB-4E32-BE0A-978276C3105E",
+      "4C25B11F-481B-465F-B586-DCD55F69BB84",
+      "129E2592-C810-48A2-9276-61F7715FC809",
+      "167C18D5-39D0-47C0-A055-52305B82D07F",
+      "EFEC1008-AC71-4897-9CE9-933D40CFF929",
+      "AFDC8986-A29F-4A14-B940-5A44B4FC9C2F",
+      "7B020F72-7A43-480D-9D6B-338B10911783",
+      "8853C8AB-4611-4E7E-A701-3D62226B7DE6"
+    ],
+    "edge_ids": [
+      "04ACE4B7-FAE7-455C-980B-6FA15BC68114",
+      "A49D840C-585A-4E87-8CCC-5F1541FDD16B",
+      "D39CF19C-3F6A-4659-A222-AA9D33F8E9A1",
+      "944F7E0A-0662-49D6-9937-1E1EB123006E",
+      "173DE64F-1D0D-4B33-B787-583455D3F1D1",
+      "54CB3DCE-8A85-4A6B-BEFB-6E7AF273CA0C",
+      "3960119A-5EBD-4989-A5EB-F81EA1DAAF0E",
+      "729E504E-49F1-4EEF-AC13-B36770854D8F"
+    ],
+    "ui_after_save": {
+      "window_title": "Recovered UI.macvisio",
+      "edited_indicator": false,
+      "page_name_matches_saved_file": true
+    },
+    "saved_after_automatic_recovery_was_visibly_verified": true,
+    "result": "passed"
+  },
+  "cleanup": {
+    "closed_normally": true,
+    "owned_process_still_running": false,
+    "fresh_process_convert_exit_code": 0,
+    "public_page_names": [
+      "M1 recovery checkpoint 20261016"
+    ],
+    "source_diff_from_qualified_candidate": "",
+    "timestamp": "2026-10-16T01:39:18.330109+00:00"
+  },
+  "artifacts": [
+    {
+      "path": "build/m1-evidence/installed-recovery/probe-manifest.json",
+      "bytes": 647,
+      "sha256": "1a28bb86902647d6b18e61bccd56cafa636910164f90558d97db64c352cc83ff"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/baseline-before-interruption.json",
+      "bytes": 409,
+      "sha256": "1fef8a87b57e0ec12e70f5e11d03fe00497c40a51ea7157195c14dbf59ead6aa"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/baseline-interruption.json",
+      "bytes": 629,
+      "sha256": "16e3072b11d9f8b6e877744d4293569a7667238b14fc6444f7f4547b46454f9e"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/automatic-relaunch-observation.json",
+      "bytes": 797,
+      "sha256": "2e2e2c1d1e23ba0221ba5d96e7f9b9e5b3d7dba559cbe27a7fce5d31292a5e67"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/recovered-file-verification.json",
+      "bytes": 1375,
+      "sha256": "4ec7e93f92e01755fd33f0a4aef696e821e9b47f4eac673d4ea49709bca50983"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/final-check.json",
+      "bytes": 275,
+      "sha256": "ec518d95f91273168932b4f3513f19c053c26fb45cef8c64988671b2ebc7d55a"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/fresh-process-readback.log",
+      "bytes": 113,
+      "sha256": "8dcc74972fa4a305ffb7e1b4368cfd2065d3e01109560e72e7524a7b954feba8"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/Recovered UI.macvisio",
+      "bytes": 73732,
+      "sha256": "2c8aba01bf89f9a07723df9da13c919f64afa61bb659bd60ccde5aa8368c3759"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/recovered-public.vsdx",
+      "bytes": 7474,
+      "sha256": "0c27f306cf313e1626ae30138bc6c329759418cd1108e49c949b8c60b8fbf45f"
+    },
+    {
+      "path": "build/m1-evidence/installed-recovery/M1 Recovery Probe.app/Contents/Info.plist",
+      "bytes": 7525,
+      "sha256": "e48e35ce53c0e990ab5dc8f5ef09a04cdc615e6cf93efd7c5f91fa5943538941"
+    },
+    {
+      "path": "build/m1-evidence/validate-engineering-acceptance.py",
+      "bytes": 7322,
+      "sha256": "b2f977862bd5609c8d234a18deb8a569358de34d28faa17351e90be8cb29257c"
+    },
+    {
+      "path": "build/m1-evidence/engineering-acceptance-validation.log",
+      "bytes": 1136,
+      "sha256": "8905b9f1bb69e486f7c3ecc42b694d9a723d10e75d5e9b03bbdd22a1e9440666"
+    },
+    {
+      "path": "build/m1-evidence/engineering-final-format-check.log",
+      "bytes": 47,
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33"
+    }
+  ],
+  "observations": [
+    "Normal native UI created an untitled eight-shape/eight-connector flowchart; page name was changed and committed without explicit Save.",
+    "The app was allowed normal run-loop/deactivation behavior; only the validated owned process was SIGKILLed.",
+    "Ordinary LaunchServices relaunch had no file operands or recovery/launch-check/fresh flags and used a new PID.",
+    "Home initially covered the recovered Untitled editor. Window menu exposed the already-restored editor, whose exact page UUID/name/counts and Edited indicator were verified before Save As.",
+    "Native Save As produced an independently decoded matching model and clean UI; a fresh actual CLI process read it and emitted matching public VSDX.",
+    "Probe quit normally and no owned process remains."
+  ],
+  "evidence_limits": [
+    "The uniquely identified local wrapper preserves exact executable bytes, disables updates and assigns no document handler rank; it does not qualify signed/notarized shipping bundle installation or supported-platform matrices.",
+    "No system Saved Application State directory or autoreopen key was synthesized. An early absent directory/preferences observation was not treated as proof of failure; actual automatic recovery is the decisive evidence.",
+    "The exercised checkpoint opportunity was normal idle/deactivation behavior. Periodic autosaving delay remains the inherited default; no fixed recovery-time guarantee is claimed.",
+    "Named-original recovery source fingerprints still fail closed when no original baseline is known; Save As/Revert remain available. This probe does not claim overwrite of an unverified original.",
+    "Earlier interruption/write-failure/external-writer/queued-save/gesture/autosave tests remain the complementary failure-matrix evidence. This local probe does not qualify every OS crash point or release fault matrix."
+  ],
+  "engineering_handoff": {
+    "local_m1_engineering_accepted": true,
+    "all_local_task_contributions": 25,
+    "downstream_m2_integration_ready": true,
+    "G1_G2_release_reference_acceptance": false,
+    "record": "../delivery/M1-ENGINEERING-HANDOFF.md"
+  }
+}

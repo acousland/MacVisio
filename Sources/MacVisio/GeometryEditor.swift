@@ -8,7 +8,7 @@ extension EditorWindowController {
         try GeometrySheet.set(name,ShapeSheetCell(value:cached,formula:formula,unit:old?.unit ?? ""),on:&next.page.nodes[i])
         let before = Set(ShapeSheetEngine.recalculate(diagramDocument.diagram).issues),calculated = ShapeSheetEngine.recalculate(next,previous:diagramDocument.diagram)
         let added = Set(calculated.issues).subtracting(before);guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) }
-        diagramDocument.replace(with:try calculated.diagram.validated(),action:"Edit Geometry Cell")
+        diagramDocument.replaceInEditor(with:try calculated.diagram.validated(),action:"Edit Geometry Cell")
     }
     private func geometryCachedValue(_ value:String,formula:String,name:String,node:DiagramNode) throws -> String {
         if !formula.isEmpty { return value }
@@ -31,7 +31,7 @@ extension EditorWindowController {
             }
             let before = Set(ShapeSheetEngine.recalculate(diagramDocument.diagram).issues),result = ShapeSheetEngine.recalculate(next,previous:diagramDocument.diagram)
             let added = Set(result.issues).subtracting(before);guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) }
-            diagramDocument.replace(with:try result.diagram.validated(),action:"Edit Geometry")
+            diagramDocument.replaceInEditor(with:try result.diagram.validated(),action:"Edit Geometry")
         } catch { presentError(error) }
     }
 }

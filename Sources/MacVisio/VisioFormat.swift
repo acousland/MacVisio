@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 #if canImport(FoundationXML)
 import FoundationXML
@@ -20,6 +21,7 @@ enum VisioFormat {
     private static let nativePart = "macvisio/document.json"
 
     static func read(from url: URL,trace:((String)->Void)? = nil) throws -> VisioImportResult {
+        try LifecycleJobContext.current?.checkpoint()
         let archive = try PackageReader(url: url)
         trace?("package")
         _ = try archive.xml("[Content_Types].xml", expectedRoot: "Types")
@@ -239,6 +241,8 @@ enum VisioFormat {
         diagram.pages = []
         var bindings: [VisioPageBinding] = []
         for (pageIndex, pageElement) in pageElements.enumerated() {
+            try LifecycleJobContext.current?.checkpoint()
+            LifecycleJobContext.current?.progress("Reading page \(pageIndex + 1) of \(pageElements.count)",fraction:Double(pageIndex) / Double(pageElements.count))
             guard let relationshipID = pageElement.child("Rel")?.attribute(local: "id"),
                   let relation = pageRelationships[relationshipID], relation.type == visioRelationship + "page", !relation.external else {
                 throw DiagramError.invalid("A Visio page has a missing or external content relationship.")
@@ -613,6 +617,10 @@ enum VisioFormat {
     }
 
     static func write(_ diagram: Diagram, to url: URL) throws {
+        _ = try writeRebased(diagram,to:url)
+    }
+
+    static func writeRebased(_ diagram: Diagram, to url: URL) throws -> VisioDocumentArchive {
         guard url.pathExtension.lowercased() != "vsd" else { throw DiagramError.invalid("This exporter writes VSDX. Use the binary VSD exporter for .vsd files.") }
         var diagram = try diagram.validated()
         if var archive = diagram.visioArchive {
@@ -621,7 +629,7 @@ enum VisioFormat {
                 try VisioReusableFormat.setMainContentType("application/vnd.ms-visio.drawing.main+xml",parts:&archive.parts)
                 diagram.visioArchive = archive
             }
-            try VisioPreservation.write(diagram,to:url); return
+            return try VisioPreservation.writeRebased(diagram,to:url)
         }
         var parts: [String: Data] = [:]
         func put(_ path: String, _ value: String) { parts[path] = Data(value.utf8) }
@@ -644,6 +652,7 @@ enum VisioFormat {
         let extraTypes = XMLElement(name:"Types")
         let pageIDs = Dictionary(uniqueKeysWithValues:diagram.pages.enumerated().map{($0.element.id,String($0.offset))})
         for (index, page) in diagram.pages.enumerated() {
+            try LifecycleJobContext.current?.checkpoint()
             let file = "page\(index + 1).xml"
             pageRelations.append(("rId\(index + 1)", visioRelationship + "page", file))
             pageContentTypes += "<Override PartName=\"/visio/pages/\(file)\" ContentType=\"application/vnd.ms-visio.page+xml\"/>"
@@ -701,6 +710,7 @@ enum VisioFormat {
         parts[nativePart] = try nativeMetadata(diagram,parts:&parts,bindings:freshBindings)
         guard parts.values.allSatisfy({ $0.count <= PackageReader.partLimit }), parts.values.reduce(0, { $0 + $1.count }) <= PackageReader.totalLimit else { throw DiagramError.invalid("This drawing exceeds the VSDX export size limit.") }
         try VisioPackage.write(parts, to: url)
+        return VisioDocumentArchive(parts:parts,pagesPart:"visio/pages/pages.xml",pages:freshBindings,connectorHierarchyVersion:1)
     }
 
     struct NativeBinding: Codable {

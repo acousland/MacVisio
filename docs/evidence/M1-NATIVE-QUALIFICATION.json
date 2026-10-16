@@ -1,0 +1,819 @@
+{
+  "schema_version": 1,
+  "milestone": "M1",
+  "date": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+  "state": "native_local_contribution_qualified",
+  "milestone_acceptance_passed": false,
+  "environment": {
+    "appBuild": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+    "cacheProcedure": "Warm filesystem bytes via full fixture pre-read, fresh product process per attempt; no OS cache flush, cold-cache or compositor claim",
+    "controlledHardware": false,
+    "corpusProvenance": {
+      "fixtureSha256": "46b133596a74e7c1e937037e6a7fb066edbb5a8dfdf5f0478b3b5c7e38c9a23b",
+      "originalCorpus": "build/m1-evidence/spec-corpus",
+      "originalManifestSha256": "4096ad04fbd4907b4ba0211eb1261f885a203ba41cd3f48db6d9e330ddf570cf",
+      "policy": "Exact fixture bytes and unmodified authored fixture entry copied; subset and original manifest hashes retained separately. Original corpus validated before subset creation."
+    },
+    "graphicsSession": "User unlocked desktop; CGSSessionScreenIsLocked absent at 2026-10-16 12:09 Australia/Melbourne; key window and active application required by each product sample",
+    "hardware": "Mac16,10 Apple M4",
+    "hostname": "MacMini.local",
+    "interactionScope": "Synthesized native mouse down/up selection plus right-arrow edit and raster feedback; no hardware-input, drag/pan, compositor/frame or VoiceOver claim",
+    "memoryBytes": 17179869184,
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+    "storage": "Local APFS workspace; storage and system load not exclusively controlled",
+    "subsetManifestSha256": "e2c1d7b1ff56d2a3f470ae541990ee2ecc21c46b384d6f560984e9e791a0ce02"
+  },
+  "full_release": {
+    "tests": 607,
+    "skipped": 13,
+    "failures": 0,
+    "wall_seconds": 29.798,
+    "log": "build/m1-evidence/full-release-native-final.log"
+  },
+  "focused_native_tests": {
+    "tests": 5,
+    "skipped": 0,
+    "failures": 0,
+    "log": "build/m1-evidence/native-unlocked-tests-4.log"
+  },
+  "public_matrix": {
+    "native_attempts": 12,
+    "all_attempts_passed": true,
+    "samples_per_fixture": 1,
+    "distribution_acceptance": "unaccepted; fewer than 30 samples per condition",
+    "fixtures": [
+      {
+        "file": "objects-100-balanced.vsdx",
+        "counts": {
+          "connectors": 33,
+          "formulaCells": 56,
+          "images": 4,
+          "maxGroupDepth": 0,
+          "objects": 100,
+          "shapes": 67
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 92.24041667766869,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-100-hierarchy.vsdx",
+        "counts": {
+          "connectors": 33,
+          "formulaCells": 56,
+          "images": 0,
+          "maxGroupDepth": 15,
+          "objects": 100,
+          "shapes": 67
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 136.26783329527825,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-100-formula-heavy.vsdx",
+        "counts": {
+          "connectors": 33,
+          "formulaCells": 268,
+          "images": 4,
+          "maxGroupDepth": 0,
+          "objects": 100,
+          "shapes": 67
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 93.12658332055435,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-1000-balanced.vsdx",
+        "counts": {
+          "connectors": 333,
+          "formulaCells": 536,
+          "images": 34,
+          "maxGroupDepth": 0,
+          "objects": 1000,
+          "shapes": 667
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 182.9365833546035,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-1000-hierarchy.vsdx",
+        "counts": {
+          "connectors": 333,
+          "formulaCells": 536,
+          "images": 0,
+          "maxGroupDepth": 15,
+          "objects": 1000,
+          "shapes": 667
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 189.94824995752424,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-1000-formula-heavy.vsdx",
+        "counts": {
+          "connectors": 333,
+          "formulaCells": 2668,
+          "images": 34,
+          "maxGroupDepth": 0,
+          "objects": 1000,
+          "shapes": 667
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 162.54345834022388,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-5000-balanced.vsdx",
+        "counts": {
+          "connectors": 1666,
+          "formulaCells": 2680,
+          "images": 171,
+          "maxGroupDepth": 0,
+          "objects": 5000,
+          "shapes": 3334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 853.8443750003353,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-5000-hierarchy.vsdx",
+        "counts": {
+          "connectors": 1666,
+          "formulaCells": 2680,
+          "images": 0,
+          "maxGroupDepth": 15,
+          "objects": 5000,
+          "shapes": 3334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 854.1588750085793,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-5000-formula-heavy.vsdx",
+        "counts": {
+          "connectors": 1666,
+          "formulaCells": 13336,
+          "images": 171,
+          "maxGroupDepth": 0,
+          "objects": 5000,
+          "shapes": 3334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 866.4840416749939,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-20000-balanced.vsdx",
+        "counts": {
+          "connectors": 6666,
+          "formulaCells": 10744,
+          "images": 680,
+          "maxGroupDepth": 0,
+          "objects": 20000,
+          "shapes": 13334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 1688.810083316639,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-20000-hierarchy.vsdx",
+        "counts": {
+          "connectors": 6666,
+          "formulaCells": 10744,
+          "images": 0,
+          "maxGroupDepth": 15,
+          "objects": 20000,
+          "shapes": 13334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 1685.7847917126492,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      },
+      {
+        "file": "objects-20000-formula-heavy.vsdx",
+        "counts": {
+          "connectors": 6666,
+          "formulaCells": 53336,
+          "images": 680,
+          "maxGroupDepth": 0,
+          "objects": 20000,
+          "shapes": 13334
+        },
+        "attempts": 1,
+        "errors": 0,
+        "input_to_raster_feedback_ms": 1826.322041626554,
+        "absolute_acceptance": "unaccepted; one sample and uncontrolled hardware"
+      }
+    ]
+  },
+  "interaction": {
+    "file": "spec-interaction.vsdx",
+    "fixture_sha256": "46b133596a74e7c1e937037e6a7fb066edbb5a8dfdf5f0478b3b5c7e38c9a23b",
+    "counts": {
+      "connectors": 500,
+      "formulaCells": 800,
+      "images": 50,
+      "maxGroupDepth": 0,
+      "objects": 1500,
+      "shapes": 1000
+    },
+    "samples": 30,
+    "errors": 0,
+    "evidence_complete": true,
+    "observations": {
+      "aggregationScope": "All finite reported samples; failed attempts still prevent qualification",
+      "metrics": {
+        "frameTimeMs": null,
+        "inputToFeedbackMs": {
+          "max": 247.05929163610563,
+          "p50": 242.51818750053644,
+          "p95": 246.74037500517443,
+          "samples": 30
+        },
+        "maxMainThreadSaveStallMs": null,
+        "maxPostOpenStallMs": null,
+        "peakRssBytes": null
+      },
+      "phasesMs": {
+        "calculation": {
+          "max": 25.413541647139937,
+          "p50": 24.359770846785977,
+          "p95": 24.8900416190736,
+          "samples": 30
+        },
+        "close": {
+          "max": 8.820999995805323,
+          "p50": 3.3713958400767297,
+          "p95": 7.32070830417797,
+          "samples": 30
+        },
+        "commit": {
+          "max": 55.110375047661364,
+          "p50": 53.746874997159466,
+          "p95": 54.845500038936734,
+          "samples": 30
+        },
+        "draw": {
+          "max": 197.1452083089389,
+          "p50": 190.40654166019522,
+          "p95": 195.89662499492988,
+          "samples": 30
+        },
+        "encoding": {
+          "max": 146.30204165587202,
+          "p50": 135.38072915980592,
+          "p95": 141.9326250324957,
+          "samples": 30
+        },
+        "event": {
+          "max": 247.0588749856688,
+          "p50": 242.517812497681,
+          "p95": 246.73999997321516,
+          "samples": 30
+        },
+        "open": {
+          "max": 272.2258750000037,
+          "p50": 261.13639582763426,
+          "p95": 271.9021250377409,
+          "samples": 30
+        },
+        "route": {
+          "max": 0.8382501546293497,
+          "p50": 0.7231040799524635,
+          "p95": 0.8106251480057836,
+          "samples": 30
+        },
+        "save": {
+          "max": 162.9453333443962,
+          "p50": 154.2932916781865,
+          "p95": 160.14766664011404,
+          "samples": 30
+        },
+        "scenePreparation": {
+          "max": 16.630291647743434,
+          "p50": 15.905625041341409,
+          "p95": 16.40216668602079,
+          "samples": 30
+        },
+        "snapshot": {
+          "max": 0.006666639819741249,
+          "p50": 0.002145825419574976,
+          "p95": 0.002708344254642725,
+          "samples": 30
+        },
+        "textLayout": {
+          "max": 8.199958363547921,
+          "p50": 7.896666793385521,
+          "p95": 8.169541659299284,
+          "samples": 30
+        }
+      }
+    },
+    "absolute_gates": {
+      "frameTimeMs": {
+        "limit": 33,
+        "reason": "Incomplete samples, missing metric or uncontrolled hardware",
+        "status": "unaccepted"
+      },
+      "inputToFeedbackMs": {
+        "limit": 50,
+        "reason": "Incomplete samples, missing metric or uncontrolled hardware",
+        "status": "unaccepted"
+      },
+      "mainThreadSaveStall": {
+        "limit": 100,
+        "reason": "Incomplete samples, missing metric or uncontrolled hardware",
+        "status": "unaccepted"
+      }
+    },
+    "absolute_acceptance": "unaccepted"
+  },
+  "lifecycle_measurement": {
+    "artifact": {
+      "path": "build/m1-evidence/lifecycle-memory-native-final.json",
+      "bytes": 1423,
+      "sha256": "b3ec59897cdcfdd63ae315822c178c4cdd621a032e13d7ff0cfbafb5c5259fdb"
+    },
+    "values": {
+      "cycles": 20,
+      "editsPerCycle": 8,
+      "host": "macmini.local",
+      "includeEditor": true,
+      "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+      "opaqueBytesPerSource": 2097152,
+      "os": "Version 27.0.1 (Build 26A434)",
+      "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+      "residentBaselineBytes": 723697664,
+      "residentFinalBytes": 709345280,
+      "residentPeakBytes": 716914688,
+      "residentSamplesBytes": [
+        713293824,
+        714129408,
+        714653696,
+        715177984,
+        715816960,
+        716357632,
+        716914688,
+        710852608,
+        705806336,
+        703627264,
+        704184320,
+        704888832,
+        705347584,
+        705921024,
+        706478080,
+        707067904,
+        707674112,
+        708198400,
+        708820992,
+        709345280
+      ],
+      "residentSlopeBytesPerCycle": -489832.32481203007,
+      "retainedSourceBytesPerOpenDocument": [
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743400,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440,
+        2743440
+      ],
+      "shapesPerDocument": 64,
+      "undoCountLimit": 100
+    }
+  },
+  "metadata_measurement": {
+    "artifact": {
+      "path": "build/m1-evidence/metadata-probe-native-final.json",
+      "bytes": 826,
+      "sha256": "384c117c42bda553427ebb2d87253e2badd9acfffa374761f0187dcc1da6e6c5"
+    },
+    "values": {
+      "fullObjectDiscriminatorSeconds": [
+        0.011557125020772219,
+        0.011423250020015985,
+        0.011476791696622968,
+        0.011760791705455631,
+        0.01169087499147281
+      ],
+      "fullObjectMedianSeconds": 0.011557125020772219,
+      "headerDiscriminatorSeconds": [
+        0.0048535416717641056,
+        0.004822291666641831,
+        0.004957999975886196,
+        0.004967499990016222,
+        0.004936333338264376
+      ],
+      "headerMedianSeconds": 0.004936333338264376,
+      "host": "macmini.local",
+      "measuredSamples": 5,
+      "metadataBytes": 8412826,
+      "os": "Version 27.0.1 (Build 26A434)",
+      "scope": "Envelope-discriminator comparison only. The synthetic model body is not imported or validated; these numbers do not measure total document decoding or guarantee a speedup for every input.",
+      "syntheticNodes": 5000,
+      "warmupSamples": 1
+    }
+  },
+  "artifacts": [
+    {
+      "path": "build/m1-evidence/full-release-native-final.log",
+      "bytes": 174843,
+      "sha256": "9b7ff7f4211938d3601ce8d2c76c2e3a70abb38f2488112ebc5f9b131a2119a1"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-tests-4.log",
+      "bytes": 6612,
+      "sha256": "cb918b819f1c1f7b9403ff2f7152e27a41f045e1358da274c058fa3e84cdc76e"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix.json",
+      "bytes": 561085,
+      "sha256": "9b48588820ac0dc4f52ead30bd7f1ed42f289ec00885e97d3f941701e39e2207"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30.json",
+      "bytes": 2092464,
+      "sha256": "3ba265afaee648bacb97687555bd6b904bbc7fc7e10853b38deba0e52362a5ef"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-console-session.log",
+      "bytes": 87,
+      "sha256": "4a006e114ff88e77cbc2beceb7987b6b5938b5439a59c55126cbe2baf332b015"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-environment.json",
+      "bytes": 1435,
+      "sha256": "00c430cf4920285e910f5d6d68b64891a8d9c2c8391e1e3ad13779fc51c73261"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-corpus/manifest.json",
+      "bytes": 583923,
+      "sha256": "e2c1d7b1ff56d2a3f470ae541990ee2ecc21c46b384d6f560984e9e791a0ce02"
+    },
+    {
+      "path": "build/m1-evidence/spec-corpus/manifest.json",
+      "bytes": 13436726,
+      "sha256": "4096ad04fbd4907b4ba0211eb1261f885a203ba41cd3f48db6d9e330ddf570cf"
+    },
+    {
+      "path": "build/m1-evidence/public-corpus/manifest.json",
+      "bytes": 30411148,
+      "sha256": "babd494026ee590a98ecaec45f25eeed69fa114891493c82906678cb93db0331"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix.log",
+      "bytes": 56,
+      "sha256": "0f71c2ff1f9c4499fba4a866021ef7907bec94fc9e92b773e82dfdac21764898"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30.log",
+      "bytes": 55,
+      "sha256": "8d051db6b3daa9c369b8f08daa991425eb2167d8d55fe51dcb669aaf2c4d4eda"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-tests-1.log",
+      "bytes": 7076,
+      "sha256": "43abd1c2831a2f39f271f2e3090b7ab47f4c499b657bf40417d06cca40a323f1"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-tests-2.log",
+      "bytes": 11215,
+      "sha256": "9133e30e05e6fa8bb01a7a9fe91456bee3b92d7b59428b5938f6cb7e7762e647"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-tests-3.log",
+      "bytes": 7293,
+      "sha256": "f21f3014b70c64b7caadaca14462dfb653bf2f5ff28ba94cd05ab6f18d444f87"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-adapter-1.json",
+      "bytes": 40916,
+      "sha256": "c0eba7b17a45528f8bf3b18f55f3d0b9de212305dd58713f88cf95aa0669f2a0"
+    },
+    {
+      "path": "build/m1-evidence/native-unlocked-adapter-2.json",
+      "bytes": 12360,
+      "sha256": "c56b703748316fb5cc327d11f8d70785e74655a3e444ce5f39055da182d613bd"
+    },
+    {
+      "path": "build/m1-evidence/qualified-native-5560ddf/MacVisio",
+      "bytes": 8242552,
+      "sha256": "7c1baefbb9572ea40cd29c3f8c40a14abe84c2e1ac67aafa66c538d650997072"
+    },
+    {
+      "path": "build/m1-evidence/qualified-native-5560ddf/MacVisioTests",
+      "bytes": 14658784,
+      "sha256": "9645248b50207892d55f53e3cb64708b16042dd75805ef66a04694302598de9a"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-100-balanced-1.json",
+      "bytes": 12285,
+      "sha256": "089cc51f30b993044b8483b3c9de4722b27f0c870dd987acbd5486ea219660bc"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-100-formula-heavy-1.json",
+      "bytes": 12274,
+      "sha256": "af9f6270f7a6f9e546a135b110671167db121ae005015127e2005692e9e56175"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-100-hierarchy-1.json",
+      "bytes": 13035,
+      "sha256": "40e84952608be8d4aa624220d071651fcd22a8d4de1a2a880a6de885c6d2e11b"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-1000-balanced-1.json",
+      "bytes": 26364,
+      "sha256": "a7402409b752a42e5fb58a11a71b0aee75d21be91a7ecf2817124ffb81a25609"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-1000-formula-heavy-1.json",
+      "bytes": 26102,
+      "sha256": "699fc28fdcac28d7971a14de1efe24be97e3f22ae1dd28955c6868f08be26dc3"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-1000-hierarchy-1.json",
+      "bytes": 27192,
+      "sha256": "9363b9cf95061f79185281c32e54a113080b2e7b8f671cb6c0bacda6747b855b"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-20000-balanced-1.json",
+      "bytes": 53719,
+      "sha256": "9b89057da9d33ca392c320ea836c754bafcd56b6cd33dbc066ea7ce46b08aa9c"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-20000-formula-heavy-1.json",
+      "bytes": 55225,
+      "sha256": "bcb05be5477f60680370429c6d759d0e1fdc30045425784f58d62c5676595729"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-20000-hierarchy-1.json",
+      "bytes": 55518,
+      "sha256": "122c17b8098ca6eece8f0d7c1dab14adef1795df257e938c758c4b93a83b46de"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-5000-balanced-1.json",
+      "bytes": 32529,
+      "sha256": "b103f77eb68f39b86fd4d9533416ed069e7519422b444f311749496a2fa5a987"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-5000-formula-heavy-1.json",
+      "bytes": 32347,
+      "sha256": "42092b24f032bf7e3469be57ed160c70322544342832c0570e7761a190e7930a"
+    },
+    {
+      "path": "build/m1-evidence/native-public-matrix-attempts/objects-5000-hierarchy-1.json",
+      "bytes": 33355,
+      "sha256": "c87e61b7f7a3bb8f9dc24a6f5cfa9bb19686668059d2f979dd1e89477bde091c"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-1.json",
+      "bytes": 52844,
+      "sha256": "58cd8b7a20ac33f9bc25e1930e4197ac1e3c9c4ed790b4bef266af37b7132cbd"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-10.json",
+      "bytes": 52901,
+      "sha256": "36bb16253cfa323dac70dee0ef500b3810c5be4d8df9342401a7bf7aedcdb0da"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-11.json",
+      "bytes": 52772,
+      "sha256": "3a00e1f172446b4d3a89117756b4f4ef512561955a2146c23ff58229ee2571c5"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-12.json",
+      "bytes": 52708,
+      "sha256": "7810a1bed50c3dff14c424dc2c903be862231a6ef81e35c7a47d58bc11468b95"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-13.json",
+      "bytes": 52759,
+      "sha256": "1a504e3fc94991a2dfa6777995ca1c4ae9936f51c453a4f34c77e52861529096"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-14.json",
+      "bytes": 52911,
+      "sha256": "40711fc63173094fe317ad2f90ffaece00b14fae70c60f13f100793ac750b866"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-15.json",
+      "bytes": 52770,
+      "sha256": "a61c0260ca41035e3edbf546d4c4aeb002eec4fb394853e74b4c66cd7a6d2dd1"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-16.json",
+      "bytes": 52824,
+      "sha256": "f3ab4ba78059e03bd8614ee106746f204601683860557f45f299fc74bb7d6c54"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-17.json",
+      "bytes": 52865,
+      "sha256": "53125cd7f253146b224ffbba58fe4d14752e19762af04ec633fba2386f7e05f1"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-18.json",
+      "bytes": 52862,
+      "sha256": "a39761740b64664e3a0a4f8c213a8565da9b0a7baeafef2bac6b2ef255c33110"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-19.json",
+      "bytes": 52781,
+      "sha256": "581ea304c6477b1f3f7e957a586623a48abe3b1b4330b599826c3476648dc3fa"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-2.json",
+      "bytes": 52774,
+      "sha256": "fb046bd84533660d39104b55f792d4003008cf35ccdb7b342d9dfb52bc53c97d"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-20.json",
+      "bytes": 52794,
+      "sha256": "fb99596a1c7cf45dfb7a90c901c20bbdd238e14f27fc6cdb75e793dc070e9a57"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-21.json",
+      "bytes": 52798,
+      "sha256": "5ea954a4bc4369d4e3ab7e588e815bd55d5b858b433cdc683cd1bc681a079230"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-22.json",
+      "bytes": 52904,
+      "sha256": "b01fb23fe28ba9388371cc666a0af5d707b3fb46ed597241fdc2ea9725173066"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-23.json",
+      "bytes": 52682,
+      "sha256": "0ac036450d001a17ff2b20da7f43b6874075c438a81656e456cc6dd425874088"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-24.json",
+      "bytes": 52945,
+      "sha256": "20de50511e9fb269c8c5afb9c345b48b7d1e0ac94ec3a46fb59a10ceae95b1b4"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-25.json",
+      "bytes": 52759,
+      "sha256": "6c63b71e9f010f91b88fbfc33b6a3d049b786c6a05549ab140dec658085343df"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-26.json",
+      "bytes": 52756,
+      "sha256": "edc2831fe92b031cf7d7e488bc6847679f0710c77960acd0472c5a55e481dd6e"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-27.json",
+      "bytes": 52785,
+      "sha256": "529c8dffa7e04ba7631011fe07c9cd3fe7108e12d2e293d852a7e3b0bf9f47cb"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-28.json",
+      "bytes": 52726,
+      "sha256": "9897bd9ded076541dc4ec4521f58a503a397115c9f9cb7d70864cb3e7d4d4fb7"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-29.json",
+      "bytes": 52782,
+      "sha256": "6511d5ebe69a6518c19b94423e219e616607937a3e20e1952fb23118e7f82c5a"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-3.json",
+      "bytes": 52819,
+      "sha256": "cd70acc40d651a328dfb61cd31c875cbc11858d79b3349469fc0d36f8f52953d"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-30.json",
+      "bytes": 52762,
+      "sha256": "a2ad3915e0523f7cbf46fb859c31955526c89fbbfeda198898f4fbb659e53229"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-4.json",
+      "bytes": 52576,
+      "sha256": "885a286ba1134756c87ef8f27ac0ccd1307cc2ec2adc38c9c839864abbde6b13"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-5.json",
+      "bytes": 52679,
+      "sha256": "dcf0fa04f9cef08ee3aa33121fdefe43635bb69e74e6e63a789016445ed3f201"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-6.json",
+      "bytes": 52788,
+      "sha256": "ee2ca58f0eeeb3d3de30c3c43acc77d228336c72a71f99d7f9d1d4a33295ea3c"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-7.json",
+      "bytes": 52772,
+      "sha256": "41fc3200d26e9fbcb9c8cabf577e7b4c710df9bdf9a8803f9577a0db37d32030"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-8.json",
+      "bytes": 52774,
+      "sha256": "fabddd386702ddd499a20656ccd4a230923a49904f8ad82fbc0bd0183811da85"
+    },
+    {
+      "path": "build/m1-evidence/native-interaction-30-attempts/spec-interaction-9.json",
+      "bytes": 52759,
+      "sha256": "0c014d10781d602c8c34522f26035de23464f3761588319731dd5a44f14fc65e"
+    },
+    {
+      "path": "build/m1-evidence/finalize-native-evidence.py",
+      "bytes": 6416,
+      "sha256": "f76755b6700752e543ea3b80ae327f1fb305a4b0ffbddb40875bf15289e91bf2"
+    },
+    {
+      "path": "build/m1-evidence/reconcile-native-docs.py",
+      "bytes": 14565,
+      "sha256": "205210c6193dfc3620e98dd22576b0401a9f9c63751995f13583a00d5fe7522b"
+    },
+    {
+      "path": "build/m1-evidence/validate-native-final.py",
+      "bytes": 4735,
+      "sha256": "cc6a44257db25ea68345e78bb0fb295a25ea90cdfe8fe37cb60f8e04f2adaf98"
+    },
+    {
+      "path": "build/m1-evidence/native-final-format-check.log",
+      "bytes": 47,
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33"
+    },
+    {
+      "path": "build/m1-evidence/native-final-evidence-validation.log",
+      "bytes": 766,
+      "sha256": "8ab0743c3849c7c877c6370c521a1098aa5a6be5b06b490509cc68b5dad3673c"
+    }
+  ],
+  "scope": "Synthesized owned mouse down/up selection and right-arrow edit through NSApplication/NSWindow/responder routing, key-window/application/focus admission, raster feedback, exact save snapshot/readback and close. Filesystem pre-read, fresh product process per attempt.",
+  "limits": [
+    "No hardware-input, drag/pan, compositor/frame, VoiceOver, cold-cache or controlled-hardware acceptance.",
+    "Thirty interaction samples describe the complete three-event/raster script, not one physical-input latency or a compositor frame.",
+    "The twelve public scaling fixtures have one sample each; no scaling-profile p95 claim.",
+    "Installed-app/macOS automatic recovery and wider release/reference gates remain open."
+  ],
+  "repairs": [
+    "Dispatch AppKit native activation events while waiting for key-window and active-app admission.",
+    "Keep regular activation stable for the XCTest group, restore original policy after the group; do not toggle it between samples.",
+    "Lay out the view and refresh canvas size after activation; explicitly scroll/reflect the clip view before checking target visibility."
+  ],
+  "failed_attempt_dispositions": {
+    "native-unlocked-tests-1": "Unlocked host; previous driver never dispatched native activation events during its focus wait.",
+    "native-unlocked-tests-2": "Intermediate helper toggled process activation policy per sample; repeated sample deactivation raced later activation.",
+    "native-unlocked-tests-3": "Regular activation stable; offscreen target scrolling needed layout/clip admission repair.",
+    "native-unlocked-adapter-1": "Original candidate native key-window wait timed out after unlock.",
+    "native-unlocked-adapter-2": "Intermediate standalone product trace passed; followed by final viewport/harness repairs."
+  },
+  "locally_qualified_task_contributions": 24,
+  "implemented_unaccepted_task_ids": [
+    "WP-05-T04"
+  ],
+  "foundation_record": "M1-LOCAL-QUALIFICATION.json",
+  "backlog_validation": {
+    "packages": 39,
+    "tasks": 161,
+    "requirements": 154,
+    "m1_tasks": 25,
+    "locally_qualified_task_contributions": 24,
+    "bounded_children": 57,
+    "dependency_graph_unchanged": true,
+    "source_hashes_unchanged": true,
+    "result": "passed",
+    "log": "build/m1-evidence/native-final-evidence-validation.log"
+  },
+  "engineering_acceptance_follow_up": {
+    "record": "M1-RECOVERY-QUALIFICATION.json",
+    "local_m1_engineering_accepted": true,
+    "shipping_release_accepted": false,
+    "scope": "Historical run fields retain their capture-time state. Current acceptance comes from the recovered-app probe plus unchanged qualified source and M1-HANDOFF.json."
+  }
+}

@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "Execution started in isolated worktrees; M0 local foundation integrated with reference acceptance open; M2 independent preparation implemented_unaccepted; native integration blocked on explicit unaccepted M1 handoff; peer milestone records remain independently owned",
+  "status": "M0 local tooling integrated; M1 local engineering accepted and integrated; M2 native implementation in progress and unaccepted; release/reference gates remain open",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -63,7 +63,7 @@
         "Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants.",
         "Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence."
       ],
-      "status": "Proposed"
+      "status": "Locally accepted; M2 engineering dependency released; release/reference gates open"
     },
     {
       "id": "M2",
@@ -973,7 +973,7 @@
           "deliverable": "Retain regression cases for drag-save-Escape and the intermittent suite-context snapshot dirty-state failure.",
           "acceptance_criteria": "The failing state transition is deterministic or instrumented; isolated green reruns do not close the issue.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [],
           "requirement_ids": [
             "MV-DOC-04",
@@ -984,7 +984,7 @@
             "MV-DOC-10",
             "MV-NFR-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Native/Core",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -994,7 +994,17 @@
             "AR-01",
             "AR-09"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-04",
+            "MV-DOC-05",
+            "MV-DOC-07",
+            "MV-DOC-09"
+          ]
         },
         {
           "id": "WP-05-T02",
@@ -1002,7 +1012,7 @@
           "deliverable": "Add explicit change sets and commit/cancel ownership for drag/resize/control/text operations. Explicitly define Save and autosave behavior during an active gesture.",
           "acceptance_criteria": "Preview/selection/zoom never modify committed state; one gesture produces one undo action. Saving during a gesture follows the documented policy; cancelled preview state cannot be serialized as clean committed state.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-05-T01"
           ],
@@ -1015,7 +1025,7 @@
             "MV-DOC-10",
             "MV-NFR-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Native/Core",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1027,6 +1037,15 @@
           "architecture_contracts": [
             "AC-02",
             "AC-03"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-05",
+            "MV-DOC-09"
           ]
         },
         {
@@ -1035,7 +1054,7 @@
           "deliverable": "Integrate snapshot identity with NSDocument change-count acknowledgement, overlapping saves and failure.",
           "acceptance_criteria": "Edits during saving stay dirty; undo/redo across the saved state reports the correct status.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-05-T02"
           ],
@@ -1048,7 +1067,7 @@
             "MV-DOC-10",
             "MV-NFR-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Native/Core",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1059,6 +1078,16 @@
           ],
           "architecture_contracts": [
             "AC-05"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-04",
+            "MV-DOC-05",
+            "MV-DOC-09"
           ]
         },
         {
@@ -1067,7 +1096,7 @@
           "deliverable": "Exercise disk/permission/interruption, autosave during gestures, external writers and relaunch recovery.",
           "acceptance_criteria": "Last valid file/checkpoint survives; file and visible document never disagree while marked clean.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-05-T03"
           ],
@@ -1080,7 +1109,7 @@
             "MV-DOC-10",
             "MV-NFR-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Native/Core",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1092,7 +1121,20 @@
           ],
           "architecture_contracts": [
             "AC-05"
-          ]
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json",
+            "delivery/M1-RECOVERY-QUALIFICATION.md",
+            "evidence/M1-RECOVERY-QUALIFICATION.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-04",
+            "MV-DOC-07",
+            "MV-DOC-08"
+          ],
+          "qualification_scope": "Actual uniquely identified local app bundle with exact candidate executable; committed untitled edit, verified process SIGKILL, automatic no-file relaunch under new PID, matching UUID/content/Edited, native Save As, independent decoding and public fresh-process readback. Shipping installer/platform release qualification remains separate."
         },
         {
           "id": "WP-05-T05",
@@ -1100,7 +1142,7 @@
           "deliverable": "Keep old metadata readable and prepare revision-aware rebase hooks after successful saves.",
           "acceptance_criteria": "Open does not migrate; repeated saves/undo preserve identities and public source bindings.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-05-T04"
           ],
@@ -1113,7 +1155,7 @@
             "MV-DOC-10",
             "MV-NFR-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Native/Core",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1122,10 +1164,19 @@
           "architecture_findings": [
             "AR-07"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-10",
+            "MV-IO-03"
+          ]
         }
       ],
-      "status": "Proposed"
+      "status": "Locally qualified; M1 engineering accepted",
+      "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
       "id": "WP-06",
@@ -1162,7 +1213,7 @@
           "deliverable": "Separate committed model, source resources, view state and derived runtime; define unit-aware coordinate boundaries.",
           "acceptance_criteria": "Dependency direction and invariants are recorded without a wholesale rewrite.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [],
           "requirement_ids": [
             "MV-EDT-01",
@@ -1173,7 +1224,7 @@
             "MV-CON-07",
             "MV-AUT-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/Architecture",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1185,6 +1236,15 @@
           ],
           "architecture_contracts": [
             "AC-03"
+          ],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-03",
+            "MV-EDT-06"
           ]
         },
         {
@@ -1193,7 +1253,7 @@
           "deliverable": "Maintain ID, parent/child, connector adjacency, descendant and selection membership indexes.",
           "acceptance_criteria": "Insert/delete/group/paste/undo update indexes atomically without dangling references.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-06-T01"
           ],
@@ -1206,7 +1266,7 @@
             "MV-CON-07",
             "MV-AUT-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/Architecture",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1217,6 +1277,16 @@
           ],
           "architecture_contracts": [
             "AC-03"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-06",
+            "MV-CON-07"
           ]
         },
         {
@@ -1225,7 +1295,7 @@
           "deliverable": "Use current hierarchy/draw order and conservative bounds for hit/marquee queries. Query nearby spatial candidates for snapping using effective visibility/locking and current geometry.",
           "acceptance_criteria": "Indexed results match a conservative full scan on nested/rotated/overlapping fixtures. Snap candidates remain local and agree with the conservative reference scan.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-06-T02"
           ],
@@ -1238,7 +1308,7 @@
             "MV-CON-07",
             "MV-AUT-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/Architecture",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1249,6 +1319,16 @@
           ],
           "architecture_contracts": [
             "AC-01"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-02",
+            "MV-EDT-03",
+            "MV-EDT-04"
           ]
         },
         {
@@ -1257,7 +1337,7 @@
           "deliverable": "Migrate common insert/move/group/format operations and publish typed change notifications.",
           "acceptance_criteria": "Unrelated documents/pages retain state; native command and interchange regressions pass.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-06-T03"
           ],
@@ -1270,7 +1350,7 @@
             "MV-CON-07",
             "MV-AUT-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/Architecture",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1283,6 +1363,17 @@
           "architecture_contracts": [
             "AC-02",
             "AC-03"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-01",
+            "MV-EDT-03",
+            "MV-EDT-04",
+            "MV-EDT-06"
           ]
         },
         {
@@ -1291,7 +1382,7 @@
           "deliverable": "Extract logical targets only after contracts settle; format critical state/error paths and separate tooling concerns. Adopt an automated formatter for critical paths, exhaustive typed states and invariant assertions; separate fixtures/generators/profilers from the production entry point.",
           "acceptance_criteria": "Pure model/calculation boundaries do not import UI; no module-per-file or rewrite migration. Critical state/error paths are formatted and tooling is isolated; coordinate wrappers prevent identified unit/transform mistakes.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-06-T04"
           ],
@@ -1304,7 +1395,7 @@
             "MV-CON-07",
             "MV-AUT-01"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/Architecture",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1313,10 +1404,19 @@
           "architecture_findings": [
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-03",
+            "MV-AUT-01"
+          ]
         }
       ],
-      "status": "Proposed"
+      "status": "Locally qualified; M1 engineering accepted",
+      "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
       "id": "WP-07",
@@ -1350,7 +1450,7 @@
           "deliverable": "Model cell/text/master/page/background dependencies, dynamic references, volatility and local cycles.",
           "acceptance_criteria": "Conservative fallbacks are explicit; unsupported cases retain diagnostics and cached source values.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [],
           "requirement_ids": [
             "MV-SHS-04",
@@ -1359,7 +1459,7 @@
             "MV-NFR-02",
             "MV-NFR-04"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Calculation",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1368,7 +1468,17 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-SHS-04",
+            "MV-SHS-10",
+            "MV-TXT-07"
+          ]
         },
         {
           "id": "WP-07-T02",
@@ -1376,7 +1486,7 @@
           "deliverable": "Cache by semantic/dependency identity; share pure function definitions across evaluation hosts.",
           "acceptance_criteria": "Cache invalidation and context tests prevent stale cross-page/master/text results.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-07-T01"
           ],
@@ -1387,7 +1497,7 @@
             "MV-NFR-02",
             "MV-NFR-04"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Calculation",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1399,6 +1509,16 @@
           ],
           "architecture_contracts": [
             "AC-06"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-SHS-04",
+            "MV-SHS-10",
+            "MV-TXT-07"
           ]
         },
         {
@@ -1407,7 +1527,7 @@
           "deliverable": "Localize convergence and field updates; reuse the pre-gesture diagnostic baseline.",
           "acceptance_criteria": "Simple insert/control/text changes avoid all-page scans except documented conservative cases.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-07-T02"
           ],
@@ -1418,7 +1538,7 @@
             "MV-NFR-02",
             "MV-NFR-04"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Calculation",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1429,6 +1549,16 @@
           ],
           "architecture_contracts": [
             "AC-02"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-SHS-04",
+            "MV-TXT-07",
+            "MV-NFR-02"
           ]
         },
         {
@@ -1437,7 +1567,7 @@
           "deliverable": "Audit AppKit text measurement, actor/thread ownership, cancellation and revision checks.",
           "acceptance_criteria": "Superseded results are discarded; undo and pending-state presentation remain consistent.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-07-T03"
           ],
@@ -1448,7 +1578,7 @@
             "MV-NFR-02",
             "MV-NFR-04"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Calculation",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1459,6 +1589,16 @@
           ],
           "architecture_contracts": [
             "AC-04"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-SHS-04",
+            "MV-TXT-07",
+            "MV-NFR-04"
           ]
         },
         {
@@ -1467,7 +1607,7 @@
           "deliverable": "Compare pure/full/incremental paths on mixed-feature fixtures and controlled interactions.",
           "acceptance_criteria": "Work-count budgets and state/diagnostic equivalence pass, not only elapsed-time improvement.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-07-T04"
           ],
@@ -1478,7 +1618,7 @@
             "MV-NFR-02",
             "MV-NFR-04"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Calculation",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1487,10 +1627,21 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-SHS-04",
+            "MV-TXT-07",
+            "MV-NFR-02",
+            "MV-NFR-04"
+          ]
         }
       ],
-      "status": "Proposed"
+      "status": "Locally qualified; M1 engineering accepted",
+      "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
       "id": "WP-08",
@@ -1527,7 +1678,7 @@
           "deliverable": "Retain world geometry, text layout, styles, routes, conservative bounds and output visibility/printability policy. Retain routes by endpoint, port, obstacle and constraint revisions, including foreground-specific background-field context.",
           "acceptance_criteria": "Canvas/export consume the same semantic scene and preserve current source/render fixtures. Route and background-field cache identities include every semantic input.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-01",
@@ -1537,7 +1688,7 @@
             "MV-NFR-02",
             "MV-NFR-08"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Rendering/Native UI",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1551,6 +1702,17 @@
           "architecture_contracts": [
             "AC-01",
             "AC-07"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-UX-01",
+            "MV-EDT-04",
+            "MV-CON-09",
+            "MV-NFR-08"
           ]
         },
         {
@@ -1559,7 +1721,7 @@
           "deliverable": "Reject unrelated items before path/text work; keep selection/handles/guides as lightweight overlays.",
           "acceptance_criteria": "A 16×16 dirty region visits relevant visible candidates rather than reconstructing the page.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-08-T01"
           ],
@@ -1571,7 +1733,7 @@
             "MV-NFR-02",
             "MV-NFR-08"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Rendering/Native UI",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1582,6 +1744,15 @@
           ],
           "architecture_contracts": [
             "AC-01"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-EDT-04",
+            "MV-NFR-02"
           ]
         },
         {
@@ -1590,7 +1761,7 @@
           "deliverable": "Key caches by dependencies and decoded resource cost. Include routes and diagnostics; conservatively invalidate routes when spatially relevant obstacles move and reject incompatible revision results.",
           "acceptance_criteria": "Transform/text/theme edits invalidate intended entries; repeated cycles have bounded growth. Obstacle insertion/move/delete and endpoint/port changes invalidate all affected routes without changing unrelated route results.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-08-T02"
           ],
@@ -1602,7 +1773,7 @@
             "MV-NFR-02",
             "MV-NFR-08"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Rendering/Native UI",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1615,6 +1786,15 @@
           "architecture_contracts": [
             "AC-04",
             "AC-06"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-NFR-02",
+            "MV-NFR-06"
           ]
         },
         {
@@ -1623,7 +1803,7 @@
           "deliverable": "Apply targeted value/state updates, mixed-value display and reusable library rows.",
           "acceptance_criteria": "Selection and page switching avoid full control reconstruction and preserve per-page view state.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-08-T03"
           ],
@@ -1635,7 +1815,7 @@
             "MV-NFR-02",
             "MV-NFR-08"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Rendering/Native UI",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1646,6 +1826,15 @@
           ],
           "architecture_contracts": [
             "AC-02"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-UX-01",
+            "MV-UX-05"
           ]
         },
         {
@@ -1654,7 +1843,7 @@
           "deliverable": "Run layer/color/printability fixtures and real event-loop traces on named hardware.",
           "acceptance_criteria": "Material differences and remaining performance misses are reported rather than hidden by warm caches.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-08-T04"
           ],
@@ -1666,7 +1855,7 @@
             "MV-NFR-02",
             "MV-NFR-08"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Rendering/Native UI",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1679,10 +1868,21 @@
           "architecture_contracts": [
             "AC-01",
             "AC-07"
-          ]
+          ],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json",
+            "evidence/M1-NATIVE-QUALIFICATION.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-NFR-02",
+            "MV-NFR-08"
+          ],
+          "qualification_scope": "Named-host synthesized native selection/edit/raster traces pass. Three-event script p95 246.7404 ms over thirty 1000-shape samples. Controlled single-input/frame/save-stall release gates remain unaccepted."
         }
       ],
-      "status": "Proposed"
+      "status": "Locally qualified; M1 engineering accepted",
+      "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
       "id": "WP-09",
@@ -1722,7 +1922,7 @@
           "deliverable": "Use explicit job/snapshot IDs for load/convert/library/export/save paths.",
           "acceptance_criteria": "Cancel or stale completion cannot install a partial/newer-invalid result.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-08",
@@ -1736,7 +1936,7 @@
             "MV-NFR-05",
             "MV-NFR-06"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/I-O",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1747,6 +1947,15 @@
           ],
           "architecture_contracts": [
             "AC-04"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-UX-08",
+            "MV-NFR-04"
           ]
         },
         {
@@ -1755,7 +1964,7 @@
           "deliverable": "Convert VSD/VST/VSTX/stencil opening and export to the bounded job path.",
           "acceptance_criteria": "Progress/cancellation works without a 30-second main-thread wait or unrelated-window freeze.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-09-T01"
           ],
@@ -1771,7 +1980,7 @@
             "MV-NFR-05",
             "MV-NFR-06"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/I-O",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1780,7 +1989,18 @@
           "architecture_findings": [
             "AR-07"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-UX-08",
+            "MV-NFR-03",
+            "MV-NFR-04",
+            "MV-NFR-05"
+          ]
         },
         {
           "id": "WP-09-T03",
@@ -1788,7 +2008,7 @@
           "deliverable": "Install revision-compatible new archive/bindings without clearing newer model edits.",
           "acceptance_criteria": "Repeated edits/saves preserve unknown parts and avoid continually patching the first baseline.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-09-T02"
           ],
@@ -1804,7 +2024,7 @@
             "MV-NFR-05",
             "MV-NFR-06"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/I-O",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1815,6 +2035,16 @@
           ],
           "architecture_contracts": [
             "AC-05"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-DOC-05",
+            "MV-DOC-10",
+            "MV-IO-03"
           ]
         },
         {
@@ -1823,7 +2053,7 @@
           "deliverable": "Separate immutable resources from model equality; measure duplicate decode and cap decoded-image/cache/undo costs.",
           "acceptance_criteria": "Twenty open/edit/save/close cycles and long undo histories meet documented budgets.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-09-T03"
           ],
@@ -1839,7 +2069,7 @@
             "MV-NFR-05",
             "MV-NFR-06"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/I-O",
           "readiness": "Refine into independently reviewable children before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1851,6 +2081,14 @@
           ],
           "architecture_contracts": [
             "AC-06"
+          ],
+          "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-NFR-06"
           ]
         },
         {
@@ -1859,7 +2097,7 @@
           "deliverable": "Document headless exit codes, output/input safety, cancellation and worker failures.",
           "acceptance_criteria": "Interrupted conversions/exports leave valid destinations and structured errors.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-09-T04"
           ],
@@ -1875,7 +2113,7 @@
             "MV-NFR-05",
             "MV-NFR-06"
           ],
-          "requirement_mapping_level": "Package scope; refine exact per-child mappings when slicing",
+          "requirement_mapping_level": "Exact bounded contribution recorded in delivery/M1-TASK-EVIDENCE.json; package requirement scope retained",
           "owner_role": "Core/I-O",
           "readiness": "Validate prerequisites and acceptance fixture before execution",
           "definition_of_done": "Meets task and package criteria; affected UI/model/calculation/interchange/undo/save checks pass; evidence and compatibility status updated; required regressions pass.",
@@ -1884,10 +2122,19 @@
           "architecture_findings": [
             "AR-07"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "evidence": [
+            "delivery/M1-QUALIFICATION.md",
+            "delivery/M1-TASK-EVIDENCE.json"
+          ],
+          "delivery_requirement_contributions": [
+            "MV-AUT-02",
+            "MV-DOC-04"
+          ]
         }
       ],
-      "status": "Proposed"
+      "status": "Locally qualified; M1 engineering accepted",
+      "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
       "id": "WP-10",
@@ -8513,7 +8760,11 @@
           "WP-34"
         ],
         "closure_criteria": "Drag/save/cancel and save/undo/redo agree on live, saved and dirty state; overlapping saves and newer edits pass; intermittent failures have a documented disposition.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Local preview/save/undo identity remediation, full-suite intermittency disposition and actual automatic app recovery accepted for M1; broader release validation remains with its owning tasks."
+        }
       },
       {
         "id": "AR-02",
@@ -8542,7 +8793,11 @@
           "WP-16"
         ],
         "closure_criteria": "Incremental/full evaluation and diagnostics agree; small edits skip unrelated work; pre-gesture issues are reused and stale results cannot overwrite edits.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Local incremental/full equivalence, affected-work and stale/cancel regressions pass; reference formula compatibility remains open."
+        }
       },
       {
         "id": "AR-03",
@@ -8567,7 +8822,11 @@
           "WP-17"
         ],
         "closure_criteria": "Painting never calculates or mutates; small dirty regions visit only conservative candidates; caches remain bounded and source/render fixtures pass.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Local immutable-scene, formula-free paint/preview and dirty-region checks pass. Unlocked native traces pass; controlled frame qualification remains open."
+        }
       },
       {
         "id": "AR-04",
@@ -8592,7 +8851,11 @@
           "WP-18"
         ],
         "closure_criteria": "Indexed hit/marquee queries match full scans and effective draw order; small changes update bounded indexes/routes; nested and uncached-connector fixtures pass.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Local indexed/full-scan, append, hierarchy and conservative route invalidation regressions pass; domain/reference workflows remain open."
+        }
       },
       {
         "id": "AR-05",
@@ -8612,7 +8875,11 @@
           "WP-10"
         ],
         "closure_criteria": "Selection and page switching avoid unrelated reconstruction, retain per-page view state and active edits, and show mixed values and units.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Persistent inspector/page/stencil controls, mixed values and active-edit/per-page state regressions pass; broader native UX/accessibility remains open."
+        }
       },
       {
         "id": "AR-06",
@@ -8642,7 +8909,11 @@
           "WP-19"
         ],
         "closure_criteria": "Layer/color/output fixtures agree across screen/export; material calculation/import issues remain navigable to the affected object/cell.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Local screen/output layer policy passes; structured object/cell diagnostics and independent output qualification remain open."
+        }
       },
       {
         "id": "AR-07",
@@ -8669,7 +8940,11 @@
           "WP-20"
         ],
         "closure_criteria": "Every long workflow preserves UI heartbeat; stale/cancel/failure keeps valid state; repeated saves and twenty lifecycle cycles satisfy declared memory budgets.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Owned jobs, revision-aware save rebase, explicit budgets and twenty-cycle local editor teardown pass; broad workload/platform qualification remains open."
+        }
       },
       {
         "id": "AR-08",
@@ -8712,7 +8987,11 @@
           "WP-34"
         ],
         "closure_criteria": "Exact-build reference round trips pass; all five evidence dimensions and inventory entries remain traceable; no private-metadata or native-equivalence substitution closes compatibility.",
-        "status": "Open; remediation unverified"
+        "status": "Open; outside M1 qualification",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Unchanged by M1: exact licensed reference and domain-specific compatibility qualification remain open."
+        }
       },
       {
         "id": "AR-09",
@@ -8751,7 +9030,11 @@
           "WP-35"
         ],
         "closure_criteria": "The exact installed candidate passes platform, update/recovery, security, performance and compatibility gates; undiagnosed release-blocking intermittency prevents acceptance.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Deterministic save boundary, repeated suites, unlocked native traces and actual local automatic app recovery pass. Controlled numerical performance, signed shipping installation/update, supported-platform and trusted-release gates remain open."
+        }
       },
       {
         "id": "AR-10",
@@ -8778,7 +9061,11 @@
           "WP-15"
         ],
         "closure_criteria": "Pure model/calculation boundaries exclude UI; tools leave production entry points; critical code is formatted and shared semantic/coordinate contracts have meaningful fixtures.",
-        "status": "Open; remediation unverified"
+        "status": "Open; M1 contribution recorded",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "One infrastructure target, nine-file import audit, 25-file formatter and typed coordinate/command boundaries pass; remaining domain extraction/function parity remains open."
+        }
       },
       {
         "id": "AR-11",
@@ -8809,7 +9096,11 @@
           "WP-34"
         ],
         "closure_criteria": "Real keyboard/VoiceOver journeys create, connect, edit, inspect, save and export; representative window sizes, fonts and all advertised platforms have evidence.",
-        "status": "Open; remediation unverified"
+        "status": "Open; outside M1 qualification",
+        "delivery_disposition": {
+          "record": "delivery/M1-QUALIFICATION.md",
+          "scope": "Unchanged by M1: complete keyboard/VoiceOver/platform journeys remain open."
+        }
       }
     ],
     "contracts": [
@@ -8822,7 +9113,9 @@
           "WP-08-T02",
           "WP-08-T05"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Locally qualified: formula-free prepared paint/hit/preview and parser/work counters.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-02",
@@ -8833,7 +9126,9 @@
           "WP-07-T03",
           "WP-08-T04"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Locally qualified: selection/zoom and gesture preview regressions; commit performs semantics.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-03",
@@ -8844,7 +9139,9 @@
           "WP-06-T02",
           "WP-06-T04"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Locally qualified: typed commit diffs, stable state IDs, one undo and explicit structural fallbacks. Full value-diff cost remains.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-04",
@@ -8854,7 +9151,9 @@
           "WP-08-T03",
           "WP-09-T01"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Locally qualified: exact calculation/job gates, route dependency identity and stale refusal.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-05",
@@ -8864,7 +9163,9 @@
           "WP-05-T04",
           "WP-09-T03"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Locally qualified: exact save snapshot/failure/conflict/rebase and actual automatic untitled app recovery pass; broader shipping installation/platform gates remain separate.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-06",
@@ -8874,7 +9175,9 @@
           "WP-08-T03",
           "WP-09-T04"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Local explicit cache/undo/job budgets pass. Route/diagnostic tables are current-input/scene-lifetime bounded, not a universal hard byte cap.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-07",
@@ -8884,7 +9187,9 @@
           "WP-08-T05",
           "WP-19-T03"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Local shared layer/color/printability fixtures and unlocked native routed/raster traces pass; controlled frame/performance and independent output/reference qualification remain open.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
         "id": "AC-08",
@@ -8895,7 +9200,9 @@
           "WP-13-T03",
           "WP-20-T03"
         ],
-        "status": "Proposed acceptance invariant"
+        "status": "Local contribution recorded; overall acceptance open",
+        "delivery_disposition": "Open: broader object-level unsupported-content diagnostics/policy belong to M0/M2 and domain workflows.",
+        "evidence": "delivery/M1-QUALIFICATION.md"
       }
     ],
     "measurement_context": {
@@ -8964,5 +9271,23 @@
     "scope_changes_approved": [],
     "architecture_findings_closed": [],
     "acceptance_contracts_closed": []
+  },
+  "delivery_evidence": {
+    "M1": {
+      "state": "ready",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+      "acceptance_passed": true,
+      "locally_qualified_task_count": 25,
+      "implemented_unaccepted_task_ids": [],
+      "record": "delivery/M1-QUALIFICATION.md",
+      "task_ledger": "delivery/M1-TASK-EVIDENCE.json",
+      "scope": "Local task contributions only; original requirement coverage and dependency graph retained.",
+      "native_qualification_record": "evidence/M1-NATIVE-QUALIFICATION.json",
+      "acceptance_scope": "Local M1 engineering checkpoint",
+      "downstream_acceptance_ready": true,
+      "release_acceptance_passed": false,
+      "recovery_qualification_record": "evidence/M1-RECOVERY-QUALIFICATION.json",
+      "handoff": "delivery/M1-ENGINEERING-HANDOFF.md"
+    }
   }
 }

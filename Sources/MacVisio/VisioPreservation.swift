@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 
 /// Patch supported edits into the original OPC package. Opaque parts and unedited
@@ -8,6 +9,12 @@ enum VisioPreservation {
     private static let nativePart = "macvisio/document.json"
 
     static func write(_ diagram:Diagram,to url:URL) throws {
+        _ = try writeRebased(diagram,to:url)
+    }
+
+    /// Returns the exact source baseline written, including newly allocated IDs.
+    /// The caller installs it only after its destination save has succeeded.
+    static func writeRebased(_ diagram:Diagram,to url:URL) throws -> VisioDocumentArchive {
         guard let source = diagram.visioArchive else { throw DiagramError.invalid("The original Visio package is unavailable.") }
         var parts = source.parts
         var pageIDs = Dictionary(uniqueKeysWithValues:source.pages.map{($0.pageID,$0.visioID)})
@@ -29,7 +36,9 @@ enum VisioPreservation {
         }
         if source.pages.map(\.original) == diagram.pages && !backgroundSync {
             if parts[nativePart] != nil { parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages) }
-            try VisioPackage.write(parts,to:url); return
+            try VisioPackage.write(parts,to:url)
+            var rebased = source;rebased.parts = parts
+            return rebased
         }
         guard let indexData = parts[source.pagesPart] else { throw DiagramError.invalid("The original Visio page index is missing.") }
         let index = try VisioXML.document(indexData)
@@ -45,6 +54,7 @@ enum VisioPreservation {
         let originalRelationships = relationships.xmlString
         let oldPageElements = indexRoot.elementsLocal("Page")
         for page in diagram.pages {
+            try LifecycleJobContext.current?.checkpoint()
             if let binding = oldBindings[page.id],let oldEntry = oldPageElements.first(where:{$0.attr("ID") == binding.visioID}) {
                 let entry = oldEntry.copy() as! XMLElement
                 let originalEntry = entry.xmlString
@@ -107,6 +117,8 @@ enum VisioPreservation {
         try ensureFonts(diagram,parts:&parts,bindings:bindings,original:source.pages.map(\.original))
         parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:bindings)
         try VisioPackage.write(parts,to:url)
+        var rebased = source;rebased.parts = parts;rebased.pages = bindings
+        return rebased
     }
 
     private static func contentsChanged(_ page:DiagramPage,from old:DiagramPage) -> Bool {

@@ -5,18 +5,18 @@ extension EditorWindowController {
         canvas.finishPageInteraction();var next = diagramDocument.diagram
         do {
             try PageOperations.configure(next.page.id,in:&next,name:name,width:width,height:height,isBackground:isBackground,background:background,scale:scale)
-            diagramDocument.replace(with:next,action:"Page Setup");canvas.fitPage()
+            diagramDocument.replaceInEditor(with:next,action:"Page Setup");canvas.fitPage()
         } catch { presentError(error) }
     }
     @objc func addBackgroundPage(_ sender:Any?) {
         canvas.finishPageInteraction();var next = diagramDocument.diagram
-        do { try PageOperations.addBackground(to:next.page.id,in:&next);diagramDocument.replace(with:next,action:"Add Background Page");canvas.select([]);setTool(.pointer);canvas.fitPage() } catch { presentError(error) }
+        do { try PageOperations.addBackground(to:next.page.id,in:&next);diagramDocument.replaceInEditor(with:next,action:"Add Background Page");canvas.select([]);setTool(.pointer);canvas.fitPage() } catch { presentError(error) }
     }
     @objc func editBackgroundPage(_ sender:Any?) { if let id = diagramDocument.diagram.page.backgroundPageID { switchPage(id) } }
     @objc func matchBackgroundSize(_ sender:Any?) {
         canvas.finishPageInteraction();var next = diagramDocument.diagram
         guard let id = next.page.backgroundPageID else { return }
-        do { let factor = next.pages.first{$0.id == id}!.paperScale;try PageOperations.configure(id,in:&next,width:next.page.paperWidth/factor,height:next.page.paperHeight/factor);diagramDocument.replace(with:next,action:"Match Background Size") } catch { presentError(error) }
+        do { let factor = next.pages.first{$0.id == id}!.paperScale;try PageOperations.configure(id,in:&next,width:next.page.paperWidth/factor,height:next.page.paperHeight/factor);diagramDocument.replaceInEditor(with:next,action:"Match Background Size") } catch { presentError(error) }
     }
     @objc func showPageSetup(_ sender:Any?) {
         canvas.finishPageInteraction()

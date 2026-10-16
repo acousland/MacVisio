@@ -10,7 +10,8 @@ let package = Package(
         .package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0")
     ],
     targets: [
-        .executableTarget(name: "MacVisio", dependencies: ["ZIPFoundation",.product(name:"Sparkle",package:"Sparkle")],linkerSettings:[.unsafeFlags(["-Xlinker","-rpath","-Xlinker","@executable_path/../Frameworks"])]),
-        .testTarget(name: "MacVisioTests", dependencies: ["MacVisio"], resources:[.copy("Fixtures")])
+        .target(name: "MacVisioInfrastructure"),
+        .executableTarget(name: "MacVisio", dependencies: ["MacVisioInfrastructure","ZIPFoundation",.product(name:"Sparkle",package:"Sparkle")],linkerSettings:[.unsafeFlags(["-Xlinker","-rpath","-Xlinker","@executable_path/../Frameworks"])]),
+        .testTarget(name: "MacVisioTests", dependencies: ["MacVisio","MacVisioInfrastructure"], resources:[.copy("Fixtures")])
     ]
 )
