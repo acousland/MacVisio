@@ -5,7 +5,7 @@
   "worktree": "/Users/acousland/.codex/worktrees/d598/MacVisio",
   "branch": "codex/m2-native-editor",
   "planning_baseline": "7c270124993bac09967109f95e603ebb47bd98ff",
-  "state": "needs_input",
+  "state": "in_progress",
   "milestone_acceptance": "unaccepted",
   "integration_allowed": false,
   "local_commits": [
@@ -26,7 +26,8 @@
     "181afca55ddc736a3b270f7265960f35605fd9f0",
     "7fe36658112770ab87be6753b15a36fff8490e3a",
     "0a20ff409aed5ca97475be1dd224e8875cdb6ff8",
-    "234208064723b67cffd15212dc6818b3b4bd4565"
+    "234208064723b67cffd15212dc6818b3b4bd4565",
+    "b01871a26c387375f0dc6f67800db170646c1fa8"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -69,13 +70,14 @@
         "docs/delivery/M1-IMPLEMENTATION.md",
         "build/m1-evidence/baseline-suite.log"
       ],
-      "human_input_required": true,
+      "human_input_required": false,
       "gate": {
-        "state": "needs_input",
+        "state": "awaiting_upstream_qualification",
         "dependency": "accepted M1 handoff",
-        "reason": "M1 reports a locked Mac graphics session and is awaiting a human response for its native event trace. No accepted M1 handoff is available. M2 independent preparation is complete; remaining native integration and whole-task acceptance stay gated.",
+        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:168"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
+        "human_response": "User reports unlocked; confirmed by M1"
       }
     }
   },
@@ -113,7 +115,8 @@
     "build/m2-pinned-feed-verification.json",
     "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
     "build/m2-container-trust.log",
-    "build/m2-upstream-gate.json"
+    "build/m2-upstream-gate.json",
+    "build/m2-upstream-resume.json"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -131,7 +134,7 @@
     "note": "Predates M0 integration, NativeSupportReport and runtime update-channel fix; current source is the reviewable candidate. No native integration acceptance is implied."
   },
   "notes": [
-    "M2 independent preparation handoff with explicit upstream input gate; not M2 milestone delivery or permission for M3 dependent implementation.",
+    "M2 independent preparation with active upstream qualification; not M2 milestone delivery or permission for M3 dependent implementation.",
     "Original Home working changes were inspected read-only and not copied.",
     "Developer ID identity available; exact final-candidate/team/notarization and installed journeys unaccepted.",
     "One green debug suite is not a disposition of historical release-suite intermittency.",
@@ -218,7 +221,7 @@
   "evidence": [
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "dec6bacf0764da8838d1d35af31d38e2c78d6f16e0df57f4d09e44cea054e8f3",
+      "sha256": "0e9d05d0838012837167e44f77cfc5400d1e23d43655312e2303fcd2dfd3744c",
       "scope": "local preparation, not milestone acceptance"
     },
     {
@@ -345,6 +348,11 @@
       "path": "build/m2-upstream-gate.json",
       "sha256": "e8ded161ee6384a4975bc826b3a84b6e0d1c1a865dca497e5a145caf83908c76",
       "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-upstream-resume.json",
+      "sha256": "fbd0b5388721175777249afd37b1e5bfcb5aa826acefec3bed91e2804971eb93",
+      "scope": "local preparation, not milestone acceptance"
     }
   ],
   "blocked_task_ids": [
@@ -367,10 +375,11 @@
   ],
   "blocked_scope": "Remaining native integration and whole-task acceptance; independent implemented_unaccepted preparation is retained.",
   "delivery_gate": {
-    "state": "needs_input",
+    "state": "awaiting_upstream_qualification",
     "dependency": "accepted M1 handoff",
-    "reason": "M1 reports a locked Mac graphics session and is awaiting a human response for its native event trace. No accepted M1 handoff is available. M2 independent preparation is complete; remaining native integration and whole-task acceptance stay gated.",
+    "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
     "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-    "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:168"
+    "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
+    "human_response": "User reports unlocked; confirmed by M1"
   }
 }

@@ -2,7 +2,7 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 is **needs input, unaccepted**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
+M2 is **in progress, awaiting accepted M1, unaccepted**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
 
 ## Ownership and overlap
 
@@ -87,4 +87,4 @@ Hostile-container follow-up (`7fe3665`): **6 focused tests passed** (`build/m2-c
 
 ## Current upstream prerequisite
 
-M1 reports that the Mac graphics session is locked and has asked the user to unlock it for the native event trace, or explicitly continue without native qualification. This is an upstream report, retained in `build/m2-upstream-gate.json`; M2 did not measure the lock state. No accepted M1 handoff exists. Independent preparation is complete, and all remaining native integration and whole-task acceptance stay gated. M2 is **needs_input**, with zero completed parent tasks and no downstream integration permission. After a human response, review the actual M1 handoff and passing local milestone evidence before resuming integration. Continuing without qualification does not by itself satisfy that acceptance gate.
+The user reported the Mac unlocked, and M1 confirmed the unlocked desktop. M1 has resumed native event qualification and is fixing its benchmark launch/key-window path before retrying the trace. The previous locked-session request is retained in `build/m2-upstream-gate.json`; the resumed state is recorded in `build/m2-upstream-resume.json`. No accepted M1 handoff exists. Independent M2 preparation is complete, and all remaining native integration and whole-task acceptance stay gated. M2 is **in_progress**, with zero completed parent tasks and no downstream integration permission. Review the actual M1 handoff and passing local milestone evidence before integration; an unlocked session alone does not satisfy acceptance.
