@@ -5,6 +5,7 @@ extension EditorWindowController {
         canvas.finishPageInteraction();var next = diagramDocument.diagram
         do {
             try PageOperations.configure(next.page.id,in:&next,name:name,width:width,height:height,isBackground:isBackground,background:background,scale:scale)
+            BasicFlowchart.refreshLinkNames(in: &next, previous: diagramDocument.diagram)
             diagramDocument.replaceInEditor(with:next,action:"Page Setup");canvas.fitPage()
         } catch { presentError(error) }
     }

@@ -1,56 +1,119 @@
-name: Publish signed Sparkle release
+name: Verify and publish channelled Sparkle release
 on:
   push:
     tags: ['v*']
   workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel (stable requires an accepted signed candidate)
+        type: choice
+        options: [development, stable]
+        default: development
+      candidate_run_id:
+        description: Run containing the stable-candidate artifact with manifest and retained evidence
+        type: string
+        required: false
 permissions:
-  contents: write
+  contents: read
 concurrency:
-  group: macvisio-release
+  group: macvisio-release-${{ inputs.channel || 'development' }}
   cancel-in-progress: false
 jobs:
-  release:
+  development:
+    if: github.event_name == 'push' || inputs.channel == 'development'
     runs-on: macos-26
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
-      - name: Detect an already published release
-        id: existing
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Validate version tag
         run: |
           version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' scripts/Info.plist)
-          if [[ "$GITHUB_REF_TYPE" == 'tag' && "$GITHUB_REF_NAME" != "v$version" ]]; then
+          if [[ "$GITHUB_REF_TYPE" == tag && "$GITHUB_REF_NAME" != "v$version" ]]; then
             echo 'Release tag must match scripts/Info.plist' >&2
             exit 1
           fi
-          echo "tag=v$version" >> "$GITHUB_OUTPUT"
-          if [[ "$(gh release view "v$version" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft == false' 2>/dev/null)" == 'true' ]]; then
-            echo 'published=true' >> "$GITHUB_OUTPUT"
-          fi
       - name: Install legacy reader
-        if: steps.existing.outputs.published != 'true'
         run: brew install libvisio
-      - name: Test and build
-        if: steps.existing.outputs.published != 'true'
+      - name: Test and build development bundle
+        env:
+          MACVISIO_RELEASE_CHANNEL: development
         run: |
+          python3 -m unittest discover -s scripts/tests -v
           swift test
           scripts/build-app.sh
           python3 scripts/verify-app.py
-      - name: Sign update and feed
-        if: steps.existing.outputs.published != 'true'
+      - name: Sign isolated development update and feed
         env:
           SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
-        run: |
-          python3 scripts/sign-ci-release.py
-      - name: Publish
-        if: steps.existing.outputs.published != 'true'
+        run: python3 scripts/sign-ci-release.py --channel development
+      - uses: actions/upload-artifact@v4
+        with:
+          name: development-release
+          path: build/releases/development/
+      - name: Publish development prerelease
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' scripts/Info.plist)
-          # A local notarized release may have been published while this job built.
-          if [[ "$(gh release view "v$version" --repo "$GITHUB_REPOSITORY" --json isDraft --jq '.isDraft == false' 2>/dev/null)" == 'true' ]]; then
-            echo 'Release is already published; keeping its original assets.'
+          version=$(/usr/libexec/PlistBuddy -c 'Print CFBundleShortVersionString' build/MacVisio.app/Contents/Info.plist)
+          revision=$(git rev-parse --short=12 HEAD)
+          tag="development-v$version-$revision"
+          directory="build/releases/development/$version-$revision"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo 'Development prerelease already exists; keeping original assets.'
             exit 0
           fi
-          gh release create "v$version" "build/releases/$version/"* --repo "$GITHUB_REPOSITORY" --title "MacVisio $version" --notes "Native macOS test build with signed Sparkle updates. Full Visio parity remains unfinished; binary VSD writing is experimental."
+          gh release create "$tag" "$directory/"* --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" --prerelease --latest=false --title "MacVisio $version development ($revision)" --notes 'Development test build. Not accepted for stable distribution. Scheduled update checks are disabled.'
+  stable:
+    if: github.event_name == 'workflow_dispatch' && inputs.channel == 'stable'
+    runs-on: macos-26
+    environment: stable-release
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require retained candidate run
+        env:
+          CANDIDATE_RUN_ID: ${{ inputs.candidate_run_id }}
+        run: |
+          [[ "$CANDIDATE_RUN_ID" =~ ^[0-9]+$ ]] || { echo 'A stable candidate artifact run ID is required' >&2; exit 1; }
+      - uses: actions/download-artifact@v4
+        with:
+          name: stable-candidate
+          path: build/stable-release
+          run-id: ${{ inputs.candidate_run_id }}
+          github-token: ${{ github.token }}
+      - name: Resolve pinned Sparkle verification tools
+        run: swift package resolve
+      - name: Test release policy
+        run: python3 -m unittest discover -s scripts/tests -v
+      - name: Verify actual signatures, notarization, platforms and exact-candidate acceptance
+        env:
+          SPARKLE_PRIVATE_KEY: ${{ secrets.SPARKLE_PRIVATE_KEY }}
+        run: python3 scripts/sign-ci-release.py --verify-only build/stable-release --channel stable --manifest build/stable-release/stable-manifest.json
+      - name: Publish accepted stable assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PY'
+          import json,subprocess
+          from pathlib import Path
+          import sys
+          sys.path.insert(0,'scripts')
+          from release_policy import require,sha256
+          directory = Path('build/stable-release')
+          report = json.loads((directory/'release-verification.json').read_text())
+          require(report['channel'] == 'stable' and report['publicationAccepted'] is True, 'Stable publication is not accepted')
+          candidate = report['candidate']
+          version = candidate['version']
+          archive = directory/f'MacVisio-{version}.zip'
+          require(sha256(archive) == candidate['sha256'] and sha256(directory/'appcast.xml') == candidate['feedSHA256'], 'Candidate changed after verification')
+          require(sha256(directory/'stable-manifest.json') == report['manifestSHA256'], 'Manifest changed after verification')
+          tag = report['releaseTag']
+          exists = subprocess.run(['gh','release','view',tag],capture_output=True).returncode == 0
+          require(not exists, 'Stable release already exists; refusing to replace it')
+          (directory/'SHA256SUMS.txt').write_text(f"{candidate['sha256']}  {archive.name}\n")
+          assets = [archive,directory/'appcast.xml',directory/'SHA256SUMS.txt',directory/'release-verification.json',directory/'stable-manifest.json']
+          subprocess.run(['gh','release','create',tag,*map(str,assets),'--target',report['sourceCommit'],'--latest','--title',f'MacVisio {version}','--notes','Accepted candidate; see release verification and retained acceptance manifest.'],check=True)
+          PY

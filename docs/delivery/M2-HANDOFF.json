@@ -1,0 +1,2968 @@
+{
+  "schema_version": 1,
+  "milestone": "M2",
+  "thread_id": "01a141d9-478f-7cb0-b568-04467a3badac",
+  "worktree": "/Users/acousland/.codex/worktrees/d598/MacVisio",
+  "branch": "codex/m2-native-editor",
+  "planning_baseline": "7c270124993bac09967109f95e603ebb47bd98ff",
+  "state": "complete",
+  "milestone_acceptance": {
+    "local_engineering": true,
+    "G1_release": false,
+    "G2_reference": false,
+    "stable_release": true,
+    "stable_release_with_owner_exception": true
+  },
+  "integration_allowed": true,
+  "local_commits": [
+    "46c76e0b1beac6b415c73509aa396a6570944333",
+    "d85ce5da08440935a869fd3f6a8bde7edf1cbddd",
+    "df0b086a1e74dc43fca1e7953179512b7eab4e72",
+    "b75598064c3ce03e7a875613dfef8da32d7b6d66",
+    "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
+    "2b070fe0141387569dbfb1f859a2405d60af82f1",
+    "526bca91928df948f31667c517161a5d724066d8",
+    "73eea321b6472c845ad42fcfa205cf7d0cdc5bbe",
+    "7921840a9f0645ad5f4d8d0f91440ab440a58d7e",
+    "3c9f148c14ede7841df85a896b3d51578d6fdd83",
+    "83670dc0f617b3b5b4498d3c717719b8f2eda56e",
+    "f9a16350d2275beefff4f2ea762f2e333e0623be",
+    "66c0bcc7e766d2aab8d85f98135906445b857d5c",
+    "1c9dcce2920203894e9268e2d363d83b72d53206",
+    "181afca55ddc736a3b270f7265960f35605fd9f0",
+    "7fe36658112770ab87be6753b15a36fff8490e3a",
+    "0a20ff409aed5ca97475be1dd224e8875cdb6ff8",
+    "234208064723b67cffd15212dc6818b3b4bd4565",
+    "b01871a26c387375f0dc6f67800db170646c1fa8",
+    "d2bccb9098cf718a354aea49582b2dd4825da445",
+    "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
+    "d797a67f89976f3a7d6a83fa7927e475acf29425",
+    "f31f939992a654633bdc8580d9484a5547126f71",
+    "49e5c0c7d05e4e205c3485ce8bd49e2c79f25dc0",
+    "be7e682f39e782d2354d691ec24a750c567adbef",
+    "8fc0fb344211f68210a5b5fa765578e66d7bdf13",
+    "15d4608b924bce9ea079f7469256427cdf27eba1",
+    "18f581f1319e0ec248bd07644680ef5d9904582a",
+    "8ee3703741f18d7b85ceb8147b51b46f15d7e97a",
+    "b321c5ef022b69beb794392e96b9b33800db7130",
+    "df97cc03ada0feee6f481b3291b7e20bf920ea5e",
+    "0dc735afa760913ac47526a85eca8c8ec43c9226",
+    "ae9d81595deb59201b8db73020763dec45d52261",
+    "bf8d3e4558cf2563eb8389f3e17dd3100252362c",
+    "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+    "0839994456aa82f3533456c75f9f10da1ebcd2bb"
+  ],
+  "accepted_upstream_commits": {
+    "M0": [
+      "02dea53354784dce057b046ea0e7f3df82cee1b9"
+    ],
+    "M1": [
+      "0ea6b33ad086abf59b8538bce50ec57ded7dcd68"
+    ]
+  },
+  "completed_task_ids": [
+    "WP-10-T01",
+    "WP-10-T02",
+    "WP-10-T03",
+    "WP-10-T04",
+    "WP-11-T01",
+    "WP-11-T02",
+    "WP-11-T03",
+    "WP-11-T04",
+    "WP-12-T01",
+    "WP-12-T02",
+    "WP-12-T03",
+    "WP-12-T04",
+    "WP-13-T01",
+    "WP-13-T02",
+    "WP-13-T03",
+    "WP-13-T04"
+  ],
+  "implemented_unaccepted_slices": [],
+  "dependencies": {
+    "M0": {
+      "state": "implemented_unaccepted",
+      "commit": "02dea53354784dce057b046ea0e7f3df82cee1b9",
+      "evidence_paths": [
+        "docs/evidence/README.md",
+        "docs/evidence/REFERENCE-AND-FEASIBILITY.md",
+        "docs/evidence/reference-summary.json",
+        "build/M0/reference/current-guest.json",
+        "build/M0/reference/windows-smoke.json",
+        "docs/evidence/INSTRUMENTATION.md",
+        "build/M0/full-suite.log",
+        "build/M0/public-master-probe.log"
+      ]
+    },
+    "M1": {
+      "state": "ready",
+      "commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "evidence_paths": [
+        "docs/delivery/M1-HANDOFF.json",
+        "docs/evidence/M1-LOCAL-QUALIFICATION.json",
+        "docs/evidence/M1-NATIVE-QUALIFICATION.json"
+      ],
+      "human_input_required": false,
+      "gate": {
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+      },
+      "branch_head": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+      "acceptance_passed": true,
+      "downstream_acceptance_ready": true
+    }
+  },
+  "remaining_work": [],
+  "evidence_paths": [
+    "README.md",
+    "build/bundle-verification.json",
+    "build/m2-build-qualified2.py",
+    "build/m2-build-qualified3.py",
+    "build/m2-build-qualified4.py",
+    "build/m2-build-qualified5.py",
+    "build/m2-build-qualified6.py",
+    "build/m2-bundle-platform.json",
+    "build/m2-bundle-verification.log",
+    "build/m2-bundle.log",
+    "build/m2-closure/Appearance-Dark.svg",
+    "build/m2-closure/Appearance-Light.svg",
+    "build/m2-closure/Appearance-System.svg",
+    "build/m2-closure/ClosureFlow.vsdx",
+    "build/m2-closure/appearance.json",
+    "build/m2-closure/baseline-pipeline.log",
+    "build/m2-closure/baseline/archive.log",
+    "build/m2-closure/baseline/baseline.json",
+    "build/m2-closure/baseline/gatekeeper.log",
+    "build/m2-closure/baseline/notarization.json",
+    "build/m2-closure/baseline/sign.log",
+    "build/m2-closure/baseline/staple.log",
+    "build/m2-closure/build-sparkle-cli.py",
+    "build/m2-closure/content-provenance.json",
+    "build/m2-closure/final-document-validation.json",
+    "build/m2-closure/final-ledger.log",
+    "build/m2-closure/finalize-records.py",
+    "build/m2-closure/historical-handoff-before-closure.json",
+    "build/m2-closure/prepare-update-fixtures.py",
+    "build/m2-closure/probe-sign.log",
+    "build/m2-closure/probe.json",
+    "build/m2-closure/qualify-update-settings.py",
+    "build/m2-closure/qualify-updates.py",
+    "build/m2-closure/scope-and-cleanup.json",
+    "build/m2-closure/sparkle-cli-build.json",
+    "build/m2-closure/sparkle-cli-build.log",
+    "build/m2-closure/sparkle-cli-build2.log",
+    "build/m2-closure/sparkle-cli-pipeline.log",
+    "build/m2-closure/sparkle-cli-sign.log",
+    "build/m2-closure/update-cases/PreservedFlow.vsdx",
+    "build/m2-closure/update-cases/bad-archive-sign.log",
+    "build/m2-closure/update-cases/bad-archive.log",
+    "build/m2-closure/update-cases/bad-archive.xml",
+    "build/m2-closure/update-cases/bad-feed-sign.log",
+    "build/m2-closure/update-cases/bad-feed.log",
+    "build/m2-closure/update-cases/bad-feed.xml",
+    "build/m2-closure/update-cases/codesign.log",
+    "build/m2-closure/update-cases/gatekeeper.log",
+    "build/m2-closure/update-cases/interrupt-sign.log",
+    "build/m2-closure/update-cases/interrupt.log",
+    "build/m2-closure/update-cases/interrupt.xml",
+    "build/m2-closure/update-cases/valid-sign.log",
+    "build/m2-closure/update-cases/valid.log",
+    "build/m2-closure/update-cases/valid.xml",
+    "build/m2-closure/update-install.json",
+    "build/m2-closure/update-pipeline.log",
+    "build/m2-closure/update-settings-pipeline.log",
+    "build/m2-closure/update-settings.json",
+    "build/m2-closure/update-settings/appcast.xml",
+    "build/m2-closure/update-settings/feed-sign.log",
+    "build/m2-closure/update-settings/install.log",
+    "build/m2-closure/voiceover-driver.applescript",
+    "build/m2-container-trust.log",
+    "build/m2-content-inventory.json",
+    "build/m2-development-package.log",
+    "build/m2-diagnostics.log",
+    "build/m2-feature-format-check-final.log",
+    "build/m2-feature-format-check.log",
+    "build/m2-feature-format-fix-2.log",
+    "build/m2-feature-format-fix-3.log",
+    "build/m2-feature-format-fix-4.log",
+    "build/m2-feature-format-fix-final.log",
+    "build/m2-feature-format-fix.log",
+    "build/m2-feature-ledger.log",
+    "build/m2-feature-python-2.log",
+    "build/m2-feature-python.log",
+    "build/m2-final-bundle-build.log",
+    "build/m2-final-bundle-platform.json",
+    "build/m2-final-bundle-verification.json",
+    "build/m2-final-bundle-verification.log",
+    "build/m2-final-content-inventory.json",
+    "build/m2-final-export-review.png",
+    "build/m2-final-format.log",
+    "build/m2-final-ledger.log",
+    "build/m2-final-multipage-review-1.png",
+    "build/m2-final-multipage-review-2.png",
+    "build/m2-final-native-journey.json",
+    "build/m2-final-native-wrapper.json",
+    "build/m2-final-package.log",
+    "build/m2-final-public-output-inspection.json",
+    "build/m2-final-python.log",
+    "build/m2-final-redacted-application-support.json",
+    "build/m2-final-release-native.log",
+    "build/m2-find-return-debug.log",
+    "build/m2-find-return-final.log",
+    "build/m2-full-native.log",
+    "build/m2-inline-undo-after.log",
+    "build/m2-inline-undo-before.log",
+    "build/m2-inline-undo-routing.log",
+    "build/m2-input-actions-focused-12.log",
+    "build/m2-input-trust.log",
+    "build/m2-inspector-native-attempt1.json",
+    "build/m2-inspector-native-attempt2.json",
+    "build/m2-integrated-ledger.log",
+    "build/m2-m0-integrated-native.log",
+    "build/m2-m0-integrated-python.log",
+    "build/m2-m1-accepted-review.json",
+    "build/m2-m1-handoff-review.json",
+    "build/m2-m1-integrated-native.log",
+    "build/m2-native-build-tools/swift",
+    "build/m2-native-features-focused-10.log",
+    "build/m2-native-features-focused-2.log",
+    "build/m2-native-features-focused-3.log",
+    "build/m2-native-features-focused-4.log",
+    "build/m2-native-features-focused-5.log",
+    "build/m2-native-features-focused-6.log",
+    "build/m2-native-features-focused-7.log",
+    "build/m2-native-features-focused-8.log",
+    "build/m2-native-features-focused-9.log",
+    "build/m2-native-features-focused.log",
+    "build/m2-native-integrated-features.log",
+    "build/m2-native-journey-fixtures.json",
+    "build/m2-native-journey/FinalFlow.pdf",
+    "build/m2-native-journey/FinalFlow.svg",
+    "build/m2-native-journey/FinalFlow.vsdx",
+    "build/m2-native-journey/FinalMultipage-Qualified.pdf",
+    "build/m2-native-journey/FinalNativeSupport.json",
+    "build/m2-native-journey/KeyboardFlow.svg.svg",
+    "build/m2-native-journey/KeyboardFlow.vsdx",
+    "build/m2-native-journey/Material.vsdx",
+    "build/m2-native-journey/MaterialReviewedCopy.vsdx",
+    "build/m2-native-journey/PreFix-RichInput.vsdx",
+    "build/m2-native-journey/Qualified6-IME-Skipped.vsdx",
+    "build/m2-native-journey/Qualified6-RichInput.svg",
+    "build/m2-native-journey/Qualified6-RichInput.vsdx",
+    "build/m2-native-journey/ReadOnly.vsdx",
+    "build/m2-native-preliminary-journey.json",
+    "build/m2-native-qa-sign.log",
+    "build/m2-native-qa-wrapper.json",
+    "build/m2-native-rich-input-before.json",
+    "build/m2-notary-profile-check.json",
+    "build/m2-pinned-feed-verification.json",
+    "build/m2-preparation-final-native.log",
+    "build/m2-publication/prepublish-verification.log",
+    "build/m2-publication/publication-verification.json",
+    "build/m2-publication/published-release.json",
+    "build/m2-publication/release-notes.md",
+    "build/m2-python.log",
+    "build/m2-qualified-application-support.json",
+    "build/m2-qualified-application-support.log",
+    "build/m2-qualified-bundle-build.log",
+    "build/m2-qualified-bundle-platform.json",
+    "build/m2-qualified-bundle-verification.json",
+    "build/m2-qualified-bundle-verification.log",
+    "build/m2-qualified-format.log",
+    "build/m2-qualified-ledger.log",
+    "build/m2-qualified-native-wrapper.json",
+    "build/m2-qualified-package.log",
+    "build/m2-qualified-platform.log",
+    "build/m2-qualified-python.log",
+    "build/m2-qualified-release-native.log",
+    "build/m2-qualified2-release-native.log",
+    "build/m2-qualified3-application-support.json",
+    "build/m2-qualified3-bundle-build.log",
+    "build/m2-qualified3-bundle-platform.json",
+    "build/m2-qualified3-bundle-verification.json",
+    "build/m2-qualified3-bundle-verification.log",
+    "build/m2-qualified3-content-inventory.json",
+    "build/m2-qualified3-format.log",
+    "build/m2-qualified3-ledger.log",
+    "build/m2-qualified3-native-wrapper.json",
+    "build/m2-qualified3-package.log",
+    "build/m2-qualified3-platform.log",
+    "build/m2-qualified3-release-native.log",
+    "build/m2-qualified3-support.log",
+    "build/m2-qualified4-application-support.json",
+    "build/m2-qualified4-bundle-build.log",
+    "build/m2-qualified4-bundle-platform.json",
+    "build/m2-qualified4-bundle-verification.json",
+    "build/m2-qualified4-bundle-verification.log",
+    "build/m2-qualified4-content-inventory.json",
+    "build/m2-qualified4-format.log",
+    "build/m2-qualified4-ledger.log",
+    "build/m2-qualified4-native-wrapper.json",
+    "build/m2-qualified4-package.log",
+    "build/m2-qualified4-platform.log",
+    "build/m2-qualified4-release-native.log",
+    "build/m2-qualified4-support.log",
+    "build/m2-qualified5-application-support.json",
+    "build/m2-qualified5-bundle-build.log",
+    "build/m2-qualified5-bundle-platform.json",
+    "build/m2-qualified5-bundle-verification.json",
+    "build/m2-qualified5-bundle-verification.log",
+    "build/m2-qualified5-content-inventory.json",
+    "build/m2-qualified5-format.log",
+    "build/m2-qualified5-ledger.log",
+    "build/m2-qualified5-native-replay.json",
+    "build/m2-qualified5-native-wrapper.json",
+    "build/m2-qualified5-package.log",
+    "build/m2-qualified5-platform.log",
+    "build/m2-qualified5-python.log",
+    "build/m2-qualified5-release-native.log",
+    "build/m2-qualified5-support.log",
+    "build/m2-qualified6-application-support.json",
+    "build/m2-qualified6-bundle-build.log",
+    "build/m2-qualified6-bundle-platform.json",
+    "build/m2-qualified6-bundle-verification.json",
+    "build/m2-qualified6-bundle-verification.log",
+    "build/m2-qualified6-content-inventory.json",
+    "build/m2-qualified6-format.log",
+    "build/m2-qualified6-gatekeeper.log",
+    "build/m2-qualified6-japanese-input-pending.json",
+    "build/m2-qualified6-japanese-input.json",
+    "build/m2-qualified6-ledger.log",
+    "build/m2-qualified6-native-profile-baseline.json",
+    "build/m2-qualified6-native-replay.json",
+    "build/m2-qualified6-negative-signatures/tampered-appcast.xml",
+    "build/m2-qualified6-negative-signatures/tampered.zip",
+    "build/m2-qualified6-notarization.json",
+    "build/m2-qualified6-notary-archive.log",
+    "build/m2-qualified6-notary-submission.zip",
+    "build/m2-qualified6-package.log",
+    "build/m2-qualified6-pipeline.log",
+    "build/m2-qualified6-platform.log",
+    "build/m2-qualified6-python.log",
+    "build/m2-qualified6-release-native.log",
+    "build/m2-qualified6-signature-negative.json",
+    "build/m2-qualified6-signature-negative.log",
+    "build/m2-qualified6-signature-negative.py",
+    "build/m2-qualified6-staple-validation.log",
+    "build/m2-qualified6-staple.log",
+    "build/m2-qualified6-support.log",
+    "build/m2-recents.log",
+    "build/m2-redacted-support.json",
+    "build/m2-release-build.log",
+    "build/m2-release-suite.log",
+    "build/m2-rights-review/Sparkle-LICENSE",
+    "build/m2-rights-review/ZIPFoundation-LICENSE",
+    "build/m2-rights-review/final-license-verification.json",
+    "build/m2-rights-review/icu-LICENSE",
+    "build/m2-rights-review/librevenge-source.tar.xz",
+    "build/m2-rights-review/libvisio-source.tar.xz",
+    "build/m2-rights-review/license-verification.json",
+    "build/m2-rights-review/source-verification.json",
+    "build/m2-search-input-focused-11.log",
+    "build/m2-search-text.log",
+    "build/m2-signing-prerequisite.json",
+    "build/m2-stable-0.23.4/build.log",
+    "build/m2-stable-0.23.4/bundle-verification-attempt1.log",
+    "build/m2-stable-0.23.4/bundle-verification.json",
+    "build/m2-stable-0.23.4/bundle-verification.log",
+    "build/m2-stable-0.23.4/candidate-only-verification.json",
+    "build/m2-stable-0.23.4/candidate.json",
+    "build/m2-stable-0.23.4/content-rights.json",
+    "build/m2-stable-0.23.4/exception-policy-tests.log",
+    "build/m2-stable-0.23.4/final-stable-verification.log",
+    "build/m2-stable-0.23.4/gatekeeper.log",
+    "build/m2-stable-0.23.4/native-replay.json",
+    "build/m2-stable-0.23.4/notarization.json",
+    "build/m2-stable-0.23.4/notary-archive.log",
+    "build/m2-stable-0.23.4/owner-performance-exception.json",
+    "build/m2-stable-0.23.4/package.log",
+    "build/m2-stable-0.23.4/pipeline.log",
+    "build/m2-stable-0.23.4/platform.json",
+    "build/m2-stable-0.23.4/platform.log",
+    "build/m2-stable-0.23.4/prepare-candidate.py",
+    "build/m2-stable-0.23.4/prior-stable/appcast.xml",
+    "build/m2-stable-0.23.4/prior-stable/baseline.json",
+    "build/m2-stable-0.23.4/prior-stable/gatekeeper.log",
+    "build/m2-stable-0.23.4/prior-stable/seal.log",
+    "build/m2-stable-0.23.4/public-downloads/SHA256SUMS.txt",
+    "build/m2-stable-0.23.4/public-downloads/appcast.xml",
+    "build/m2-stable-0.23.4/public-downloads/release-verification.json",
+    "build/m2-stable-0.23.4/public-downloads/stable-latest-appcast.xml",
+    "build/m2-stable-0.23.4/public-downloads/stable-manifest.json",
+    "build/m2-stable-0.23.4/public-upgrade/updater.log",
+    "build/m2-stable-0.23.4/publication-verification.json",
+    "build/m2-stable-0.23.4/publish.log",
+    "build/m2-stable-0.23.4/published-release.json",
+    "build/m2-stable-0.23.4/python.log",
+    "build/m2-stable-0.23.4/qualify-update-settings.py",
+    "build/m2-stable-0.23.4/qualify-updates.py",
+    "build/m2-stable-0.23.4/release-notes.md",
+    "build/m2-stable-0.23.4/resume-candidate.py",
+    "build/m2-stable-0.23.4/resume-pipeline.log",
+    "build/m2-stable-0.23.4/stable-acceptance-check.json",
+    "build/m2-stable-0.23.4/staple.log",
+    "build/m2-stable-0.23.4/support.json",
+    "build/m2-stable-0.23.4/support.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive-sign.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive.xml",
+    "build/m2-stable-0.23.4/update-cases/bad-feed-sign.log",
+    "build/m2-stable-0.23.4/update-cases/bad-feed.log",
+    "build/m2-stable-0.23.4/update-cases/bad-feed.xml",
+    "build/m2-stable-0.23.4/update-cases/codesign.log",
+    "build/m2-stable-0.23.4/update-cases/gatekeeper.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt-sign.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt.xml",
+    "build/m2-stable-0.23.4/update-cases/valid-sign.log",
+    "build/m2-stable-0.23.4/update-cases/valid.log",
+    "build/m2-stable-0.23.4/update-cases/valid.xml",
+    "build/m2-stable-0.23.4/update-install.json",
+    "build/m2-stable-0.23.4/update-pipeline.log",
+    "build/m2-stable-0.23.4/update-settings-pipeline.log",
+    "build/m2-stable-0.23.4/update-settings.json",
+    "build/m2-stable-0.23.4/update-settings/appcast.xml",
+    "build/m2-stable-0.23.4/update-settings/feed-sign.log",
+    "build/m2-stable-0.23.4/update-settings/install.log",
+    "build/m2-stable-0.23.4/verify-bundle-attempt1.py",
+    "build/m2-stable-0.23.4/verify-bundle.py",
+    "build/m2-stable-ad-hoc-rejection.json",
+    "build/m2-support-report.log",
+    "build/m2-text-routing.log",
+    "build/m2-update-runtime-policy.log",
+    "build/m2-upstream-gate.json",
+    "build/m2-upstream-resume.json",
+    "build/m2-verify-current-app.py",
+    "build/m2-verify-qualified-app.py",
+    "build/m2-verify-qualified3-app.py",
+    "build/m2-verify-qualified4-app.py",
+    "build/m2-verify-qualified5-app.py",
+    "build/m2-verify-qualified6-app.py",
+    "build/m2-window-badge-native-attempt1.json",
+    "build/m2-window-saved-badge-before.log",
+    "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+    "build/releases/development/0.23.3-0839994456aa/SHA256SUMS.txt",
+    "build/releases/development/0.23.3-0839994456aa/appcast.xml",
+    "build/releases/development/0.23.3-0839994456aa/release-verification.json",
+    "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
+    "build/releases/development/0.23.3-fbd851bd9f91/SHA256SUMS.txt",
+    "build/releases/development/0.23.3-fbd851bd9f91/appcast.xml",
+    "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
+    "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+    "build/releases/stable-candidates/0.23.4/SHA256SUMS.txt",
+    "build/releases/stable-candidates/0.23.4/acceptance/accessibility.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/compatibility.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/contentRights.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/installedUpdate.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/performance.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/platform.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/security.json",
+    "build/releases/stable-candidates/0.23.4/appcast.xml",
+    "build/releases/stable-candidates/0.23.4/release-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-0-m2-final-native-journey.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-1-m2-qualified6-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-2-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-3-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-0-bundle-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-1-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-2-m2-final-native-journey.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-3-m2-final-public-output-inspection.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-4-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-0-content-rights.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-1-content-provenance.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-2-final-license-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-3-source-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-0-update-install.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-1-update-settings.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-2-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-3-baseline.json",
+    "build/releases/stable-candidates/0.23.4/retained/owner-performance-exception.json",
+    "build/releases/stable-candidates/0.23.4/retained/performance-0-M1-QUALIFICATION.md",
+    "build/releases/stable-candidates/0.23.4/retained/performance-1-m2-qualified6-release-native.log",
+    "build/releases/stable-candidates/0.23.4/retained/performance-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-0-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-1-platform.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/security-0-M2-INPUT-TRUST-AUDIT.md",
+    "build/releases/stable-candidates/0.23.4/retained/security-1-m2-qualified6-release-native.log",
+    "build/releases/stable-candidates/0.23.4/retained/security-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/security-3-bundle-verification.json",
+    "build/releases/stable-candidates/0.23.4/stable-manifest.json",
+    "docs/DEVELOPMENT-BACKLOG.md",
+    "docs/DISTRIBUTION.md",
+    "docs/RELEASE-0.23.4.md",
+    "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
+    "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
+    "docs/delivery/M2-DIAGNOSTICS.md",
+    "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+    "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+    "docs/delivery/M2-NATIVE-CONTRACTS.md",
+    "docs/delivery/M2-QUALIFICATION.md",
+    "docs/delivery/M2-RELEASE-TRUST.md",
+    "docs/delivery/M2-SEARCH-TEXT.md",
+    "docs/delivery/M2-STABLE-0.23.4.md",
+    "docs/delivery/M2-SUPPORT-REPORT.md",
+    "docs/delivery/M2-TASK-EVIDENCE.json",
+    "docs/development-backlog.json",
+    "scripts/release_policy.py",
+    "scripts/tests/test_release_policy.py",
+    "scripts/verify-release.py"
+  ],
+  "development_candidate": {
+    "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "path": "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+    "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
+    "channel": "development",
+    "publicationAccepted": false,
+    "installed": true,
+    "published": true,
+    "architectures": [
+      "arm64"
+    ],
+    "minimumMacOS": "27.0",
+    "developerIDSigned": true,
+    "teamID": "5NF98M544G",
+    "hardenedRuntime": true,
+    "notarized": true,
+    "notary_profile": "renoir-notary",
+    "notary_submission_id": "889a4950-4527-4ee1-afdb-4fc3a5577151",
+    "stapled": true,
+    "gatekeeperAccepted": true,
+    "status": "published_qualified_development_prerelease",
+    "content_inventory": "build/m2-qualified6-content-inventory.json",
+    "native_replay": "build/m2-qualified6-native-replay.json",
+    "installation_scope": "Owned isolated qualification copies only; normal installation untouched.",
+    "qualified_platform": {
+      "architecture": "arm64",
+      "macOS": "27.0.1"
+    },
+    "release_url": "https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa"
+  },
+  "notes": [
+    "Accepted M1 integrated at d797a67. All16 local M2 task contributions qualified for source0839994.",
+    "Japanese and VoiceOver testing removed by explicit user instruction; no pass or actual VoiceOver journey claimed. Native keyboard/semantic accessibility retained.",
+    "Actual official Sparkle install/rejection/interruption/retry and native prior/updated reopen pass on owned copies. No normal installation or public feed changed.",
+    "745 Swift tests/12 skips/0 failures and87 Python pass on frozen source. No source change during final scope/evidence closure.",
+    "Local integration is allowed; public release and specification compatibility gates remain unaccepted.",
+    "Original checkout and peer worktrees preserved; test applications quit normally.",
+    "Subsequent user-authorized publication completed: exact development prerelease public; four anonymous downloads match qualified assets; existing stable latest unchanged.",
+    "Owner requested stable promotion and explicitly approved a controlled-latency exception. Exact0.23.4 stable bundle published as latest; five public downloads, stable latest feed and actual unmodified-feed upgrade from published0.23.3 all pass."
+  ],
+  "tests": {
+    "final_integrated_release": {
+      "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+      "executed": 745,
+      "skipped": 12,
+      "failures": 0,
+      "seconds": 40.976,
+      "log": "build/m2-qualified6-release-native.log"
+    },
+    "python": {
+      "executed": 87,
+      "failures": 0,
+      "seconds": 28.171,
+      "log": "build/m2-qualified6-python.log"
+    },
+    "foundation_format_import_boundaries": {
+      "passed": true,
+      "files": 9,
+      "log": "build/m2-qualified6-format.log"
+    },
+    "ledger": {
+      "passed": true,
+      "requirements": 154,
+      "bounded_inventory_entries": 171,
+      "log": "build/m2-qualified6-ledger.log"
+    },
+    "native_feature_observation": {
+      "source_commit": "b321c5ef022b69beb794392e96b9b33800db7130",
+      "record": "build/m2-final-native-journey.json",
+      "scope": "Earlier complete bounded feature journey; its native badge finding is superseded by current fixes/replay."
+    },
+    "final_targeted_native_replay": {
+      "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+      "passed": true,
+      "record": "build/m2-qualified6-native-replay.json",
+      "scope": "Exact notarized app: native marked-text cancel/commit, selected-run Undo/Redo, Unicode save/reopen/public SVG/VSDX and spelling. Japanese and VoiceOver testing removed from M2 scope by user."
+    },
+    "exact_bundle_and_development_archive": {
+      "passed": true,
+      "verification": "build/m2-qualified6-bundle-verification.json",
+      "release_verification": "build/releases/development/0.23.3-0839994456aa/release-verification.json",
+      "developerIDSigned": true,
+      "notarized": true,
+      "stapled": true,
+      "gatekeeperAccepted": true,
+      "installed": true,
+      "published": true
+    },
+    "actual_negative_signatures": {
+      "passed": true,
+      "cases": 4,
+      "record": "build/m2-qualified6-signature-negative.json",
+      "scope": "Actual CryptoKit public-key verification, not installed Sparkle updater."
+    },
+    "actual_installed_updates": {
+      "passed": true,
+      "record": "build/m2-closure/update-install.json",
+      "settings_record": "build/m2-closure/update-settings.json",
+      "scope": "Real owned prior signed/notarized app and exact target archive; loopback feeds; rejection, interrupted download, retry, prior/updated native reopen and preserved settings/documents."
+    },
+    "appearance_export_matrix": {
+      "passed": true,
+      "record": "build/m2-closure/appearance.json",
+      "modes": [
+        "Dark",
+        "Light",
+        "System"
+      ],
+      "probe_identity_record": "build/m2-closure/probe.json"
+    },
+    "final_document_validation": {
+      "passed": true,
+      "record": "build/m2-closure/final-document-validation.json",
+      "ledger_log": "build/m2-closure/final-ledger.log"
+    },
+    "public_downloads": {
+      "passed": true,
+      "assets": 4,
+      "record": "build/m2-publication/publication-verification.json"
+    },
+    "stable_release": {
+      "passed_with_approved_exception": true,
+      "candidate": "build/m2-stable-0.23.4/candidate.json",
+      "native": "build/m2-stable-0.23.4/native-replay.json",
+      "updates": "build/m2-stable-0.23.4/update-install.json",
+      "settings": "build/m2-stable-0.23.4/update-settings.json",
+      "verification": "build/releases/stable-candidates/0.23.4/release-verification.json",
+      "public_verification": "build/m2-stable-0.23.4/publication-verification.json",
+      "python": {
+        "executed": 87,
+        "failed": 0,
+        "log": "build/m2-stable-0.23.4/python.log"
+      },
+      "exception_policy": {
+        "executed": 16,
+        "failed": 0,
+        "log": "build/m2-stable-0.23.4/exception-policy-tests.log"
+      }
+    }
+  },
+  "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
+  "implementation_head": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+  "head_note": "Implementation is frozen at0839994; final documentation commit is recorded in shared M2 status after commit. Acceptance is local engineering only.",
+  "evidence": [
+    {
+      "path": "README.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6f1c2dd39de8aa1cc771df2aaab18468818f93580aeee40a486a278d8d356e3e"
+    },
+    {
+      "path": "build/bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-build-qualified2.py",
+      "sha256": "aea7ee34da0f6f7a304d2ccf925a05e52cb6fa266476f9457199497a71d375b4",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-build-qualified3.py",
+      "sha256": "4ccc1c6701953053910792e23fb29e72e9d719d208e2ad2c5e0528a2d0fe9ca8",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-build-qualified4.py",
+      "sha256": "207b183e1641e2a41a85d00483a9dae383c1f976d2c35f8057dd72213780777a",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-build-qualified5.py",
+      "sha256": "8d41ad11eab40eec98a57865a6dc78f13258b57472f22ffc89c4e483d644d455",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-build-qualified6.py",
+      "sha256": "68ee6a04e0caf9bb55264341552c29056061f13fda9880056c9f9b92cdca3813",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-bundle-platform.json",
+      "sha256": "fae70e1ca8291ca26654624e4c22a225bd7057f5e18fcfb89b3529dde12ef93e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-bundle.log",
+      "sha256": "92f4f6f676c0d4bbde57071e35beaf6b5150e97eac1bd2df09117f6a8aed5a5e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-closure/Appearance-Dark.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/Appearance-Light.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/Appearance-System.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/ClosureFlow.vsdx",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6e88f8ea2f4d4777ae66ff87b91b0592fbbb58c6241feac2e5f55d7c2078ab3b"
+    },
+    {
+      "path": "build/m2-closure/appearance.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "c4e915b43565055c9020f236ef11b13e8415b3e0344487e6e48f9dba172813d0"
+    },
+    {
+      "path": "build/m2-closure/baseline-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "131ed792aa5cedf88ef6d6c7c4fc95b8ba1a1f7af37236e5e580c1a6244cd245"
+    },
+    {
+      "path": "build/m2-closure/baseline/archive.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-closure/baseline/baseline.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "34c3663b11ca1def3d85a12a0e6ea5645aab51bd5805c653cbc53fe45a14620b"
+    },
+    {
+      "path": "build/m2-closure/baseline/gatekeeper.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f103942486e9781743046a257e5303e7f222f96eeb4342d78eaa53ea9928e5a3"
+    },
+    {
+      "path": "build/m2-closure/baseline/notarization.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5e918f79102d8bacd96e652cf215354d7a187e57d83a497b55b3620cd0f708eb"
+    },
+    {
+      "path": "build/m2-closure/baseline/sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d583d81c9a19aa43c8d72931deef84ff7b5c23e6786a6e7bd2d067550c25da00"
+    },
+    {
+      "path": "build/m2-closure/baseline/staple.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "ca022646838b12a9c6ec506de4701c84ddbcf43c730fa80e362e4453350c6af9"
+    },
+    {
+      "path": "build/m2-closure/build-sparkle-cli.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5bdf92fe4ae32b1a4e6d0823e627447cc646e69e28cfda7c509687cd339849d3"
+    },
+    {
+      "path": "build/m2-closure/content-provenance.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d73fc8b70ff913d384ee7839b5ec0ea72a49b238b2287bac5d92b7741d02d3c6"
+    },
+    {
+      "path": "build/m2-closure/final-document-validation.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "3123c5b3e6faeed96a4e540f65f31ce6c4a491d70b866718ed4efa958a890da5"
+    },
+    {
+      "path": "build/m2-closure/final-ledger.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9"
+    },
+    {
+      "path": "build/m2-closure/finalize-records.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d85bf8643897d789d24d60fc19e389fda0c38dc13e56d56d937aef193eaad252"
+    },
+    {
+      "path": "build/m2-closure/historical-handoff-before-closure.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "93d21b3168f5b7607e11688cabf3a14297caab88df0cf8877268bd313764176d"
+    },
+    {
+      "path": "build/m2-closure/prepare-update-fixtures.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "0fec010097de2602745fd33854e95c629f3ee86e2a22073e5ebd7e8abf1fd7dc"
+    },
+    {
+      "path": "build/m2-closure/probe-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "60cbc4d710a397da8988970a4508ff0b72d036a6854f5bcb5804d354b50c9ff4"
+    },
+    {
+      "path": "build/m2-closure/probe.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "cfb5f772f8df6697bde21add064b808dccd3fc65fcc2138380bff68bc70078cb"
+    },
+    {
+      "path": "build/m2-closure/qualify-update-settings.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "4be1b6afb596c78dde7e311c3a089702ab3d4c6efccb4c6ec32e26c1a1f4e763"
+    },
+    {
+      "path": "build/m2-closure/qualify-updates.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "56d759eadb158bde5afb35c882e7939ac4a2607e6703892ddfb5461bb42540ac"
+    },
+    {
+      "path": "build/m2-closure/scope-and-cleanup.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d2935138d5dd422fb641e1e62c1f3d5d72de1f921d4f8214c7128b57f84131d3"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d889e6e976744cdc8f6dc5e201b3ce1098e05c3446cf5913cccd51c406063b53"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "700f984f4685ffca560fbb2da45480caeca775ef302a7a7472c39a83090b5823"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build2.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1f1e16fe4d5a8479d8525bd9c26c467670015084cc7be720f072df7ad0e7c456"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "9aa7abf26cf266c4ef96b35f55a0c0f1b9a00b3d1d7a615a539318d99670644e"
+    },
+    {
+      "path": "build/m2-closure/update-cases/PreservedFlow.vsdx",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6e88f8ea2f4d4777ae66ff87b91b0592fbbb58c6241feac2e5f55d7c2078ab3b"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "ff8a6b40b09be81b5fb8f62c324c109372a1b0c6e64672915eb2dd7724a9f53a"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "28b1251ffed737b943f1e55c70877e6c99801858d0efc538dd408d29f92b2820"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a2c2038f541bc1710dfa7d6975a4d372b5205e0e850911bfdaa0ddd2aaeda580"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "09d0105612e2f2cda37e419f89859e74d0d531827943b4a419b0586a3ddd80ce"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "41029a122d385e311e8372d844c8ecd6c7f4f0879bb638dd19176137d7ffdd20"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6fc0b79a6cc700ad9cf69ee1cb05b4cd01a651aaf4c609c1ab7b2a979d8b6320"
+    },
+    {
+      "path": "build/m2-closure/update-cases/codesign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f5a9e02d45bfc64f6914cfef0fa65668b2bbc809b955f18e36805dbe13a7e616"
+    },
+    {
+      "path": "build/m2-closure/update-cases/gatekeeper.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6da24082035262799c8bf5ec2dab3e53edac078b9c891ebad8afabd26a179591"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d5cbcbb804df68017fde0340395bde86cd45f8c16ab0b16d5a2c77db8fa6233a"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a0623c9c3b708662e90e03001374cb8347044afec2a82e03372b602acefcffbd"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1422f4a1decb1397494988e3541a6497b943683abc0a0dbfc89e2555655f067b"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "00de1ff862bd22aed5efcb0381160d48ba9a58657ca87b9a7b9c4f4057c3a7ae"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "fe6310b98178f533c496e5ef9c1415e0e5e81c4a7678d37d239b372d2f2b51ad"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2c175171cc8a14568b00c48393cba62c58c1c480e8e58257dc7227f48d4584dc"
+    },
+    {
+      "path": "build/m2-closure/update-install.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a2efb595fc8967acd3a8aec70d6a649ceb83d8556788c5790b45e34eaa935895"
+    },
+    {
+      "path": "build/m2-closure/update-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "04ccd884bff8dd438f14610929179de3936fbee1fe1f5f4ed458229bc35c7c29"
+    },
+    {
+      "path": "build/m2-closure/update-settings-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "66a9243cb4c89c20685e683b64fb4c227c8f75f3e0d62ac9ad2032b885c45201"
+    },
+    {
+      "path": "build/m2-closure/update-settings.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "8ed680ac0732941106bec1a103b5ba7cc01ab9bd481aee58a12c7f6439500b49"
+    },
+    {
+      "path": "build/m2-closure/update-settings/appcast.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "209793dd5c171c428d8f3f84a73f4a998dc586c7dff0df3104cc79b921aff2cb"
+    },
+    {
+      "path": "build/m2-closure/update-settings/feed-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5f34fe57ddd361a1b13548c5c0856f0199b8d8c1bf571d5f555b6972673cf729"
+    },
+    {
+      "path": "build/m2-closure/update-settings/install.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "959f98b49201f42a36af3e9df8b863b10b5f324dfdb315470dee7308af207cc1"
+    },
+    {
+      "path": "build/m2-closure/voiceover-driver.applescript",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "16f12b41cce249d4b95fdd8a9040006e404f736906624e11b4fd31ee7a1e2a99"
+    },
+    {
+      "path": "build/m2-container-trust.log",
+      "sha256": "92d81462a1f2e9bdee6aa577010d41ed96d11b932eff4231639d625e29ea85e4",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-content-inventory.json",
+      "sha256": "5244d79e2e1817074efee6312edb3d92ccca349343bc350f84f0d398c1f97217",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-development-package.log",
+      "sha256": "d84feceb759ff25ac462e39958c4184bfd45e99316455979260c75ddbc109ee4",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-diagnostics.log",
+      "sha256": "888248ab7a5dbdceda21c3008125dd08aaa04228d6c374c146630b3e5a38c196",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-check-final.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-check.log",
+      "sha256": "a387d7b82aab33a57064c122d8381791e288410a5bd95f99dceb2e6a400ff3c1",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-fix-2.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-fix-3.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-fix-4.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-fix-final.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-format-fix.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-python-2.log",
+      "sha256": "eb240c29e22bc06aacbbc3271898497949334e875bb4f0704835c80e97c9dc5e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-feature-python.log",
+      "sha256": "8ee26cb961b8170a536bb9c156cc0103ad603cc1b0f496c481856cc1a914e818",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-bundle-build.log",
+      "sha256": "3a06cbad41aaef19dcea078af89ae03d65691d829ccdd8bb22fe7f0c5bda4975",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-bundle-platform.json",
+      "sha256": "72f7c88dcf4f4c70fa43de2912718f50649e8c1b495dd938e4ed7db313a6e83d",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-content-inventory.json",
+      "sha256": "932ea8f2f52816e87b5da7b04b9a18d211e0825a78fbf1a43592d45c65485dc0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-export-review.png",
+      "sha256": "653ed9ad9c51c92fd8877ff5cbb8ebcb4583d8f1bd203c1fc458790d3a6cf99b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-multipage-review-1.png",
+      "sha256": "260658b5e70b362dc9aef65708e2034c334dc366c7bdde4519d62ff06a0a42ab",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-multipage-review-2.png",
+      "sha256": "9c511858d9ee84d7326496a64c133a051ddb6d873ce50af7721306164abc8618",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-native-journey.json",
+      "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-native-wrapper.json",
+      "sha256": "015a23d942f159129d56b987f1269580e67a5e5e69780a28ed7f4d6a9295a22f",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-package.log",
+      "sha256": "378a9ce3d5563031854c8e88563ebf723f085828d6e8411342fd8d6dc2db083e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-public-output-inspection.json",
+      "sha256": "0144fc5c127ddcbbf3bbac528f0ebe9a4b009c2b6491ac73696b13d53c14eb1f",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-python.log",
+      "sha256": "940530565e4f533e7d4d6e1ce36ca70669a1263e0098bf59ba9dc1e9cf9abc71",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-redacted-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-final-release-native.log",
+      "sha256": "aacfcbfcd7b65839ee2e645e60f08a4f5dad9e9a6b3b2d584343f73a4069fc3c",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-find-return-debug.log",
+      "sha256": "a20805af647bcadcd4ebbc9aff60c03a373cea2962c21a7c703b4bd4e5ba572e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-find-return-final.log",
+      "sha256": "f9cad0fb0a881ecad9e21313417d5fb4e3cb057b4996f2de2393b5853333202a",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-full-native.log",
+      "sha256": "ac8c3d345b0a4761dd4283e952a425621630bfc53a36a34387c566dc777fbe32",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-inline-undo-after.log",
+      "sha256": "a0549ccc73e988a0f1fc068387fc0830db9c874aae661e8a191470c943b13116",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-inline-undo-before.log",
+      "sha256": "17917cbfeb7e6839272d37b9e0d3d5a434b61c59e9a19d2822cf552b0666dc2c",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-inline-undo-routing.log",
+      "sha256": "764fb6f13ea0ea5e7063c6bc3cb225ec21a81b70f743331658b7dc689ccc53e3",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-input-actions-focused-12.log",
+      "sha256": "6c098fd7eedff2f6684b4191afbc5b80706ba1efa87129b11fbb1a6c0984aedd",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-input-trust.log",
+      "sha256": "ed018276ff8a38aa95b3d155038ddb061d5761be3458384cfd408995275f77a6",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-inspector-native-attempt1.json",
+      "sha256": "e6c9a28037453048f31bb2fe9f386d03e6f92aa52f1f83e2ad2674e227c135cb",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-inspector-native-attempt2.json",
+      "sha256": "265a0f8e5d9a2a76e404b3bf11ae9a0e65bfd53ea4cc8d9e08de8f8287323fe0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-integrated-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-m0-integrated-native.log",
+      "sha256": "5344ed279a0a055201d70481d3fabd53ba1ece3cace0cbe231f5cc875bfb9cb1",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-m0-integrated-python.log",
+      "sha256": "d11252d93e0056ec8a1a728db98a7b42b6e9ca9a4453745d3d5cd23c61c114a7",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-m1-accepted-review.json",
+      "sha256": "9284b7f60f5c49cdc10798bd35095b3b391d6d5bd10518c171c624fcf632cd25",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-m1-handoff-review.json",
+      "sha256": "cf32f6139f2e449efe4f4dcda73b3e4177bda8a02b508c28f5efb26f6eef8bc9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-m1-integrated-native.log",
+      "sha256": "31f521355a82e2f1e25b526f58d6cace6c14b34537a2714e309514e45ad1e7ba",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-build-tools/swift",
+      "sha256": "bbfeee05e65587dc16d029fc2f95cc57ec5d6eb5fdf9b630bd96c79e360b1002",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-10.log",
+      "sha256": "66aeeacd3136cd0bbb63c7fd77dab0562fc4d4e4c536e20ad927254da8635589",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-2.log",
+      "sha256": "7e4d366330817e4df01e9abcc1a238cb3113f45e96d30f1bccc2e7930fc886ae",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-3.log",
+      "sha256": "5b0cc7e06da5c068abadbcbdefee090500b64f1c4981362b697ec64dbe04e330",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-4.log",
+      "sha256": "19e35257c56743c8514404465bbf49d740740e2daa72b011ebab05d4ae9a0c32",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-5.log",
+      "sha256": "18ba067807f93d9a4aa2be620ded3a79598a45172232f0e7f357b8e4e4d22dce",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-6.log",
+      "sha256": "d5304a493411c80d71162edab7d9679b30c073e22d145eef95c4e4fc333956df",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-7.log",
+      "sha256": "4c0646cc572ec9b7f6d7c92c250668d12991cc6f51758b7431fc10422b8ac095",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-8.log",
+      "sha256": "f6e85ab3753bbec85342baeb334383b0b93a5e9b2d001f9a9e3b04980ead2290",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused-9.log",
+      "sha256": "99b782556a744b114080a4cf14bd3a316f6390920fe33a8a37855072926267b7",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-features-focused.log",
+      "sha256": "fd6264d8df117e66cbcba8ad985241ea9d74360ec1c7fc47b801c425de9c9f8a",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-integrated-features.log",
+      "sha256": "a2991a1f76a10c07ee6f13dc1d3cbfeaf44671bbe5ffee508608e035471077ab",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey-fixtures.json",
+      "sha256": "0c3ef7e908f089bfa221ba625b769f8f1184f557d9e7480c40379173713ba9b3",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/FinalFlow.pdf",
+      "sha256": "3df5c70dee0eb26a06ef2ca42638a34aa7c9e9259921db10566d90b0f344bde6",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/FinalFlow.svg",
+      "sha256": "c89c7dd549ac7207f8f7ee35eeaa3315772d3e531e63e322ca86efe25f0113da",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/FinalFlow.vsdx",
+      "sha256": "9ad3fef8381db89b653b03211f39c856ac272480cdb628b9e775fc48e9c9fb47",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/FinalMultipage-Qualified.pdf",
+      "sha256": "164ad2227ff20c4b9b5b80e8247cbea7ceac9cc06f16d28ce520e651ac97f0b8",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/FinalNativeSupport.json",
+      "sha256": "4180e7d12caf757ce5fd76af0a581f4e7b51adb34e6b63d1f5903f15f7d645b0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/KeyboardFlow.svg.svg",
+      "sha256": "a330bb777a9815e106d672217fc3357c7768f14c25c028527eb94c39b2404c49",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/KeyboardFlow.vsdx",
+      "sha256": "145142daa56a75aa39630a503a681b15b262c50aa5b3983d47eb552f3258cb66",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/Material.vsdx",
+      "sha256": "39558668e1b6ce598d274c5278573791cac2d7f7ed134df861a5acf9b8141d7e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/MaterialReviewedCopy.vsdx",
+      "sha256": "0bf9452755570e0074372f7de07ed73b10d70b7dff6dc172666471a7d77a9bf9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/PreFix-RichInput.vsdx",
+      "sha256": "4ee3a8634982142e039f7cc7bd43972244561c0b39965f307e11048b01a85b74",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/Qualified6-IME-Skipped.vsdx",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied.",
+      "sha256": "f665e8128f7ec85c7381019afbac9d2a6f8e918d76e6e7064f9a935fafa568a9"
+    },
+    {
+      "path": "build/m2-native-journey/Qualified6-RichInput.svg",
+      "sha256": "bcbdfce9658bcf7feab6be3314b987953bac67cafe9ac3ab67747d03ad747656",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/Qualified6-RichInput.vsdx",
+      "sha256": "c6b55a23e15c638fe5e0476fc92506cec2026f8dbbf705923eef6f797cbfb088",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-journey/ReadOnly.vsdx",
+      "sha256": "145142daa56a75aa39630a503a681b15b262c50aa5b3983d47eb552f3258cb66",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-preliminary-journey.json",
+      "sha256": "751da7052addca8aac5a7d990eb056606379dabea68c31563b94b63ee5a4f34a",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-qa-sign.log",
+      "sha256": "fa76a7d6fb08b94f00853fad6afb0c4110ae3aaf8a51094c3e4b1209ca28ac5e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-qa-wrapper.json",
+      "sha256": "935f16976278f8206891ba309e50e21b684bbc338900e421a4bd1fe46acd6579",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-native-rich-input-before.json",
+      "sha256": "e51cd1192703311e3cacceb20252439eaef78c2c4b4e979839590bb1d19e2fb5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-notary-profile-check.json",
+      "sha256": "03fed5f3942edb3a0821e0a22325d649e2a7b4ba317ab7deeb52e087977c8251",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-pinned-feed-verification.json",
+      "sha256": "5f1f81637c3d1dd7d9f5961e8804855f625bdcbe07d03fecb090cfe5bebfc9e5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-preparation-final-native.log",
+      "sha256": "a63914893ea18b8e86c2fc4c192e3a9e130955b2c9b71a1032ac284ef8b651b0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-publication/prepublish-verification.log",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "10c4cf4525e5f98d7694735484d320b22ea7cbfa81421506dcd37f286e6a02b1"
+    },
+    {
+      "path": "build/m2-publication/publication-verification.json",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "8ea299cca06c673f15026e88438da105a222a46036cec46e9494dc16fb0a9bb2"
+    },
+    {
+      "path": "build/m2-publication/published-release.json",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "95c0cdde48a7865891a81661bcf194d1020d9f4bfc82beb355b6955319ba6099"
+    },
+    {
+      "path": "build/m2-publication/release-notes.md",
+      "scope": "User-authorized development publication and exact anonymous public download verification; stable latest unchanged.",
+      "sha256": "83d7446458fa9206bf5d4c22330a039a8b81cffecf1c6b0fb5bc96045cb82476"
+    },
+    {
+      "path": "build/m2-python.log",
+      "sha256": "7b9144e657da576b27e85479b30bf5321e2b03f06cbd8cda0e70f4a11844b68b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-application-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-bundle-build.log",
+      "sha256": "d157684004e43f6a940e3a11bda637912ef4f1a517a154386e797f70634d0dcb",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-bundle-platform.json",
+      "sha256": "0fe986913b50e9c20a24cc6c79dbf009a7b3ebf6a696e30145a40c8dd7b30797",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-native-wrapper.json",
+      "sha256": "f9efa5f9816ab73f9ce05e9020944447cf06879529686c914170fe0976336ce6",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-package.log",
+      "sha256": "6306cd6a1511babb6d1433118597c091498ed045247a174fa8c03c16eedfc59b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-python.log",
+      "sha256": "c80a57c80acf94a31290118f2aa6f095a0b7fa3fe47f32afeb133c5948fb7b48",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified-release-native.log",
+      "sha256": "cda013ae182ce85b929458917057ad6a6f6cfd2a77f0eaaf2b3345738876a727",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified2-release-native.log",
+      "sha256": "f8b0ecfd9816290e9e0abacc001ae8485118c0d9b75b208a8cef9f755df84eab",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-bundle-build.log",
+      "sha256": "05177018715d7e7f1611867beb28bdb4f94ba870af6b6a7ec9f45391c523c891",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-bundle-platform.json",
+      "sha256": "76618db94aa09b9af7a3aab7ce78cb6c2a3669a9d11d00a0d936ecf6adbdc7e3",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-content-inventory.json",
+      "sha256": "71ec98c39bef632f112b3677250614f2f8bee4a0291e7e8b485d931a3e15bea2",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-native-wrapper.json",
+      "sha256": "af51fbceaedd42d801881615ef28250da6cecd3d5e0180f929d5d4ce7decc067",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-package.log",
+      "sha256": "973b0687439653c80059a8993dd54cc989230ac0a593deecf84e994885074aa0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-release-native.log",
+      "sha256": "6586b3d9d17d3b2af682a175989d24df7960df53f37a2c567ed4d48f5d3a03cf",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified3-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-bundle-build.log",
+      "sha256": "454c64c0361260741a30bf87bc33912464ddf08cd8f8e528bc1e6a1727028b46",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-bundle-platform.json",
+      "sha256": "eb10a3bb1d6ea671459a5b00012ae1a3eb83ea9ce02ac08f3cc2f154cdaf6d86",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-content-inventory.json",
+      "sha256": "b69da85082d3c8b4c2d8dfaedf677bf92d1803d2e4d5d05e8dfca72b90a08f0e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-native-wrapper.json",
+      "sha256": "b7f9de1507dc349007e77b14c3de7093ab868a5378aef51bdbcea2d29c3a813f",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-package.log",
+      "sha256": "006fbfd7a3432ad0bb38819b2d621298318f72277f4fa30204a6893acb853cbc",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-release-native.log",
+      "sha256": "8d9ef3ada04987133c47bc45a2ad3da5265c4ca799d2badcf9a78f54fbe39d39",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified4-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-bundle-build.log",
+      "sha256": "12f566b802af82348a514e38e6f63e78e31f6301645086bd9a3f3dc098605aff",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-bundle-platform.json",
+      "sha256": "d690c4f239f0e1645ba42c3ff8d8a279daeb691df3d95f37960166a02ae0ba1f",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-content-inventory.json",
+      "sha256": "502b96118d25ab3f390fd45bea2263372e90fe1042f731aa6e4d734c4decc22c",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-native-replay.json",
+      "sha256": "b6cc7d04178bc49255e477dddb152df67221ff4aa92b7537f7dba30321785d8c",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-native-wrapper.json",
+      "sha256": "8d93ea8158ebff07f98f07c7907dd369102cc804acd462b533baadfebc6e06ee",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-package.log",
+      "sha256": "0618f94356fc536cd702f719d3ad102600423d904f2b741f1922067514fdfb6d",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-python.log",
+      "sha256": "f7c2760ed7f1e5144bb5a879db822907f337d182fc7cedadfa4d6d76eb8f61d3",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-release-native.log",
+      "sha256": "2d871c7afe22a37ffe655f9eb20fe382eefba60e31f4df7258db2b9cec9c2815",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified5-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-build.log",
+      "sha256": "aa6a569b89a9b04629d87fadf9196a80cad4de781bb7120526903944dbe0d82e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-platform.json",
+      "sha256": "6d5dab80dd3050b430836dc1832cc77b1de68a8b342b29da425441a27fb124db",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-content-inventory.json",
+      "sha256": "f5a7ecc3a20ddb1a3cdff32fd7c0138faaa14626f2a7bb69532103997200f5a6",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-gatekeeper.log",
+      "sha256": "4e2af155da2b964b638d6626821fc08688a1871931dcad36fd84d7819927b474",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-japanese-input-pending.json",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied.",
+      "sha256": "58251c905f1defd89b67404b259cd2100d79a424872f947b279b03c27d5cebc5"
+    },
+    {
+      "path": "build/m2-qualified6-japanese-input.json",
+      "sha256": "cfdce1e5fe49cd1a883b1232cb0b9c5f9890ede8b7ca9136f2986113559e4273",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-native-profile-baseline.json",
+      "sha256": "535f7f4c1b1f60636890fd45ff50eb61f39055a4c552459141373fe7ee1b57b5",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-native-replay.json",
+      "sha256": "82262cba974c11d6bece5a51e94fc198e9183f9a1cb2a069e1f2b4e24984e031",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-negative-signatures/tampered-appcast.xml",
+      "sha256": "e7efa887552732238d422ce9a22c9965a7b785b0e312d5d8fb1e0dc82be1677a",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-negative-signatures/tampered.zip",
+      "sha256": "09536089b1336f1310894ceaa4ab1e00be392aa76937edd9e03adbdad23ccde8",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-notarization.json",
+      "sha256": "48cbe99a479c478812b950d215be85470d098800e80b05895bc6bae010fd6838",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-notary-archive.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-notary-submission.zip",
+      "sha256": "f3ed07bd754f85540687b08acb0d3da98d7999d19dea34e49fb291d60ad12da0",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-package.log",
+      "sha256": "9eee3540635add2596f58f287a1d4ebf91750f15077021eb8b990daa5625df92",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-pipeline.log",
+      "sha256": "f89c71c7cd00b2f9b6cc08ed29df6db69a691cf601351b98e22ee802b864f90b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-python.log",
+      "sha256": "8fc107834361af36885de4c1d3b6fa03ee87cb6651d11f2e88db3093683330fc",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-release-native.log",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.json",
+      "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.log",
+      "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.py",
+      "sha256": "626461c6c552391d6f44deaf0d8a2da0dc13282264f81f8e6f949fd4d55860ac",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-staple-validation.log",
+      "sha256": "50292d63bb9071aea2c6f0bb41ad5a5cc1c3dd553d3c7dc7cf4f1b0b3a356f8b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-staple.log",
+      "sha256": "d9b74bd1284bbd949b1cdd3c0c0563350dec26bec234bc6929c6966a439a3757",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-qualified6-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-recents.log",
+      "sha256": "964adedc21cf49f83faf3a31428cf1b4e93f6f0f80318bd54111fe79a0b2845d",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-redacted-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-release-build.log",
+      "sha256": "07aa0e6b8e9369527499261e76bb5c11b5919af4934b60a4342d002c49360104",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-release-suite.log",
+      "sha256": "47828db2cb282ad510d9e3907068012c8578237b335d7e3c2bd8cf4c100779e9",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/Sparkle-LICENSE",
+      "sha256": "389a4e4e9a32f059775b13a06e25a591445ba229d2838d26dd3e7c0c45127cfe",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/ZIPFoundation-LICENSE",
+      "sha256": "93a5b6f4c4fcfbca71aaf17f5758d249cf205d5d1c237becc37f14e43af09f6b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/final-license-verification.json",
+      "sha256": "67dfec5aae308a6e58013ec242bcab73568fe0efc14b01d7e5937ce1b1e8982f",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/icu-LICENSE",
+      "sha256": "e55522d81edc687a341a4411e0776e54ca654e90147f354a90458aaced4116af",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/librevenge-source.tar.xz",
+      "sha256": "19eacf5ce55d7fe6a990a45142589cdf7da0c7b68701797f133482cb44f189fa",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/libvisio-source.tar.xz",
+      "sha256": "2a6efd40b6d9dbcb70fba3be53112366882ba97b57151df3698dfa478c8d8dd3",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/license-verification.json",
+      "sha256": "30296c9ccbc0186e58270a109c5660983b84f82988bc6935de7bba52ab4b1470",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-rights-review/source-verification.json",
+      "sha256": "d62cf174dcc72b2dcdd2d664c97e59c12afc42bad783f6ffacd0baaae1dde2d7",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-search-input-focused-11.log",
+      "sha256": "23dbf0e6c399a80aec562fe2e0abfba2ba8c4098b2598ea937781fa92b7b68c8",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-search-text.log",
+      "sha256": "e14c4feadf725c57562825da85c7549f19b99bab885bc2a4b457de4572de9eae",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-signing-prerequisite.json",
+      "sha256": "10db7b072f8c9271a67cfbdee12d11e4b8ffa00b192b43dc4fa6f38886953ca8",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-stable-0.23.4/build.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "554f27439325a8121eef2c1ac71a88fb9cdb1f83b60e6e8144abe031f85798f9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification-attempt1.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a54e26dc5021d0de5044b968f5e51d07cdce66083d181e506856ce3e413e0fd2"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/candidate-only-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "151bcfe10f2d65f8486c006dd0678ac3c8c67dafdd3f8de42b3ccf258c5626b3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/content-rights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "827677a09c107505be4d59c68e83a06dc9e6e2896c99ac13a5571b2641378271"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/exception-policy-tests.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3c9467de4494df3ca18539a076b3441bd50dfdbc000b9274117bf87feee74724"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/final-stable-verification.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "639d4fe7e35c8d5f7a948419a7cf532b86da488c39fee1dac29860f4aa6b99a3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/notarization.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "8a39d98d7f17a765af1f516781edbda3fae87363687f1bdcfcd18badfdcbf01d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/notary-archive.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/owner-performance-exception.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "9b2fb629f2bc5090c8c9f1cff3e94ed9f45ab1a662cbc3afddb0a6769242a813"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/package.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "292d1787f0aa251b1def0c0cad9f56d90202be38b31d1a63103a64a83b07e0a0"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a8e58efc2693312bf323590aa3af11817e7bb6be5d455783f3d5e73ea09ca261"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11f69804ac3ab3cd0295a4e42c83202c20e101026c2a49d112b332181988844d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/platform.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prepare-candidate.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "7563ff82dd73014171384d3d653f3c778b621b0d102335f8151a837aa3c5ff20"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a8cf00764570601b2e54f06095cc140c3a4b7030d5fb47b1a5598e47dc74700c"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/baseline.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "f137ca78cf1485f17f9b2900b5cad05f5ca0e5daac28203a935b72e23c21dc7f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "80ca6ea01388e4f4d49be4cd8f1389ff957d11efd8d34c161658c1008f0f3c29"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/seal.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/SHA256SUMS.txt",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c5f635b1827744863a3859d6d8d5b557788404c1d1d97381d08ba3be6d4c7ed"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/release-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/stable-latest-appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/stable-manifest.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-upgrade/updater.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "89ea17ea356d43a0287359a1bedaf82c14b6e5b2403bcc3c17a8e4ab107339d2"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/publication-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ca067dbac15f7e5fa493af713e45d014def69a2fdd088ec3fce16e5a96d762cd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/publish.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "491d55a97685c711eb947772b509794d8f146e5d38391a6f99827bef340366cd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/published-release.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "dccd76180d32352cbf042abeed4261bfd8843a72804ef14c948c3d33b83a8e9f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/python.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "c22a14a9fb1ca1964a7c8a622fef971a41c27bdf2ff9d9d9216c3eeb2a41d219"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/qualify-update-settings.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "df5c0fe4151fcfa89b915665101bf916218d3ad8061c75826dac54f4cc36ace9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/qualify-updates.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4bd811ba6a8d80057ca17267fe39b126fd670c156f0ec70464d249bf0a3e47b8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/release-notes.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "69e9c13e53372152ffe1e96c228f3bd9e22589ac995c075f8a6240383c00a51a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/resume-candidate.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ca94a744b36f032287ebbd85f3f9c2e0abac8eaca85d4a31fea0a101b9a5cc1e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/resume-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "2405823cf5579d4fa1e2860438989e270f077d637b0fa68515cda9bfe000a484"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/stable-acceptance-check.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ef0465fe3d640e6f5989e5891195733c1b6aabf0f4a8f93fc59568c5f448a07b"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/staple.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "7551b6c8396057523c737760877f55e0e92d2bbd706dea7c67e98240272ce04c"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/support.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d10a219e7b4adff3c09d7973975d3486b5af4d0492f955c485339943b067f2e5"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/support.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ff8a6b40b09be81b5fb8f62c324c109372a1b0c6e64672915eb2dd7724a9f53a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5aad1e4efd821fa4bc8cc029a46bdcfe90a70a17510c8bf7ab18f43b1dcf20d6"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5a102fcbc0310ffb587c70acd1539a33091fdf5d4d6082749cc386ee264201ab"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "09d0105612e2f2cda37e419f89859e74d0d531827943b4a419b0586a3ddd80ce"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "41029a122d385e311e8372d844c8ecd6c7f4f0879bb638dd19176137d7ffdd20"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "05fa93d797cea610820cb9967c186a496fd03c84e5a68009073c4cf8af97d57d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/codesign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e4d8896b715cd9a0fb798a03873dcb7b064cae3804a900fe26442baee754f54e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3c9ec4441628230eb6c07eea4740d783fa6f7fce01baccd277d629a3006aec04"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d5cbcbb804df68017fde0340395bde86cd45f8c16ab0b16d5a2c77db8fa6233a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4d792ef499acfa726bb3ec794229002be097de135bc3d66bd99d66765cf0481a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "1266c6204879e37c8ebfed929f9aa02bda992ba8a9c9bfe2d662727eb45a59dd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "00de1ff862bd22aed5efcb0381160d48ba9a58657ca87b9a7b9c4f4057c3a7ae"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "64423f5fefc33b819be091ec95efb063b991a935541e06bee79ca7ed30205103"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "06b50788175600b49f2892de4d545a7b7d371e15111e1b4c54d52ea5e1415f71"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-install.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4373113efa69c92cc120f307e8373ead47209cc8aeb4416e24b110de8d34b927"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0d43e882da1a0316c50a304911038afffe6c0beeb8c22b3423c654de776cbff9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "66a9243cb4c89c20685e683b64fb4c227c8f75f3e0d62ac9ad2032b885c45201"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "193eb0c72d59bdc82269bc6c6bfecbc2b3cb8d6b5d8c14fc3c8e852edc67377f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4dc802903e91f03028990f5595546d679fcb2614f14f83c71d008ffc630cfa3f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/feed-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5f34fe57ddd361a1b13548c5c0856f0199b8d8c1bf571d5f555b6972673cf729"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/install.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "551c9f3a5b9b90673b3bb303da06fcfd671cf8ad7d90a359350de1514265628a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/verify-bundle-attempt1.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4c242eaff7e5866060f42d0946b78c8e82216e17c0390f6b1b4e1cb2bf29d820"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/verify-bundle.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "39a09203dba227bbb7d0499f249283617d23964de5a6739d74ab2a363d6831fc"
+    },
+    {
+      "path": "build/m2-stable-ad-hoc-rejection.json",
+      "sha256": "c3113735d16927eb808a530d43f7013702357aae09d7caf8dd9a5f22ac46c379",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-support-report.log",
+      "sha256": "8a8f5690608ac98946a8b68ecee1c362fcafac9572db347ce8e4c23acb379c55",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-text-routing.log",
+      "sha256": "b23c00889e03ae1bd4048c84a2aae2fd59960fdc5d39a9792bff6c225723edbe",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-update-runtime-policy.log",
+      "sha256": "8c6215960caffb4bdbf83fbfb71ee71f046b8ac2db9c8cf9fbb3c2f438b0479e",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-upstream-gate.json",
+      "sha256": "e8ded161ee6384a4975bc826b3a84b6e0d1c1a865dca497e5a145caf83908c76",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-upstream-resume.json",
+      "sha256": "fbd0b5388721175777249afd37b1e5bfcb5aa826acefec3bed91e2804971eb93",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-current-app.py",
+      "sha256": "63fd7dceac7b18bb39801de67de6dd9d8f1d8bec49ae95faae71123dea5943c1",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-qualified-app.py",
+      "sha256": "f053bc1454e110650c3b7c3cb50baa476a805c75461a65cb1cf066f200a3758b",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-qualified3-app.py",
+      "sha256": "e35a6bf363ed696f5ca8b3f9008710447eefa35d5fbc0a99dbf2027d2488c486",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-qualified4-app.py",
+      "sha256": "50ad0531f04f0a8f320997803a14a4f832eb4690461d1189e65b68a6528eec6c",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-qualified5-app.py",
+      "sha256": "f7bac3e4844a7edf6bd5ce1df312ce7f9db7ef42dbbacbac6205cf01313aeff6",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-verify-qualified6-app.py",
+      "sha256": "d9b2938fae548fd3ef50492a12d4b3aa079e4dbc5b771893c96b5a0aa6fce881",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-window-badge-native-attempt1.json",
+      "sha256": "39ddec13532066b69a255441b9d7241b936b04ecf3f6dedf6f0e3e1b49f45dc4",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-window-saved-badge-before.log",
+      "sha256": "0dc2ebcdedb09e3a13a57dcb2d5e44edbf6e5ef9ddbbe8829d5ed8244257ef26",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+      "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/SHA256SUMS.txt",
+      "sha256": "b3db954fd5ac925f1459e5db89b893a18d288b7de2b7565a8f81ce5907cee647",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/appcast.xml",
+      "sha256": "5e375e8c87606278b9e391b28b439079ca880e77e03303a3831ffe9af7589053",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/release-verification.json",
+      "sha256": "10c4cf4525e5f98d7694735484d320b22ea7cbfa81421506dcd37f286e6a02b1",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
+      "sha256": "dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/SHA256SUMS.txt",
+      "sha256": "f213e67082b4dd5860a902795989a31b546829711f1ca8e7601ca5e48bbb1c57",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/appcast.xml",
+      "sha256": "cb7324492b34c843c21bacbd28d51bdb2d05d17c6cdbf65b37403f38cf2c2063",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
+      "sha256": "cd62d0907faec711be9997ac8405fe88288d291bf9a78f8da7ecb9efa7ee3c58",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "16f5b578d2d0841f5b7c8f57b848438e98fed3434b73d79b0d71d5cc8764ae22"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/SHA256SUMS.txt",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c5f635b1827744863a3859d6d8d5b557788404c1d1d97381d08ba3be6d4c7ed"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/accessibility.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "80a7da0d580c4d20e33f8cbc9fc7b682b0ab03148977cf28c4eba8ab9d0e72b0"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/compatibility.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "abe799ed85935bb6e47b6979839803b7aaf620be39805742b83ccf0b62e58e2e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/contentRights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "903897a9f9546eb66540fba8feef5a6e087266d93fda9d6f1ab65f5395cba3f9"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/installedUpdate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ec0dc0e54761d6326c7fd5475ba2d82f3c0023b701b34e85340fd6a17659d3f0"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/performance.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "8a17e21ba237499165f453a8db851e6c8dee348c67b1ce7c4226cd9a30bea42e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3d6af85d0832cd9666692a90e1cf1ef97c796b018e37a9333c80fe8fb166d206"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/security.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "b5131440fde1c2b5168b16b5f9e0b65faa180179da17ba18fb06ab2748d06259"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/release-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-0-m2-final-native-journey.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-1-m2-qualified6-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-2-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-3-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-0-bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-1-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-2-m2-final-native-journey.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-3-m2-final-public-output-inspection.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0144fc5c127ddcbbf3bbac528f0ebe9a4b009c2b6491ac73696b13d53c14eb1f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-4-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-0-content-rights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "827677a09c107505be4d59c68e83a06dc9e6e2896c99ac13a5571b2641378271"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-1-content-provenance.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d73fc8b70ff913d384ee7839b5ec0ea72a49b238b2287bac5d92b7741d02d3c6"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-2-final-license-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "67dfec5aae308a6e58013ec242bcab73568fe0efc14b01d7e5937ce1b1e8982f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-3-source-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d62cf174dcc72b2dcdd2d664c97e59c12afc42bad783f6ffacd0baaae1dde2d7"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-0-update-install.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4373113efa69c92cc120f307e8373ead47209cc8aeb4416e24b110de8d34b927"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-1-update-settings.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "193eb0c72d59bdc82269bc6c6bfecbc2b3cb8d6b5d8c14fc3c8e852edc67377f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-2-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-3-baseline.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "f137ca78cf1485f17f9b2900b5cad05f5ca0e5daac28203a935b72e23c21dc7f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/owner-performance-exception.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "9b2fb629f2bc5090c8c9f1cff3e94ed9f45ab1a662cbc3afddb0a6769242a813"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-0-M1-QUALIFICATION.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "304151d8e4f8cb7c9e75b3737b09d549f4bdf7a61c73d77508814558bdc37b92"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-1-m2-qualified6-release-native.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-0-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-1-platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11f69804ac3ab3cd0295a4e42c83202c20e101026c2a49d112b332181988844d"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-0-M2-INPUT-TRUST-AUDIT.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d218d6c03580774d55e933638239180ea348e8eff531c1b1c3797ad2f16f37aa"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-1-m2-qualified6-release-native.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-3-bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/stable-manifest.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578"
+    },
+    {
+      "path": "docs/DEVELOPMENT-BACKLOG.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "7f63f928007ef6a8ea01935c0a66492fac0d0028c837e40dcc3a099deaf5dd70"
+    },
+    {
+      "path": "docs/DISTRIBUTION.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2a2797373a6bc55e744afd5fd4dce98e47e75d414a2ba5deeac2338bef6bcd90"
+    },
+    {
+      "path": "docs/RELEASE-0.23.4.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11ecc355d66e0aceb059e34a0b28286c739eaf0bf844e1d75a9b6726a53c11c8"
+    },
+    {
+      "path": "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "582565eb322ad688dc1511c90cdf46ba358f24cf7cf96d0015fc6b8be3dfa622"
+    },
+    {
+      "path": "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e977c9cf42f84a2731b9480389ab6918eff848c8d440f5582f8ff6a11d4ac5b7"
+    },
+    {
+      "path": "docs/delivery/M2-DIAGNOSTICS.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "55b901db09051d0238bb65874ed51742c8572f36ff81ee15707d0427d2490459"
+    },
+    {
+      "path": "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d218d6c03580774d55e933638239180ea348e8eff531c1b1c3797ad2f16f37aa"
+    },
+    {
+      "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "b95e1c01f50b267989c6f3b4d9a091a00353fffd4251a7e98677e03107cdc6da"
+    },
+    {
+      "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "8a394ca5cecb695085c409f80e1e6ce730c9e505baad9e06b89c86bf790b491a"
+    },
+    {
+      "path": "docs/delivery/M2-QUALIFICATION.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d34c1b24a76b35f5b920f9e437155e330b57e572cede07a79280d0c89f120470"
+    },
+    {
+      "path": "docs/delivery/M2-RELEASE-TRUST.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6ca66e18a720887391436d3b7cb4fbf68ecc442a681806fb984ea03650fb2375"
+    },
+    {
+      "path": "docs/delivery/M2-SEARCH-TEXT.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1aa71d638b8b7d52d97f69720eb4f3f608f49f0d69564d7210601e6d4b3bdebc"
+    },
+    {
+      "path": "docs/delivery/M2-STABLE-0.23.4.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "2310ff742c2a1f3a5298aa2f6a6a50fd7df48b62affc3fdc55425db1cca79fb5"
+    },
+    {
+      "path": "docs/delivery/M2-SUPPORT-REPORT.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f7223283e3f704a72b9e8d52f91d5b4697372708138700e0bb094bf26910914a"
+    },
+    {
+      "path": "docs/delivery/M2-TASK-EVIDENCE.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "15da9c35a1094d9530ec5dce39d75cbab9b2bd3845b80beab05cb1ddd0d548ec"
+    },
+    {
+      "path": "docs/development-backlog.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "79e5deef2ea147394df9168ebc0c2869bd7eb1595fc9e78894e5be7860027120"
+    },
+    {
+      "path": "scripts/release_policy.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "32ef022c2272714a72172c82336d3ac3f1dc27610be8b0039c0f26721fbf3380"
+    },
+    {
+      "path": "scripts/tests/test_release_policy.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "c90e283a3e284567c85ef87b09558e0ce1876805b9206f28fcacf64829c2c414"
+    },
+    {
+      "path": "scripts/verify-release.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "da44f46a8fff9ffb5dc5e0ec05b776a7ff880184f22a618b4d95953f2e6d148a"
+    }
+  ],
+  "blocked_task_ids": [],
+  "blocked_scope": null,
+  "delivery_gate": {
+    "state": "satisfied",
+    "dependency": "accepted M1 engineering handoff",
+    "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+    "integration_commit": "d797a67",
+    "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+  },
+  "integration_commit": "d797a67f89976f3a7d6a83fa7927e475acf29425",
+  "active_feature_checks": {
+    "state": "passed_local_scope",
+    "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "latest_log": "build/m2-qualified6-release-native.log",
+    "latest_result": "745 tests/12 fixture skips/0 failures;87 Python; format/import/ledger; signed notarized candidate, native text/flow, appearance and actual update/recovery checks pass for agreed M2 scope."
+  },
+  "historical_tests": {
+    "native_debug": {
+      "executed": 485,
+      "skipped": 13,
+      "failures": 0,
+      "log": "build/m2-full-native.log"
+    },
+    "focused_trust_after_loopback": {
+      "executed": 8,
+      "failures": 0,
+      "log": "build/m2-input-trust.log"
+    },
+    "native_text_routing": {
+      "executed": 1,
+      "failures": 0,
+      "log": "build/m2-text-routing.log"
+    },
+    "python": {
+      "executed": 28,
+      "failures": 0,
+      "log": "build/m2-python.log"
+    },
+    "native_release": {
+      "executed": 487,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-release-suite.log",
+      "scope": "M2 preparation before M0 integration"
+    },
+    "M0_integrated_debug": {
+      "executed": 503,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-m0-integrated-native.log"
+    },
+    "M0_integrated_python": {
+      "executed": 76,
+      "failures": 0,
+      "log": "build/m2-m0-integrated-python.log"
+    },
+    "final_preparation_debug": {
+      "executed": 512,
+      "skipped": 12,
+      "failures": 0,
+      "log": "build/m2-preparation-final-native.log",
+      "scope": "M0+M2 independent preparation; no M1 interfaces integrated"
+    },
+    "support_summary": {
+      "executed": 6,
+      "failures": 0,
+      "log": "build/m2-support-report.log"
+    },
+    "runtime_update_policy": {
+      "executed": 3,
+      "failures": 0,
+      "log": "build/m2-update-runtime-policy.log"
+    },
+    "final_python": {
+      "executed": 80,
+      "failures": 0,
+      "log": "build/m2-final-python.log"
+    },
+    "actual_pinned_feed": {
+      "exit_code": 0,
+      "report": "build/m2-pinned-feed-verification.json",
+      "scope": "Crypto only, no installation or milestone acceptance"
+    },
+    "hostile_container_followup": {
+      "executed": 6,
+      "failures": 0,
+      "log": "build/m2-container-trust.log",
+      "scope": "test-only follow-up; native app source unchanged since 512-test regression"
+    },
+    "accepted_M1_integrated_baseline": {
+      "executed": 655,
+      "skipped": 15,
+      "failures": 0,
+      "seconds": 37.0,
+      "log": "build/m2-m1-integrated-native.log"
+    }
+  },
+  "historical_candidate_checks": [
+    {
+      "candidate": "b321c5e",
+      "tests": "742/12skip/0fail",
+      "log": "build/m2-final-release-native.log",
+      "native_disposition": "Native title-bar badge defect found; feature journey retained."
+    },
+    {
+      "candidate": "df97cc0",
+      "tests": "742/12skip/0fail",
+      "log": "build/m2-qualified-release-native.log",
+      "native_disposition": "Window property fix insufficient; build/m2-window-badge-native-attempt1.json."
+    },
+    {
+      "candidate": "0dc735a",
+      "tests": "742/12skip/1failure",
+      "log": "build/m2-qualified2-release-native.log",
+      "disposition": "AppKit counter corrected; legacy scroller fit failure corrected in production and strict forced-legacy regression added."
+    },
+    {
+      "candidate": "ae9d815",
+      "tests": "743/12skip/0fail",
+      "log": "build/m2-qualified3-release-native.log",
+      "native_disposition": "Badge/preview Undo pass; committed inspector field stale after Undo, build/m2-inspector-native-attempt1.json."
+    },
+    {
+      "candidate": "bf8d3e4",
+      "tests": "744/12skip/0fail",
+      "log": "build/m2-qualified4-release-native.log",
+      "native_disposition": "End-edit refresh preceded Return action; build/m2-inspector-native-attempt2.json. Final regression uses real NSWindow Return event."
+    },
+    {
+      "candidate": "fbd851b",
+      "tests": "744/12skip/0fail",
+      "log": "build/m2-qualified5-release-native.log",
+      "native_disposition": "Inspector/lock/multipage replay passes; subsequent actual rich-text Cmd-Z defect found and fixed in0839994. build/m2-native-rich-input-before.json."
+    }
+  ],
+  "local_review_ready": true,
+  "superseded_development_candidates": [
+    {
+      "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
+      "path": "build/releases/development/0.23.3-e16604f368d2/MacVisio-0.23.3.zip",
+      "sha256": "13203e6a17d0f9b176d5d892262c8a6346f50e350ca3106b1b4b8a0af5287227",
+      "channel": "development",
+      "publicationAccepted": false,
+      "installed": false,
+      "published": false,
+      "architectures": [
+        "arm64"
+      ],
+      "minimumMacOS": "27.0",
+      "status": "superseded_unaccepted_preparation_archive",
+      "note": "Predates M0 integration, NativeSupportReport and runtime update-channel fix; current source is the reviewable candidate. No native integration acceptance is implied."
+    },
+    {
+      "source_revision": "b321c5ef022b",
+      "archive": "build/releases/development/0.23.3-b321c5ef022b/MacVisio-0.23.3.zip",
+      "sha256": "9c614339097a5d8bd56747b5115f647b9eb905bf128af9039328cf324d6e1bd5",
+      "state": "superseded_unaccepted_native_candidate",
+      "publicationAccepted": false
+    },
+    {
+      "source_revision": "df97cc03ada0",
+      "archive": "build/releases/development/0.23.3-df97cc03ada0/MacVisio-0.23.3.zip",
+      "sha256": "af0c1ecf440f1f116258753f27be4f3ee72e023f354f7cbad0561f6ed020e72a",
+      "state": "superseded_unaccepted_native_candidate",
+      "publicationAccepted": false
+    },
+    {
+      "source_revision": "ae9d81595deb",
+      "archive": "build/releases/development/0.23.3-ae9d81595deb/MacVisio-0.23.3.zip",
+      "sha256": "8b057918f88329fbf393080dff72a68e8213c098689821015be46d386d604c8b",
+      "state": "superseded_unaccepted_native_candidate",
+      "publicationAccepted": false
+    },
+    {
+      "source_revision": "bf8d3e4558cf",
+      "archive": "build/releases/development/0.23.3-bf8d3e4558cf/MacVisio-0.23.3.zip",
+      "sha256": "9d54e8826468866f3aa3b97e0eaaf591254e393e6a8ace11a7bb66dcd39808a8",
+      "state": "superseded_unaccepted_native_candidate",
+      "publicationAccepted": false
+    },
+    {
+      "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
+      "sha256": "dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939",
+      "channel": "development",
+      "publicationAccepted": false,
+      "installed": false,
+      "published": false,
+      "architectures": [
+        "arm64"
+      ],
+      "minimumMacOS": "27.0",
+      "developerIDSigned": false,
+      "notarized": false,
+      "status": "superseded_native_rich_text_undo_defect",
+      "content_inventory": "build/m2-qualified5-content-inventory.json",
+      "native_replay": "build/m2-qualified5-native-replay.json",
+      "native_disposition": "build/m2-native-rich-input-before.json"
+    }
+  ],
+  "updated_utc": "2026-10-16T05:09:11.615509+00:00",
+  "native_input_followup": {
+    "state": "out_of_scope_by_user_restoration_complete",
+    "record": "build/m2-qualified6-japanese-input.json",
+    "temporary_source_enabled": false,
+    "restoration_pending": false,
+    "CJK_qualification_accepted": false,
+    "required_for_M2": false
+  },
+  "scope_decisions": [
+    {
+      "scope": "Japanese-language input/candidate-picker testing",
+      "decision": "removed by user 2026-10-16"
+    },
+    {
+      "scope": "VoiceOver operation testing",
+      "decision": "removed by user 2026-10-16"
+    }
+  ],
+  "qualified_local_slices": [
+    "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias dirty/selection/zoom retention and locked-file Cancel pass. Final regression covers document/workflow/opening contracts. Original adaptive Home work is preserved separately.",
+    "WP-10-T02: Cross-page find/replace and validated command search pass. Native selected-run formatting Undo/Redo remains in the text responder; signed-candidate save/reopen and SVG retain Unicode and unselected formatting.",
+    "WP-10-T03: Explicit units, mixed/guarded/inherited protection and reversible two-page preview pass. Actual Return1in→25.4mm, Undo/focus exit→169.333mm/clean and locked-movement refusal pass; final suite includes real Return and settled-scrollbar regressions.",
+    "WP-10-T04: Actual branching/subprocess flow, attached labeled connectors, second-page target and off-page navigation survive save/reopen/rename. Public XML and independently inspected PDF/SVG agree for the declared basic slice.",
+    "WP-11-T01: Stable semantic AppKit graph IDs/order/relations/frames/actions, protection and native enabled states pass. Actual VoiceOver operation was explicitly removed from M2 requirements by the user on 2026-10-16; no VoiceOver pass is claimed.",
+    "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passes; native-window focus traversal, exit and connection Undo/cancel regressions pass. VoiceOver operation is outside the user-agreed M2 scope.",
+    "WP-11-T03: Actual Australian marked-text cancel/commit and selected café formatting/Undo/Redo pass on the exact signed app; RTL, decomposed accents and emoji survive save/reopen and public SVG/VSDX. Requested font metadata remains intact. Japanese testing is explicitly excluded by the user; original settings restored.",
+    "WP-11-T04: Actionable content checks and actual spelling selection pass. Native 760×560 editor layout retains canvas/inspector access; real Dark/Light/System SVG exports are byte-identical. External Visio proofing parity is not claimed.",
+    "WP-12-T01: Malformed/oversize ZIP/XML/CFB/native metadata, pre-DOM budgets, 12 bounded-image, six real helper deadline/cancellation and three pre-read admission cases pass. Imported actions stay inert and calibrated external no-fetch fixtures pass. Whole-process codec/sandbox guarantees are not claimed.",
+    "WP-12-T02: Exact source0839994 is Developer ID signed, hardened, Apple Accepted via renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key checks pass; ad hoc/incomplete stable publication is rejected. Development artifact remains unpublished with publicationAccepted:false.",
+    "WP-12-T03: Official pinned Sparkle performs real owned-app installs: altered feed/archive rejected; interrupted download preserves prior bytes; retry installs exact final target. Prior and updated apps open the same drawing. A second install preserves settings, recents/pins/removals and document bytes. Normal installation/public feed untouched.",
+    "WP-12-T04: Actual local qualification declares arm64/macOS27.0.1; binary inventory derives floor27.0 without claiming a27.0 install. Five upstream component notices and two MPL source offers are verified; first-party source/resource provenance and evidentiary limits are recorded. Native support redaction passes.",
+    "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input keys. Actual source traversal and stale-record retirement pass; anonymous legacy notes remain explicitly document-scoped.",
+    "WP-13-T02: Native issue pane distinguishes rendering/cached state and source part/Visio ID. Reveal Target selects the correct source object with another drawing open. The qualified producer slice is explicit; full importer compatibility is not claimed.",
+    "WP-13-T03: Affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy preserve original hash, source URL and dirty state; public copy text verified. Unsafe autosave is refused; Undo restores normal clean close.",
+    "WP-13-T04: Affected/harmless/Undo/multidocument/envelope/warning-retirement fixtures pass. Native material diagnostic/save/support results agree without warning on harmless opaque metadata alone."
+  ],
+  "historical_unaccepted_slices": [
+    "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
+    "WP-10-T02: Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
+    "WP-10-T03: Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted.",
+    "WP-10-T04: Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation.",
+    "WP-11-T01: Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open.",
+    "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
+    "WP-11-T03: UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese-language testing is excluded from M2 by user instruction; it is not an outstanding acceptance gate. Original input settings were restored.",
+    "WP-11-T04: Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted.",
+    "WP-12-T01: Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
+    "WP-12-T02: Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
+    "WP-12-T03: Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey.",
+    "WP-12-T04: Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
+    "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
+    "WP-13-T02: Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete.",
+    "WP-13-T03: Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit.",
+    "WP-13-T04: Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage."
+  ],
+  "qualification": "docs/delivery/M2-QUALIFICATION.md",
+  "task_evidence": "docs/delivery/M2-TASK-EVIDENCE.json",
+  "continuing_release_obligations": [
+    "The controlled50ms input/33ms frame targets remain unqualified; this exact stable archive has the explicit owner-approved release exception.",
+    "M0/M3 licensed Visio and broad baseline/reference/platform obligations retain their owners; stable native-editor release is not full specification parity.",
+    "Future archives cannot reuse this exact-hash performance exception. Complete third-party notices/source offers must be maintained."
+  ],
+  "historical_notes": [
+    "Accepted local M1 prerequisite remains satisfied and integrated at d797a67.",
+    "Source/test candidate committed at 0839994456aa82f3533456c75f9f10da1ebcd2bb; whole M2/M3 integration acceptance remains false.",
+    "Original checkout tracked Home working diff remains five files/285 insertions/111 deletions, inspected read-only.",
+    "Earlier suite/native failures and superseded archives are retained, including failed NSApp action-dispatch harness attempts; corrected first-responder fixture and real native Cmd-Z replay pass.",
+    "Full745/12skip/0fail Swift,87 Python, formatting/import boundaries/ledger and exact signed-candidate native replay pass.",
+    "User selected renoir-notary; actual Developer ID team5NF98M544G, Apple Accepted receipt, stapled ticket, Gatekeeper and final ZIP/feed verification pass. No installation/update/publication performed.",
+    "Third-party rights review is complete for observed final bytes; application-owner provenance input and remaining qualification are explicit.",
+    "User requested Japanese test skip and restoration. Australian-only/Input-menu-off/globe Emoji/disabled English-Australia-only Dictation verified; test apps quit and own recent removed. CJK qualification stays unaccepted."
+  ],
+  "voiceover_followup": {
+    "required_for_M2": false,
+    "state": "removed_by_user",
+    "pass_claimed": false,
+    "apple_script_control_enabled": false,
+    "prepared_driver_executed": false
+  },
+  "acceptance_passed": true,
+  "downstream_acceptance_ready": true,
+  "publication": {
+    "state": "published_stable_verified",
+    "channel": "stable",
+    "url": "https://github.com/acousland/MacVisio/releases/tag/v0.23.4",
+    "tag": "v0.23.4",
+    "latest": true,
+    "published_at": "2026-10-16T05:07:20Z",
+    "verification": "build/m2-stable-0.23.4/publication-verification.json",
+    "stable_publication_accepted": true,
+    "qualification_exceptions": [
+      {
+        "version": "0.23.4",
+        "gate": "performance",
+        "check": "controlled-latency",
+        "approvedBy": "repository owner, direct user instruction",
+        "approvedOn": "2026-10-16",
+        "approval": "Publish stable with performance exception",
+        "reason": "Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed."
+      }
+    ]
+  },
+  "prior_development_publication": {
+    "state": "published_verified",
+    "channel": "development",
+    "url": "https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa",
+    "tag": "development-v0.23.3-0839994456aa",
+    "published_at": "2026-10-16T04:51:48Z",
+    "verification": "build/m2-publication/publication-verification.json",
+    "stable_publication_accepted": false,
+    "stable_latest_unchanged": "v0.23.3"
+  },
+  "stable_candidate": {
+    "source_commit": "88aff9b5f132e402bdd8e894899d5efccf74c583",
+    "bundle_build_commit": "728b56e1ef7e1f1dcb66dfa5424cfe0e777fdea0",
+    "product_code_source": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "path": "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+    "sha256": "16f5b578d2d0841f5b7c8f57b848438e98fed3434b73d79b0d71d5cc8764ae22",
+    "version": "0.23.4",
+    "build": "29",
+    "channel": "stable",
+    "published": true,
+    "latest": true,
+    "publicationAccepted": true,
+    "release_url": "https://github.com/acousland/MacVisio/releases/tag/v0.23.4",
+    "platform": {
+      "architecture": "arm64",
+      "minimumMacOS": "27.0.1"
+    },
+    "notary_submission_id": "9e802fb0-ef2b-4c78-94bb-77aa3a1a3cde",
+    "manifest_sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578",
+    "qualification_exceptions": [
+      {
+        "version": "0.23.4",
+        "gate": "performance",
+        "check": "controlled-latency",
+        "approvedBy": "repository owner, direct user instruction",
+        "approvedOn": "2026-10-16",
+        "approval": "Publish stable with performance exception",
+        "reason": "Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed."
+      }
+    ]
+  }
+}

@@ -153,12 +153,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         workflow.welcome?.showOpening(name)
     }
     func open(_ url:URL,completion:((MacVisioDocument?,Error?)->Void)? = nil) {
-        if let existing = workflow.drawings.first(where:{$0.fileURL.map(RecentDrawingStore.canonical) == RecentDrawingStore.canonical(url)}) {
+        if let existing = workflow.drawings.first(where:{$0.fileURL.map(DocumentWorkflow.canonicalDrawingURL) == DocumentWorkflow.canonicalDrawingURL(url)}) {
             workflow.noteRecent(url);workflow.activate(existing);completion?(existing,nil);return
         }
         let ext = url.pathExtension.lowercased()
         if ext != "vssx" && ext != "vss" {
-            let key = RecentDrawingStore.canonical(url)
+            let key = DocumentWorkflow.canonicalDrawingURL(url)
             if var pending = pendingDocumentOpens[key] {
                 if let completion { pending.completions.append(completion) }
                 pendingDocumentOpens[key] = pending
@@ -300,8 +300,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item(edit,"Undo",Selector(("undo:")),"z"); item(edit,"Redo",Selector(("redo:")),"z",modifiers:[.command,.shift]); edit.addItem(.separator())
         item(edit,"Cut",#selector(NSText.cut(_:)),"x"); item(edit,"Copy",#selector(NSText.copy(_:)),"c"); item(edit,"Paste",#selector(NSText.paste(_:)),"v"); item(edit,"Select All",#selector(NSText.selectAll(_:)),"a")
         edit.addItem(.separator()); item(edit,"Duplicate",#selector(EditorWindowController.duplicateSelection(_:)),"d"); item(edit,"Delete",#selector(EditorWindowController.deleteSelection(_:))); item(edit,"Edit Text…",#selector(EditorWindowController.editText(_:)))
-        item(edit,"Find Shapes…",#selector(EditorWindowController.findShapes(_:)),"f")
+        item(edit,"Find and Replace…",#selector(EditorWindowController.findShapes(_:)),"f")
+        item(edit,"Search Commands…",#selector(EditorWindowController.showCommandSearch(_:)),"p",modifiers:[.command,.shift])
+        let spelling = NSMenu(title:"Spelling and Grammar"), spellingItem = NSMenuItem(title:"Spelling and Grammar",action:nil,keyEquivalent:"")
+        spellingItem.submenu = spelling; edit.addItem(spellingItem)
+        item(spelling,"Show Spelling and Grammar",#selector(NSTextView.showGuessPanel(_:)))
+        item(spelling,"Check Document Now",#selector(NSTextView.checkSpelling(_:)))
+        item(spelling,"Check Spelling While Typing",#selector(NSTextView.toggleContinuousSpellChecking(_:)))
         let shape = menu("Shape")
+        item(shape,"Insert Process",#selector(EditorWindowController.insertProcess(_:)))
+        item(shape,"Insert Decision",#selector(EditorWindowController.insertDecision(_:)))
+        item(shape,"Insert Start / End",#selector(EditorWindowController.insertTerminator(_:)))
+        item(shape,"Insert Data",#selector(EditorWindowController.insertData(_:)))
+        item(shape,"Insert Subprocess",#selector(EditorWindowController.insertSubprocess(_:)))
+        item(shape,"Insert Off-page Link…",#selector(EditorWindowController.chooseOffPageTarget(_:)))
+        item(shape,"Preview Align Drawing to Grid…",#selector(EditorWindowController.previewDrawingGrid(_:)))
         let textFormat = NSMenu(title:"Text Format"),textItem = NSMenuItem(title:"Text Format",action:nil,keyEquivalent:"");textItem.submenu = textFormat;shape.addItem(textItem)
         item(textFormat,"Bold",#selector(EditorWindowController.boldText(_:)),"b");item(textFormat,"Italic",#selector(EditorWindowController.italicText(_:)),"i");item(textFormat,"Underline",#selector(EditorWindowController.underlineText(_:)),"u")
         item(textFormat,"Show Fonts…",#selector(NSFontManager.orderFrontFontPanel(_:)),"t",modifiers:[.command,.shift],target:NSFontManager.shared)
@@ -328,6 +341,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item(window,"Next Drawing",#selector(DocumentWorkflow.nextDrawing(_:)),String(UnicodeScalar(NSF6FunctionKey)!),modifiers:[.control],target:workflow);window.items.last?.isAlternate = true
         item(window,"Previous Drawing",#selector(DocumentWorkflow.previousDrawing(_:)),String(UnicodeScalar(NSF6FunctionKey)!),modifiers:[.control,.shift],target:workflow);window.items.last?.isAlternate = true
         item(window,"Bring All to Front",#selector(NSApplication.arrangeInFront(_:)),target:NSApp); NSApp.windowsMenu = window
+        item(view,"Shapes Library",#selector(EditorWindowController.toggleShapeLibrary(_:)))
+        item(view,"Drawing Issues…",#selector(EditorWindowController.showDocumentIssues(_:)))
+        item(view,"Check Drawing Content…",#selector(EditorWindowController.checkDrawingContent(_:)))
+        item(file,"Export Redacted Support Report…",#selector(EditorWindowController.exportRedactedSupportReport(_:)))
         let help = menu("Help"); item(help,"MacVisio Help",#selector(showHelp(_:)),"?",target:self); item(help,"Visio Compatibility",#selector(showCompatibility(_:)),target:self); NSApp.helpMenu = help
     }
 }

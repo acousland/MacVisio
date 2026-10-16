@@ -63,7 +63,7 @@ A local completion label applies only to the task's stated local contract. Full 
 | --- | --- | --- | --- | --- |
 | M0 — Reference, inventory and evidence foundation | Know the target surface and obtain repeatable independent evidence. | WP-01, WP-02, WP-03, WP-04 | G0 | A licensed exact-build reference launches and the harness completes a small real Visio round trip. Every known baseline inventory entry maps to a requirement and an executable check or unresolved prerequisite. Public benchmarks, five-dimension evidence ledger and high-risk feasibility decisions are retained. |
 | M1 — Correct, responsive editing foundation | An edit, cancelled gesture, save and undo have consistent state; ordinary interactions update bounded work. | WP-05, WP-06, WP-07, WP-08, WP-09 | Foundation prerequisite; supports G1/G2 | The reproduced cancelled-drag/save mismatch is closed and intermittent saved-state behavior has a disposition. Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants. Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence. |
-| M2 — Dependable native editor release | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass. Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
+| M2 — Dependable native editor release (local engineering complete) | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard and basic-flowchart journeys pass (VoiceOver testing removed by user). Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
 | M3 — Intelligent VSDX professional drawing | Reuse intelligent shapes and exchange the declared VSDX drawing slice with Visio. | WP-14, WP-15, WP-16, WP-17, WP-18, WP-19, WP-20 | G2 candidate | The registered master/formula/text/theme/geometry/connector/page workflows pass public-content round trips. Screen/export/print agree under explicit layer/output policy and defined physical dimensions. All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability. |
 | M4 — Process modeling and data workflows | Build structured processes, validate them, link data and publish operational reports. | WP-21, WP-22, WP-23, WP-24 | G3 process/data slice | Container/list/swimlane and BPMN journeys pass membership, undo, layout and exchange checks. Mapped data import, keyed links, refresh/conflict preview, graphics and reports reconcile correctly. Source-specific connectors publish tested prerequisites and user data stays protected. |
 | M5 — Specialist professional diagram suite | Complete the inventoried business, software, infrastructure, schedule and engineering solutions. | WP-25, WP-26, WP-27, WP-28, WP-29 | G3 specialist slice | Each applicable solution family has named child tasks and a complete UI/model/calculation/interchange acceptance pack. CAD/database source version matrices and exact-build applicability are recorded. Imported template graphics are not counted as completed solution behavior. |
@@ -369,9 +369,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-10"></a>
 ### WP-10 — Finish document UX, search and basic authoring
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Proposed
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Completed — local engineering checkpoint; publication unaccepted
 
 **Readiness:** Refine against current native UI changes before implementation.
+
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 local engineering is complete; [qualification](delivery/M2-QUALIFICATION.md) and [task evidence](delivery/M2-TASK-EVIDENCE.json) retain scope and release limits.
+
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-10-T01 | Completed (local) | Native Home Locate/Remove, separate windows, canonical alias dirty/selection/zoom retention and locked-file Cancel pass. Final regression covers document/workflow/opening contracts. Original adaptive Home work is preserved separately. |
+| WP-10-T02 | Completed (local) | Cross-page find/replace and validated command search pass. Native selected-run formatting Undo/Redo remains in the text responder; signed-candidate save/reopen and SVG retain Unicode and unselected formatting. |
+| WP-10-T03 | Completed (local) | Explicit units, mixed/guarded/inherited protection and reversible two-page preview pass. Actual Return1in→25.4mm, Undo/focus exit→169.333mm/clean and locked-movement refusal pass; final suite includes real Return and settled-scrollbar regressions. |
+| WP-10-T04 | Completed (local) | Actual branching/subprocess flow, attached labeled connectors, second-page target and off-page navigation survive save/reopen/rename. Public XML and independently inspected PDF/SVG agree for the declared basic slice. |
 
 **Outcome:** A coherent native basic-diagram workflow with discoverable commands and safe state transitions.
 
@@ -393,11 +402,20 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-11"></a>
 ### WP-11 — Complete accessible input and rich-text journeys
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Proposed
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
 
 **Readiness:** Needs accessibility/interaction design; advanced text semantics continue in WP-16.
 
-**Outcome:** Meaningful keyboard/VoiceOver authoring, reliable international text input and font/proofing feedback.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 local engineering is complete; [qualification](delivery/M2-QUALIFICATION.md) and [task evidence](delivery/M2-TASK-EVIDENCE.json) retain scope and release limits.
+
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-11-T01 | Completed (local) | Stable semantic AppKit graph IDs/order/relations/frames/actions, protection and native enabled states pass. Actual VoiceOver operation was explicitly removed from M2 requirements by the user on 2026-10-16; no VoiceOver pass is claimed. |
+| WP-11-T02 | Completed (local) | Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passes; native-window focus traversal, exit and connection Undo/cancel regressions pass. VoiceOver operation is outside the user-agreed M2 scope. |
+| WP-11-T03 | Completed (local) | Actual Australian marked-text cancel/commit and selected café formatting/Undo/Redo pass on the exact signed app; RTL, decomposed accents and emoji survive save/reopen and public SVG/VSDX. Requested font metadata remains intact. Japanese testing is explicitly excluded by the user; original settings restored. |
+| WP-11-T04 | Completed (local) | Actionable content checks and actual spelling selection pass. Native 760×560 editor layout retains canvas/inspector access; real Dark/Light/System SVG exports are byte-identical. External Visio proofing parity is not claimed. |
+
+**Outcome:** Meaningful keyboard authoring, reliable international text input and font/proofing feedback.
 
 **Delivery dependencies:** WP-06, WP-08, WP-10. **Qualification prerequisites:** Local acceptance plus applicable overall release gates.
 
@@ -405,11 +423,11 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-11 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Package exit:** Real no-pointer/VoiceOver journeys create, connect, edit text, inspect data, save and export.
+**Package exit:** Real no-pointer journeys create, connect, edit text, inspect data, save and export.
 
 | Task | Work / deliverable | Acceptance | Size | Depends on |
 | --- | --- | --- | --- | --- |
-| WP-11-T01 — Expose semantic diagram accessibility elements | Use stable scene IDs for shapes, edges, relations, reading order, alt text and actions. | VoiceOver can identify and operate graph objects beyond toolbar labels. | L | Package prerequisites |
+| WP-11-T01 — Expose semantic diagram accessibility elements | Use stable scene IDs for shapes, edges, relations, reading order, alt text and actions. | Semantic AppKit graph objects expose stable identities, relations, bounds and operable actions beyond toolbar labels; VoiceOver operation testing is excluded by explicit user instruction. | L | Package prerequisites |
 | WP-11-T02 — Implement keyboard focus and connection workflows | Define focus traversal, object movement/resizing/connection and visible focus states. | No-pointer full drawing journey works without focus traps or unintended tool shortcuts. | L | WP-11-T01 |
 | WP-11-T03 — Qualify rich-text input and missing fonts | Exercise selected-run formatting, IME, RTL, combining characters, emoji and deterministic substitutions. | Text indexes remain intact and original requested font metadata is preserved. | L | WP-11-T02 |
 | WP-11-T04 — Add proofing/accessibility checks and adaptive UI | Supply baseline-confirmed proofing, content checks and long-label/window-size behavior. | Issues are actionable; Dark/Light/System never change exported drawing colors. | L | WP-11-T03 |
@@ -417,9 +435,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-12"></a>
 ### WP-12 — Enforce secure, trusted product distribution
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Proposed
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
 
 **Readiness:** Ready to refine release manifests and security cases.
+
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 local engineering is complete; [qualification](delivery/M2-QUALIFICATION.md) and [task evidence](delivery/M2-TASK-EVIDENCE.json) retain scope and release limits.
+
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-12-T01 | Completed (local) | Malformed/oversize ZIP/XML/CFB/native metadata, pre-DOM budgets, 12 bounded-image, six real helper deadline/cancellation and three pre-read admission cases pass. Imported actions stay inert and calibrated external no-fetch fixtures pass. Whole-process codec/sandbox guarantees are not claimed. |
+| WP-12-T02 | Completed (local) | Exact source0839994 is Developer ID signed, hardened, Apple Accepted via renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key checks pass; ad hoc/incomplete stable publication is rejected. Development artifact remains unpublished with publicationAccepted:false. |
+| WP-12-T03 | Completed (local) | Official pinned Sparkle performs real owned-app installs: altered feed/archive rejected; interrupted download preserves prior bytes; retry installs exact final target. Prior and updated apps open the same drawing. A second install preserves settings, recents/pins/removals and document bytes. Normal installation/public feed untouched. |
+| WP-12-T04 | Completed (local) | Actual local qualification declares arm64/macOS27.0.1; binary inventory derives floor27.0 without claiming a27.0 install. Five upstream component notices and two MPL source offers are verified; first-party source/resource provenance and evidentiary limits are recorded. Native support redaction passes. |
 
 **Outcome:** Stable release gates, truthful platform support, safe diagnostics and installed-update evidence.
 
@@ -441,9 +468,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-13"></a>
 ### WP-13 — Expose compatibility and calculation issues
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Proposed
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
 
 **Readiness:** Ready after diagnostic identity contracts.
+
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 local engineering is complete; [qualification](delivery/M2-QUALIFICATION.md) and [task evidence](delivery/M2-TASK-EVIDENCE.json) retain scope and release limits.
+
+| Task | Execution status | Current evidence / remaining acceptance |
+| --- | --- | --- |
+| WP-13-T01 | Completed (local) | Typed importer/calculation records retain source/object/cell/cache provenance and committed input keys. Actual source traversal and stale-record retirement pass; anonymous legacy notes remain explicitly document-scoped. |
+| WP-13-T02 | Completed (local) | Native issue pane distinguishes rendering/cached state and source part/Visio ID. Reveal Target selects the correct source object with another drawing open. The qualified producer slice is explicit; full importer compatibility is not claimed. |
+| WP-13-T03 | Completed (local) | Affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy preserve original hash, source URL and dirty state; public copy text verified. Unsafe autosave is refused; Undo restores normal clean close. |
+| WP-13-T04 | Completed (local) | Affected/harmless/Undo/multidocument/envelope/warning-retirement fixtures pass. Native material diagnostic/save/support results agree without warning on harmless opaque metadata alone. |
 
 **Outcome:** One navigable, object-aware pane for import, calculation, stale cache and save-impact issues.
 
@@ -1469,6 +1505,10 @@ The [recommended initial queue](#5-recommended-initial-execution-queue) remains 
 The review's local Apple M4/macOS 27.0.1 fixture has pages of 689, 2,030 and 3,909 shapes and 377 connectors total. Drawing/selection/hit-test timings use five-run medians after one warmup; insertion calculation and select-all are individual observations. These demonstrate bottlenecks, not p95 or frame-pacing acceptance. Approximately 5 ms continuous main-thread preparation and comfortably under 100 ms discrete feedback are proposed engineering budgets, subject to agreed fixtures and hardware. There are no new delivery-date or effort commitments.
 
 Retain the review's `build/architecture-review-*` artifacts as local evidence; create public synthetic replacements under WP-03 rather than copying private drawing contents. Peak memory/leaks, complete VoiceOver use, real Visio acceptance, crash recovery and installed updates remain unqualified until their linked tasks supply evidence.
+
+M2 scope decision (16 October 2026): Japanese-language input/candidate-picker testing is not required, per explicit user instruction. Generic native composition, selected-run, RTL, combining-character and emoji coverage remains.
+
+M2 scope decision (16 October 2026): VoiceOver operation testing was explicitly removed by the user. Semantic accessibility and keyboard checks remain; neither VoiceOver nor Japanese testing is represented as passed. The local M2 engineering checkpoint is complete; stable publication, broad platform, controlled performance and exact-build Visio gates remain separate. See [final qualification](delivery/M2-QUALIFICATION.md).
 
 <!-- M3-DELIVERY-REFINEMENT -->
 ## 11. M3 delivery refinement — 16 October 2026

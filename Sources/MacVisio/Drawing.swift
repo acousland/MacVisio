@@ -21,8 +21,9 @@ extension NSColor {
 }
 
 enum DiagramDrawing {
-    private static let imageCache = ResourceBudgetCache<Data, NSImage>(maximumCount: ResourceBudgets.imageCount, maximumCost: ResourceBudgets.decodedImages)
-    static var imageCacheStatistics: ResourceBudgetCache<Data, NSImage>.Statistics { imageCache.statistics }
+    struct ImageCacheKey: Hashable { let data: Data; let mimeType: String }
+    private static let imageCache = ResourceBudgetCache<ImageCacheKey, NSImage>(maximumCount: ResourceBudgets.imageCount, maximumCost: ResourceBudgets.decodedImages)
+    static var imageCacheStatistics: ResourceBudgetCache<ImageCacheKey, NSImage>.Statistics { imageCache.statistics }
     static func clearImageCache() { imageCache.removeAll() }
     private static func layerColor(_ color:String,transparency:Double) -> String {
         NSColor(hex:color).withAlphaComponent(1-max(0,min(100,transparency))/100).hexString
@@ -66,9 +67,8 @@ enum DiagramDrawing {
         let combined = NSBezierPath(); for vector in n.formatting.paths { combined.append(vectorPath(vector,in:n.rect)) }; return combined
     }
     static func font(for n:DiagramNode) -> NSFont {
-        var font = n.formatting.fontName == "System" ? NSFont.systemFont(ofSize:n.fontSize) : NSFont(name:n.formatting.fontName,size:n.fontSize) ?? NSFont.systemFont(ofSize:n.fontSize)
-        if n.bold { font = NSFontManager.shared.convert(font,toHaveTrait:.boldFontMask) }
-        if n.formatting.italic { font = NSFontManager.shared.convert(font,toHaveTrait:.italicFontMask) }; return font
+        NativeFontRendering.font(requested: n.formatting.fontName, size: n.fontSize,
+                                 bold: n.bold, italic: n.formatting.italic)
     }
     static func dash(_ pattern:Int) -> [CGFloat] { switch pattern { case 2:return [6,4]; case 3:return [1,3]; case 4:return [7,3,1,3]; case 5:return [7,3,1,3,1,3]; default:return [] } }
     static func isTextHidden(for node:DiagramNode) -> Bool { Double(node.formatting.sheet["HideText"]?.value ?? "0") == 1 }
@@ -126,14 +126,21 @@ enum DiagramDrawing {
         let p = prepared?.outline ?? outline(for:n)
         NSColor(hex:n.fill).setFill()
         if let image = n.formatting.image {
-            let key = image.data
-            let bitmap = imageCache.value(for: key) ?? NSImage(data: image.data)
-            if let bitmap = bitmap {
-                let width = bitmap.representations.map(\.pixelsWide).max() ?? Int(bitmap.size.width)
-                let height = bitmap.representations.map(\.pixelsHigh).max() ?? Int(bitmap.size.height)
-                let decoded = ResourceBudgets.decodedImageCost(width: width, height: height)
-                imageCache.insert(bitmap, for: key, cost: decoded > Int.max-image.data.count ? Int.max : decoded+image.data.count)
-                bitmap.draw(in:n.rect,from:.zero,operation:.sourceOver,fraction:1,respectFlipped:true,hints:nil) }
+            let key = ImageCacheKey(data: image.data, mimeType: image.mimeType)
+            let bitmap: NSImage?
+            if let cached = imageCache.value(for: key) { bitmap = cached }
+            else if let decoded = try? NativeImageDecoding.decode(data: image.data, mimeType: image.mimeType) {
+                let result = NSImage(cgImage: decoded.cgImage, size: decoded.pixelSize)
+                imageCache.insert(result, for: key, cost: decoded.cacheCost); bitmap = result
+            } else { bitmap = nil }
+            if let bitmap {
+                bitmap.draw(in:n.rect,from:.zero,operation:.sourceOver,fraction:1,respectFlipped:true,hints:nil)
+            } else {
+                NSColor(hex:"#808080").setStroke(); p.lineWidth = 1; p.stroke()
+                let cross = NSBezierPath(); cross.move(to:n.rect.origin); cross.line(to:CGPoint(x:n.rect.maxX,y:n.rect.maxY))
+                cross.move(to:CGPoint(x:n.rect.maxX,y:n.rect.minY)); cross.line(to:CGPoint(x:n.rect.minX,y:n.rect.maxY)); cross.stroke()
+                ("Image preview unavailable" as NSString).draw(in:n.rect.insetBy(dx:4,dy:4),withAttributes:[.font:NSFont.systemFont(ofSize:10),.foregroundColor:NSColor(hex:"#555555")])
+            }
         } else if !n.formatting.paths.isEmpty {
             for (index, vector) in n.formatting.paths.enumerated() {
                 let path = prepared?.vectors[index] ?? vectorPath(vector,in:n.rect)

@@ -67,6 +67,9 @@ enum CalculationJobs {
         previous: Diagram? = nil, previousIssues: [String] = [],
         previousGeometryIssuesByPage: [UUID: [String]]? = nil,
         previousFieldIssuesByPage: [UUID: [String]]? = nil,
+        previousGeometryDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        previousFieldDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        refreshDiagnostics: Bool = false,
         session: CalculationSession? = nil, changes: DocumentChangeSet? = nil,
         now: Date = Date(), cancellation: LifecycleJobCancellation
     ) throws -> CalculationJobOutput {
@@ -76,6 +79,9 @@ enum CalculationJobs {
                 diagram, previous: previous, previousIssues: previousIssues,
                 previousGeometryIssuesByPage: previousGeometryIssuesByPage,
                 previousFieldIssuesByPage: previousFieldIssuesByPage,
+                previousGeometryDiagnosticsByPage: previousGeometryDiagnosticsByPage,
+                previousFieldDiagnosticsByPage: previousFieldDiagnosticsByPage,
+                refreshDiagnostics: refreshDiagnostics,
                 session: session, changes: changes, now: now, cancellation: cancellation)
         else {
             throw LifecycleJobError.cancelled

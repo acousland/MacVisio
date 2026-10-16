@@ -8,6 +8,8 @@ enum DiagramCalculation {
         var geometryIssuesByPage: [UUID: [String]] = [:]
         var fieldIssuesByPage: [UUID: [String]] = [:]
         var work = CalculationWork()
+        var geometryDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
+        var fieldDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
     }
 
     static func recalculate(
@@ -16,6 +18,9 @@ enum DiagramCalculation {
         previousIssues: [String] = [],
         previousGeometryIssuesByPage: [UUID: [String]]? = nil,
         previousFieldIssuesByPage: [UUID: [String]]? = nil,
+        previousGeometryDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        previousFieldDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        refreshDiagnostics: Bool = false,
         session: CalculationSession? = nil,
         changes: DocumentChangeSet? = nil,
         now: Date = Date()
@@ -25,6 +30,9 @@ enum DiagramCalculation {
                 input, previous: previous, previousIssues: previousIssues,
                 previousGeometryIssuesByPage: previousGeometryIssuesByPage,
                 previousFieldIssuesByPage: previousFieldIssuesByPage,
+                previousGeometryDiagnosticsByPage: previousGeometryDiagnosticsByPage,
+                previousFieldDiagnosticsByPage: previousFieldDiagnosticsByPage,
+                refreshDiagnostics: refreshDiagnostics,
                 session: session, changes: changes, now: now, cancellation: nil)
         else {
             preconditionFailure("A noncancellable calculation cannot be cancelled.")
@@ -36,6 +44,9 @@ enum DiagramCalculation {
         _ input: Diagram, previous: Diagram? = nil, previousIssues: [String] = [],
         previousGeometryIssuesByPage: [UUID: [String]]? = nil,
         previousFieldIssuesByPage: [UUID: [String]]? = nil,
+        previousGeometryDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        previousFieldDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:],
+        refreshDiagnostics: Bool = false,
         session: CalculationSession? = nil, changes: DocumentChangeSet? = nil,
         now: Date = Date(), cancellation: LifecycleJobCancellation?
     ) -> Result? {
@@ -46,6 +57,8 @@ enum DiagramCalculation {
         var previousPassInput: Diagram?
         var geometryIssuesByPage = previousGeometryIssuesByPage ?? [:]
         var fieldIssuesByPage = previousFieldIssuesByPage ?? [:]
+        var geometryDiagnosticsByPage = previousGeometryDiagnosticsByPage
+        var fieldDiagnosticsByPage = previousFieldDiagnosticsByPage
         var work = CalculationWork()
         let session = session ?? CalculationSession()
         var passChanges = changes
@@ -64,38 +77,46 @@ enum DiagramCalculation {
             let passInput = next
             let comparison =
                 pass == 0
-                ? (previousIssues.isEmpty || previousGeometryIssuesByPage != nil ? previous : nil)
+                ? (refreshDiagnostics
+                    ? nil : (previousIssues.isEmpty || previousGeometryIssuesByPage != nil ? previous : nil))
                 : previousPassInput
             let retainedIssues = pass == 0 ? previousGeometryIssuesByPage ?? [:] : geometryIssuesByPage
             let geometry = ShapeSheetEngine.recalculate(
                 next, previous: pass == 0 ? previous : nil,
                 skipUnchangedPagesComparedTo: comparison,
                 retainedIssuesByPage: retainedIssues,
+                retainedDiagnosticsByPage: geometryDiagnosticsByPage,
                 incrementalNodes: true, session: session, changes: passChanges, cancellation: cancellation
             )
             if geometry.cancelled { return nil }
             geometryIssuesByPage = geometry.issuesByPage
+            geometryDiagnosticsByPage = geometry.diagnosticsByPage
             work.add(geometry.work)
             let fieldComparison =
                 pass == 0
-                ? (previousIssues.isEmpty || previousFieldIssuesByPage != nil ? previous : nil)
+                ? (refreshDiagnostics
+                    ? nil : (previousIssues.isEmpty || previousFieldIssuesByPage != nil ? previous : nil))
                 : previousPassInput
             let fields = TextFieldEngine.recalculate(
                 geometry.diagram, now: now, previous: fieldComparison,
                 retainedIssuesByPage: pass == 0 ? previousFieldIssuesByPage ?? [:] : fieldIssuesByPage,
+                retainedDiagnosticsByPage: fieldDiagnosticsByPage,
                 session: session,
                 changes: fieldComparison == nil
                     ? nil : adding(geometry.changedNodeIDsByPage, to: passChanges), cancellation: cancellation
             )
             if fields.cancelled { return nil }
             fieldIssuesByPage = fields.issuesByPage
+            fieldDiagnosticsByPage = fields.diagnosticsByPage
             work.add(fields.work)
             issues = Set(geometry.issues + fields.issues)
             if geometry.changedNodeIDsByPage.isEmpty && fields.changedNodeIDsByPage.isEmpty {
                 return Result(
                     diagram: fields.diagram, issues: issues.sorted(),
                     geometryIssuesByPage: geometryIssuesByPage,
-                    fieldIssuesByPage: fieldIssuesByPage, work: work)
+                    fieldIssuesByPage: fieldIssuesByPage, work: work,
+                    geometryDiagnosticsByPage: geometryDiagnosticsByPage,
+                    fieldDiagnosticsByPage: fieldDiagnosticsByPage)
             }
             previousPassInput = passInput
             var produced = DocumentChangeSet()
@@ -118,11 +139,18 @@ enum DiagramCalculation {
                 var pageIssues = Set(geometryIssuesByPage[page.id] ?? [])
                 pageIssues.insert(settlingIssue)
                 geometryIssuesByPage[page.id] = pageIssues.sorted()
+                geometryDiagnosticsByPage[page.id, default: []].append(
+                    DocumentDiagnostic(
+                        code: "calculation.convergence", origin: .calculation, severity: .warning,
+                        dimension: .behavior,
+                        target: .page(page.id), displayState: .cached, message: settlingIssue))
             }
         }
         return Result(
             diagram: next, issues: issues.sorted(),
             geometryIssuesByPage: geometryIssuesByPage,
-            fieldIssuesByPage: fieldIssuesByPage, work: work)
+            fieldIssuesByPage: fieldIssuesByPage, work: work,
+            geometryDiagnosticsByPage: geometryDiagnosticsByPage,
+            fieldDiagnosticsByPage: fieldDiagnosticsByPage)
     }
 }

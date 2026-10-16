@@ -18,10 +18,7 @@ struct ShapeCharacterStyle: Codable, Equatable {
         bold = node.bold;italic = node.formatting.italic;underline = node.formatting.underline
     }
     var font: NSFont {
-        var result = fontName == "System" ? NSFont.systemFont(ofSize:size) : NSFont(name:fontName,size:size) ?? NSFont.systemFont(ofSize:size)
-        if bold { result = NSFontManager.shared.convert(result,toHaveTrait:.boldFontMask) }
-        if italic { result = NSFontManager.shared.convert(result,toHaveTrait:.italicFontMask) }
-        return result
+        NativeFontRendering.font(requested: fontName, size: size, bold: bold, italic: italic)
     }
     var valid: Bool { size.isFinite && (1...500).contains(size) && fontName.utf8.count <= 1024 && cells.count <= 256 && cells.values.allSatisfy{$0.formula.utf8.count <= 16384} && (sourceIndex.map{$0 >= 0 && $0 <= Int32.max} ?? true) }
 }

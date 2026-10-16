@@ -3,6 +3,38 @@ import XCTest
 @testable import MacVisio
 
 final class InspectorCommitTests: XCTestCase {
+    func testFocusedCommittedFieldTracksUndoAndPreservesUncommittedInput() throws {
+        try withEditor(diagramWithFractionalGeometry()) { document, editor in
+            let original = document.diagram
+            editor.canvas.select([try XCTUnwrap(original.page.nodes.first).id])
+            let window = try XCTUnwrap(editor.window)
+            window.makeKeyAndOrderFront(nil)
+            let x = try field("inspector_X", in: editor.root.inspector)
+            XCTAssertTrue(window.makeFirstResponder(x))
+            let input = try XCTUnwrap(x.currentEditor() as? NSTextView)
+            input.selectAll(nil)
+            input.insertText("1 in", replacementRange: input.selectedRange())
+            document.undoManager?.beginUndoGrouping()
+            window.sendEvent(try XCTUnwrap(NSEvent.keyEvent(
+                with: .keyDown, location: .zero, modifierFlags: [], timestamp: 0,
+                windowNumber: window.windowNumber, context: nil, characters: "\r",
+                charactersIgnoringModifiers: "\r", isARepeat: false, keyCode: 36)))
+            document.undoManager?.endUndoGrouping()
+            RunLoop.main.run(until: Date().addingTimeInterval(0.02))
+            XCTAssertEqual(document.diagram.page.nodes[0].x, 72)
+            XCTAssertEqual(input.string, "72")
+            document.undoManager?.undo()
+            XCTAssertEqual(document.diagram, original)
+            XCTAssertEqual(input.string, "123.49", "Undo must refresh an already-committed focused field.")
+            input.string = "77."
+            editor.root.inspector.refresh()
+            XCTAssertEqual(input.string, "77.", "A refresh must preserve input that has not been committed.")
+            input.string = "123.49"
+            XCTAssertTrue(window.makeFirstResponder(editor.canvas))
+            XCTAssertEqual(document.diagram, original, "Leaving the field after undo must not replay the old value.")
+        }
+    }
+
     func testUntouchedPageInspectorFieldsDoNotCommitRoundedValues() throws {
         try withEditor(diagramWithFractionalGeometry()) { document, editor in
             let original = document.diagram

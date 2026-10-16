@@ -112,6 +112,46 @@ final class RecentDrawingTests: XCTestCase {
         XCTAssertTrue(store.entries(including: [remote]).isEmpty)
     }
 
+    func testRemoveForgetsHistoryAndPinWithoutSystemRecentResurrection() {
+        let (suite, defaults) = isolatedDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let removed = fileURL("missing.vsdx"), retained = fileURL("retained.vsdx")
+        let store = RecentDrawingStore(defaults: defaults)
+        store.record(removed); store.togglePin(removed); store.record(retained)
+        store.remove(removed)
+        let reopened = RecentDrawingStore(defaults: defaults)
+        XCTAssertEqual(reopened.entries(including: [removed]).map(\.url), [retained])
+        reopened.record(removed)
+        XCTAssertEqual(reopened.entries().map(\.url), [removed, retained])
+        XCTAssertFalse(reopened.entries()[0].isPinned)
+    }
+
+    func testLocatePreservesPinAndOrderAndCoalescesExistingDestination() {
+        let (suite, defaults) = isolatedDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let old = fileURL("old.vsdx"), new = fileURL("new.vsdx"), retained = fileURL("retained.vsdx")
+        let store = RecentDrawingStore(defaults: defaults)
+        store.record(new); store.record(old); store.record(retained)
+        store.togglePin(old)
+        store.relocate(old, to: new)
+        let entries = store.entries(including: [old, new])
+        XCTAssertEqual(entries.map(\.url), [new, retained])
+        XCTAssertEqual(entries.map(\.isPinned), [true, false])
+        XCTAssertEqual(RecentDrawingStore(defaults: defaults).entries(including: [old]).map(\.url), [new, retained])
+    }
+
+    func testLocateSystemOnlyEntryAndRemoteRejection() {
+        let (suite, defaults) = isolatedDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let old = fileURL("old.vsdx"), new = fileURL("new.vsdx")
+        let store = RecentDrawingStore(defaults: defaults)
+        store.relocate(old, to: new)
+        XCTAssertEqual(store.entries(including: [old]).map(\.url), [new])
+        let remote = URL(string: "https://example.invalid/new.vsdx")!
+        store.relocate(new, to: remote); store.remove(remote)
+        XCTAssertEqual(store.entries(including: [remote]).map(\.url), [new])
+    }
+
     private func isolatedDefaults() -> (String, UserDefaults) {
         let suite = "MacVisioRecentDrawingTests-\(UUID().uuidString)"
         let defaults = UserDefaults(suiteName: suite)!

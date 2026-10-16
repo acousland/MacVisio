@@ -122,11 +122,12 @@ def make_inventory(root=ROOT, ledger=None):
         entries.append(entry)
 
     # Literal extraction has a deliberately bounded denominator. UI commands remain an unresolved reference catalog.
+    command_sources = ('Sources/MacVisio/main.swift', 'Sources/MacVisio/DeveloperCommands.swift')
     commands = {}
-    for path in ('Sources/MacVisio/main.swift', 'Sources/MacVisio/DeveloperCommands.swift'):
-        # Accepted M1 moved developer dispatch out of main. Keep each stable
-        # inventory ID while recording its current source owner.
-        if (root / path).is_file():
+    for path in command_sources:
+        # M1 extracts developer dispatch from main; preserve stable inventory
+        # identities while moving each source anchor to its actual owner.
+        if (root / path).exists():
             for name in re.findall(r'"(--[a-z][a-z0-9-]*)"', (root / path).read_text()):
                 commands.setdefault(name, path)
     for name, path in sorted(commands.items()):

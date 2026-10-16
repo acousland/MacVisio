@@ -55,6 +55,16 @@ final class MacVisioDocument: NSDocument {
         if let savedStateID { return stateID != savedStateID }
         return super.isDocumentEdited
     }
+    override func updateChangeCount(_ change: NSDocument.ChangeType) {
+        // AppKit's counter and our undo-restored snapshot identity can differ.
+        // Its document-actions badge also reads the counter, independently of
+        // NSWindow.isDocumentEdited. Reconcile both when undo reaches disk state.
+        let restoredSavedState = savedStateID.map { stateID == $0 } ?? false
+        super.updateChangeCount(restoredSavedState ? .changeCleared : change)
+        for controller in windowControllers {
+            controller.window?.isDocumentEdited = isDocumentEdited
+        }
+    }
     override var hasUnautosavedChanges: Bool {
         if let savedStateID, stateID == savedStateID { return false }
         if let recoveryStateID { return stateID != recoveryStateID }
@@ -79,6 +89,90 @@ final class MacVisioDocument: NSDocument {
         if saveEvents.count > 64 { saveEvents.removeFirst(saveEvents.count - 64) }
     }
     var importWarnings: [String] = []
+    private var typedImportDiagnostics: [DocumentDiagnostic] = []
+    private var retiredTypedImportMessages: Set<String> = []
+    private var geometryDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
+    private var fieldDiagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
+    private var acceptedCalculationDiagnostics: [DocumentDiagnostic] = []
+    private var supplementalDiagnostics: [DocumentDiagnostic] = []
+    var diagnosticInputKey: String { "\(lifecycleOwnerID.uuidString):\(stateID.uuidString):\(revision)" }
+    var currentDiagnostics: [DocumentDiagnostic] {
+        let representedImportMessages = Set(typedImportDiagnostics.map(\.message))
+        let imported =
+            typedImportDiagnostics.map { record in
+                var record = record
+                record.inputKey = diagnosticInputKey
+                return record
+            }
+            + importWarnings.filter {
+                !representedImportMessages.contains($0) && !retiredTypedImportMessages.contains($0)
+            }.map {
+                var record = DocumentDiagnostic.legacyImportNote($0, code: "import.anonymous")
+                record.inputKey = diagnosticInputKey
+                record.displayState = .unavailable
+                return record
+            }
+        let derived = (acceptedCalculationDiagnostics + supplementalDiagnostics).map { diagnostic in
+            var diagnostic = diagnostic
+            if diagnostic.inputKey != diagnosticInputKey { diagnostic.displayState = .stale }
+            return diagnostic
+        }
+        let representedCalculationMessages = Set(acceptedCalculationDiagnostics.map(\.message))
+        let legacy = calculationIssues.filter { !representedCalculationMessages.contains($0) }.map {
+            DocumentDiagnostic(
+                code: "calculation.anonymous", origin: .calculation, severity: .warning,
+                dimension: .rendering, target: .document, displayState: .unavailable, message: $0,
+                inputKey: diagnosticInputKey)
+        }
+        return imported + derived + legacy
+    }
+    @discardableResult func setSupplementalDiagnostics(_ records: [DocumentDiagnostic], inputKey: String)
+        -> Bool
+    {
+        guard inputKey == diagnosticInputKey else { return false }
+        supplementalDiagnostics = records.map { record in
+            var record = record
+            record.inputKey = inputKey
+            return record
+        }
+        diagnosticsDidChange()
+        return true
+    }
+    private func resetDiagnosticsForRead() {
+        typedImportDiagnostics = []
+        retiredTypedImportMessages = []
+        importWarnings = []
+        acceptedCalculationDiagnostics = []
+        supplementalDiagnostics = []
+        calculationIssues = []
+        geometryIssuesByPage = [:]
+        fieldIssuesByPage = [:]
+        geometryDiagnosticsByPage = [:]
+        fieldDiagnosticsByPage = [:]
+        calculationSession = CalculationSession()
+    }
+    private func publishCalculationDiagnostics() {
+        acceptedCalculationDiagnostics = diagram.pages.flatMap { page in
+            (geometryDiagnosticsByPage[page.id] ?? []) + (fieldDiagnosticsByPage[page.id] ?? [])
+        }.map { record in
+            var record = record
+            record.inputKey = diagnosticInputKey
+            return record
+        }
+        diagnosticsDidChange()
+    }
+    private func diagnosticsDidChange() {
+        NotificationCenter.default.post(name: .macVisioDiagnosticsDidChange, object: self)
+        for case let editor as EditorWindowController in windowControllers where editor.root != nil {
+            editor.updateStatus()
+        }
+    }
+    var issuesController: DocumentIssuesController?
+    private var saveImpactBaseline: DocumentSaveImpact.Baseline?
+    private(set) var lastSaveImpact = DocumentSaveImpact.Assessment(risks: [])
+    /// Tests can select a concrete copy destination without interacting with sheets.
+    var resolveSaveImpact: ((DocumentSaveImpact.Assessment) -> DocumentSaveImpact.Resolution)?
+    private var policyAdmittedSaveID: UUID?
     var calculationIssues: [String] = []
     private var geometryIssuesByPage: [UUID: [String]] = [:]
     private var pendingCalculation: LifecycleJobHandle?
@@ -101,6 +195,7 @@ final class MacVisioDocument: NSDocument {
     private struct SaveArtifact {
         let id: UUID
         let archive: VisioDocumentArchive
+        let sourceDiagnostics: [DocumentDiagnostic]?
     }
     private struct QueuedSave {
         let id: UUID
@@ -118,6 +213,7 @@ final class MacVisioDocument: NSDocument {
     private var activeSaveSourceCheck: (id: UUID, version: DocumentSourceVersion)?
     private var queuedSaves: [QueuedSave] = []
     private var saveAwaitingTextCalculation: (request: QueuedSave, calculationID: UUID)?
+    private var saveAwaitingImpactResolution: QueuedSave?
     private var saveDrainScheduled = false
     private var saveInProgress = false
     private var finalizingTextForSave = false
@@ -206,8 +302,15 @@ final class MacVisioDocument: NSDocument {
             let archive = try VisioFormat.writeRebased(snapshot, to: url)
             let data = try Data(contentsOf: url)
             if let saveID {
+                var sourceSnapshot = snapshot
+                sourceSnapshot.visioArchive = archive
+                // NSDocument normally owns background encoding. A synchronous
+                // fallback must not introduce a full source scan on main.
+                let sourceDiagnostics =
+                    Thread.isMainThread ? nil : ImportedSourceDiagnostics.scan(sourceSnapshot)
                 saveSnapshotLock.lock()
-                serializedSaveArtifact = SaveArtifact(id: saveID, archive: archive)
+                serializedSaveArtifact = SaveArtifact(
+                    id: saveID, archive: archive, sourceDiagnostics: sourceDiagnostics)
                 saveSnapshotLock.unlock()
             }
             return data
@@ -231,9 +334,16 @@ final class MacVisioDocument: NSDocument {
             defer { try? FileManager.default.removeItem(at: url) }
             try data.write(to: url)
             let result = try LegacyVisioFormat.read(from: url)
+            resetDiagnosticsForRead()
             diagram = result.diagram
             importWarnings = result.warnings
+            typedImportDiagnostics =
+                result.diagnostics
+                + ImagePreviewDiagnostics.records(in: result.diagram).filter { record in
+                    !result.diagnostics.contains(where: { $0.id == record.id })
+                }
             legacyNative = result.legacyNative
+            saveImpactBaseline = .init(snapshot: diagram)
             return
         }
         if typeName == Self.visioType {
@@ -242,44 +352,70 @@ final class MacVisioDocument: NSDocument {
             defer { try? FileManager.default.removeItem(at: url) }
             try data.write(to: url)
             let result = try VisioFormat.read(from: url)
+            resetDiagnosticsForRead()
             diagram = result.diagram
             importWarnings = result.warnings
+            typedImportDiagnostics = result.diagnostics
+            legacyNative = false
+            saveImpactBaseline = .init(snapshot: diagram)
             return
         }
-        diagram = GeometrySheet.refreshCompositeCaches(
+        let loaded = GeometrySheet.refreshCompositeCaches(
             try JSONDecoder().decode(Diagram.self, from: data).validated())
+        resetDiagnosticsForRead()
+        diagram = loaded
+        typedImportDiagnostics = ImportedSourceDiagnostics.scan(loaded)
+        legacyNative = false
+        saveImpactBaseline = .init(snapshot: diagram)
     }
     override func read(from url: URL, ofType typeName: String) throws {
         let evidence = PerformanceEvidence.begin(.open)
         defer { PerformanceEvidence.end(evidence) }
         let version = try DocumentSourceVersion.read(url)
+        guard try version.url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile == true else {
+            throw DiagramError.invalid("Choose a regular drawing file.")
+        }
         let loaded: Diagram
         let warnings: [String]
+        let typedDiagnostics: [DocumentDiagnostic]
         let isLegacy: Bool
         if ["vsd", "vst"].contains(url.pathExtension.lowercased()) || typeName == Self.legacyType {
-            let result = try LegacyVisioFormat.read(from: url)
+            let result = try LegacyVisioFormat.read(from: version.url)
             loaded = result.diagram
             warnings = result.warnings
+            typedDiagnostics =
+                result.diagnostics
+                + ImagePreviewDiagnostics.records(in: loaded).filter { record in
+                    !result.diagnostics.contains(where: { $0.id == record.id })
+                }
             isLegacy = result.legacyNative
         } else if ["vsdx", "vstx"].contains(url.pathExtension.lowercased()) || typeName == Self.visioType {
-            let result = try VisioFormat.read(from: url)
+            let result = try VisioFormat.read(from: version.url)
             loaded = try result.diagram.validated()
             warnings = result.warnings
+            typedDiagnostics = result.diagnostics
             isLegacy = false
         } else {
-            let data = try Data(contentsOf: url)
+            guard version.bytes <= 256_000_000 else {
+                throw DiagramError.invalid("This diagram exceeds the supported document size.")
+            }
+            let data = try Data(contentsOf: version.url, options: .mappedIfSafe)
             guard data.count <= 256_000_000 else {
                 throw DiagramError.invalid("This diagram exceeds the supported document size.")
             }
             loaded = GeometrySheet.refreshCompositeCaches(
                 try JSONDecoder().decode(Diagram.self, from: data).validated())
             warnings = []
+            typedDiagnostics = ImportedSourceDiagnostics.scan(loaded)
             isLegacy = false
         }
-        try version.check()
+        try version.check(contentsAt: url)
+        resetDiagnosticsForRead()
         diagram = loaded
         importWarnings = warnings
+        typedImportDiagnostics = typedDiagnostics
         legacyNative = isLegacy
+        saveImpactBaseline = .init(snapshot: diagram)
         saveSnapshotLock.lock()
         sourceFileVersion = version
         unverifiedSavedSourceURL = nil
@@ -299,6 +435,11 @@ final class MacVisioDocument: NSDocument {
         calculationIssues = []
         geometryIssuesByPage = [:]
         fieldIssuesByPage = [:]
+        geometryDiagnosticsByPage = [:]
+        fieldDiagnosticsByPage = [:]
+        acceptedCalculationDiagnostics = []
+        supplementalDiagnostics = []
+        diagnosticsDidChange()
         pageRuntimes = [:]
         runtimeRevision = nil
         lastCommittedChange = nil
@@ -316,10 +457,26 @@ final class MacVisioDocument: NSDocument {
         saveSnapshotLock.lock()
         let directVersion = activeSaveSourceCheck == nil ? sourceFileVersion : nil
         let directUnverified = activeSaveSourceCheck == nil ? unverifiedSavedSourceURL : nil
+        let policyAdmitted = policyAdmittedSaveID != nil
         saveSnapshotLock.unlock()
         if directUnverified == DocumentSourceVersion.canonical(url) { throw DocumentSourceConflict(url: url) }
         if let directVersion, DocumentSourceVersion.canonical(url) == directVersion.url {
             try directVersion.check()
+        }
+        if !policyAdmitted,
+            let original = sourceFileVersion?.url ?? fileURL.map(DocumentSourceVersion.canonical),
+            DocumentSourceVersion.canonical(url) == original
+        {
+            try DocumentWritePolicy.requireWritableOriginal(original)
+        }
+        if !policyAdmitted,
+            let original = sourceFileVersion?.url ?? fileURL.map(DocumentSourceVersion.canonical),
+            DocumentSourceVersion.canonical(url) == original
+        {
+            let assessment = DocumentSaveImpact.assess(
+                snapshot: diagram, baseline: saveImpactBaseline,
+                diagnostics: currentDiagnostics, format: Self.impactFormat(typeName))
+            if assessment.requiresReview { throw DocumentSaveImpact.UnsafeOverwrite(assessment: assessment) }
         }
         try super.write(to: url, ofType: typeName)
     }
@@ -438,10 +595,13 @@ final class MacVisioDocument: NSDocument {
         let baseline = sourceFileVersion
         let unverified = unverifiedSavedSourceURL
         saveSnapshotLock.unlock()
-        let sameSource =
-            fileURL.map(DocumentSourceVersion.canonical) == DocumentSourceVersion.canonical(request.url)
+        let originalURL = fileURL.map(DocumentSourceVersion.canonical) ?? baseline?.url
+        let sameSource = originalURL == DocumentSourceVersion.canonical(request.url)
         let expected = acknowledgesDocument && sameSource ? baseline : nil
         do {
+            if sameSource {
+                try DocumentWritePolicy.requireWritableOriginal(DocumentSourceVersion.canonical(request.url))
+            }
             if acknowledgesDocument && sameSource
                 && unverified == DocumentSourceVersion.canonical(request.url)
             {
@@ -465,6 +625,99 @@ final class MacVisioDocument: NSDocument {
         }
         let snapshotStateID = stateID
         let snapshotRecord = SaveSnapshot(id: request.id, stateID: snapshotStateID, diagram: snapshot)
+        let assessment = DocumentSaveImpact.assess(
+            snapshot: snapshot, baseline: saveImpactBaseline,
+            diagnostics: currentDiagnostics, format: Self.impactFormat(request.typeName))
+        lastSaveImpact = assessment
+        if sameSource && assessment.requiresReview {
+            PerformanceEvidence.end(saveEvidence)
+            guard request.operation == .saveOperation || request.operation == .saveAsOperation else {
+                failSaveBeforeSnapshot(
+                    request, error: DocumentSaveImpact.UnsafeOverwrite(assessment: assessment))
+                return
+            }
+            resolveUnsafeSave(request, snapshot: snapshotRecord, assessment: assessment)
+            return
+        }
+        performCapturedSave(request, snapshot: snapshotRecord, saveEvidence: saveEvidence)
+    }
+    private static func impactFormat(_ typeName: String) -> DocumentSaveImpact.Format {
+        typeName == nativeType ? .native : typeName == legacyType ? .legacy : .visio
+    }
+    private func resolveUnsafeSave(
+        _ request: QueuedSave, snapshot: SaveSnapshot, assessment: DocumentSaveImpact.Assessment
+    ) {
+        saveAwaitingImpactResolution = request
+        let resolved: (DocumentSaveImpact.Resolution) -> Void = { [weak self] resolution in
+            guard let self, self.saveAwaitingImpactResolution?.id == request.id else { return }
+            self.saveAwaitingImpactResolution = nil
+            let destination: URL
+            let typeName: String
+            switch resolution {
+            case .cancel:
+                failSaveBeforeSnapshot(request, error: CocoaError(.userCancelled))
+                return
+            case .copy(let url):
+                destination = url
+                typeName = request.typeName
+            case .nativeCopy(let url):
+                destination = url
+                typeName = Self.nativeType
+            }
+            guard
+                DocumentSourceVersion.canonical(destination) != DocumentSourceVersion.canonical(request.url),
+                fileURL.map(DocumentSourceVersion.canonical) != DocumentSourceVersion.canonical(destination),
+                !documentIsClosed
+            else {
+                failSaveBeforeSnapshot(
+                    request, error: DocumentSaveImpact.UnsafeOverwrite(assessment: assessment))
+                return
+            }
+            let copy = QueuedSave(
+                id: request.id, url: destination, typeName: typeName,
+                operation: .saveToOperation, completion: request.completion)
+            performCapturedSave(copy, snapshot: snapshot, saveEvidence: PerformanceEvidence.begin(.save))
+        }
+        if let resolveSaveImpact {
+            resolved(resolveSaveImpact(assessment))
+            return
+        }
+        guard let window = windowControllers.compactMap(\.window).first, window.attachedSheet == nil else {
+            saveAwaitingImpactResolution = nil
+            failSaveBeforeSnapshot(request, error: DocumentSaveImpact.UnsafeOverwrite(assessment: assessment))
+            return
+        }
+        let alert = NSAlert()
+        alert.messageText = "Preserve the original drawing"
+        alert.informativeText = assessment.risks.map(\.message).joined(separator: "\n\n")
+        alert.alertStyle = .warning
+        alert.addButton(withTitle: "Cancel")
+        alert.addButton(withTitle: "Save a Copy…")
+        alert.addButton(withTitle: "Save Native Copy…")
+        alert.beginSheetModal(for: window) { response in
+            guard response != .alertFirstButtonReturn else {
+                resolved(.cancel)
+                return
+            }
+            let native = response == .alertThirdButtonReturn
+            let panel = NSSavePanel()
+            panel.title = native ? "Save Native Copy" : "Save a Copy"
+            panel.nameFieldStringValue =
+                request.url.deletingPathExtension().lastPathComponent + " Copy."
+                + (native ? "macvisio" : request.url.pathExtension)
+            panel.beginSheetModal(for: window) { response in
+                guard response == .OK, let url = panel.url else {
+                    resolved(.cancel)
+                    return
+                }
+                resolved(native ? .nativeCopy(url) : .copy(url))
+            }
+        }
+    }
+    private func performCapturedSave(
+        _ request: QueuedSave, snapshot snapshotRecord: SaveSnapshot, saveEvidence: PerformanceEvidence.Span?
+    ) {
+        let snapshotStateID = snapshotRecord.stateID
         // Recovery and Save To must preserve the unsaved-document contract even
         // when AppKit acknowledges its own independently captured change token.
         if savedStateID == nil {
@@ -472,7 +725,10 @@ final class MacVisioDocument: NSDocument {
         }
         saveSnapshotLock.lock()
         pendingSaveSnapshot = snapshotRecord
-        activeSaveSourceCheck = expected.map { (id: request.id, version: $0) }
+        policyAdmittedSaveID = request.id
+        let originalURL = fileURL.map(DocumentSourceVersion.canonical) ?? sourceFileVersion?.url
+        let sameSource = originalURL == DocumentSourceVersion.canonical(request.url)
+        activeSaveSourceCheck = sameSource ? sourceFileVersion.map { (id: request.id, version: $0) } : nil
         saveSnapshotLock.unlock()
         recordSave("captured", id: request.id, state: snapshotStateID)
         didCaptureSaveSnapshot?()
@@ -507,6 +763,9 @@ final class MacVisioDocument: NSDocument {
                 unverifiedSavedSourceURL = DocumentSourceVersion.canonical(request.url)
             }
             saveSnapshotLock.unlock()
+            var savedBaseline = snapshot.diagram
+            if let artifact { savedBaseline.visioArchive = artifact.archive }
+            saveImpactBaseline = .init(snapshot: savedBaseline)
             savedStateID = snapshot.stateID
             recoveryStateID = snapshot.stateID
             if !documentIsClosed, let artifact { installPreservation(artifact, for: snapshot.diagram) }
@@ -528,7 +787,8 @@ final class MacVisioDocument: NSDocument {
     /// Source-only updates must not become semantic transactions or invalidate
     /// retained runtime state. Newer pages remain live; binding originals name
     /// only the exact snapshot that reached the destination.
-    private func installPreservation(_ archive: VisioDocumentArchive, for snapshot: Diagram) {
+    private func installPreservation(_ artifact: SaveArtifact, for snapshot: Diagram) {
+        let archive = artifact.archive
         guard diagram.visioArchive?.sourceResourceID == snapshot.visioArchive?.sourceResourceID else {
             return
         }
@@ -548,17 +808,41 @@ final class MacVisioDocument: NSDocument {
         stateID = identity
         revision = priorRevision
         runtimeRevision = priorRuntimeRevision
+        // Retire only messages represented by a real typed producer. The set
+        // remains bounded by this read's compatibility-warning array.
+        retiredTypedImportMessages.formUnion(
+            Set(typedImportDiagnostics.map(\.message)).intersection(importWarnings))
+        if let records = artifact.sourceDiagnostics {
+            typedImportDiagnostics = records
+        } else {
+            typedImportDiagnostics = typedImportDiagnostics.filter {
+                $0.code != "import.source-inspection-unavailable"
+            }.map { record in
+                var record = record
+                record.displayState = .stale
+                return record
+            }
+            typedImportDiagnostics.append(
+                DocumentDiagnostic(
+                    code: "import.source-inspection-unavailable", origin: .importer, severity: .information,
+                    dimension: .interchange, target: .document, displayState: .unavailable,
+                    message:
+                        "Source limitations need to be checked again. Reopen this saved drawing to refresh them."
+                ))
+        }
+        diagnosticsDidChange()
     }
-    private func finishSaveSnapshot(_ id: UUID) -> VisioDocumentArchive? {
+    private func finishSaveSnapshot(_ id: UUID) -> SaveArtifact? {
         saveSnapshotLock.lock()
         defer { saveSnapshotLock.unlock() }
         if pendingSaveSnapshot?.id == id { pendingSaveSnapshot = nil }
+        if policyAdmittedSaveID == id { policyAdmittedSaveID = nil }
         if activeAsyncSaveID == id { activeAsyncSaveID = nil }
         if activeSaveSourceCheck?.id == id { activeSaveSourceCheck = nil }
         guard serializedSaveArtifact?.id == id else { return nil }
-        let archive = serializedSaveArtifact?.archive
+        let artifact = serializedSaveArtifact
         serializedSaveArtifact = nil
-        return archive
+        return artifact
     }
     private func scheduleQueuedSaveDrain() {
         guard Thread.isMainThread, !saveInProgress, !queuedSaves.isEmpty, !saveDrainScheduled else { return }
@@ -601,15 +885,20 @@ final class MacVisioDocument: NSDocument {
         let evidence = PerformanceEvidence.begin(.close)
         defer { PerformanceEvidence.end(evidence) }
         documentIsClosed = true
+        issuesController?.close()
+        issuesController = nil
         LifecycleJobService.shared.cancel(ownerID: lifecycleOwnerID)
         for controller in windowControllers { (controller as? EditorWindowController)?.lifecycleJobs.close() }
         let abandoned = queuedSaves
         queuedSaves.removeAll()
         let waiting = saveAwaitingTextCalculation
         saveAwaitingTextCalculation = nil
+        let impact = saveAwaitingImpactResolution
+        saveAwaitingImpactResolution = nil
         let waitingClose = closeAwaitingTextCalculation
         closeAwaitingTextCalculation = nil
-        if waiting != nil { saveInProgress = false }
+        if waiting != nil || impact != nil { saveInProgress = false }
+        impact?.completion(LifecycleJobError.cancelled)
         waiting?.request.completion(LifecycleJobError.cancelled)
         if let waitingClose { replyToClose(waitingClose.request, shouldClose: false) }
         abandoned.forEach { $0.completion(LifecycleJobError.cancelled) }
@@ -809,8 +1098,11 @@ final class MacVisioDocument: NSDocument {
         let previousIssues = calculationIssues
         let previousGeometry = geometryIssuesByPage
         let previousFields = fieldIssuesByPage
+        let previousGeometryDiagnostics = geometryDiagnosticsByPage
+        let previousFieldDiagnostics = fieldDiagnosticsByPage
+        let refreshDiagnostics = acceptedCalculationDiagnostics.contains { $0.inputKey != diagnosticInputKey }
         let initialChanges = preparation == nil ? DocumentChangeSet.between(previous, next) : nil
-        let session = calculationSession.fork()
+        let session = refreshDiagnostics ? CalculationSession() : calculationSession.fork()
         let input = LifecycleJobInput(ownerID: lifecycleOwnerID, snapshotID: stateID, revision: revision)
         let requestID = UUID()
         // Commands may immediately select inserted objects or clear a deleted
@@ -845,7 +1137,10 @@ final class MacVisioDocument: NSDocument {
                     let output = try CalculationJobs.evaluate(
                         synchronized, input: input, previous: previous,
                         previousIssues: previousIssues, previousGeometryIssuesByPage: previousGeometry,
-                        previousFieldIssuesByPage: previousFields, session: session, changes: changes,
+                        previousFieldIssuesByPage: previousFields,
+                        previousGeometryDiagnosticsByPage: previousGeometryDiagnostics,
+                        previousFieldDiagnosticsByPage: previousFieldDiagnostics,
+                        refreshDiagnostics: refreshDiagnostics, session: session, changes: changes,
                         cancellation: context.cancellation)
                     return prepared.map { output.includingPreparationWork($0.work) } ?? output
                 },
@@ -882,7 +1177,9 @@ final class MacVisioDocument: NSDocument {
                             self.applyCalculated(
                                 accepted, issues: result.issues,
                                 geometryIssuesByPage: result.geometryIssuesByPage,
-                                fieldIssuesByPage: result.fieldIssuesByPage, action: action)
+                                fieldIssuesByPage: result.fieldIssuesByPage,
+                                geometryDiagnosticsByPage: result.geometryDiagnosticsByPage,
+                                fieldDiagnosticsByPage: result.fieldDiagnosticsByPage, action: action)
                         } catch {
                             completionError = error
                             self.lastCalculationJobError = error
@@ -924,6 +1221,8 @@ final class MacVisioDocument: NSDocument {
 
     func replace(with next: Diagram, action: String) {
         guard next != diagram else { return }
+        let refreshDiagnostics = acceptedCalculationDiagnostics.contains { $0.inputKey != diagnosticInputKey }
+        if refreshDiagnostics { calculationSession = CalculationSession() }
         let changes = DocumentChangeSet.between(diagram, next)
         var synchronizationVisits = 0
         let synchronized = ShapeRichText.synchronize(
@@ -932,7 +1231,11 @@ final class MacVisioDocument: NSDocument {
         let calculation = DiagramCalculation.recalculate(
             synchronized, previous: diagram,
             previousIssues: calculationIssues, previousGeometryIssuesByPage: geometryIssuesByPage,
-            previousFieldIssuesByPage: fieldIssuesByPage, session: calculationSession, changes: changes)
+            previousFieldIssuesByPage: fieldIssuesByPage,
+            previousGeometryDiagnosticsByPage: geometryDiagnosticsByPage,
+            previousFieldDiagnosticsByPage: fieldDiagnosticsByPage,
+            refreshDiagnostics: refreshDiagnostics,
+            session: calculationSession, changes: changes)
         lastCalculationWork = calculation.work
         lastCalculationWork.richTextNodes += synchronizationVisits
         PerformanceEvidence.count(.inputComparisonNodes, by: lastCalculationWork.inputComparisonNodes)
@@ -942,11 +1245,15 @@ final class MacVisioDocument: NSDocument {
         applyCalculated(
             calculation.diagram, issues: calculation.issues,
             geometryIssuesByPage: calculation.geometryIssuesByPage,
-            fieldIssuesByPage: calculation.fieldIssuesByPage, action: action)
+            fieldIssuesByPage: calculation.fieldIssuesByPage,
+            geometryDiagnosticsByPage: calculation.geometryDiagnosticsByPage,
+            fieldDiagnosticsByPage: calculation.fieldDiagnosticsByPage, action: action)
     }
     private func applyCalculated(
         _ next: Diagram, issues: [String], geometryIssuesByPage nextGeometryIssuesByPage: [UUID: [String]],
-        fieldIssuesByPage nextFieldIssuesByPage: [UUID: [String]], action: String,
+        fieldIssuesByPage nextFieldIssuesByPage: [UUID: [String]],
+        geometryDiagnosticsByPage nextGeometryDiagnostics: [UUID: [DocumentDiagnostic]] = [:],
+        fieldDiagnosticsByPage nextFieldDiagnostics: [UUID: [DocumentDiagnostic]] = [:], action: String,
         restoringStateID: UUID? = nil
     ) {
         let evidence = PerformanceEvidence.begin(.commit)
@@ -965,10 +1272,17 @@ final class MacVisioDocument: NSDocument {
         let previousIssues = calculationIssues
         let previousGeometryIssuesByPage = geometryIssuesByPage
         let previousFieldIssuesByPage = fieldIssuesByPage
+        let previousGeometryDiagnostics = geometryDiagnosticsByPage
+        let previousFieldDiagnostics = fieldDiagnosticsByPage
         calculationIssues = issues
         geometryIssuesByPage = nextGeometryIssuesByPage
         fieldIssuesByPage = nextFieldIssuesByPage
-        guard next != diagram else { return }
+        geometryDiagnosticsByPage = nextGeometryDiagnostics
+        fieldDiagnosticsByPage = nextFieldDiagnostics
+        guard next != diagram else {
+            publishCalculationDiagnostics()
+            return
+        }
         PerformanceEvidence.count(.transactionsCommitted)
         // Compatibility commands still produce value snapshots. Diff exactly once
         // at commit; all derived consumers receive this explicit affected set.
@@ -1001,7 +1315,9 @@ final class MacVisioDocument: NSDocument {
         undoManager?.registerUndo(withTarget: self) { target in
             target.applyCalculated(
                 previous, issues: previousIssues, geometryIssuesByPage: previousGeometryIssuesByPage,
-                fieldIssuesByPage: previousFieldIssuesByPage, action: action,
+                fieldIssuesByPage: previousFieldIssuesByPage,
+                geometryDiagnosticsByPage: previousGeometryDiagnostics,
+                fieldDiagnosticsByPage: previousFieldDiagnostics, action: action,
                 restoringStateID: previousStateID)
         }
         undoManager?.setActionName(action)
@@ -1023,6 +1339,7 @@ final class MacVisioDocument: NSDocument {
         }
         runtimeRevision = revision
         lastCommittedChange = changes
+        publishCalculationDiagnostics()
         updateChangeCount(.changeDone)
         for controller in windowControllers {
             (controller as? EditorWindowController)?.refresh(changes: changes)
@@ -1058,7 +1375,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let window = NSWindow(
             contentRect: frame, styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered, defer: false)
-        window.minSize = CGSize(width: 1000, height: 680)
+        window.minSize = CGSize(width: 760, height: 560)
+        window.autorecalculatesKeyViewLoop = true
         window.title = document.diagram.title
         window.titlebarAppearsTransparent = true
         window.backgroundColor = EditorPalette.panel
@@ -1108,6 +1426,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             // Hold the document through this delayed callback; the controller
             // can outlive its unowned document while AppKit drains autoreleases.
             withExtendedLifetime(document) {
+                self.window?.contentView?.layoutSubtreeIfNeeded()
                 if fit { self.canvas.fitPage() }
                 self.window?.makeFirstResponder(self.canvas)
             }
@@ -1136,6 +1455,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             root.refreshPages()
         }
         root.refreshImportNotes()
+        diagramDocument.issuesController?.reload()
         root.inspector.refresh()
         canvas.refreshSize()
         updateStatus()
@@ -1160,7 +1480,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                     : canvas.selectedNodes.count > 0
                         ? "\(canvas.selectedNodes.count) selected"
                         : "\(page.nodes.count) shapes · \(page.edges.count) connectors"
-        root.status.stringValue = "\(page.name)   /   \(prefix)"
+        let materialIssues = diagramDocument.currentDiagnostics.filter(\.isMaterial).count
+        root.status.stringValue =
+            "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
         root.zoomLabel.stringValue = "\(Int((canvas.zoom*100).rounded()))%"
         root.ribbon.refreshSelection()
     }
@@ -1256,6 +1578,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
     func modifySelection(_ action: String, _ body: (inout DiagramNode) -> Void) {
         var next = diagramDocument.diagram
+        var blockedReason: String?
         let roots = DiagramOperations.roots(canvas.selectedNodes, in: next.page)
         for id in roots {
             guard let i = next.page.nodes.firstIndex(where: { $0.id == id }),
@@ -1264,14 +1587,54 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             let previous = next.page.nodes[i]
             body(&next.page.nodes[i])
             let changed = next.page.nodes[i]
+            if let reason = NativeEditProtection.blockReason(
+                changing: previous, to: changed, in: diagramDocument.diagram.page)
+            {
+                next.page.nodes[i] = previous
+                blockedReason = reason
+                continue
+            }
             if previous.rect != changed.rect || previous.rotation != changed.rotation
                 || previous.formatting.flipX != changed.formatting.flipX
                 || previous.formatting.flipY != changed.formatting.flipY
             {
-                DiagramOperations.transformChildren(in: &next.page, from: previous, to: changed)
+                if previous.formatting.isGroup {
+                    var before = next.page
+                    before.nodes[i] = previous
+                    var candidate = next.page
+                    DiagramOperations.transformChildren(in: &candidate, from: previous, to: changed)
+                    let oldNodes = Dictionary(uniqueKeysWithValues: before.nodes.map { ($0.id, $0) })
+                    let oldEdges = Dictionary(uniqueKeysWithValues: before.edges.map { ($0.id, $0) })
+                    var reason: String?
+                    for node in candidate.nodes where node.id != previous.id {
+                        guard let original = oldNodes[node.id], original != node else { continue }
+                        if let blocked = NativeEditProtection.blockReason(
+                            changing: original, to: node, in: before)
+                        {
+                            reason = "A group member prevents this transform: " + blocked
+                            break
+                        }
+                    }
+                    if reason == nil,
+                        candidate.edges.contains(where: { edge in
+                            oldEdges[edge.id].map { $0 != edge && before.isLocked($0) } ?? false
+                        })
+                    {
+                        reason = "A group connector or its layer is locked."
+                    }
+                    if let reason {
+                        next.page = before
+                        blockedReason = reason
+                        continue
+                    }
+                    next.page = candidate
+                } else {
+                    DiagramOperations.transformChildren(in: &next.page, from: previous, to: changed)
+                }
             }
         }
         diagramDocument.replaceInEditor(with: next, action: action)
+        if let blockedReason { root?.status.stringValue = blockedReason }
     }
     func modifyEdge(_ action: String, _ body: (inout DiagramEdge) -> Void) {
         var next = diagramDocument.diagram

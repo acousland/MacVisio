@@ -235,6 +235,12 @@ extension EditorWindowController {
         modifySelection("Hyperlinks") { $0.formatting.hyperlinks = links }
     }
     @objc func followHyperlink(_ sender:Any?) {
+        if let source = selection.first, BasicFlowchart.isOffPage(source) {
+            guard let id = BasicFlowchart.targetID(for: source, in: diagramDocument.diagram), diagramDocument.diagram.pages.contains(where: { $0.id == id }) else {
+                root.showMessage("The linked page no longer exists. Edit the off-page link."); return
+            }
+            switchPage(id); return
+        }
         guard let link = selection.first?.formatting.hyperlinks.first else { return }
         if link.address.isEmpty,let page = diagramDocument.diagram.pages.first(where:{$0.name == link.subAddress}) { switchPage(page.id); return }
         guard let url = URL(string:link.address),["http","https","mailto"].contains(url.scheme?.lowercased() ?? "") else { return }; NSWorkspace.shared.open(url)
@@ -258,27 +264,28 @@ extension EditorWindowController {
         diagramDocument.replaceInEditor(with:next,action:"Layer Properties")
     }
     @objc func insertImage(_ sender:Any?) {
-        let panel = NSOpenPanel(); panel.allowedContentTypes = [.png,.jpeg,.tiff,.gif,.bmp,.pdf]
+        let panel = NSOpenPanel(); panel.allowedContentTypes = [.png,.jpeg,.tiff,.gif,.bmp]
+        panel.message = "Choose a single-frame raster image within the supported size limit."
         guard panel.runModal() == .OK,let url = panel.url else { return }
-        do { try insertImage(data:Data(contentsOf:url)) } catch { presentError(error) }
+        do {
+            let source = url.resolvingSymlinksInPath().standardizedFileURL
+            let metadata = try source.resourceValues(forKeys:[.fileSizeKey,.isRegularFileKey])
+            guard metadata.isRegularFile == true, let size = metadata.fileSize, size <= VisioPackage.partLimit else { throw NativeImageDecoding.Failure.encodedLimit }
+            try insertImage(data:Data(contentsOf:source,options:.mappedIfSafe))
+        } catch { presentError(error) }
     }
     func insertImage(data:Data) throws {
-        guard data.count <= VisioPackage.partLimit,let image = NSImage(data:data),image.size.width > 0,image.size.height > 0,
-              let cgImage = image.cgImage(forProposedRect:nil,context:nil,hints:nil),cgImage.width*cgImage.height <= 50000000,
-              let png = NSBitmapImageRep(cgImage:cgImage).representation(using:.png,properties:[:]),png.count <= VisioPackage.partLimit else { throw DiagramError.invalid("This image cannot be inserted or is too large.") }
+        diagramDocument.commitTextEditing(); canvas.finishPageInteraction()
+        guard !diagramDocument.isCalculating else { throw DiagramError.invalid("Wait for the current edit to finish before inserting an image.") }
+        let decoded = try NativeImageDecoding.decode(data:data)
+        let image = NSImage(cgImage:decoded.cgImage,size:decoded.pixelSize)
+        guard let png = NSBitmapImageRep(cgImage:decoded.cgImage).representation(using:.png,properties:[:]),png.count <= VisioPackage.partLimit else { throw DiagramError.invalid("This image cannot be inserted or is too large.") }
         let page = diagramDocument.diagram.page,maxWidth = min(480,page.paperWidth-40),maxHeight = min(360,page.paperHeight-40)
         let scale = min(maxWidth/image.size.width,maxHeight/image.size.height,1)
         var node = DiagramNode(x:40/page.paperScale,y:40/page.paperScale,text:""); node.width = max(1,image.size.width*scale)/page.paperScale; node.height = max(1,image.size.height*scale)/page.paperScale; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00"; node.formatting.image = EmbeddedImage(data:png,mimeType:"image/png")
         var next = diagramDocument.diagram; next.page.nodes.append(node); diagramDocument.replaceInEditor(with:next,action:"Insert Image"); canvas.select([node.id])
     }
-    @objc func findShapes(_ sender:Any?) {
-        let alert = NSAlert(); alert.messageText = "Find Shapes"; alert.addButton(withTitle:"Find All"); alert.addButton(withTitle:"Cancel")
-        let text = NSTextField(frame:CGRect(x:0,y:0,width:320,height:24)); text.placeholderString = "Shape text or Shape Data"; alert.accessoryView = text
-        guard alert.runModal() == .alertFirstButtonReturn,!text.stringValue.isEmpty else { return }
-        let query = text.stringValue
-        let nodes = diagramDocument.diagram.page.nodes.filter{$0.text.localizedCaseInsensitiveContains(query) || $0.formatting.data.contains{$0.value.localizedCaseInsensitiveContains(query)}}
-        canvas.select(Set(nodes.map(\.id))); if let node = nodes.first { canvas.scrollToVisible(CGRect(x:canvas.pageOrigin.x+node.x*canvas.zoom,y:canvas.pageOrigin.y+node.y*canvas.zoom,width:node.width*canvas.zoom,height:node.height*canvas.zoom)) }
-    }
+    @objc func findShapes(_ sender:Any?) { showDocumentFind(sender) }
     func addFreeLine(from start:CGPoint,to end:CGPoint) {
         var edge = DiagramEdge(source:UUID(),target:UUID()); edge.sourcePosition = DiagramPoint(start); edge.targetPosition = DiagramPoint(end); edge.style = .straight; edge.arrow = false
         var next = diagramDocument.diagram; next.page.edges.append(edge); diagramDocument.replaceInEditor(with:next,action:"Draw Line"); canvas.select([],edge:edge.id)

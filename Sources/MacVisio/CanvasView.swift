@@ -6,6 +6,10 @@ final class InlineTextView: NSTextView {
     var finish: ((Bool) -> Void)?
     private let textUndo = UndoManager()
     override var undoManager: UndoManager? { textUndo }
+    // NSTextView does not handle these standard menu selectors itself. Keep
+    // them in this input session, including when its history is exhausted.
+    @objc func undo(_ sender: Any?) { textUndo.undo() }
+    @objc func redo(_ sender: Any?) { textUndo.redo() }
     func applyFormatting(_ value: NSAttributedString) {
         let old = NSAttributedString(attributedString: attributedString())
         undoManager?.registerUndo(withTarget: self) { $0.applyFormatting(old) }
@@ -16,14 +20,25 @@ final class InlineTextView: NSTextView {
         let evidence = PerformanceEvidence.begin(.event)
         defer { PerformanceEvidence.end(evidence) }
         if event.keyCode == 53 {
-            finish?(false)
+            finishFromKeyboard(commit: false)
             return
         }
         if event.keyCode == 36 && event.modifierFlags.contains(.command) {
-            finish?(true)
+            finishFromKeyboard(commit: true)
             return
         }
         super.keyDown(with: event)
+    }
+    private func finishFromKeyboard(commit: Bool) {
+        // The finish callback removes this text view. Preserve the explicit
+        // keyboard destination before removal, without overriding a normal
+        // resignFirstResponder transition to an inspector or another field.
+        let hostWindow = window
+        let canvas = superview as? CanvasView
+        finish?(commit)
+        if let canvas, canvas.editor != nil, canvas.window === hostWindow {
+            hostWindow?.makeFirstResponder(canvas)
+        }
     }
     override func resignFirstResponder() -> Bool {
         let result = super.resignFirstResponder()
@@ -34,6 +49,8 @@ final class InlineTextView: NSTextView {
 
 final class CanvasView: NSView {
     weak var editor: EditorWindowController?
+    lazy var accessibilityGraph = CanvasAccessibility(canvas: self)
+    var keyboardFocusedObject: CanvasObjectKey?
     var document: MacVisioDocument { editor!.diagramDocument }
     /// Geometry previews are view state. Persistence always reads document.diagram.
     private(set) var interactionPreview: Diagram? {
@@ -130,8 +147,42 @@ final class CanvasView: NSView {
         registerForDraggedTypes([Self.shapePasteboardType, Self.stencilPasteboardType])
         setAccessibilityIdentifier("diagramCanvas")
         setAccessibilityLabel("Diagram canvas")
+        setAccessibilityRole(.layoutArea)
+        setAccessibilityElement(true)
+        setAccessibilityHelp(
+            "Option-Tab enters drawing objects. Arrows move; Option-arrows resize. Return edits text. C starts a connection. Tab moves to the next control; Shift-Tab moves to the previous control."
+        )
     }
     required init?(coder: NSCoder) { fatalError() }
+    override func accessibilityChildren() -> [Any]? {
+        var children: [Any] = accessibilityGraph.elements()
+        children += subviews.filter { $0 is InlineTextView }
+        return children
+    }
+    override func accessibilitySelectedChildren() -> [Any]? {
+        accessibilityGraph.elements().filter { $0.isAccessibilitySelected() }
+    }
+    override func accessibilityHitTest(_ point: NSPoint) -> Any? {
+        if let inline, inline.accessibilityFrame().contains(point) {
+            return inline.accessibilityHitTest(point)
+        }
+        if let element = accessibilityGraph.elements().reversed().first(where: {
+            $0.accessibilityFrame().contains(point)
+        }) {
+            return element
+        }
+        return self
+    }
+    override func becomeFirstResponder() -> Bool {
+        let result = super.becomeFirstResponder()
+        needsDisplay = true
+        return result
+    }
+    override func resignFirstResponder() -> Bool {
+        let result = super.resignFirstResponder()
+        needsDisplay = true
+        return result
+    }
     func detachEditor() {
         finishEditing(commit: false)
         interactionPreview = nil
@@ -150,6 +201,7 @@ final class CanvasView: NSView {
         selectedEdge = nil
         pendingSource = nil
         pendingSourcePort = nil
+        keyboardFocusedObject = nil
         removeAllToolTips()
         controlToolTips = [:]
         editor = nil
@@ -183,16 +235,32 @@ final class CanvasView: NSView {
         editor?.updateStatus()
     }
     func fitPage() {
-        guard let size = enclosingScrollView?.contentSize, size.width > 0 else { return }
-        setZoom(min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight))
+        guard let scrollView = enclosingScrollView else { return }
+        // Fitting can hide legacy scrollers and enlarge the viewport. Refit
+        // against that settled size instead of retaining the smaller old fit.
+        for _ in 0..<3 {
+            scrollView.tile()
+            let size = scrollView.contentSize
+            guard size.width > 0, size.height > 0 else { return }
+            setZoom(min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight))
+            scrollView.tile()
+            if scrollView.contentSize == size { break }
+        }
         scroll(.zero)
     }
     func select(_ ids: Set<UUID>, edge: UUID? = nil) {
         selectedNodes = ids
         selectedEdge = edge
+        if let focus = keyboardFocusedObject {
+            switch focus.element {
+            case .node(let id): if !ids.contains(id) { keyboardFocusedObject = nil }
+            case .edge(let id): if edge != id { keyboardFocusedObject = nil }
+            }
+        }
         updateControlToolTips()
         needsDisplay = true
         editor?.selectionChanged()
+        NSAccessibility.post(element: self, notification: .selectedChildrenChanged)
     }
     func controlTip(at point: CGPoint) -> String? {
         guard selectedNodes.count == 1, let node = page.nodes.first(where: { selectedNodes.contains($0.id) }),
@@ -432,17 +500,35 @@ final class CanvasView: NSView {
             }
         }
         if let source = pendingSource, let n = retained.foreground.runtime.nodesByID[source] {
+            let destination: CGPoint
+            if let focus = keyboardFocusedObject, case .node(let target) = focus.element,
+                target != source, let node = retained.foreground.runtime.nodesByID[target]
+            {
+                destination = node.center
+            } else {
+                destination = pointer
+            }
             let p = NSBezierPath()
             p.move(
                 to: pendingSourcePort.flatMap { retained.foreground.connectionPoints[n.id]?[$0] }
-                    ?? DiagramGeometry.boundary(of: n, toward: pointer))
-            p.line(to: pointer)
+                    ?? DiagramGeometry.boundary(of: n, toward: destination))
+            p.line(to: destination)
             p.setLineDash([5, 4], count: 2, phase: 0)
             NSColor.controlAccentColor.setStroke()
             p.lineWidth = 2 / coordinateZoom
             p.stroke()
             NSColor.controlAccentColor.withAlphaComponent(0.12).setFill()
             DiagramDrawing.path(for: n.kind, in: n.rect.insetBy(dx: -4, dy: -4)).fill()
+        }
+        if window?.firstResponder === self, let key = keyboardFocusedObject,
+            let bounds = accessibilityGraph.drawingBounds(key), key.pageID == page.id
+        {
+            let focus = NSBezierPath(
+                roundedRect: bounds.insetBy(dx: -7 / coordinateZoom, dy: -7 / coordinateZoom),
+                xRadius: 4 / coordinateZoom, yRadius: 4 / coordinateZoom)
+            NSColor.keyboardFocusIndicatorColor.setStroke()
+            focus.lineWidth = 3 / coordinateZoom
+            focus.stroke()
         }
         if let start = lineStart {
             let path = NSBezierPath()
@@ -769,6 +855,7 @@ final class CanvasView: NSView {
         marquee = nil
         lineStart = nil
         pendingSource = nil
+        keyboardFocusedObject = nil
         if let error = controlDragError { editor?.root.showMessage(error.localizedDescription) }
         controlDragError = nil
         updateControlToolTips()
@@ -776,7 +863,27 @@ final class CanvasView: NSView {
     override func keyDown(with event: NSEvent) {
         let evidence = PerformanceEvidence.begin(.event)
         defer { PerformanceEvidence.end(evidence) }
+        guard editor != nil else {
+            super.keyDown(with: event)
+            return
+        }
+        // Canvas commands are local to the canvas responder. NSTextView and
+        // field editors retain their ordinary letters and marked-text events.
+        guard window?.firstResponder === self else {
+            super.keyDown(with: event)
+            return
+        }
+        let flags = event.modifierFlags.intersection([.command, .control, .option, .shift])
+        if event.keyCode == 48, !flags.contains(.command), !flags.contains(.control) {
+            if flags.contains(.option) {
+                traverseCanvasObjects(backward: flags.contains(.shift))
+            } else {
+                leaveCanvas(backward: flags.contains(.shift))
+            }
+            return
+        }
         if event.keyCode == 53 {
+            let wasConnecting = pendingSource != nil
             finishEditing(commit: false)
             interactionPreview = nil
             previewStateID = nil
@@ -792,31 +899,50 @@ final class CanvasView: NSView {
             pendingSource = nil
             pendingSourcePort = nil
             lineStart = nil
-            select([])
+            if !wasConnecting {
+                keyboardFocusedObject = nil
+                select([])
+            }
             editor?.setTool(.pointer)
+            if wasConnecting { explainCanvasAction("Connection cancelled.") }
+            return
+        }
+        if flags.contains(.command) || flags.contains(.control) {
+            super.keyDown(with: event)
             return
         }
         if event.keyCode == 51 || event.keyCode == 117 {
             editor?.deleteSelection(nil)
             return
         }
+        if event.keyCode == 36 || event.keyCode == 76 {
+            if pendingSource != nil {
+                _ = confirmKeyboardConnection()
+            } else if selectedNodes.count == 1, let id = selectedNodes.first {
+                _ = editCanvasObjectText(id)
+            } else {
+                explainCanvasAction("Select one shape to edit its text.")
+            }
+            return
+        }
         if [123, 124, 125, 126].contains(event.keyCode) {
             let amount = event.modifierFlags.contains(.shift) ? 10.0 : 1.0
             let dx = event.keyCode == 123 ? -amount : event.keyCode == 124 ? amount : 0
             let dy = event.keyCode == 126 ? -amount : event.keyCode == 125 ? amount : 0
-            editor?.modifySelection("Nudge Shapes") { n in
-                n.x = max(0, min(self.page.width - n.width, n.x + dx))
-                n.y = max(0, min(self.page.height - n.height, n.y + dy))
-            }
+            _ = transformKeyboardSelection(dx: dx, dy: dy, resize: flags.contains(.option))
             return
         }
-        if !event.modifierFlags.contains(.command), let c = event.charactersIgnoringModifiers?.lowercased() {
+        if !flags.contains(.option), let c = event.charactersIgnoringModifiers?.lowercased() {
             if c == "v" {
                 editor?.setTool(.pointer)
                 return
             }
             if c == "c" {
-                editor?.setTool(.connector)
+                if selectedNodes.count == 1 {
+                    _ = startKeyboardConnection()
+                } else {
+                    editor?.setTool(.connector)
+                }
                 return
             }
             if c == "t" {
@@ -825,10 +951,6 @@ final class CanvasView: NSView {
             }
             if c == "l" {
                 editor?.setTool(.line)
-                return
-            }
-            if c == "\r", let id = selectedNodes.first {
-                beginEditing(id)
                 return
             }
         }
@@ -879,6 +1001,10 @@ final class CanvasView: NSView {
     }
     func beginEditing(_ id: UUID) {
         guard let n = page.nodes.first(where: { $0.id == id }), !page.isLocked(n) else { return }
+        if let reason = NativeEditProtection.blockReason(for: "Text", node: n, in: page) {
+            explainCanvasAction(reason)
+            return
+        }
         finishEditing(commit: true)
         let rect = DiagramDrawing.textRect(for: n)
         let textView = InlineTextView(

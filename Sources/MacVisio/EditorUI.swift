@@ -190,13 +190,14 @@ final class MixedColorWell: NSColorWell {
     }
 }
 
-final class InspectorPanel: FlippedView {
+final class InspectorPanel: FlippedView, NSTextFieldDelegate {
     weak var editor: EditorWindowController?
     private var fields: [String:NSTextField] = [:]
     private var displayedFieldValues: [String:String] = [:]
     private var colorWells: [String:NSColorWell] = [:]
     private var currentKey = ""
     private var applying = false
+    private(set) var lengthUnit: InspectorLengthUnit = .points
     private struct CachedLayout {
         var views: [NSView]
         var fields: [String: NSTextField]
@@ -217,7 +218,7 @@ final class InspectorPanel: FlippedView {
     private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular,key:String? = nil) -> NSTextField { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l); if let key { dynamicLabels[key] = l }; return l }
     private func section(_ text:String,y:Double) { label(text,18,y,190,size:10,weight:.bold) }
     private func field(_ key:String,_ value:String,x:Double = 18,y:Double,width:Double = 194,height:Double = 24) {
-        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
+        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.delegate = self; f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
     }
     private func well(_ key:String,color:String,y:Double) {
         label(key,18,y+5,130)
@@ -226,7 +227,10 @@ final class InspectorPanel: FlippedView {
     func refresh() {
         guard !applying,let editor = editor else { return }
         let focused = window?.firstResponder as? NSTextView
-        if let textField = focused?.delegate as? NSTextField,fields.values.contains(where:{$0 === textField}) { return }
+        if let focused, let textField = focused.delegate as? NSTextField,
+            let key = textField.identifier?.rawValue, fields[key] === textField,
+            focused.hasMarkedText() || focused.string != displayedFieldValues[key]
+        { return }
         let selection = editor.selection
         let page = editor.diagramDocument.diagram.page
         let edge = page.edges.first { $0.id == editor.canvas.selectedEdge }
@@ -248,15 +252,15 @@ final class InspectorPanel: FlippedView {
             label(selection.count == 1 ? node.kind.title : "\(selection.count) shapes",18,45,190,size:18,weight:.semibold,key:"selection")
             label(node.locked ? "Locked · unlock to edit" : page.paperScale == 1 ? "Shape properties" : "Drawing lengths · paper fonts",18,72,200,size:11,key:"detail")
             section("TEXT",y:112); field("Text",node.text,y:139,height:46)
-            label("Font size",18,199,95); field("Font size",String(Int(node.fontSize)),x:125,y:194,width:87)
+            label("Font size (pt)",18,199,106); field("Font size",String(Int(node.fontSize)),x:125,y:194,width:87)
             let bold = NSButton(checkboxWithTitle:"Bold text",target:self,action:#selector(boldChanged(_:))); bold.frame = CGRect(x:16,y:230,width:190,height:24); bold.state = node.bold ? .on : .off; addSubview(bold)
             section("APPEARANCE",y:281)
             well("Fill",color:node.fill,y:307); well("Line",color:node.stroke,y:345); well("Text color",color:node.textColor,y:383)
-            label("Line width",18,430,110); field("Line width",String(format:"%.1f",node.strokeWidth),x:125,y:424,width:87)
-            section("POSITION & SIZE",y:475)
+            label("Line width (pt)",18,430,110); field("Line width",String(format:"%.1f",node.strokeWidth),x:125,y:424,width:87)
+            label("POSITION & SIZE",18,475,120,size:10,weight:.bold); addLengthUnitPicker(y:470)
             let properties: [(String,Double)] = [("X",node.x),("Y",node.y),("Width",node.width),("Height",node.height)]
-            for (i,p) in properties.enumerated() { let x = i%2 == 0 ? 18.0 : 121.0; let y = 501.0+Double(i/2)*57; label(p.0,x,y,91); field(p.0,String(format:"%.0f",p.1),x:x,y:y+21,width:91) }
-            label("Rotation",18,628,100); field("Rotation",String(format:"%.0f",node.rotation),x:125,y:622,width:87)
+            for (i,p) in properties.enumerated() { let x = i%2 == 0 ? 18.0 : 121.0; let y = 501.0+Double(i/2)*57; label(p.0+" ("+lengthUnit.rawValue+")",x,y,91,key:"unit."+p.0); field(p.0,String(format:"%.0f",p.1),x:x,y:y+21,width:91) }
+            label("Rotation (deg)",18,628,106); field("Rotation",String(format:"%.0f",node.rotation),x:125,y:622,width:87)
             let lock = NSButton(checkboxWithTitle:"Lock shape",target:editor,action:#selector(EditorWindowController.toggleLock(_:))); lock.frame = CGRect(x:16,y:665,width:190,height:24); lock.state = node.locked ? .on : .off; addSubview(lock)
             section("MORE FORMATTING",y:710)
             label("Font",18,739); field("Font",node.formatting.fontName,y:760)
@@ -271,16 +275,16 @@ final class InspectorPanel: FlippedView {
             currentKey = "edge"; label("Connector",18,45,190,size:18,weight:.semibold); label(page.nodes.contains(where:{$0.id == edge.source}) && page.nodes.contains(where:{$0.id == edge.target}) ? "Attached to both shapes" : "Free or partially attached line",18,74,key:"detail")
             section("LABEL",y:118); field("Label",edge.label,y:146)
             section("APPEARANCE",y:210); well("Line",color:edge.color,y:240)
-            label("Line width",18,289,100); field("Line width",String(format:"%.1f",edge.width),x:125,y:284,width:87)
+            label("Line width (pt)",18,289,110); field("Line width",String(format:"%.1f",edge.width),x:125,y:284,width:87)
             let route = NSPopUpButton(frame:CGRect(x:15,y:333,width:201,height:27)); route.addItems(withTitles:["Right angle","Straight"]); route.selectItem(at:edge.style == .orthogonal ? 0 : 1); route.target = self; route.action = #selector(routeChanged(_:)); addSubview(route)
             let arrow = NSButton(checkboxWithTitle:"Arrow at end",target:self,action:#selector(arrowChanged(_:))); arrow.frame = CGRect(x:16,y:382,width:190,height:24); arrow.state = edge.arrow ? .on : .off; addSubview(arrow)
             let start = NSButton(checkboxWithTitle:"Arrow at start",target:self,action:#selector(startArrowChanged(_:)));start.frame = CGRect(x:16,y:414,width:190,height:24);start.state = edge.startArrow == true ? .on : .off;addSubview(start)
             let pattern = NSPopUpButton(frame:CGRect(x:15,y:450,width:201,height:26));pattern.addItems(withTitles:["Solid line","Dashed line","Dotted line","Dash-dot line","Dash-dot-dot line"]);pattern.selectItem(at:max(0,min(4,(edge.dash ?? 1)-1)));pattern.target = self;pattern.action = #selector(edgePatternChanged(_:));addSubview(pattern)
         } else {
             currentKey = "page"; label("Drawing page",18,45,190,size:18,weight:.semibold); label("Select a shape to format it",18,74,198)
-            section("PAGE",y:121); label("Name",18,150); field("Page name",page.name,y:174)
-            label("Paper width",18,220,91); label("Paper height",121,220,91); field("Page width",String(Int(page.paperWidth)),x:18,y:244,width:91); field("Page height",String(Int(page.paperHeight)),x:121,y:244,width:91)
-            label("Dimensions in points (72 = 1 inch)",18,282,200,size:10)
+            section("PAGE",y:121); addLengthUnitPicker(y:116); label("Name",18,150); field("Page name",page.name,y:174)
+            label("Width (pt)",18,220,91,key:"unit.Page width"); label("Height (pt)",121,220,91,key:"unit.Page height"); field("Page width",String(Int(page.paperWidth)),x:18,y:244,width:91); field("Page height",String(Int(page.paperHeight)),x:121,y:244,width:91)
+            label("Paper dimensions · 1 in = 72 pt",18,282,200,size:10)
             let setup = NSButton(title:"Page Setup…",target:editor,action:#selector(EditorWindowController.showPageSetup(_:)));setup.bezelStyle = .rounded;setup.frame = CGRect(x:15,y:312,width:201,height:26);addSubview(setup)
             label("",18,352,200,size:11,key:"background")
             let edit = NSButton(title:"Edit Background",target:editor,action:#selector(EditorWindowController.editBackgroundPage(_:)));edit.bezelStyle = .rounded;edit.frame = CGRect(x:15,y:379,width:201,height:26);addSubview(edit)
@@ -291,6 +295,40 @@ final class InspectorPanel: FlippedView {
         updateValues(selection: selection, edge: edge, page: page)
     }
 
+    private func addLengthUnitPicker(y: Double) {
+        let picker = NSPopUpButton(frame: CGRect(x: 142, y: y, width: 74, height: 25))
+        picker.addItems(withTitles: InspectorLengthUnit.allCases.map(\.rawValue))
+        picker.selectItem(withTitle: lengthUnit.rawValue)
+        picker.identifier = NSUserInterfaceItemIdentifier("inspectorLengthUnit")
+        picker.setAccessibilityLabel("Length display unit")
+        picker.toolTip = "Drawing lengths use this unit. Fonts and line widths stay in paper points; rotation uses degrees."
+        picker.target = self; picker.action = #selector(lengthUnitChanged(_:)); addSubview(picker)
+    }
+    @objc private func lengthUnitChanged(_ sender: NSPopUpButton) {
+        editor?.diagramDocument.commitTextEditing()
+        guard let value = sender.titleOfSelectedItem.flatMap(InspectorLengthUnit.init(rawValue:)) else { return }
+        lengthUnit = value
+        refresh()
+    }
+    private func updateProtection(selection: [DiagramNode], page: DiagramPage) {
+        for (key, field) in fields {
+            let reasons = selection.compactMap { NativeEditProtection.blockReason(for: key, node: $0, in: page) }
+            field.isEnabled = reasons.count != selection.count
+            let units = ["X", "Y", "Width", "Height"].contains(key) ? "Drawing length in \(lengthUnit.rawValue)." : key == "Rotation" ? "Angle in degrees." : ["Font size", "Line width"].contains(key) ? "Paper points (pt)." : ""
+            field.toolTip = ([units] + reasons.prefix(1)).filter { !$0.isEmpty }.joined(separator: " ")
+            field.setAccessibilityHelp(field.toolTip)
+        }
+        for (key, well) in colorWells {
+            let reasons = selection.compactMap { NativeEditProtection.blockReason(for: key, node: $0, in: page) }
+            well.isEnabled = reasons.count != selection.count
+            if let reason = reasons.first { well.toolTip = reason }
+        }
+        for action in [#selector(boldChanged(_:)), #selector(italicChanged(_:)), #selector(underlineChanged(_:)), #selector(alignmentChanged(_:)), #selector(patternChanged(_:)), #selector(layerChanged(_:))] {
+            let reasons = selection.compactMap { NativeEditProtection.blockReason(for: "Formatting", node: $0, in: page) }
+            button(action)?.isEnabled = reasons.count != selection.count
+            button(action)?.toolTip = reasons.first
+        }
+    }
     private func common<T: Equatable>(_ values: [T]) -> T? {
         guard let first = values.first, values.dropFirst().allSatisfy({ $0 == first }) else { return nil }
         return first
@@ -298,9 +336,19 @@ final class InspectorPanel: FlippedView {
     private func setField(_ key: String, value: String?) {
         guard let field = fields[key] else { return }
         field.stringValue = value ?? ""
+        if let input = field.currentEditor() as? NSTextView, input.string != field.stringValue {
+            let previous = input.selectedRange(), count = field.stringValue.utf16.count
+            input.string = field.stringValue
+            let location = min(previous.location, count)
+            input.setSelectedRange(NSRange(location: location, length: min(previous.length, count-location)))
+        }
         field.placeholderString = value == nil ? "Mixed" : nil
         field.setAccessibilityValue(value ?? "Mixed")
         displayedFieldValues[key] = field.stringValue
+    }
+    func controlTextDidEndEditing(_ notification: Notification) {
+        // AppKit sends the field's commit action after this notification.
+        DispatchQueue.main.async { [weak self] in self?.refresh() }
     }
     private func button(_ action: Selector) -> NSButton? {
         subviews.compactMap { $0 as? NSButton }.first { $0.action == action }
@@ -330,6 +378,7 @@ final class InspectorPanel: FlippedView {
         well.setAccessibilityValue(value ?? "Mixed")
     }
     private func updateValues(selection: [DiagramNode], edge: DiagramEdge?, page: DiagramPage) {
+        (subviews.first { $0.identifier?.rawValue == "inspectorLengthUnit" } as? NSPopUpButton)?.selectItem(withTitle: lengthUnit.rawValue)
         if !selection.isEmpty {
             dynamicLabels["selection"]?.stringValue = selection.count == 1 ? selection[0].kind.title : "\(selection.count) shapes"
             let locks = selection.map { page.isLocked($0) }
@@ -341,7 +390,12 @@ final class InspectorPanel: FlippedView {
                 ("Font size", { $0.fontSize }, "%.0f"), ("Line width", { $0.strokeWidth }, "%.1f"),
                 ("X", { $0.x }, "%.0f"), ("Y", { $0.y }, "%.0f"), ("Width", { $0.width }, "%.0f"),
                 ("Height", { $0.height }, "%.0f"), ("Rotation", { $0.rotation }, "%.0f")]
-            for (key, value, format) in numeric { setField(key, value: common(selection.map(value)).map { String(format: format, $0) }) }
+            for (key, value, format) in numeric {
+                let length = ["X", "Y", "Width", "Height"].contains(key)
+                setField(key, value: common(selection.map(value)).map { length ? lengthUnit.display($0) : String(format: format, $0) })
+                if length { dynamicLabels["unit."+key]?.stringValue = key+" ("+lengthUnit.rawValue+")" }
+            }
+            updateProtection(selection: selection, page: page)
             setCheck(#selector(boldChanged(_:)), values: selection.map(\.bold))
             setCheck(#selector(italicChanged(_:)), values: selection.map { $0.formatting.italic })
             setCheck(#selector(underlineChanged(_:)), values: selection.map { $0.formatting.underline })
@@ -363,7 +417,9 @@ final class InspectorPanel: FlippedView {
             setCheck(#selector(arrowChanged(_:)), values: [edge.arrow]); setCheck(#selector(startArrowChanged(_:)), values: [edge.startArrow == true])
             setPopup(#selector(edgePatternChanged(_:)), index: max(0, min(4, (edge.dash ?? 1)-1)))
         } else {
-            setField("Page name", value: page.name); setField("Page width", value: String(Int(page.paperWidth))); setField("Page height", value: String(Int(page.paperHeight)))
+            setField("Page name", value: page.name); setField("Page width", value: lengthUnit.display(page.paperWidth)); setField("Page height", value: lengthUnit.display(page.paperHeight))
+            dynamicLabels["unit.Page width"]?.stringValue = "Width ("+lengthUnit.rawValue+")"
+            dynamicLabels["unit.Page height"]?.stringValue = "Height ("+lengthUnit.rawValue+")"
             let background = page.backgroundPageID.flatMap { id in editor?.diagramDocument.diagram.pages.first { $0.id == id } }
             dynamicLabels["background"]?.stringValue = background.map { "Background: \($0.name)" } ?? (page.isBackground == true ? "Shared background page" : "")
             button(#selector(EditorWindowController.editBackgroundPage(_:)))?.isHidden = background == nil
@@ -379,10 +435,11 @@ final class InspectorPanel: FlippedView {
         if currentKey == "node" {
             if key == "Text" { editor.modifySelection("Edit Text") { $0.text = raw }; return }
             if key == "Font" { editor.modifySelection("Font") { $0.formatting.fontName = raw.isEmpty ? "System" : raw }; return }
-            let number:Double
-            if let plain = Double(raw),plain.isFinite { number = plain }
-            else if let parsed = try? ShapeSheet.evaluate(raw,resolve:{_ in throw DiagramError.invalid("Use the ShapeSheet editor for references.")}),parsed.isFinite { number = key == "Rotation" ? parsed*180 / .pi : parsed*72 }
-            else { refresh();return }
+            guard let number = InspectorLengthUnit.parse(raw, defaultUnit: lengthUnit,
+                angle: key == "Rotation", paperPoints: key == "Font size" || key == "Line width") else {
+                sender.toolTip = "Enter a finite number with pt, mm, cm or in; angles accept deg or rad. Use ShapeSheet for formulas."
+                displayedFieldValues[key] = nil; refresh(); return
+            }
             editor.modifySelection("Format Shape") { node in
                 switch key {
                 case "Font size": node.fontSize = max(4,min(200,number))
@@ -397,10 +454,10 @@ final class InspectorPanel: FlippedView {
             }
         } else if currentKey == "edge" {
             if key == "Label" { editor.modifyEdge("Edit Label") { $0.label = raw } }
-            else if let width = Double(raw),width.isFinite { editor.modifyEdge("Line Width") { $0.width = max(0.5,min(20,width)) } }
+            else if let width = InspectorLengthUnit.parse(raw,paperPoints:true) { editor.modifyEdge("Line Width") { $0.width = max(0.5,min(20,width)) } }
         } else {
             if key == "Page name" { editor.configurePage(name:raw.isEmpty ? "Page" : raw) }
-            else if let value = Double(raw),value.isFinite {
+            else if let value = InspectorLengthUnit.parse(raw,defaultUnit:lengthUnit) {
                 if key == "Page width" { editor.configurePage(width:value/editor.diagramDocument.diagram.page.paperScale) }
                 if key == "Page height" { editor.configurePage(height:value/editor.diagramDocument.diagram.page.paperScale) }
             }
@@ -451,6 +508,7 @@ final class EditorRootView: FlippedView {
         var inspectorOrigin: CGPoint
     }
     private var pageViewStates: [UUID: PageViewState] = [:]
+    var libraryRequestedInNarrowWindow = false
     init(editor:EditorWindowController) {
         self.editor = editor;stencil = StencilPanel(editor:editor);inspector = InspectorPanel(editor:editor)
         ribbon = VisioRibbonView(editor:editor)
@@ -466,11 +524,11 @@ final class EditorRootView: FlippedView {
         fit = symbolButton("arrow.up.left.and.arrow.down.right",label:"Fit page",target:editor,action:#selector(EditorWindowController.fitPage(_:)))
         addPageButton = symbolButton("plus",label:"Add page",target:editor,action:#selector(EditorWindowController.addPage(_:)))
         [status,snapButton,zoomMinus,zoomLabel,zoomPlus,fit].forEach{footer.addSubview($0)}
-        importNotesButton.target = editor;importNotesButton.action = #selector(EditorWindowController.showImportNotes(_:))
+        importNotesButton.target = editor;importNotesButton.action = #selector(EditorWindowController.showDocumentIssues(_:))
         importNotesButton.bezelStyle = .recessed;importNotesButton.font = .systemFont(ofSize:11)
         importNotesButton.identifier = NSUserInterfaceItemIdentifier("importNotes")
-        importNotesButton.setAccessibilityLabel("View import compatibility notes")
-        importNotesButton.toolTip = "This drawing has import compatibility limitations. Click to view the details."
+        importNotesButton.setAccessibilityLabel("View drawing issues")
+        importNotesButton.toolTip = "Review material import, calculation, font and content issues, including cached display state."
         footer.addSubview(importNotesButton)
         refreshImportNotes()
         addSubview(addPageButton)
@@ -494,7 +552,8 @@ final class EditorRootView: FlippedView {
     }
     override func layout() {
         super.layout();guard let editor else{return}
-        let w = bounds.width,h = bounds.height,left = 224.0,right = 248.0,top = 144.0,bottom = 30.0,pages = 33.0
+        let w = bounds.width,h = bounds.height,left = (bounds.width >= 1000 || libraryRequestedInNarrowWindow) ? 224.0 : 0.0,right = 248.0,top = 144.0,bottom = 30.0,pages = 33.0
+        stencil.isHidden = left == 0
         let bodyHeight = max(1,h-top-bottom-1)
         ribbon.frame = CGRect(x:0,y:0,width:w,height:top)
         stencil.frame = CGRect(x:0,y:top+1,width:left,height:bodyHeight)
@@ -560,9 +619,9 @@ final class EditorRootView: FlippedView {
         return true
     }
     func refreshImportNotes() {
-        let count = editor?.diagramDocument.importWarnings.count ?? 0
+        let count = editor?.diagramDocument.currentDiagnostics.filter(\.isMaterial).count ?? 0
         importNotesButton.isHidden = count == 0
-        importNotesButton.title = "Import notes (\(count))"
+        importNotesButton.title = "Drawing issues (\(count))"
         needsLayout = true
     }
     func showMessage(_ text:String) {
