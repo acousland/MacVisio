@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import AppKit
+import MacVisioInfrastructure
 
 /// Nonmodal progress keeps other drawings usable. Closing this panel requests
 /// cancellation; only the job's completion disposes its controller.
@@ -11,8 +11,9 @@ final class LifecycleProgressController: NSWindowController, NSWindowDelegate {
     var onCancel: (() -> Void)?
 
     init(title: String, detail: String) {
-        let panel = NSPanel(contentRect: CGRect(x: 0, y: 0, width: 380, height: 116),
-                            styleMask: [.titled, .closable, .utilityWindow], backing: .buffered, defer: false)
+        let panel = NSPanel(
+            contentRect: CGRect(x: 0, y: 0, width: 380, height: 116),
+            styleMask: [.titled, .closable, .utilityWindow], backing: .buffered, defer: false)
         super.init(window: panel)
         panel.title = title
         panel.delegate = self
@@ -37,8 +38,7 @@ final class LifecycleProgressController: NSWindowController, NSWindowDelegate {
 
     func show(attachedTo parent: NSWindow? = nil) {
         indicator.startAnimation(nil)
-        if let parent, let window { parent.beginSheet(window) }
-        else { showWindow(nil) }
+        if let parent, let window { parent.beginSheet(window) } else { showWindow(nil) }
     }
 
     func update(_ progress: LifecycleJobProgress) {
@@ -49,7 +49,9 @@ final class LifecycleProgressController: NSWindowController, NSWindowDelegate {
             indicator.minValue = 0
             indicator.maxValue = 1
             indicator.doubleValue = fraction
-        } else { indicator.startAnimation(nil) }
+        } else {
+            indicator.startAnimation(nil)
+        }
     }
 
     func finish() {

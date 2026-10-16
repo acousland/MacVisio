@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import AppKit
+import MacVisioInfrastructure
 
 /// Tooling dispatch extracted from the existing CLI blocks in main.swift.
 /// Call once after NSApplication/appearance setup and before AppDelegate setup.

@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import Foundation
+import MacVisioInfrastructure
 
 enum CalculationExecutionPolicy: Equatable {
     case pureWorker
@@ -10,18 +10,26 @@ enum CalculationExecutionPolicy: Equatable {
     static func inspect(_ diagram: Diagram) -> CalculationExecutionPolicy {
         func measures(_ expression: ShapeSheet.Expression) -> Bool {
             switch expression {
-            case .call(let name, let arguments): return ["TEXTWIDTH", "TEXTHEIGHT"].contains(name.uppercased()) || arguments.contains(where: measures)
+            case .call(let name, let arguments):
+                return ["TEXTWIDTH", "TEXTHEIGHT"].contains(name.uppercased())
+                    || arguments.contains(where: measures)
             case .unary(_, let child): return measures(child)
             case .binary(_, let a, let b): return measures(a) || measures(b)
             case .number, .measure, .string, .reference, .omitted: return false
             }
         }
         for page in diagram.pages {
-            let sources = CalculationDependencyIndex.sources(page: page, binding: diagram.visioArchive?.pages.first { $0.pageID == page.id })
-            var formulas = sources.flatMap(\.formulas).compactMap { $0.split(separator: "\u{0}", maxSplits: 1, omittingEmptySubsequences: false).last.map(String.init) }
+            let sources = CalculationDependencyIndex.sources(
+                page: page, binding: diagram.visioArchive?.pages.first { $0.pageID == page.id })
+            var formulas = sources.flatMap(\.formulas).compactMap {
+                $0.split(separator: "\u{0}", maxSplits: 1, omittingEmptySubsequences: false).last.map(
+                    String.init)
+            }
             formulas += page.sheet?.values.map(\.formula) ?? []
             for formula in formulas {
-                if let expression = try? ShapeSheet.parse(formula), measures(expression) { return .mainThreadTextMeasurement }
+                if let expression = try? ShapeSheet.parse(formula), measures(expression) {
+                    return .mainThreadTextMeasurement
+                }
             }
         }
         return .pureWorker
@@ -33,7 +41,10 @@ enum CalculationExecutionPolicy: Equatable {
 struct CalculationJobOutput {
     let input: LifecycleJobInput
     private let value: DiagramCalculation.Result
-    init(input: LifecycleJobInput, value: DiagramCalculation.Result) { self.input = input; self.value = value }
+    init(input: LifecycleJobInput, value: DiagramCalculation.Result) {
+        self.input = input
+        self.value = value
+    }
     func includingPreparationWork(_ work: CalculationWork) -> CalculationJobOutput {
         var result = value
         result.work.add(work)
@@ -60,9 +71,13 @@ enum CalculationJobs {
         now: Date = Date(), cancellation: LifecycleJobCancellation
     ) throws -> CalculationJobOutput {
         try cancellation.check()
-        guard let result = DiagramCalculation.calculate(diagram, previous: previous, previousIssues: previousIssues,
-            previousGeometryIssuesByPage: previousGeometryIssuesByPage, previousFieldIssuesByPage: previousFieldIssuesByPage,
-            session: session, changes: changes, now: now, cancellation: cancellation) else {
+        guard
+            let result = DiagramCalculation.calculate(
+                diagram, previous: previous, previousIssues: previousIssues,
+                previousGeometryIssuesByPage: previousGeometryIssuesByPage,
+                previousFieldIssuesByPage: previousFieldIssuesByPage,
+                session: session, changes: changes, now: now, cancellation: cancellation)
+        else {
             throw LifecycleJobError.cancelled
         }
         try cancellation.check()

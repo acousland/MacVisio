@@ -1,6 +1,6 @@
-import MacVisioInfrastructure
-import Foundation
 import Darwin
+import Foundation
+import MacVisioInfrastructure
 
 enum LegacyConverterError: Error, LocalizedError, Equatable {
     case timedOut
@@ -50,13 +50,17 @@ enum LegacyConverterProcess {
         var data = Data()
         while let chunk = try pipe.fileHandleForReading.read(upToCount: 65536), !chunk.isEmpty {
             try cancellation?.check()
-            guard chunk.count <= maximumOutputBytes - data.count else { throw LegacyConverterError.outputLimit }
+            guard chunk.count <= maximumOutputBytes - data.count else {
+                throw LegacyConverterError.outputLimit
+            }
             data.append(chunk)
         }
         process.waitUntilExit()
         try cancellation?.check()
         if termination.didTimeOut { throw LegacyConverterError.timedOut }
-        guard process.terminationStatus == 0 else { throw LegacyConverterError.failed(process.terminationStatus) }
+        guard process.terminationStatus == 0 else {
+            throw LegacyConverterError.failed(process.terminationStatus)
+        }
         return data
     }
 

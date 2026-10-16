@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import AppKit
+import MacVisioInfrastructure
 import ObjectiveC
 
 /// An owner can accept resource jobs across ordinary document edits, but never
@@ -13,7 +13,9 @@ final class LifecycleJobOwner {
 
     init(window: NSWindow? = nil) {
         if let window {
-            observer = NotificationCenter.default.addObserver(forName: NSWindow.willCloseNotification, object: window, queue: .main) { [weak self] _ in
+            observer = NotificationCenter.default.addObserver(
+                forName: NSWindow.willCloseNotification, object: window, queue: .main
+            ) { [weak self] _ in
                 self?.close()
             }
         }
@@ -25,7 +27,10 @@ final class LifecycleJobOwner {
     }
 
     func track(_ handle: LifecycleJobHandle, replacing key: String? = nil) {
-        guard isActive else { handle.cancel(); return }
+        guard isActive else {
+            handle.cancel()
+            return
+        }
         if let key {
             if let prior = latest[key] { handles[prior]?.cancel() }
             latest[key] = handle.id
@@ -52,7 +57,9 @@ private var editorLifecycleOwnerKey: UInt8 = 0
 
 extension EditorWindowController {
     var lifecycleJobs: LifecycleJobOwner {
-        if let owner = objc_getAssociatedObject(self, &editorLifecycleOwnerKey) as? LifecycleJobOwner { return owner }
+        if let owner = objc_getAssociatedObject(self, &editorLifecycleOwnerKey) as? LifecycleJobOwner {
+            return owner
+        }
         let owner = LifecycleJobOwner(window: window)
         objc_setAssociatedObject(self, &editorLifecycleOwnerKey, owner, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         return owner

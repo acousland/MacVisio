@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import Foundation
+import MacVisioInfrastructure
 
 /// The evaluator owns immutable value snapshots on its worker. AppKit text,
 /// font and layout objects are created and destroyed inside one main-queue
@@ -16,11 +16,14 @@ enum ShapeTextMeasurementService {
     private static var totals = Statistics()
 
     static var statistics: Statistics {
-        lock.lock(); defer { lock.unlock() }
+        lock.lock()
+        defer { lock.unlock() }
         return totals
     }
 
-    static func perform<Value>(cancellation: LifecycleJobCancellation? = nil, _ body: () throws -> Value) throws -> Value {
+    static func perform<Value>(cancellation: LifecycleJobCancellation? = nil, _ body: () throws -> Value)
+        throws -> Value
+    {
         try cancellation?.check()
         if !Thread.isMainThread {
             // The caller is an owned worker and never blocks the main queue

@@ -1,5 +1,5 @@
-import MacVisioInfrastructure
 import Foundation
+import MacVisioInfrastructure
 
 enum DiagramCalculation {
     struct Result {
@@ -20,9 +20,13 @@ enum DiagramCalculation {
         changes: DocumentChangeSet? = nil,
         now: Date = Date()
     ) -> Result {
-        guard let result = calculate(input, previous:previous, previousIssues:previousIssues,
-            previousGeometryIssuesByPage:previousGeometryIssuesByPage, previousFieldIssuesByPage:previousFieldIssuesByPage,
-            session:session, changes:changes, now:now, cancellation:nil) else {
+        guard
+            let result = calculate(
+                input, previous: previous, previousIssues: previousIssues,
+                previousGeometryIssuesByPage: previousGeometryIssuesByPage,
+                previousFieldIssuesByPage: previousFieldIssuesByPage,
+                session: session, changes: changes, now: now, cancellation: nil)
+        else {
             preconditionFailure("A noncancellable calculation cannot be cancelled.")
         }
         return result
@@ -37,7 +41,8 @@ enum DiagramCalculation {
     ) -> Result? {
         let span = PerformanceEvidence.begin(.calculation)
         defer { PerformanceEvidence.end(span) }
-        var next = input, issues = Set<String>()
+        var next = input
+        var issues = Set<String>()
         var previousPassInput: Diagram?
         var geometryIssuesByPage = previousGeometryIssuesByPage ?? [:]
         var fieldIssuesByPage = previousFieldIssuesByPage ?? [:]
@@ -57,7 +62,8 @@ enum DiagramCalculation {
             if cancellation?.isCancelled == true { return nil }
             work.geometryPasses += 1
             let passInput = next
-            let comparison = pass == 0
+            let comparison =
+                pass == 0
                 ? (previousIssues.isEmpty || previousGeometryIssuesByPage != nil ? previous : nil)
                 : previousPassInput
             let retainedIssues = pass == 0 ? previousGeometryIssuesByPage ?? [:] : geometryIssuesByPage
@@ -70,22 +76,26 @@ enum DiagramCalculation {
             if geometry.cancelled { return nil }
             geometryIssuesByPage = geometry.issuesByPage
             work.add(geometry.work)
-            let fieldComparison = pass == 0
+            let fieldComparison =
+                pass == 0
                 ? (previousIssues.isEmpty || previousFieldIssuesByPage != nil ? previous : nil)
                 : previousPassInput
             let fields = TextFieldEngine.recalculate(
                 geometry.diagram, now: now, previous: fieldComparison,
                 retainedIssuesByPage: pass == 0 ? previousFieldIssuesByPage ?? [:] : fieldIssuesByPage,
-                session: session, changes: fieldComparison == nil ? nil : adding(geometry.changedNodeIDsByPage, to: passChanges), cancellation: cancellation
+                session: session,
+                changes: fieldComparison == nil
+                    ? nil : adding(geometry.changedNodeIDsByPage, to: passChanges), cancellation: cancellation
             )
             if fields.cancelled { return nil }
             fieldIssuesByPage = fields.issuesByPage
             work.add(fields.work)
             issues = Set(geometry.issues + fields.issues)
             if geometry.changedNodeIDsByPage.isEmpty && fields.changedNodeIDsByPage.isEmpty {
-                return Result(diagram: fields.diagram, issues: issues.sorted(),
-                              geometryIssuesByPage: geometryIssuesByPage,
-                              fieldIssuesByPage: fieldIssuesByPage, work: work)
+                return Result(
+                    diagram: fields.diagram, issues: issues.sorted(),
+                    geometryIssuesByPage: geometryIssuesByPage,
+                    fieldIssuesByPage: fieldIssuesByPage, work: work)
             }
             previousPassInput = passInput
             var produced = DocumentChangeSet()
@@ -99,7 +109,8 @@ enum DiagramCalculation {
             passChanges = produced
             next = fields.diagram
         }
-        let settlingIssue = "Text and geometry dependencies did not settle within eight calculation passes; inspect the formulas for a circular dependency."
+        let settlingIssue =
+            "Text and geometry dependencies did not settle within eight calculation passes; inspect the formulas for a circular dependency."
         issues.insert(settlingIssue)
         if let previousPassInput {
             let priorPages = Dictionary(uniqueKeysWithValues: previousPassInput.pages.map { ($0.id, $0) })
@@ -109,8 +120,9 @@ enum DiagramCalculation {
                 geometryIssuesByPage[page.id] = pageIssues.sorted()
             }
         }
-        return Result(diagram: next, issues: issues.sorted(),
-                      geometryIssuesByPage: geometryIssuesByPage,
-                      fieldIssuesByPage: fieldIssuesByPage, work: work)
+        return Result(
+            diagram: next, issues: issues.sorted(),
+            geometryIssuesByPage: geometryIssuesByPage,
+            fieldIssuesByPage: fieldIssuesByPage, work: work)
     }
 }
