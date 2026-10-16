@@ -378,7 +378,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
 | WP-10-T01 | In progress — unaccepted | Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate. |
-| WP-10-T02 | In progress — unaccepted | Cross-page state-owned find/replace and validated command search integrated; real keyboard replace/undo/redo preserves accented/RTL/emoji suffix. Focus/Return/blur regressions fixed and covered. Broader native rich-run matrix remains unaccepted. |
+| WP-10-T02 | In progress — unaccepted | Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted. |
 | WP-10-T03 | In progress — unaccepted | Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted. |
 | WP-10-T04 | In progress — unaccepted | Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation. |
 
@@ -412,8 +412,8 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 | --- | --- | --- |
 | WP-11-T01 | In progress — unaccepted | Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open. |
 | WP-11-T02 | In progress — unaccepted | Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted. |
-| WP-11-T03 | In progress — unaccepted | UTF-16/run protection, deterministic font fallback and source metadata policy covered; native accent/RTL/emoji paste survives replacement/save/export. Real marked-text IME composition/cancel/commit remains unaccepted. |
-| WP-11-T04 | In progress — unaccepted | Actionable content issues, native proofing menu and adaptive editor implemented; export appearance tests pass, actual PDF visually reviewed. Full narrow-window/proofing/reference/appearance native matrix remains unaccepted. |
+| WP-11-T03 | In progress — unaccepted | UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese/Chinese candidate-picker qualification remains open; temporary source authorized; manual Hiragana selection and restoration pending. |
+| WP-11-T04 | In progress — unaccepted | Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted. |
 
 **Outcome:** Meaningful keyboard/VoiceOver authoring, reliable international text input and font/proofing feedback.
 
@@ -444,9 +444,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
 | WP-12-T01 | In progress — unaccepted | Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open. |
-| WP-12-T02 | In progress — unaccepted | Stable/development gates, pinned archive/feed signatures and runtime channel guards implemented. Exact development archive verifies locally; ad hoc signing remains ineligible for stable publication. Intended Developer ID/team/notarization acceptance remains open. |
-| WP-12-T03 | In progress — unaccepted | Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside authorized local preparation. No application installed, updated or published. |
-| WP-12-T04 | In progress — unaccepted | Current bundle inventory derives arm64/macOS27.0 floor; exact content/license inventory remains rights-unreviewed. Native drawing support export checked for counts and strict text/path/formula/provenance redaction. Actual platform installation matrix remains open. |
+| WP-12-T02 | In progress — unaccepted | Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published. |
+| WP-12-T03 | In progress — unaccepted | Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey. |
+| WP-12-T04 | In progress — unaccepted | Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open. |
 
 **Outcome:** Stable release gates, truthful platform support, safe diagnostics and installed-update evidence.
 

@@ -2258,7 +2258,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Cross-page state-owned find/replace and validated command search integrated; real keyboard replace/undo/redo preserves accented/RTL/emoji suffix. Focus/Return/blur regressions fixed and covered. Broader native rich-run matrix remains unaccepted.",
+          "execution_note": "Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
@@ -2515,7 +2515,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "UTF-16/run protection, deterministic font fallback and source metadata policy covered; native accent/RTL/emoji paste survives replacement/save/export. Real marked-text IME composition/cancel/commit remains unaccepted.",
+          "execution_note": "UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese/Chinese candidate-picker qualification remains open; temporary source authorized; manual Hiragana selection and restoration pending.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
@@ -2562,7 +2562,7 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Actionable content issues, native proofing menu and adaptive editor implemented; export appearance tests pass, actual PDF visually reviewed. Full narrow-window/proofing/reference/appearance native matrix remains unaccepted."
+          "execution_note": "Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted."
         }
       ],
       "status": "In progress — accepted M1 integrated; unaccepted",
@@ -2675,7 +2675,7 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Stable/development gates, pinned archive/feed signatures and runtime channel guards implemented. Exact development archive verifies locally; ad hoc signing remains ineligible for stable publication. Intended Developer ID/team/notarization acceptance remains open.",
+          "execution_note": "Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
@@ -2722,7 +2722,7 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside authorized local preparation. No application installed, updated or published."
+          "execution_note": "Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey."
         },
         {
           "id": "WP-12-T04",
@@ -2756,7 +2756,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Current bundle inventory derives arm64/macOS27.0 floor; exact content/license inventory remains rights-unreviewed. Native drawing support export checked for counts and strict text/path/formula/provenance redaction. Actual platform installation matrix remains open.",
+          "execution_note": "Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",

@@ -1,5 +1,21 @@
 # M2 release trust evidence
 
+## Final local notarization follow-up
+
+The root integration candidate `0839994456aa82f3533456c75f9f10da1ebcd2bb`
+is now Developer ID signed (team5NF98M544G), hardened, Apple Accepted through
+user-selected `renoir-notary`, stapled and accepted by Gatekeeper. Its exact
+final ZIP/feed verification and four actual public-key positive/tamper cases
+pass. The signed app's native rich-input/save/reopen/export replay also passes.
+See [current M2 acceptance](M2-NATIVE-ACCEPTANCE.md) and
+[component-rights review](M2-CONTENT-RIGHTS-REVIEW.md).
+
+The preparation evidence below remains historical. Its intended-signing/profile
+input is resolved by the final notarization receipt; installed update/recovery,
+minimum-OS installations, global VoiceOver and remaining rights/reference gates
+are still unaccepted. No candidate was installed, updated or published.
+
+
 This is a bounded WP-12 tooling slice, not package acceptance. AR-09 requires a
 candidate-specific stable release manifest and an independent development path.
 No signed installation, VoiceOver, content-rights, or platform journey is accepted

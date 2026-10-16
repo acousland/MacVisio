@@ -1,6 +1,6 @@
 # M2 input trust audit
 
-Scope: local source and synthetic rejection evidence, 16 October 2026. **WP-12-T01 remains unaccepted.** Accepted local M1 runtime/long-job contracts are integrated at `d797a67`; the final integrated Release regression passes744 tests/12 skips/0 failures (`build/m2-qualified5-release-native.log`).
+Scope: local source and synthetic rejection evidence, 16 October 2026. **WP-12-T01 remains unaccepted.** Accepted local M1 runtime/long-job contracts are integrated at `d797a67`; the final integrated Release regression passes745 tests/12 skips/0 failures (`build/m2-qualified6-release-native.log`).
 
 | Route | Existing or prepared boundary | Evidence and remaining qualification |
 | --- | --- | --- |

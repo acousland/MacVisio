@@ -30,6 +30,16 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
+## Current local M2 candidate
+
+Source `0839994` has a Developer ID signed, hardened, Apple-notarized and
+stapled development candidate. Gatekeeper, exact ZIP/feed signatures and public
+key tamper checks pass; native rich-input/save/reopen/export checks ran on the
+exact signed app. The candidate remains unpublished and publication acceptance
+is false. Installed-update/recovery, minimum-OS/platform, global VoiceOver,
+remaining native and application-owner/reference acceptance are separate gates.
+See [M2 acceptance and exact archive hash](delivery/M2-NATIVE-ACCEPTANCE.md).
+
 ## Current channel and publication contract
 
 The build defaults to `development`. Before signing, `build-app.sh` records

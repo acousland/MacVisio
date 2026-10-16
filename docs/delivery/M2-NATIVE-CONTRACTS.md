@@ -36,8 +36,10 @@ A basic multipage flow fixture includes start/process/decision/subprocess, branc
 
 ## Current implementation evidence
 
-The accepted M1 prerequisite is satisfied and the contracts above are implemented in the current M2 source. The final744-test Release regression and actual native journey are recorded in `M2-NATIVE-ACCEPTANCE.md`. Whole-task acceptance remains separate from implementation. Window title-bar edited badges must follow the same saved snapshot identity as close/save policy, including Undo/Redo; AppKit counter state alone is insufficient. Native VoiceOver and real IME evidence remain required and unaccepted.
+The accepted M1 prerequisite is satisfied and the contracts above are implemented in the current M2 source. The final745-test Release regression and actual native journey are recorded in `M2-NATIVE-ACCEPTANCE.md`. Whole-task acceptance remains separate from implementation. Window title-bar edited badges must follow the same saved snapshot identity as close/save policy, including Undo/Redo; AppKit counter state alone is insufficient. Native VoiceOver and CJK candidate-picker qualification remain unaccepted; real Australian marked-text composition/cancel/commit is retained with exact signed-candidate evidence.
 
 Fit Page uses the settled viewport, including legacy scroller removal, and initial fitting follows content layout. The forced-legacy integration fixture keeps its strict viewport assertion; the earlier failure was corrected in production code rather than relaxed.
 
 Inspector refresh defers while focused input is uncommitted or marked. Once committed, model Undo/Redo must update both its field value and native field editor; leaving the field must not replay a superseded value. The field-editor regression covers that boundary.
+
+Inline label Undo/Redo are owned by the active native text input session. Standard menu selectors must not fall through to document history, including when the input history is empty. The responder regression and actual Command-Z/Command-Shift-Z replay retain the committed document identity.

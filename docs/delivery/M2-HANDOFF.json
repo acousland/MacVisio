@@ -43,7 +43,8 @@
     "0dc735afa760913ac47526a85eca8c8ec43c9226",
     "ae9d81595deb59201b8db73020763dec45d52261",
     "bf8d3e4558cf2563eb8389f3e17dd3100252362c",
-    "fbd851bd9f915229b542fb6092d01e6e3f83424a"
+    "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+    "0839994456aa82f3533456c75f9f10da1ebcd2bb"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -56,17 +57,17 @@
   "completed_task_ids": [],
   "implemented_unaccepted_slices": [
     "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
-    "WP-10-T02: Cross-page state-owned find/replace and validated command search integrated; real keyboard replace/undo/redo preserves accented/RTL/emoji suffix. Focus/Return/blur regressions fixed and covered. Broader native rich-run matrix remains unaccepted.",
+    "WP-10-T02: Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
     "WP-10-T03: Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted.",
     "WP-10-T04: Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation.",
     "WP-11-T01: Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open.",
     "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
-    "WP-11-T03: UTF-16/run protection, deterministic font fallback and source metadata policy covered; native accent/RTL/emoji paste survives replacement/save/export. Real marked-text IME composition/cancel/commit remains unaccepted.",
-    "WP-11-T04: Actionable content issues, native proofing menu and adaptive editor implemented; export appearance tests pass, actual PDF visually reviewed. Full narrow-window/proofing/reference/appearance native matrix remains unaccepted.",
+    "WP-11-T03: UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese/Chinese candidate-picker qualification remains open; temporary source authorized; manual Hiragana selection and restoration pending.",
+    "WP-11-T04: Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted.",
     "WP-12-T01: Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
-    "WP-12-T02: Stable/development gates, pinned archive/feed signatures and runtime channel guards implemented. Exact development archive verifies locally; ad hoc signing remains ineligible for stable publication. Intended Developer ID/team/notarization acceptance remains open.",
-    "WP-12-T03: Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside authorized local preparation. No application installed, updated or published.",
-    "WP-12-T04: Current bundle inventory derives arm64/macOS27.0 floor; exact content/license inventory remains rights-unreviewed. Native drawing support export checked for counts and strict text/path/formula/provenance redaction. Actual platform installation matrix remains open.",
+    "WP-12-T02: Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
+    "WP-12-T03: Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey.",
+    "WP-12-T04: Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
     "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
     "WP-13-T02: Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete.",
     "WP-13-T03: Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit.",
@@ -110,12 +111,12 @@
     }
   },
   "remaining_work": [
-    "Complete observable real VoiceOver graph operation/save/export journey; current bridge attempt is unqualified and VoiceOver is restored off.",
-    "Complete real IME marked-text composition/cancel/commit and broader native rich-run/proofing/narrow-window/appearance matrix. Unicode paste and unit fixtures are narrower.",
-    "Accept intended Developer ID/team/notarization and perform actual signed installed-update, invalid-signature, interruption and recovery fixtures; no installation/update/publication was authorized or performed.",
-    "Qualify the advertised platform installation matrix. Current actual bundle floor is arm64/macOS27.0; no broader matrix is accepted.",
-    "Review exact final component/license/source/icon redistribution obligations; inventory presence is not rights acceptance.",
-    "Complete applicable exact-build Visio/reference and controlled numerical/performance gates; accepted local M0/M1 engineering contracts do not close them."
+    "Complete observable real VoiceOver graph operation/save/export journey. The app-targeted bridge did not yield global VoiceOver cursor/action evidence; VoiceOver is restored off.",
+    "Complete Japanese/Chinese candidate-picker and minimum-width/full appearance/proofing/reference native matrix. Exact signed-candidate Australian marked-text composition/cancel/commit, selected run Undo/Redo, Unicode save/reopen/public export and spelling selection pass. Japanese source addition was authorized; manual Hiragana selection and restoration remain pending.",
+    "Perform actual signed installed-update, invalid-signature, interruption and recovery fixtures. Earlier no-install/update/publication restriction remains; user authorized renoir-notary notarization only. Exact bundle signing/notarization/stapling/Gatekeeper gate is now passed.",
+    "Qualify advertised minimum-OS27.0 installation/platform matrix. Actual signed candidate native journey ran on arm64/macOS27.0.1; no lower-floor installation or broader architecture claim.",
+    "Record application-owner authority/provenance for original application source, built-in shapes/templates and generated icon. Five third-party component licenses and both MPL source archives have now been substantively reviewed/verified against final candidate.",
+    "Complete applicable licensed exact-build Visio/reference and controlled numerical/performance gates. Shared M0 status still needs the reference; accepted local M0/M1 engineering contracts remain satisfied."
   ],
   "evidence_paths": [
     "build/bundle-verification.json",
@@ -123,6 +124,7 @@
     "build/m2-build-qualified3.py",
     "build/m2-build-qualified4.py",
     "build/m2-build-qualified5.py",
+    "build/m2-build-qualified6.py",
     "build/m2-bundle-platform.json",
     "build/m2-bundle-verification.log",
     "build/m2-bundle.log",
@@ -160,6 +162,9 @@
     "build/m2-find-return-debug.log",
     "build/m2-find-return-final.log",
     "build/m2-full-native.log",
+    "build/m2-inline-undo-after.log",
+    "build/m2-inline-undo-before.log",
+    "build/m2-inline-undo-routing.log",
     "build/m2-input-actions-focused-12.log",
     "build/m2-input-trust.log",
     "build/m2-inspector-native-attempt1.json",
@@ -192,10 +197,15 @@
     "build/m2-native-journey/KeyboardFlow.vsdx",
     "build/m2-native-journey/Material.vsdx",
     "build/m2-native-journey/MaterialReviewedCopy.vsdx",
+    "build/m2-native-journey/PreFix-RichInput.vsdx",
+    "build/m2-native-journey/Qualified6-RichInput.svg",
+    "build/m2-native-journey/Qualified6-RichInput.vsdx",
     "build/m2-native-journey/ReadOnly.vsdx",
     "build/m2-native-preliminary-journey.json",
     "build/m2-native-qa-sign.log",
     "build/m2-native-qa-wrapper.json",
+    "build/m2-native-rich-input-before.json",
+    "build/m2-notary-profile-check.json",
     "build/m2-pinned-feed-verification.json",
     "build/m2-preparation-final-native.log",
     "build/m2-python.log",
@@ -254,10 +264,46 @@
     "build/m2-qualified5-python.log",
     "build/m2-qualified5-release-native.log",
     "build/m2-qualified5-support.log",
+    "build/m2-qualified6-application-support.json",
+    "build/m2-qualified6-bundle-build.log",
+    "build/m2-qualified6-bundle-platform.json",
+    "build/m2-qualified6-bundle-verification.json",
+    "build/m2-qualified6-bundle-verification.log",
+    "build/m2-qualified6-content-inventory.json",
+    "build/m2-qualified6-format.log",
+    "build/m2-qualified6-gatekeeper.log",
+    "build/m2-qualified6-japanese-input.json",
+    "build/m2-qualified6-ledger.log",
+    "build/m2-qualified6-native-profile-baseline.json",
+    "build/m2-qualified6-native-replay.json",
+    "build/m2-qualified6-negative-signatures/tampered-appcast.xml",
+    "build/m2-qualified6-negative-signatures/tampered.zip",
+    "build/m2-qualified6-notarization.json",
+    "build/m2-qualified6-notary-archive.log",
+    "build/m2-qualified6-notary-submission.zip",
+    "build/m2-qualified6-package.log",
+    "build/m2-qualified6-pipeline.log",
+    "build/m2-qualified6-platform.log",
+    "build/m2-qualified6-python.log",
+    "build/m2-qualified6-release-native.log",
+    "build/m2-qualified6-signature-negative.json",
+    "build/m2-qualified6-signature-negative.log",
+    "build/m2-qualified6-signature-negative.py",
+    "build/m2-qualified6-staple-validation.log",
+    "build/m2-qualified6-staple.log",
+    "build/m2-qualified6-support.log",
     "build/m2-recents.log",
     "build/m2-redacted-support.json",
     "build/m2-release-build.log",
     "build/m2-release-suite.log",
+    "build/m2-rights-review/Sparkle-LICENSE",
+    "build/m2-rights-review/ZIPFoundation-LICENSE",
+    "build/m2-rights-review/final-license-verification.json",
+    "build/m2-rights-review/icu-LICENSE",
+    "build/m2-rights-review/librevenge-source.tar.xz",
+    "build/m2-rights-review/libvisio-source.tar.xz",
+    "build/m2-rights-review/license-verification.json",
+    "build/m2-rights-review/source-verification.json",
     "build/m2-search-input-focused-11.log",
     "build/m2-search-text.log",
     "build/m2-signing-prerequisite.json",
@@ -272,14 +318,21 @@
     "build/m2-verify-qualified3-app.py",
     "build/m2-verify-qualified4-app.py",
     "build/m2-verify-qualified5-app.py",
+    "build/m2-verify-qualified6-app.py",
     "build/m2-window-badge-native-attempt1.json",
     "build/m2-window-saved-badge-before.log",
+    "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+    "build/releases/development/0.23.3-0839994456aa/SHA256SUMS.txt",
+    "build/releases/development/0.23.3-0839994456aa/appcast.xml",
+    "build/releases/development/0.23.3-0839994456aa/release-verification.json",
     "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
     "build/releases/development/0.23.3-fbd851bd9f91/SHA256SUMS.txt",
     "build/releases/development/0.23.3-fbd851bd9f91/appcast.xml",
     "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
     "docs/DEVELOPMENT-BACKLOG.md",
+    "docs/DISTRIBUTION.md",
     "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
+    "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
     "docs/delivery/M2-DIAGNOSTICS.md",
     "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
     "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
@@ -290,9 +343,9 @@
     "docs/development-backlog.json"
   ],
   "development_candidate": {
-    "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
-    "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
-    "sha256": "dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939",
+    "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "path": "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+    "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
     "channel": "development",
     "publicationAccepted": false,
     "installed": false,
@@ -301,45 +354,52 @@
       "arm64"
     ],
     "minimumMacOS": "27.0",
-    "developerIDSigned": false,
-    "notarized": false,
-    "status": "verified_local_development_candidate_unaccepted_release",
-    "content_inventory": "build/m2-qualified5-content-inventory.json",
-    "native_replay": "build/m2-qualified5-native-replay.json"
+    "developerIDSigned": true,
+    "teamID": "5NF98M544G",
+    "hardenedRuntime": true,
+    "notarized": true,
+    "notary_profile": "renoir-notary",
+    "notary_submission_id": "889a4950-4527-4ee1-afdb-4fc3a5577151",
+    "stapled": true,
+    "gatekeeperAccepted": true,
+    "status": "notarized_local_development_candidate_unaccepted_release",
+    "content_inventory": "build/m2-qualified6-content-inventory.json",
+    "native_replay": "build/m2-qualified6-native-replay.json"
   },
   "notes": [
-    "Accepted local M1 engineering prerequisite remains satisfied and integrated at d797a67.",
-    "All source/tests committed at fbd851bd9f915229b542fb6092d01e6e3f83424a; current qualification is local and bounded. M2/M3 integration acceptance remains false.",
-    "Original checkout Home working changes were inspected read-only and remain separate; five-file tracked diff unchanged.",
-    "Earlier passing suites did not mask native badge/inspector defects; failed native/full-run records and superseded archives are retained.",
-    "Final exact executable native replay, original-file hashes,87 Python and full744-test Release regression pass. VoiceOver/realIME/full native matrix and release/reference gates remain unaccepted.",
-    "Developer ID identity is available; intended team/notarization/installed-update evidence is unaccepted. No credentials assumed absent."
+    "Accepted local M1 prerequisite remains satisfied and integrated at d797a67.",
+    "Source/test candidate committed at 0839994456aa82f3533456c75f9f10da1ebcd2bb; whole M2/M3 integration acceptance remains false.",
+    "Original checkout tracked Home working diff remains five files/285 insertions/111 deletions, inspected read-only.",
+    "Earlier suite/native failures and superseded archives are retained, including failed NSApp action-dispatch harness attempts; corrected first-responder fixture and real native Cmd-Z replay pass.",
+    "Full745/12skip/0fail Swift,87 Python, formatting/import boundaries/ledger and exact signed-candidate native replay pass.",
+    "User selected renoir-notary; actual Developer ID team5NF98M544G, Apple Accepted receipt, stapled ticket, Gatekeeper and final ZIP/feed verification pass. No installation/update/publication performed.",
+    "Third-party rights review is complete for observed final bytes; application-owner provenance input and remaining qualification are explicit."
   ],
   "tests": {
     "final_integrated_release": {
-      "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
-      "executed": 744,
+      "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+      "executed": 745,
       "skipped": 12,
       "failures": 0,
-      "seconds": 39.646,
-      "log": "build/m2-qualified5-release-native.log"
+      "seconds": 40.976,
+      "log": "build/m2-qualified6-release-native.log"
     },
     "python": {
       "executed": 87,
       "failures": 0,
-      "seconds": 22.549,
-      "log": "build/m2-qualified5-python.log"
+      "seconds": 28.171,
+      "log": "build/m2-qualified6-python.log"
     },
     "foundation_format_import_boundaries": {
       "passed": true,
       "files": 9,
-      "log": "build/m2-qualified5-format.log"
+      "log": "build/m2-qualified6-format.log"
     },
     "ledger": {
       "passed": true,
       "requirements": 154,
       "bounded_inventory_entries": 171,
-      "log": "build/m2-qualified5-ledger.log"
+      "log": "build/m2-qualified6-ledger.log"
     },
     "native_feature_observation": {
       "source_commit": "b321c5ef022b69beb794392e96b9b33800db7130",
@@ -347,21 +407,31 @@
       "scope": "Earlier complete bounded feature journey; its native badge finding is superseded by current fixes/replay."
     },
     "final_targeted_native_replay": {
-      "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+      "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
       "passed": true,
-      "record": "build/m2-qualified5-native-replay.json",
-      "scope": "Real Return/Undo/focus/lock, reopened multipage publication, unchanged original hashes; whole AT/IME/native matrix unaccepted."
+      "record": "build/m2-qualified6-native-replay.json",
+      "scope": "Exact notarized app: real marked-text composition/cancel/commit; selected-run native Undo/Redo; Unicode/native save/reopen/public SVG/VSDX; spelling selection; normal quit. Whole AT/CJK/native matrix unaccepted."
     },
     "exact_bundle_and_development_archive": {
       "passed": true,
-      "verification": "build/m2-qualified5-bundle-verification.json",
-      "release_verification": "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
+      "verification": "build/m2-qualified6-bundle-verification.json",
+      "release_verification": "build/releases/development/0.23.3-0839994456aa/release-verification.json",
+      "developerIDSigned": true,
+      "notarized": true,
+      "stapled": true,
+      "gatekeeperAccepted": true,
       "installed": false,
       "published": false
+    },
+    "actual_negative_signatures": {
+      "passed": true,
+      "cases": 4,
+      "record": "build/m2-qualified6-signature-negative.json",
+      "scope": "Actual CryptoKit public-key verification, not installed Sparkle updater."
     }
   },
   "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
-  "implementation_head": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+  "implementation_head": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
   "head_note": "Source/test candidate identified above; final shared status records the later documentation-only branch head.",
   "evidence": [
     {
@@ -388,6 +458,11 @@
       "path": "build/m2-build-qualified5.py",
       "sha256": "8d41ad11eab40eec98a57865a6dc78f13258b57472f22ffc89c4e483d644d455",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-build-qualified6.py",
+      "sha256": "68ee6a04e0caf9bb55264341552c29056061f13fda9880056c9f9b92cdca3813",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "build/m2-bundle-platform.json",
@@ -575,6 +650,21 @@
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
+      "path": "build/m2-inline-undo-after.log",
+      "sha256": "a0549ccc73e988a0f1fc068387fc0830db9c874aae661e8a191470c943b13116",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-inline-undo-before.log",
+      "sha256": "17917cbfeb7e6839272d37b9e0d3d5a434b61c59e9a19d2822cf552b0666dc2c",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-inline-undo-routing.log",
+      "sha256": "764fb6f13ea0ea5e7063c6bc3cb225ec21a81b70f743331658b7dc689ccc53e3",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
       "path": "build/m2-input-actions-focused-12.log",
       "sha256": "6c098fd7eedff2f6684b4191afbc5b80706ba1efa87129b11fbb1a6c0984aedd",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
@@ -735,6 +825,21 @@
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
+      "path": "build/m2-native-journey/PreFix-RichInput.vsdx",
+      "sha256": "4ee3a8634982142e039f7cc7bd43972244561c0b39965f307e11048b01a85b74",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-native-journey/Qualified6-RichInput.svg",
+      "sha256": "bcbdfce9658bcf7feab6be3314b987953bac67cafe9ac3ab67747d03ad747656",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-native-journey/Qualified6-RichInput.vsdx",
+      "sha256": "c6b55a23e15c638fe5e0476fc92506cec2026f8dbbf705923eef6f797cbfb088",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
       "path": "build/m2-native-journey/ReadOnly.vsdx",
       "sha256": "145142daa56a75aa39630a503a681b15b262c50aa5b3983d47eb552f3258cb66",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
@@ -753,6 +858,16 @@
       "path": "build/m2-native-qa-wrapper.json",
       "sha256": "935f16976278f8206891ba309e50e21b684bbc338900e421a4bd1fe46acd6579",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-native-rich-input-before.json",
+      "sha256": "e51cd1192703311e3cacceb20252439eaef78c2c4b4e979839590bb1d19e2fb5",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-notary-profile-check.json",
+      "sha256": "03fed5f3942edb3a0821e0a22325d649e2a7b4ba317ab7deeb52e087977c8251",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "build/m2-pinned-feed-verification.json",
@@ -1045,6 +1160,146 @@
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
+      "path": "build/m2-qualified6-application-support.json",
+      "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-build.log",
+      "sha256": "aa6a569b89a9b04629d87fadf9196a80cad4de781bb7120526903944dbe0d82e",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-platform.json",
+      "sha256": "6d5dab80dd3050b430836dc1832cc77b1de68a8b342b29da425441a27fb124db",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-verification.json",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-bundle-verification.log",
+      "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-content-inventory.json",
+      "sha256": "f5a7ecc3a20ddb1a3cdff32fd7c0138faaa14626f2a7bb69532103997200f5a6",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-format.log",
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-gatekeeper.log",
+      "sha256": "4e2af155da2b964b638d6626821fc08688a1871931dcad36fd84d7819927b474",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-japanese-input.json",
+      "sha256": "58251c905f1defd89b67404b259cd2100d79a424872f947b279b03c27d5cebc5",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-native-profile-baseline.json",
+      "sha256": "535f7f4c1b1f60636890fd45ff50eb61f39055a4c552459141373fe7ee1b57b5",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-native-replay.json",
+      "sha256": "82262cba974c11d6bece5a51e94fc198e9183f9a1cb2a069e1f2b4e24984e031",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-negative-signatures/tampered-appcast.xml",
+      "sha256": "e7efa887552732238d422ce9a22c9965a7b785b0e312d5d8fb1e0dc82be1677a",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-negative-signatures/tampered.zip",
+      "sha256": "09536089b1336f1310894ceaa4ab1e00be392aa76937edd9e03adbdad23ccde8",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-notarization.json",
+      "sha256": "48cbe99a479c478812b950d215be85470d098800e80b05895bc6bae010fd6838",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-notary-archive.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-notary-submission.zip",
+      "sha256": "f3ed07bd754f85540687b08acb0d3da98d7999d19dea34e49fb291d60ad12da0",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-package.log",
+      "sha256": "9eee3540635add2596f58f287a1d4ebf91750f15077021eb8b990daa5625df92",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-pipeline.log",
+      "sha256": "f89c71c7cd00b2f9b6cc08ed29df6db69a691cf601351b98e22ee802b864f90b",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-platform.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-python.log",
+      "sha256": "8fc107834361af36885de4c1d3b6fa03ee87cb6651d11f2e88db3093683330fc",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-release-native.log",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.json",
+      "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.log",
+      "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-signature-negative.py",
+      "sha256": "626461c6c552391d6f44deaf0d8a2da0dc13282264f81f8e6f949fd4d55860ac",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-staple-validation.log",
+      "sha256": "50292d63bb9071aea2c6f0bb41ad5a5cc1c3dd553d3c7dc7cf4f1b0b3a356f8b",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-staple.log",
+      "sha256": "d9b74bd1284bbd949b1cdd3c0c0563350dec26bec234bc6929c6966a439a3757",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-qualified6-support.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
       "path": "build/m2-recents.log",
       "sha256": "964adedc21cf49f83faf3a31428cf1b4e93f6f0f80318bd54111fe79a0b2845d",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
@@ -1063,6 +1318,46 @@
       "path": "build/m2-release-suite.log",
       "sha256": "47828db2cb282ad510d9e3907068012c8578237b335d7e3c2bd8cf4c100779e9",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/Sparkle-LICENSE",
+      "sha256": "389a4e4e9a32f059775b13a06e25a591445ba229d2838d26dd3e7c0c45127cfe",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/ZIPFoundation-LICENSE",
+      "sha256": "93a5b6f4c4fcfbca71aaf17f5758d249cf205d5d1c237becc37f14e43af09f6b",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/final-license-verification.json",
+      "sha256": "67dfec5aae308a6e58013ec242bcab73568fe0efc14b01d7e5937ce1b1e8982f",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/icu-LICENSE",
+      "sha256": "e55522d81edc687a341a4411e0776e54ca654e90147f354a90458aaced4116af",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/librevenge-source.tar.xz",
+      "sha256": "19eacf5ce55d7fe6a990a45142589cdf7da0c7b68701797f133482cb44f189fa",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/libvisio-source.tar.xz",
+      "sha256": "2a6efd40b6d9dbcb70fba3be53112366882ba97b57151df3698dfa478c8d8dd3",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/license-verification.json",
+      "sha256": "30296c9ccbc0186e58270a109c5660983b84f82988bc6935de7bba52ab4b1470",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/m2-rights-review/source-verification.json",
+      "sha256": "d62cf174dcc72b2dcdd2d664c97e59c12afc42bad783f6ffacd0baaae1dde2d7",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "build/m2-search-input-focused-11.log",
@@ -1135,6 +1430,11 @@
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
+      "path": "build/m2-verify-qualified6-app.py",
+      "sha256": "d9b2938fae548fd3ef50492a12d4b3aa079e4dbc5b771893c96b5a0aa6fce881",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
       "path": "build/m2-window-badge-native-attempt1.json",
       "sha256": "39ddec13532066b69a255441b9d7241b936b04ecf3f6dedf6f0e3e1b49f45dc4",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
@@ -1143,6 +1443,26 @@
       "path": "build/m2-window-saved-badge-before.log",
       "sha256": "0dc2ebcdedb09e3a13a57dcb2d5e44edbf6e5ef9ddbbe8829d5ed8244257ef26",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
+      "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/SHA256SUMS.txt",
+      "sha256": "b3db954fd5ac925f1459e5db89b893a18d288b7de2b7565a8f81ce5907cee647",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/appcast.xml",
+      "sha256": "5e375e8c87606278b9e391b28b439079ca880e77e03303a3831ffe9af7589053",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "build/releases/development/0.23.3-0839994456aa/release-verification.json",
+      "sha256": "10c4cf4525e5f98d7694735484d320b22ea7cbfa81421506dcd37f286e6a02b1",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
@@ -1166,13 +1486,23 @@
     },
     {
       "path": "docs/DEVELOPMENT-BACKLOG.md",
-      "sha256": "abfb8d2c5bac9674793138e183a7edd68739843db82ad1127b3edf475e9bef0e",
+      "sha256": "26cb2688ee8ec7f5f13fcded28fa7721ed070f7f9d1554c7a498f1b1246ba8b3",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "docs/DISTRIBUTION.md",
+      "sha256": "bf09437da9d4860fdf72acca2774e666647d595bc47b6944e3c8f15cdf5948e3",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
       "sha256": "83b281927c6c601e94e77192855acd5cb6253b95920d73a97b199c8b57ea312a",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+    },
+    {
+      "path": "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
+      "sha256": "82d50d8d90ec5dd2239cca139425f3f4e3d8b2f4870dc7d79bf5ef87bd2db81e",
+      "scope": "Retained scoped evidence; current/historical candidate and pending Japanese follow-up are identified explicitly. Whole M2 acceptance remains false."
     },
     {
       "path": "docs/delivery/M2-DIAGNOSTICS.md",
@@ -1181,22 +1511,22 @@
     },
     {
       "path": "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
-      "sha256": "456721c864c014c4b1e376d883aa2d796b2a50d33f873be407ec8be2f02c0f45",
+      "sha256": "8c8c0f72f0d972dd2679b862ee1b70eeaba734f997a49e29a30c42c31752e886",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "7f537a543fd3da1e828810c08fb2ee1cb57b1b5b60557b3cd52cd938a9eb866f",
+      "sha256": "d6553566c64e1af9e5f9d450e4f836f7de7bddc6a14366df5113783957c6d9af",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
       "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
-      "sha256": "50d157cc128f4cd06562aff4cacb0077588214468f537515125e1af44dd719dc",
+      "sha256": "26042a54f6f122056cdc39cc05c044e6e722caf9dd0c9ab133aede064cac7ef7",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
       "path": "docs/delivery/M2-RELEASE-TRUST.md",
-      "sha256": "ed0ee9db7426985bb1270834488d4ef7cdb20edff16cc12504218511f1c42f17",
+      "sha256": "b92be784a9c6ab1145c27cda46b1e6c73820910279dbede81ab72b06f5f2e6cd",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     },
     {
@@ -1211,12 +1541,12 @@
     },
     {
       "path": "docs/development-backlog.json",
-      "sha256": "16e87a492345dde268eff055decb2af5f0109e644ee07cae75e1856ce2ec5d7d",
+      "sha256": "c9179c88cb9e648736132f3a6e5b64834efa1df0fa215dac2f0edc8cfd4d641e",
       "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
     }
   ],
   "blocked_task_ids": [],
-  "blocked_scope": "No active local implementation/test blocker. Whole M2/native-matrix, AT/IME and external shipping/reference acceptance remains open.",
+  "blocked_scope": "Remaining qualification needs observable global VoiceOver/manual native evidence, manual Japanese input-mode selection, authorized installation/update tests, minimum-OS platform, application-owner provenance and licensed Visio/reference/controlled performance inputs. Local implementation/regression and notarization have passed.",
   "delivery_gate": {
     "state": "satisfied",
     "dependency": "accepted M1 engineering handoff",
@@ -1227,9 +1557,9 @@
   "integration_commit": "d797a67f89976f3a7d6a83fa7927e475acf29425",
   "active_feature_checks": {
     "state": "passed_local_scope",
-    "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
-    "latest_log": "build/m2-qualified5-release-native.log",
-    "latest_result": "744 tests,12 fixture skips,0failures;87 Python; formatting/import boundaries/ledger; exact local bundle/archive and bounded native replay pass. Whole M2 acceptance remains false."
+    "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "latest_log": "build/m2-qualified6-release-native.log",
+    "latest_result": "745 tests/12 fixture skips/0failures;87 Python; formatting/import boundaries/ledger; actual signed/notarized/stapled archive and native rich-input replay pass. Whole M2 acceptance remains false."
   },
   "historical_tests": {
     "native_debug": {
@@ -1342,6 +1672,12 @@
       "tests": "744/12skip/0fail",
       "log": "build/m2-qualified4-release-native.log",
       "native_disposition": "End-edit refresh preceded Return action; build/m2-inspector-native-attempt2.json. Final regression uses real NSWindow Return event."
+    },
+    {
+      "candidate": "fbd851b",
+      "tests": "744/12skip/0fail",
+      "log": "build/m2-qualified5-release-native.log",
+      "native_disposition": "Inspector/lock/multipage replay passes; subsequent actual rich-text Cmd-Z defect found and fixed in0839994. build/m2-native-rich-input-before.json."
     }
   ],
   "local_review_ready": true,
@@ -1388,7 +1724,32 @@
       "sha256": "9d54e8826468866f3aa3b97e0eaaf591254e393e6a8ace11a7bb66dcd39808a8",
       "state": "superseded_unaccepted_native_candidate",
       "publicationAccepted": false
+    },
+    {
+      "source_commit": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+      "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
+      "sha256": "dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939",
+      "channel": "development",
+      "publicationAccepted": false,
+      "installed": false,
+      "published": false,
+      "architectures": [
+        "arm64"
+      ],
+      "minimumMacOS": "27.0",
+      "developerIDSigned": false,
+      "notarized": false,
+      "status": "superseded_native_rich_text_undo_defect",
+      "content_inventory": "build/m2-qualified5-content-inventory.json",
+      "native_replay": "build/m2-qualified5-native-replay.json",
+      "native_disposition": "build/m2-native-rich-input-before.json"
     }
   ],
-  "updated_utc": "2026-10-16T03:36:54.525579+00:00"
+  "updated_utc": "2026-10-16T04:17:16.396573+00:00",
+  "native_input_followup": {
+    "state": "awaiting_manual_hiragana_selection",
+    "record": "build/m2-qualified6-japanese-input.json",
+    "temporary_source_enabled": true,
+    "restoration_pending": true
+  }
 }

@@ -2,9 +2,73 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 is **in progress, unaccepted** with the accepted M1 engineering prerequisite integrated. Accepted local M1 runtime/transaction/calculation/scene contracts are integrated at `d797a67`; broader M0/reference/performance and M2 qualification are still open. No distribution is authorized.
+M2 is **in progress, unaccepted** with the accepted M1 engineering prerequisite integrated. Accepted local M1 runtime/transaction/calculation/scene contracts are integrated at `d797a67`; broader M0/reference/performance and M2 qualification are still open. Notarization through the user-selected `renoir-notary` profile is authorized and complete; installation, installed updates and publication remain outside the earlier authorization limits.
 
-## Current local candidate and qualification
+## Current notarized candidate and qualification
+
+Source commit `0839994456aa82f3533456c75f9f10da1ebcd2bb` passes **745 Release tests,
+12 fixture-dependent skips, 0 failures** in40.976s, plus **87 Python tests** in28.171s.
+Foundation formatting, nine import boundaries and the154-requirement/171-entry
+ledger pass. The retained records use the `build/m2-qualified6-` prefix.
+
+The exact app is Developer ID signed with team `5NF98M544G`, hardened, accepted
+by Apple using `renoir-notary`, stapled and accepted by Gatekeeper as
+**Notarized Developer ID**. Submission ID:
+`889a4950-4527-4ee1-afdb-4fc3a5577151`. The final archive is
+`build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip`, SHA256
+`5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028`.
+Exact archive/feed signatures, pinned-public-key verification, bundle seal,
+framework symlinks, executable modes and ZIP CRC pass. Real CryptoKit checks
+also accept the exact ZIP/feed and reject altered copies; this is cryptographic
+evidence, not an installed-updater journey. No archive or feed was published.
+
+A real native rich-text check on the earlier `fbd851b` executable exposed
+Command-Z reaching document history while an inline formatting session was
+active. `0839994` implements the standard Undo/Redo responder selectors on the
+inline text view, keeping even exhausted input history inside that session.
+The regression retains a prior committed document edit, formats a selected
+UTF-16 run, routes Undo/Redo from the window's actual first responder, and
+asserts unchanged document identity. Two initial harness attempts used
+NSApp.sendAction without the test host's application action-routing environment;
+their failed-dispatch logs are retained rather than presented as a successful
+before/after proof. The native replay below verifies the actual menu shortcuts.
+
+The **exact signed bundle**, without a wrapper or signature change, launched on
+arm64/macOS27.0.1 (observed pid78985). Existing Australian Option-E showed acute
+marked text; Escape cancelled it without changing Process. Option-E then E
+committed U+00E9. A suffix includes Hebrew, emoji and decomposed `e`+U+0301.
+Selecting only café and pressing Command-B, Command-Z and Command-Shift-Z
+respectively applies, removes and restores that run's bold formatting while the
+committed canvas/inspector text stays unchanged. Native save/close/reopen retains
+only that bold run and a clean document. Native Check Document Now selects the
+deliberate misspelling. Actual SVG export and public VSDX XML independently retain
+the exact Unicode string and only café as bold. The app quit normally; its own
+new recent entry was removed, and the candidate's original code seal still
+verifies. See `build/m2-qualified6-native-replay.json` and the two
+`build/m2-native-journey/Qualified6-RichInput` outputs.
+
+The final five component license texts match upstream byte for byte; both MPL
+source archives were actually downloaded and match the installed formulas'
+hashes. The final candidate is rebound in
+`build/m2-rights-review/final-license-verification.json`. See
+[M2 content-rights review](M2-CONTENT-RIGHTS-REVIEW.md) for obligations and the
+remaining application-owner provenance input. This is now a substantive
+third-party review, rather than a license-presence inventory.
+
+Remaining acceptance is specific: observable real VoiceOver operation, Japanese/
+Chinese candidate-picker and minimum-width native cases, the broader appearance/
+proofing/reference matrix, actual installed updates/interruption/recovery,
+minimum-OS27.0 installations, application-owner provenance, and the applicable
+licensed exact-build Visio/reference and controlled performance gates. The
+current tool's app-targeted input does not provide global VoiceOver cursor/action
+evidence. Native dead-key composition is real marked-text evidence but does not
+assert CJK candidate-picker qualification. The temporary Japanese source was authorized and added. The current bridge
+cannot switch the system Input menu; a manual Hiragana selection is pending.
+Australian plus Japanese - Romaji are currently enabled, with Input menu on.
+After the test, remove only Japanese and restore the original Input-menu-off
+setting. See `build/m2-qualified6-japanese-input.json`.
+
+## Earlier local candidates and qualification
 
 Final source candidate `fbd851bd9f915229b542fb6092d01e6e3f83424a` passes **744 Release tests, 12 fixture-dependent skips, 0 failures** in39.646s (`build/m2-qualified5-release-native.log`). The unchanged Python tooling passes87 tests (`build/m2-qualified5-python.log`); foundation formatting/import boundaries and the154-requirement/171-command ledger pass (`build/m2-qualified5-format.log`, `build/m2-qualified5-ledger.log`). The exact development bundle/archive and bounded native replay pass as recorded below.
 
@@ -29,7 +93,7 @@ VoiceOver was initially off, enabled through native Settings and Use VoiceOver w
 
 This managed worktree owns M2. The original checkout's uncommitted Home changes were inspected read-only on 16 October 2026: adaptive 780×640 preferred / 480×440 minimum layout, navigation, document actions and template columns. M2 does not replace or copy that work. M2 adds bounded Locate/Remove callbacks and row actions to its own Home baseline. The original adaptive layout remains separate; native Home/window acceptance is still open.
 
-Completed bounded workers contributed search/command UI, canvas accessibility and diagnostics/save integration respectively. The primary owns inspector/workflow/import/trust integration, backlog/status/handoff and this evidence note. Source changes are committed through `fbd851b`; final checks run on a frozen source, and commits stage explicit owned paths.
+Completed bounded workers contributed search/command UI, canvas accessibility and diagnostics/save integration respectively. The primary owns inspector/workflow/import/trust integration, backlog/status/handoff and this evidence note. Source changes are committed through `0839994`; final checks run on a frozen source, and commits stage explicit owned paths.
 
 ## Large-task decomposition (before implementation)
 
