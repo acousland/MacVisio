@@ -1,6 +1,6 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Upstream qualification resumed after unlock; M3 is not accepted**.
+16 October 2026, Australia/Melbourne. State: **Unlocked checks passed; accepted upstream engineering unavailable; M3 is not accepted**.
 
 The isolated `codex/m3-intelligent-vsdx` branch contains the planning baseline,
 available committed M0 inventory/instrumentation/benchmark/public-harness work,
@@ -65,14 +65,19 @@ five public geometry rows produce six vector commands because the decoder adds
 instead of an incorrect command count. The failing log remains retained. This
 correction makes no claim about historical save intermittency.
 
-Resumed dependency observation: the user unlocked the Mac, and M1 independently
-confirms native qualification has resumed. Its first benchmark exposed a launch-lifecycle
-issue, which M1 corrected by dispatching launch/activation events. The standalone
-product trace now passes, while repeated XCTest samples still fail and remain
-under investigation. M2 is active and awaits
-the accepted M1 handoff, with native integration still disallowed. No accepted
-M1+M2 handoff exists, so all M3 parent implementation work remains blocked. All independent preparation and evidence are committed; no new M3
-production feature or full integrated M0+M1+M2+M3 candidate is claimed.
+Final dependency observation after unlock: M1 completed its native follow-up at
+`f40dcba` (qualified code `5560ddf`). All five native tests pass, full Release
+passes607 tests with13 preexisting skips and zero failures, and all twelve
+public corpus traces and thirty interaction attempts pass. These are peer-owned
+results, not tests run by M3. M1's final committed handoff remains
+`implemented_unaccepted`, `acceptance_passed=false` and
+`downstream_acceptance_ready=false`. Installed recovery and broader controlled
+performance/reference/release qualification remain open. M2 has no accepted
+M1 interfaces integrated and still disallows integration. It finished at
+`6239ea1` as implemented/unaccepted preparation, explicitly retaining the
+accepted-handoff prerequisite. All M3 production
+parents remain blocked. The requested full integrated M0+M1+M2+M3 candidate
+therefore does not exist. The lock prerequisite is cleared.
 
 The resumed oracle audit reproduced six mutation failures: matching a private
 relationship type hid public targets, external links and extension attributes;

@@ -189,6 +189,22 @@ eventual accepted M2 candidate before implementation.
 These are required integration checks for the new M3 domain. This review runs
 no peer tests, changes no peer source and grants no upstream or M3 acceptance.
 
+Read-only review of M2 preparation at
+`d2bccb9098cf718a354aea49582b2dd4825da445` adds two integration checks. Its
+`DocumentDiagnostic.Target` represents document, page, shape and connector;
+definition/cell navigation must extend that typed ownership for M3. Source
+part/Visio-ID/cell provenance already distinguishes failures, but current
+`inspectCell` actions require a page target. Master/style/document-sheet issues
+must retain their actual owner and supported action rather than fabricate a page
+or shape. Test equal messages on distinct definitions and stale input rejection.
+
+M2's `NativeSupportReport` reports supplied model counts/diagnostic buckets and
+explicitly limited coverage. New definition counts, owner contexts or timing
+stages need an intentional schema/coverage decision; preserve its exclusion of
+formula text, source IDs, font names, paths and diagnostic prose. Its anonymous
+legacy import-note bridge does not establish producer accuracy or a safe-save
+policy for intelligent source features. M2 remains unaccepted preparation.
+
 ## Current evidence and open gates
 
 `scripts/m3-public-evidence.py` compares public XML structure, all formula/value/

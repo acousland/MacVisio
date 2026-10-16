@@ -72,9 +72,10 @@ Every remainder links the actual unresolved M0 `INV-*` entry and `WP-02-T04-INV-
 
 JSON uniqueness, parent coverage, exact requirement-ID validity, canonical M0 inventory/semantic-child links, all M3 package requirements covered by specific children, every named M0 function/cell mapped, and existence of existing source/test anchors were checked. No Swift build, implementation test, generated fixture or real-reference run was performed by this catalog worker; existing parent-owned checks are explicitly attributed and narrower. The catalog changes neither backlog status nor source/tests.
 
-Current execution state: **awaiting upstream qualification**. The user unlocked
-the Mac and M1 confirms native qualification has resumed. M1 native qualification is active;
-M2 is active while awaiting its accepted handoff.
-All parent implementation work remains blocked on accepted M1+M2 engineering
-handoffs, with M2 integration still disallowed. The catalog remains discovery
+Current execution state: **blocked upstream**. The user unlocked the Mac; M1
+completed native qualification at `f40dcba` (code `5560ddf`) with passing tests
+and traces. Its final handoff remains unaccepted for installed recovery and
+broader qualification, with downstream acceptance not released. All parent
+implementation work remains blocked on accepted M1+M2 engineering handoffs,
+with M2 integration still disallowed. The catalog remains discovery
 only; children retain awaiting-foundations/proposed states and none is accepted.

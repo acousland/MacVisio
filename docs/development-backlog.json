@@ -95,7 +95,7 @@
         "All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability."
       ],
       "status": "Blocked upstream",
-      "delivery_note": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed. Independent M3 preparation is committed; M3 acceptance remains false."
+      "delivery_note": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed. Independent M3 preparation is committed; M3 acceptance remains false."
     },
     {
       "id": "M4",
@@ -2544,7 +2544,7 @@
       "owner_role": "Core/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -2611,7 +2611,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-14-T02",
@@ -2652,7 +2652,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-14-T03",
@@ -2693,7 +2693,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-14-T04",
@@ -2736,7 +2736,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -2748,7 +2748,7 @@
       "owner_role": "Calculation/Compatibility",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-02",
         "WP-07",
@@ -2819,7 +2819,7 @@
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
           "delivery_note": "Bounded source functions/cells/contexts mapped to canonical M0 inventory; exact-build catalog, additional reference entries and qualification remain pending.",
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-15-T02",
@@ -2866,7 +2866,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-15-T03",
@@ -2998,7 +2998,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-15-T04",
@@ -3053,7 +3053,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -3065,7 +3065,7 @@
       "owner_role": "Text/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3132,7 +3132,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-16-T02",
@@ -3176,7 +3176,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-16-T03",
@@ -3221,7 +3221,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-16-T04",
@@ -3266,7 +3266,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -3278,7 +3278,7 @@
       "owner_role": "Geometry/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3346,7 +3346,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-17-T02",
@@ -3392,7 +3392,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-17-T03",
@@ -3437,7 +3437,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-17-T04",
@@ -3482,7 +3482,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -3494,7 +3494,7 @@
       "owner_role": "Connections/Layout",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -3571,7 +3571,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-18-T02",
@@ -3621,7 +3621,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-18-T03",
@@ -3671,7 +3671,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-18-T04",
@@ -3721,7 +3721,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -3733,7 +3733,7 @@
       "owner_role": "Native/Publication",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-08",
         "WP-09",
@@ -3803,7 +3803,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-19-T02",
@@ -3846,7 +3846,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-19-T03",
@@ -3894,7 +3894,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-19-T04",
@@ -3938,7 +3938,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -3950,7 +3950,7 @@
       "owner_role": "Libraries/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
+      "readiness": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
       "start_dependencies": [
         "WP-09",
         "WP-14",
@@ -4018,7 +4018,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-20-T02",
@@ -4060,7 +4060,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-20-T03",
@@ -4107,7 +4107,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         },
         {
           "id": "WP-20-T04",
@@ -4151,7 +4151,7 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+          "block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
         }
       ],
       "status": "Blocked"
@@ -9105,7 +9105,7 @@
   "delivery_refinements": [
     {
       "milestone": "M3",
-      "state": "awaiting_upstream_qualification",
+      "state": "blocked_upstream",
       "catalog": "delivery/M3-CATALOG.json",
       "domain_contracts": "delivery/M3-DOMAIN-CONTRACTS.md",
       "child_count": 204,
@@ -9155,11 +9155,15 @@
         "WP-20-T04"
       ],
       "dependency_block": {
-        "M2_observed_commit": "b01871a26c387375f0dc6f67800db170646c1fa8",
-        "M2_state": "in_progress",
+        "M2_observed_commit": "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
+        "M2_state": "implemented_unaccepted",
         "M2_integration_allowed": false,
-        "M1_prerequisite": "User unlocked the Mac. M1 native qualification is active; accepted M1 and M2 engineering handoffs are still required.",
-        "human_prerequisite_cleared": "Mac unlocked; independently confirmed by M1 native qualification turn"
+        "M1_prerequisite": "Unlocked native checks passed. M1 final handoff acceptance_passed=false and downstream_acceptance_ready=false; installed recovery and broader qualification remain open.",
+        "human_prerequisite_cleared": "Mac unlocked; independently confirmed by M1 native qualification turn",
+        "M1_observed_commit": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "M1_code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+        "M1_acceptance_passed": false,
+        "M1_downstream_acceptance_ready": false
       }
     }
   ],

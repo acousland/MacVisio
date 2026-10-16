@@ -56,7 +56,7 @@
         "M1 accepted commits",
         "M2 accepted commits"
       ],
-      "status": "awaiting_upstream_qualification",
+      "status": "blocked_upstream",
       "required_inputs": [
         "transaction/revision/undo/save contracts",
         "incremental calculation/evaluated-scene/index contracts",
@@ -64,7 +64,9 @@
         "native input/accessibility/diagnostics and lifecycle regressions"
       ],
       "integration_rule": "Use actual accepted peer commits and handoff contracts; do not implement against speculative interfaces.",
-      "observed_M2_commit": "b01871a26c387375f0dc6f67800db170646c1fa8"
+      "observed_M2_commit": "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
+      "observed_M1_commit": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+      "M1_downstream_acceptance_ready": false
     },
     {
       "id": "M3-FOUNDATION-M0",
@@ -22987,6 +22989,6 @@
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
-  "execution_state": "awaiting_upstream_qualification",
-  "execution_block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
+  "execution_state": "blocked_upstream",
+  "execution_block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
 }
