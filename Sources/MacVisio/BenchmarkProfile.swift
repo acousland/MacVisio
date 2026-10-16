@@ -43,10 +43,20 @@ enum BenchmarkProfile {
         var activePageShapes = 0
         var metrics: [String: Double] = [:]
         func now() -> Double { ProcessInfo.processInfo.systemUptime }
-        func pump(until condition: () -> Bool, timeout: Double = 30) throws {
+        func pump(
+            until condition: () -> Bool, timeout: Double = 30, servicingNativeEvents: Bool = false
+        ) throws {
             let deadline = now() + timeout
             while !condition() {
                 guard now() < deadline else { throw DiagramError.invalid("Benchmark callback timed out.") }
+                // Activation/key-window changes arrive as AppKit events. A
+                // CFRunLoop turn alone does not dispatch that native queue.
+                if servicingNativeEvents,
+                    let event = NSApp.nextEvent(
+                        matching: .any, until: Date(), inMode: .default, dequeue: true)
+                {
+                    NSApp.sendEvent(event)
+                }
                 _ = RunLoop.main.run(mode: .default, before: Date(timeIntervalSinceNow: 0.002))
             }
         }
@@ -93,9 +103,14 @@ enum BenchmarkProfile {
             }
             if let reason = nativeRoutingUnavailableReason { throw DiagramError.invalid(reason) }
             let canvas = editor.canvas
+            guard NSApp.activationPolicy() == .regular else {
+                throw DiagramError.invalid("Benchmark requires regular native application activation.")
+            }
             NSApp.activate(ignoringOtherApps: true)
             window.makeKeyAndOrderFront(nil)
-            try pump(until: { window.isKeyWindow }, timeout: 3)
+            try pump(
+                until: { window.isKeyWindow && NSApp.isActive }, timeout: 3,
+                servicingNativeEvents: true)
             guard window.makeFirstResponder(canvas), window.firstResponder === canvas else {
                 throw DiagramError.invalid("Benchmark canvas did not receive keyboard focus.")
             }
@@ -120,12 +135,21 @@ enum BenchmarkProfile {
                 }
                 throw DiagramError.invalid("Benchmark event queue did not deliver its owned event.")
             }
+            view.layoutSubtreeIfNeeded()
+            canvas.refreshSize()
             let target = CGPoint(
                 x: canvas.pageOrigin.x + node.center.x * canvas.coordinateZoom,
                 y: canvas.pageOrigin.y + node.center.y * canvas.coordinateZoom)
-            canvas.scrollToVisible(CGRect(x: target.x - 20, y: target.y - 20, width: 40, height: 40))
+            let clip = editor.scrollView.contentView
+            clip.scroll(
+                to: CGPoint(
+                    x: max(0, target.x - clip.bounds.width / 2),
+                    y: max(0, target.y - clip.bounds.height / 2)))
+            editor.scrollView.reflectScrolledClipView(clip)
             guard canvas.visibleRect.contains(target) else {
-                throw DiagramError.invalid("Benchmark target could not be scrolled into the viewport.")
+                throw DiagramError.invalid(
+                    "Benchmark target could not be scrolled into the viewport (target=\(target), visible=\(canvas.visibleRect), bounds=\(canvas.bounds))."
+                )
             }
             let location = canvas.convert(target, to: nil)
             let before = document.diagram

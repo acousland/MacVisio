@@ -3,6 +3,18 @@ import XCTest
 @testable import MacVisio
 
 final class BenchmarkProfileTests:XCTestCase {
+    private static var previousActivationPolicy:NSApplication.ActivationPolicy?
+    override class func setUp() {
+        super.setUp()
+        let app = NSApplication.shared
+        previousActivationPolicy = app.activationPolicy()
+        app.setActivationPolicy(.regular)
+    }
+    override class func tearDown() {
+        if let policy = previousActivationPolicy { NSApp.setActivationPolicy(policy) }
+        previousActivationPolicy = nil
+        super.tearDown()
+    }
     private func directory() throws -> URL {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("MacVisio-benchmark-test-\(UUID())")
         try FileManager.default.createDirectory(at:url,withIntermediateDirectories:false)
@@ -27,10 +39,12 @@ final class BenchmarkProfileTests:XCTestCase {
         let input = try fixture(folder),output = folder.appendingPathComponent("result.json")
         let original = try Data(contentsOf:input)
         let registered = NSDocumentController.shared.documents.map{ObjectIdentifier($0)}
-        XCTAssertTrue(try BenchmarkProfile.sample(input,to:output))
+        let activationPolicy = NSApp.activationPolicy()
+        let passed = try BenchmarkProfile.sample(input,to:output)
         XCTAssertEqual(try Data(contentsOf:input),original)
         let report = try XCTUnwrap(JSONSerialization.jsonObject(with:Data(contentsOf:output)) as? [String:Any])
         let phases = try XCTUnwrap(report["phases"] as? [String:[String:Any]])
+        XCTAssertTrue(passed,String(describing:phases["event"]))
         for phase in BenchmarkProfile.phaseNames { XCTAssertEqual(phases[phase]?["status"] as? String,"passed",phase) }
         let counts = try XCTUnwrap(report["workCounts"] as? [String:Int])
         for counter in ["visitedObjects","evaluatedCells","drawnObjects","transactionsCommitted","snapshotsCaptured","encodedDocuments","heartbeatSamples"] {
@@ -41,14 +55,16 @@ final class BenchmarkProfileTests:XCTestCase {
         XCTAssertTrue((report["eventTrace"] as? String)?.contains("NSApplication queue") == true)
         XCTAssertEqual(report["inputSaved"] as? Bool,false)
         XCTAssertEqual(NSDocumentController.shared.documents.map{ObjectIdentifier($0)},registered)
+        XCTAssertEqual(NSApp.activationPolicy(),activationPolicy)
     }
     func testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport() throws {
         if let reason = BenchmarkProfile.nativeRoutingUnavailableReason { throw XCTSkip(reason) }
         _ = NSApplication.shared
         let folder = try directory();defer { try? FileManager.default.removeItem(at:folder) }
         let input = try fixture(folder,largePaper:true),output = folder.appendingPathComponent("scrolled-result.json")
-        XCTAssertTrue(try BenchmarkProfile.sample(input,to:output))
+        let passed = try BenchmarkProfile.sample(input,to:output)
         let report = try XCTUnwrap(JSONSerialization.jsonObject(with:Data(contentsOf:output)) as? [String:Any])
+        XCTAssertTrue(passed,String(describing:(report["phases"] as? [String:[String:Any]])?["event"]))
         XCTAssertEqual((report["metrics"] as? [String:Double])?["routedEvents"],3)
     }
     func testNonSyntheticInputRetainsFailureAndUnobservedSave() throws {
