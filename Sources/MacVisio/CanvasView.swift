@@ -231,8 +231,17 @@ final class CanvasView: NSView {
         editor?.updateStatus()
     }
     func fitPage() {
-        guard let size = enclosingScrollView?.contentSize, size.width > 0 else { return }
-        setZoom(min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight))
+        guard let scrollView = enclosingScrollView else { return }
+        // Fitting can hide legacy scrollers and enlarge the viewport. Refit
+        // against that settled size instead of retaining the smaller old fit.
+        for _ in 0..<3 {
+            scrollView.tile()
+            let size = scrollView.contentSize
+            guard size.width > 0, size.height > 0 else { return }
+            setZoom(min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight))
+            scrollView.tile()
+            if scrollView.contentSize == size { break }
+        }
         scroll(.zero)
     }
     func select(_ ids: Set<UUID>, edge: UUID? = nil) {

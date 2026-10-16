@@ -1426,6 +1426,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             // Hold the document through this delayed callback; the controller
             // can outlive its unowned document while AppKit drains autoreleases.
             withExtendedLifetime(document) {
+                self.window?.contentView?.layoutSubtreeIfNeeded()
                 if fit { self.canvas.fitPage() }
                 self.window?.makeFirstResponder(self.canvas)
             }

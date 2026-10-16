@@ -3,6 +3,32 @@ import XCTest
 @testable import MacVisio
 
 final class DocumentOpeningTests: XCTestCase {
+    func testFitPageSettlesAfterLegacyScrollersHide() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let document = MacVisioDocument()
+            document.makeWindowControllers()
+            defer { document.close() }
+            let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+            editor.window?.contentView?.layoutSubtreeIfNeeded()
+            editor.scrollView.scrollerStyle = .legacy
+            editor.scrollView.autohidesScrollers = true
+            editor.canvas.setZoom(3)
+            editor.scrollView.tile()
+            let before = editor.scrollView.contentSize
+            XCTAssertFalse(try XCTUnwrap(editor.scrollView.horizontalScroller).isHidden)
+            XCTAssertFalse(try XCTUnwrap(editor.scrollView.verticalScroller).isHidden)
+            editor.canvas.fitPage()
+            editor.scrollView.tile()
+            XCTAssertGreaterThan(editor.scrollView.contentSize.width, before.width)
+            XCTAssertGreaterThan(editor.scrollView.contentSize.height, before.height)
+            let size = editor.scrollView.contentSize, page = editor.canvas.page
+            let expected = max(0.2, min(3, min((size.width - 88) / page.paperWidth, (size.height - 72) / page.paperHeight)))
+            XCTAssertEqual(editor.canvas.zoom, expected, accuracy: 0.000001)
+            XCTAssertFalse(document.isDocumentEdited)
+        }
+    }
+
     func testApplicationOpenUsesDocumentBookkeepingAndLeavesUntouchedSourceClean() throws {
         try onMain {
             _ = NSApplication.shared
