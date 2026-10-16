@@ -190,7 +190,7 @@ final class MixedColorWell: NSColorWell {
     }
 }
 
-final class InspectorPanel: FlippedView {
+final class InspectorPanel: FlippedView, NSTextFieldDelegate {
     weak var editor: EditorWindowController?
     private var fields: [String:NSTextField] = [:]
     private var displayedFieldValues: [String:String] = [:]
@@ -218,7 +218,7 @@ final class InspectorPanel: FlippedView {
     private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular,key:String? = nil) -> NSTextField { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l); if let key { dynamicLabels[key] = l }; return l }
     private func section(_ text:String,y:Double) { label(text,18,y,190,size:10,weight:.bold) }
     private func field(_ key:String,_ value:String,x:Double = 18,y:Double,width:Double = 194,height:Double = 24) {
-        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
+        let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.delegate = self; f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
     }
     private func well(_ key:String,color:String,y:Double) {
         label(key,18,y+5,130)
@@ -227,7 +227,10 @@ final class InspectorPanel: FlippedView {
     func refresh() {
         guard !applying,let editor = editor else { return }
         let focused = window?.firstResponder as? NSTextView
-        if let textField = focused?.delegate as? NSTextField,fields.values.contains(where:{$0 === textField}) { return }
+        if let focused, let textField = focused.delegate as? NSTextField,
+            let key = textField.identifier?.rawValue, fields[key] === textField,
+            focused.hasMarkedText() || focused.string != displayedFieldValues[key]
+        { return }
         let selection = editor.selection
         let page = editor.diagramDocument.diagram.page
         let edge = page.edges.first { $0.id == editor.canvas.selectedEdge }
@@ -333,10 +336,17 @@ final class InspectorPanel: FlippedView {
     private func setField(_ key: String, value: String?) {
         guard let field = fields[key] else { return }
         field.stringValue = value ?? ""
+        if let input = field.currentEditor() as? NSTextView, input.string != field.stringValue {
+            let previous = input.selectedRange(), count = field.stringValue.utf16.count
+            input.string = field.stringValue
+            let location = min(previous.location, count)
+            input.setSelectedRange(NSRange(location: location, length: min(previous.length, count-location)))
+        }
         field.placeholderString = value == nil ? "Mixed" : nil
         field.setAccessibilityValue(value ?? "Mixed")
         displayedFieldValues[key] = field.stringValue
     }
+    func controlTextDidEndEditing(_ notification: Notification) { refresh() }
     private func button(_ action: Selector) -> NSButton? {
         subviews.compactMap { $0 as? NSButton }.first { $0.action == action }
     }
