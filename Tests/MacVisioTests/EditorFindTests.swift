@@ -230,6 +230,41 @@ final class EditorFindTests: XCTestCase {
         }
     }
 
+    func testWindowRoutedTabLeavesSourcePreviewAndReturnRunsReplacement() throws {
+        try withEditor { document, editor in
+            let controller = editor.documentFindController
+            controller.showWindow(nil); controller.queryField.stringValue = "needle"
+            controller.performSearch(); try self.waitForSearch(controller)
+            let panel = try XCTUnwrap(controller.window)
+            panel.contentView?.layoutSubtreeIfNeeded()
+            XCTAssertTrue(panel.makeFirstResponder(controller.preview))
+            func key(_ code: UInt16, text: String, flags: NSEvent.ModifierFlags = []) throws {
+                let event = try XCTUnwrap(NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: flags,
+                    timestamp: ProcessInfo.processInfo.systemUptime, windowNumber: panel.windowNumber,
+                    context: nil, characters: text, charactersIgnoringModifiers: text, isARepeat: false, keyCode: code))
+                panel.sendEvent(event)
+            }
+            // Key views are the panel's own links, never installed by the test.
+            try key(48, text: "\t")
+            XCTAssertTrue(controller.replacementField.currentEditor() === panel.firstResponder)
+            try key(48, text: "\u{19}", flags: [.shift])
+            XCTAssertTrue(panel.firstResponder === controller.preview)
+            XCTAssertEqual(document.diagram.pages[0].nodes[0].text, "first needle", "Leaving the replacement field must not replace text")
+            try key(48, text: "\t")
+            let field = try XCTUnwrap(controller.replacementField.currentEditor() as? NSTextView)
+            field.selectAll(nil)
+            for (code, text) in [(UInt16(8), "c"), (4, "h"), (0, "a"), (45, "n"), (5, "g"), (14, "e"), (2, "d")] {
+                try key(code, text: text)
+            }
+            XCTAssertEqual(field.string, "changed")
+            try key(36, text: "\r")
+            try self.waitForSearch(controller)
+            XCTAssertEqual(document.diagram.pages[0].nodes[0].text, "first changed")
+            XCTAssertEqual(document.undoManager?.undoActionName, "Replace Text")
+            document.undoManager?.undo(); XCTAssertEqual(document.diagram.pages[0].nodes[0].text, "first needle")
+        }
+    }
+
     private func waitForSearch(_ controller: EditorFindController) throws {
         let deadline = Date().addingTimeInterval(5)
         while controller.isSearching && Date() < deadline { RunLoop.main.run(until: Date().addingTimeInterval(0.005)) }

@@ -4,6 +4,19 @@ import ObjectiveC
 
 private var editorDocumentFindKey: UInt8 = 0
 
+/// A selectable source snapshot participates in the panel's control loop.
+/// Read-only NSTextView otherwise consumes Tab as a text insertion command.
+final class FindSourcePreview: NSTextView {
+    override func insertTab(_ sender: Any?) {
+        if hasMarkedText() { super.insertTab(sender); return }
+        window?.selectNextKeyView(self)
+    }
+    override func insertBacktab(_ sender: Any?) {
+        if hasMarkedText() { super.insertBacktab(sender); return }
+        window?.selectPreviousKeyView(self)
+    }
+}
+
 extension EditorWindowController {
     var documentFindController: EditorFindController {
         if let controller = objc_getAssociatedObject(self, &editorDocumentFindKey) as? EditorFindController { return controller }
@@ -56,7 +69,7 @@ final class EditorFindController: NSWindowController, NSWindowDelegate, NSTableV
     let domainPicker = NSPopUpButton(frame: .zero, pullsDown: false)
     let caseButton = NSButton(checkboxWithTitle: "Match case", target: nil, action: nil)
     let table = NSTableView()
-    let preview = NSTextView()
+    let preview = FindSourcePreview()
     let summary = NSTextField(wrappingLabelWithString: "Find text, shapes and shape data across all pages.")
     let reasonLabel = NSTextField(wrappingLabelWithString: "Select a result to see replacement availability.")
     let replacementField = NSTextField(string: "")
@@ -71,6 +84,7 @@ final class EditorFindController: NSWindowController, NSWindowDelegate, NSTableV
         let panel = NSPanel(contentRect: CGRect(x: 0, y: 0, width: 780, height: 620),
                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
         panel.title = "Find and Replace"; panel.minSize = CGSize(width: 620, height: 580)
+        panel.autorecalculatesKeyViewLoop = true
         panel.isReleasedWhenClosed = false
         super.init(window: panel)
         panel.delegate = self; panel.setAccessibilityIdentifier("MacVisioDocumentFind")
@@ -150,6 +164,10 @@ final class EditorFindController: NSWindowController, NSWindowDelegate, NSTableV
         stack.addArrangedSubview(reasonLabel); reasonLabel.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         reasonLabel.font = .systemFont(ofSize: 12); reasonLabel.setAccessibilityLabel("Replacement availability")
         replacementField.placeholderString = "Replacement text"; replacementField.setAccessibilityLabel("Replace with")
+        replacementField.target = self; replacementField.action = #selector(replaceSelected(_:))
+        // Focus traversal must never invoke a replacement. Return still sends
+        // the field's normal action after committing its editor value.
+        replacementField.cell?.sendsActionOnEndEditing = false
         replacementField.setContentHuggingPriority(.defaultLow, for: .horizontal)
         replaceButton.target = self; replaceButton.action = #selector(replaceSelected(_:)); replaceButton.bezelStyle = .rounded
         _ = row([NSTextField(labelWithString: "Replace with"), replacementField, replaceButton])
@@ -157,6 +175,9 @@ final class EditorFindController: NSWindowController, NSWindowDelegate, NSTableV
         nextButton.target = self; nextButton.action = #selector(nextResult(_:)); nextButton.bezelStyle = .rounded
         let close = NSButton(title: "Close", target: self, action: #selector(closePanel(_:))); close.bezelStyle = .rounded
         _ = row([previousButton, nextButton, close])
+        let controls: [NSView] = [queryField, domainPicker, caseButton, table, preview, replacementField,
+                                  replaceButton, previousButton, nextButton, find, close]
+        for index in controls.indices { controls[index].nextKeyView = controls[(index + 1) % controls.count] }
         window?.initialFirstResponder = queryField
         refreshEligibility()
     }
@@ -273,11 +294,20 @@ final class EditorFindController: NSWindowController, NSWindowDelegate, NSTableV
     @objc func replaceSelected(_ sender: Any?) { _ = applyReplacement() }
     @discardableResult func applyReplacement() -> Bool {
         guard jobOwner.isActive, let editor, let drawing else { return false }
+        let replacementEditor = replacementField.currentEditor() as? NSTextView
+        if replacementEditor?.hasMarkedText() == true {
+            reasonLabel.stringValue = "Finish replacement text composition before replacing."; return false
+        }
+        // Return can dispatch the field's action while its shared field editor
+        // still owns the latest input. Capture that value before any control
+        // validation or parent focus change can relinquish the editor.
+        let replacement = replacementEditor?.string ?? replacementField.stringValue
+        replacementField.validateEditing()
         guard finishParentEditing(editor) else { return false }
         if let reason = replacementReason { reasonLabel.stringValue = reason; replaceButton.isEnabled = false; return false }
         guard let match = selectedMatch else { return false }
         do {
-            let candidate = try DocumentSearch.replacing(match, with: replacementField.stringValue, in: drawing.diagram).validated()
+            let candidate = try DocumentSearch.replacing(match, with: replacement, in: drawing.diagram).validated()
             guard candidate != drawing.diagram else { summary.stringValue = "Replacement makes no change."; return false }
             drawing.replaceInEditor(with: candidate, action: "Replace Text")
             resultInput = nil; refreshEligibility()
