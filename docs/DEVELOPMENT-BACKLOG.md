@@ -455,7 +455,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** Editable master/style/connector-sheet identities distinct from container/list/graph relationships.
 
@@ -479,7 +479,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** An inventory-driven function/cell/context implementation with usable complete editing.
 
@@ -503,7 +503,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** Reference-qualified rich text, text blocks, fields, measurement and font behavior across all owners.
 
@@ -527,7 +527,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** Complete inventoried geometry/control/appearance behavior with editable public definitions.
 
@@ -551,7 +551,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** Editable connector sheets, glue, routes, jumps and deterministic constrained layout.
 
@@ -575,7 +575,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** Consistent screen/physical publication with page/background/layer semantics.
 
@@ -599,7 +599,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
+**Readiness:** Bounded source decomposition delivered; Mac unlocked and upstream qualification resumed; accepted M1+M2 engineering handoffs remain pending.
 
 **Outcome:** A reusable intelligent-shape library workflow and independently editable public VSDX/VSSX/VSTX.
 
@@ -1439,7 +1439,7 @@ Retain the review's `build/architecture-review-*` artifacts as local evidence; c
 <!-- M3-DELIVERY-REFINEMENT -->
 ## 11. M3 delivery refinement — 16 October 2026
 
-Current M3 state: **Needs input — accepted upstream engineering unavailable**. The original package scope and 161 initial parent
+Current M3 state: **Blocked upstream — qualification resumed after unlock**. The original package scope and 161 initial parent
 tasks remain unchanged. All 28 M3 parents, including all 22 L tasks, now have
 bounded children in [M3-CATALOG.json](delivery/M3-CATALOG.json), with exact
 requirement/canonical M0 inventory mappings and explicit reference remainders.
@@ -1482,10 +1482,10 @@ parent implementation task or M3/G2 gate is accepted by this refinement.
 WP-15-T01 has a delivered bounded source decomposition, while its complete
 exact-build catalog remains unknown. All M3 parents are now Blocked on the
 accepted upstream engineering prerequisite; no production feature implementation
-has started. M2 reports needs_input at `b01871a`, with integration disallowed.
-M1 reports that the Mac graphics session is locked and is awaiting the human
-response for native-event qualification. After that qualification, actual accepted
-M1+M2 engineering handoffs are still required. The catalog records
+has started. The user unlocked the Mac and M1 confirms its native qualification
+has resumed. M1 native qualification is active; M2 is active
+while awaiting the accepted M1 handoff. Actual accepted M1+M2 engineering
+handoffs are still required; M2 integration remains disallowed. The catalog records
 198 children awaiting foundations and six proposed discovery/qualification
 children. All 204 remain unaccepted; counts are decomposition, not compatibility
 evidence. Unknown runtime functions, cells, owners, masters, text, geometry,

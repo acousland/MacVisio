@@ -56,7 +56,7 @@
         "M1 accepted commits",
         "M2 accepted commits"
       ],
-      "status": "needs_input_upstream",
+      "status": "awaiting_upstream_qualification",
       "required_inputs": [
         "transaction/revision/undo/save contracts",
         "incremental calculation/evaluated-scene/index contracts",
@@ -22987,6 +22987,6 @@
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
-  "execution_state": "needs_input_upstream",
-  "execution_block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
+  "execution_state": "awaiting_upstream_qualification",
+  "execution_block_reason": "Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed."
 }

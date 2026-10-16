@@ -4,11 +4,11 @@
   "thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
   "worktree": "/Users/acousland/.codex/worktrees/8b73/MacVisio",
   "branch": "codex/m3-intelligent-vsdx",
-  "state": "needs_input",
+  "state": "awaiting_upstream_qualification",
   "handoff_kind": "dependency_blocked",
-  "candidate_code_commit": "beef6af1385b903e7b8afde5dde506497162bd6f",
+  "candidate_code_commit": "6b93289",
   "milestone_acceptance": {
-    "local_engineering": "blocked: Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
+    "local_engineering": "blocked: Accepted M2 engineering handoff unavailable. The user unlocked the Mac and upstream qualification has resumed. M1 has not released its accepted engineering handoff; M2 integration remains disallowed.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -39,7 +39,8 @@
     "a9a95ae",
     "6f00f37",
     "2e36e65",
-    "3119858"
+    "3119858",
+    "6b93289"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -126,7 +127,7 @@
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "After the host is unlocked and M1 has an accepted engineering handoff, resume M2 integration/delivery. Resume M3 only after integrating actual accepted M2/M1 engineering commits. Keep M0 reference qualification separate. No M3 feature implementation against provisional interfaces.",
+  "next_action": "Monitor resumed M1 native qualification and M2 engineering delivery. Integrate actual accepted M2/M1 engineering commits before M3 production implementation; retain separate M0/G2 reference qualification.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "Code/preparation head before dependency-record commit; final delivery head is in shared M3-status.json.",
   "partial_task_ids": [
@@ -135,11 +136,14 @@
   "integration_allowed": false,
   "dependency_observation": {
     "M1_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-    "M1_latest_prompt": "Unlock this Mac for native event trace; graphics session reports screen locked",
+    "M1_latest_prompt": "Desktop unlocked. Standalone native product trace passes after launch-event dispatch fix; repeated XCTest samples still fail and qualification continues.",
     "M2_thread_id": "01a141d9-478f-7cb0-b568-04467a3badac",
     "M2_commit": "b01871a26c387375f0dc6f67800db170646c1fa8",
-    "M2_state": "needs_input",
+    "M2_state": "in_progress",
     "M2_integration_allowed": false,
-    "source": "Actual peer prompt and M2 handoff/shared status, read without mutation"
+    "source": "Direct human unlock response, actual resumed peer turns and M2 shared status; read without mutation",
+    "human_prerequisite_cleared": true,
+    "M1_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:183",
+    "M2_cursor": "65710e9f-cc75-403b-b92c-30635bee732c:102"
   }
 }

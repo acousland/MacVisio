@@ -87,6 +87,20 @@
       "reference_acceptance": false,
       "supersedes": "Earlier physical fixture had Width/Height but no Geometry; native fallback made its old PDF test insufficient as public-geometry evidence. Exact prior source/hash and reproduced omission retained in M3-PUBLIC-PROBE.json.",
       "first_strengthened_test_disposition": "The first strengthened test incorrectly expected5 vector commands from5 public rows. The decoder correctly adds a sixth closingZ command. The assertion now checks five authored geometry rows plus an M-start/Z-close path, while retaining the actual PDF dimension measurement. This deterministic test-assumption correction is not an intermittency disposition."
+    },
+    {
+      "id": "oracle-registration-exclusions",
+      "code_commit": "6b93289",
+      "command": "python3 -m unittest discover -s scripts/tests -p test_m3_public_evidence.py -v",
+      "outcome": "passed",
+      "executed": 12,
+      "failures": 0,
+      "before_fix": {
+        "executed": 11,
+        "failed_mutation_subtests": 6
+      },
+      "scope": "Reproduced public relationships and unknown MIME/namespace registrations being hidden by broad native metadata exclusions. Only the recognized internal root/header relation and known native type registrations are excluded; public extension spelling including uppercase .JSON keeps its type registration visible. Existing genuine native exclusion and public-loss tests still pass.",
+      "compatibility_acceptance": false
     }
   ],
   "artifacts": [
@@ -145,6 +159,14 @@
     {
       "path": "docs/delivery/M3-PUBLIC-PROBE.json",
       "sha256": "3bf189a7e80704b262ef26c9f7f7e35efc69ffee3bed1f9882c29d99a4987f50"
+    },
+    {
+      "path": "build/m3-evidence/oracle-registration-before.log",
+      "sha256": "4812edcc4fd8a54ab73af3ce0d021658e77bfce364acf1b1bd1f0aaedc470700"
+    },
+    {
+      "path": "build/m3-evidence/oracle-registration-after.log",
+      "sha256": "0c2f195a75ecf5cf5d3794d6fb40dd29bb884e6b55ccb1dc7e8b61ca1ab11543"
     }
   ],
   "five_compatibility_dimensions": {

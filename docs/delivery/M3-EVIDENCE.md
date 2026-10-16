@@ -1,6 +1,6 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Needs input upstream; M3 is not accepted**.
+16 October 2026, Australia/Melbourne. State: **Upstream qualification resumed after unlock; M3 is not accepted**.
 
 The isolated `codex/m3-intelligent-vsdx` branch contains the planning baseline,
 available committed M0 inventory/instrumentation/benchmark/public-harness work,
@@ -65,9 +65,21 @@ five public geometry rows produce six vector commands because the decoder adds
 instead of an incorrect command count. The failing log remains retained. This
 correction makes no claim about historical save intermittency.
 
-Final dependency observation: M2 ended this run as needs_input at `b01871a`,
-with native integration disallowed. M1 reports the Mac graphics session is locked
-and requests the human unlock/response before native-event qualification. No
-accepted M1+M2 handoff exists, so all M3 parent implementation work remains
-blocked. All independent preparation and evidence are committed; no new M3
+Resumed dependency observation: the user unlocked the Mac, and M1 independently
+confirms native qualification has resumed. Its first benchmark exposed a launch-lifecycle
+issue, which M1 corrected by dispatching launch/activation events. The standalone
+product trace now passes, while repeated XCTest samples still fail and remain
+under investigation. M2 is active and awaits
+the accepted M1 handoff, with native integration still disallowed. No accepted
+M1+M2 handoff exists, so all M3 parent implementation work remains blocked. All independent preparation and evidence are committed; no new M3
 production feature or full integrated M0+M1+M2+M3 candidate is claimed.
+
+The resumed oracle audit reproduced six mutation failures: matching a private
+relationship type hid public targets, external links and extension attributes;
+native-looking extension names hid unknown MIME types or foreign XML elements.
+Commit `6b93289` narrows exclusions to the recognized internal root/header
+registration and known native content-type entries. A public `.JSON` part also
+keeps its shared type registration visible. All 12 focused oracle tests pass.
+The prior failing and corrected logs are hash-bound in the evidence record.
+This qualifies the comparison tool only; no M3 feature or compatibility state
+is promoted.
