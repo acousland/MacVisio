@@ -21,6 +21,7 @@ final class BenchmarkProfileTests:XCTestCase {
         return url
     }
     func testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput() throws {
+        if let reason = BenchmarkProfile.nativeRoutingUnavailableReason { throw XCTSkip(reason) }
         _ = NSApplication.shared
         let folder = try directory();defer { try? FileManager.default.removeItem(at:folder) }
         let input = try fixture(folder),output = folder.appendingPathComponent("result.json")
@@ -42,6 +43,7 @@ final class BenchmarkProfileTests:XCTestCase {
         XCTAssertEqual(NSDocumentController.shared.documents.map{ObjectIdentifier($0)},registered)
     }
     func testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport() throws {
+        if let reason = BenchmarkProfile.nativeRoutingUnavailableReason { throw XCTSkip(reason) }
         _ = NSApplication.shared
         let folder = try directory();defer { try? FileManager.default.removeItem(at:folder) }
         let input = try fixture(folder,largePaper:true),output = folder.appendingPathComponent("scrolled-result.json")
@@ -72,6 +74,7 @@ final class BenchmarkProfileTests:XCTestCase {
         XCTAssertEqual(try Data(contentsOf:output),sentinel)
     }
     func testCompletedCalculationSpanWithIssuesIsStillAFailedPhase() throws {
+        if let reason = BenchmarkProfile.nativeRoutingUnavailableReason { throw XCTSkip(reason) }
         _ = NSApplication.shared
         let folder = try directory();defer { try? FileManager.default.removeItem(at:folder) }
         let input = try fixture(folder,brokenCalculation:true),output = folder.appendingPathComponent("result.json")

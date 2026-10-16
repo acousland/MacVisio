@@ -58,7 +58,7 @@ The API uses package access under the existing Swift 5.9 package requirement. Li
 
 ## Formatter and audit commands
 
-`.swift-format` configures four-space indentation, a 110-column target, separate statements/case/variable declarations and ordered imports. `scripts/check-foundation-format.sh` consumes exactly the same nine-file manifest as the boundary audit. Default/`--check` runs strict lint; `--fix` is the explicit formatting mode; `--list` prints the exact scope. The script never recursively rewrites existing application/interchange/UI sources. `SWIFT_FORMAT_BIN` can select a toolchain binary; otherwise the script uses xcrun/swift-format.
+`.swift-format` configures four-space indentation, a 110-column target, separate statements/case/variable declarations and ordered imports. `scripts/check-foundation-format.sh` consumes the nine audited Foundation files plus sixteen explicitly named document, canvas, calculation, routing, export and lifecycle state files. `STATE_FORMAT_FILES` in the audit script is the additional formatter manifest; these AppKit owners are deliberately excluded from the Foundation import audit. Default/`--check` runs strict lint; `--fix` is the explicit formatting mode; `--list` prints the exact 25-file formatting scope; the Python audit’s `--list` remains its nine-file import scope and `--format-list` prints the union. The script never recursively rewrites a source tree. The named existing Document/Canvas/DiagramOperations state paths are formatted deliberately alongside the new files. `SWIFT_FORMAT_BIN` can select a toolchain binary; otherwise the script uses xcrun/swift-format.
 
 Run:
 
@@ -69,24 +69,24 @@ scripts/check-foundation-format.sh --fix
 scripts/check-foundation-format.sh
 ```
 
-After the owners froze source, the scoped formatter fix and strict lint both passed. The import audit and seven Python audit/scope/module-boundary regressions passed; the consumer-symbol audit found no missing infrastructure imports, and `git diff --check` passed. The earlier unformatted snapshot produced 681 diagnostics in `build/m1-evidence/foundation-format.log`; that log is retained as pre-fix evidence, not the final check outcome. Final child command results are recorded in `build/m1-evidence/foundation-boundary-format-summary.json`. No source was reformatted during a compiler read. Full Swift validation remains owned by the parent; formatting and import checks alone do not establish milestone acceptance.
+After all owners froze source, the expanded 25-file formatter fix and strict lint passed. The semantic integration is commit `aa6ff78`; the critical-path formatting is separate commit `4c423bc`. The import audit and seven Python audit/scope/module-boundary regressions passed; the consumer-symbol audit found no missing infrastructure imports, and `git diff --check` passed. The earlier unformatted snapshot produced 681 diagnostics in `build/m1-evidence/foundation-format.log`; that log is retained as pre-fix evidence, not the final check outcome. Final child command results are recorded in `build/m1-evidence/foundation-boundary-format-summary.json`. No source was reformatted during a compiler read. Full Swift validation remains owned by the parent; formatting and import checks alone do not establish milestone acceptance.
 
 ## Developer command dispatch
 
-`DeveloperCommands.swift` contains the existing tooling CLI blocks moved into `dispatch(arguments:)`, while leaving the production bootstrap in `main.swift`. It has no top-level side effect and no AppDelegate/global-application symbol. This child does not edit main while its owner changes lifecycle code.
+`DeveloperCommands.swift` contains the existing tooling CLI blocks moved into `dispatch(arguments:)`, while leaving the production bootstrap in `main.swift`. It has no top-level side effect and no AppDelegate/global-application symbol. The integrated main entry point now invokes this dispatcher after application/appearance initialization.
 
-At integration, keep process-local launch-check preferences, appearance argument handling, `NSApplication.shared`, activation policy and `EditorAppearance.apply()` in main. Replace the existing block beginning `--prepare-interchange-fixtures` and ending `--generate-examples` with:
+The integration retains process-local launch-check preferences, appearance argument handling, `NSApplication.shared`, activation policy and `EditorAppearance.apply()` in main. The extracted command blocks are replaced by:
 
 ```swift
 try DeveloperCommands.dispatch()
 ```
 
-Then retain AppDelegate creation, assignment and `application.run()`. Remove any separately added `--benchmark-sample` branch from main because the dispatcher already contains it. A recognized option with missing operands now prints usage and exits 2; unknown/system options remain available to normal startup. Existing command success/failure exit behavior remains.
+AppDelegate creation, assignment and `application.run()` remain after dispatch; `--benchmark-sample` is handled only by the dispatcher. A recognized option with missing operands now prints usage and exits 2; unknown/system options remain available to normal startup. Existing command success/failure exit behavior remains.
 
 The three headless document operations use an exhaustive `HeadlessOperation` and synchronous `processDocument` helper. Output is written through `AtomicJobOutput`, with source-path exclusion and a cancellation token, so a failed conversion/render leaves an existing destination intact. This is a CLI output guarantee, not a claim about fault recovery or new background execution. New tests cover usage rejection, source-preserving complete conversion, failed-output preservation, source-as-destination refusal, pre-cancellation and staging cleanup. Swift test execution remains owned by the grouped build.
 
 ## M0 evidence integration scope
 
-The collector, its tests and `docs/evidence/INSTRUMENTATION.md` were copied byte-for-byte from M0 commit `3c22d00`. Corpus generator/runner/tests/docs use `81f6140`, including the correction retaining optional overall adapter failures. BenchmarkProfile/adapter/tests/docs use `fc69ccb`. The 20 corpus/adapter Python tests passed locally. No Swift build was run by this child.
+The collector, its tests and `docs/evidence/INSTRUMENTATION.md` originated from M0 commit `3c22d00`; M1 adds counters/hooks at retained-runtime boundaries. Corpus generator/runner/tests/docs use `81f6140`, including the correction retaining optional overall adapter failures. BenchmarkProfile/adapter/tests/docs originated at `fc69ccb`; M1 now dispatches owned synthetic events through the NSApplication queue/window responder chain, scrolls offscreen targets into view, and waits for asynchronous native calculation. The 20 corpus/adapter Python tests passed locally. No Swift build was run by this child.
 
 `INSTRUMENTATION.md` records the M0 baseline and verification history; its old broad-render statements must not be read as the current retained implementation or current M1 acceptance. M1 needs counters at its new actual preparation/cache/query boundaries. In particular, `visitedObjects` continues to count only nodes entering the engine evaluation loop; it excludes comparison, filter, index and host-building scans. Missing counters/stages remain unobserved. Retained scene preparation cannot be inferred from an old ordered-node input count, and total input comparisons must not be hidden inside a claim about bounded semantic evaluation.

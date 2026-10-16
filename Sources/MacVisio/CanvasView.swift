@@ -132,6 +132,28 @@ final class CanvasView: NSView {
         setAccessibilityLabel("Diagram canvas")
     }
     required init?(coder: NSCoder) { fatalError() }
+    func detachEditor() {
+        finishEditing(commit: false)
+        interactionPreview = nil
+        previewStateID = nil
+        beforeDrag = nil
+        controlBaseline = nil
+        controlDrag = nil
+        controlPreviewPoint = nil
+        controlDragError = nil
+        dragStart = nil
+        lineStart = nil
+        resizeHandle = nil
+        marquee = nil
+        originalRects = [:]
+        selectedNodes = []
+        selectedEdge = nil
+        pendingSource = nil
+        pendingSourcePort = nil
+        removeAllToolTips()
+        controlToolTips = [:]
+        editor = nil
+    }
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance()
         needsDisplay = true
@@ -210,7 +232,8 @@ final class CanvasView: NSView {
         ).point
     }
     func node(at point: CGPoint, includeLocked: Bool = true) -> DiagramNode? {
-        renderScene.foreground.runtime.nodeCandidates(
+        guard editor != nil else { return nil }
+        return renderScene.foreground.runtime.nodeCandidates(
             at: point, tolerance: 5 / coordinateZoom, includeLocked: includeLocked
         ).values.first { n in
             if !page.isVisible(n) { return false }
@@ -234,7 +257,8 @@ final class CanvasView: NSView {
         }
     }
     func edge(at p: CGPoint, includeLocked: Bool = true) -> DiagramEdge? {
-        renderScene.foreground.runtime.edgeCandidates(
+        guard editor != nil else { return nil }
+        return renderScene.foreground.runtime.edgeCandidates(
             intersecting: CGRect(
                 x: p.x - 7 / coordinateZoom, y: p.y - 7 / coordinateZoom, width: 14 / coordinateZoom,
                 height: 14 / coordinateZoom), includeLocked: includeLocked

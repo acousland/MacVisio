@@ -185,6 +185,9 @@ final class ExternalWriterRecoveryTests: XCTestCase {
         var current = error as NSError
         for _ in 0..<16 {
             if current.domain == DocumentSourceConflict.errorDomain { return true }
+            // NSDocument may detect the external version before the subclass's
+            // coordinated write guard runs, preserving its own recovery UI.
+            if current.domain == NSCocoaErrorDomain,current.code == 67000 { return true }
             guard let nested = current.userInfo[NSUnderlyingErrorKey] as? NSError else { return false }
             current = nested
         }

@@ -128,6 +128,9 @@ final class MacVisioDocument: NSDocument {
     }
     private var closeAwaitingTextCalculation: (request: CloseRequest, calculationID: UUID)?
     private var finalizingTextForClose = false
+    /// A boundary hook keeps close-admission races reproducible after the text
+    /// transaction and its undo notifications have finished.
+    var didAcceptTextForClose: (() -> Void)?
     override class var autosavesInPlace: Bool { true }
     override class var writableTypes: [String] { [visioType, nativeType, legacyType] }
     override class var readableTypes: [String] { [visioType, legacyType, nativeType] }
@@ -658,12 +661,44 @@ final class MacVisioDocument: NSDocument {
         guard let waiting = closeAwaitingTextCalculation, waiting.calculationID == calculationID else {
             return
         }
-        closeAwaitingTextCalculation = nil
         guard error == nil, !documentIsClosed else {
+            closeAwaitingTextCalculation = nil
             replyToClose(waiting.request, shouldClose: false)
             return
         }
-        continueClose(waiting.request)
+        let acceptedInput = LifecycleJobInput(
+            ownerID: lifecycleOwnerID, snapshotID: stateID, revision: revision)
+        didAcceptTextForClose?()
+        // Leave the calculation/file-access completion stack before starting a
+        // new AppKit activity. Admission itself must not wait on main: a prior
+        // asynchronous save may still need main to finish its serialization.
+        DispatchQueue.main.async { [weak self] in
+            guard let self, self.validatePendingTextClose(calculationID, input: acceptedInput) else {
+                return
+            }
+            self.performActivity(withSynchronousWaiting: false) { [weak self] activityCompleted in
+                defer { activityCompleted() }
+                guard let self, self.validatePendingTextClose(calculationID, input: acceptedInput)
+                else { return }
+                self.closeAwaitingTextCalculation = nil
+                // canClose starts its own activity. continueActivity is the
+                // documented nesting boundary that prevents it waiting on us.
+                self.continueActivity { self.continueClose(waiting.request) }
+            }
+        }
+    }
+    private func validatePendingTextClose(_ calculationID: UUID, input: LifecycleJobInput) -> Bool {
+        guard let waiting = closeAwaitingTextCalculation, waiting.calculationID == calculationID else {
+            return false
+        }
+        guard !documentIsClosed, pendingCalculation == nil, lifecycleOwnerID == input.ownerID,
+            stateID == input.snapshotID, revision == input.revision
+        else {
+            closeAwaitingTextCalculation = nil
+            replyToClose(waiting.request, shouldClose: false)
+            return false
+        }
+        return true
     }
     private func continueClose(_ request: CloseRequest) {
         super.canClose(
@@ -1003,6 +1038,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     private(set) var retainedScene: RetainedRenderScene!
     var stencils: [StencilDefinition] = []
     private var fittedInitialPage = false
+    private var editorIsDetached = false
     var selection: [DiagramNode] {
         let runtime = diagramDocument.runtime()
         return canvas.selectedNodes.sorted {
@@ -1045,13 +1081,30 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         refresh()
     }
     required init?(coder: NSCoder) { fatalError() }
+    override func close() {
+        detachEditor()
+        super.close()
+    }
+    private func detachEditor() {
+        guard !editorIsDetached else { return }
+        editorIsDetached = true
+        if lifecycleJobs.isActive { canvas.finishEditing(commit: true) }
+        lifecycleJobs.close()
+        root?.detachEditor()
+        canvas.detachEditor()
+        retainedScene = nil
+        stencils = []
+    }
     override func showWindow(_ sender: Any?) {
+        guard !editorIsDetached else { return }
         super.showWindow(sender)
         window?.makeKeyAndOrderFront(sender)
         let fit = !fittedInitialPage
         fittedInitialPage = true
         DispatchQueue.main.async { [weak self, weak document = diagramDocument] in
-            guard let self, let document, self.window?.isVisible == true else { return }
+            guard let self, !self.editorIsDetached, self.lifecycleJobs.isActive,
+                let document, self.window?.isVisible == true
+            else { return }
             // Hold the document through this delayed callback; the controller
             // can outlive its unowned document while AppKit drains autoreleases.
             withExtendedLifetime(document) {
@@ -1061,12 +1114,16 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
     func windowDidBecomeKey(_ notification: Notification) {
+        guard !editorIsDetached, lifecycleJobs.isActive else { return }
         diagramDocument.documentWorkflow?.documentActivated(diagramDocument)
     }
-    func windowDidResize(_ notification: Notification) { canvas.refreshSize() }
-    func windowWillClose(_ notification: Notification) { canvas.finishEditing(commit: true) }
+    func windowDidResize(_ notification: Notification) {
+        guard !editorIsDetached, lifecycleJobs.isActive else { return }
+        canvas.refreshSize()
+    }
+    func windowWillClose(_ notification: Notification) { detachEditor() }
     func refresh(changes: DocumentChangeSet? = nil) {
-        guard root != nil else { return }
+        guard !editorIsDetached, lifecycleJobs.isActive, root != nil else { return }
         retainedScene = RetainedRenderScene(
             scene: diagramDocument.diagram.scene(), revision: diagramDocument.revision,
             previous: retainedScene)

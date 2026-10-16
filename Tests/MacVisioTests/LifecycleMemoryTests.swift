@@ -62,6 +62,17 @@ final class LifecycleMemoryTests: XCTestCase {
                     let document = try MacVisioDocument(contentsOf: input, ofType: MacVisioDocument.visioType)
                     releasedDocument = document
                     document.undoManager?.groupsByEvent = false
+                    document.makeWindowControllers()
+                    let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+                    let window = try XCTUnwrap(editor.window)
+                    window.layoutIfNeeded();editor.root.layoutSubtreeIfNeeded()
+                    editor.canvas.fitPage()
+                    let viewport = editor.canvas.visibleRect.intersection(editor.canvas.bounds)
+                    XCTAssertFalse(viewport.isEmpty)
+                    let bitmap = try XCTUnwrap(editor.canvas.bitmapImageRepForCachingDisplay(in:viewport))
+                    editor.canvas.cacheDisplay(in:viewport,to:bitmap)
+                    XCTAssertGreaterThan(bitmap.pixelsWide,0)
+                    XCTAssertGreaterThan(bitmap.pixelsHigh,0)
                     let sourceID = try XCTUnwrap(document.diagram.visioArchive?.sourceResourceID)
                     for edit in 0..<8 {
                         var next = document.diagram
@@ -78,9 +89,18 @@ final class LifecycleMemoryTests: XCTestCase {
                     XCTAssertEqual(document.diagram.visioArchive?.parts["vendor/lifecycle-opaque.bin"], opaque)
                     sourceCosts.append(document.diagram.visioArchive?.sourceByteCount ?? 0)
                     document.close()
+                    XCTAssertNil(editor.root.editor)
+                    XCTAssertNil(editor.canvas.editor)
+                    XCTAssertNil(editor.retainedScene)
+                    editor.root.needsLayout = true;editor.root.layoutSubtreeIfNeeded()
+                    XCTAssertNil(editor.canvas.node(at:.zero))
+                    XCTAssertNil(editor.canvas.edge(at:.zero))
                     try FileManager.default.removeItem(at: output)
                 }
-                _ = RunLoop.main.run(mode: .default, before: Date().addingTimeInterval(0.01))
+                let teardownDeadline = Date().addingTimeInterval(5)
+                repeat {
+                    autoreleasepool { _ = RunLoop.main.run(mode:.default,before:Date().addingTimeInterval(0.01)) }
+                } while releasedDocument != nil && Date() < teardownDeadline
                 XCTAssertNil(releasedDocument, "A closed document must not be retained by its completed save/job/undo history")
                 samples.append(residentBytes())
             }
@@ -94,6 +114,8 @@ final class LifecycleMemoryTests: XCTestCase {
                 "cycles": samples.count,
                 "shapesPerDocument": 64,
                 "editsPerCycle": 8,
+                "includeEditor": true,
+                "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
                 "opaqueBytesPerSource": opaque.count,
                 "residentBaselineBytes": baseline,
                 "residentSamplesBytes": samples,
@@ -102,7 +124,7 @@ final class LifecycleMemoryTests: XCTestCase {
                 "residentSlopeBytesPerCycle": numerator / denominator,
                 "retainedSourceBytesPerOpenDocument": sourceCosts,
                 "undoCountLimit": ResourceBudgets.undoCount,
-                "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. This fixture does not create editor windows or exercise raster decoding. Undo payload byte budgeting requires separate history qualification."
+                "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures."
             ]
             if let path = ProcessInfo.processInfo.environment["MACVISIO_LIFECYCLE_EVIDENCE_PATH"] {
                 let output = URL(fileURLWithPath: path)

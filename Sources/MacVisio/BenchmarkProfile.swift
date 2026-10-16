@@ -1,8 +1,20 @@
 import AppKit
+import ApplicationServices
 
 /// One owned synthetic run. The Python adapter verifies the immutable public
 /// corpus before invoking this entry point; no input is ever saved in place.
 enum BenchmarkProfile {
+    static var nativeRoutingUnavailableReason: String? {
+        guard let session = CGSessionCopyCurrentDictionary() as? [String: Any] else {
+            return "Native event routing requires an interactive graphics session."
+        }
+        if (session["CGSSessionScreenIsLocked"] as? Bool) == true {
+            return
+                "Native event routing requires an unlocked desktop; the graphics session reports a locked screen."
+        }
+        return nil
+    }
+
     static let phaseNames = [
         "open", "event", "commit", "calculation", "textLayout", "scenePreparation", "route", "draw",
         "snapshot", "encoding", "save", "close",
@@ -79,8 +91,11 @@ enum BenchmarkProfile {
             else {
                 throw DiagramError.invalid("Benchmark has no editable visible shape.")
             }
+            if let reason = nativeRoutingUnavailableReason { throw DiagramError.invalid(reason) }
             let canvas = editor.canvas
+            NSApp.activate(ignoringOtherApps: true)
             window.makeKeyAndOrderFront(nil)
+            try pump(until: { window.isKeyWindow }, timeout: 3)
             guard window.makeFirstResponder(canvas), window.firstResponder === canvas else {
                 throw DiagramError.invalid("Benchmark canvas did not receive keyboard focus.")
             }
@@ -92,7 +107,12 @@ enum BenchmarkProfile {
                     matching: .any, until: deadline, inMode: .default, dequeue: true)
                 {
                     NSApp.sendEvent(queued)
-                    if queued === event {
+                    // AppKit may copy an event when posting; match the owned
+                    // immutable type/window/timestamp instead of object identity.
+                    if queued.type == event.type && queued.windowNumber == event.windowNumber
+                        && abs(queued.timestamp - event.timestamp) < 0.000001
+                    {
+
                         dispatchedEvents += 1
                         return
                     }
@@ -114,16 +134,24 @@ enum BenchmarkProfile {
             defer {
                 if (document.undoManager?.groupingLevel ?? 0) > 0 { document.undoManager?.endUndoGrouping() }
             }
-            for type in [NSEvent.EventType.leftMouseDown, .leftMouseUp] {
+            for (index, type) in [NSEvent.EventType.leftMouseDown, .leftMouseUp].enumerated() {
                 guard
                     let event = NSEvent.mouseEvent(
                         with: type, location: location, modifierFlags: [], timestamp: now(),
-                        windowNumber: window.windowNumber, context: nil, eventNumber: 1, clickCount: 1,
+                        windowNumber: window.windowNumber, context: nil, eventNumber: 61001 + index,
+                        clickCount: 1,
                         pressure: 1)
                 else { throw DiagramError.invalid("Benchmark mouse event creation failed.") }
                 try dispatch(event)
             }
-            guard !canvas.selectedNodes.isEmpty,
+            guard !canvas.selectedNodes.isEmpty else {
+                let hit = window.contentView?.superview?.hitTest(location)
+                let name = hit.map { String(describing: type(of: $0)) } ?? "nil"
+                throw DiagramError.invalid(
+                    "Benchmark routed mouse produced no selection (hit=\(name), location=\(location), canvasVisible=\(canvas.visibleRect), geometricHit=\(canvas.node(at:node.center) != nil), windowKey=\(window.isKeyWindow), appActive=\(NSApp.isActive))."
+                )
+            }
+            guard
                 let key = NSEvent.keyEvent(
                     with: .keyDown, location: location, modifierFlags: [], timestamp: now(),
                     windowNumber: window.windowNumber, context: nil, characters: "\u{F703}",

@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import MacVisioInfrastructure
 
 enum ControlEditing {
     static func expression(_ e: ShapeSheet.Expression) -> String {

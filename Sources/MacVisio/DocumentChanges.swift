@@ -133,7 +133,9 @@ struct DocumentChangeSet: Equatable {
         result.insertedPageIDs = Set(newPages.keys).subtracting(oldPages.keys)
         result.deletedPageIDs = Set(oldPages.keys).subtracting(newPages.keys)
         for (id, page) in newPages {
-            guard let oldPage = oldPages[id] else { continue }
+            // Unchanged immutable page arrays share storage, so avoid building
+            // four object maps for unrelated pages before diffing the edit.
+            guard let oldPage = oldPages[id], oldPage != page else { continue }
             let change = PageChangeSet.between(oldPage, page)
             if !change.isEmpty { result.pages[id] = change }
         }

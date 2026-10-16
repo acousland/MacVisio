@@ -129,6 +129,11 @@ final class VisioRibbonView: FlippedView, NSTextFieldDelegate, NSComboBoxDelegat
 
     /// Refreshes selection-sensitive controls without replacing the ribbon or
     /// stealing focus from a font field the user is currently editing.
+    func detachEditor() {
+        editor = nil
+        onAppearanceChanged = nil
+        fontFamily.delegate = nil;fontSize.delegate = nil
+    }
     func refreshSelection() {
         guard let editor else { return }
         let selection = editor.selection

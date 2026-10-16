@@ -83,7 +83,7 @@ final class RetainedEditorUITests: XCTestCase {
             editor.canvas.select([document.diagram.page.nodes[0].id])
             let text = try field("Text", in: editor.root.inspector)
             XCTAssertTrue(editor.window!.makeFirstResponder(text))
-            let fieldEditor = try XCTUnwrap(text.currentEditor())
+            let fieldEditor = try XCTUnwrap(text.currentEditor() as? NSTextView)
             fieldEditor.string = "Uncommitted typing"
             editor.root.inspector.refresh()
             XCTAssertTrue(try field("Text", in: editor.root.inspector) === text)
@@ -188,7 +188,7 @@ final class RetainedEditorUITests: XCTestCase {
             let secondID = document.diagram.pages[1].id
             let name = try field("Page name", in: editor.root.inspector)
             XCTAssertTrue(editor.window!.makeFirstResponder(name))
-            let fieldEditor = try XCTUnwrap(name.currentEditor())
+            let fieldEditor = try XCTUnwrap(name.currentEditor() as? NSTextView)
             fieldEditor.string = "Edited original page"
             fieldEditor.didChangeText()
 
@@ -212,7 +212,7 @@ final class RetainedEditorUITests: XCTestCase {
             editor.canvas.select([nodeID])
             let text = try field("Text", in: editor.root.inspector)
             XCTAssertTrue(editor.window!.makeFirstResponder(text))
-            let fieldEditor = try XCTUnwrap(text.currentEditor())
+            let fieldEditor = try XCTUnwrap(text.currentEditor() as? NSTextView)
             fieldEditor.string = "Edited original shape"
             fieldEditor.didChangeText()
 
@@ -236,7 +236,7 @@ final class RetainedEditorUITests: XCTestCase {
         try withEditor { [self] document, editor in
             let name = try field("Page name", in: editor.root.inspector)
             XCTAssertTrue(editor.window!.makeFirstResponder(name))
-            let fieldEditor = try XCTUnwrap(name.currentEditor())
+            let fieldEditor = try XCTUnwrap(name.currentEditor() as? NSTextView)
             fieldEditor.string = "Saved inspector page"
             fieldEditor.didChangeText()
 
@@ -254,7 +254,7 @@ final class RetainedEditorUITests: XCTestCase {
             editor.canvas.select([nodeID])
             let text = try field("Text", in: editor.root.inspector)
             XCTAssertTrue(editor.window!.makeFirstResponder(text))
-            let fieldEditor = try XCTUnwrap(text.currentEditor())
+            let fieldEditor = try XCTUnwrap(text.currentEditor() as? NSTextView)
             fieldEditor.string = "Saved inspector shape"
             fieldEditor.didChangeText()
 

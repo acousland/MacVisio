@@ -107,6 +107,14 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         [heading,search,category,listScroll,subtitle,openStencil].forEach { addSubview($0) }; rebuild()
     }
     required init?(coder:NSCoder) { fatalError() }
+    func detachEditor() {
+        editor = nil
+        search.delegate = nil;category.target = nil;openStencil.target = nil
+        for card in shapeCards.values { card.editor = nil }
+        for card in masterCards.values { card.editor = nil }
+        for row in list.subviews { row.removeFromSuperview() }
+        shapeCards = [:];masterCards = [:];visibleRows = []
+    }
     override func layout() {
         super.layout(); heading.frame = CGRect(x:20,y:16,width:180,height:25); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
         category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(80,bounds.height-214))
@@ -469,6 +477,12 @@ final class EditorRootView: FlippedView {
         refreshAppearance()
     }
     required init?(coder:NSCoder) { fatalError() }
+    func detachEditor() {
+        editor = nil
+        stencil.detachEditor()
+        inspector.editor = nil
+        ribbon.detachEditor()
+    }
     override func viewDidChangeEffectiveAppearance() { super.viewDidChangeEffectiveAppearance();refreshAppearance() }
     private func refreshAppearance() {
         effectiveAppearance.performAsCurrentDrawingAppearance {

@@ -607,7 +607,10 @@ final class AsyncCalculationContractTests: XCTestCase {
             XCTAssertTrue(document.isCalculating)
             XCTAssertTrue(recorder.replies.isEmpty)
             XCTAssertEqual(document.diagram, baseline)
-            waitUntil { !recorder.replies.isEmpty && !document.isCalculating }
+            var heartbeat = false
+            DispatchQueue.main.async { heartbeat = true }
+            waitUntil { heartbeat && !recorder.replies.isEmpty && !document.isCalculating }
+            XCTAssertTrue(heartbeat)
             let reply = try XCTUnwrap(recorder.replies.first)
             XCTAssertEqual(recorder.replies.count, 1)
             XCTAssertTrue(reply.document === document)
@@ -668,21 +671,36 @@ final class AsyncCalculationContractTests: XCTestCase {
         }
     }
 
-    func testStaleCloseTextCalculationRefusesWithoutChangingNewerCommittedState() throws {
+    func testQueuedCloseContinuationRefusesWithoutChangingNewerCommittedState() throws {
         try onMain {
             let document = makeDocument()
             defer { document.close() }
             try beginInlineText("Superseded close text", in: document)
+            var finishEarlierActivity: (() -> Void)?
+            defer { finishEarlierActivity?() }
+            document.didAcceptTextForClose = {
+                XCTAssertEqual(document.undoManager?.groupingLevel, 0)
+                document.performActivity(withSynchronousWaiting: false) { finishEarlierActivity = $0 }
+            }
+            defer { document.didAcceptTextForClose = nil }
             let recorder = CloseReplyRecorder()
             document.canClose(withDelegate: recorder, shouldClose: #selector(CloseReplyRecorder.document(_:shouldClose:contextInfo:)), contextInfo: nil)
             XCTAssertTrue(document.isCalculating)
+            var heartbeat = false
+            DispatchQueue.main.async { heartbeat = true }
+            waitUntil { heartbeat && !document.isCalculating && finishEarlierActivity != nil }
+            XCTAssertTrue(heartbeat)
+            XCTAssertTrue(recorder.replies.isEmpty)
+            XCTAssertEqual(document.diagram.page.nodes[0].text, "Superseded close text")
             document.diagram.page.nodes[1].text = "Newer content remains open"
-            document.updateChangeCount(.changeDone)
             let newer = document.diagram, identity = document.stateID
+            let finishActivity = finishEarlierActivity
+            finishEarlierActivity = nil
+            finishActivity?()
             waitUntil { !document.isCalculating && !recorder.replies.isEmpty }
             XCTAssertEqual(recorder.replies.count, 1)
             XCTAssertFalse(try XCTUnwrap(recorder.replies.first).shouldClose)
-            XCTAssertEqual(document.lastCalculationJobError as? LifecycleJobError, .staleInput)
+            XCTAssertNil(document.lastCalculationJobError, "The calculation succeeded; only its later close continuation became stale.")
             XCTAssertEqual(document.diagram, newer)
             XCTAssertEqual(document.stateID, identity)
             XCTAssertTrue(document.isDocumentEdited)
@@ -696,7 +714,7 @@ final class AsyncCalculationContractTests: XCTestCase {
         editor.canvas.select([document.diagram.page.nodes[0].id])
         let field = try XCTUnwrap(editor.root.inspector.subviews.compactMap { $0 as? NSTextField }.first { $0.identifier?.rawValue == "Text" })
         XCTAssertTrue(editor.window!.makeFirstResponder(field))
-        let fieldEditor = try XCTUnwrap(field.currentEditor())
+        let fieldEditor = try XCTUnwrap(field.currentEditor() as? NSTextView)
         fieldEditor.string = text
         fieldEditor.didChangeText()
         XCTAssertFalse(document.isCalculating)

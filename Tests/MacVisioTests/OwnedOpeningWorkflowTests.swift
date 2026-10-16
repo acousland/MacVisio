@@ -17,9 +17,16 @@ final class OwnedOpeningWorkflowTests: XCTestCase {
                 document.showWindows()
                 document.close()
             }
+            try pump(until:{closedDocument == nil})
             XCTAssertNil(closedDocument)
             XCTAssertFalse(retainedController?.window?.isVisible ?? true)
             XCTAssertFalse(retainedController?.lifecycleJobs.isActive ?? true)
+            XCTAssertNil(retainedController?.root.editor)
+            XCTAssertNil(retainedController?.canvas.editor)
+            retainedController?.root.needsLayout = true
+            retainedController?.root.layoutSubtreeIfNeeded()
+            retainedController?.windowDidBecomeKey(Notification(name:NSWindow.didBecomeKeyNotification))
+            retainedController?.windowDidResize(Notification(name:NSWindow.didResizeNotification))
             EditorAppearance.apply()
             var callbackPassed = false
             DispatchQueue.main.async { callbackPassed = true }
@@ -43,6 +50,37 @@ final class OwnedOpeningWorkflowTests: XCTestCase {
             DispatchQueue.main.async { callbackPassed = true }
             try pump(until:{callbackPassed})
             XCTAssertNil(closedDocument,"A queued fitting callback must not keep or access a closed document")
+        }
+    }
+
+    func testControllerCloseWithoutWindowDelegateDetachesQueuedPresentationCallbacks() throws {
+        try onMain {
+            _ = NSApplication.shared
+            weak var releasedDocument:MacVisioDocument?
+            var retainedController:EditorWindowController?
+            try autoreleasepool {
+                let document = MacVisioDocument();releasedDocument = document
+                document.makeWindowControllers()
+                let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+                retainedController = editor
+                editor.window?.delegate = nil
+                editor.close()
+                document.close()
+            }
+            try pump(until:{releasedDocument == nil})
+            let editor = try XCTUnwrap(retainedController)
+            XCTAssertNil(editor.root.editor)
+            XCTAssertNil(editor.canvas.editor)
+            XCTAssertNil(editor.retainedScene)
+            XCTAssertFalse(editor.lifecycleJobs.isActive)
+            editor.close()
+            editor.root.needsLayout = true;editor.root.layoutSubtreeIfNeeded()
+            editor.root.ribbon.refreshSelection()
+            editor.windowDidBecomeKey(Notification(name:NSWindow.didBecomeKeyNotification))
+            editor.windowDidResize(Notification(name:NSWindow.didResizeNotification))
+            XCTAssertNil(editor.canvas.node(at:.zero))
+            XCTAssertNil(editor.canvas.edge(at:.zero))
+            retainedController = nil
         }
     }
 

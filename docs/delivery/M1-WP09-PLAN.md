@@ -32,7 +32,7 @@ Preservation serialization should return a `VisioDocumentArchive` containing wri
 ## Current acceptance gaps
 
 - Implemented lifecycle paths and measured grouped-run results are recorded in `M1-WP09-EVIDENCE.md`. The parent owns the final complete grouped run and disposition of all failures.
-- The second stale-window appearance regression, corrected untitled recovery autosave fixture, external-writer guard and fresh-process checkpoint test await the next grouped run.
+- Lifecycle-focused tests, including queued view teardown, editor-backed cycles, untitled recovery/draft autosave and fresh-process checkpoint reopening, pass broad12. This does not close the parent-owned full-suite/async-close and milestone acceptance gates.
 - Local recovery initialization and explicit CLI checkpoint reopen do not establish installed-app/macOS restoration. That acceptance must be recorded separately.
 - Metadata fingerprints detect ordinary external writes; they are not a content hash and cannot exclude an uncoordinated writer racing after the final check.
 - Worker ownership, cache/undo charges and twenty-cycle RSS have explicit scope and oversized/current-action exceptions; they are not a total-process memory cap or a proof of absence of leaks.
