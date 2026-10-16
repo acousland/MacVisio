@@ -6,6 +6,10 @@ final class InlineTextView: NSTextView {
     var finish: ((Bool) -> Void)?
     private let textUndo = UndoManager()
     override var undoManager: UndoManager? { textUndo }
+    // NSTextView does not handle these standard menu selectors itself. Keep
+    // them in this input session, including when its history is exhausted.
+    @objc func undo(_ sender: Any?) { textUndo.undo() }
+    @objc func redo(_ sender: Any?) { textUndo.redo() }
     func applyFormatting(_ value: NSAttributedString) {
         let old = NSAttributedString(attributedString: attributedString())
         undoManager?.registerUndo(withTarget: self) { $0.applyFormatting(old) }
