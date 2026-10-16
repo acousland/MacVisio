@@ -107,8 +107,8 @@
     },
     {
       "task_id": "WP-05-T04",
-      "state": "implemented_unaccepted",
-      "bounded_scope": "Recovery identity/readback, external modification refusal/revert, staged write interruption",
+      "state": "locally_qualified",
+      "bounded_scope": "Actual local app-bundle unsaved-document interruption/automatic relaunch recovery and native save/readback, plus external modification refusal/revert and staged write interruption.",
       "requirement_contributions": [
         "MV-DOC-04",
         "MV-DOC-07",
@@ -143,11 +143,11 @@
           "requirement_contributions": [
             "MV-DOC-07"
           ],
-          "state": "implemented_unaccepted"
+          "state": "locally_qualified"
         }
       ],
       "evidence": "M1-QUALIFICATION.md",
-      "remaining": "Installed-app abrupt termination and automatic macOS relaunch/recovery registration/UI remain unqualified. Local checkpoint recovery/readback, interrupted staging writer, autosave and external-writer checks pass."
+      "native_ui_probe_record": "M1-RECOVERY-QUALIFICATION.md"
     },
     {
       "task_id": "WP-05-T05",
@@ -905,10 +905,13 @@
   ],
   "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
   "qualification_record": "M1-QUALIFICATION.md",
-  "milestone_acceptance_passed": false,
+  "milestone_acceptance_passed": true,
   "state_definitions": {
-    "locally_qualified": "The bounded implementation contribution and named local regressions pass. Does not close whole requirements, downstream dependencies, reference compatibility or milestone/release gates.",
+    "locally_qualified": "The bounded implementation contribution and named local regressions pass. Local milestone acceptance is evaluated separately in M1-HANDOFF.json; this does not close whole requirements, independent downstream dependencies, reference compatibility or release gates.",
     "implemented_unaccepted": "Implementation and partial local checks exist; an explicit task qualification remains open."
   },
-  "native_qualification_record": "../evidence/M1-NATIVE-QUALIFICATION.json"
+  "native_qualification_record": "../evidence/M1-NATIVE-QUALIFICATION.json",
+  "acceptance_scope": "Local M1 engineering checkpoint; G1/G2, reference and release acceptance remain separate.",
+  "release_acceptance_passed": false,
+  "recovery_qualification_record": "../evidence/M1-RECOVERY-QUALIFICATION.json"
 }

@@ -1,6 +1,6 @@
 # M1 delivery contracts and child slices
 
-Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Final local results and remaining acceptance are recorded in [M1 qualification](M1-QUALIFICATION.md). Public Visio qualification remains owned by M0/M3; M1 acceptance remains false.
+Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Final local results and remaining acceptance are recorded in [M1 qualification](M1-QUALIFICATION.md). Public Visio qualification remains owned by M0/M3; the [local M1 engineering checkpoint](M1-ENGINEERING-HANDOFF.md) is accepted and ready for M2.
 
 ## WP-05 committed state
 

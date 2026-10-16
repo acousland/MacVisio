@@ -7,15 +7,16 @@
   "commit": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
   "commit_role": "Qualified code candidate; subsequent documentation-only commits are resolved from the branch/shared orchestration status.",
   "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
-  "state": "implemented_unaccepted",
-  "acceptance_passed": false,
+  "state": "ready",
+  "acceptance_passed": true,
   "implementation_available": true,
-  "downstream_acceptance_ready": false,
-  "completion_scope": "Bounded local task contributions only. Original task/package dependencies and overall milestone/reference/release acceptance remain in force.",
+  "downstream_acceptance_ready": true,
+  "completion_scope": "All 25 M1 local tasks qualified, with actual automatic local app-bundle crash/relaunch recovery; original task/requirement/dependency scope retained. Whole product requirements and release/reference gates are not closed.",
   "completed_task_ids": [
     "WP-05-T01",
     "WP-05-T02",
     "WP-05-T03",
+    "WP-05-T04",
     "WP-05-T05",
     "WP-06-T01",
     "WP-06-T02",
@@ -42,6 +43,7 @@
     "WP-05-T01",
     "WP-05-T02",
     "WP-05-T03",
+    "WP-05-T04",
     "WP-05-T05",
     "WP-06-T01",
     "WP-06-T02",
@@ -64,9 +66,7 @@
     "WP-09-T04",
     "WP-09-T05"
   ],
-  "implemented_unaccepted_task_ids": [
-    "WP-05-T04"
-  ],
+  "implemented_unaccepted_task_ids": [],
   "blocked_task_ids": [],
   "working_tree_changes": false,
   "contract_commits": {
@@ -80,8 +80,8 @@
     "native_driver_follow_up": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5"
   },
   "dependencies": [
-    "M0 instrumentation/corpus/adapter through fc69ccb adapted locally; M0 exact licensed Visio reference remains unavailable.",
-    "M1 acceptance remains false; M2 acceptance dependency is not released."
+    "Applicable M0 instrumentation/corpus/adapter through fc69ccb adapted locally. The exact licensed Visio reference remains unavailable; that blocks reference acceptance, not M2 integration of accepted M1 engineering contracts.",
+    "M2 may integrate this accepted local M1 branch/source checkpoint. M3 still needs M2's accepted integrated M1+M2 engineering handoff and applicable M0 inputs."
   ],
   "validation": {
     "python_tests": 34,
@@ -112,7 +112,18 @@
     },
     "native_public_scaling_attempts": 12,
     "native_interaction_attempts": 30,
-    "native_attempt_failures": 0
+    "native_attempt_failures": 0,
+    "automatic_app_recovery": {
+      "passed": true,
+      "original_pid": 63306,
+      "new_pid": 63462,
+      "no_file_operand_on_relaunch": true,
+      "page_identity_and_content_restored": true,
+      "edited_before_save": true,
+      "matching_clean_native_save_after_recovery": true,
+      "fresh_public_readback": true,
+      "source_unchanged_from_qualified_candidate": true
+    }
   },
   "evidence_paths": [
     "docs/delivery/M1-QUALIFICATION.md",
@@ -132,22 +143,39 @@
     "docs/evidence/M1-NATIVE-QUALIFICATION.json",
     "build/m1-evidence/full-release-native-final.log",
     "build/m1-evidence/native-public-matrix.json",
-    "build/m1-evidence/native-interaction-30.json"
+    "build/m1-evidence/native-interaction-30.json",
+    "docs/delivery/M1-ENGINEERING-HANDOFF.md",
+    "docs/delivery/M1-RECOVERY-QUALIFICATION.md",
+    "docs/evidence/M1-RECOVERY-QUALIFICATION.json"
   ],
-  "remaining": [
-    {
-      "task_id": "WP-05-T04",
-      "required": "Installed-app abrupt termination/automatic macOS relaunch recovery qualification. Local checkpoint/recovery initialization, actual interrupted staging writer and fresh CLI reopen pass."
-    },
-    {
-      "gate_scope": "Overall input/frame/performance/reference/release qualification",
-      "required": "Native local contribution passes. Controlled 50 ms input, 33 ms compositor frame and 100 ms save-stall gates remain unaccepted; installed recovery and wider reference/release gates remain open."
-    }
-  ],
+  "remaining": [],
   "limits": [
     "No whole requirement, Windows/Visio compatibility, p95/frame/compositor, hardware-input, absence-of-leak or stable-release acceptance claim.",
     "Full input/final commit diffs remain compatibility boundaries; warm engine counters do not represent all command work.",
     "Path/text/image/undo/job budgets are explicit; route/diagnostic memory remains current-input/scene-lifetime bounded.",
     "Twenty-cycle hidden editor fixture is 64 shapes, eight edits, 2 MiB opaque source per document; does not qualify standard/large workload NFR gates."
+  ],
+  "integration_allowed": true,
+  "acceptance_scope": "Local M1 engineering checkpoint: all WP-05\u2013WP-09 task/package and milestone exit criteria within their recorded local evidence scope. G1/G2, reference, platform/distribution and numerical release performance acceptance remain separate.",
+  "milestone_acceptance": {
+    "local_engineering": true,
+    "G1_release": false,
+    "G2_reference": false,
+    "stable_release": false
+  },
+  "pending_release_or_reference_qualification": [
+    {
+      "scope": "G1/M2 numerical performance and native release qualification",
+      "required": "Controlled 50 ms single-input, 33 ms compositor frame and 100 ms save-stall metrics; observed three-event/raster p95 246.7404 ms does not substitute. Supported-platform, signed/notarized shipping install/update/recovery and accessibility/IME journeys remain mandatory."
+    },
+    {
+      "scope": "M0/M3/G2/reference and broad workload qualification",
+      "required": "Licensed exact-build reference, independent public-content interoperability, standard/large loading/save/RSS and declared platform evidence remain with their owning gates."
+    }
+  ],
+  "integration_instructions": [
+    "Integrate the actual accepted codex/m1-editing-foundation commits, preserving M2's prepared slices and applicable M0 adaptations; do not copy the unrelated original Home/welcome dirty diff.",
+    "Use docs/delivery/M1-ENGINEERING-HANDOFF.md plus the accepted transaction/runtime/calculation/render/job contracts; resolve actual integration conflicts and rerun affected plus full native checks.",
+    "This releases M1's engineering checkpoint for M2. It does not accept G1/G2 or authorize M3 dependent work before its accepted M2 prerequisite."
   ]
 }

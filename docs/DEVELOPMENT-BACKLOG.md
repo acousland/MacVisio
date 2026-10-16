@@ -12,7 +12,7 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
-M1 implementation candidate `5560ddf` is locally qualified on `codex/m1-editing-foundation`: 24 bounded task contributions pass; WP-05-T04 installed recovery remains unaccepted. Unlocked native traces pass; controlled input/frame and other release gates remain open. The [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M1 acceptance remains false; this does not release the M2 acceptance dependency.
+M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 still needs its accepted M2 checkpoint and applicable M0 inputs.
 
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; current local contributions have separate scope and evidence below. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
@@ -206,7 +206,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-05"></a>
 ### WP-05 — Fix committed state, gesture, undo and save semantics
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** Implemented; acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Native/Core · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Ready: reproduce and fix source-confirmed correctness defect.
 
@@ -218,7 +218,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-01, AR-07, AR-09 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Delivery state:** Four task contributions locally qualified; WP-05-T04 remains unaccepted pending installed-app/macOS relaunch recovery. Save/undo/conflict/checkpoint tests pass. [Qualification](delivery/M1-QUALIFICATION.md).
+**Delivery state:** All five task contributions locally qualified, including actual local app-bundle automatic recovery after interruption. Save/undo/conflict/checkpoint and native recovered-file readback pass. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Cancelled gestures cannot be serialized as clean committed state; saving acknowledges exactly the captured saved state.
 
@@ -233,7 +233,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-06"></a>
 ### WP-06 — Introduce indexed page runtime and transaction boundaries
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** Locally qualified; M1 acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/Architecture · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design first; implementation follows WP-05 transaction contract.
 
@@ -245,7 +245,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-01, AR-04, AR-10 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Delivery state:** All five bounded task contributions locally qualified; original delivery/qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Queries use stable IDs/draw order; selection/zoom do not calculate; small changes update bounded indexes.
 
@@ -260,7 +260,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-07"></a>
 ### WP-07 — Make calculation incremental and revision-safe
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** Locally qualified; M1 acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Calculation · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; measure against WP-03 corpus.
 
@@ -272,7 +272,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-02, AR-10 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Delivery state:** All five bounded task contributions locally qualified; original delivery/qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Incremental results match conservative full evaluation; unrelated work is skipped and stale jobs cannot overwrite edits.
 
@@ -287,7 +287,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-08"></a>
 ### WP-08 — Retain rendering state and update UI selectively
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Locally qualified; M1 acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; can develop alongside WP-07 after WP-06.
 
@@ -314,7 +314,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-09"></a>
 ### WP-09 — Unify long jobs, resources and document lifecycle
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** Locally qualified; M1 acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Core/I-O · **Risk:** High · **Status:** Locally qualified; M1 engineering accepted
 
 **Readiness:** Design required; preserve current public-format regressions.
 
@@ -326,7 +326,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-07, AR-09 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Delivery state:** All five bounded task contributions locally qualified; original delivery/qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
+**Delivery state:** All five bounded task contributions locally qualified; the local M1 engineering checkpoint is accepted, while broader qualification dependencies remain in force. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** All long workflows preserve UI heartbeat, owned snapshots, cancellation safety and revision-aware source state.
 
@@ -1245,7 +1245,7 @@ Drag X=100 to 150, save, then Escape: saved X=150, live X=100, document clean. T
 
 **Closure evidence:** Drag/save/cancel and save/undo/redo agree on live, saved and dirty state; overlapping saves and newer edits pass; intermittent failures have a documented disposition.
 
-**M1 disposition:** Preview/save/undo identity defects locally remedied and full-suite intermittency disposition recorded; installed recovery remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+**M1 disposition:** Local preview/save/undo identity remediation, full-suite intermittency disposition and actual automatic app recovery accepted for M1; broader release validation remains with its owning tasks. [Evidence](delivery/M1-QUALIFICATION.md).
 
 #### AR-02 — Incremental calculation and reusable evaluation
 
@@ -1373,7 +1373,7 @@ The first 454-test suite had one dirty-state failure; later reruns passed. CI la
 
 **Closure evidence:** The exact installed candidate passes platform, update/recovery, security, performance and compatibility gates; undiagnosed release-blocking intermittency prevents acceptance.
 
-**M1 disposition:** Deterministic save-boundary regression, repeated foundation full suites and unlocked native full-suite/traces pass; installed recovery, controlled performance and trusted release gates remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+**M1 disposition:** Deterministic save boundary, repeated suites, unlocked native traces and actual local automatic app recovery pass; controlled numerical performance, signed shipping installation/update, supported-platform and trusted-release gates remain open. [Evidence](delivery/M1-QUALIFICATION.md).
 
 #### AR-10 — Enforced boundaries, shared semantics and readable state paths
 

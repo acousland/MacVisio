@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "Planning baseline with M1 local delivery evidence; M1 milestone and all release/reference gates remain unaccepted",
+  "status": "Planning baseline with locally accepted M1 engineering checkpoint; release/reference acceptance remains open",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -62,7 +62,7 @@
         "Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants.",
         "Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence."
       ],
-      "status": "Implemented; acceptance pending installed recovery and overall gates"
+      "status": "Locally accepted; M2 engineering dependency released; release/reference gates open"
     },
     {
       "id": "M2",
@@ -961,7 +961,7 @@
           "deliverable": "Exercise disk/permission/interruption, autosave during gestures, external writers and relaunch recovery.",
           "acceptance_criteria": "Last valid file/checkpoint survives; file and visible document never disagree while marked clean.",
           "complexity": "L",
-          "status": "Implemented; acceptance pending",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-05-T03"
           ],
@@ -990,14 +990,16 @@
           "child_decomposition": "delivery/M1-IMPLEMENTATION.md",
           "evidence": [
             "delivery/M1-QUALIFICATION.md",
-            "delivery/M1-TASK-EVIDENCE.json"
+            "delivery/M1-TASK-EVIDENCE.json",
+            "delivery/M1-RECOVERY-QUALIFICATION.md",
+            "evidence/M1-RECOVERY-QUALIFICATION.json"
           ],
-          "remaining_acceptance": "Installed-app abrupt termination and automatic macOS relaunch/recovery registration/UI remain unqualified. Local checkpoint recovery/readback, interrupted staging writer, autosave and external-writer checks pass.",
           "delivery_requirement_contributions": [
             "MV-DOC-04",
             "MV-DOC-07",
             "MV-DOC-08"
-          ]
+          ],
+          "qualification_scope": "Actual uniquely identified local app bundle with exact candidate executable; committed untitled edit, verified process SIGKILL, automatic no-file relaunch under new PID, matching UUID/content/Edited, native Save As, independent decoding and public fresh-process readback. Shipping installer/platform release qualification remains separate."
         },
         {
           "id": "WP-05-T05",
@@ -1038,7 +1040,7 @@
           ]
         }
       ],
-      "status": "Implemented; acceptance pending",
+      "status": "Locally qualified; M1 engineering accepted",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -1278,7 +1280,7 @@
           ]
         }
       ],
-      "status": "Locally qualified; M1 acceptance pending",
+      "status": "Locally qualified; M1 engineering accepted",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -1503,7 +1505,7 @@
           ]
         }
       ],
-      "status": "Locally qualified; M1 acceptance pending",
+      "status": "Locally qualified; M1 engineering accepted",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -1744,7 +1746,7 @@
           "qualification_scope": "Named-host synthesized native selection/edit/raster traces pass. Three-event script p95 246.7404 ms over thirty 1000-shape samples. Controlled single-input/frame/save-stall release gates remain unaccepted."
         }
       ],
-      "status": "Locally qualified; M1 acceptance pending",
+      "status": "Locally qualified; M1 engineering accepted",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -1996,7 +1998,7 @@
           ]
         }
       ],
-      "status": "Locally qualified; M1 acceptance pending",
+      "status": "Locally qualified; M1 engineering accepted",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -8386,7 +8388,7 @@
         "status": "Open; M1 contribution recorded",
         "delivery_disposition": {
           "record": "delivery/M1-QUALIFICATION.md",
-          "scope": "Preview/save/undo identity defects locally remedied and full-suite intermittency disposition recorded; installed recovery remains open."
+          "scope": "Local preview/save/undo identity remediation, full-suite intermittency disposition and actual automatic app recovery accepted for M1; broader release validation remains with its owning tasks."
         }
       },
       {
@@ -8656,7 +8658,7 @@
         "status": "Open; M1 contribution recorded",
         "delivery_disposition": {
           "record": "delivery/M1-QUALIFICATION.md",
-          "scope": "Deterministic save-boundary regression, repeated foundation full suites and unlocked native full-suite/traces pass; installed recovery, controlled performance and trusted release gates remain open."
+          "scope": "Deterministic save boundary, repeated suites, unlocked native traces and actual local automatic app recovery pass. Controlled numerical performance, signed shipping installation/update, supported-platform and trusted-release gates remain open."
         }
       },
       {
@@ -8787,7 +8789,7 @@
           "WP-09-T03"
         ],
         "status": "Local contribution recorded; overall acceptance open",
-        "delivery_disposition": "Local save snapshot/failure/conflict/rebase checks pass; installed recovery qualification remains open.",
+        "delivery_disposition": "Locally qualified: exact save snapshot/failure/conflict/rebase and actual automatic untitled app recovery pass; broader shipping installation/platform gates remain separate.",
         "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
@@ -8887,17 +8889,20 @@
   },
   "delivery_evidence": {
     "M1": {
-      "state": "implemented_unaccepted",
+      "state": "ready",
       "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
-      "acceptance_passed": false,
-      "locally_qualified_task_count": 24,
-      "implemented_unaccepted_task_ids": [
-        "WP-05-T04"
-      ],
+      "acceptance_passed": true,
+      "locally_qualified_task_count": 25,
+      "implemented_unaccepted_task_ids": [],
       "record": "delivery/M1-QUALIFICATION.md",
       "task_ledger": "delivery/M1-TASK-EVIDENCE.json",
       "scope": "Local task contributions only; original requirement coverage and dependency graph retained.",
-      "native_qualification_record": "evidence/M1-NATIVE-QUALIFICATION.json"
+      "native_qualification_record": "evidence/M1-NATIVE-QUALIFICATION.json",
+      "acceptance_scope": "Local M1 engineering checkpoint",
+      "downstream_acceptance_ready": true,
+      "release_acceptance_passed": false,
+      "recovery_qualification_record": "evidence/M1-RECOVERY-QUALIFICATION.json",
+      "handoff": "delivery/M1-ENGINEERING-HANDOFF.md"
     }
   }
 }

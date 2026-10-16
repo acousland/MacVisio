@@ -710,5 +710,11 @@
     "record": "M1-NATIVE-QUALIFICATION.json",
     "native_blocker_resolved": true,
     "milestone_acceptance_passed": false
+  },
+  "engineering_acceptance_follow_up": {
+    "record": "M1-RECOVERY-QUALIFICATION.json",
+    "local_m1_engineering_accepted": true,
+    "shipping_release_accepted": false,
+    "scope": "Historical run fields retain their capture-time state. Current acceptance comes from the recovered-app probe plus unchanged qualified source and M1-HANDOFF.json."
   }
 }
