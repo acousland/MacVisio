@@ -75,8 +75,8 @@ struct VisioDocumentArchive: Codable, Equatable {
     /// The package parts remain authoritative for round-trip preservation.
     var theme: VisioTheme? = nil
 
-    init(parts: [String: Data], pagesPart: String, pages: [VisioPageBinding], connectorHierarchyVersion: Int? = nil, theme: VisioTheme? = nil) {
-        sourceParts = ImmutableVisioParts(parts)
+    init(parts: [String: Data], pagesPart: String, pages: [VisioPageBinding], connectorHierarchyVersion: Int? = nil, theme: VisioTheme? = nil, lineageID: UUID = UUID()) {
+        sourceParts = ImmutableVisioParts(parts, lineageID: lineageID)
         self.pagesPart = pagesPart
         self.pages = pages
         self.connectorHierarchyVersion = connectorHierarchyVersion

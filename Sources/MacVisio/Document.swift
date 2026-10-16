@@ -13,6 +13,7 @@ final class MacVisioDocument: NSDocument {
     private var savedStateID: UUID?
     private var recoveryStateID: UUID?
     private var latestPreservationArchive: VisioDocumentArchive?
+    private var latestPreservationDefinitions: DefinitionRegistry?
     private var preservationNilSourcePageIDs = Set<UUID>()
     let lifecycleOwnerID = UUID()
     private var documentIsClosed = false
@@ -195,6 +196,7 @@ final class MacVisioDocument: NSDocument {
     private struct SaveArtifact {
         let id: UUID
         let archive: VisioDocumentArchive
+        let definitions: DefinitionRegistry?
         let sourceDiagnostics: [DocumentDiagnostic]?
     }
     private struct QueuedSave {
@@ -304,13 +306,15 @@ final class MacVisioDocument: NSDocument {
             if let saveID {
                 var sourceSnapshot = snapshot
                 sourceSnapshot.visioArchive = archive
+                sourceSnapshot = try DefinitionRegistry.hydrate(sourceSnapshot)
                 // NSDocument normally owns background encoding. A synchronous
                 // fallback must not introduce a full source scan on main.
                 let sourceDiagnostics =
                     Thread.isMainThread ? nil : ImportedSourceDiagnostics.scan(sourceSnapshot)
                 saveSnapshotLock.lock()
                 serializedSaveArtifact = SaveArtifact(
-                    id: saveID, archive: archive, sourceDiagnostics: sourceDiagnostics)
+                    id: saveID, archive: archive, definitions: sourceSnapshot.definitions,
+                    sourceDiagnostics: sourceDiagnostics)
                 saveSnapshotLock.unlock()
             }
             return data
@@ -430,6 +434,7 @@ final class MacVisioDocument: NSDocument {
         savedStateID = stateID
         recoveryStateID = stateID
         latestPreservationArchive = diagram.visioArchive
+        latestPreservationDefinitions = diagram.definitions
         preservationNilSourcePageIDs = []
         calculationSession = CalculationSession()
         calculationIssues = []
@@ -764,7 +769,10 @@ final class MacVisioDocument: NSDocument {
             }
             saveSnapshotLock.unlock()
             var savedBaseline = snapshot.diagram
-            if let artifact { savedBaseline.visioArchive = artifact.archive }
+            if let artifact {
+                savedBaseline.visioArchive = artifact.archive
+                if savedBaseline.definitions == nil { savedBaseline.definitions = artifact.definitions }
+            }
             saveImpactBaseline = .init(snapshot: savedBaseline)
             savedStateID = snapshot.stateID
             recoveryStateID = snapshot.stateID
@@ -800,10 +808,14 @@ final class MacVisioDocument: NSDocument {
             preservationNilSourcePageIDs = savedPages
         }
         latestPreservationArchive = archive
+        latestPreservationDefinitions = artifact.definitions
         let identity = stateID
         let priorRevision = revision
         let priorRuntimeRevision = runtimeRevision
         diagram.visioArchive = archive
+        if diagram.definitions == nil && snapshot.definitions == nil {
+            diagram.definitions = artifact.definitions
+        }
         calculationSession = CalculationSession()
         stateID = identity
         revision = priorRevision
@@ -1053,6 +1065,17 @@ final class MacVisioDocument: NSDocument {
             editor.canvas.select(selection.nodeIDs, edge: selection.edgeID)
         }
     }
+    /// Public definition projection owns the accepted editor worker and snapshot.
+    func editDefinitionCell(sheetID: UUID, address: DefinitionCellAddress, value: ShapeSheetCell?) {
+        let snapshot = diagram
+        replaceInEditor(with: snapshot, action: "Edit Definition", forceAsync: true, preparation: { cancellation in
+            try cancellation.check()
+            let next = try DefinitionEditing.settingCell(in: snapshot, sheetID: sheetID, address: address, value: value)
+            try cancellation.check()
+            return (next, CalculationWork())
+        })
+    }
+
     /// Native large edits own a worker snapshot. A document sheet prevents a
     /// second command from being based on an unfinished result; other windows
     /// and autosave continue to use their committed state.
@@ -1268,6 +1291,7 @@ final class MacVisioDocument: NSDocument {
                 calculationSession = CalculationSession()
             }
             next.visioArchive = current
+            if next.definitions == nil { next.definitions = latestPreservationDefinitions }
         }
         let previousIssues = calculationIssues
         let previousGeometryIssuesByPage = geometryIssuesByPage

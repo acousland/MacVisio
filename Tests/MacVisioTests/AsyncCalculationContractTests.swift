@@ -163,6 +163,8 @@ final class AsyncCalculationContractTests: XCTestCase {
             let savedArchive = try XCTUnwrap(document.diagram.visioArchive)
             XCTAssertFalse(savedArchive.parts.isEmpty)
             expected.visioArchive = savedArchive
+            expected.definitions = document.diagram.definitions
+            XCTAssertNotNil(expected.definitions, "First public save installs the source definition scope while the older worker is queued.")
             gates.forEach { $0.signal() }
             wait(for: [blockersFinished], timeout: 5)
             waitUntil { !document.isCalculating }

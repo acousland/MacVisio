@@ -163,6 +163,7 @@ struct Diagram: Codable, Equatable {
     var activePageID: UUID
     var visioArchive: VisioDocumentArchive?
     var legacySource: LegacyVisioSource?
+    var definitions: DefinitionRegistry?
     init() { activePageID = pages[0].id }
     var activePageIndex: Int { pages.firstIndex { $0.id == activePageID } ?? 0 }
     var page: DiagramPage {
@@ -186,6 +187,8 @@ struct Diagram: Codable, Equatable {
     }
     func validated() throws -> Diagram {
         guard version == 1, !pages.isEmpty, pages.count <= 1000 else { throw DiagramError.invalid("Unsupported version or invalid page count.") }
+        if definitions == nil, visioArchive != nil { return try DefinitionRegistry.hydrate(self).validated() }
+        try definitions?.validate()
         if visioArchive != nil,pages.contains(where:{$0.drawingScale == nil}),let hydrated = try DrawingScale.hydrate(self) { return try hydrated.validated() }
         if let archive = visioArchive,archive.connectorHierarchyVersion != 1 { return try DiagramCoordinates.hydrateArchivedConnectors(self).validated() }
         var ids = Set<UUID>()

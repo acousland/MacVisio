@@ -22,8 +22,18 @@ enum VisioFormat {
     private static let nativePart = "macvisio/document.json"
 
     static func read(from url: URL,trace:((String)->Void)? = nil) throws -> VisioImportResult {
+        try read(archive: PackageReader(url: url), title: url.deletingPathExtension().lastPathComponent, trace: trace)
+    }
+
+    /// Used by definition projection: the public package remains the semantic
+    /// input even when a hash-valid native cache is present.
+    static func readPublic(parts: [String: Data], title: String) throws -> VisioImportResult {
+        try read(archive: PackageReader(parts: parts), title: title, allowNativeMetadata: false)
+    }
+
+    private static func read(archive: PackageReader, title: String, allowNativeMetadata: Bool = true,
+                             trace: ((String) -> Void)? = nil) throws -> VisioImportResult {
         try LifecycleJobContext.current?.checkpoint()
-        let archive = try PackageReader(url: url)
         trace?("package")
         _ = try archive.xml("[Content_Types].xml", expectedRoot: "Types")
         let rootRelationships = try relationships(in: archive, source: "")
@@ -44,7 +54,7 @@ enum VisioFormat {
 
         // Only accept the private representation if every public part still matches.
         // Editing the drawing in Visio therefore cannot make our JSON hide new content.
-        if archive.names.contains(nativePart) {
+        if allowNativeMetadata && archive.names.contains(nativePart) {
             do {
                 let storedMetadata = try NativeMetadataStorage.load(archive.data(nativePart), parts: archive.parts)
                 trace?("metadataStorage")
@@ -239,7 +249,7 @@ enum VisioFormat {
         if documentRelationships.values.contains(where: { $0.external }) { warnings.insert("External relationships are ignored.") }
 
         var diagram = Diagram()
-        diagram.title = url.deletingPathExtension().lastPathComponent
+        diagram.title = title
         diagram.pages = []
         var bindings: [VisioPageBinding] = []
         for (pageIndex, pageElement) in pageElements.enumerated() {
@@ -753,10 +763,15 @@ enum VisioFormat {
         put("visio/pages/_rels/pages.xml.rels", relationshipXML(pageRelations))
         put("[Content_Types].xml", header + "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"json\" ContentType=\"application/json\"/><Override PartName=\"/visio/document.xml\" ContentType=\"application/vnd.ms-visio.drawing.main+xml\"/><Override PartName=\"/visio/pages/pages.xml\" ContentType=\"application/vnd.ms-visio.pages+xml\"/><Override PartName=\"/docProps/core.xml\" ContentType=\"application/vnd.openxmlformats-package.core-properties+xml\"/>\(pageContentTypes)\(extraTypes.elementsLocal("Default").map(\.xmlString).joined())</Types>")
         try VisioPreservation.ensureFonts(diagram,parts:&parts,bindings:freshBindings)
+        var source = VisioDocumentArchive(parts:parts,pagesPart:"visio/pages/pages.xml",pages:freshBindings,connectorHierarchyVersion:1,
+            lineageID: DefinitionRegistry.stableID(diagram.pages[0].id, "new-public-document"))
+        diagram.visioArchive = source
+        diagram = try DefinitionRegistry.hydrate(diagram)
         parts[nativePart] = try nativeMetadata(diagram,parts:&parts,bindings:freshBindings)
         guard parts.values.allSatisfy({ $0.count <= PackageReader.partLimit }), parts.values.reduce(0, { $0 + $1.count }) <= PackageReader.totalLimit else { throw DiagramError.invalid("This drawing exceeds the VSDX export size limit.") }
         try VisioPackage.write(parts, to: url)
-        return VisioDocumentArchive(parts:parts,pagesPart:"visio/pages/pages.xml",pages:freshBindings,connectorHierarchyVersion:1)
+        source.parts = parts
+        return source
     }
 
     struct NativeBinding: Codable {
@@ -1645,6 +1660,14 @@ enum VisioFormat {
         let parts: [String: Data]
         var names: Set<String> { Set(parts.keys) }
         init(url: URL) throws { parts = try VisioPackage.read(url) }
+        init(parts: [String: Data]) throws {
+            guard parts.count <= 10000, parts.values.allSatisfy({ $0.count <= Self.partLimit }),
+                  parts.values.reduce(0, { $0 + $1.count }) <= Self.totalLimit else {
+                throw DiagramError.invalid("The public definition package exceeds its resource limits.")
+            }
+            for name in parts.keys { try VisioPackage.validatePath(name) }
+            self.parts = parts
+        }
         func data(_ name: String) throws -> Data {
             guard let data = parts[name] else { throw DiagramError.invalid("The Visio package is missing \(name).") }
             return data

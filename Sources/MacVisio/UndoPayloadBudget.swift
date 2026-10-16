@@ -29,6 +29,8 @@ final class UndoPayloadBudget {
     private var nodeIndices: [UUID: [UUID: Int]] = [:]
     private var edgeIndices: [UUID: [UUID: Int]] = [:]
     private var editableCost = 0
+    private var chargedDefinitions: DefinitionRegistry?
+    private var definitionCharge = 0
 
     init(maximumCharge: Int = ResourceBudgets.undoPayload) {
         precondition(maximumCharge > 0)
@@ -195,7 +197,12 @@ final class UndoPayloadBudget {
     }
 
     private func documentCharge(_ diagram: Diagram) -> Int {
-        Self.add(MemoryLayout<Diagram>.stride, Self.multiply(diagram.title.utf8.count, by: 4))
+        if chargedDefinitions != diagram.definitions {
+            chargedDefinitions = diagram.definitions
+            definitionCharge = diagram.definitions.flatMap { try? JSONEncoder().encode($0).count } ?? 0
+        }
+        return Self.add(Self.add(MemoryLayout<Diagram>.stride, Self.multiply(diagram.title.utf8.count, by: 4)),
+                        Self.multiply(definitionCharge, by: 4))
     }
 
     private static func add(_ lhs: Int, _ rhs: Int) -> Int {

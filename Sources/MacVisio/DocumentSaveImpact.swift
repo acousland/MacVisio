@@ -73,9 +73,28 @@ enum DocumentSaveImpact {
             return Assessment(risks: risks)
         }
         guard let archive = source.visioArchive else { return Assessment(risks: []) }
+        var projectionFailure = false
+        var definitionContentChanged = false
+        if snapshot.definitions != nil {
+            do {
+                let parts = try DefinitionEditing.patchedParts(snapshot.definitions, in: archive.parts)
+                if parts != archive.parts {
+                    definitionContentChanged = true
+                    // Supported definition edits change inherited projections,
+                    // not local master references. Classify remaining instance
+                    // edits against that same public baseline as the writer.
+                    source.pages = try DefinitionEditing.baseline(parts, onto: source, matching: snapshot.pages).pages
+                }
+            } catch { projectionFailure = true }
+        }
+        if projectionFailure {
+            append(.unresolvedSource, .interchange, .document, .init(feature: "definition-projection"),
+                "Definition changes could not be reconciled with the preserved public source.")
+        }
         let originals = Dictionary(uniqueKeysWithValues: source.pages.map { ($0.id, $0) })
         let pages = Dictionary(uniqueKeysWithValues: snapshot.pages.map { ($0.id, $0) })
         let changed = snapshot.pages != source.pages || snapshot.title != source.title
+            || snapshot.definitions != source.definitions || definitionContentChanged
         if archive.parts.keys.contains(where: { $0.lowercased().hasPrefix("_xmlsignatures/") }),
             changed || archive.parts["macvisio/document.json"] != nil
         {

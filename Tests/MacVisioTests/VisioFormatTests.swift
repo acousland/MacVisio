@@ -101,7 +101,10 @@ final class VisioFormatTests: XCTestCase {
         try VisioFormat.write(diagram, to: url)
         let result = try VisioFormat.read(from: url)
         var content = result.diagram; content.visioArchive = nil
-        XCTAssertEqual(content, diagram)
+        XCTAssertEqual(content.definitions?.masters.count, 0)
+        XCTAssertEqual(content.definitions?.styles.map(\.publicID), ["0"])
+        var expected = diagram; expected.definitions = content.definitions
+        XCTAssertEqual(content, expected, "First public save adds the generated default style registry and retains every existing editable value.")
         XCTAssertTrue(result.warnings.isEmpty)
         let contents = try readPart(url, "visio/pages/page1.xml")
         XCTAssertTrue(contents.contains("RelCubBezTo"))

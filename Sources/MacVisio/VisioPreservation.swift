@@ -15,8 +15,27 @@ enum VisioPreservation {
     /// Returns the exact source baseline written, including newly allocated IDs.
     /// The caller installs it only after its destination save has succeeded.
     static func writeRebased(_ diagram:Diagram,to url:URL) throws -> VisioDocumentArchive {
-        guard let source = diagram.visioArchive else { throw DiagramError.invalid("The original Visio package is unavailable.") }
-        var parts = source.parts
+        let rebased = try prepared(diagram)
+        try VisioPackage.write(rebased.parts, to: url)
+        return rebased
+    }
+
+    /// Immutable package preparation also serves master/style projection. The
+    /// document installs this baseline only after a successful destination save.
+    static func prepared(_ diagram: Diagram) throws -> VisioDocumentArchive {
+        guard var source = diagram.visioArchive else { throw DiagramError.invalid("The original Visio package is unavailable.") }
+        var parts = try DefinitionEditing.patchedParts(diagram.definitions, in: source.parts)
+        if parts != source.parts {
+            var baseline = diagram
+            baseline.pages = source.pages.map(\.original)
+            baseline.activePageID = baseline.pages.first?.id ?? baseline.activePageID
+            let projection = try DefinitionEditing.baseline(parts, onto: baseline, matching: diagram.pages)
+            for index in source.pages.indices {
+                if let page = projection.pages.first(where: { $0.id == source.pages[index].pageID }) {
+                    source.pages[index].original = page
+                }
+            }
+        }
         var pageIDs = Dictionary(uniqueKeysWithValues:source.pages.map{($0.pageID,$0.visioID)})
         var used = Set(source.pages.compactMap{UInt32($0.visioID)}),nextID = (source.pages.compactMap{UInt64($0.visioID)}.max() ?? 0)+1
         for page in diagram.pages where pageIDs[page.id] == nil {
@@ -36,7 +55,6 @@ enum VisioPreservation {
         }
         if source.pages.map(\.original) == diagram.pages && !backgroundSync {
             if parts[nativePart] != nil { parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages) }
-            try VisioPackage.write(parts,to:url)
             var rebased = source;rebased.parts = parts
             return rebased
         }
@@ -116,7 +134,6 @@ enum VisioPreservation {
         parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll)
         try ensureFonts(diagram,parts:&parts,bindings:bindings,original:source.pages.map(\.original))
         parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:bindings)
-        try VisioPackage.write(parts,to:url)
         var rebased = source;rebased.parts = parts;rebased.pages = bindings
         return rebased
     }
