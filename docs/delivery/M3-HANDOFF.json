@@ -6,7 +6,7 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "preparing",
   "handoff_kind": "interim",
-  "candidate_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+  "candidate_code_commit": "3119858086574bee719bab37339ed2ddd2ea3537",
   "milestone_acceptance": {
     "local_engineering": "pending: accepted M1+M2 engineering prerequisite and M3 implementation not yet delivered",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
@@ -35,7 +35,11 @@
     "eb84c98",
     "f0182cb",
     "4790d71",
-    "1cf64ed"
+    "1cf64ed",
+    "a9a95ae",
+    "6f00f37",
+    "2e36e65",
+    "3119858"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -86,7 +90,8 @@
     "docs/delivery/M3-EVIDENCE.json",
     "docs/delivery/M3-CATALOG.md",
     "docs/delivery/M3-DOMAIN-CONTRACTS.md",
-    "Tests/MacVisioTests/Fixtures/M3/manifest.json"
+    "Tests/MacVisioTests/Fixtures/M3/manifest.json",
+    "docs/delivery/M3-PUBLIC-PROBE.json"
   ],
   "remaining_prerequisites": [
     "M2 actual accepted integrated M1+M2 engineering commits and handoff; source contracts must be used rather than guessed",
@@ -94,5 +99,6 @@
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue independent evidence work and retained-cursor peer waits; integrate accepted M2 candidate, then implement bounded M3 domain slices and re-run affected plus milestone regressions. This interim preparation is not the requested final integrated candidate."
+  "next_action": "Continue independent evidence work and retained-cursor peer waits; integrate accepted M2 candidate, then implement bounded M3 domain slices and re-run affected plus milestone regressions. This interim preparation is not the requested final integrated candidate.",
+  "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm."
 }
