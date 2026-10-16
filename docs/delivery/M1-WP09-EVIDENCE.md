@@ -63,3 +63,11 @@ Limits to retain in the final evidence:
 - Source metadata fingerprints can miss a writer preserving inode, byte count and modification time; an uncoordinated writer may race after the final check. No content-hash or exclusive-filesystem-lock claim is made.
 - Installed-app/macOS recovery restoration remains separate from local NSDocument recovery initialization and the explicit fresh CLI checkpoint probe.
 - Recovery initialized with a distinct original URL lacks a persisted original-file metadata baseline; its same-original save conservatively conflicts while Save As remains available. This case has no same-original-save acceptance claim.
+
+## Final parent qualification
+
+Code candidate `7db0a8b` passes the full Debug suite and three consecutive full Release suites: each 607 tests, 16 explicit skips, zero failures. All 42 lifecycle-scoped checks passed in the earlier broad12 run and the final full runs. The final [qualification record](M1-QUALIFICATION.md) and [machine evidence](../evidence/M1-LOCAL-QUALIFICATION.json) retain run digests, per-run resource trajectories and scope limits.
+
+The first Release twenty-cycle editor series measured baseline RSS 688,848,896 bytes, peak 693,370,880, final 688,603,136 and fitted slope +13,156.48 bytes/cycle. The earlier Debug editor series had a positive +380,552.28 bytes/cycle slope. These process trajectories are not a leak proof, a zero-growth claim or qualification of the specification's standard/large workload memory gates. Each cycle verifies document release and detached editor ownership; decoded-image, cache and long-undo limits have separate assertions.
+
+The first Release discriminator-only probe retained five measured samples after one warmup: 8,412,826 synthetic metadata bytes, full-object median 11.9314 ms, header median 4.8955 ms. It does not measure complete document import. Installed-app abrupt termination and automatic macOS recovery registration/UI remain unqualified, leaving WP-05-T04 and M1 acceptance open.

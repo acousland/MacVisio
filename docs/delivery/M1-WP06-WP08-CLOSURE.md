@@ -2,6 +2,8 @@
 
 This is the runtime/UI child's implementation ledger. It records delivered scope and executable checks for the milestone owner's final acceptance record. Source is ready and frozen; the child has not run a Swift build or claimed that the latest grouped suite passed.
 
+The parent subsequently qualified this frozen contribution in one full Debug and three consecutive full Release runs, each 607 tests with 16 explicit skips and zero failures. The [final qualification record](M1-QUALIFICATION.md) supersedes the historical pending execution notes below. Three skipped native routing tests still require an unlocked desktop; WP-08-T05 remains unaccepted.
+
 | Task | Delivered contribution | Checks and explicit limit |
 | --- | --- | --- |
 | WP-06-T02 | Document-owned UUID/hierarchy/endpoint indexes; structural replacement; bounded property updates; certified root foreground append. | `PageRuntimeTests`: atomic delete/undo, inherited locks/adjacency, one-object update, malformed topology, two-node append at 1k/20k plus fresh-runtime equivalence. Arbitrary structure rebuilds; commit diffs and container copies remain full work. |

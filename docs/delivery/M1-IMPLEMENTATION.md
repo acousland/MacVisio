@@ -1,6 +1,6 @@
 # M1 delivery contracts and child slices
 
-Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. All qualification claims remain open until evidence is recorded. Public Visio qualification remains owned by M0/M3.
+Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Final local results and remaining acceptance are recorded in [M1 qualification](M1-QUALIFICATION.md). Public Visio qualification remains owned by M0/M3; M1 acceptance remains false.
 
 ## WP-05 committed state
 
@@ -37,7 +37,7 @@ WP-05-T01 baseline evidence: the existing timer-driven `AsyncDocumentSaveTests.t
 ## WP-05 initial evidence
 
 - Baseline release suite: 454 tests, 13 optional installer/reference skips, 0 failures (`build/m1-evidence/baseline-suite.log`). This green run does not dispose of the historical intermittent defect.
-- Native event regression fails on the baseline: committed node (100,100), saved node (140,140), Escape restores (100,100) while clean (`gesture-before.log`).
+- Native responder-handler regression fails on the baseline: committed node (100,100), saved node (140,140), Escape restores (100,100) while clean (`gesture-before.log`).
 - After preview/state identity change: 60 focused tests pass, one optional installer fixture skipped (`wp05-focused.log`). Includes the retained timer-driven async save, overlapping saves, invalid writes, geometry/control/group undo, explicit snapshot-before-AppKit-token edit, and undo/redo through saved identities.
 - The deterministic boundary test demonstrates and covers a snapshot/token ordering hazard; it does not prove that this was the only cause of the historical suite-context failure. Final acceptance still requires retained repeated full suites and lifecycle/recovery tests.
 

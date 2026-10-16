@@ -1,0 +1,703 @@
+{
+  "schema_version": 1,
+  "milestone": "M1",
+  "qualification_date": "2026-10-16",
+  "code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "state": "implemented_unaccepted",
+  "acceptance_passed": false,
+  "environment": {
+    "hardware": "Mac16,10 Apple M4",
+    "hostname": "MacMini.local",
+    "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+    "memoryBytes": 17179869184,
+    "appBuild": "codex/m1-editing-foundation; final candidate commit and executable hash recorded per run",
+    "storage": "Local APFS workspace; storage and system load not exclusively controlled",
+    "controlledHardware": false,
+    "cacheProcedure": "Warm filesystem bytes via full fixture pre-read, fresh product process per attempt; no OS cache flush, cold-cache or compositor claim"
+  },
+  "runs": [
+    {
+      "path": "build/m1-evidence/full-debug14.log",
+      "bytes": 179291,
+      "sha256": "9f425c4e8300ba6039ff32013d852f0a1ff3447710c6a94f4cfd61ba9074caef",
+      "configuration": "Debug",
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0,
+      "test_seconds": 34.846,
+      "wall_seconds": 34.882,
+      "exit_code": 0
+    },
+    {
+      "path": "build/m1-evidence/full-release-1.log",
+      "bytes": 180699,
+      "sha256": "4653db3c4e251902648fd2fc23fc1402112d377f99c9c8a8ba7d8d77b8ed7456",
+      "configuration": "Release",
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0,
+      "test_seconds": 30.4,
+      "wall_seconds": 30.438,
+      "exit_code": 0
+    },
+    {
+      "path": "build/m1-evidence/full-release-2.log",
+      "bytes": 175821,
+      "sha256": "8d4d595667ead74a1af6f3f5d6c9d92e45705f27f20a3a033fac49a29b63db0a",
+      "configuration": "Release",
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0,
+      "test_seconds": 28.138,
+      "wall_seconds": 28.173,
+      "exit_code": 0
+    },
+    {
+      "path": "build/m1-evidence/full-release-3.log",
+      "bytes": 175821,
+      "sha256": "ef4fa6a99ed1de88cbc0c5f70f970f2463b65bb0ee30b23b1d86a4f8c8314051",
+      "configuration": "Release",
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0,
+      "test_seconds": 28.718,
+      "wall_seconds": 28.754,
+      "exit_code": 0
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".build-m1/out/Products/Release/MacVisio",
+      "bytes": 8242376,
+      "sha256": "ba0a711f6ff7300f233b4c675c1d784b1c0abf26fa130743a070fe655473fc0c"
+    },
+    {
+      "path": ".build-m1/out/Products/Release/MacVisioTests.xctest/Contents/MacOS/MacVisioTests",
+      "bytes": 14654880,
+      "sha256": "f3d3eb1cc41f946492f0ef9d6db4d1746d42ca41d45ecb3ee5c4f5b50eeaaccd"
+    },
+    {
+      "path": "build/m1-evidence/gesture-before.log",
+      "bytes": 4217,
+      "sha256": "9984195f7ddbf22e4c9d6a7fe9aadbe56c4639aeabae4db1c40ac740f7aff73f"
+    },
+    {
+      "path": "build/m1-evidence/baseline-suite.log",
+      "bytes": 133452,
+      "sha256": "d67eb65b2a6ac99797e4dac2f6a874371ff7b8b7d08bbb9e955314b122c0ca66"
+    },
+    {
+      "path": "build/m1-evidence/wp05-focused.log",
+      "bytes": 19815,
+      "sha256": "e9ea6f9f8bb707100ba2b239802d3bec89eee78f4d34a5e7b4fbb9bb1faf39c7"
+    },
+    {
+      "path": "build/m1-evidence/foundation-debug11.log",
+      "bytes": 5075,
+      "sha256": "73a9f7be796b27ec427ac3a736bad16b6f08d510bef8479d43dfb38257e515a6"
+    },
+    {
+      "path": "build/m1-evidence/debug11-sample.txt",
+      "bytes": 259523,
+      "sha256": "4c395092288925a1ce6ea96fc60a65c1940add16c24d73465eec1ec900fa2008"
+    },
+    {
+      "path": "build/m1-evidence/foundation-debug12.log",
+      "bytes": 7081,
+      "sha256": "0b7fe8b0708995ad2300c62447a0a358c20a33a21f3d8853b7ab34af67f47e70"
+    },
+    {
+      "path": "build/m1-evidence/debug12-sample.txt",
+      "bytes": 261618,
+      "sha256": "1ed2ff615dcdfbacb97986aa752af9263c778b34152437c19a3ff1ae8dcb288d"
+    },
+    {
+      "path": "build/m1-evidence/broad-nonclose-debug12.log",
+      "bytes": 172961,
+      "sha256": "0b43afb52f351f41d1a5317fd40d59a1d7e137b2c38b491f1871fab4a6b3150b"
+    },
+    {
+      "path": "build/m1-evidence/native-console-session-probe.log",
+      "bytes": 82,
+      "sha256": "49ff39780cfccc1a5e53f7f25a7b1a1cdfb4e83c428c2077c3c0a8e1af46f695"
+    },
+    {
+      "path": "build/m1-evidence/python-tests-final.log",
+      "bytes": 5713,
+      "sha256": "b32e6c6eafcc673a53633ce19f1fd547b32a1b5f78e64f0ba2a88fa7693e723b"
+    },
+    {
+      "path": "build/m1-evidence/foundation-audit-tests-final.log",
+      "bytes": 1488,
+      "sha256": "3102e0e3f46a8fd3329d353eb918aec215e31fface768a23d8aeb98c0bb640a2"
+    },
+    {
+      "path": "build/m1-evidence/critical-format-check-final.log",
+      "bytes": 47,
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33"
+    },
+    {
+      "path": "build/m1-evidence/handoff-boundary-audit.log",
+      "bytes": 47,
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33"
+    },
+    {
+      "path": "build/m1-evidence/handoff-format-check.log",
+      "bytes": 47,
+      "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33"
+    },
+    {
+      "path": "build/m1-evidence/validate-final-evidence.py",
+      "bytes": 3120,
+      "sha256": "39f8033752e995d08cae9f8a3a89dea4b419dd2113238873f9c2ab16677b95c2"
+    },
+    {
+      "path": "build/m1-evidence/final-evidence-validation.log",
+      "bytes": 439,
+      "sha256": "f99f455780130a8c9ba46801b4264f52f7bb07385bb2c3bc903d84ee11423ed0"
+    }
+  ],
+  "corpus_manifests": [
+    {
+      "path": "build/m1-evidence/public-corpus/manifest.json",
+      "bytes": 30411148,
+      "sha256": "babd494026ee590a98ecaec45f25eeed69fa114891493c82906678cb93db0331"
+    },
+    {
+      "path": "build/m1-evidence/spec-corpus/manifest.json",
+      "bytes": 13436726,
+      "sha256": "4096ad04fbd4907b4ba0211eb1261f885a203ba41cd3f48db6d9e330ddf570cf"
+    }
+  ],
+  "lifecycle_measurements": {
+    "debug-final": {
+      "artifact": {
+        "path": "build/m1-evidence/lifecycle-memory-debug-final.json",
+        "bytes": 1423,
+        "sha256": "ced56639e5b912157c05b6bf74169227d72d040d253106e109bcb3793a721a17"
+      },
+      "values": {
+        "cycles": 20,
+        "editsPerCycle": 8,
+        "host": "macmini.local",
+        "includeEditor": true,
+        "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+        "opaqueBytesPerSource": 2097152,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+        "residentBaselineBytes": 688422912,
+        "residentFinalBytes": 681967616,
+        "residentPeakBytes": 692453376,
+        "residentSamplesBytes": [
+          691421184,
+          692453376,
+          689405952,
+          686751744,
+          684146688,
+          684523520,
+          684556288,
+          684883968,
+          685080576,
+          685309952,
+          685522944,
+          685768704,
+          686014464,
+          686227456,
+          686424064,
+          686653440,
+          681279488,
+          681508864,
+          681705472,
+          681967616
+        ],
+        "residentSlopeBytesPerCycle": -366632.03609022556,
+        "retainedSourceBytesPerOpenDocument": [
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440
+        ],
+        "shapesPerDocument": 64,
+        "undoCountLimit": 100
+      }
+    },
+    "editor-debug12": {
+      "artifact": {
+        "path": "build/m1-evidence/lifecycle-memory-editor-debug12.json",
+        "bytes": 1422,
+        "sha256": "9bf64226cd16e29d27cc1814151d185c471e27b87d348f0124627d89ed30cefa"
+      },
+      "values": {
+        "cycles": 20,
+        "editsPerCycle": 8,
+        "host": "macmini.local",
+        "includeEditor": true,
+        "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+        "opaqueBytesPerSource": 2097152,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+        "residentBaselineBytes": 431734784,
+        "residentFinalBytes": 420544512,
+        "residentPeakBytes": 420544512,
+        "residentSamplesBytes": [
+          413253632,
+          414040064,
+          414384128,
+          414564352,
+          414744576,
+          415137792,
+          415481856,
+          415711232,
+          415858688,
+          416202752,
+          416595968,
+          416825344,
+          417021952,
+          417234944,
+          419004416,
+          419233792,
+          419856384,
+          420069376,
+          420347904,
+          420544512
+        ],
+        "residentSlopeBytesPerCycle": 380552.2766917293,
+        "retainedSourceBytesPerOpenDocument": [
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440
+        ],
+        "shapesPerDocument": 64,
+        "undoCountLimit": 100
+      }
+    },
+    "release-1": {
+      "artifact": {
+        "path": "build/m1-evidence/lifecycle-memory-release-1.json",
+        "bytes": 1422,
+        "sha256": "4d293c6ce41c9729be83a1ec53eb36be20842abd079ead36bbde774b4f4ec60d"
+      },
+      "values": {
+        "cycles": 20,
+        "editsPerCycle": 8,
+        "host": "macmini.local",
+        "includeEditor": true,
+        "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+        "opaqueBytesPerSource": 2097152,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+        "residentBaselineBytes": 688848896,
+        "residentFinalBytes": 688603136,
+        "residentPeakBytes": 693370880,
+        "residentSamplesBytes": [
+          692158464,
+          693370880,
+          690618368,
+          682180608,
+          679952384,
+          680542208,
+          681181184,
+          681738240,
+          682426368,
+          682967040,
+          683507712,
+          684064768,
+          684556288,
+          685113344,
+          685719552,
+          686292992,
+          686866432,
+          687423488,
+          687996928,
+          688603136
+        ],
+        "residentSlopeBytesPerCycle": 13156.475187969925,
+        "retainedSourceBytesPerOpenDocument": [
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440
+        ],
+        "shapesPerDocument": 64,
+        "undoCountLimit": 100
+      }
+    },
+    "release-2": {
+      "artifact": {
+        "path": "build/m1-evidence/lifecycle-memory-release-2.json",
+        "bytes": 1423,
+        "sha256": "dcb5d513c2b3046b47a88e61bde9c1b012fc49e58a806cd61a2438bafb83f736"
+      },
+      "values": {
+        "cycles": 20,
+        "editsPerCycle": 8,
+        "host": "macmini.local",
+        "includeEditor": true,
+        "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+        "opaqueBytesPerSource": 2097152,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+        "residentBaselineBytes": 710819840,
+        "residentFinalBytes": 690126848,
+        "residentPeakBytes": 702955520,
+        "residentSamplesBytes": [
+          700153856,
+          700743680,
+          700973056,
+          701202432,
+          701399040,
+          701726720,
+          701956096,
+          702218240,
+          702513152,
+          702742528,
+          702955520,
+          696565760,
+          690995200,
+          688472064,
+          688799744,
+          689078272,
+          689258496,
+          689618944,
+          689864704,
+          690126848
+        ],
+        "residentSlopeBytesPerCycle": -842889.0466165413,
+        "retainedSourceBytesPerOpenDocument": [
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440
+        ],
+        "shapesPerDocument": 64,
+        "undoCountLimit": 100
+      }
+    },
+    "release-3": {
+      "artifact": {
+        "path": "build/m1-evidence/lifecycle-memory-release-3.json",
+        "bytes": 1423,
+        "sha256": "99981d2d3b5f7d0e2a41506de945c30a4499128eb816ef03623f02b81b14d21f"
+      },
+      "values": {
+        "cycles": 20,
+        "editsPerCycle": 8,
+        "host": "macmini.local",
+        "includeEditor": true,
+        "limitations": "RSS is process-wide allocator/OS evidence, not a leak proof or a deterministic retained-byte cap. Hidden editor viewport rasterization is exercised; embedded-image decoding and long undo retention have separate fixtures.",
+        "opaqueBytesPerSource": 2097152,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "presentation": "Hidden native editor window, layout and rasterized canvas viewport; queued teardown drained before document-release assertion",
+        "residentBaselineBytes": 963067904,
+        "residentFinalBytes": 955252736,
+        "residentPeakBytes": 967065600,
+        "residentSamplesBytes": [
+          965165056,
+          965820416,
+          966033408,
+          966262784,
+          966492160,
+          966787072,
+          967065600,
+          964018176,
+          960921600,
+          955613184,
+          953106432,
+          953434112,
+          953565184,
+          953810944,
+          954056704,
+          954302464,
+          954515456,
+          954777600,
+          955056128,
+          955252736
+        ],
+        "residentSlopeBytesPerCycle": -835756.4631578948,
+        "retainedSourceBytesPerOpenDocument": [
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743400,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440,
+          2743440
+        ],
+        "shapesPerDocument": 64,
+        "undoCountLimit": 100
+      }
+    }
+  },
+  "metadata_discriminator_measurements": {
+    "debug-final": {
+      "artifact": {
+        "path": "build/m1-evidence/metadata-probe-debug-final.json",
+        "bytes": 824,
+        "sha256": "1f92712862fc9f5207ca29b8060813cb4610b7ab1615fc2688e8344f07ff0c7f"
+      },
+      "values": {
+        "fullObjectDiscriminatorSeconds": [
+          0.01151350000873208,
+          0.011457166692707688,
+          0.011417583329603076,
+          0.011452000006102026,
+          0.01147220836719498
+        ],
+        "fullObjectMedianSeconds": 0.011457166692707688,
+        "headerDiscriminatorSeconds": [
+          0.004769916704390198,
+          0.0047529999865219,
+          0.004751583328470588,
+          0.004748416657093912,
+          0.004754875029902905
+        ],
+        "headerMedianSeconds": 0.0047529999865219,
+        "host": "macmini.local",
+        "measuredSamples": 5,
+        "metadataBytes": 8412826,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "scope": "Envelope-discriminator comparison only. The synthetic model body is not imported or validated; these numbers do not measure total document decoding or guarantee a speedup for every input.",
+        "syntheticNodes": 5000,
+        "warmupSamples": 1
+      }
+    },
+    "release-1": {
+      "artifact": {
+        "path": "build/m1-evidence/metadata-probe-release-1.json",
+        "bytes": 827,
+        "sha256": "d638ee721a20c0abe6c782fc39bf4c110ca855feaa6e9eff14023b2a9d9eaed1"
+      },
+      "values": {
+        "fullObjectDiscriminatorSeconds": [
+          0.012057708343490958,
+          0.011890624999068677,
+          0.011907541658729315,
+          0.011931374960113317,
+          0.011936583381611854
+        ],
+        "fullObjectMedianSeconds": 0.011931374960113317,
+        "headerDiscriminatorSeconds": [
+          0.004874708305578679,
+          0.004895499965641648,
+          0.0048860833048820496,
+          0.004912250034976751,
+          0.0049316249787807465
+        ],
+        "headerMedianSeconds": 0.004895499965641648,
+        "host": "macmini.local",
+        "measuredSamples": 5,
+        "metadataBytes": 8412826,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "scope": "Envelope-discriminator comparison only. The synthetic model body is not imported or validated; these numbers do not measure total document decoding or guarantee a speedup for every input.",
+        "syntheticNodes": 5000,
+        "warmupSamples": 1
+      }
+    },
+    "release-2": {
+      "artifact": {
+        "path": "build/m1-evidence/metadata-probe-release-2.json",
+        "bytes": 827,
+        "sha256": "f45c60f6dec6cb03113c6f614f8964306368100a82a2d25ef61e0ad34dce4709"
+      },
+      "values": {
+        "fullObjectDiscriminatorSeconds": [
+          0.011404708318877965,
+          0.011506833310704678,
+          0.01136345835402608,
+          0.011356625007465482,
+          0.01134683337295428
+        ],
+        "fullObjectMedianSeconds": 0.01136345835402608,
+        "headerDiscriminatorSeconds": [
+          0.00470045831752941,
+          0.0046986250090412796,
+          0.004702083300799131,
+          0.004701624973677099,
+          0.004717625037301332
+        ],
+        "headerMedianSeconds": 0.004701624973677099,
+        "host": "macmini.local",
+        "measuredSamples": 5,
+        "metadataBytes": 8412826,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "scope": "Envelope-discriminator comparison only. The synthetic model body is not imported or validated; these numbers do not measure total document decoding or guarantee a speedup for every input.",
+        "syntheticNodes": 5000,
+        "warmupSamples": 1
+      }
+    },
+    "release-3": {
+      "artifact": {
+        "path": "build/m1-evidence/metadata-probe-release-3.json",
+        "bytes": 826,
+        "sha256": "3b2a2f8dc7ee6966d6692dc6900461d31110293c5cf510d118117a1098aa957b"
+      },
+      "values": {
+        "fullObjectDiscriminatorSeconds": [
+          0.011348708358127624,
+          0.011386875004973263,
+          0.011444208328612149,
+          0.011405708326492459,
+          0.011633375019300729
+        ],
+        "fullObjectMedianSeconds": 0.011405708326492459,
+        "headerDiscriminatorSeconds": [
+          0.00484737497754395,
+          0.004727958352304995,
+          0.004733208334073424,
+          0.004718208336271346,
+          0.004716333351098001
+        ],
+        "headerMedianSeconds": 0.004727958352304995,
+        "host": "macmini.local",
+        "measuredSamples": 5,
+        "metadataBytes": 8412826,
+        "os": "Version 27.0.1 (Build 26A434)",
+        "scope": "Envelope-discriminator comparison only. The synthetic model body is not imported or validated; these numbers do not measure total document decoding or guarantee a speedup for every input.",
+        "syntheticNodes": 5000,
+        "warmupSamples": 1
+      }
+    }
+  },
+  "skips": {
+    "preexisting_optional_reference_or_installer": 13,
+    "locked_graphics_session_native_tests": 3
+  },
+  "python_tests": {
+    "count": 34,
+    "failures": 0
+  },
+  "boundary_audit": {
+    "files": 9,
+    "audit_tests": 7,
+    "critical_formatter_files": 25
+  },
+  "warm_calculation": {
+    "nodes_per_page": [
+      40,
+      4000
+    ],
+    "pages": 3,
+    "geometry_nodes": 4,
+    "field_nodes": 2,
+    "uncached_cells": 14,
+    "typed_or_field_formulas": 10,
+    "fallback_input_comparison_nodes": 0,
+    "dependency_sources_compared": 9,
+    "host_nodes_prepared": 9,
+    "excludes": "Full commit input/final diff, container copies, initial indexes/setup and explicit structural/dynamic fallbacks."
+  },
+  "release_1_async_observation": {
+    "nodes": 2200,
+    "request_main_ms": 5.762499989941716,
+    "heartbeat": true,
+    "main_text_records": 2,
+    "maximum_text_record_ms": 0.23379165213555098,
+    "not_a_p95": true
+  },
+  "unaccepted": [
+    {
+      "task_id": "WP-05-T04",
+      "reason": "Installed-app abrupt termination and automatic macOS recovery registration/discovery/UI not qualified; local checkpoint initialization and fresh CLI checkpoint readback pass."
+    },
+    {
+      "task_id": "WP-08-T05",
+      "reason": "CGSSessionScreenIsLocked=1 prevents key-window native event routing. No native trace or controlled frame/performance acceptance claimed."
+    }
+  ],
+  "limits": [
+    "Locally qualified contributions do not close whole requirements or release/reference gates.",
+    "No p95/frame/compositor, hardware input or absence-of-leak claim.",
+    "Current route/diagnostic tables have scene/input lifetime bounds; path/text/image/undo/job budgets are separately explicit.",
+    "Memory fixture is 64 shapes, eight edits and 2 MiB opaque source per cycle, with hidden editor layout/rasterization. It does not qualify standard/large specification workloads.",
+    "External source metadata fingerprints can miss preserved inode/size/mtime changes and do not lock out an uncoordinated writer after the final check."
+  ],
+  "backlog_validation": {
+    "packages": 39,
+    "tasks": 161,
+    "requirements": 154,
+    "m1_tasks": 25,
+    "bounded_children": 57,
+    "dependency_graph_unchanged": true,
+    "source_hashes_unchanged": true,
+    "result": "passed",
+    "log": "build/m1-evidence/final-evidence-validation.log"
+  }
+}

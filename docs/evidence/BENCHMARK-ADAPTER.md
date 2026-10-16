@@ -51,6 +51,16 @@ historical suite-context saved-state intermittency. `eventTrace` records this
 scope. The runner environment should not supply an interaction-gate trace name
 based on this sample alone.
 
+Native routing requires an unlocked macOS graphics session and a key benchmark
+window. The product checks the graphics session before routing and reports an
+explicit event-phase failure when it is locked or unavailable. It activates its
+owned window and verifies key-window admission before dispatch. It never replaces
+a failed native route with direct Canvas handler calls. The three native
+`BenchmarkProfileTests` explicitly skip when this prerequisite is absent; refusal
+tests still run. The M1 qualification session reported
+`CGSSessionScreenIsLocked = 1`, so its native trace and frame/performance gates
+remain unaccepted. See [M1 qualification](../delivery/M1-QUALIFICATION.md).
+
 The main run loop is pumped between stages and while waiting for save completion;
 actual main-queue heartbeat deliveries and scheduling gaps are recorded. The
 collector remains process-local and opt-in. `importWarningCount` and
@@ -83,7 +93,7 @@ absence keeps the corresponding absolute gates unaccepted.
 
 ## Local verification
 
-`BenchmarkProfileTests` covers a real synthetic read/event/commit/calculation/
+When the unlocked-session prerequisite is available, `BenchmarkProfileTests` covers a real synthetic read/event/commit/calculation/
 draw/snapshot/async-save/close run, actual heartbeat delivery, byte-for-byte input
 preservation, unchanged document-controller registration, refusal of non-synthetic
 content, and preservation of existing result/input files. Logs and direct sample

@@ -1,47 +1,135 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "milestone": "M1",
   "thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
   "worktree": "/Users/acousland/.codex/worktrees/85af/MacVisio",
   "branch": "codex/m1-editing-foundation",
-  "commit": "873d0043d650716d3b2437f31532aedbdf712da6",
-  "state": "in_progress",
+  "commit": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "commit_role": "Qualified code candidate; subsequent documentation-only commits are resolved from the branch/shared orchestration status.",
+  "code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "state": "implemented_unaccepted",
   "acceptance_passed": false,
-  "working_tree_changes": true,
-  "contract_commits": {
-    "child_slices": "5e31bf8",
-    "WP-05": "bbdfefa",
-    "WP-06": "873d004"
-  },
+  "implementation_available": true,
+  "downstream_acceptance_ready": false,
+  "completion_scope": "Bounded local task contributions only. Original task/package dependencies and overall milestone/reference/release acceptance remain in force.",
   "completed_task_ids": [
-    "WP-05-T01"
-  ],
-  "implemented_unaccepted_task_ids": [
+    "WP-05-T01",
     "WP-05-T02",
     "WP-05-T03",
+    "WP-05-T05",
     "WP-06-T01",
     "WP-06-T02",
-    "WP-06-T03"
+    "WP-06-T03",
+    "WP-06-T04",
+    "WP-06-T05",
+    "WP-07-T01",
+    "WP-07-T02",
+    "WP-07-T03",
+    "WP-07-T04",
+    "WP-07-T05",
+    "WP-08-T01",
+    "WP-08-T02",
+    "WP-08-T03",
+    "WP-08-T04",
+    "WP-09-T01",
+    "WP-09-T02",
+    "WP-09-T03",
+    "WP-09-T04",
+    "WP-09-T05"
   ],
-  "blocked_task_ids": [],
+  "locally_qualified_task_ids": [
+    "WP-05-T01",
+    "WP-05-T02",
+    "WP-05-T03",
+    "WP-05-T05",
+    "WP-06-T01",
+    "WP-06-T02",
+    "WP-06-T03",
+    "WP-06-T04",
+    "WP-06-T05",
+    "WP-07-T01",
+    "WP-07-T02",
+    "WP-07-T03",
+    "WP-07-T04",
+    "WP-07-T05",
+    "WP-08-T01",
+    "WP-08-T02",
+    "WP-08-T03",
+    "WP-08-T04",
+    "WP-09-T01",
+    "WP-09-T02",
+    "WP-09-T03",
+    "WP-09-T04",
+    "WP-09-T05"
+  ],
+  "implemented_unaccepted_task_ids": [
+    "WP-05-T04",
+    "WP-08-T05"
+  ],
+  "blocked_task_ids": [
+    "WP-08-T05"
+  ],
+  "working_tree_changes": false,
+  "contract_commits": {
+    "planning": "7c270124993bac09967109f95e603ebb47bd98ff",
+    "child_slices": "5e31bf8",
+    "WP-05": "bbdfefa",
+    "WP-06": "873d0043d650716d3b2437f31532aedbdf712da6",
+    "implementation": "aa6ff78",
+    "critical_formatting": "4c423bc",
+    "final_correctness": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3"
+  },
   "dependencies": [
-    "M0 instrumentation3c22d00 and benchmark corpus adapted locally; integration qualification in progress"
+    "M0 instrumentation/corpus/adapter through fc69ccb adapted locally; M0 exact licensed Visio reference remains unavailable.",
+    "M1 acceptance remains false; M2 acceptance dependency is not released."
   ],
+  "validation": {
+    "full_debug": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "consecutive_full_release_runs": 3,
+    "each_release": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "python_tests": 34,
+    "boundary_audit_tests": 7,
+    "pure_import_audit_files": 9,
+    "critical_formatter_files": 25
+  },
   "evidence_paths": [
+    "docs/delivery/M1-QUALIFICATION.md",
+    "docs/evidence/M1-LOCAL-QUALIFICATION.json",
+    "docs/delivery/M1-TASK-EVIDENCE.json",
     "docs/delivery/M1-IMPLEMENTATION.md",
+    "docs/delivery/M1-BOUNDARIES.md",
     "docs/delivery/M1-WP06-CONTRACT.md",
     "docs/delivery/M1-WP07-CONTRACT.md",
+    "docs/delivery/M1-WP08-RENDER-CONTRACT.md",
     "docs/delivery/M1-WP08-UI-CONTRACT.md",
-    "docs/delivery/M1-WP09-PLAN.md",
-    "build/m1-evidence/baseline-suite.log",
-    "build/m1-evidence/gesture-before.log",
-    "build/m1-evidence/wp05-focused.log"
+    "docs/delivery/M1-WP09-LIFECYCLE-CONTRACT.md",
+    "build/m1-evidence/full-debug14.log",
+    "build/m1-evidence/full-release-1.log",
+    "build/m1-evidence/full-release-2.log",
+    "build/m1-evidence/full-release-3.log"
   ],
   "remaining": [
-    "Combined compile/test repair and full suite repeats",
-    "Safe export UI integration and worker/cancellation evidence",
-    "Render dirty-region/cache/scene correctness and controlled traces",
-    "Twenty lifecycle cycles and measured undo/resource bounds",
-    "Final per-task acceptance and backlog reconciliation"
+    {
+      "task_id": "WP-05-T04",
+      "required": "Installed-app abrupt termination/automatic macOS relaunch recovery qualification. Local checkpoint/recovery initialization, actual interrupted staging writer and fresh CLI reopen pass."
+    },
+    {
+      "task_id": "WP-08-T05",
+      "required": "Unlock the desktop, rerun native route tests and exact candidate trace. Current secure graphics session reports CGSSessionScreenIsLocked=1; three native tests explicitly skip. Controlled interaction/frame gates remain open."
+    }
+  ],
+  "limits": [
+    "No whole requirement, Windows/Visio compatibility, p95/frame/compositor, hardware-input, absence-of-leak or stable-release acceptance claim.",
+    "Full input/final commit diffs remain compatibility boundaries; warm engine counters do not represent all command work.",
+    "Path/text/image/undo/job budgets are explicit; route/diagnostic memory remains current-input/scene-lifetime bounded.",
+    "Twenty-cycle hidden editor fixture is 64 shapes, eight edits, 2 MiB opaque source per document; does not qualify standard/large workload NFR gates."
   ]
 }
