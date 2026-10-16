@@ -2,7 +2,7 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 is **in progress, awaiting accepted M1, unaccepted**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
+M2 independent preparation is **implemented_unaccepted**; native integration is **blocked on the accepted M1 handoff**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
 
 ## Ownership and overlap
 
@@ -87,4 +87,8 @@ Hostile-container follow-up (`7fe3665`): **6 focused tests passed** (`build/m2-c
 
 ## Current upstream prerequisite
 
-The user reported the Mac unlocked, and M1 confirmed the unlocked desktop. M1 has resumed native event qualification and is fixing its benchmark launch/key-window path before retrying the trace. The previous locked-session request is retained in `build/m2-upstream-gate.json`; the resumed state is recorded in `build/m2-upstream-resume.json`. No accepted M1 handoff exists. Independent M2 preparation is complete, and all remaining native integration and whole-task acceptance stay gated. M2 is **in_progress**, with zero completed parent tasks and no downstream integration permission. Review the actual M1 handoff and passing local milestone evidence before integration; an unlocked session alone does not satisfy acceptance.
+The user unlocked the Mac and M1 completed its native follow-up. M1 finished at branch HEAD `f40dcbaf834eee6d45cd84eda4b419499f1d6340` (tested code candidate `5560ddf44255f56c0559485f9c9dfe904b3b3dc5`): 607 Release tests, 13 preexisting skips, zero failures; all five focused native tests, twelve corpus traces and thirty interaction samples pass. The selection/edit/raster script p95 of 246.7 ms is not input/frame/save-stall acceptance. Installed-app abrupt termination and automatic relaunch recovery, controlled performance and broader reference/release gates remain open.
+
+The actual M1 handoff explicitly retains `acceptance_passed: false` and `downstream_acceptance_ready: false`. M2 reviewed the handoff and verified all 98 retained upstream artifact hashes in the foundation/native records (`build/m2-m1-handoff-review.json`). Two older binary digests are explicitly historical: their paths were rebuilt and the original binary bytes are not retained; they are not current artifact hash assertions. These are upstream tests reviewed by M2, not tests executed in the M2 worktree.
+
+The unlocked-session prerequisite is resolved. M2 independent preparation is **implemented_unaccepted**, while remaining native integration and all whole-task acceptance remain blocked by the existing requirement for accepted M1 commits and passing local milestone evidence. Zero M2 parent tasks are completed; `integration_allowed` remains false and no M1 interfaces were integrated. The original locked-session report and resumed observation are retained as historical evidence. No new permission or repeated unlock action is requested.

@@ -5,7 +5,7 @@
   "worktree": "/Users/acousland/.codex/worktrees/d598/MacVisio",
   "branch": "codex/m2-native-editor",
   "planning_baseline": "7c270124993bac09967109f95e603ebb47bd98ff",
-  "state": "in_progress",
+  "state": "implemented_unaccepted",
   "milestone_acceptance": "unaccepted",
   "integration_allowed": false,
   "local_commits": [
@@ -27,7 +27,8 @@
     "7fe36658112770ab87be6753b15a36fff8490e3a",
     "0a20ff409aed5ca97475be1dd224e8875cdb6ff8",
     "234208064723b67cffd15212dc6818b3b4bd4565",
-    "b01871a26c387375f0dc6f67800db170646c1fa8"
+    "b01871a26c387375f0dc6f67800db170646c1fa8",
+    "d2bccb9098cf718a354aea49582b2dd4825da445"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -64,21 +65,29 @@
       ]
     },
     "M1": {
-      "state": "in_progress",
-      "commit": "873d0043d650716d3b2437f31532aedbdf712da6",
+      "state": "implemented_unaccepted",
+      "commit": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
       "evidence_paths": [
-        "docs/delivery/M1-IMPLEMENTATION.md",
-        "build/m1-evidence/baseline-suite.log"
+        "docs/delivery/M1-HANDOFF.json",
+        "docs/evidence/M1-LOCAL-QUALIFICATION.json",
+        "docs/evidence/M1-NATIVE-QUALIFICATION.json"
       ],
       "human_input_required": false,
       "gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
-      }
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
+      },
+      "branch_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+      "acceptance_passed": false,
+      "downstream_acceptance_ready": false
     }
   },
   "remaining_work": [
@@ -116,7 +125,8 @@
     "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
     "build/m2-container-trust.log",
     "build/m2-upstream-gate.json",
-    "build/m2-upstream-resume.json"
+    "build/m2-upstream-resume.json",
+    "build/m2-m1-handoff-review.json"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -134,12 +144,13 @@
     "note": "Predates M0 integration, NativeSupportReport and runtime update-channel fix; current source is the reviewable candidate. No native integration acceptance is implied."
   },
   "notes": [
-    "M2 independent preparation with active upstream qualification; not M2 milestone delivery or permission for M3 dependent implementation.",
+    "M2 independent preparation is implemented_unaccepted; native integration blocked by explicit M1 acceptance=false. Not M2 milestone delivery or permission for M3 dependent implementation.",
     "Original Home working changes were inspected read-only and not copied.",
     "Developer ID identity available; exact final-candidate/team/notarization and installed journeys unaccepted.",
     "One green debug suite is not a disposition of historical release-suite intermittency.",
     "All14 M0 retained artifact hashes were checked against its handoff before integration. M2 task states preserved when merging backlog formats.",
-    "Input trust audit explicitly leaves decoded-image memory and helper hard-deadline/isolation qualification open;6 hostile-container tests pass."
+    "Input trust audit explicitly leaves decoded-image memory and helper hard-deadline/isolation qualification open;6 hostile-container tests pass.",
+    "Unlocked native M1 follow-up reviewed at f40dcbaf;98 retained upstream hashes pass. Two older binary digests are explicitly historical, not current retained artifacts. M1 remains unaccepted; no M1 integration performed."
   ],
   "tests": {
     "native_debug": {
@@ -221,138 +232,143 @@
   "evidence": [
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "0e9d05d0838012837167e44f77cfc5400d1e23d43655312e2303fcd2dfd3744c",
-      "scope": "local preparation, not milestone acceptance"
+      "sha256": "1f87b2661d633f1b4ef7346c69791173c74c08bb28793208b991d9fb69b8d213",
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
       "sha256": "f1d3cb679cc6d67285e057b365fc644c1866b55026b50a05dead4f46dab56437",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "docs/delivery/M2-SEARCH-TEXT.md",
       "sha256": "14f16e11d474dc4760094d21449c1fb6da6cf9a46b70586b3f2c4f75dd95fdf7",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "docs/delivery/M2-RELEASE-TRUST.md",
       "sha256": "ed0ee9db7426985bb1270834488d4ef7cdb20edff16cc12504218511f1c42f17",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-full-native.log",
       "sha256": "ac8c3d345b0a4761dd4283e952a425621630bfc53a36a34387c566dc777fbe32",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-input-trust.log",
       "sha256": "ed018276ff8a38aa95b3d155038ddb061d5761be3458384cfd408995275f77a6",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-text-routing.log",
       "sha256": "b23c00889e03ae1bd4048c84a2aae2fd59960fdc5d39a9792bff6c225723edbe",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-python.log",
       "sha256": "7b9144e657da576b27e85479b30bf5321e2b03f06cbd8cda0e70f4a11844b68b",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-bundle-platform.json",
       "sha256": "fae70e1ca8291ca26654624e4c22a225bd7057f5e18fcfb89b3529dde12ef93e",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-stable-ad-hoc-rejection.json",
       "sha256": "c3113735d16927eb808a530d43f7013702357aae09d7caf8dd9a5f22ac46c379",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-content-inventory.json",
       "sha256": "5244d79e2e1817074efee6312edb3d92ccca349343bc350f84f0d398c1f97217",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-redacted-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-signing-prerequisite.json",
       "sha256": "10db7b072f8c9271a67cfbdee12d11e4b8ffa00b192b43dc4fa6f38886953ca8",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-m0-integrated-native.log",
       "sha256": "5344ed279a0a055201d70481d3fabd53ba1ece3cace0cbe231f5cc875bfb9cb1",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-m0-integrated-python.log",
       "sha256": "d11252d93e0056ec8a1a728db98a7b42b6e9ca9a4453745d3d5cd23c61c114a7",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-integrated-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "docs/delivery/M2-SUPPORT-REPORT.md",
       "sha256": "f7223283e3f704a72b9e8d52f91d5b4697372708138700e0bb094bf26910914a",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-preparation-final-native.log",
       "sha256": "a63914893ea18b8e86c2fc4c192e3a9e130955b2c9b71a1032ac284ef8b651b0",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-support-report.log",
       "sha256": "8a8f5690608ac98946a8b68ecee1c362fcafac9572db347ce8e4c23acb379c55",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-update-runtime-policy.log",
       "sha256": "8c6215960caffb4bdbf83fbfb71ee71f046b8ac2db9c8cf9fbb3c2f438b0479e",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-final-python.log",
       "sha256": "940530565e4f533e7d4d6e1ce36ca70669a1263e0098bf59ba9dc1e9cf9abc71",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-pinned-feed-verification.json",
       "sha256": "5f1f81637c3d1dd7d9f5961e8804855f625bdcbe07d03fecb090cfe5bebfc9e5",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
       "sha256": "037d3d397eb985ee2eef874f3d331e8ebda9fd574c177749a82eacda10c64431",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-container-trust.log",
       "sha256": "92d81462a1f2e9bdee6aa577010d41ed96d11b932eff4231639d625e29ea85e4",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-upstream-gate.json",
       "sha256": "e8ded161ee6384a4975bc826b3a84b6e0d1c1a865dca497e5a145caf83908c76",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     },
     {
       "path": "build/m2-upstream-resume.json",
       "sha256": "fbd0b5388721175777249afd37b1e5bfcb5aa826acefec3bed91e2804971eb93",
-      "scope": "local preparation, not milestone acceptance"
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
+    },
+    {
+      "path": "build/m2-m1-handoff-review.json",
+      "sha256": "cf32f6139f2e449efe4f4dcda73b3e4177bda8a02b508c28f5efb26f6eef8bc9",
+      "scope": "local preparation or read-only upstream review; not milestone acceptance"
     }
   ],
   "blocked_task_ids": [
@@ -375,11 +391,14 @@
   ],
   "blocked_scope": "Remaining native integration and whole-task acceptance; independent implemented_unaccepted preparation is retained.",
   "delivery_gate": {
-    "state": "awaiting_upstream_qualification",
+    "state": "blocked_upstream_acceptance",
     "dependency": "accepted M1 handoff",
-    "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+    "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
     "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-    "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-    "human_response": "User reports unlocked; confirmed by M1"
+    "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+    "human_response": "Mac unlocked; native qualification completed",
+    "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+    "acceptance_passed": false,
+    "downstream_acceptance_ready": false
   }
 }

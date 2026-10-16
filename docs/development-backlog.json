@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "Execution started in isolated worktrees; M0 local foundation integrated with reference acceptance open; M2 independent preparation implemented_unaccepted; waiting for M1 qualification and accepted handoff; peer milestone records remain independently owned",
+  "status": "Execution started in isolated worktrees; M0 local foundation integrated with reference acceptance open; M2 independent preparation implemented_unaccepted; native integration blocked on explicit unaccepted M1 handoff; peer milestone records remain independently owned",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -78,18 +78,21 @@
         "Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform.",
         "Material import/calculation issues are visible and release claims match the accepted slice."
       ],
-      "status": "In progress — awaiting accepted M1; unaccepted",
+      "status": "Implemented preparation, unaccepted — M1 integration gate blocked",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-NATIVE-CONTRACTS.md"
       ],
       "delivery_gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
       }
     },
     {
@@ -1966,12 +1969,15 @@
           "architecture_contracts": [],
           "execution_note": "Recent-store Locate/Remove prepared and focused storage tests passed; separate Home UI and full window/read-only journeys remain open.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2015,12 +2021,15 @@
           "architecture_contracts": [],
           "execution_note": "Bounded value-model search/replacement preparation underway; command UI and event routing wait accepted M1.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2064,12 +2073,15 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2110,26 +2122,32 @@
           "architecture_findings": [],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         }
       ],
-      "status": "In progress — awaiting accepted M1; unaccepted",
+      "status": "Preparation unaccepted — M1 integration gate blocked",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
       }
     },
     {
@@ -2193,12 +2211,15 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2234,12 +2255,15 @@
           "architecture_contracts": [],
           "execution_note": "Prepared native NSWindow/responder-chain tool-letter/cancel fixture passes; full focus/resize/connect/no-pointer journey waits accepted M1.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2275,12 +2299,15 @@
           "architecture_contracts": [],
           "execution_note": "UTF-16/run/font preparation underway; real IME/RTL input acceptance remains open.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2315,26 +2342,32 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         }
       ],
-      "status": "In progress — awaiting accepted M1; unaccepted",
+      "status": "Preparation unaccepted — M1 integration gate blocked",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
       }
     },
     {
@@ -2397,12 +2430,15 @@
           "architecture_contracts": [],
           "execution_note": "XML preflight, 8 input-trust fixtures and 6 hostile-container tests pass, including calibrated SVG no-fetch, ZIP checksum/symlink/duplicate/budget rejection and CFB cycles. Decoded-image and converter resource qualification remains open; see M2-INPUT-TRUST-AUDIT.md.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2438,12 +2474,15 @@
           "architecture_contracts": [],
           "execution_note": "Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2478,12 +2517,15 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2520,26 +2562,32 @@
           "architecture_contracts": [],
           "execution_note": "Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         }
       ],
-      "status": "In progress — awaiting accepted M1; unaccepted",
+      "status": "Preparation unaccepted — M1 integration gate blocked",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
       }
     },
     {
@@ -2598,12 +2646,15 @@
           ],
           "execution_note": "Independent typed diagnostic transport and 4 focused provenance tests pass; producer adapters, navigable presentation and dependency keys wait accepted M0/M1.",
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2633,12 +2684,15 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2671,12 +2725,15 @@
             "AC-08"
           ],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         },
         {
@@ -2706,26 +2763,32 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "awaiting_upstream_qualification",
+            "state": "blocked_upstream_acceptance",
             "dependency": "accepted M1 handoff",
-            "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
             "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-            "human_response": "User reports unlocked; confirmed by M1"
+            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+            "human_response": "Mac unlocked; native qualification completed",
+            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+            "acceptance_passed": false,
+            "downstream_acceptance_ready": false
           }
         }
       ],
-      "status": "In progress — awaiting accepted M1; unaccepted",
+      "status": "Preparation unaccepted — M1 integration gate blocked",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "awaiting_upstream_qualification",
+        "state": "blocked_upstream_acceptance",
         "dependency": "accepted M1 handoff",
-        "reason": "User reports Mac unlocked and M1 confirms it. M1 resumed native event qualification and is fixing its benchmark launch/key-window path. No accepted M1 handoff is available; remaining M2 native integration and whole-task acceptance stay gated.",
+        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
         "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:175",
-        "human_response": "User reports unlocked; confirmed by M1"
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
+        "human_response": "Mac unlocked; native qualification completed",
+        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "acceptance_passed": false,
+        "downstream_acceptance_ready": false
       }
     },
     {

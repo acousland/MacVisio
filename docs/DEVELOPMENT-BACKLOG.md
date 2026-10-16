@@ -61,7 +61,7 @@ A local completion label applies only to the task's stated local contract. Full 
 | --- | --- | --- | --- | --- |
 | M0 — Reference, inventory and evidence foundation | Know the target surface and obtain repeatable independent evidence. | WP-01, WP-02, WP-03, WP-04 | G0 | A licensed exact-build reference launches and the harness completes a small real Visio round trip. Every known baseline inventory entry maps to a requirement and an executable check or unresolved prerequisite. Public benchmarks, five-dimension evidence ledger and high-risk feasibility decisions are retained. |
 | M1 — Correct, responsive editing foundation | An edit, cancelled gesture, save and undo have consistent state; ordinary interactions update bounded work. | WP-05, WP-06, WP-07, WP-08, WP-09 | Foundation prerequisite; supports G1/G2 | The reproduced cancelled-drag/save mismatch is closed and intermittent saved-state behavior has a disposition. Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants. Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence. |
-| M2 — Dependable native editor release (awaiting accepted M1; unaccepted) | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass. Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
+| M2 — Dependable native editor release (M1 integration gate blocked; unaccepted) | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass. Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
 | M3 — Intelligent VSDX professional drawing | Reuse intelligent shapes and exchange the declared VSDX drawing slice with Visio. | WP-14, WP-15, WP-16, WP-17, WP-18, WP-19, WP-20 | G2 candidate | The registered master/formula/text/theme/geometry/connector/page workflows pass public-content round trips. Screen/export/print agree under explicit layer/output policy and defined physical dimensions. All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability. |
 | M4 — Process modeling and data workflows | Build structured processes, validate them, link data and publish operational reports. | WP-21, WP-22, WP-23, WP-24 | G3 process/data slice | Container/list/swimlane and BPMN journeys pass membership, undo, layout and exchange checks. Mapped data import, keyed links, refresh/conflict preview, graphics and reports reconcile correctly. Source-specific connectors publish tested prerequisites and user data stays protected. |
 | M5 — Specialist professional diagram suite | Complete the inventoried business, software, infrastructure, schedule and engineering solutions. | WP-25, WP-26, WP-27, WP-28, WP-29 | G3 specialist slice | Each applicable solution family has named child tasks and a complete UI/model/calculation/interchange acceptance pack. CAD/database source version matrices and exact-build applicability are recorded. Imported template graphics are not counted as completed solution behavior. |
@@ -357,11 +357,11 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-10"></a>
 ### WP-10 — Finish document UX, search and basic authoring
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** In progress — awaiting accepted M1; unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Preparation unaccepted — M1 integration gate blocked
 
 **Readiness:** Refine against current native UI changes before implementation.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The user has unlocked the Mac and M1 has resumed native-event qualification. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
@@ -388,11 +388,11 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-11"></a>
 ### WP-11 — Complete accessible input and rich-text journeys
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** In progress — awaiting accepted M1; unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
 
 **Readiness:** Needs accessibility/interaction design; advanced text semantics continue in WP-16.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The user has unlocked the Mac and M1 has resumed native-event qualification. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
@@ -422,11 +422,11 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-12"></a>
 ### WP-12 — Enforce secure, trusted product distribution
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** In progress — awaiting accepted M1; unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
 
 **Readiness:** Ready to refine release manifests and security cases.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The user has unlocked the Mac and M1 has resumed native-event qualification. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
@@ -454,11 +454,11 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-13"></a>
 ### WP-13 — Expose compatibility and calculation issues
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** In progress — awaiting accepted M1; unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
 
 **Readiness:** Ready after diagnostic identity contracts.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The user has unlocked the Mac and M1 has resumed native-event qualification. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
