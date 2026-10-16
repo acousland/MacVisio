@@ -1,6 +1,6 @@
-# M2 integration contracts (proposed, not an upstream API)
+# M2 native integration contracts
 
-These contracts guide fixtures and implementation after an accepted M1 handoff. They do not freeze or implement provisional M1 APIs.
+These M2 contracts now consume accepted local M1 engineering commit `0ea6b33`, integrated at `d797a67`, plus accepted M0 local ledger/harness contracts. They do not imply broader release/reference/performance acceptance.
 
 ## Document diagnostics and save impact
 
@@ -24,12 +24,20 @@ Show mixed values rather than copying the first selected shape into every contro
 
 A basic multipage flow fixture includes start/process/decision/subprocess, branch labels, attached connectors, align/distribute, second-page target and explicit off-page link. A hyperlink string alone is not proof of an operable off-page journey. Save/reopen and PDF/SVG share accepted scene semantics; decorations do not leak into output. Native acceptance does not establish external Visio acceptance.
 
-## Required upstream evidence before integration
+## Satisfied upstream prerequisites (retained evidence)
 
 - M1 actual commits and handoff: committed/preview ownership, change sets, saved-state tokens, bounded indexes/scene, diagnostic/revision behavior, long-job and resources contracts; full-suite intermittency disposition.
 - M0 actual ledger/harness commits: feature dimension vocabulary, unsupported-source policy, synthetic public fixtures/evidence schema; exact reference prerequisites may remain open.
 - Separate Home changes: intentional integration commit or clearly isolated extension points; never copy the unrelated original dirty diff automatically.
 
-## Prepared diagnostic transport slice
+## Diagnostic transport and integrated producer slice
 
-`DocumentDiagnostic.swift` supplies the independent Codable provenance record: typed target/source, five feature dimensions, cache/display state, producer input key and safe declarative actions. Identity excludes presentation wording; equal failures on distinct objects/cells remain distinct. The legacy note bridge truthfully stays document-scoped and cannot expose an invented object/cell action. This is **implemented, unaccepted preparation** for WP-13-T01; adapters, dependency-key checks, navigable pane, affected-source save policy and end-to-end accuracy are gated on accepted M0/M1 interfaces. No current calculation or importer output is relabelled as object-aware by this addition.
+`DocumentDiagnostic.swift` supplies the independent Codable provenance record: typed target/source, five feature dimensions, cache/display state, producer input key and safe declarative actions. Identity excludes presentation wording; equal failures on distinct objects/cells remain distinct. The legacy note bridge truthfully stays document-scoped and cannot expose an invented object/cell action. Typed producers, document keys, unified navigation and captured save policy are integrated and have focused implementation evidence; see `M2-DIAGNOSTICS.md`. Anonymous strings remain document-scoped. Broader native/source coverage and whole-task acceptance are still open.
+
+## Current implementation evidence
+
+The accepted M1 prerequisite is satisfied and the contracts above are implemented in the current M2 source. The final744-test Release regression and actual native journey are recorded in `M2-NATIVE-ACCEPTANCE.md`. Whole-task acceptance remains separate from implementation. Window title-bar edited badges must follow the same saved snapshot identity as close/save policy, including Undo/Redo; AppKit counter state alone is insufficient. Native VoiceOver and real IME evidence remain required and unaccepted.
+
+Fit Page uses the settled viewport, including legacy scroller removal, and initial fitting follows content layout. The forced-legacy integration fixture keeps its strict viewport assertion; the earlier failure was corrected in production code rather than relaxed.
+
+Inspector refresh defers while focused input is uncommitted or marked. Once committed, model Undo/Redo must update both its field value and native field editor; leaving the field must not replay a superseded value. The field-editor regression covers that boundary.

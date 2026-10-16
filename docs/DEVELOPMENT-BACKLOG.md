@@ -63,7 +63,7 @@ A local completion label applies only to the task's stated local contract. Full 
 | --- | --- | --- | --- | --- |
 | M0 — Reference, inventory and evidence foundation | Know the target surface and obtain repeatable independent evidence. | WP-01, WP-02, WP-03, WP-04 | G0 | A licensed exact-build reference launches and the harness completes a small real Visio round trip. Every known baseline inventory entry maps to a requirement and an executable check or unresolved prerequisite. Public benchmarks, five-dimension evidence ledger and high-risk feasibility decisions are retained. |
 | M1 — Correct, responsive editing foundation | An edit, cancelled gesture, save and undo have consistent state; ordinary interactions update bounded work. | WP-05, WP-06, WP-07, WP-08, WP-09 | Foundation prerequisite; supports G1/G2 | The reproduced cancelled-drag/save mismatch is closed and intermittent saved-state behavior has a disposition. Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants. Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence. |
-| M2 — Dependable native editor release (M1 integration gate blocked; unaccepted) | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass. Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
+| M2 — Dependable native editor release (in progress; unaccepted) | Create, edit, recover, inspect and publish a basic drawing through complete native journeys. | WP-10, WP-11, WP-12, WP-13 | G1 candidate | Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass. Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform. Material import/calculation issues are visible and release claims match the accepted slice. |
 | M3 — Intelligent VSDX professional drawing | Reuse intelligent shapes and exchange the declared VSDX drawing slice with Visio. | WP-14, WP-15, WP-16, WP-17, WP-18, WP-19, WP-20 | G2 candidate | The registered master/formula/text/theme/geometry/connector/page workflows pass public-content round trips. Screen/export/print agree under explicit layer/output policy and defined physical dimensions. All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability. |
 | M4 — Process modeling and data workflows | Build structured processes, validate them, link data and publish operational reports. | WP-21, WP-22, WP-23, WP-24 | G3 process/data slice | Container/list/swimlane and BPMN journeys pass membership, undo, layout and exchange checks. Mapped data import, keyed links, refresh/conflict preview, graphics and reports reconcile correctly. Source-specific connectors publish tested prerequisites and user data stays protected. |
 | M5 — Specialist professional diagram suite | Complete the inventoried business, software, infrastructure, schedule and engineering solutions. | WP-25, WP-26, WP-27, WP-28, WP-29 | G3 specialist slice | Each applicable solution family has named child tasks and a complete UI/model/calculation/interchange acceptance pack. CAD/database source version matrices and exact-build applicability are recorded. Imported template graphics are not counted as completed solution behavior. |
@@ -369,16 +369,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-10"></a>
 ### WP-10 — Finish document UX, search and basic authoring
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Preparation unaccepted — M1 integration gate blocked
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** In progress — accepted M1 integrated; unaccepted
 
 **Readiness:** Refine against current native UI changes before implementation.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 feature/native/release acceptance remains open.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-10-T01 | In progress — unaccepted | Recent-store Locate/Remove prepared and focused storage tests passed; separate Home UI and full window/read-only journeys remain open. |
-| WP-10-T02 | In progress — unaccepted | Bounded value-model search/replacement preparation underway; command UI and event routing wait accepted M1. |
+| WP-10-T01 | In progress — unaccepted | Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate. |
+| WP-10-T02 | In progress — unaccepted | Cross-page state-owned find/replace and validated command search integrated; real keyboard replace/undo/redo preserves accented/RTL/emoji suffix. Focus/Return/blur regressions fixed and covered. Broader native rich-run matrix remains unaccepted. |
+| WP-10-T03 | In progress — unaccepted | Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted. |
+| WP-10-T04 | In progress — unaccepted | Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation. |
 
 **Outcome:** A coherent native basic-diagram workflow with discoverable commands and safe state transitions.
 
@@ -400,19 +402,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-11"></a>
 ### WP-11 — Complete accessible input and rich-text journeys
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** In progress — accepted M1 integrated; unaccepted
 
 **Readiness:** Needs accessibility/interaction design; advanced text semantics continue in WP-16.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 feature/native/release acceptance remains open.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-11-T03 | In progress — unaccepted | UTF-16/run/font preparation underway; real IME/RTL input acceptance remains open. |
-
-| Task | Execution status | Current evidence / remaining acceptance |
-| --- | --- | --- |
-| WP-11-T02 | In progress — unaccepted | Prepared native NSWindow/responder-chain tool-letter/cancel fixture passes; full focus/resize/connect/no-pointer journey waits accepted M1. |
+| WP-11-T01 | In progress — unaccepted | Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open. |
+| WP-11-T02 | In progress — unaccepted | Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted. |
+| WP-11-T03 | In progress — unaccepted | UTF-16/run protection, deterministic font fallback and source metadata policy covered; native accent/RTL/emoji paste survives replacement/save/export. Real marked-text IME composition/cancel/commit remains unaccepted. |
+| WP-11-T04 | In progress — unaccepted | Actionable content issues, native proofing menu and adaptive editor implemented; export appearance tests pass, actual PDF visually reviewed. Full narrow-window/proofing/reference/appearance native matrix remains unaccepted. |
 
 **Outcome:** Meaningful keyboard/VoiceOver authoring, reliable international text input and font/proofing feedback.
 
@@ -434,17 +435,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-12"></a>
 ### WP-12 — Enforce secure, trusted product distribution
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** In progress — accepted M1 integrated; unaccepted
 
 **Readiness:** Ready to refine release manifests and security cases.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 feature/native/release acceptance remains open.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-12-T01 | In progress — unaccepted | XML preflight, 8 input-trust fixtures and 6 hostile-container tests pass, including calibrated SVG no-fetch, ZIP checksum/symlink/duplicate/budget rejection and CFB cycles. Decoded-image and converter resource qualification remains open; see M2-INPUT-TRUST-AUDIT.md. |
-| WP-12-T02 | In progress — unaccepted | Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open. |
-| WP-12-T04 | In progress — unaccepted | Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open. |
+| WP-12-T01 | In progress — unaccepted | Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open. |
+| WP-12-T02 | In progress — unaccepted | Stable/development gates, pinned archive/feed signatures and runtime channel guards implemented. Exact development archive verifies locally; ad hoc signing remains ineligible for stable publication. Intended Developer ID/team/notarization acceptance remains open. |
+| WP-12-T03 | In progress — unaccepted | Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside authorized local preparation. No application installed, updated or published. |
+| WP-12-T04 | In progress — unaccepted | Current bundle inventory derives arm64/macOS27.0 floor; exact content/license inventory remains rights-unreviewed. Native drawing support export checked for counts and strict text/path/formula/provenance redaction. Actual platform installation matrix remains open. |
 
 **Outcome:** Stable release gates, truthful platform support, safe diagnostics and installed-update evidence.
 
@@ -466,15 +468,18 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-13"></a>
 ### WP-13 — Expose compatibility and calculation issues
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Preparation unaccepted — M1 integration gate blocked
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** In progress — accepted M1 integrated; unaccepted
 
 **Readiness:** Ready after diagnostic identity contracts.
 
-**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [proposed integration contracts](delivery/M2-NATIVE-CONTRACTS.md). M1-dependent implementation remains gated on accepted commits. **Current delivery gate:** The unlocked native qualification passed, but M1 explicitly retains acceptance_passed=false and downstream_acceptance_ready=false. Installed recovery and controlled performance qualification remain open. Independent slices retain their recorded preparation status; all remaining WP-10–13 integration and whole-task acceptance require an accepted M1 handoff.
+**Execution evidence:** [M2 acceptance and bounded child tasks](delivery/M2-NATIVE-ACCEPTANCE.md); [integrated contracts](delivery/M2-NATIVE-CONTRACTS.md). **M1 engineering prerequisite satisfied:** accepted commit `0ea6b33` integrated at `d797a67`; combined655-test baseline passes (15 skips/0 failures). M2 feature/native/release acceptance remains open.
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-13-T01 | In progress — unaccepted | Independent typed diagnostic transport and 4 focused provenance tests pass; producer adapters, navigable presentation and dependency keys wait accepted M0/M1. |
+| WP-13-T01 | In progress — unaccepted | Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped. |
+| WP-13-T02 | In progress — unaccepted | Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete. |
+| WP-13-T03 | In progress — unaccepted | Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit. |
+| WP-13-T04 | In progress — unaccepted | Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage. |
 
 **Outcome:** One navigable, object-aware pane for import, calculation, stale cache and save-impact issues.
 

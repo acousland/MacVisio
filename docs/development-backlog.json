@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "M0 local tooling integrated; M1 local engineering accepted and integrated; M2 native implementation in progress and unaccepted; release/reference gates remain open",
+  "status": "M0 local tooling integrated; M1 accepted engineering integrated; M2 implementation in progress and unaccepted; release/reference gates remain open",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -78,21 +78,17 @@
         "Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform.",
         "Material import/calculation issues are visible and release claims match the accepted slice."
       ],
-      "status": "Implemented preparation, unaccepted — M1 integration gate blocked",
+      "status": "In progress — accepted M1 integrated; unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-NATIVE-CONTRACTS.md"
       ],
       "delivery_gate": {
-        "state": "blocked_upstream_acceptance",
-        "dependency": "accepted M1 handoff",
-        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-        "human_response": "Mac unlocked; native qualification completed",
-        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-        "acceptance_passed": false,
-        "downstream_acceptance_ready": false
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
       }
     },
     {
@@ -2214,17 +2210,13 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Recent-store Locate/Remove prepared and focused storage tests passed; separate Home UI and full window/read-only journeys remain open.",
+          "execution_note": "Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2266,17 +2258,13 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Bounded value-model search/replacement preparation underway; command UI and event routing wait accepted M1.",
+          "execution_note": "Cross-page state-owned find/replace and validated command search integrated; real keyboard replace/undo/redo preserves accented/RTL/emoji suffix. Focus/Return/blur regressions fixed and covered. Broader native rich-run matrix remains unaccepted.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2285,7 +2273,7 @@
           "deliverable": "Add explicit units, mixed values, protection explanations and reversible document-wide previews.",
           "acceptance_criteria": "Changing one property does not overwrite unrelated values or guarded cells.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-10-T02"
           ],
@@ -2320,16 +2308,13 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted."
         },
         {
           "id": "WP-10-T04",
@@ -2337,7 +2322,7 @@
           "deliverable": "Complete subprocess/off-page linking and the basic shape/connector/arrangement journey.",
           "acceptance_criteria": "A keyboard/mouse-authored multipage flowchart survives save/reopen and declared publication output.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-10-T03"
           ],
@@ -2369,32 +2354,25 @@
           "architecture_findings": [],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation."
         }
       ],
-      "status": "Preparation unaccepted — M1 integration gate blocked",
+      "status": "In progress — accepted M1 integrated; unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "blocked_upstream_acceptance",
-        "dependency": "accepted M1 handoff",
-        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-        "human_response": "Mac unlocked; native qualification completed",
-        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-        "acceptance_passed": false,
-        "downstream_acceptance_ready": false
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
       }
     },
     {
@@ -2434,7 +2412,7 @@
           "deliverable": "Use stable scene IDs for shapes, edges, relations, reading order, alt text and actions.",
           "acceptance_criteria": "VoiceOver can identify and operate graph objects beyond toolbar labels.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [],
           "requirement_ids": [
             "MV-ACC-01",
@@ -2458,16 +2436,13 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open."
         },
         {
           "id": "WP-11-T02",
@@ -2500,17 +2475,13 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Prepared native NSWindow/responder-chain tool-letter/cancel fixture passes; full focus/resize/connect/no-pointer journey waits accepted M1.",
+          "execution_note": "Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2544,17 +2515,13 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "UTF-16/run/font preparation underway; real IME/RTL input acceptance remains open.",
+          "execution_note": "UTF-16/run protection, deterministic font fallback and source metadata policy covered; native accent/RTL/emoji paste survives replacement/save/export. Real marked-text IME composition/cancel/commit remains unaccepted.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2563,7 +2530,7 @@
           "deliverable": "Supply baseline-confirmed proofing, content checks and long-label/window-size behavior.",
           "acceptance_criteria": "Issues are actionable; Dark/Light/System never change exported drawing colors.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-11-T03"
           ],
@@ -2589,32 +2556,25 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Actionable content issues, native proofing menu and adaptive editor implemented; export appearance tests pass, actual PDF visually reviewed. Full narrow-window/proofing/reference/appearance native matrix remains unaccepted."
         }
       ],
-      "status": "Preparation unaccepted — M1 integration gate blocked",
+      "status": "In progress — accepted M1 integrated; unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "blocked_upstream_acceptance",
-        "dependency": "accepted M1 handoff",
-        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-        "human_response": "Mac unlocked; native qualification completed",
-        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-        "acceptance_passed": false,
-        "downstream_acceptance_ready": false
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
       }
     },
     {
@@ -2675,17 +2635,13 @@
           "qualification_dependencies": [],
           "architecture_findings": [],
           "architecture_contracts": [],
-          "execution_note": "XML preflight, 8 input-trust fixtures and 6 hostile-container tests pass, including calibrated SVG no-fetch, ZIP checksum/symlink/duplicate/budget rejection and CFB cycles. Decoded-image and converter resource qualification remains open; see M2-INPUT-TRUST-AUDIT.md.",
+          "execution_note": "Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2719,17 +2675,13 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open.",
+          "execution_note": "Stable/development gates, pinned archive/feed signatures and runtime channel guards implemented. Exact development archive verifies locally; ad hoc signing remains ineligible for stable publication. Intended Developer ID/team/notarization acceptance remains open.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2738,7 +2690,7 @@
           "deliverable": "Test real signed update installation, invalid signatures, interruption and rollback/recovery.",
           "acceptance_criteria": "The prior or updated application stays runnable and settings/documents remain usable.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-12-T02"
           ],
@@ -2764,16 +2716,13 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside authorized local preparation. No application installed, updated or published."
         },
         {
           "id": "WP-12-T04",
@@ -2807,34 +2756,26 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open.",
+          "execution_note": "Current bundle inventory derives arm64/macOS27.0 floor; exact content/license inventory remains rights-unreviewed. Native drawing support export checked for counts and strict text/path/formula/provenance redaction. Actual platform installation matrix remains open.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         }
       ],
-      "status": "Preparation unaccepted — M1 integration gate blocked",
+      "status": "In progress — accepted M1 integrated; unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "blocked_upstream_acceptance",
-        "dependency": "accepted M1 handoff",
-        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-        "human_response": "Mac unlocked; native qualification completed",
-        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-        "acceptance_passed": false,
-        "downstream_acceptance_ready": false
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
       }
     },
     {
@@ -2891,17 +2832,13 @@
           "architecture_contracts": [
             "AC-08"
           ],
-          "execution_note": "Independent typed diagnostic transport and 4 focused provenance tests pass; producer adapters, navigable presentation and dependency keys wait accepted M0/M1.",
+          "execution_note": "Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           }
         },
         {
@@ -2910,7 +2847,7 @@
           "deliverable": "Connect calculationIssues and importer warnings to a navigable pane/status indicator.",
           "acceptance_criteria": "Selecting an issue reveals the right object/cell and distinguishes cached from evaluated display.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-13-T01"
           ],
@@ -2931,16 +2868,13 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete."
         },
         {
           "id": "WP-13-T03",
@@ -2948,7 +2882,7 @@
           "deliverable": "Assess edits invalidating unsupported source/solution/signature state before overwrite.",
           "acceptance_criteria": "Cancel/safe-copy/alternate-format actions preserve the original when required.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-13-T02"
           ],
@@ -2972,16 +2906,13 @@
             "AC-08"
           ],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit."
         },
         {
           "id": "WP-13-T04",
@@ -2989,7 +2920,7 @@
           "deliverable": "Test affected versus harmless opaque content and multiple open documents.",
           "acceptance_criteria": "Noisy harmless metadata does not obscure material loss risks; diagnostics/export agree.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress — unaccepted",
           "depends_on": [
             "WP-13-T03"
           ],
@@ -3010,32 +2941,25 @@
           ],
           "architecture_contracts": [],
           "delivery_gate": {
-            "state": "blocked_upstream_acceptance",
-            "dependency": "accepted M1 handoff",
-            "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-            "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-            "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-            "human_response": "Mac unlocked; native qualification completed",
-            "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-            "acceptance_passed": false,
-            "downstream_acceptance_ready": false
-          }
+            "state": "satisfied",
+            "dependency": "accepted M1 engineering handoff",
+            "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+            "integration_commit": "d797a67",
+            "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+          },
+          "execution_note": "Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage."
         }
       ],
-      "status": "Preparation unaccepted — M1 integration gate blocked",
+      "status": "In progress — accepted M1 integrated; unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
       ],
       "delivery_gate": {
-        "state": "blocked_upstream_acceptance",
-        "dependency": "accepted M1 handoff",
-        "reason": "The unlocked-session native qualification passed. M1 finished at f40dcbaf with acceptance_passed=false and downstream_acceptance_ready=false. Installed-app abrupt termination/automatic relaunch recovery and controlled input/frame/save-stall qualification remain open. M2 cannot integrate M1 under the existing accepted-handoff prerequisite.",
-        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-        "human_response": "Mac unlocked; native qualification completed",
-        "peer_head": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-        "acceptance_passed": false,
-        "downstream_acceptance_ready": false
+        "state": "satisfied",
+        "dependency": "accepted M1 engineering handoff",
+        "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "integration_commit": "d797a67",
+        "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
       }
     },
     {
@@ -9288,6 +9212,26 @@
       "release_acceptance_passed": false,
       "recovery_qualification_record": "evidence/M1-RECOVERY-QUALIFICATION.json",
       "handoff": "delivery/M1-ENGINEERING-HANDOFF.md"
+    },
+    "M2": {
+      "state": "in_progress",
+      "acceptance_passed": false,
+      "downstream_acceptance_ready": false,
+      "release_acceptance_passed": false,
+      "implementation_candidate": "fbd851bd9f915229b542fb6092d01e6e3f83424a",
+      "record": "delivery/M2-NATIVE-ACCEPTANCE.md",
+      "handoff": "delivery/M2-HANDOFF.json",
+      "native_observation": "../build/m2-final-native-journey.json",
+      "scope": "Local engineering regression and bounded actual native observations pass; whole M2, real AT/IME and shipping acceptance remain false.",
+      "full_release_tests": {
+        "executed": 744,
+        "skipped": 12,
+        "failed": 0,
+        "seconds": 39.646,
+        "log": "../build/m2-qualified5-release-native.log"
+      },
+      "final_native_replay": "../build/m2-qualified5-native-replay.json",
+      "development_candidate": "../build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip"
     }
   }
 }

@@ -2,13 +2,34 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 independent preparation is **implemented_unaccepted**; native integration is **blocked on the accepted M1 handoff**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
+M2 is **in progress, unaccepted** with the accepted M1 engineering prerequisite integrated. Accepted local M1 runtime/transaction/calculation/scene contracts are integrated at `d797a67`; broader M0/reference/performance and M2 qualification are still open. No distribution is authorized.
+
+## Current local candidate and qualification
+
+Final source candidate `fbd851bd9f915229b542fb6092d01e6e3f83424a` passes **744 Release tests, 12 fixture-dependent skips, 0 failures** in39.646s (`build/m2-qualified5-release-native.log`). The unchanged Python tooling passes87 tests (`build/m2-qualified5-python.log`); foundation formatting/import boundaries and the154-requirement/171-command ledger pass (`build/m2-qualified5-format.log`, `build/m2-qualified5-ledger.log`). The exact development bundle/archive and bounded native replay pass as recorded below.
+
+
+The `ae9d815` actual native replay verifies that both ordinary edit/Undo and proposal Apply/single Undo restore a clean title bar. It then exposed a committed X inspector field retaining25.4mm after the model correctly undid to480pt. `bf8d3e4` refreshes already-committed focused fields, preserves pending/marked input and refreshes on field exit. The new field-editor regression and full744-test run pass; the final exact-byte native replay is retained separately. Earlier candidate outcomes remain in `build/m2-window-badge-native-attempt1.json` and `build/m2-inspector-native-attempt1.json`.
+
+`bf8d3e4`'s synchronous end-edit refresh ran before AppKit's Return commit action in the native replay (`build/m2-inspector-native-attempt2.json`). `fbd851b` defers that refresh and strengthens the regression to send actual Return through NSWindow. The final exact-byte replay passes:1in →25.4mm/Edited, one Undo →169.333mm/clean, then Tab keeps the saved value and clean state. A locked shape disables its X field and cannot move; one Undo restores editable/clean state. Native reopen retains both pages and Export All Pages to PDF produces two independently rendered and visually inspected pages. The original fixture hashes and modes remain unchanged, and the probe exits normally (`build/m2-qualified5-native-replay.json`).
+
+The final local development archive is `build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip`, SHA256 `dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939`. Its ZIP/feed/pinned-key/bundle/executable/symlink checks pass; exact bundle/public-reader/render checks also pass. Reports: `build/m2-qualified5-package.log`, `build/m2-qualified5-bundle-verification.json`, `build/m2-qualified5-bundle-platform.json`, `build/m2-qualified5-content-inventory.json`. It remains ad hoc signed, arm64/macOS27.0, uninstalled/unpublished and publicationAccepted:false. Rights review, signed installed updates, platform/reference and real AT/IME acceptance remain open.
+
+The integrated implementation through `b321c5e` passed **742 Release tests, 12 fixture-dependent skips, 0 failures** in37.234s (`build/m2-final-release-native.log`), **87 Python tests** (`build/m2-feature-python-2.log`), foundation formatting/import boundaries and the154-requirement/171-command ledger. Earlier failed compile/focus/source-traversal cases remain retained; the corrected full run includes them. The old legacy-overwrite expectation now asserts required refusal, unchanged original and separate-copy/reopen.
+
+`build/m2-final-native-journey.json` records actual native observations against the exact candidate executable, SHA256 `8413ffa67f47751bb931de05b7b7d4ddef01cf21a79dc893aa6dcff91d0b7bfa`: keyboard-only single-page author/connect/text/find/undo/save/PDF/SVG; mixed-input multipage and renamed off-page follow; canonical-alias dirty/selection/zoom retention; locked-file Cancel; missing recent Locate/Remove; exact-source issue navigation; affected-source Cancel/copy; and native redacted support export. Original synthetic source hashes remain unchanged. Public XML/SVG and rendered PDF were independently inspected (`build/m2-final-public-output-inspection.json`, `build/m2-final-export-review.png`). The PDF/SVG exports precede the multipage extension.
+
+A native preview Apply/single Undo check exposed a stale **Edited** title-bar badge even though the saved identity and close-without-save behavior were correct. `df97cc0` added window synchronization and passed all742 Release tests (37.424s), but the actual replay still exposed AppKit's separate document-actions counter (`build/m2-window-badge-native-attempt1.json`). `0dc735a` reconciles that counter when the saved snapshot is restored. The window assertions fail on the original source (`build/m2-window-saved-badge-before.log`); its full run retained one fit-to-page failure after legacy scrollers hid (`build/m2-qualified2-release-native.log`). `ae9d815` settles layout and bounded scroller transitions before final fit; the new forced-legacy regression and full743-test run pass. Exact-byte native replay is recorded below. The `b321c5e` bundle/archive and complete journey are retained as the preceding candidate, not silently relabeled as the new bytes.
+
+The earlier candidate's real development ZIP/feed/pinned-key/bundle checks pass (`build/m2-final-package.log`). It is ad hoc signed, unpublished, uninstalled and **publicationAccepted:false**. Actual bundle floor is arm64/macOS27.0, with14 Mach-O files. Current content/license presence is inventoried and redistribution rights remain unreviewed (`build/m2-final-content-inventory.json`). No signed installed-update journey is implied.
+
+VoiceOver was initially off, enabled through native Settings and Use VoiceOver welcome, and its real process observed. The current input bridge produced no independently observable VO cursor/action result; it was restored off and Settings closed. This is **not a VoiceOver pass**. Native Unicode paste is **not a real IME composition pass**. Those gates, complete native rich-run/narrow/proofing/appearance matrix, intended Developer ID/team/notarization, installed updates/recovery, platform installations, content rights and applicable exact Visio/reference/controlled performance remain open. M2 and M3 integration acceptance remain false.
 
 ## Ownership and overlap
 
-This managed worktree owns M2. The original checkout's uncommitted Home changes were inspected read-only on 16 October 2026: adaptive 780×640 preferred / 480×440 minimum layout, navigation, document actions and template columns. M2 does not replace or copy that work. Locate/Remove can be added through the recent store and workflow only after the Home integration point is agreed; Home acceptance remains open until those changes are integrated intentionally.
+This managed worktree owns M2. The original checkout's uncommitted Home changes were inspected read-only on 16 October 2026: adaptive 780×640 preferred / 480×440 minimum layout, navigation, document actions and template columns. M2 does not replace or copy that work. M2 adds bounded Locate/Remove callbacks and row actions to its own Home baseline. The original adaptive layout remains separate; native Home/window acceptance is still open.
 
-The bounded `release_trust` subagent owns release scripts/tests, release workflow, distribution docs and M2-RELEASE-TRUST.md. It may commit those files only. The primary owns XML preflight/tests, all native work, backlog/status/handoff and this evidence note. No concurrent writers share source files.
+Completed bounded workers contributed search/command UI, canvas accessibility and diagnostics/save integration respectively. The primary owns inspector/workflow/import/trust integration, backlog/status/handoff and this evidence note. Source changes are committed through `fbd851b`; final checks run on a frozen source, and commits stage explicit owned paths.
 
 ## Large-task decomposition (before implementation)
 
@@ -37,9 +58,9 @@ Each child preserves its parent acceptance; passing one child does not close its
 | Input trust | Malformed ZIP/XML/CFB, resource caps, imported action/hyperlink content | Safe rejection before expensive allocation, no automatic execution or external fetch. |
 | Candidate distribution | Stable versus development identity and actual bundle platform matrix | Ad hoc/stale/missing manifest rejected; Developer ID, notarization, signed feed/archive; real installed-update/interruption/recovery evidence. |
 
-Unavailable prerequisites remain open: licensed exact-build Visio reference, intended Developer ID credentials/notarization, signed installed-update fixtures, supported-platform installation matrix, real VoiceOver and IME acceptance. Local unit/controller tests are implementation evidence only. A known intermittent full-suite failure cannot be closed by an isolated green rerun.
+Unaccepted prerequisites remain open: licensed exact-build Visio reference, intended candidate/team signing and notarization, signed installed-update fixtures, supported-platform installation matrix, real VoiceOver and IME acceptance. Local unit/controller tests are implementation evidence only. A known intermittent full-suite failure cannot be closed by an isolated green rerun.
 
-## Initial source findings
+## Historical source findings before implementation
 
 - `ImportNotes.swift` displays only anonymous import strings; `calculationIssues` is not shown there. Object identities and feature dimensions are absent.
 - `CanvasView` has a canvas label but no semantic graph children; key handling supports nudge/tools/text, not a complete focus/connection journey.
@@ -47,7 +68,9 @@ Unavailable prerequisites remain open: licensed exact-build Visio reference, int
 - XML depth/node validation currently runs after `XMLDocument` construction, so budgets are too late to protect DOM allocation. The independent fix moves the streaming pass ahead of the DOM and enforces the part byte limit.
 - ZIP bounds/path/checksum, CFB chain/cycle limits and native metadata decode bounds already exist and should be retained. Tests must target boundary violations and imported-action behavior, not merely repeat parsing success.
 
-## Executed local evidence
+## Historical independent preparation evidence
+
+These records describe the exact earlier source/artifact noted. The accepted M1 integration and current feature qualification are recorded below; earlier dependency statements are historical.
 
 - `swift test --scratch-path build/m2-swift -j 2 --filter InputTrustTests` — **7 passed**, 0 failures, 16 October 2026; log `build/m2-input-trust.log`. Covers UTF-8/DTD/entity rejection, pre-DOM byte/depth/node limits, ordered whitespace/Unicode preservation, unsafe package targets, corrupt CFB header, inert imported actions and bounded formulas. This is a focused native trust slice, not complete WP-12-T01 acceptance or converter isolation qualification.
 - Recent-history Remove/Locate storage is prepared without changing the separate Home layout. Removing suppresses merged system entries; locating preserves pins and coalesces references. UI integration and actual missing-file/native journey remain open.
@@ -67,13 +90,13 @@ Unavailable prerequisites remain open: licensed exact-build Visio reference, int
 
 - `swift test --scratch-path build/m2-swift -c release -j 2` — **487 tests executed, 12 skipped, 0 failures**, 14.831 seconds; log `build/m2-release-suite.log`. Includes final loopback/native-text fixtures and the now-available bundled independent reader check. Installer-dependent cases remain skipped. This single release-mode run does not close historical M1 intermittency or whole-workflow acceptance.
 
-## M0 contract integration
+## Historical M0 contract integration
 
 Integrated actual M0 delivery commit `02dea53354784dce057b046ea0e7f3df82cee1b9` after reviewing its handoff, locally passing tooling/full-suite evidence and verifying all14 retained artifact hashes. This imports the five-dimension ledger, public synthetic guards/corpus/runner and scoped instrumentation. M0/G0/reference/absolute-performance acceptance remains false. M2 backlog execution records are preserved alongside M0 dispositions. M1 interfaces remain unintegrated and gated. The earlier development archive is still the exact pre-integration `e16604f` preparation artifact, not this combined source.
 
 M0-integrated validation: `swift test --scratch-path build/m2-swift -j 2` passed **503 tests executed, 12 skipped, 0 failures** (`build/m2-m0-integrated-native.log`); all **76 Python tests passed** (`build/m2-m0-integrated-python.log`); `scripts/build-evidence-ledger.py` validation passed (`build/m2-integrated-ledger.log`). These results validate the combined local preparation, without closing M0/G0 or M1 acceptance.
 
-## Additional independent preparation
+## Historical additional independent preparation
 
 `NativeSupportReport` adds redacted drawing/issue/timing counts as a value-only preparation slice: **6 focused tests passed** (`build/m2-support-report.log`). Records explicitly say supplied-record coverage; arbitrary diagnostic codes/prose/provenance, drawing text/data/URLs/fonts/IDs and timing labels never enter the report. Native export/snapshot/producer adapters remain gated.
 
@@ -85,10 +108,8 @@ Pinned-feed follow-up (`1c9dcce`): authenticate the exact signed feed prefix wit
 
 Hostile-container follow-up (`7fe3665`): **6 focused tests passed** (`build/m2-container-trust.log`) for actual ZIP duplicate/symlink/unsafe-name/checksum/budget records and CFB FAT/directory/mini-FAT cycles, with positive controls. The source audit in `M2-INPUT-TRUST-AUDIT.md` records decoded-image and converter hard-deadline/isolation work as open. This test-only addition does not replace the existing 512-test app-source regression or close WP-12-T01.
 
-## Current upstream prerequisite
+## Accepted M1 integration
 
-The user unlocked the Mac and M1 completed its native follow-up. M1 finished at branch HEAD `f40dcbaf834eee6d45cd84eda4b419499f1d6340` (tested code candidate `5560ddf44255f56c0559485f9c9dfe904b3b3dc5`): 607 Release tests, 13 preexisting skips, zero failures; all five focused native tests, twelve corpus traces and thirty interaction samples pass. The selection/edit/raster script p95 of 246.7 ms is not input/frame/save-stall acceptance. Installed-app abrupt termination and automatic relaunch recovery, controlled performance and broader reference/release gates remain open.
+Reviewed actual accepted M1 branch `0ea6b33ad086abf59b8538bce50ec57ded7dcd68`, including all112 retained artifact hashes in its foundation/native/recovery records; two explicitly historical superseded binary digests remain separate (`build/m2-m1-accepted-review.json`). M1 now explicitly passes local engineering acceptance and permits M2 integration. Earlier blocked/locked observations in retained review files are historical.
 
-The actual M1 handoff explicitly retains `acceptance_passed: false` and `downstream_acceptance_ready: false`. M2 reviewed the handoff and verified all 98 retained upstream artifact hashes in the foundation/native records (`build/m2-m1-handoff-review.json`). Two older binary digests are explicitly historical: their paths were rebuilt and the original binary bytes are not retained; they are not current artifact hash assertions. These are upstream tests reviewed by M2, not tests executed in the M2 worktree.
-
-The unlocked-session prerequisite is resolved. M2 independent preparation is **implemented_unaccepted**, while remaining native integration and all whole-task acceptance remain blocked by the existing requirement for accepted M1 commits and passing local milestone evidence. Zero M2 parent tasks are completed; `integration_allowed` remains false and no M1 interfaces were integrated. The original locked-session report and resumed observation are retained as historical evidence. No new permission or repeated unlock action is requested.
+Merged M1 at `d797a67`, preserving M2 new models/tests, AppUpdates, RecentDrawings and XML preflight. M1's qualified adaptations supersede M0's older source instrumentation at conflicting runtime/render/benchmark sites; both backlog formats retain M0/M1/M2 task records. Combined baseline: **655 tests,15 skips,0 failures** in37.0s (`build/m2-m1-integrated-native.log`). Native M2 implementation is active. Stable distribution, numerical performance, platform/reference and actual accessibility/IME qualification remain open and are not implied by this integration.
