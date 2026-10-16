@@ -1,5 +1,9 @@
 # M2 release trust evidence
 
+## Stable publication follow-up
+
+The owner-approved0.23.4 stable release is published and independently downloaded; an actual published0.23.3 app upgraded through the unmodified stable feed. All signatures/notarisation and retained gate records verify, with the controlled-latency exception explicit. See [exact release evidence](M2-STABLE-0.23.4.md). Earlier local preparation limits below are historical.
+
 ## Final local notarization follow-up
 
 The root integration candidate `0839994456aa82f3533456c75f9f10da1ebcd2bb`

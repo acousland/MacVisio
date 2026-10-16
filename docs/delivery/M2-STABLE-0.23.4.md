@@ -1,8 +1,8 @@
 # MacVisio 0.23.4 stable release candidate
 
-State: **prepared; owner-approved performance exception recorded**. Publication follows final signature and manifest verification.
+State: **published as latest stable, with the owner-approved performance exception recorded**. [MacVisio0.23.4](https://github.com/acousland/MacVisio/releases/tag/v0.23.4). All five anonymous public downloads and the stable latest feed match the accepted candidate. An isolated copy of the actual published0.23.3 app upgraded through its unmodified stable feed to the exact0.23.4 executable, without a feed override.
 
-The candidate is version0.23.4/build29, Apple Silicon, macOS27.0.1 minimum. Its stable feed is the existing latest-release Sparkle URL. The conservative patch-level floor matches the actual qualified host. Existing releases are retained; publication would create a new `v0.23.4` latest release.
+The candidate is version0.23.4/build29, Apple Silicon, macOS27.0.1 minimum. Its stable feed is the existing latest-release Sparkle URL. The conservative patch-level floor matches the actual qualified host. Existing releases are retained; publication created the new `v0.23.4` latest release.
 
 Archive: `build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip`.
 
@@ -19,3 +19,5 @@ The owner explicitly approved: **â€œPublish stable with performance exception.â€
 Raw candidate, notarisation, bundle, updater, native and Python records are retained under `build/m2-stable-0.23.4/`; the candidate and proposed gate manifest are under `build/releases/stable-candidates/0.23.4/`. These are local evidence, with no raw drawing/support logs selected for publication.
 
 The first bundle-check harness calculated the project root one directory too high after being placed in a nested build directory. Its failed log and script are retained; fixing the owned harness root produced the passing bundle verification without changing the signed app.
+
+Final publication source/manifest commit: `88aff9b5f132e402bdd8e894899d5efccf74c583`. The unchanged product bundle was assembled from728b56e; subsequent changes only record policy, tests and documentation. `publicationAccepted:true` includes the explicit `qualificationExceptions` record. Public upgrade/download results are retained in `build/m2-stable-0.23.4/publication-verification.json`.

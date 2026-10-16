@@ -30,6 +30,12 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
+## Stable 0.23.4
+
+[MacVisio0.23.4](https://github.com/acousland/MacVisio/releases/tag/v0.23.4) is the latest stable release. It is Developer ID signed, notarised and stapled, with verified ZIP/feed signatures. All five public assets match the accepted candidate; an actual published0.23.3 app upgraded through the normal stable feed to its exact executable. Apple Silicon and macOS27.0.1 or later are required.
+
+The owner approved this exact archive with a documented controlled-latency exception. The50ms input and33ms frame targets remain unqualified; `publicationAccepted:true` reflects that explicit release decision, not a performance pass. Japanese and VoiceOver testing are excluded by user instruction. See [release notes](RELEASE-0.23.4.md) and [candidate/exception/publication evidence](delivery/M2-STABLE-0.23.4.md).
+
 ## Qualified M2 development prerelease
 
 Source `0839994` has a Developer ID signed, hardened, Apple-notarized and
@@ -192,8 +198,4 @@ redaction, stale reports and rejection of ad hoc/unnotarized stable candidates
 even when the old override environment variable is set. Mocked cryptographic
 commands in those tests are policy fixtures, not real signature evidence.
 
-Real signed installation, invalid-signature rejection by the installed updater,
-interruption/recovery, VoiceOver, controlled platform/performance journeys and
-content-rights review remain unaccepted. The historical live-feed probe did not
-install an update. See [M2 release trust evidence](delivery/M2-RELEASE-TRUST.md)
-for the input audit and bounded implementation results.
+Current0.23.4 stable evidence supplies actual signed installed-update, invalid-signature rejection, interrupted-download recovery, exact platform/native and content-notice review. The controlled-latency release exception is explicit; Japanese and VoiceOver testing are excluded by the owner. Earlier live-feed probes did not install an update; the current public-feed upgrade did. See [stable evidence](delivery/M2-STABLE-0.23.4.md).

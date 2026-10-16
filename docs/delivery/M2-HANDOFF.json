@@ -10,7 +10,8 @@
     "local_engineering": true,
     "G1_release": false,
     "G2_reference": false,
-    "stable_release": false
+    "stable_release": true,
+    "stable_release_with_owner_exception": true
   },
   "integration_allowed": true,
   "local_commits": [
@@ -117,6 +118,7 @@
   },
   "remaining_work": [],
   "evidence_paths": [
+    "README.md",
     "build/bundle-verification.json",
     "build/m2-build-qualified2.py",
     "build/m2-build-qualified3.py",
@@ -363,6 +365,71 @@
     "build/m2-search-input-focused-11.log",
     "build/m2-search-text.log",
     "build/m2-signing-prerequisite.json",
+    "build/m2-stable-0.23.4/build.log",
+    "build/m2-stable-0.23.4/bundle-verification-attempt1.log",
+    "build/m2-stable-0.23.4/bundle-verification.json",
+    "build/m2-stable-0.23.4/bundle-verification.log",
+    "build/m2-stable-0.23.4/candidate-only-verification.json",
+    "build/m2-stable-0.23.4/candidate.json",
+    "build/m2-stable-0.23.4/content-rights.json",
+    "build/m2-stable-0.23.4/exception-policy-tests.log",
+    "build/m2-stable-0.23.4/final-stable-verification.log",
+    "build/m2-stable-0.23.4/gatekeeper.log",
+    "build/m2-stable-0.23.4/native-replay.json",
+    "build/m2-stable-0.23.4/notarization.json",
+    "build/m2-stable-0.23.4/notary-archive.log",
+    "build/m2-stable-0.23.4/owner-performance-exception.json",
+    "build/m2-stable-0.23.4/package.log",
+    "build/m2-stable-0.23.4/pipeline.log",
+    "build/m2-stable-0.23.4/platform.json",
+    "build/m2-stable-0.23.4/platform.log",
+    "build/m2-stable-0.23.4/prepare-candidate.py",
+    "build/m2-stable-0.23.4/prior-stable/appcast.xml",
+    "build/m2-stable-0.23.4/prior-stable/baseline.json",
+    "build/m2-stable-0.23.4/prior-stable/gatekeeper.log",
+    "build/m2-stable-0.23.4/prior-stable/seal.log",
+    "build/m2-stable-0.23.4/public-downloads/SHA256SUMS.txt",
+    "build/m2-stable-0.23.4/public-downloads/appcast.xml",
+    "build/m2-stable-0.23.4/public-downloads/release-verification.json",
+    "build/m2-stable-0.23.4/public-downloads/stable-latest-appcast.xml",
+    "build/m2-stable-0.23.4/public-downloads/stable-manifest.json",
+    "build/m2-stable-0.23.4/public-upgrade/updater.log",
+    "build/m2-stable-0.23.4/publication-verification.json",
+    "build/m2-stable-0.23.4/publish.log",
+    "build/m2-stable-0.23.4/published-release.json",
+    "build/m2-stable-0.23.4/python.log",
+    "build/m2-stable-0.23.4/qualify-update-settings.py",
+    "build/m2-stable-0.23.4/qualify-updates.py",
+    "build/m2-stable-0.23.4/release-notes.md",
+    "build/m2-stable-0.23.4/resume-candidate.py",
+    "build/m2-stable-0.23.4/resume-pipeline.log",
+    "build/m2-stable-0.23.4/stable-acceptance-check.json",
+    "build/m2-stable-0.23.4/staple.log",
+    "build/m2-stable-0.23.4/support.json",
+    "build/m2-stable-0.23.4/support.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive-sign.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive.log",
+    "build/m2-stable-0.23.4/update-cases/bad-archive.xml",
+    "build/m2-stable-0.23.4/update-cases/bad-feed-sign.log",
+    "build/m2-stable-0.23.4/update-cases/bad-feed.log",
+    "build/m2-stable-0.23.4/update-cases/bad-feed.xml",
+    "build/m2-stable-0.23.4/update-cases/codesign.log",
+    "build/m2-stable-0.23.4/update-cases/gatekeeper.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt-sign.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt.log",
+    "build/m2-stable-0.23.4/update-cases/interrupt.xml",
+    "build/m2-stable-0.23.4/update-cases/valid-sign.log",
+    "build/m2-stable-0.23.4/update-cases/valid.log",
+    "build/m2-stable-0.23.4/update-cases/valid.xml",
+    "build/m2-stable-0.23.4/update-install.json",
+    "build/m2-stable-0.23.4/update-pipeline.log",
+    "build/m2-stable-0.23.4/update-settings-pipeline.log",
+    "build/m2-stable-0.23.4/update-settings.json",
+    "build/m2-stable-0.23.4/update-settings/appcast.xml",
+    "build/m2-stable-0.23.4/update-settings/feed-sign.log",
+    "build/m2-stable-0.23.4/update-settings/install.log",
+    "build/m2-stable-0.23.4/verify-bundle-attempt1.py",
+    "build/m2-stable-0.23.4/verify-bundle.py",
     "build/m2-stable-ad-hoc-rejection.json",
     "build/m2-support-report.log",
     "build/m2-text-routing.log",
@@ -385,8 +452,49 @@
     "build/releases/development/0.23.3-fbd851bd9f91/SHA256SUMS.txt",
     "build/releases/development/0.23.3-fbd851bd9f91/appcast.xml",
     "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
+    "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+    "build/releases/stable-candidates/0.23.4/SHA256SUMS.txt",
+    "build/releases/stable-candidates/0.23.4/acceptance/accessibility.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/compatibility.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/contentRights.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/installedUpdate.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/performance.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/platform.json",
+    "build/releases/stable-candidates/0.23.4/acceptance/security.json",
+    "build/releases/stable-candidates/0.23.4/appcast.xml",
+    "build/releases/stable-candidates/0.23.4/release-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-0-m2-final-native-journey.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-1-m2-qualified6-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-2-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/accessibility-3-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-0-bundle-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-1-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-2-m2-final-native-journey.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-3-m2-final-public-output-inspection.json",
+    "build/releases/stable-candidates/0.23.4/retained/compatibility-4-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-0-content-rights.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-1-content-provenance.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-2-final-license-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/contentRights-3-source-verification.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-0-update-install.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-1-update-settings.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-2-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/installedUpdate-3-baseline.json",
+    "build/releases/stable-candidates/0.23.4/retained/owner-performance-exception.json",
+    "build/releases/stable-candidates/0.23.4/retained/performance-0-M1-QUALIFICATION.md",
+    "build/releases/stable-candidates/0.23.4/retained/performance-1-m2-qualified6-release-native.log",
+    "build/releases/stable-candidates/0.23.4/retained/performance-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-0-native-replay.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-1-platform.json",
+    "build/releases/stable-candidates/0.23.4/retained/platform-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/security-0-M2-INPUT-TRUST-AUDIT.md",
+    "build/releases/stable-candidates/0.23.4/retained/security-1-m2-qualified6-release-native.log",
+    "build/releases/stable-candidates/0.23.4/retained/security-2-candidate.json",
+    "build/releases/stable-candidates/0.23.4/retained/security-3-bundle-verification.json",
+    "build/releases/stable-candidates/0.23.4/stable-manifest.json",
     "docs/DEVELOPMENT-BACKLOG.md",
     "docs/DISTRIBUTION.md",
+    "docs/RELEASE-0.23.4.md",
     "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
     "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
     "docs/delivery/M2-DIAGNOSTICS.md",
@@ -396,9 +504,13 @@
     "docs/delivery/M2-QUALIFICATION.md",
     "docs/delivery/M2-RELEASE-TRUST.md",
     "docs/delivery/M2-SEARCH-TEXT.md",
+    "docs/delivery/M2-STABLE-0.23.4.md",
     "docs/delivery/M2-SUPPORT-REPORT.md",
     "docs/delivery/M2-TASK-EVIDENCE.json",
-    "docs/development-backlog.json"
+    "docs/development-backlog.json",
+    "scripts/release_policy.py",
+    "scripts/tests/test_release_policy.py",
+    "scripts/verify-release.py"
   ],
   "development_candidate": {
     "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
@@ -437,7 +549,8 @@
     "745 Swift tests/12 skips/0 failures and87 Python pass on frozen source. No source change during final scope/evidence closure.",
     "Local integration is allowed; public release and specification compatibility gates remain unaccepted.",
     "Original checkout and peer worktrees preserved; test applications quit normally.",
-    "Subsequent user-authorized publication completed: exact development prerelease public; four anonymous downloads match qualified assets; existing stable latest unchanged."
+    "Subsequent user-authorized publication completed: exact development prerelease public; four anonymous downloads match qualified assets; existing stable latest unchanged.",
+    "Owner requested stable promotion and explicitly approved a controlled-latency exception. Exact0.23.4 stable bundle published as latest; five public downloads, stable latest feed and actual unmodified-feed upgrade from published0.23.3 all pass."
   ],
   "tests": {
     "final_integrated_release": {
@@ -518,12 +631,36 @@
       "passed": true,
       "assets": 4,
       "record": "build/m2-publication/publication-verification.json"
+    },
+    "stable_release": {
+      "passed_with_approved_exception": true,
+      "candidate": "build/m2-stable-0.23.4/candidate.json",
+      "native": "build/m2-stable-0.23.4/native-replay.json",
+      "updates": "build/m2-stable-0.23.4/update-install.json",
+      "settings": "build/m2-stable-0.23.4/update-settings.json",
+      "verification": "build/releases/stable-candidates/0.23.4/release-verification.json",
+      "public_verification": "build/m2-stable-0.23.4/publication-verification.json",
+      "python": {
+        "executed": 87,
+        "failed": 0,
+        "log": "build/m2-stable-0.23.4/python.log"
+      },
+      "exception_policy": {
+        "executed": 16,
+        "failed": 0,
+        "log": "build/m2-stable-0.23.4/exception-policy-tests.log"
+      }
     }
   },
   "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
   "implementation_head": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
   "head_note": "Implementation is frozen at0839994; final documentation commit is recorded in shared M2 status after commit. Acceptance is local engineering only.",
   "evidence": [
+    {
+      "path": "README.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6f1c2dd39de8aa1cc771df2aaab18468818f93580aeee40a486a278d8d356e3e"
+    },
     {
       "path": "build/bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
@@ -1755,6 +1892,331 @@
       "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
+      "path": "build/m2-stable-0.23.4/build.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "554f27439325a8121eef2c1ac71a88fb9cdb1f83b60e6e8144abe031f85798f9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification-attempt1.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a54e26dc5021d0de5044b968f5e51d07cdce66083d181e506856ce3e413e0fd2"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/bundle-verification.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/candidate-only-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "151bcfe10f2d65f8486c006dd0678ac3c8c67dafdd3f8de42b3ccf258c5626b3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/content-rights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "827677a09c107505be4d59c68e83a06dc9e6e2896c99ac13a5571b2641378271"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/exception-policy-tests.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3c9467de4494df3ca18539a076b3441bd50dfdbc000b9274117bf87feee74724"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/final-stable-verification.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "639d4fe7e35c8d5f7a948419a7cf532b86da488c39fee1dac29860f4aa6b99a3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/notarization.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "8a39d98d7f17a765af1f516781edbda3fae87363687f1bdcfcd18badfdcbf01d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/notary-archive.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/owner-performance-exception.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "9b2fb629f2bc5090c8c9f1cff3e94ed9f45ab1a662cbc3afddb0a6769242a813"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/package.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "292d1787f0aa251b1def0c0cad9f56d90202be38b31d1a63103a64a83b07e0a0"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a8e58efc2693312bf323590aa3af11817e7bb6be5d455783f3d5e73ea09ca261"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11f69804ac3ab3cd0295a4e42c83202c20e101026c2a49d112b332181988844d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/platform.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prepare-candidate.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "7563ff82dd73014171384d3d653f3c778b621b0d102335f8151a837aa3c5ff20"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "a8cf00764570601b2e54f06095cc140c3a4b7030d5fb47b1a5598e47dc74700c"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/baseline.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "f137ca78cf1485f17f9b2900b5cad05f5ca0e5daac28203a935b72e23c21dc7f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "80ca6ea01388e4f4d49be4cd8f1389ff957d11efd8d34c161658c1008f0f3c29"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/prior-stable/seal.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/SHA256SUMS.txt",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c5f635b1827744863a3859d6d8d5b557788404c1d1d97381d08ba3be6d4c7ed"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/release-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/stable-latest-appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-downloads/stable-manifest.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/public-upgrade/updater.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "89ea17ea356d43a0287359a1bedaf82c14b6e5b2403bcc3c17a8e4ab107339d2"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/publication-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ca067dbac15f7e5fa493af713e45d014def69a2fdd088ec3fce16e5a96d762cd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/publish.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "491d55a97685c711eb947772b509794d8f146e5d38391a6f99827bef340366cd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/published-release.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "dccd76180d32352cbf042abeed4261bfd8843a72804ef14c948c3d33b83a8e9f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/python.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "c22a14a9fb1ca1964a7c8a622fef971a41c27bdf2ff9d9d9216c3eeb2a41d219"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/qualify-update-settings.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "df5c0fe4151fcfa89b915665101bf916218d3ad8061c75826dac54f4cc36ace9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/qualify-updates.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4bd811ba6a8d80057ca17267fe39b126fd670c156f0ec70464d249bf0a3e47b8"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/release-notes.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "69e9c13e53372152ffe1e96c228f3bd9e22589ac995c075f8a6240383c00a51a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/resume-candidate.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ca94a744b36f032287ebbd85f3f9c2e0abac8eaca85d4a31fea0a101b9a5cc1e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/resume-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "2405823cf5579d4fa1e2860438989e270f077d637b0fa68515cda9bfe000a484"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/stable-acceptance-check.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ef0465fe3d640e6f5989e5891195733c1b6aabf0f4a8f93fc59568c5f448a07b"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/staple.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "7551b6c8396057523c737760877f55e0e92d2bbd706dea7c67e98240272ce04c"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/support.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d10a219e7b4adff3c09d7973975d3486b5af4d0492f955c485339943b067f2e5"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/support.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ff8a6b40b09be81b5fb8f62c324c109372a1b0c6e64672915eb2dd7724a9f53a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5aad1e4efd821fa4bc8cc029a46bdcfe90a70a17510c8bf7ab18f43b1dcf20d6"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-archive.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5a102fcbc0310ffb587c70acd1539a33091fdf5d4d6082749cc386ee264201ab"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "09d0105612e2f2cda37e419f89859e74d0d531827943b4a419b0586a3ddd80ce"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "41029a122d385e311e8372d844c8ecd6c7f4f0879bb638dd19176137d7ffdd20"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/bad-feed.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "05fa93d797cea610820cb9967c186a496fd03c84e5a68009073c4cf8af97d57d"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/codesign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "e4d8896b715cd9a0fb798a03873dcb7b064cae3804a900fe26442baee754f54e"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/gatekeeper.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3c9ec4441628230eb6c07eea4740d783fa6f7fce01baccd277d629a3006aec04"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d5cbcbb804df68017fde0340395bde86cd45f8c16ab0b16d5a2c77db8fa6233a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4d792ef499acfa726bb3ec794229002be097de135bc3d66bd99d66765cf0481a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/interrupt.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "1266c6204879e37c8ebfed929f9aa02bda992ba8a9c9bfe2d662727eb45a59dd"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "00de1ff862bd22aed5efcb0381160d48ba9a58657ca87b9a7b9c4f4057c3a7ae"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "64423f5fefc33b819be091ec95efb063b991a935541e06bee79ca7ed30205103"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-cases/valid.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "06b50788175600b49f2892de4d545a7b7d371e15111e1b4c54d52ea5e1415f71"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-install.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4373113efa69c92cc120f307e8373ead47209cc8aeb4416e24b110de8d34b927"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0d43e882da1a0316c50a304911038afffe6c0beeb8c22b3423c654de776cbff9"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings-pipeline.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "66a9243cb4c89c20685e683b64fb4c227c8f75f3e0d62ac9ad2032b885c45201"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "193eb0c72d59bdc82269bc6c6bfecbc2b3cb8d6b5d8c14fc3c8e852edc67377f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4dc802903e91f03028990f5595546d679fcb2614f14f83c71d008ffc630cfa3f"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/feed-sign.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5f34fe57ddd361a1b13548c5c0856f0199b8d8c1bf571d5f555b6972673cf729"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/update-settings/install.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "551c9f3a5b9b90673b3bb303da06fcfd671cf8ad7d90a359350de1514265628a"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/verify-bundle-attempt1.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4c242eaff7e5866060f42d0946b78c8e82216e17c0390f6b1b4e1cb2bf29d820"
+    },
+    {
+      "path": "build/m2-stable-0.23.4/verify-bundle.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "39a09203dba227bbb7d0499f249283617d23964de5a6739d74ab2a363d6831fc"
+    },
+    {
       "path": "build/m2-stable-ad-hoc-rejection.json",
       "sha256": "c3113735d16927eb808a530d43f7013702357aae09d7caf8dd9a5f22ac46c379",
       "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
@@ -1865,6 +2327,206 @@
       "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
+      "path": "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "16f5b578d2d0841f5b7c8f57b848438e98fed3434b73d79b0d71d5cc8764ae22"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/SHA256SUMS.txt",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c5f635b1827744863a3859d6d8d5b557788404c1d1d97381d08ba3be6d4c7ed"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/accessibility.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "80a7da0d580c4d20e33f8cbc9fc7b682b0ab03148977cf28c4eba8ab9d0e72b0"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/compatibility.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "abe799ed85935bb6e47b6979839803b7aaf620be39805742b83ccf0b62e58e2e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/contentRights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "903897a9f9546eb66540fba8feef5a6e087266d93fda9d6f1ab65f5395cba3f9"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/installedUpdate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "ec0dc0e54761d6326c7fd5475ba2d82f3c0023b701b34e85340fd6a17659d3f0"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/performance.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "8a17e21ba237499165f453a8db851e6c8dee348c67b1ce7c4226cd9a30bea42e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "3d6af85d0832cd9666692a90e1cf1ef97c796b018e37a9333c80fe8fb166d206"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/acceptance/security.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "b5131440fde1c2b5168b16b5f9e0b65faa180179da17ba18fb06ab2748d06259"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/appcast.xml",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "85b3f5788036860b6eb7f01ed77dcfa8de934878fab907014b2f499c3c2f61f8"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/release-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "616335ffb8928bd0c6676b000b46d87920d98d101c96fdc887c4722c01d05152"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-0-m2-final-native-journey.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-1-m2-qualified6-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-2-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/accessibility-3-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-0-bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-1-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-2-m2-final-native-journey.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-3-m2-final-public-output-inspection.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0144fc5c127ddcbbf3bbac528f0ebe9a4b009c2b6491ac73696b13d53c14eb1f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/compatibility-4-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-0-content-rights.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "827677a09c107505be4d59c68e83a06dc9e6e2896c99ac13a5571b2641378271"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-1-content-provenance.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d73fc8b70ff913d384ee7839b5ec0ea72a49b238b2287bac5d92b7741d02d3c6"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-2-final-license-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "67dfec5aae308a6e58013ec242bcab73568fe0efc14b01d7e5937ce1b1e8982f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/contentRights-3-source-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d62cf174dcc72b2dcdd2d664c97e59c12afc42bad783f6ffacd0baaae1dde2d7"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-0-update-install.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "4373113efa69c92cc120f307e8373ead47209cc8aeb4416e24b110de8d34b927"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-1-update-settings.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "193eb0c72d59bdc82269bc6c6bfecbc2b3cb8d6b5d8c14fc3c8e852edc67377f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-2-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/installedUpdate-3-baseline.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "f137ca78cf1485f17f9b2900b5cad05f5ca0e5daac28203a935b72e23c21dc7f"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/owner-performance-exception.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "9b2fb629f2bc5090c8c9f1cff3e94ed9f45ab1a662cbc3afddb0a6769242a813"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-0-M1-QUALIFICATION.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "304151d8e4f8cb7c9e75b3737b09d549f4bdf7a61c73d77508814558bdc37b92"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-1-m2-qualified6-release-native.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/performance-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-0-native-replay.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "6de4d103f441e45ef8c33a45ba6ed4c2552430a67df86ae94844dfba1ca110e3"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-1-platform.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11f69804ac3ab3cd0295a4e42c83202c20e101026c2a49d112b332181988844d"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/platform-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-0-M2-INPUT-TRUST-AUDIT.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d218d6c03580774d55e933638239180ea348e8eff531c1b1c3797ad2f16f37aa"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-1-m2-qualified6-release-native.log",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-2-candidate.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "d85688c8ac3e2d286bff22188d4b341bedfc3e71f9c4967afe8a303aa427551e"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/retained/security-3-bundle-verification.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "0a14af635ba769f90eb50308502282c97e31ce371ff3f39435390d6d669bf8f4"
+    },
+    {
+      "path": "build/releases/stable-candidates/0.23.4/stable-manifest.json",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578"
+    },
+    {
       "path": "docs/DEVELOPMENT-BACKLOG.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
       "sha256": "7f63f928007ef6a8ea01935c0a66492fac0d0028c837e40dcc3a099deaf5dd70"
@@ -1872,7 +2534,12 @@
     {
       "path": "docs/DISTRIBUTION.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "543b4f757a05121c1065d44be893e4a6ee80d565ef608ac94aacf2cd0815ec8e"
+      "sha256": "2a2797373a6bc55e744afd5fd4dce98e47e75d414a2ba5deeac2338bef6bcd90"
+    },
+    {
+      "path": "docs/RELEASE-0.23.4.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "11ecc355d66e0aceb059e34a0b28286c739eaf0bf844e1d75a9b6726a53c11c8"
     },
     {
       "path": "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
@@ -1897,7 +2564,7 @@
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "89234a1c25805b24ab831a67b536850255dadf25ee79096572cbafe83a05aa28"
+      "sha256": "b95e1c01f50b267989c6f3b4d9a091a00353fffd4251a7e98677e03107cdc6da"
     },
     {
       "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
@@ -1907,17 +2574,22 @@
     {
       "path": "docs/delivery/M2-QUALIFICATION.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "5a81f255002f52efac3800712d088e9882fbd3ca9da2c7d8baf2a377da6efeef"
+      "sha256": "d34c1b24a76b35f5b920f9e437155e330b57e572cede07a79280d0c89f120470"
     },
     {
       "path": "docs/delivery/M2-RELEASE-TRUST.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
-      "sha256": "a9c0d3d515b6642eb9f5cd3aba82e74821e68a482a57b7b71d3c177c588269c6"
+      "sha256": "6ca66e18a720887391436d3b7cb4fbf68ecc442a681806fb984ea03650fb2375"
     },
     {
       "path": "docs/delivery/M2-SEARCH-TEXT.md",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
       "sha256": "1aa71d638b8b7d52d97f69720eb4f3f608f49f0d69564d7210601e6d4b3bdebc"
+    },
+    {
+      "path": "docs/delivery/M2-STABLE-0.23.4.md",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "2310ff742c2a1f3a5298aa2f6a6a50fd7df48b62affc3fdc55425db1cca79fb5"
     },
     {
       "path": "docs/delivery/M2-SUPPORT-REPORT.md",
@@ -1933,6 +2605,21 @@
       "path": "docs/development-backlog.json",
       "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
       "sha256": "79e5deef2ea147394df9168ebc0c2869bd7eb1595fc9e78894e5be7860027120"
+    },
+    {
+      "path": "scripts/release_policy.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "32ef022c2272714a72172c82336d3ac3f1dc27610be8b0039c0f26721fbf3380"
+    },
+    {
+      "path": "scripts/tests/test_release_policy.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "c90e283a3e284567c85ef87b09558e0ce1876805b9206f28fcacf64829c2c414"
+    },
+    {
+      "path": "scripts/verify-release.py",
+      "scope": "Stable0.23.4 exact-candidate qualification, explicit owner performance exception and verified public publication/upgrade.",
+      "sha256": "da44f46a8fff9ffb5dc5e0ec05b776a7ff880184f22a618b4d95953f2e6d148a"
     }
   ],
   "blocked_task_ids": [],
@@ -2135,7 +2822,7 @@
       "native_disposition": "build/m2-native-rich-input-before.json"
     }
   ],
-  "updated_utc": "2026-10-16T04:52:38.187983+00:00",
+  "updated_utc": "2026-10-16T05:09:11.615509+00:00",
   "native_input_followup": {
     "state": "out_of_scope_by_user_restoration_complete",
     "record": "build/m2-qualified6-japanese-input.json",
@@ -2193,10 +2880,9 @@
   "qualification": "docs/delivery/M2-QUALIFICATION.md",
   "task_evidence": "docs/delivery/M2-TASK-EVIDENCE.json",
   "continuing_release_obligations": [
-    "No stable release/publication acceptance. Exact development prerelease is public and verified; stable latest remains v0.23.3.",
-    "Broader platform installations, including exact27.0 binary floor, remain unqualified; actual M2 platform is arm64/macOS27.0.1.",
-    "Licensed exact-build Visio compatibility and controlled numerical performance remain with their original M0/M3/release owners.",
-    "Technical provenance is recorded, without a legal ownership attestation; publication must retain complete third-party source/notice obligations."
+    "The controlled50ms input/33ms frame targets remain unqualified; this exact stable archive has the explicit owner-approved release exception.",
+    "M0/M3 licensed Visio and broad baseline/reference/platform obligations retain their owners; stable native-editor release is not full specification parity.",
+    "Future archives cannot reuse this exact-hash performance exception. Complete third-party notices/source offers must be maintained."
   ],
   "historical_notes": [
     "Accepted local M1 prerequisite remains satisfied and integrated at d797a67.",
@@ -2218,6 +2904,27 @@
   "acceptance_passed": true,
   "downstream_acceptance_ready": true,
   "publication": {
+    "state": "published_stable_verified",
+    "channel": "stable",
+    "url": "https://github.com/acousland/MacVisio/releases/tag/v0.23.4",
+    "tag": "v0.23.4",
+    "latest": true,
+    "published_at": "2026-10-16T05:07:20Z",
+    "verification": "build/m2-stable-0.23.4/publication-verification.json",
+    "stable_publication_accepted": true,
+    "qualification_exceptions": [
+      {
+        "version": "0.23.4",
+        "gate": "performance",
+        "check": "controlled-latency",
+        "approvedBy": "repository owner, direct user instruction",
+        "approvedOn": "2026-10-16",
+        "approval": "Publish stable with performance exception",
+        "reason": "Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed."
+      }
+    ]
+  },
+  "prior_development_publication": {
     "state": "published_verified",
     "channel": "development",
     "url": "https://github.com/acousland/MacVisio/releases/tag/development-v0.23.3-0839994456aa",
@@ -2226,5 +2933,36 @@
     "verification": "build/m2-publication/publication-verification.json",
     "stable_publication_accepted": false,
     "stable_latest_unchanged": "v0.23.3"
+  },
+  "stable_candidate": {
+    "source_commit": "88aff9b5f132e402bdd8e894899d5efccf74c583",
+    "bundle_build_commit": "728b56e1ef7e1f1dcb66dfa5424cfe0e777fdea0",
+    "product_code_source": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "path": "build/releases/stable-candidates/0.23.4/MacVisio-0.23.4.zip",
+    "sha256": "16f5b578d2d0841f5b7c8f57b848438e98fed3434b73d79b0d71d5cc8764ae22",
+    "version": "0.23.4",
+    "build": "29",
+    "channel": "stable",
+    "published": true,
+    "latest": true,
+    "publicationAccepted": true,
+    "release_url": "https://github.com/acousland/MacVisio/releases/tag/v0.23.4",
+    "platform": {
+      "architecture": "arm64",
+      "minimumMacOS": "27.0.1"
+    },
+    "notary_submission_id": "9e802fb0-ef2b-4c78-94bb-77aa3a1a3cde",
+    "manifest_sha256": "5c4a4a1000994505b4e3eeca544044478ec882c5da9213bae070da6471084578",
+    "qualification_exceptions": [
+      {
+        "version": "0.23.4",
+        "gate": "performance",
+        "check": "controlled-latency",
+        "approvedBy": "repository owner, direct user instruction",
+        "approvedOn": "2026-10-16",
+        "approval": "Publish stable with performance exception",
+        "reason": "Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed."
+      }
+    ]
   }
 }

@@ -13,6 +13,10 @@ combining-character and emoji checks remain in scope. The prepared VoiceOver
 AppleScript driver was never executed or enabled. Earlier temporary Japanese
 input settings were fully restored.
 
+## Stable publication follow-up
+
+The owner subsequently requested stable promotion and explicitly approved publication with a performance exception. [MacVisio0.23.4](https://github.com/acousland/MacVisio/releases/tag/v0.23.4) is now latest stable. Its new stable-channel bundle, version/build and macOS27.0.1 floor are separately bound to actual notarisation, signature, native, update/recovery and public-download/feed checks. The50ms/33ms targets remain unqualified and the manifest records `waived_by_owner`. See [the exact candidate and release decision](M2-STABLE-0.23.4.md). The original M2 engineering/source evidence below remains unchanged.
+
 ## Publication follow-up
 
 On16 October2026, the user authorized publication. The exact qualified ZIP,
