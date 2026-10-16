@@ -121,6 +121,46 @@ class M3PublicEvidenceTests(unittest.TestCase):
                 self.parts[name] = b"<public/>" if name.endswith(".xml") else b"public"
                 self.assertTrue(self.compare())
 
+    def test_private_relationship_type_does_not_hide_public_targets_or_extensions(self):
+        for target, attributes in [
+            ("synthetic/opaque.bin", {}),
+            (m3.PRIVATE_PART, {"TargetMode": "External"}),
+            (m3.PRIVATE_PART, {"{urn:synthetic:public}meaning": "retain"}),
+        ]:
+            with self.subTest(target=target, attributes=attributes):
+                self.parts = m3.authored_parts()
+                self.parts[m3.PRIVATE_PART] = b"private cache"
+                root = ET.fromstring(self.parts["_rels/.rels"])
+                ET.SubElement(root, "{" + m3.R + "}Relationship", Id="public-extension",
+                              Type=m3.PRIVATE_REL, Target=target, **attributes)
+                self.parts["_rels/.rels"] = ET.tostring(root)
+                self.assertTrue(self.compare())
+
+    def test_native_extension_names_do_not_hide_unknown_content_type_registrations(self):
+        for extension, content_type, tag in [
+            ("json", "application/vnd.synthetic.public+json", "{" + m3.C + "}Default"),
+            ("mvmeta", "application/vnd.synthetic.public", "{" + m3.C + "}Default"),
+            ("json", "application/json", "{urn:synthetic:public}Default"),
+        ]:
+            with self.subTest(extension=extension, content_type=content_type, tag=tag):
+                self.parts = m3.authored_parts()
+                root = ET.fromstring(self.parts["[Content_Types].xml"])
+                ET.SubElement(root, tag, Extension=extension, ContentType=content_type)
+                self.parts["[Content_Types].xml"] = ET.tostring(root)
+                self.assertTrue(self.compare())
+
+    def test_public_extension_case_keeps_content_type_registration_in_oracle(self):
+        self.parts["synthetic/public.JSON"] = b'{"public":true}'
+        root = ET.fromstring(self.parts["[Content_Types].xml"])
+        registration = ET.SubElement(root, "{" + m3.C + "}Default", Extension="json", ContentType="application/json")
+        self.parts["[Content_Types].xml"] = ET.tostring(root)
+        m3.write_package(self.parts, self.original)
+        root.remove(registration)
+        self.parts["[Content_Types].xml"] = ET.tostring(root)
+        changes = self.compare()
+        self.assertTrue(changes)
+        self.assertTrue(all(change["path"].startswith("/[Content_Types].xml") for change in changes))
+
     def test_rejects_duplicate_unsafe_and_entity_package_parts(self):
         self.parts["../escape.xml"] = b"<escape/>"
         with self.assertRaisesRegex(ValueError, "Unsafe"):

@@ -242,16 +242,33 @@ def snapshot(path: Path) -> dict:
         if b"<!DOCTYPE" in data.upper() or b"<!ENTITY" in data.upper():
             raise ValueError("DTD/entity declarations are unsupported")
         root = ET.fromstring(data, parser=ET.XMLParser(target=PublicXMLBuilder()))
-        if root.tag == "{" + R + "}Relationships":
+        if name.endswith(".rels") and root.tag == "{" + R + "}Relationships":
             for child in list(root):
-                if child.get("Type") == PRIVATE_REL:
+                # Only the writer's root registration of the native header is
+                # private. Matching Type alone must not conceal a public target,
+                # an external link, or unknown extension content.
+                if (name == "_rels/.rels" and child.tag == "{" + R + "}Relationship"
+                        and child.get("Type") == PRIVATE_REL and PRIVATE_PART in private
+                        and child.get("Target") in {PRIVATE_PART, "/" + PRIVATE_PART}
+                        and child.get("TargetMode", "Internal") == "Internal"
+                        and child.get("Id")
+                        and set(child.attrib) <= {"Id", "Type", "Target", "TargetMode"}
+                        and not len(child) and not (child.text or "").strip()):
                     root.remove(child)
             root[:] = sorted(root, key=lambda child: child.get("Id", ""))
-        if root.tag == "{" + C + "}Types":
+        if name == "[Content_Types].xml" and root.tag == "{" + C + "}Types":
+            native_types = {"json": "application/json", "mvmeta": "application/octet-stream"}
             unused_native_extensions = {extension for extension in ["json", "mvmeta"]
-                                        if not any(p.endswith("." + extension) and p not in private for p in parts)}
+                                        if not any(p.lower().endswith("." + extension) and p not in private for p in parts)}
             for child in list(root):
-                if child.get("PartName", "").lstrip("/") in private or child.get("Extension") in unused_native_extensions:
+                known_override = (child.tag == "{" + C + "}Override"
+                                  and set(child.attrib) == {"PartName", "ContentType"}
+                                  and child.get("PartName", "").removeprefix("/") in private)
+                known_default = (child.tag == "{" + C + "}Default"
+                                 and set(child.attrib) == {"Extension", "ContentType"}
+                                 and child.get("Extension") in unused_native_extensions
+                                 and child.get("ContentType") == native_types.get(child.get("Extension")))
+                if (known_override or known_default) and not len(child) and not (child.text or "").strip():
                     root.remove(child)
             root[:] = sorted(root, key=lambda child: (child.tag, child.get("Extension", ""), child.get("PartName", "")))
 
