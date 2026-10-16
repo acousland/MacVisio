@@ -82,7 +82,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--benchmark-sample\""
       },
       "reference_build": null,
@@ -93,7 +93,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--benchmark-sample\""
       },
       "qualification": {
@@ -145,7 +145,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--compact-ui\""
       },
       "reference_build": null,
@@ -156,7 +156,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--compact-ui\""
       },
       "qualification": {
@@ -208,7 +208,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--convert\""
       },
       "reference_build": null,
@@ -219,7 +219,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--convert\""
       },
       "qualification": {
@@ -271,7 +271,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--empty-recents\""
       },
       "reference_build": null,
@@ -282,7 +282,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--empty-recents\""
       },
       "qualification": {
@@ -334,7 +334,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--export-all-pdf\""
       },
       "reference_build": null,
@@ -345,7 +345,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--export-all-pdf\""
       },
       "qualification": {
@@ -397,7 +397,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-control-example\""
       },
       "reference_build": null,
@@ -408,7 +408,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-control-example\""
       },
       "qualification": {
@@ -460,7 +460,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-curve-example\""
       },
       "reference_build": null,
@@ -471,7 +471,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-curve-example\""
       },
       "qualification": {
@@ -523,7 +523,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-curve-library-example\""
       },
       "reference_build": null,
@@ -534,7 +534,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-curve-library-example\""
       },
       "qualification": {
@@ -586,7 +586,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-engineering-example\""
       },
       "reference_build": null,
@@ -597,7 +597,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-engineering-example\""
       },
       "qualification": {
@@ -649,7 +649,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-examples\""
       },
       "reference_build": null,
@@ -660,7 +660,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-examples\""
       },
       "qualification": {
@@ -712,7 +712,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-field-example\""
       },
       "reference_build": null,
@@ -723,7 +723,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-field-example\""
       },
       "qualification": {
@@ -775,7 +775,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-geometry-example\""
       },
       "reference_build": null,
@@ -786,7 +786,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-geometry-example\""
       },
       "qualification": {
@@ -838,7 +838,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-library-example\""
       },
       "reference_build": null,
@@ -849,7 +849,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-library-example\""
       },
       "qualification": {
@@ -901,7 +901,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-page-example\""
       },
       "reference_build": null,
@@ -912,7 +912,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-page-example\""
       },
       "qualification": {
@@ -964,7 +964,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-rich-text-example\""
       },
       "reference_build": null,
@@ -975,7 +975,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-rich-text-example\""
       },
       "qualification": {
@@ -1027,7 +1027,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-text-context-example\""
       },
       "reference_build": null,
@@ -1038,7 +1038,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--generate-text-context-example\""
       },
       "qualification": {
@@ -1090,7 +1090,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-calculation\""
       },
       "reference_build": null,
@@ -1101,7 +1101,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-calculation\""
       },
       "qualification": {
@@ -1153,7 +1153,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-geometry\""
       },
       "reference_build": null,
@@ -1164,7 +1164,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-geometry\""
       },
       "qualification": {
@@ -1216,7 +1216,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-libraries\""
       },
       "reference_build": null,
@@ -1227,7 +1227,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--inspect-libraries\""
       },
       "qualification": {
@@ -1405,7 +1405,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--page-example\""
       },
       "reference_build": null,
@@ -1416,7 +1416,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--page-example\""
       },
       "qualification": {
@@ -1468,7 +1468,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--prepare-interchange-fixtures\""
       },
       "reference_build": null,
@@ -1479,7 +1479,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--prepare-interchange-fixtures\""
       },
       "qualification": {
@@ -1531,7 +1531,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--profile-interactions\""
       },
       "reference_build": null,
@@ -1542,7 +1542,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--profile-interactions\""
       },
       "qualification": {
@@ -1594,7 +1594,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--profile-open\""
       },
       "reference_build": null,
@@ -1605,7 +1605,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--profile-open\""
       },
       "qualification": {
@@ -1657,7 +1657,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-document\""
       },
       "reference_build": null,
@@ -1668,7 +1668,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-document\""
       },
       "qualification": {
@@ -1720,7 +1720,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-ui\""
       },
       "reference_build": null,
@@ -1731,7 +1731,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-ui\""
       },
       "qualification": {
@@ -1783,7 +1783,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-welcome\""
       },
       "reference_build": null,
@@ -1794,7 +1794,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--render-welcome\""
       },
       "qualification": {
@@ -1846,7 +1846,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--ribbon-tab\""
       },
       "reference_build": null,
@@ -1857,7 +1857,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--ribbon-tab\""
       },
       "qualification": {
@@ -1909,7 +1909,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--welcome-new\""
       },
       "reference_build": null,
@@ -1920,7 +1920,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--welcome-new\""
       },
       "qualification": {
@@ -1972,7 +1972,7 @@
       ],
       "observation": "source",
       "provenance": {
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--welcome-open\""
       },
       "reference_build": null,
@@ -1983,7 +1983,7 @@
       },
       "source_check": {
         "kind": "anchor_exists",
-        "path": "Sources/MacVisio/main.swift",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
         "anchor": "\"--welcome-open\""
       },
       "qualification": {
