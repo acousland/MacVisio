@@ -2,7 +2,7 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 is **in progress, unaccepted**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
+M2 is **needs input, unaccepted**. Preparation and independent trust work do not imply that M1 or M0 has passed. M1 runtime/transaction/calculation/scene APIs will only be integrated from a real handoff with passing local evidence. No distribution is authorized.
 
 ## Ownership and overlap
 
@@ -84,3 +84,7 @@ Final independent-preparation regression after support-summary and runtime-chann
 Pinned-feed follow-up (`1c9dcce`): authenticate the exact signed feed prefix with the pinned public key before trusting its XML/URL. Actual1280-byte development appcast verifies with signed-prefix/marker offset1136 (`build/m2-pinned-feed-verification.json`); malformed/tampered/duplicate/length/trailing-content cases fail closed. **80 Python tests passed**, including25 release-policy tests and24 malicious feed variants (`build/m2-final-python.log`). This supersedes the prior76-test combined tooling run without changing native app source or accepting a stable/installed update.
 
 Hostile-container follow-up (`7fe3665`): **6 focused tests passed** (`build/m2-container-trust.log`) for actual ZIP duplicate/symlink/unsafe-name/checksum/budget records and CFB FAT/directory/mini-FAT cycles, with positive controls. The source audit in `M2-INPUT-TRUST-AUDIT.md` records decoded-image and converter hard-deadline/isolation work as open. This test-only addition does not replace the existing 512-test app-source regression or close WP-12-T01.
+
+## Current upstream prerequisite
+
+M1 reports that the Mac graphics session is locked and has asked the user to unlock it for the native event trace, or explicitly continue without native qualification. This is an upstream report, retained in `build/m2-upstream-gate.json`; M2 did not measure the lock state. No accepted M1 handoff exists. Independent preparation is complete, and all remaining native integration and whole-task acceptance stay gated. M2 is **needs_input**, with zero completed parent tasks and no downstream integration permission. After a human response, review the actual M1 handoff and passing local milestone evidence before resuming integration. Continuing without qualification does not by itself satisfy that acceptance gate.

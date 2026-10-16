@@ -5,7 +5,7 @@
   "worktree": "/Users/acousland/.codex/worktrees/d598/MacVisio",
   "branch": "codex/m2-native-editor",
   "planning_baseline": "7c270124993bac09967109f95e603ebb47bd98ff",
-  "state": "in_progress",
+  "state": "needs_input",
   "milestone_acceptance": "unaccepted",
   "integration_allowed": false,
   "local_commits": [
@@ -24,7 +24,9 @@
     "66c0bcc7e766d2aab8d85f98135906445b857d5c",
     "1c9dcce2920203894e9268e2d363d83b72d53206",
     "181afca55ddc736a3b270f7265960f35605fd9f0",
-    "7fe36658112770ab87be6753b15a36fff8490e3a"
+    "7fe36658112770ab87be6753b15a36fff8490e3a",
+    "0a20ff409aed5ca97475be1dd224e8875cdb6ff8",
+    "234208064723b67cffd15212dc6818b3b4bd4565"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -66,13 +68,21 @@
       "evidence_paths": [
         "docs/delivery/M1-IMPLEMENTATION.md",
         "build/m1-evidence/baseline-suite.log"
-      ]
+      ],
+      "human_input_required": true,
+      "gate": {
+        "state": "needs_input",
+        "dependency": "accepted M1 handoff",
+        "reason": "M1 reports a locked Mac graphics session and is awaiting a human response for its native event trace. No accepted M1 handoff is available. M2 independent preparation is complete; remaining native integration and whole-task acceptance stay gated.",
+        "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+        "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:168"
+      }
     }
   },
   "remaining_work": [
     "Accepted M1 transaction/runtime/calculation/scene and lifecycle handoff before UI integration",
-    "Necessary actual M0 ledger/harness contracts; Visio reference can remain unresolved for native engineering",
-    "WP-10 Home integration/Locate-Remove UI/read-only/duplicate/window journeys; command UI; mixed inspector; branching/off-page authoring",
+    "M0 exact Visio reference and absolute-performance acceptance remain open where claims require them; necessary local ledger/harness contracts are already integrated.",
+    "WP-10 Home integration/Locate-Remove UI/read-only/duplicate/window journeys; command UI; units/protection/reversible previews on accepted M1 inspector; branching/off-page authoring",
     "WP-11 scene accessibility, focus/connect/resize workflows, font renderer integration, real IME/VoiceOver/proofing/adaptive journeys",
     "WP-12 hostile resource/converter qualification, signed installed updates and failure recovery, exact candidate platform/content-rights qualification",
     "WP-13 producer diagnostics with dependency keys, navigable unified pane, affected-source save policy and accuracy/multi-document fixtures"
@@ -102,7 +112,8 @@
     "build/m2-final-python.log",
     "build/m2-pinned-feed-verification.json",
     "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
-    "build/m2-container-trust.log"
+    "build/m2-container-trust.log",
+    "build/m2-upstream-gate.json"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -120,7 +131,7 @@
     "note": "Predates M0 integration, NativeSupportReport and runtime update-channel fix; current source is the reviewable candidate. No native integration acceptance is implied."
   },
   "notes": [
-    "This is an interim handoff/status, not M2 milestone delivery or permission for M3 dependent implementation.",
+    "M2 independent preparation handoff with explicit upstream input gate; not M2 milestone delivery or permission for M3 dependent implementation.",
     "Original Home working changes were inspected read-only and not copied.",
     "Developer ID identity available; exact final-candidate/team/notarization and installed journeys unaccepted.",
     "One green debug suite is not a disposition of historical release-suite intermittency.",
@@ -207,7 +218,7 @@
   "evidence": [
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "48593c466eab40405888540b8e8702230e1e02be4c9ec771cd6ee214cf7bdca1",
+      "sha256": "dec6bacf0764da8838d1d35af31d38e2c78d6f16e0df57f4d09e44cea054e8f3",
       "scope": "local preparation, not milestone acceptance"
     },
     {
@@ -329,6 +340,37 @@
       "path": "build/m2-container-trust.log",
       "sha256": "92d81462a1f2e9bdee6aa577010d41ed96d11b932eff4231639d625e29ea85e4",
       "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-upstream-gate.json",
+      "sha256": "e8ded161ee6384a4975bc826b3a84b6e0d1c1a865dca497e5a145caf83908c76",
+      "scope": "local preparation, not milestone acceptance"
     }
-  ]
+  ],
+  "blocked_task_ids": [
+    "WP-10-T01",
+    "WP-10-T02",
+    "WP-10-T03",
+    "WP-10-T04",
+    "WP-11-T01",
+    "WP-11-T02",
+    "WP-11-T03",
+    "WP-11-T04",
+    "WP-12-T01",
+    "WP-12-T02",
+    "WP-12-T03",
+    "WP-12-T04",
+    "WP-13-T01",
+    "WP-13-T02",
+    "WP-13-T03",
+    "WP-13-T04"
+  ],
+  "blocked_scope": "Remaining native integration and whole-task acceptance; independent implemented_unaccepted preparation is retained.",
+  "delivery_gate": {
+    "state": "needs_input",
+    "dependency": "accepted M1 handoff",
+    "reason": "M1 reports a locked Mac graphics session and is awaiting a human response for its native event trace. No accepted M1 handoff is available. M2 independent preparation is complete; remaining native integration and whole-task acceptance stay gated.",
+    "source_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+    "source_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:168"
+  }
 }
