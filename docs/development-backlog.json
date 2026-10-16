@@ -2515,7 +2515,7 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese/Chinese candidate-picker qualification remains open; temporary source authorized; manual Hiragana selection and restoration pending.",
+          "execution_note": "UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese candidate-picker test skipped at user request; Australian-only, hidden Input menu, original globe-key action and English-Australia-only disabled Dictation restored. CJK candidate-picker qualification remains unaccepted.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",

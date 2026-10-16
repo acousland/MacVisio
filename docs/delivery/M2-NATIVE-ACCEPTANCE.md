@@ -62,11 +62,15 @@ minimum-OS27.0 installations, application-owner provenance, and the applicable
 licensed exact-build Visio/reference and controlled performance gates. The
 current tool's app-targeted input does not provide global VoiceOver cursor/action
 evidence. Native dead-key composition is real marked-text evidence but does not
-assert CJK candidate-picker qualification. The temporary Japanese source was authorized and added. The current bridge
-cannot switch the system Input menu; a manual Hiragana selection is pending.
-Australian plus Japanese - Romaji are currently enabled, with Input menu on.
-After the test, remove only Japanese and restore the original Input-menu-off
-setting. See `build/m2-qualified6-japanese-input.json`.
+assert CJK candidate-picker qualification. The temporary Japanese source was authorized and added, but the current bridge
+could not switch the system Input menu. The user then requested **skip and restore**.
+Japanese was removed; Australian-only and Input-menu-off were verified. The globe
+key returned to Show Emoji & Symbols. Adding the source had also automatically
+added Japanese Dictation; it was removed, restoring English (Australia) only with
+Dictation off. The owned Latin-only draft was retained as skipped evidence, its
+recent entry removed, and both test apps quit normally. No CJK pass is asserted.
+See `build/m2-qualified6-japanese-input.json`; its prior pending state is retained
+separately.
 
 ## Earlier local candidates and qualification
 
