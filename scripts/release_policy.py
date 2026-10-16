@@ -19,7 +19,9 @@ GATES = {
     'platform': {'launch', 'open-edit-save-reopen'},
     'installedUpdate': {'signed-install', 'invalid-signature', 'interruption', 'rollback-recovery', 'documents-settings-preserved'},
     'security': {'zip-xml-cfb-limits', 'formula-resource-limits', 'no-automatic-actions-or-fetch'},
-    'accessibility': {'keyboard', 'voiceover'},
+    # User explicitly removed VoiceOver operation testing on 2026-10-16.
+    # Semantic AppKit and native keyboard qualification remain required.
+    'accessibility': {'keyboard'},
     'performance': {'controlled-latency', 'intermittency-disposition'},
     'compatibility': {'declared-slice', 'no-silent-loss'},
     'contentRights': {'bundled-content-inventory', 'redistribution-rights'},

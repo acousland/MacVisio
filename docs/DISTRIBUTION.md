@@ -139,10 +139,12 @@ Every named check must have the value `passed`:
 | `platform` | `launch`, `open-edit-save-reopen` |
 | `installedUpdate` | `signed-install`, `invalid-signature`, `interruption`, `rollback-recovery`, `documents-settings-preserved` |
 | `security` | `zip-xml-cfb-limits`, `formula-resource-limits`, `no-automatic-actions-or-fetch` |
-| `accessibility` | `keyboard`, `voiceover` |
+| `accessibility` | `keyboard` |
 | `performance` | `controlled-latency`, `intermittency-disposition` |
 | `compatibility` | `declared-slice`, `no-silent-loss` |
 | `contentRights` | `bundled-content-inventory`, `redistribution-rights` |
+
+VoiceOver operation testing was explicitly removed from the release requirements by the user on16 October2026. Semantic accessibility and native keyboard evidence are retained; no VoiceOver pass is claimed. Japanese testing was also explicitly excluded.
 
 The workflow retains the supplied evidence in the candidate run; it publishes the
 manifest and verification hashes, not raw support logs or drawing contents.
