@@ -19,6 +19,8 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     private let onOpen: () -> Void
     private let onRecent: (URL) -> Void
     private let onPin: (URL) -> Void
+    private let onLocate: ((URL) -> Void)?
+    private let onRemove: ((URL) -> Void)?
     private let onBack: () -> Void
     private let onSave: (() -> Void)?
     private let onSaveAs: (() -> Void)?
@@ -49,7 +51,9 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
          onBack: @escaping () -> Void,
          onSave: (() -> Void)? = nil,
          onSaveAs: (() -> Void)? = nil,
-         onClose: (() -> Void)? = nil) {
+         onClose: (() -> Void)? = nil,
+         onLocate: ((URL) -> Void)? = nil,
+         onRemove: ((URL) -> Void)? = nil) {
         self.onNew = onNew
         self.onOpen = onOpen
         self.onRecent = onRecent
@@ -58,6 +62,8 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         self.onSave = onSave
         self.onSaveAs = onSaveAs
         self.onClose = onClose
+        self.onLocate = onLocate
+        self.onRemove = onRemove
 
         let window = NSWindow(
             contentRect: NSRect(x: 0, y: 0, width: 1100, height: 760),
@@ -67,6 +73,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         )
         window.title = "MacVisio"
         window.minSize = NSSize(width: 1000, height: 680)
+        window.autorecalculatesKeyViewLoop = true
         window.isReleasedWhenClosed = false
         window.tabbingMode = .disallowed
         window.isRestorable = false
@@ -82,11 +89,23 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
 
     func refresh(recents: [RecentDrawing], section: WelcomeSection, canGoBack: Bool) {
+        let enteringTemplates = section == .new && self.section != .new
         self.recents = recents
         self.section = section
         self.canGoBack = canGoBack
         updateSidebar()
         renderSection()
+        if enteringTemplates, let first = templateKeyboardButtons(in: bodyStack).first {
+            window?.initialFirstResponder = first
+            window?.makeFirstResponder(first)
+        }
+    }
+
+    private func templateKeyboardButtons(in view: NSView) -> [WelcomeKeyboardButton] {
+        view.subviews.flatMap { child in
+            if let button = child as? WelcomeKeyboardButton { return [button] }
+            return templateKeyboardButtons(in: child)
+        }
     }
 
     func refresh(recents: [RecentDrawing], canGoBack: Bool) {
@@ -514,7 +533,9 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         for recent in visible {
             rows.addArrangedSubview(RecentDrawingRow(drawing: recent, target: self,
                                                      openAction: #selector(recentAction(_:)),
-                                                     pinAction: #selector(pinAction(_:))))
+                                                     pinAction: #selector(pinAction(_:)),
+                                                     locateAction: #selector(locateRecentAction(_:)),
+                                                     removeAction: #selector(removeRecentAction(_:))))
         }
         stack.addView(rows, in: .top)
         rows.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
@@ -585,6 +606,12 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
 
     @objc private func openAction(_ sender: NSButton) { onOpen() }
 
+    @objc private func locateRecentAction(_ sender: NSMenuItem) {
+        guard let url = sender.representedObject as? URL else { return }; onLocate?(url)
+    }
+    @objc private func removeRecentAction(_ sender: NSMenuItem) {
+        guard let url = sender.representedObject as? URL else { return }; onRemove?(url)
+    }
     @objc private func recentAction(_ sender: NSButton) {
         guard let path = payload(from: sender, prefix: "welcomeRecent."),
               let recent = recents.first(where: { $0.url.path == path }) else { return }
@@ -716,7 +743,19 @@ private final class AdaptiveStackView: NSStackView {
     }
 }
 
-private final class AdaptiveSidebarButton: NSButton {
+private class WelcomeKeyboardButton: NSButton {
+    override var acceptsFirstResponder: Bool { isEnabled && !isHiddenOrHasHiddenAncestor }
+    override var canBecomeKeyView: Bool { acceptsFirstResponder }
+    override var focusRingMaskBounds: NSRect { bounds }
+    override func drawFocusRingMask() { NSBezierPath(roundedRect: bounds.insetBy(dx: 3, dy: 3), xRadius: 7, yRadius: 7).fill() }
+    override func keyDown(with event: NSEvent) {
+        if event.modifierFlags.intersection([.command, .control, .option]).isEmpty,
+           [" ", "\r"].contains(event.charactersIgnoringModifiers ?? "") { performClick(nil) }
+        else { super.keyDown(with: event) }
+    }
+}
+
+private final class AdaptiveSidebarButton: WelcomeKeyboardButton {
     var isCurrent = false { didSet { updateSurface() } }
 
     override init(frame frameRect: NSRect) {
@@ -798,7 +837,8 @@ private final class TemplateCard: AdaptiveSurfaceView {
             subtitle.widthAnchor.constraint(equalTo: contents.widthAnchor)
         ])
 
-        let button = NSButton(title: "", target: target, action: action)
+        let button = WelcomeKeyboardButton(title: "", target: target, action: action)
+        button.focusRingType = .exterior
         button.isBordered = false
         button.translatesAutoresizingMaskIntoConstraints = false
         button.identifier = NSUserInterfaceItemIdentifier("welcomeTemplate.\(template.rawValue)")
@@ -819,7 +859,7 @@ private final class TemplateCard: AdaptiveSurfaceView {
 }
 
 private final class RecentDrawingRow: NSView {
-    init(drawing: RecentDrawing, target: AnyObject?, openAction: Selector, pinAction: Selector) {
+    init(drawing: RecentDrawing, target: AnyObject?, openAction: Selector, pinAction: Selector, locateAction: Selector, removeAction: Selector) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
 
@@ -855,7 +895,17 @@ private final class RecentDrawingRow: NSView {
         open.identifier = NSUserInterfaceItemIdentifier("welcomeRecent.\(path)")
         open.setAccessibilityLabel("Open \(drawing.title)")
 
-        let row = NSStackView(views: [icon, labels, NSView(), pin, open])
+        let more = NSPopUpButton(frame: .zero, pullsDown: true)
+        more.addItem(withTitle: "More")
+        more.menu?.autoenablesItems = false
+        for (title, action) in [("Locate…", locateAction), ("Remove from Recents", removeAction)] {
+            let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+            item.target = target; item.representedObject = drawing.url; more.menu?.addItem(item)
+        }
+        more.identifier = NSUserInterfaceItemIdentifier("welcomeRecentActions.\(path)")
+        more.setAccessibilityLabel("Actions for \(drawing.title)")
+        more.toolTip = "Locate a moved drawing or remove its history entry. Files are never deleted."
+        let row = NSStackView(views: [icon, labels, NSView(), pin, open, more])
         row.orientation = .horizontal
         row.alignment = .centerY
         row.spacing = 12

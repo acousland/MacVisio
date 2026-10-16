@@ -37,6 +37,10 @@ struct EditorSearchCommand {
         .init(title: "Pointer Tool", keywords: "select arrow", action: #selector(EditorWindowController.pointerTool(_:)), requirement: .idle),
         .init(title: "Connector Tool", keywords: "connect line edge", action: #selector(EditorWindowController.connectorTool(_:)), requirement: .idle),
         .init(title: "Text Tool", keywords: "add text label", action: #selector(EditorWindowController.textTool(_:)), requirement: .idle),
+        .init(title: "Insert Process", keywords: "flowchart rectangle shape add", action: #selector(EditorWindowController.insertProcess(_:)), requirement: .idle),
+        .init(title: "Insert Decision", keywords: "flowchart branch diamond shape add", action: #selector(EditorWindowController.insertDecision(_:)), requirement: .idle),
+        .init(title: "Insert Start / End", keywords: "flowchart terminator shape add", action: #selector(EditorWindowController.insertTerminator(_:)), requirement: .idle),
+        .init(title: "Insert Data", keywords: "flowchart input output shape add", action: #selector(EditorWindowController.insertData(_:)), requirement: .idle),
         .init(title: "Insert Subprocess", keywords: "flowchart process predefined", action: #selector(EditorWindowController.insertSubprocess(_:)), requirement: .idle),
         .init(title: "Insert Off-page Link…", keywords: "flowchart destination page navigation", action: #selector(EditorWindowController.chooseOffPageTarget(_:)), requirement: .multiplePages),
         .init(title: "Edit Text…", keywords: "rename label", action: #selector(EditorWindowController.editText(_:)), requirement: .editableObject),
@@ -177,6 +181,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
         let panel = NSPanel(contentRect: CGRect(x: 0, y: 0, width: 700, height: 500),
                             styleMask: [.titled, .closable, .resizable], backing: .buffered, defer: false)
         panel.title = "Search Commands"; panel.minSize = CGSize(width: 540, height: 360); panel.isReleasedWhenClosed = false
+        panel.autorecalculatesKeyViewLoop = true
         super.init(window: panel)
         panel.delegate = self; panel.setAccessibilityIdentifier("MacVisioCommandSearch"); buildUI()
         if let window = editor.window {
@@ -210,6 +215,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
             stack.topAnchor.constraint(equalTo: content.topAnchor, constant: 16), stack.bottomAnchor.constraint(equalTo: content.bottomAnchor, constant: -16)])
         searchField.placeholderString = "Search commands, tools and actions"; searchField.delegate = self
         searchField.target = self; searchField.action = #selector(runSelected(_:)); searchField.sendsWholeSearchString = true
+        searchField.cell?.sendsActionOnEndEditing = false
         searchField.setAccessibilityLabel("Search editor commands"); stack.addArrangedSubview(searchField)
         searchField.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         for (id, title, width) in [("command", "Command", 270.0), ("state", "Availability", 370.0)] {

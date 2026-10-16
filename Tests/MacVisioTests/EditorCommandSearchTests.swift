@@ -3,6 +3,23 @@ import XCTest
 @testable import MacVisio
 
 final class EditorCommandSearchTests: XCTestCase {
+    func testLeavingCommandQueryDoesNotRunSelectedEditButReturnDoes() throws {
+        try withEditor { document, editor in
+            let controller = editor.commandSearchController
+            controller.searchField.stringValue = "Add Page"; controller.filterCommands(); controller.showWindow(nil)
+            let panel = try XCTUnwrap(controller.window)
+            let baseline = document.diagram
+            panel.makeFirstResponder(controller.table)
+            XCTAssertEqual(document.diagram, baseline)
+            XCTAssertFalse(document.undoManager?.canUndo ?? true)
+            panel.makeFirstResponder(controller.searchField)
+            let event = try XCTUnwrap(NSEvent.keyEvent(with: .keyDown, location: .zero, modifierFlags: [], timestamp: 0,
+                windowNumber: panel.windowNumber, context: nil, characters: "\r", charactersIgnoringModifiers: "\r", isARepeat: false, keyCode: 36))
+            panel.sendEvent(event)
+            XCTAssertEqual(document.diagram.pages.count, baseline.pages.count + 1)
+            document.undoManager?.undo(); XCTAssertEqual(document.diagram, baseline)
+        }
+    }
     func testCatalogFiltersTitlesAndKeywordsAndExplainsSelectionAndLocks() throws {
         try withEditor { document, editor in
             let controller = editor.commandSearchController

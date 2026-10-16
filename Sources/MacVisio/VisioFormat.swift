@@ -9,6 +9,7 @@ struct VisioImportResult {
     let diagram: Diagram
     let warnings: [String]
     var legacyNative = false
+    var diagnostics: [DocumentDiagnostic] = []
 }
 
 /// OPC/ShapeSheet interchange. This is deliberately a bounded, non-executing reader:
@@ -34,6 +35,7 @@ enum VisioFormat {
         let document = try archive.xml(documentPart, expectedRoot: "VisioDocument")
         let documentRelationships = try relationships(in:archive,source:documentPart)
         var warnings = Set<String>()
+        var importDiagnostics: [DocumentDiagnostic] = []
         var officeTheme: VisioTheme?
         do { officeTheme = try selectedOfficeTheme(in:documentRelationships,documentPart:documentPart,archive:archive) }
         catch { warnings.insert("The Office theme could not be imported; its package parts are preserved.") }
@@ -164,7 +166,7 @@ enum VisioFormat {
                             }
                         }
                         diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:indexPart,pages:bindings,connectorHierarchyVersion:envelope.connectorHierarchyVersion,theme:officeTheme)
-                        let result = VisioImportResult(diagram:try diagram.validated(),warnings:cacheWarnings)
+                        let result = VisioImportResult(diagram:try diagram.validated(),warnings:cacheWarnings,diagnostics:ImportedSourceDiagnostics.scan(diagram))
                         trace?("nativeMetadata")
                         return result
                     }
@@ -252,6 +254,22 @@ enum VisioFormat {
             let pageCells = pageElement.child("PageSheet")?.cells ?? [:]
             var page = DiagramPage()
             page.id = pageIDs[UInt32(pageElement.attributes["ID"]!)!]!
+            let diagnosticPageID = page.id
+            let pageDiagnosticStart = importDiagnostics.count
+            func appendPageDiagnostic(_ code: String, _ message: String, shapeID: String? = nil,
+                                      cell: String? = nil, feature: String? = nil,
+                                      dimension: DocumentDiagnostic.Dimension = .rendering, part: String? = nil) {
+                importDiagnostics.append(DocumentDiagnostic(code: code, origin: .importer, severity: .warning,
+                    dimension: dimension, target: .page(diagnosticPageID),
+                    source: .init(part: part ?? pagePart, visioID: shapeID, cell: cell, feature: feature),
+                    displayState: .cached, message: message, requestedActions: [.revealTarget, .viewDetails]))
+            }
+            func pageWarning(_ code: String, _ message: String, shapeID: String? = nil,
+                             cell: String? = nil, feature: String? = nil,
+                             dimension: DocumentDiagnostic.Dimension = .rendering, part: String? = nil) {
+                warnings.insert(message)
+                appendPageDiagnostic(code, message, shapeID: shapeID, cell: cell, feature: feature, dimension: dimension, part: part)
+            }
             page.name = pageElement.attributes["Name"] ?? pageElement.attributes["NameU"] ?? "Page \(pageIndex + 1)"
             page.sheet = pageSheetCells(pageElement.child("PageSheet"))
             page.theme = pageTheme(officeTheme,
@@ -263,7 +281,7 @@ enum VisioFormat {
             if let flag = pageElement.attributes["Background"] { page.isBackground = flag == "1" || flag == "true" }
             if let raw = pageElement.attributes["BackPage"] {
                 if let id = UInt32(raw),let target = pageIDs[id],let element = pageElements.first(where:{UInt32($0.attributes["ID"] ?? "") == id}),["1","true"].contains(element.attributes["Background"] ?? "") { page.backgroundPageID = target }
-                else { warnings.insert("An invalid background-page reference retains its source XML but cannot be composed.") }
+                else { pageWarning("import.background-reference", "An invalid background-page reference retains its source XML but cannot be composed.", feature: "BackPage", part: pagesPart) }
             }
             let shapes = contents.child("Shapes")?.children(named: "Shape") ?? []
             guard shapes.count <= 150000 else { throw DiagramError.invalid("The page has too many shapes.") }
@@ -335,11 +353,14 @@ enum VisioFormat {
                 }
                 if master == nil,let masterShape = shape.attributes["MasterShape"],let definition = inheritedMaster {
                     if let matched = definition.find(masterShape) { master = definition.withShape(matched) }
-                    else { warnings.insert("An unresolved MasterShape reference retains its source XML and uses local cached properties.") }
+                    else { pageWarning("import.master-reference", "An unresolved MasterShape reference retains its source XML and uses local cached properties.", shapeID: shapeID, feature: "MasterShape", dimension: .behavior) }
                 }
                 if let masterShape = shape.attributes["MasterShape"],master != nil,let parent {
                     instance?.identifiers[masterShape] = shapeID
                     if inheritanceByShape[shapeID] == nil { inheritanceByShape[shapeID] = VisioInheritedShape(masterShapeID:masterShape,parentID:parent.id,implicit:false) }
+                }
+                if shape.children(named: "Section").contains(where: { $0.attributes["N"] == "Actions" }) {
+                    pageWarning("import.ignored-shape-action", "Imported shape actions are preserved but not executed.", shapeID: shapeID, feature: "Actions", dimension: .behavior)
                 }
                 let cells = inheritedCells(shape, master: master?.shape, styles: resolvedStyles)
                 let hasEndpoints = cells["BeginX"] != nil && cells["EndX"] != nil
@@ -353,7 +374,7 @@ enum VisioFormat {
                 let signedWidth = try dimension(cells, "Width", default: 2,allowZero:true,factor:page.paperScale,allowSigned:true) * 72
                 let signedHeight = try dimension(cells, "Height", default: 1,allowZero:true,factor:page.paperScale,allowSigned:true) * 72
                 let width = abs(signedWidth),height = abs(signedHeight),origin = CGPoint(x:min(0,signedWidth),y:min(0,signedHeight))
-                if number(cells["Width"]) == 0 || number(cells["Height"]) == 0 { warnings.insert("Zero-size shape axes use a minimal editing frame; original public dimensions remain preserved in the source package.") }
+                if number(cells["Width"]) == 0 || number(cells["Height"]) == 0 { pageWarning("import.zero-axis", "Zero-size shape axes use a minimal editing frame; original public dimensions remain preserved in the source package.", shapeID: shapeID, cell: number(cells["Width"]) == 0 ? "Width" : "Height") }
                 let pinX = try finiteNumber(cells, "PinX", default: signedWidth / 144) * 72
                 let pinY = try finiteNumber(cells, "PinY", default: signedHeight / 144) * 72
                 let locPinX = try finiteNumber(cells, "LocPinX", default: signedWidth / 144) * 72
@@ -378,9 +399,9 @@ enum VisioFormat {
                 node.bold = textStyle >= 0 && textStyle < 65536 && Int(textStyle) & 1 == 1
                 node.locked = number(cells["LockMoveX"]) == 1 && number(cells["LockMoveY"]) == 1
                 if (number(cells["FillPattern"]) ?? 1) > 1 {
-                    warnings.insert("Gradients and fill patterns are approximated by solid colors.")
+                    pageWarning("import.fill-pattern", "Gradients and fill patterns are approximated by solid colors.", shapeID: shapeID, cell: "FillPattern")
                 }
-                if node.fontSize < 1 || node.fontSize > 500 { node.fontSize = min(500, max(1, node.fontSize)); warnings.insert("Text sizes outside the supported range were clamped.") }
+                if node.fontSize < 1 || node.fontSize > 500 { node.fontSize = min(500, max(1, node.fontSize)); pageWarning("import.font-size", "Text sizes outside the supported range were clamped.", shapeID: shapeID, cell: "Char.Size") }
                 var detail = ShapeDetails()
                 detail.sourceShapeID = shapeID
                 detail.sheet = cells.mapValues { ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit) }
@@ -415,7 +436,7 @@ enum VisioFormat {
                 detail.hyperlinks = inheritedRows(shape,master:master?.shape,section:"Hyperlink").map { row in let c = row.cells; return ShapeHyperlink(address:c["Address"]?.value ?? "",subAddress:c["SubAddress"]?.value ?? "",description:c["Description"]?.value ?? "",sourceRowName:row.attributes["N"]) }
                 for (index,row) in inheritedRows(shape,master:master?.shape,section:"Connection").enumerated() {
                     let c = row.cells
-                    guard let x = c["X"],let y = c["Y"],number(x) != nil,number(y) != nil,let ix = UInt32(row.attributes["IX"] ?? row.attributes["MacVisio.RowIndex"] ?? String(index)) else { warnings.insert("An unsupported connection point retains its source XML but cannot be edited.");continue }
+                    guard let x = c["X"],let y = c["Y"],number(x) != nil,number(y) != nil,let ix = UInt32(row.attributes["IX"] ?? row.attributes["MacVisio.RowIndex"] ?? String(index)) else { pageWarning("import.connection-point", "An unsupported connection point retains its source XML but cannot be edited.", shapeID: shapeID, feature: "Connection."+(row.attributes["IX"] ?? row.attributes["N"] ?? String(index)), dimension: .editing);continue }
                     detail.connectionPoints.append(ShapeConnectionPoint(index:ix,name:row.attributes["N"],x:ShapeSheetCell(value:x.value,formula:x.formula),y:ShapeSheetCell(value:y.value,formula:y.formula),directionX:number(c["DirX"]) ?? number(c["A"]) ?? 0,directionY:number(c["DirY"]) ?? number(c["B"]) ?? 0,type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0))
                 }
                 let geometryRows = try geometryDefinitions(shape,master:master?.shape)
@@ -424,7 +445,10 @@ enum VisioFormat {
                     detail.controls.append(ShapeControl(name:row.attributes["N"] ?? "Row_\(rowIndex+1)",index:rowIndex,cells:row.cells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)},sourceIndex:row.attributes["N"] == nil ? row.attributes["IX"].flatMap(Int.init) : nil))
                 }
                 if !geometryRows.isEmpty || shape.children(named:"Section").contains(where:{$0.attributes["N"] == "Geometry"}) || master?.shape.children(named:"Section").contains(where:{$0.attributes["N"] == "Geometry"}) == true { detail.geometry = geometryRows }
-                detail.paths = geometry(shape,master:master?.shape,width:signedWidth/72,height:signedHeight/72,warnings:&warnings)
+                detail.paths = geometry(shape,master:master?.shape,width:signedWidth/72,height:signedHeight/72,warnings:&warnings,onIssue: { issue in
+                    appendPageDiagnostic("import.geometry-row", issue.error, shapeID: shapeID,
+                        feature: "Geometry.\(issue.section).Row.\(issue.row).\(issue.type)")
+                })
                 if let foreign = shape.child("ForeignData") ?? master?.shape.child("ForeignData"),let relID = foreign.child("Rel")?.attribute(local:"id") {
                     let relations = shape.child("ForeignData") != nil ? pageRelations : try master.map{try relationships(in:archive,source:$0.part)} ?? [:]
                     if let relation = relations[relID],!relation.external {
@@ -432,7 +456,7 @@ enum VisioFormat {
                         let ext = (part as NSString).pathExtension.lowercased()
                         let mime = ["png":"image/png","jpg":"image/jpeg","jpeg":"image/jpeg","gif":"image/gif","bmp":"image/bmp","tif":"image/tiff","tiff":"image/tiff","svg":"image/svg+xml","pdf":"application/pdf"][ext]
                         if let mime = mime { detail.image = EmbeddedImage(data:try archive.data(part),mimeType:mime); node.text = shape.child("Text")?.allText ?? ""; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00" }
-                        else { warnings.insert("An embedded OLE/WMF/EMF object is preserved in the file but cannot be rendered natively.") }
+                        else { pageWarning("import.foreign-object", "An embedded OLE/WMF/EMF object is preserved in the file but cannot be rendered natively.", shapeID: shapeID, feature: "ForeignData") }
                     }
                 }
                 if shape.attributes["Type"] == "Foreign", detail.image == nil,node.text.isEmpty { node.text = "Embedded object" }
@@ -455,7 +479,7 @@ enum VisioFormat {
                         guard let index = Int(row.attributes["IX"] ?? row.attributes["MacVisio.RowIndex"] ?? ""),index >= 0,index <= UInt32.max,!fields.contains(where:{$0.index == index}) else { throw DiagramError.invalid("Invalid field row index.") }
                         fields.append(ShapeTextField(index:index,cells:row.cells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)},cached:textElement?.runs.first{$0.field == index}?.text))
                     }
-                    for run in textElement?.runs ?? [] { if let index = run.field,!fields.contains(where:{$0.index == index}) { fields.append(ShapeTextField(index:index,cells:[:],cached:run.text));warnings.insert("An unresolved text field retains its cached display.") } }
+                    for run in textElement?.runs ?? [] { if let index = run.field,!fields.contains(where:{$0.index == index}) { fields.append(ShapeTextField(index:index,cells:[:],cached:run.text));pageWarning("import.text-field", "An unresolved text field retains its cached display.", shapeID: shapeID, feature: "Field."+String(index), dimension: .behavior) } }
                     node.formatting.textFields = fields
                 }
                 if let text = textElement,!node.text.isEmpty || node.formatting.textFields?.isEmpty == false {
@@ -566,7 +590,7 @@ enum VisioFormat {
                 }
                 let from = endpoint.source.flatMap{identifiers[$0]},to = endpoint.target.flatMap{identifiers[$0]}
                 let begin = point("BeginX","BeginY"),end = point("EndX","EndY")
-                guard (from != nil || begin != nil),(to != nil || end != nil) else { warnings.insert("A malformed connector is preserved in the package but cannot be edited."); continue }
+                guard (from != nil || begin != nil),(to != nil || end != nil) else { pageWarning("import.malformed-connector", "A malformed connector is preserved in the package but cannot be edited.", shapeID: shapeID, feature: "connector", dimension: .editing); continue }
                 var edge = DiagramEdge(source:from ?? UUID(),target:to ?? UUID())
                 edge.parentID = parent?.id
                 edge.sourceShapeID = shapeID
@@ -586,7 +610,10 @@ enum VisioFormat {
                 let rows = shape.children(named:"Section").filter{$0.attributes["N"] == "Geometry"}.flatMap{$0.children(named:"Row")}
                 edge.style = rows.count > 2 || number(cells["ShapeRouteStyle"]) == 1 ? .orthogonal : .straight
                 let w = max(0.001,abs(number(cells["Width"]) ?? 1)),h = max(0.001,abs(number(cells["Height"]) ?? 1))
-                let cachedPaths = geometry(shape,master:master,width:w,height:h,warnings:&warnings)
+                let cachedPaths = geometry(shape,master:master,width:w,height:h,warnings:&warnings,onIssue: { issue in
+                    appendPageDiagnostic("import.geometry-row", issue.error, shapeID: shapeID,
+                        feature: "Geometry.\(issue.section).Row.\(issue.row).\(issue.type)")
+                })
                 if let path = cachedPaths.first,!path.commands.isEmpty {
                     let pinX = number(cells["PinX"]) ?? w/2,pinY = number(cells["PinY"]) ?? h/2,locX = number(cells["LocPinX"]) ?? w/2,locY = number(cells["LocPinY"]) ?? h/2,a = number(cells["Angle"]) ?? 0
                     func world(_ x:Double,_ y:Double) -> DiagramPoint {
@@ -598,20 +625,39 @@ enum VisioFormat {
                         var points = path.commands.filter{$0.kind != "Z"}.map{world($0.values[0],$0.values[1])}
                         if path.commands.last?.kind == "Z",let first = points.first { points.append(first) }
                         if points.count >= 2 { edge.points = points }
-                    } else { warnings.insert("Curved connectors retain their source geometry; the native preview uses an approximate route.") }
+                    } else { pageWarning("import.curved-connector", "Curved connectors retain their source geometry; the native preview uses an approximate route.", shapeID: shapeID, feature: "Geometry") }
                 }
                 page.edges.append(edge); edgeIdentifiers[edge.id] = shapeID
                 if let inheritance = inheritanceByShape[shapeID] { inheritedShapes[edge.id] = inheritance }
+            }
+            let edgeIDsBySource = Dictionary(edgeIdentifiers.map { ($0.value, $0.key) }, uniquingKeysWith: { first, _ in first })
+            for i in pageDiagnosticStart..<importDiagnostics.count {
+                guard let sourceID = importDiagnostics[i].source.visioID else { continue }
+                if let id = identifiers[sourceID] { importDiagnostics[i].target = .shape(page: page.id, shape: id) }
+                else if let id = edgeIDsBySource[sourceID] { importDiagnostics[i].target = .connector(page: page.id, connector: id) }
+                // A rejected object has no native identity; its real source ID
+                // remains available in the page-scoped details, never fabricated.
             }
             diagram.pages.append(page)
             bindings.append(VisioPageBinding(pageID:page.id,visioID:pageElement.attributes["ID"] ?? String(pageIndex),part:pagePart,original:page,nodeIDs:Dictionary(uniqueKeysWithValues:identifiers.map { ($0.value,$0.key) }),edgeIDs:edgeIdentifiers,inheritedShapes:inheritedShapes.isEmpty ? nil : inheritedShapes))
             trace?("page\(pageIndex+1)")
         }
         diagram.activePageID = diagram.pages.first(where:{$0.isBackground != true})?.id ?? diagram.pages[0].id
-        if document.child("EventList") != nil || archive.names.contains(where: { $0.lowercased().contains("vbaproject") }) { warnings.insert("Macros and document events are ignored.") }
+        if document.child("EventList") != nil || archive.names.contains(where: { $0.lowercased().contains("vbaproject") }) {
+            let message = "Macros and document events are ignored."; warnings.insert(message)
+            importDiagnostics.append(DocumentDiagnostic(code: "import.ignored-actions", origin: .importer, severity: .warning,
+                dimension: .behavior, target: .document, source: .init(part: documentPart, feature: "macros-events"),
+                displayState: .notApplicable, message: message))
+        }
         warnings.insert("Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed.")
+        importDiagnostics.append(DocumentDiagnostic(code: "import.cached-policy", origin: .importer, severity: .information,
+            dimension: .behavior, target: .document, source: .init(part: documentPart, feature: "cached-policy"), displayState: .cached,
+            message: "Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed."))
         diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:pagesPart,pages:bindings,connectorHierarchyVersion:1,theme:officeTheme)
-        let result = VisioImportResult(diagram: try diagram.validated(), warnings: warnings.sorted())
+        let previewDiagnostics = ImagePreviewDiagnostics.records(in: diagram)
+        importDiagnostics += previewDiagnostics
+        warnings.formUnion(previewDiagnostics.map(\.message))
+        let result = VisioImportResult(diagram: try diagram.validated(), warnings: warnings.sorted(), diagnostics: importDiagnostics)
         trace?("validation")
         return result
     }

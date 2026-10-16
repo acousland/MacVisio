@@ -1,4 +1,5 @@
 import AppKit
+import UniformTypeIdentifiers
 
 /// Owns document navigation; Home is not a document and never owns drawing data.
 final class DocumentWorkflow:NSObject,NSMenuDelegate {
@@ -11,6 +12,9 @@ final class DocumentWorkflow:NSObject,NSMenuDelegate {
     var isTerminating = false
     private var closingAll = false
     init(delegate:AppDelegate,recentStore:RecentDrawingStore = RecentDrawingStore(),recordsSystemRecents:Bool = true) { self.delegate = delegate;self.recentStore = recentStore;self.recordsSystemRecents = recordsSystemRecents }
+    /// Explicit-open identity resolves symlink aliases without changing how
+    /// history entries are displayed or reading drawing contents on Home.
+    static func canonicalDrawingURL(_ url: URL) -> URL { url.standardizedFileURL.resolvingSymlinksInPath() }
     var drawings:[MacVisioDocument] { NSDocumentController.shared.documents.compactMap{$0 as? MacVisioDocument} }
     var activeDrawing:MacVisioDocument? {
         if let editor = NSApp.keyWindow?.windowController as? EditorWindowController { return editor.diagramDocument }
@@ -26,9 +30,9 @@ final class DocumentWorkflow:NSObject,NSMenuDelegate {
     func showWelcome(_ section:WelcomeSection = .home) {
         activeDrawing?.commitTextEditing()
         if welcome == nil {
-            welcome = WelcomeWindowController(onNew:{[weak self] in self?.delegate.newDiagram(template:$0)},onOpen:{[weak self] in self?.delegate.browseDocuments(nil)},onRecent:{[weak self] in self?.delegate.open($0)},onPin:{[weak self] url in
+            welcome = WelcomeWindowController(onNew:{[weak self] in self?.delegate.newDiagram(template:$0)},onOpen:{[weak self] in self?.delegate.browseDocuments(nil)},onRecent:{[weak self] in self?.openRecentDrawing($0)},onPin:{[weak self] url in
                 self?.recentStore.togglePin(url);self?.refreshWelcome()
-            },onBack:{[weak self] in self?.backToDrawing()},onSave:{[weak self] in self?.saveDrawing(asNew:false)},onSaveAs:{[weak self] in self?.saveDrawing(asNew:true)},onClose:{[weak self] in self?.closeDrawing()})
+            },onBack:{[weak self] in self?.backToDrawing()},onSave:{[weak self] in self?.saveDrawing(asNew:false)},onSaveAs:{[weak self] in self?.saveDrawing(asNew:true)},onClose:{[weak self] in self?.closeDrawing()},onLocate:{[weak self] in self?.locateRecentDrawing($0)},onRemove:{[weak self] in self?.removeRecentDrawing($0)})
         }
         welcome?.refresh(recents:recents,section:section,canGoBack:activeDrawing != nil);welcome?.showWindow(nil);welcome?.window?.makeKeyAndOrderFront(nil)
         NSApp.activate(ignoringOtherApps:true)
@@ -122,7 +126,35 @@ final class DocumentWorkflow:NSObject,NSMenuDelegate {
         let clear = NSMenuItem(title:"Clear Recent History",action:#selector(clearRecentHistory(_:)),keyEquivalent:"");clear.target = self;menu.addItem(clear)
     }
     @objc private func switchFromMenu(_ sender:NSMenuItem) { if let document = (sender.representedObject as? DrawingMenuReference)?.document { activate(document) } }
-    @objc private func openRecent(_ sender:NSMenuItem) { if let url = sender.representedObject as? URL { delegate.open(url) } }
+    @objc private func openRecent(_ sender:NSMenuItem) { if let url = sender.representedObject as? URL { openRecentDrawing(url) } }
+    func removeRecentDrawing(_ url: URL) {
+        recentStore.remove(url); refreshWelcome()
+    }
+    func locateRecentDrawing(_ oldURL: URL) {
+        let panel = NSOpenPanel(); panel.canChooseDirectories = false; panel.allowsMultipleSelection = false
+        panel.title = "Locate Drawing"; panel.message = "Select the drawing's new location. This updates its recent entry and opens it."
+        panel.allowedContentTypes = ["macvisio", "vsdx", "vstx", "vsd", "vst"].compactMap { UTType(filenameExtension: $0) }
+        panel.nameFieldStringValue = oldURL.lastPathComponent
+        let finish: (NSApplication.ModalResponse) -> Void = { [weak self] response in
+            guard response == .OK, let self, let url = panel.url else { return }
+            self.recentStore.relocate(oldURL, to: url); self.refreshWelcome(); self.delegate.open(url)
+        }
+        if let window = welcome?.window, window.isVisible { panel.beginSheetModal(for: window, completionHandler: finish) }
+        else { panel.begin(completionHandler: finish) }
+    }
+    func openRecentDrawing(_ url: URL) {
+        guard !FileManager.default.fileExists(atPath: url.path) else { delegate.open(url); return }
+        let alert = NSAlert(); alert.messageText = "This drawing could not be found."
+        alert.informativeText = "Locate it if it moved, or remove its recent entry. Removing an entry does not delete a file."
+        alert.addButton(withTitle: "Locate…"); alert.addButton(withTitle: "Remove from Recents"); alert.addButton(withTitle: "Cancel")
+        let finish: (NSApplication.ModalResponse) -> Void = { [weak self] response in
+            if response == .alertFirstButtonReturn { self?.locateRecentDrawing(url) }
+            else if response == .alertSecondButtonReturn { self?.removeRecentDrawing(url) }
+        }
+        if let window = welcome?.window, window.isVisible { alert.beginSheetModal(for: window, completionHandler: finish) }
+        else if let window = NSApp.keyWindow { alert.beginSheetModal(for: window, completionHandler: finish) }
+        else { finish(alert.runModal()) }
+    }
     @objc func clearRecentHistory(_ sender:Any?) {
         recentStore.clearHistory()
         if recordsSystemRecents { NSDocumentController.shared.clearRecentDocuments(sender) }

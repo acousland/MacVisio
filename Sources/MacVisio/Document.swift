@@ -327,7 +327,11 @@ final class MacVisioDocument: NSDocument {
             resetDiagnosticsForRead()
             diagram = result.diagram
             importWarnings = result.warnings
-            typedImportDiagnostics = result.diagnostics
+            typedImportDiagnostics =
+                result.diagnostics
+                + ImagePreviewDiagnostics.records(in: result.diagram).filter { record in
+                    !result.diagnostics.contains(where: { $0.id == record.id })
+                }
             legacyNative = result.legacyNative
             saveImpactBaseline = .init(snapshot: diagram)
             return
@@ -358,24 +362,34 @@ final class MacVisioDocument: NSDocument {
         let evidence = PerformanceEvidence.begin(.open)
         defer { PerformanceEvidence.end(evidence) }
         let version = try DocumentSourceVersion.read(url)
+        guard try version.url.resourceValues(forKeys: [.isRegularFileKey]).isRegularFile == true else {
+            throw DiagramError.invalid("Choose a regular drawing file.")
+        }
         let loaded: Diagram
         let warnings: [String]
         let typedDiagnostics: [DocumentDiagnostic]
         let isLegacy: Bool
         if ["vsd", "vst"].contains(url.pathExtension.lowercased()) || typeName == Self.legacyType {
-            let result = try LegacyVisioFormat.read(from: url)
+            let result = try LegacyVisioFormat.read(from: version.url)
             loaded = result.diagram
             warnings = result.warnings
-            typedDiagnostics = result.diagnostics
+            typedDiagnostics =
+                result.diagnostics
+                + ImagePreviewDiagnostics.records(in: loaded).filter { record in
+                    !result.diagnostics.contains(where: { $0.id == record.id })
+                }
             isLegacy = result.legacyNative
         } else if ["vsdx", "vstx"].contains(url.pathExtension.lowercased()) || typeName == Self.visioType {
-            let result = try VisioFormat.read(from: url)
+            let result = try VisioFormat.read(from: version.url)
             loaded = try result.diagram.validated()
             warnings = result.warnings
             typedDiagnostics = result.diagnostics
             isLegacy = false
         } else {
-            let data = try Data(contentsOf: url)
+            guard version.bytes <= 256_000_000 else {
+                throw DiagramError.invalid("This diagram exceeds the supported document size.")
+            }
+            let data = try Data(contentsOf: version.url, options: .mappedIfSafe)
             guard data.count <= 256_000_000 else {
                 throw DiagramError.invalid("This diagram exceeds the supported document size.")
             }
@@ -385,7 +399,7 @@ final class MacVisioDocument: NSDocument {
             typedDiagnostics = ImportedSourceDiagnostics.scan(loaded)
             isLegacy = false
         }
-        try version.check()
+        try version.check(contentsAt: url)
         resetDiagnosticsForRead()
         diagram = loaded
         importWarnings = warnings
@@ -1352,6 +1366,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             contentRect: frame, styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered, defer: false)
         window.minSize = CGSize(width: 760, height: 560)
+        window.autorecalculatesKeyViewLoop = true
         window.title = document.diagram.title
         window.titlebarAppearsTransparent = true
         window.backgroundColor = EditorPalette.panel
