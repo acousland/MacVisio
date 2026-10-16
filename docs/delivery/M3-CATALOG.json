@@ -56,7 +56,7 @@
         "M1 accepted commits",
         "M2 accepted commits"
       ],
-      "status": "blocked_upstream",
+      "status": "awaiting_M2_engineering",
       "required_inputs": [
         "transaction/revision/undo/save contracts",
         "incremental calculation/evaluated-scene/index contracts",
@@ -64,9 +64,10 @@
         "native input/accessibility/diagnostics and lifecycle regressions"
       ],
       "integration_rule": "Use actual accepted peer commits and handoff contracts; do not implement against speculative interfaces.",
-      "observed_M2_commit": "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
-      "observed_M1_commit": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
-      "M1_downstream_acceptance_ready": false
+      "observed_M2_commit": "be7e682f39e782d2354d691ec24a750c567adbef",
+      "observed_M1_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "M1_downstream_acceptance_ready": true,
+      "M1_integration_commit": "5e2ae00"
     },
     {
       "id": "M3-FOUNDATION-M0",
@@ -22985,10 +22986,17 @@
     "qualification": "All five M0 dimensions remain unverified. IDs are canonical source inventory entries, not accepted runtime support.",
     "final_local_handoff_commit": "02dea53",
     "current_entry_count": 171,
-    "note_final_integration": "M0 added a benchmark CLI inventory entry; all existing mapped IDs, named72 functions/21 cells and unknown remainders are retained. Reference remains unaccepted."
+    "note_final_integration": "M0 added a benchmark CLI inventory entry; all existing mapped IDs, named72 functions/21 cells and unknown remainders are retained. Reference remains unaccepted.",
+    "accepted_M1_rebinding": {
+      "code_commit": "1282de7",
+      "current_sha256": "31e8b973aaead5f611013be6e472ded6bad20b38264ad4d78555d5415ff42aa3",
+      "entry_count": 171,
+      "moved_command_source_owners": 29,
+      "scope": "Stable IDs, mappings and evidence states unchanged; main.swift command anchors moved to actual DeveloperCommands.swift owner. Historical source inventory identity/hash remains above."
+    }
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
-  "execution_state": "blocked_upstream",
-  "execution_block_reason": "Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed."
+  "execution_state": "awaiting_M2_engineering",
+  "execution_block_reason": "Accepted M1 engineering at 0ea6b33 is integrated locally as 5e2ae00. M2 has integrated accepted M1 and is implementing/qualifying native editor workflows; its own engineering handoff remains unaccepted and integration_allowed=false. M3 production implementation awaits accepted M2."
 }

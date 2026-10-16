@@ -101,6 +101,22 @@
       },
       "scope": "Reproduced public relationships and unknown MIME/namespace registrations being hidden by broad native metadata exclusions. Only the recognized internal root/header relation and known native type registrations are excluded; public extension spelling including uppercase .JSON keeps its type registration visible. Existing genuine native exclusion and public-loss tests still pass.",
       "compatibility_acceptance": false
+    },
+    {
+      "id": "accepted-M1-integration",
+      "code_commit": "1282de7",
+      "M1_source_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "integration_commit": "5e2ae00",
+      "outcome": "passed",
+      "swift_command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|PerformanceEvidenceTests'",
+      "swift_tests": 15,
+      "swift_failures": 0,
+      "swift_skips": 0,
+      "python_command": "python3 -m unittest discover -s scripts/tests -v",
+      "python_tests": 74,
+      "python_failures": 0,
+      "scope": "Accepted M1 product source unchanged; existing M3 authored preservation/text-edit/physical-output fixtures and actual instrumentation pass. Source inventory generator follows relocated developer command owners, preserving171 IDs/evidence states. M2 not yet integrated; no M3 milestone acceptance.",
+      "retained_failure": "Initial74-test Python run errored in one inventory-regeneration check because29 command anchors moved out of main.swift. Generator/source provenance adapted; all74 then passed."
     }
   ],
   "artifacts": [
@@ -167,6 +183,22 @@
     {
       "path": "build/m3-evidence/oracle-registration-after.log",
       "sha256": "0c2f195a75ecf5cf5d3794d6fb40dd29bb884e6b55ccb1dc7e8b61ca1ab11543"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-focused.log",
+      "sha256": "89347619321a5471bdfd1978a359844d6f8c0405c20ab8f233a584445b0cbc23"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-python.log",
+      "sha256": "db5dcf0cea938a2ffc2830a7ec4d03310319e0f6cfe446f6f8c544860227725c"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-python-final.log",
+      "sha256": "dffa8ca577e68d541a603b5999cac2f9849591c93e5d20352e87c749788e923a"
     }
   ],
   "five_compatibility_dimensions": {
@@ -176,6 +208,6 @@
     "behavior": "unverified",
     "interchange": "unverified"
   },
-  "unresolved_intermittency": "Historical saved-state intermittency belongs to M1 and remains pending its accepted disposition; M3 focused green runs cannot close it.",
+  "unresolved_intermittency": "M1 accepted local engineering disposition is integrated with its deterministic snapshot/gesture regressions and repeated full-suite evidence. M3 focused results do not independently establish absence of races or release/reference acceptance.",
   "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc"
 }

@@ -153,9 +153,10 @@ accepted contracts before choosing adapters or implementing these checks.
 
 Read-only review of committed M1 source at
 `8ba1ff463127e75577777483474dc51d284a38d1` identified the following extension
-points. The five reviewed files matched that commit's bytes; M1 remains
-unaccepted and M2 has not integrated it. Recheck these observations against the
-eventual accepted M2 candidate before implementation.
+points. The five reviewed files matched that commit's bytes. Subsequently, M1
+accepted checkpoint `0ea6b33`, integrated here as `5e2ae00`; the product source
+exactly matches accepted M1 and the affected M3 checks pass. Recheck these
+observations against the eventual accepted M2 candidate before implementation.
 
 - `DocumentChanges.swift` currently compares document title/version, pages,
   source resources and active page. Its semantic classification excludes a

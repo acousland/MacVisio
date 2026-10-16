@@ -467,7 +467,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** Editable master/style/connector-sheet identities distinct from container/list/graph relationships.
 
@@ -491,7 +491,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** An inventory-driven function/cell/context implementation with usable complete editing.
 
@@ -515,7 +515,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** Reference-qualified rich text, text blocks, fields, measurement and font behavior across all owners.
 
@@ -539,7 +539,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** Complete inventoried geometry/control/appearance behavior with editable public definitions.
 
@@ -563,7 +563,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** Editable connector sheets, glue, routes, jumps and deterministic constrained layout.
 
@@ -587,7 +587,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** Consistent screen/physical publication with page/background/layer semantics.
 
@@ -611,7 +611,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Bounded source decomposition delivered; Unlocked native checks passed; M1 handoff remains unaccepted for installed recovery and broader qualification; accepted M2 engineering delivery remains pending.
+**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
 
 **Outcome:** A reusable intelligent-shape library workflow and independently editable public VSDX/VSSX/VSTX.
 
@@ -1473,7 +1473,7 @@ Retain the review's `build/architecture-review-*` artifacts as local evidence; c
 <!-- M3-DELIVERY-REFINEMENT -->
 ## 11. M3 delivery refinement — 16 October 2026
 
-Current M3 state: **Blocked upstream — unlocked checks passed; acceptance unavailable**. The original package scope and 161 initial parent
+Current M3 state: **Accepted M1 integrated — awaiting M2 engineering**. The original package scope and 161 initial parent
 tasks remain unchanged. All 28 M3 parents, including all 22 L tasks, now have
 bounded children in [M3-CATALOG.json](delivery/M3-CATALOG.json), with exact
 requirement/canonical M0 inventory mappings and explicit reference remainders.
@@ -1516,13 +1516,13 @@ parent implementation task or M3/G2 gate is accepted by this refinement.
 WP-15-T01 has a delivered bounded source decomposition, while its complete
 exact-build catalog remains unknown. All M3 parents are now Blocked on the
 accepted upstream engineering prerequisite; no production feature implementation
-has started. The user unlocked the Mac and M1 completed native qualification
-at `f40dcba` (code `5560ddf`): five native tests, full Release607/13 preexisting
-skips/0 failures, twelve corpus traces and thirty interaction attempts pass.
-Its final handoff still has `acceptance_passed=false` and
-`downstream_acceptance_ready=false`: installed recovery and broader controlled
-performance/reference/release qualification remain open. M2 integration remains
-disallowed; actual accepted M1+M2 engineering handoffs are still required. The catalog records
+has started. M1 accepted its local engineering checkpoint at `0ea6b33` after
+actual automatic app recovery qualification; it is integrated here as `5e2ae00`.
+All 15 affected Swift checks and 74 Python checks pass. The source inventory
+retains 171 IDs/evidence states, with 29 command anchors following M1's extracted
+developer dispatcher. M2 has integrated accepted M1 and is implementing and
+qualifying native editor workflows; its own handoff is still unaccepted.
+M3 production implementation still requires accepted M2. The catalog records
 198 children awaiting foundations and six proposed discovery/qualification
 children. All 204 remain unaccepted; counts are decomposition, not compatibility
 evidence. Unknown runtime functions, cells, owners, masters, text, geometry,
@@ -1534,8 +1534,8 @@ state and unverified evidence dimension. Committed M0 instrumentation, benchmark
 corpus and public harness safeguards through `02dea53` are also integrated.
 M0 local execution statuses and its explicit unaccepted G0/reference state are
 retained alongside this M3 refinement.
-M3 production implementation waits for actual accepted M1+M2 engineering commits
-and contracts. The observed missing Visio installation independently blocks G2;
+M3 production implementation waits for actual accepted M2 engineering commits
+and contracts; the accepted M1 checkpoint is already integrated. The observed missing Visio installation independently blocks G2;
 it does not remove any implementation obligation.
 
 The two [authored public fixtures](../Tests/MacVisioTests/Fixtures/M3/README.md)
@@ -1554,8 +1554,7 @@ and the strengthened native test plus an independent SVG path measure pass.
 Earlier native fallback results remain historical and do not prove public
 geometry. This probe changes no child/package/milestone acceptance state.
 
-M3 execution is now waiting for the upstream human prerequisite. No unaccepted
-M1/M2 source was integrated. Unlocking the host is a qualification prerequisite,
-not acceptance by itself; the corrected M1/M2 commits and handoffs must pass
-before M3 production work resumes. Licensed exact-build Visio is also still
+M1 engineering is accepted and integrated. M2 engineering is active; its
+accepted handoff is the remaining local implementation prerequisite for M3.
+No provisional M2 source was integrated. Licensed exact-build Visio is still
 required for independent G2 acceptance.

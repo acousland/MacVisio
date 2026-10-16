@@ -1,10 +1,11 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Unlocked checks passed; accepted upstream engineering unavailable; M3 is not accepted**.
+16 October 2026, Australia/Melbourne. State: **Accepted M1 integrated; awaiting accepted M2 engineering; M3 is not accepted**.
 
 The isolated `codex/m3-intelligent-vsdx` branch contains the planning baseline,
 available committed M0 inventory/instrumentation/benchmark/public-harness work,
-and independent M3 preparation. M1 and M2 engineering acceptance is pending.
+accepted M1 engineering, and independent M3 preparation. M2 engineering
+acceptance is pending.
 Dependent M3 production feature implementation has not started. This is an interim
 handoff, not the requested final integrated M0+M1+M2+M3 candidate.
 
@@ -65,19 +66,22 @@ five public geometry rows produce six vector commands because the decoder adds
 instead of an incorrect command count. The failing log remains retained. This
 correction makes no claim about historical save intermittency.
 
-Final dependency observation after unlock: M1 completed its native follow-up at
-`f40dcba` (qualified code `5560ddf`). All five native tests pass, full Release
-passes607 tests with13 preexisting skips and zero failures, and all twelve
-public corpus traces and thirty interaction attempts pass. These are peer-owned
-results, not tests run by M3. M1's final committed handoff remains
-`implemented_unaccepted`, `acceptance_passed=false` and
-`downstream_acceptance_ready=false`. Installed recovery and broader controlled
-performance/reference/release qualification remain open. M2 has no accepted
-M1 interfaces integrated and still disallows integration. It finished at
-`6239ea1` as implemented/unaccepted preparation, explicitly retaining the
-accepted-handoff prerequisite. All M3 production
-parents remain blocked. The requested full integrated M0+M1+M2+M3 candidate
-therefore does not exist. The lock prerequisite is cleared.
+Current dependency observation: M1 accepted local engineering at `0ea6b33`
+after actual automatic crash/relaunch recovery qualification. Its accepted
+product source is integrated here as `5e2ae00` without product source changes.
+The existing M3 public fixture and instrumentation checks pass (15 tests,
+zero failures/skips). The first Python integration run exposed one regeneration
+error: M1 moved 29 command anchors from main.swift into DeveloperCommands.swift.
+Commit `1282de7` follows those actual source owners while preserving all 171
+inventory IDs, requirement mappings and evidence states. All 74 Python tests
+then pass. Both the failed and corrected runs are retained with hashes.
+
+M2 has integrated accepted M1 and is actively implementing/qualifying native
+editor workflows. Its own engineering handoff remains unaccepted and disallows
+M3 integration. No M2 source is integrated here; all M3 production parents
+still await that accepted checkpoint. The requested full M0+M1+M2+M3 milestone
+candidate does not yet exist. Numerical release and exact-reference gates remain
+separate from the accepted M1 local engineering checkpoint.
 
 The resumed oracle audit reproduced six mutation failures: matching a private
 relationship type hid public targets, external links and extension attributes;

@@ -4,11 +4,11 @@
   "thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
   "worktree": "/Users/acousland/.codex/worktrees/8b73/MacVisio",
   "branch": "codex/m3-intelligent-vsdx",
-  "state": "blocked_upstream",
+  "state": "awaiting_M2_engineering",
   "handoff_kind": "dependency_blocked",
-  "candidate_code_commit": "6b93289",
+  "candidate_code_commit": "1282de7",
   "milestone_acceptance": {
-    "local_engineering": "blocked: Accepted M2 engineering handoff unavailable. M1 finished unlocked native qualification successfully, but its handoff remains unaccepted for installed recovery and broader controlled-performance/reference/release qualification. M2 integration remains disallowed.",
+    "local_engineering": "blocked: Accepted M1 engineering at 0ea6b33 is integrated locally as 5e2ae00. M2 has integrated accepted M1 and is implementing/qualifying native editor workflows; its own engineering handoff remains unaccepted and integration_allowed=false. M3 production implementation awaits accepted M2.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -28,7 +28,14 @@
       "accepted_scope": "Final locally validated M0 tooling/inventory/instrumentation/corpus/harness contracts; M0/G0 and exact-build reference acceptance remain false",
       "handoff": "docs/delivery/M0-HANDOFF.json"
     },
-    "M1": null,
+    "M1": {
+      "source_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+      "integration_commit": "5e2ae00",
+      "accepted_scope": "All 25 local WP05–09 engineering tasks. Actual automatic app recovery, source/runtime/calculation/render/job contracts accepted; release/reference/numerical performance gates remain separate.",
+      "handoff": "docs/delivery/M1-HANDOFF.json",
+      "verification": "Integrated product Sources/Package.swift exactly match accepted M1. M3 fixture/instrumentation15 tests and Python74 tests pass; inventory command anchors adapted without losing IDs/evidence."
+    },
     "M2": null
   },
   "own_delivery_commits": [
@@ -40,7 +47,8 @@
     "6f00f37",
     "2e36e65",
     "3119858",
-    "6b93289"
+    "6b93289",
+    "1282de7"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -127,7 +135,7 @@
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Complete upstream M1 installed-recovery and remaining engineering qualification, then M2 engineering delivery. Integrate actual accepted M2/M1 commits before M3 production implementation; retain separate M0/G2 reference qualification.",
+  "next_action": "Verify and integrate actual accepted M2 engineering checkpoint when available, then implement bounded M3 children on its actual contracts. Current M1 integration is preparation; M3 dependent production has not started. M0/G2 exact-reference acceptance remains separate.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "Code/preparation head before dependency-record commit; final delivery head is in shared M3-status.json.",
   "partial_task_ids": [
@@ -136,30 +144,30 @@
   "integration_allowed": false,
   "dependency_observation": {
     "M1_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
-    "M1_latest_prompt": "Final unlocked follow-up: five native tests, full Release607/13 skips/0 failures,12 corpus traces and30 interaction samples pass; handoff remains unaccepted.",
+    "M1_latest_prompt": "M1 accepted local engineering after actual automatic app crash/relaunch recovery; all25 local tasks qualified.",
     "M2_thread_id": "01a141d9-478f-7cb0-b568-04467a3badac",
-    "M2_commit": "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
-    "M2_state": "implemented_unaccepted",
+    "M2_commit": "be7e682f39e782d2354d691ec24a750c567adbef",
+    "M2_state": "in_progress",
     "M2_integration_allowed": false,
-    "source": "Direct human unlock response, final committed M1 handoff/shared status and actual M2 handoff/shared status; read without mutation",
+    "source": "Actual accepted M1 handoff and current M2 committed handoff/shared status/active turn, read without mutation; M2 uncommitted source excluded",
     "human_prerequisite_cleared": true,
-    "M1_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:227",
-    "M2_cursor": "65710e9f-cc75-403b-b92c-30635bee732c:120",
-    "M1_commit": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+    "M1_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:228",
+    "M2_cursor": "65710e9f-cc75-403b-b92c-30635bee732c:122",
+    "M1_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
     "M1_code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
-    "M1_state": "implemented_unaccepted",
-    "M1_acceptance_passed": false,
-    "M1_downstream_acceptance_ready": false,
+    "M1_state": "ready",
+    "M1_acceptance_passed": true,
+    "M1_downstream_acceptance_ready": true,
     "handoff_sources": [
       {
         "milestone": "M1",
-        "commit": "f40dcbaf834eee6d45cd84eda4b419499f1d6340",
+        "commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
         "path": "docs/delivery/M1-HANDOFF.json",
-        "sha256": "a97f83a5ddc8409c52b2cd5139be67ecc98057912e251cb345364ea632c332e1"
+        "sha256": "4cae6b8a6482beb3adb0234ea822324aac431f4f0997e33ec796f1e6334cf5ce"
       },
       {
         "milestone": "M2",
-        "commit": "6239ea1df6a616c5ad9b3ee21114d3e2b67f3944",
+        "commit": "be7e682f39e782d2354d691ec24a750c567adbef",
         "path": "docs/delivery/M2-HANDOFF.json",
         "sha256": "b543504d43fbe8b00c9d353dc2430598ad94a8bb7a5c63593944ec8467000c12"
       }
