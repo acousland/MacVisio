@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "kind": "local_engineering_discovery",
+  "kind": "partial_local_engineering_checkpoint",
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -117,6 +117,68 @@
       "python_failures": 0,
       "scope": "Accepted M1 product source unchanged; existing M3 authored preservation/text-edit/physical-output fixtures and actual instrumentation pass. Source inventory generator follows relocated developer command owners, preserving171 IDs/evidence states. M2 not yet integrated; no M3 milestone acceptance.",
       "retained_failure": "Initial74-test Python run errored in one inventory-regeneration check because29 command anchors moved out of main.swift. Generator/source provenance adapted; all74 then passed."
+    },
+    {
+      "id": "M2-integrated-swift",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 748,
+      "failures": 0,
+      "skips": 13,
+      "log_path": "build/m3-evidence/M2-integrated-native.log",
+      "log_sha256": "8e6b9a8243c633e3549b64b64ed8b68873817940c185d0cd9e8325819058a6e2",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M2-integrated-python",
+      "command": "python3 -m unittest discover -s scripts/tests -v",
+      "outcome": "passed",
+      "executed": 105,
+      "failures": 0,
+      "skips": 0,
+      "log_path": "build/m3-evidence/M2-integrated-python.log",
+      "log_sha256": "e77e2aa60010b45f05a45b0c70ed439acc992b22b14fbe9dc5ed272645121525",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M3-foundation-paragraph-affected",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3Definition|M3Paragraph|M3PublicFixture|Master|Undo'",
+      "outcome": "passed",
+      "executed": 97,
+      "failures": 0,
+      "skips": 2,
+      "log_path": "build/m3-evidence/definition-edit-focused-1.log",
+      "log_sha256": "17a01ed55f4fc5f90bd9eb78566d410812decb89e0707943d1347406168c641d",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M3-domain-full-regressions",
+      "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+      "outcome": "passed",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "executed": 775,
+      "skips": 13,
+      "failures": 0,
+      "log_path": "build/m3-evidence/M3-domain-full-native-2.log",
+      "log_sha256": "763bdcf4f3f266b90b2d72775cf0206779254648be8422909a030cea558c50dd",
+      "scope": "Initial domain/cell-edit/save/undo and paragraph slice plus full integrated suite; M3 tasks/reference remain unaccepted"
+    },
+    {
+      "id": "M3-production-python",
+      "outcome": "passed",
+      "executed": 105,
+      "failures": 0,
+      "log_path": "build/m3-evidence/M3-production-python.log",
+      "log_sha256": "b1dea00942c93ae044ca79ec0d9ae0243e027b1b80b8545ce9422481c8b736ee"
+    },
+    {
+      "id": "M3-current-catalog-consistency",
+      "outcome": "passed",
+      "parents": 28,
+      "children": 204,
+      "accepted_children": 0,
+      "report_path": "build/m3-evidence/M3-catalog-consistency.json",
+      "report_sha256": "25036d0a0c88983641db07bff59299f2dc86ccab5129eecaa72a7076b20a18c8"
     }
   ],
   "artifacts": [
@@ -209,5 +271,17 @@
     "interchange": "unverified"
   },
   "unresolved_intermittency": "M1 accepted local engineering disposition is integrated with its deterministic snapshot/gesture regressions and repeated full-suite evidence. M3 focused results do not independently establish absence of races or release/reference acceptance.",
-  "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc"
+  "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+  "accepted_M2_integration": {
+    "source_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+    "product_code_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "integration_commit": "d2d736f",
+    "handoff_sha256": "cf43ccfa4a6477156ec4d6b028ef8be6406e8ee9da36b1a64f77b07825b6c244",
+    "retained_hashes_verified": 393,
+    "mismatches": 0,
+    "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
+  },
+  "current_execution_state": "in_progress: initial definition and paragraph slice verified; M3 children and milestone unaccepted",
+  "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json"
 }

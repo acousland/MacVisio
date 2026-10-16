@@ -1,9 +1,9 @@
 # M3 domain and evidence contracts
 
 16 October 2026. Design/discovery against `7c270124993bac09967109f95e603ebb47bd98ff`.
-This document freezes acceptance inputs, not provisional Swift APIs. Dependent
-production changes wait for accepted M1+M2 engineering commits and the applicable
-M0 inventory/harness contract. The implementation must adapt to those actual APIs.
+This document freezes acceptance inputs, not provisional Swift APIs. Accepted M1+M2 engineering is now integrated through M2 `dbce6c2` as `d2d736f`,
+with the M0 local inventory/harness contract. Production changes use these actual
+APIs; independent reference acceptance remains open.
 
 ## Identity and ownership
 
@@ -204,7 +204,9 @@ explicitly limited coverage. New definition counts, owner contexts or timing
 stages need an intentional schema/coverage decision; preserve its exclusion of
 formula text, source IDs, font names, paths and diagnostic prose. Its anonymous
 legacy import-note bridge does not establish producer accuracy or a safe-save
-policy for intelligent source features. M2 remains unaccepted preparation.
+policy for intelligent source features. This paragraph records the earlier preparation audit. Accepted M2 `dbce6c2` is
+now integrated; definition target navigation and support-report extensions still
+require M3 work.
 
 ## Current evidence and open gates
 
@@ -231,3 +233,51 @@ Microsoft schema references consulted for fixture authorship:
 - [Masters element](https://learn.microsoft.com/en-us/office/client-developer/visio/masters-elementvisio-xml)
 - [DrawingML format scheme](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.drawing.formatscheme)
 - [DrawingML theme elements](https://learn.microsoft.com/en-us/dotnet/api/documentformat.openxml.drawing.themeelements)
+
+
+## Initial production boundary after accepted M2 integration
+
+The registry stores authoritative definition cells separately from the preserved
+archive. Master uses retain imported local-cell provenance in `uses.localSheet`;
+style-only uses mark `localSheetIncludesCells=false` and retain the public source
+binding, with cells fetched from the preserved package on inspection. This avoids
+duplicating large ordinary shape payloads in native metadata. Neither form claims
+to reflect unsaved instance overrides or current live membership. Ordinary
+copy/deletion therefore does not require rewriting that provenance snapshot.
+Scope comes from the source archive lineage and is retained in native metadata.
+Source-free drawings receive their first registry through the successful save
+artifact, with semantic identity/revision preserved.
+
+Cell editing prepares the existing instance edits, patches definition cells into
+public parts, and runs the shared public importer to derive inherited values.
+The proposal remaps disposable import IDs through prepared public bindings,
+including newly inserted unsaved objects/pages. It retains the original save
+baseline until successful save. The writer compares instances against the same
+updated inheritance projection, so inherited changes need not become local cells.
+Definition preparation runs through M1's owned, cancellable editor worker.
+
+This initial implementation does not close section/row deletion/rename lifecycle,
+master replacement, connector sheets, structural relationships, definition UI or
+typed definition diagnostics. Projection currently parses the bounded package;
+no incremental work or performance claim is made for definition-wide edits.
+The five compatibility dimensions and all applicable child contracts remain open.
+
+Paragraph extraction uses the first-line offset relative to the paragraph's left
+indent, as specified by Microsoft's
+[IndFirst cell reference](https://learn.microsoft.com/en-us/office/client-developer/visio/indfirst-cell-paragraph-section).
+AppKit exposes an absolute first-line head indent, so both rendering and extraction
+convert that offset explicitly. A left-indent-only edit must preserve the native
+first-line position through the resulting relative cell value.
+
+Projection also preserves page-layer identities through the prepared layer-row
+order. Baseline reconciliation recognizes both an exact cached public snapshot
+(restored by undo of the first definition edit) and the editor's recalculated
+projection. Derived formula caches must not become explicit instance overrides.
+Other unresolved local-master changes remain subject to M2's save-impact review;
+this initial cell slice does not establish arbitrary structural master updates.
+
+Fresh public exports derive the initial source lineage from the first retained
+page identity. Repeated serialization of the same source-free snapshot therefore
+keeps native metadata byte-stable; after the first successful save, the registry's
+scope remains retained across source rebases and native reopen. The existing
+compact-metadata payload budget remains unchanged.

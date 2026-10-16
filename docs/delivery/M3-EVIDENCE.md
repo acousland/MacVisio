@@ -1,13 +1,22 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Accepted M1 integrated; awaiting accepted M2 engineering; M3 is not accepted**.
+16 October 2026, Australia/Melbourne. State: **Accepted M2 integrated; M3 implementation in progress; M3 is not accepted**.
 
-The isolated `codex/m3-intelligent-vsdx` branch contains the planning baseline,
-available committed M0 inventory/instrumentation/benchmark/public-harness work,
-accepted M1 engineering, and independent M3 preparation. M2 engineering
-acceptance is pending.
-Dependent M3 production feature implementation has not started. This is an interim
-handoff, not the requested final integrated M0+M1+M2+M3 candidate.
+Accepted M2 engineering `dbce6c2` (product `0839994`) is integrated as `d2d736f`.
+Its accepted handoff SHA-256 is
+`cf43ccfa4a6477156ec4d6b028ef8be6406e8ee9da36b1a64f77b07825b6c244`.
+All 393 retained artifact hashes match. The integrated baseline passes 748 Swift
+tests (13 prerequisite skips) and 105 Python checks, with zero failures. M2's
+recorded user scope decisions and exact-artifact release performance exception
+remain attached to M2; the exception does not qualify M3.
+
+Bounded M3 production work has started on scoped master/style sheets, immutable
+cell-edit proposals and public inheritance projection, definition save/undo
+integration, and selected paragraph spacing/indents. Initial affected foundation/
+paragraph checks pass 97 tests (two external prerequisite skips). The later
+master/style edit and save-lifecycle code requires its own qualification. No M3
+child, parent or milestone is accepted. The following observations retain their
+original historical evidence and limitations.
 
 | Local delivery | Commit | Observed result and boundary |
 | --- | --- | --- |
@@ -30,10 +39,10 @@ with their original source and log hashes.
 The machine-readable [evidence record](M3-EVIDENCE.json) gives commands, build
 configuration, scratch path and local log hashes. The
 [interim handoff](M3-HANDOFF.json) records actual commits, dependencies and pending
-task states. No full M3 integration suite has run because that candidate does not
-yet exist. These green local checks do not resolve M1's historical saved-state
-intermittency or satisfy native input, full text/geometry/theme/layout/library,
-visual, physical-printer or bidirectional Visio milestone acceptance.
+task states. The original preparation runs preceded accepted M1/M2 integration. M1 subsequently
+qualified its automatic recovery contract and M2 qualified its declared native
+scope; the current M3 implementation still needs its own text/geometry/theme/
+layout/library, visual, physical-printer and bidirectional Visio qualification.
 
 M0 observed no installed/registered Visio in the existing guest and an isolated
 COM smoke failed with class-not-registered. Its
@@ -76,10 +85,9 @@ Commit `1282de7` follows those actual source owners while preserving all 171
 inventory IDs, requirement mappings and evidence states. All 74 Python tests
 then pass. Both the failed and corrected runs are retained with hashes.
 
-M2 has integrated accepted M1 and is actively implementing/qualifying native
-editor workflows. Its own engineering handoff remains unaccepted and disallows
-M3 integration. No M2 source is integrated here; all M3 production parents
-still await that accepted checkpoint. The requested full M0+M1+M2+M3 milestone
+Before the accepted M2 integration, M2 native workflow qualification was pending
+and dependent M3 production parents were blocked. That observation is superseded
+by the accepted integration recorded above. The requested full M0+M1+M2+M3 milestone
 candidate does not yet exist. Numerical release and exact-reference gates remain
 separate from the accepted M1 local engineering checkpoint.
 
@@ -92,3 +100,17 @@ keeps its shared type registration visible. All 12 focused oracle tests pass.
 The prior failing and corrected logs are hash-bound in the evidence record.
 This qualifies the comparison tool only; no M3 feature or compatibility state
 is promoted.
+
+
+Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
+(13 existing prerequisite skips) and 105 Python checks. The
+[implementation record](M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
+failed/corrected observations and log hashes. Scoped master/style cell editing,
+source rebasing/undo and selected paragraph lengths are a bounded subset.
+Definition UI, shared document/connector calculation owners, structural/row
+lifecycle and remaining child contracts are open. All 204 children remain
+unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.
+
+The final full run has zero failures. Its 13 skips are 12 tests needing installer
+assets and one needing the independent-reader build; none is represented as
+passed. Exact-build Visio/G2 qualification remains a separate open prerequisite.

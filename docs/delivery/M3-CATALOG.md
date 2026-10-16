@@ -2,7 +2,11 @@
 
 This discovery catalog decomposes WP-14–WP-20 from backlog v1.1. It records 204 bounded children across all 28 parent tasks, including every L task. Every child has an exact requirement mapping, canonical M0 `INV-*`/`WP-02-T04-INV-*` links and supplemental source discovery IDs, input/expected behavior, existing source/test anchors, intended public fixture and evidence paths, dependencies, an accountable M3 thread and an explicitly unassigned executor. No child is accepted by this catalog.
 
-Feature children are `awaiting_foundations`: integrate the actual accepted M1+M2 commits/contracts and use the integrated M0 inventory/harness contracts before implementation. M0 source inventory `78c6c56` is integrated as `6ba6901`; its 170 entries remain source/document discovery with an unknown exact reference build. Independent catalog and qualification design entries remain `proposed`. Missing exact-build Visio evidence leaves engineering work implemented/unaccepted when applicable; it never closes G2.
+Accepted M1 and M2 engineering is integrated through M2 `dbce6c2` as `d2d736f`.
+Feature children are pending implementation, with scoped master/style identity,
+inheritance and paragraph slices in progress. M0 inventory/harness contracts remain
+integrated; missing exact-build Visio evidence independently leaves G2 open.
+No child is accepted by this catalog.
 
 ## What was discovered
 
@@ -72,10 +76,17 @@ Every remainder links the actual unresolved M0 `INV-*` entry and `WP-02-T04-INV-
 
 JSON uniqueness, parent coverage, exact requirement-ID validity, canonical M0 inventory/semantic-child links, all M3 package requirements covered by specific children, every named M0 function/cell mapped, and existence of existing source/test anchors were checked. No Swift build, implementation test, generated fixture or real-reference run was performed by this catalog worker; existing parent-owned checks are explicitly attributed and narrower. The catalog changes neither backlog status nor source/tests.
 
-Current execution state: **awaiting M2 engineering**. Accepted M1 checkpoint
-`0ea6b33` is integrated as `5e2ae00`; 15 focused Swift and 74 Python checks pass.
-M2 has integrated accepted M1 and is implementing/qualifying native workflows,
-with its own engineering handoff still unaccepted. All M3 parent implementation
-work awaits accepted M2. The catalog remains discovery only; children retain
-awaiting-foundations/proposed states and none is accepted. The current source
-inventory keeps every ID/evidence state and rebinds 29 relocated command anchors.
+Current execution state: **in progress after accepted M2 integration**. The
+integrated baseline passes 748 Swift tests (13 skips) and 105 Python tests, with
+zero failures. These qualify integration only. M3 production children and all
+independent reference/physical/font requirements remain unaccepted.
+
+
+Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
+(13 existing prerequisite skips) and 105 Python checks. The
+[implementation record](M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
+failed/corrected observations and log hashes. Scoped master/style cell editing,
+source rebasing/undo and selected paragraph lengths are a bounded subset.
+Definition UI, shared document/connector calculation owners, structural/row
+lifecycle and remaining child contracts are open. All 204 children remain
+unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.

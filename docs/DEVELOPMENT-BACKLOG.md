@@ -12,7 +12,7 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
-M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 still needs its accepted M2 checkpoint and applicable M0 inputs.
+M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 has integrated accepted M2 checkpoint `dbce6c2` as `d2d736f` and is implementing bounded production children; independent reference inputs remain pending.
 
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; current local contributions have separate scope and evidence below. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
@@ -369,7 +369,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-10"></a>
 ### WP-10 — Finish document UX, search and basic authoring
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Refine against current native UI changes before implementation.
 
@@ -402,7 +402,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-11"></a>
 ### WP-11 — Complete accessible input and rich-text journeys
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Needs accessibility/interaction design; advanced text semantics continue in WP-16.
 
@@ -435,7 +435,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-12"></a>
 ### WP-12 — Enforce secure, trusted product distribution
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Ready to refine release manifests and security cases.
 
@@ -468,7 +468,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-13"></a>
 ### WP-13 — Expose compatibility and calculation issues
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Ready after diagnostic identity contracts.
 
@@ -501,9 +501,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-14"></a>
 ### WP-14 — Make masters, connector sheets and relationships first-class
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** In progress
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Editable master/style/connector-sheet identities distinct from container/list/graph relationships.
 
@@ -525,9 +525,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-15"></a>
 ### WP-15 — Complete ShapeSheet semantic slices
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Pending
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** An inventory-driven function/cell/context implementation with usable complete editing.
 
@@ -549,9 +549,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-16"></a>
 ### WP-16 — Complete advanced text, fields and presentation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** In progress
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Reference-qualified rich text, text blocks, fields, measurement and font behavior across all owners.
 
@@ -573,9 +573,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-17"></a>
 ### WP-17 — Complete geometry, protections, themes and effects
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Pending
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Complete inventoried geometry/control/appearance behavior with editable public definitions.
 
@@ -597,9 +597,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-18"></a>
 ### WP-18 — Complete connector behavior and automatic layout
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Pending
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Editable connector sheets, glue, routes, jumps and deterministic constrained layout.
 
@@ -621,9 +621,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-19"></a>
 ### WP-19 — Complete pages, layers, scale, export and printing
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Pending
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Consistent screen/physical publication with page/background/layer semantics.
 
@@ -645,9 +645,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-20"></a>
 ### WP-20 — Complete stencil/template authoring and VSDX preservation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Blocked
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Pending
 
-**Readiness:** Bounded source decomposition delivered; accepted M1 engineering integrated and verified; accepted M2 engineering delivery remains pending.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** A reusable intelligent-shape library workflow and independently editable public VSDX/VSSX/VSTX.
 
@@ -1508,65 +1508,56 @@ Retain the review's `build/architecture-review-*` artifacts as local evidence; c
 
 M2 scope decision (16 October 2026): Japanese-language input/candidate-picker testing is not required, per explicit user instruction. Generic native composition, selected-run, RTL, combining-character and emoji coverage remains.
 
-M2 scope decision (16 October 2026): VoiceOver operation testing was explicitly removed by the user. Semantic accessibility and keyboard checks remain; neither VoiceOver nor Japanese testing is represented as passed. The local M2 engineering checkpoint is complete; stable publication, broad platform, controlled performance and exact-build Visio gates remain separate. See [final qualification](delivery/M2-QUALIFICATION.md).
+M2 scope decision (16 October 2026): VoiceOver operation testing was explicitly removed by the user. Semantic accessibility and keyboard checks remain; neither VoiceOver nor Japanese testing is represented as passed. The local M2 engineering checkpoint is complete; stable v0.23.4 is published with its exact-artifact owner-approved performance exception. Broad platform, controlled performance and exact-build Visio gates remain open. See [final qualification](delivery/M2-QUALIFICATION.md).
 
 <!-- M3-DELIVERY-REFINEMENT -->
 ## 11. M3 delivery refinement — 16 October 2026
 
-Current M3 state: **Accepted M1 integrated — awaiting M2 engineering**. The original package scope and 161 initial parent
-tasks remain unchanged. All 28 M3 parents, including all 22 L tasks, now have
-bounded children in [M3-CATALOG.json](delivery/M3-CATALOG.json), with exact
-requirement/canonical M0 inventory mappings and explicit reference remainders.
-The [catalog guide](delivery/M3-CATALOG.md) and
-[domain contracts](delivery/M3-DOMAIN-CONTRACTS.md) describe ownership, dependencies
-and evidence boundaries. All seven M3 packages are Blocked; no package, child,
-parent implementation task or M3/G2 gate is accepted by this refinement.
+Current M3 state: **Accepted M2 integrated; implementation in progress**. All 28
+parents, including all 22 L tasks, retain 204 bounded children in
+[M3-CATALOG.json](delivery/M3-CATALOG.json). Exact requirement/M0 inventory links
+and unresolved reference remainders remain visible. No M3 child, parent, package
+or G2 gate is accepted by the decomposition or integrated baseline.
 
 | Parent task | Current status | Bounded children |
 | --- | --- | ---: |
-| WP-14-T01 | Blocked | 4 |
-| WP-14-T02 | Blocked | 3 |
-| WP-14-T03 | Blocked | 3 |
-| WP-14-T04 | Blocked | 3 |
-| WP-15-T01 | Blocked | 5 |
-| WP-15-T02 | Blocked | 6 |
-| WP-15-T03 | Blocked | 90 |
-| WP-15-T04 | Blocked | 16 |
-| WP-16-T01 | Blocked | 3 |
-| WP-16-T02 | Blocked | 3 |
-| WP-16-T03 | Blocked | 4 |
-| WP-16-T04 | Blocked | 3 |
-| WP-17-T01 | Blocked | 3 |
-| WP-17-T02 | Blocked | 7 |
-| WP-17-T03 | Blocked | 6 |
-| WP-17-T04 | Blocked | 3 |
-| WP-18-T01 | Blocked | 4 |
-| WP-18-T02 | Blocked | 4 |
-| WP-18-T03 | Blocked | 6 |
-| WP-18-T04 | Blocked | 3 |
-| WP-19-T01 | Blocked | 4 |
-| WP-19-T02 | Blocked | 3 |
-| WP-19-T03 | Blocked | 3 |
-| WP-19-T04 | Blocked | 2 |
-| WP-20-T01 | Blocked | 3 |
-| WP-20-T02 | Blocked | 3 |
-| WP-20-T03 | Blocked | 4 |
-| WP-20-T04 | Blocked | 3 |
+| WP-14-T01 | In progress | 4 |
+| WP-14-T02 | In progress | 3 |
+| WP-14-T03 | Pending | 3 |
+| WP-14-T04 | Pending | 3 |
+| WP-15-T01 | Pending | 5 |
+| WP-15-T02 | Pending | 6 |
+| WP-15-T03 | Pending | 90 |
+| WP-15-T04 | Pending | 16 |
+| WP-16-T01 | In progress | 3 |
+| WP-16-T02 | Pending | 3 |
+| WP-16-T03 | Pending | 4 |
+| WP-16-T04 | Pending | 3 |
+| WP-17-T01 | Pending | 3 |
+| WP-17-T02 | Pending | 7 |
+| WP-17-T03 | Pending | 6 |
+| WP-17-T04 | Pending | 3 |
+| WP-18-T01 | Pending | 4 |
+| WP-18-T02 | Pending | 4 |
+| WP-18-T03 | Pending | 6 |
+| WP-18-T04 | Pending | 3 |
+| WP-19-T01 | Pending | 4 |
+| WP-19-T02 | Pending | 3 |
+| WP-19-T03 | Pending | 3 |
+| WP-19-T04 | Pending | 2 |
+| WP-20-T01 | Pending | 3 |
+| WP-20-T02 | Pending | 3 |
+| WP-20-T03 | Pending | 4 |
+| WP-20-T04 | Pending | 3 |
 
-WP-15-T01 has a delivered bounded source decomposition, while its complete
-exact-build catalog remains unknown. All M3 parents are now Blocked on the
-accepted upstream engineering prerequisite; no production feature implementation
-has started. M1 accepted its local engineering checkpoint at `0ea6b33` after
-actual automatic app recovery qualification; it is integrated here as `5e2ae00`.
-All 15 affected Swift checks and 74 Python checks pass. The source inventory
-retains 171 IDs/evidence states, with 29 command anchors following M1's extracted
-developer dispatcher. M2 has integrated accepted M1 and is implementing and
-qualifying native editor workflows; its own handoff is still unaccepted.
-M3 production implementation still requires accepted M2. The catalog records
-198 children awaiting foundations and six proposed discovery/qualification
-children. All 204 remain unaccepted; counts are decomposition, not compatibility
-evidence. Unknown runtime functions, cells, owners, masters, text, geometry,
-connectors, output and package variants remain owned prerequisites.
+Accepted M2 engineering `dbce6c2` (product `0839994`) is integrated as `d2d736f`.
+Its handoff permits downstream integration; all 393 retained artifact hashes match.
+The integrated baseline passes 748 Swift tests (13 prerequisite skips) and 105
+Python tests, with zero failures. M2's recorded Japanese/VoiceOver scope decisions
+remain explicit; its exact-artifact release performance exception is not inherited
+by M3. Domain identity/inheritance and selected paragraph spacing/indent slices
+have started; they require their own edit/undo/save/public-content qualification.
+All remaining M3 production and independent reference obligations remain open.
 
 The actual M0 inventory commit `78c6c56` is integrated as `6ba6901`; its 154
 requirement/evidence ledger and bounded inventory retain every original snapshot
@@ -1574,8 +1565,7 @@ state and unverified evidence dimension. Committed M0 instrumentation, benchmark
 corpus and public harness safeguards through `02dea53` are also integrated.
 M0 local execution statuses and its explicit unaccepted G0/reference state are
 retained alongside this M3 refinement.
-M3 production implementation waits for actual accepted M2 engineering commits
-and contracts; the accepted M1 checkpoint is already integrated. The observed missing Visio installation independently blocks G2;
+M3 production implementation uses the accepted integrated M1/M2 contracts. The observed missing Visio installation independently blocks G2;
 it does not remove any implementation obligation.
 
 The two [authored public fixtures](../Tests/MacVisioTests/Fixtures/M3/README.md)
@@ -1594,7 +1584,16 @@ and the strengthened native test plus an independent SVG path measure pass.
 Earlier native fallback results remain historical and do not prove public
 geometry. This probe changes no child/package/milestone acceptance state.
 
-M1 engineering is accepted and integrated. M2 engineering is active; its
-accepted handoff is the remaining local implementation prerequisite for M3.
-No provisional M2 source was integrated. Licensed exact-build Visio is still
+M1 and M2 engineering are accepted and integrated. M3 implementation is active;
+no provisional peer source was used. Licensed exact-build Visio is still
 required for independent G2 acceptance.
+
+
+Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
+(13 existing prerequisite skips) and 105 Python checks. The
+[implementation record](delivery/M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
+failed/corrected observations and log hashes. Scoped master/style cell editing,
+source rebasing/undo and selected paragraph lengths are a bounded subset.
+Definition UI, shared document/connector calculation owners, structural/row
+lifecycle and remaining child contracts are open. All 204 children remain
+unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.

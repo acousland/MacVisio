@@ -4,7 +4,7 @@
   "milestone": "M3",
   "date": "2026-10-16",
   "timezone": "Australia/Melbourne",
-  "state": "proposed",
+  "state": "in_progress",
   "planning_baseline_commit": "7c270124993bac09967109f95e603ebb47bd98ff",
   "observed_source_commit": "f0182cb21d34e2bb963c0bfa19e53dcd8f7e39c3",
   "purpose": "Bounded decomposition and discovery inventory for WP-14 through WP-20. This catalog closes no implementation task, milestone or independent G2 acceptance.",
@@ -47,7 +47,9 @@
     "awaiting_foundations": "Implementation must wait for integration of actual accepted M2/M1 contracts/commits and available M0 inventory/harness contracts.",
     "future_implemented_unaccepted": "Engineering checks may pass while exact reference evidence remains pending; do not mark parent accepted.",
     "parent_closure": "Every applicable child and package/task contract must pass; catalog completion cannot close implementation parents.",
-    "unknown_inventory": "Source lists are non-exhaustive. M0 exact-build entries must reconcile into additional bounded children; do not infer absent items out of scope."
+    "unknown_inventory": "Source lists are non-exhaustive. M0 exact-build entries must reconcile into additional bounded children; do not infer absent items out of scope.",
+    "pending_implementation": "Accepted M2 source is integrated. The child remains unimplemented or depends on M3-owned work; exact-reference acceptance remains separate.",
+    "in_progress": "Bounded production work has started; no engineering/reference acceptance is inferred."
   },
   "foundation_contracts": [
     {
@@ -56,7 +58,7 @@
         "M1 accepted commits",
         "M2 accepted commits"
       ],
-      "status": "awaiting_M2_engineering",
+      "status": "accepted_and_integrated",
       "required_inputs": [
         "transaction/revision/undo/save contracts",
         "incremental calculation/evaluated-scene/index contracts",
@@ -64,10 +66,12 @@
         "native input/accessibility/diagnostics and lifecycle regressions"
       ],
       "integration_rule": "Use actual accepted peer commits and handoff contracts; do not implement against speculative interfaces.",
-      "observed_M2_commit": "be7e682f39e782d2354d691ec24a750c567adbef",
+      "observed_M2_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "observed_M1_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
       "M1_downstream_acceptance_ready": true,
-      "M1_integration_commit": "5e2ae00"
+      "M1_integration_commit": "5e2ae00",
+      "M2_downstream_acceptance_ready": true,
+      "M2_integration_commit": "d2d736f"
     },
     {
       "id": "M3-FOUNDATION-M0",
@@ -5781,7 +5785,10 @@
     "parent_count": 28,
     "large_parent_count": 22,
     "child_count": 204,
-    "accepted_child_count": 0
+    "accepted_child_count": 0,
+    "in_progress_child_count": 3,
+    "pending_implementation_child_count": 195,
+    "proposed_child_count": 6
   },
   "parents": [
     {
@@ -5793,7 +5800,7 @@
         "WP-14-T01-C003",
         "WP-14-T01-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5817,7 +5824,7 @@
         "WP-14-T02-C002",
         "WP-14-T02-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5837,7 +5844,7 @@
         "WP-14-T03-C002",
         "WP-14-T03-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5859,7 +5866,7 @@
         "WP-14-T04-C002",
         "WP-14-T04-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5885,7 +5892,7 @@
         "WP-15-T01-C004",
         "WP-15-T01-C005"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5913,7 +5920,7 @@
         "WP-15-T02-C005",
         "WP-15-T02-C006"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6025,7 +6032,7 @@
         "WP-15-T03-C089",
         "WP-15-T03-C090"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6061,7 +6068,7 @@
         "WP-15-T04-C015",
         "WP-15-T04-C016"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6084,7 +6091,7 @@
         "WP-16-T01-C002",
         "WP-16-T01-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6106,7 +6113,7 @@
         "WP-16-T02-C002",
         "WP-16-T02-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6126,7 +6133,7 @@
         "WP-16-T03-C003",
         "WP-16-T03-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6146,7 +6153,7 @@
         "WP-16-T04-C002",
         "WP-16-T04-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6171,7 +6178,7 @@
         "WP-17-T01-C002",
         "WP-17-T01-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6196,7 +6203,7 @@
         "WP-17-T02-C006",
         "WP-17-T02-C007"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6220,7 +6227,7 @@
         "WP-17-T03-C005",
         "WP-17-T03-C006"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6242,7 +6249,7 @@
         "WP-17-T04-C002",
         "WP-17-T04-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6267,7 +6274,7 @@
         "WP-18-T01-C003",
         "WP-18-T01-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6291,7 +6298,7 @@
         "WP-18-T02-C003",
         "WP-18-T02-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6317,7 +6324,7 @@
         "WP-18-T03-C005",
         "WP-18-T03-C006"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6341,7 +6348,7 @@
         "WP-18-T04-C002",
         "WP-18-T04-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6364,7 +6371,7 @@
         "WP-19-T01-C003",
         "WP-19-T01-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6386,7 +6393,7 @@
         "WP-19-T02-C002",
         "WP-19-T02-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6406,7 +6413,7 @@
         "WP-19-T03-C002",
         "WP-19-T03-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6427,7 +6434,7 @@
         "WP-19-T04-C001",
         "WP-19-T04-C002"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6447,7 +6454,7 @@
         "WP-20-T01-C002",
         "WP-20-T01-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6466,7 +6473,7 @@
         "WP-20-T02-C002",
         "WP-20-T02-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6488,7 +6495,7 @@
         "WP-20-T03-C003",
         "WP-20-T03-C004"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6510,7 +6517,7 @@
         "WP-20-T04-C002",
         "WP-20-T04-C003"
       ],
-      "status": "blocked_upstream",
+      "status": "pending_implementation",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6536,7 +6543,7 @@
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Stable document master and style sheet identities",
-      "state": "awaiting_foundations",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-02",
@@ -6551,7 +6558,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Core/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -6564,13 +6571,16 @@
         "Sources/MacVisio/Model.swift",
         "Sources/MacVisio/VisioPackage.swift",
         "Sources/MacVisio/VisioFormat.swift",
-        "scripts/m3-public-evidence.py"
+        "scripts/m3-public-evidence.py",
+        "Sources/MacVisio/DiagramDefinitions.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/MasterInheritanceTests.swift",
         "Tests/MacVisioTests/StyleInheritanceCacheTests.swift",
         "Tests/MacVisioTests/M3PublicFixtureTests.swift",
-        "scripts/tests/test_m3_public_evidence.py"
+        "scripts/tests/test_m3_public_evidence.py",
+        "Tests/MacVisioTests/M3DefinitionIdentityTests.swift",
+        "Tests/MacVisioTests/M3DefinitionRegistryValidationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31401AcceptanceTests.swift",
@@ -6587,7 +6597,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "initial_bounded_subset_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -6612,14 +6622,19 @@
       "existing_seed_fixture_ids": [
         "M3-SEED-intelligent"
       ],
-      "evidence_limit": "Seed carries relevant public source content. Only no-edit and isolated instance-text preservation are locally checked; proposed behavior/reference acceptance remains pending."
+      "evidence_limit": "Shared seed/local tests cover the initial production subset only; full per-child contract and independent reference acceptance remain pending.",
+      "local_evidence": {
+        "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+        "record": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+        "scope": "Partial production subset with full775-test regression (13 prerequisite skips). Child fixture/reference/UI/remaining semantic contracts are open."
+      }
     },
     {
       "id": "WP-14-T01-C002",
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Connector shape/sheet identity independent of graph edge",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-01",
@@ -6699,7 +6714,7 @@
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Separate group parentage from container/list/lane membership",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-06",
@@ -6773,7 +6788,7 @@
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Scoped section/row/cell public identity mapping",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-01",
@@ -6858,7 +6873,7 @@
       "parent_task": "WP-14-T02",
       "work_package": "WP-14",
       "title": "Resolve inherited cell/section precedence and explicit overrides",
-      "state": "awaiting_foundations",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-03"
@@ -6870,7 +6885,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Core/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-14-T01"
@@ -6884,13 +6899,15 @@
       "source_paths": [
         "Sources/MacVisio/VisioFormat.swift",
         "Sources/MacVisio/ShapeSheetContext.swift",
-        "scripts/m3-public-evidence.py"
+        "scripts/m3-public-evidence.py",
+        "Sources/MacVisio/DefinitionEditing.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/MasterInheritanceTests.swift",
         "Tests/MacVisioTests/StyleInheritanceCacheTests.swift",
         "Tests/MacVisioTests/M3PublicFixtureTests.swift",
-        "scripts/tests/test_m3_public_evidence.py"
+        "scripts/tests/test_m3_public_evidence.py",
+        "Tests/MacVisioTests/M3DefinitionEditingTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31402AcceptanceTests.swift",
@@ -6906,7 +6923,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "initial_bounded_subset_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -6931,14 +6948,19 @@
       "existing_seed_fixture_ids": [
         "M3-SEED-intelligent"
       ],
-      "evidence_limit": "Seed carries relevant public source content. Only no-edit and isolated instance-text preservation are locally checked; proposed behavior/reference acceptance remains pending."
+      "evidence_limit": "Shared seed/local tests cover the initial production subset only; full per-child contract and independent reference acceptance remain pending.",
+      "local_evidence": {
+        "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+        "record": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+        "scope": "Partial production subset with full775-test regression (13 prerequisite skips). Child fixture/reference/UI/remaining semantic contracts are open."
+      }
     },
     {
       "id": "WP-14-T02-C002",
       "parent_task": "WP-14-T02",
       "work_package": "WP-14",
       "title": "Preserve inherited row rename/deletion tombstones",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-03",
@@ -7013,7 +7035,7 @@
       "parent_task": "WP-14-T02",
       "work_package": "WP-14",
       "title": "Resolve master groups in each instance scope",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-02",
@@ -7088,7 +7110,7 @@
       "parent_task": "WP-14-T03",
       "work_package": "WP-14",
       "title": "Master replacement mapping and reversible preview",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-07"
@@ -7159,7 +7181,7 @@
       "parent_task": "WP-14-T03",
       "work_package": "WP-14",
       "title": "Cross-document paste scoped remapping",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-03",
@@ -7232,7 +7254,7 @@
       "parent_task": "WP-14-T03",
       "work_package": "WP-14",
       "title": "Recover old native metadata into explicit domain identities",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-02",
@@ -7307,7 +7329,7 @@
       "parent_task": "WP-14-T04",
       "work_package": "WP-14",
       "title": "No-edit identity and opaque payload preservation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-02",
@@ -7385,7 +7407,7 @@
       "parent_task": "WP-14-T04",
       "work_package": "WP-14",
       "title": "Expected-only instance edit and master update patches",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-03",
@@ -7463,7 +7485,7 @@
       "parent_task": "WP-14-T04",
       "work_package": "WP-14",
       "title": "Bidirectional intelligent identity workflow",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-02",
@@ -7901,7 +7923,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Expression precedence, universal/local literals and typed units",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-02"
@@ -7973,7 +7995,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Escaped named-row references through rename/delete",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-03"
@@ -8044,7 +8066,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Resolve every sheet-owner context through one host contract",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-03"
@@ -8132,7 +8154,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Coercion, error values and invalid-input preservation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-02",
@@ -8203,7 +8225,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "GUARD and SETATREF transactional redirection",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-05",
@@ -8292,7 +8314,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Typed inherited/local value resolution",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-05",
@@ -8367,7 +8389,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ABS numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8442,7 +8464,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ACOS numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8517,7 +8539,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close AND numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8592,7 +8614,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ANG360 numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8668,7 +8690,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ASIN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8743,7 +8765,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ATAN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8818,7 +8840,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ATAN2 numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8893,7 +8915,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BITAND numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -8968,7 +8990,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BITOR numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9043,7 +9065,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BITXOR numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9118,7 +9140,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BKGPAGENAME date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9197,7 +9219,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BLUE color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9279,7 +9301,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BOUND guard/control semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -9358,7 +9380,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close CEILING numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9433,7 +9455,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close CHAR string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9511,7 +9533,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close CONCATENATE string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9588,7 +9610,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close COS numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9663,7 +9685,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close DATE date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9742,7 +9764,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close DEG numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9817,7 +9839,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close EXP numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9892,7 +9914,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FIELDPICTURE text/field picture semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9969,7 +9991,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FIND string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10047,7 +10069,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FLOOR numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10122,7 +10144,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FORMAT date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10201,7 +10223,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close GETREF side-effect/reference discovery semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10279,7 +10301,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close GREEN color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10361,7 +10383,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close GUARD guard/control semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -10441,7 +10463,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close HSL color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10523,7 +10545,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close HUE color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10605,7 +10627,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ID date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10684,7 +10706,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close IF numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10760,7 +10782,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close IFERROR numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10836,7 +10858,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close INDEX string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10914,7 +10936,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close INT numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10989,7 +11011,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ISTHEMED color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11072,7 +11094,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LEFT string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11150,7 +11172,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LEN string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11228,7 +11250,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11303,7 +11325,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LOG10 numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11379,7 +11401,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LOWER string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11456,7 +11478,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LUM color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11538,7 +11560,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close LUMDIFF color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11620,7 +11642,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close MAX numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11695,7 +11717,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close MID string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11773,7 +11795,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close MIN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11848,7 +11870,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close MODULUS numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11923,7 +11945,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close NOT numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -11998,7 +12020,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close NOW date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12077,7 +12099,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close NURBS composite geometry semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12155,7 +12177,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close OPENTEXTWIN side-effect/reference discovery semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12233,7 +12255,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close OR numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12308,7 +12330,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGECOUNT date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12387,7 +12409,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGENAME date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12466,7 +12488,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGENUMBER date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12545,7 +12567,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PI numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12620,7 +12642,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close POLYLINE composite geometry semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12698,7 +12720,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close POW numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12773,7 +12795,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close RAD numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12848,7 +12870,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close RED color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12930,7 +12952,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close REF numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13005,7 +13027,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close REPLACE string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13083,7 +13105,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close REPT string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13161,7 +13183,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close RGB color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13244,7 +13266,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close RIGHT string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13322,7 +13344,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ROUND numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13397,7 +13419,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SAT color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13479,7 +13501,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SETATREF guard/control semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -13558,7 +13580,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SETATREFEVAL guard/control semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -13637,7 +13659,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SETATREFEXPR guard/control semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -13717,7 +13739,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SETF side-effect/reference discovery semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13795,7 +13817,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SHAPETEXT text/field picture semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13872,7 +13894,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SIGN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13947,7 +13969,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SIN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14022,7 +14044,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SQRT numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14097,7 +14119,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close STRSAME string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14174,7 +14196,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close STRSAMEEX string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14251,7 +14273,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SUBSTITUTE string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14329,7 +14351,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close SUM numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14404,7 +14426,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TAN numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14479,7 +14501,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TEXTHEIGHT text/field picture semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -14557,7 +14579,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TEXTWIDTH text/field picture semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06",
@@ -14635,7 +14657,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close THEMEGUARD color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14719,7 +14741,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close THEMEPROP color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14801,7 +14823,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close THEMEVAL color/theme semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14883,7 +14905,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TODAY date/page/field semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -14962,7 +14984,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TRIM string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -15039,7 +15061,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TRUNC numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -15115,7 +15137,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close UNICHAR string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -15193,7 +15215,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close UPPER string/lookup semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -15270,7 +15292,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close _ELLIPSE_THETA numeric/logical semantic/context slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -15346,7 +15368,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Transform section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15438,7 +15460,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit TextTransform section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15530,7 +15552,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit TextBlock section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15618,7 +15640,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Character section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15700,7 +15722,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Paragraph section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15780,7 +15802,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit User section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15860,7 +15882,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Property section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -15941,7 +15963,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Connection section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16022,7 +16044,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Control section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-07"
@@ -16102,7 +16124,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Geometry section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16183,7 +16205,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Field section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16264,7 +16286,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit PageSheet section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16344,7 +16366,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Layer section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16425,7 +16447,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit ThemeProperties section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16506,7 +16528,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Edit Line section/cell lifecycle with typed diagnostics",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09"
@@ -16589,7 +16611,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Coverage registry and error-to-source navigation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09",
@@ -16664,7 +16686,7 @@
       "parent_task": "WP-16-T01",
       "work_package": "WP-16",
       "title": "Selected character runs across all text owners",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-01"
@@ -16740,7 +16762,7 @@
       "parent_task": "WP-16-T01",
       "work_package": "WP-16",
       "title": "Paragraph tabs, bullets, indents and spacing",
-      "state": "awaiting_foundations",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-02"
@@ -16754,7 +16776,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Text/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -16770,7 +16792,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/RichTextTests.swift",
-        "Tests/MacVisioTests/TextContextTests.swift"
+        "Tests/MacVisioTests/TextContextTests.swift",
+        "Tests/MacVisioTests/M3ParagraphEditingTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31601AcceptanceTests.swift",
@@ -16783,7 +16806,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "initial_bounded_subset_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -16804,14 +16827,20 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "local_evidence": {
+        "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+        "record": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+        "scope": "Partial production subset with full775-test regression (13 prerequisite skips). Child fixture/reference/UI/remaining semantic contracts are open."
+      },
+      "evidence_limit": "Shared seed/local tests cover the initial production subset only; full per-child contract and independent reference acceptance remain pending."
     },
     {
       "id": "WP-16-T01-C003",
       "parent_task": "WP-16-T01",
       "work_package": "WP-16",
       "title": "Unicode/bidirectional/IME selection and indexing",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-05"
@@ -16881,7 +16910,7 @@
       "parent_task": "WP-16-T02",
       "work_package": "WP-16",
       "title": "Independent text-block transforms and margins",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-03"
@@ -16952,7 +16981,7 @@
       "parent_task": "WP-16-T02",
       "work_package": "WP-16",
       "title": "Text-driven sizing converges without caret loss",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-07"
@@ -17032,7 +17061,7 @@
       "parent_task": "WP-16-T02",
       "work_package": "WP-16",
       "title": "Text measurement execution and cache invalidation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-07"
@@ -17103,7 +17132,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Document/page/shape information fields",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17179,7 +17208,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Date/time locale and format-picture fields",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17260,7 +17289,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Typed data and dimension fields",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17331,7 +17360,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Foreground-context background fields",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17405,7 +17434,7 @@
       "parent_task": "WP-16-T04",
       "work_package": "WP-16",
       "title": "Font reporting and deterministic substitution",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-06"
@@ -17478,7 +17507,7 @@
       "parent_task": "WP-16-T04",
       "work_package": "WP-16",
       "title": "Proofing/language and text-default inventory slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-08"
@@ -17551,7 +17580,7 @@
       "parent_task": "WP-16-T04",
       "work_package": "WP-16",
       "title": "Same-font text output and per-region differences",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-01",
@@ -17624,7 +17653,7 @@
       "parent_task": "WP-17-T01",
       "work_package": "WP-17",
       "title": "Geometry row/curve definitions remain editable",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-07"
@@ -17697,7 +17726,7 @@
       "parent_task": "WP-17-T01",
       "work_package": "WP-17",
       "title": "Signed/off-center/nested transform boundaries",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-03"
@@ -17767,7 +17796,7 @@
       "parent_task": "WP-17-T01",
       "work_package": "WP-17",
       "title": "Degenerate and singular geometry disposition",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-07",
@@ -17841,7 +17870,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Union curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -17914,7 +17943,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Combine curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -17987,7 +18016,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Fragment curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18060,7 +18089,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Intersect curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18133,7 +18162,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Subtract curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18206,7 +18235,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Trim curved/holed paths as one reversible edit",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18279,7 +18308,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Selection/movement/resize/rotation/formula protections",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-10"
@@ -18352,7 +18381,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Palette allocation and cross-library color identity",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-09",
@@ -18427,7 +18456,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Theme variants/quick styles with explicit overrides",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-08"
@@ -18509,7 +18538,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Public gradients appearance slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-09"
@@ -18582,7 +18611,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Public patterns appearance slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-09"
@@ -18655,7 +18684,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Public shadows and supported effects appearance slice",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-09"
@@ -18728,7 +18757,7 @@
       "parent_task": "WP-17-T03",
       "work_package": "WP-17",
       "title": "Image crop/clipping/aspect and resource identity",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-12"
@@ -18799,7 +18828,7 @@
       "parent_task": "WP-17-T04",
       "work_package": "WP-17",
       "title": "Control/text/geometry intelligent shape vertical",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-07",
@@ -18871,7 +18900,7 @@
       "parent_task": "WP-17-T04",
       "work_package": "WP-17",
       "title": "Theme/effect/override vertical fixture",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-08",
@@ -18943,7 +18972,7 @@
       "parent_task": "WP-17-T04",
       "work_package": "WP-17",
       "title": "Transform/protection/image public vertical fixture",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-03",
@@ -19016,7 +19045,7 @@
       "parent_task": "WP-18-T01",
       "work_package": "WP-18",
       "title": "Named connection-point direction/type lifecycle",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-03"
@@ -19093,7 +19122,7 @@
       "parent_task": "WP-18-T01",
       "work_package": "WP-18",
       "title": "Static versus dynamic attachment behavior",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-02"
@@ -19169,7 +19198,7 @@
       "parent_task": "WP-18-T01",
       "work_package": "WP-18",
       "title": "Document/layer/protection snap and glue rules",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-03",
@@ -19243,7 +19272,7 @@
       "parent_task": "WP-18-T01",
       "work_package": "WP-18",
       "title": "Group/semantic membership/page-scale endpoint transforms",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-07"
@@ -19315,7 +19344,7 @@
       "parent_task": "WP-18-T02",
       "work_package": "WP-18",
       "title": "Curved/manual route handles and bend constraints",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-04"
@@ -19389,7 +19418,7 @@
       "parent_task": "WP-18-T02",
       "work_package": "WP-18",
       "title": "Independent connector ends/arrows/rich labels",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-01",
@@ -19463,7 +19492,7 @@
       "parent_task": "WP-18-T02",
       "work_package": "WP-18",
       "title": "Line jumps/corner rounding without topology changes",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-05"
@@ -19536,7 +19565,7 @@
       "parent_task": "WP-18-T02",
       "work_package": "WP-18",
       "title": "Conservative route invalidation preserves unrelated imports",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-10"
@@ -19607,7 +19636,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Auto-connect multipage branching flowchart",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-06",
@@ -19683,7 +19712,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Connector split and deletion healing",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-06"
@@ -19756,7 +19785,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Hierarchical constrained layout with deterministic preview",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-08",
@@ -19831,7 +19860,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Tree constrained layout with deterministic preview",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-08",
@@ -19906,7 +19935,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Flowchart constrained layout with deterministic preview",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-08",
@@ -19981,7 +20010,7 @@
       "parent_task": "WP-18-T03",
       "work_package": "WP-18",
       "title": "Reference-confirmed general constrained layout with deterministic preview",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-08",
@@ -20056,7 +20085,7 @@
       "parent_task": "WP-18-T04",
       "work_package": "WP-18",
       "title": "Cold dense connector workload and bounded fallback",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-04",
@@ -20127,7 +20156,7 @@
       "parent_task": "WP-18-T04",
       "work_package": "WP-18",
       "title": "Nested graph and page-scale public round trip",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-07",
@@ -20198,7 +20227,7 @@
       "parent_task": "WP-18-T04",
       "work_package": "WP-18",
       "title": "Real event routing and undo/cancel regression trace",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-CON-04",
@@ -20270,7 +20299,7 @@
       "parent_task": "WP-19-T01",
       "work_package": "WP-19",
       "title": "Page lifecycle dependency preview and link integrity",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-01"
@@ -20339,7 +20368,7 @@
       "parent_task": "WP-19-T01",
       "work_package": "WP-19",
       "title": "Shared background/title-block foreground context",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-02"
@@ -20415,7 +20444,7 @@
       "parent_task": "WP-19-T01",
       "work_package": "WP-19",
       "title": "Multiple layer membership and visibility/lock/color/print",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-03"
@@ -20493,7 +20522,7 @@
       "parent_task": "WP-19-T01",
       "work_package": "WP-19",
       "title": "Active-layer defaults and layer snap/glue behavior",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-03"
@@ -20565,7 +20594,7 @@
       "parent_task": "WP-19-T02",
       "work_package": "WP-19",
       "title": "Separate physical paper/drawing/printer scale",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-06",
@@ -20643,7 +20672,7 @@
       "parent_task": "WP-19-T02",
       "work_package": "WP-19",
       "title": "Auto-size/fixed orientation/margins/tiling",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-08",
@@ -20715,7 +20744,7 @@
       "parent_task": "WP-19-T02",
       "work_package": "WP-19",
       "title": "Print page ranges and all foreground pages",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-07"
@@ -20786,7 +20815,7 @@
       "parent_task": "WP-19-T03",
       "work_package": "WP-19",
       "title": "Raster format/resolution/transparency/bounds settings",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-06"
@@ -20858,7 +20887,7 @@
       "parent_task": "WP-19-T03",
       "work_package": "WP-19",
       "title": "Vector PDF/SVG multipage and page settings",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-06"
@@ -20928,7 +20957,7 @@
       "parent_task": "WP-19-T03",
       "work_package": "WP-19",
       "title": "One evaluated scene with explicit screen/export/print policy",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-PAG-03",
@@ -21001,7 +21030,7 @@
       "parent_task": "WP-19-T04",
       "work_package": "WP-19",
       "title": "Measured dimensions with calibrated output tolerances",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-NFR-07",
@@ -21073,7 +21102,7 @@
       "parent_task": "WP-19-T04",
       "work_package": "WP-19",
       "title": "Same-font per-region visual regression dispositions",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-NFR-08"
@@ -21143,7 +21172,7 @@
       "parent_task": "WP-20-T01",
       "work_package": "WP-20",
       "title": "Offline library search/pins/previews/metadata",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-01"
@@ -21211,7 +21240,7 @@
       "parent_task": "WP-20-T01",
       "work_package": "WP-20",
       "title": "Custom master/stencil identity-preserving management",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-04"
@@ -21285,7 +21314,7 @@
       "parent_task": "WP-20-T01",
       "work_package": "WP-20",
       "title": "Large-library selective update and cancellation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-01"
@@ -21353,7 +21382,7 @@
       "parent_task": "WP-20-T02",
       "work_package": "WP-20",
       "title": "Selection-to-master complete dependency closure",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-05"
@@ -21431,7 +21460,7 @@
       "parent_task": "WP-20-T02",
       "work_package": "WP-20",
       "title": "Template-to-new-drawing complete independent defaults",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-06"
@@ -21507,7 +21536,7 @@
       "parent_task": "WP-20-T02",
       "work_package": "WP-20",
       "title": "Cross-library resource/style/master collision remapping",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-05",
@@ -21586,7 +21615,7 @@
       "parent_task": "WP-20-T03",
       "work_package": "WP-20",
       "title": "No-edit package payload preservation",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-03"
@@ -21664,7 +21693,7 @@
       "parent_task": "WP-20-T03",
       "work_package": "WP-20",
       "title": "Expected-only semantic dependency patches",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-03",
@@ -21744,7 +21773,7 @@
       "parent_task": "WP-20-T03",
       "work_package": "WP-20",
       "title": "Revision-safe repeated save source rebasing",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-03"
@@ -21818,7 +21847,7 @@
       "parent_task": "WP-20-T03",
       "work_package": "WP-20",
       "title": "Public relationship/content-type/schema coverage by family",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-01",
@@ -21904,7 +21933,7 @@
       "parent_task": "WP-20-T04",
       "work_package": "WP-20",
       "title": "MacVisio-authored intelligent public handoff",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-01",
@@ -21977,7 +22006,7 @@
       "parent_task": "WP-20-T04",
       "work_package": "WP-20",
       "title": "Reference-authored drawing/stencil/template return journey",
-      "state": "awaiting_foundations",
+      "state": "pending_implementation",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-01",
@@ -22997,6 +23026,6 @@
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
-  "execution_state": "awaiting_M2_engineering",
-  "execution_block_reason": "Accepted M1 engineering at 0ea6b33 is integrated locally as 5e2ae00. M2 has integrated accepted M1 and is implementing/qualifying native editor workflows; its own engineering handoff remains unaccepted and integration_allowed=false. M3 production implementation awaits accepted M2."
+  "execution_state": "in_progress",
+  "execution_block_reason": null
 }
