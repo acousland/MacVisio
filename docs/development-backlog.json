@@ -2307,7 +2307,7 @@
           "qualification_dependencies": [],
           "architecture_findings": [],
           "architecture_contracts": [],
-          "execution_note": "XML preflight and 8 trust fixtures pass, including calibrated loopback SVG no-fetch. Full hostile corpus/converter resource qualification remains open."
+          "execution_note": "XML preflight, 8 input-trust fixtures and 6 hostile-container tests pass, including calibrated SVG no-fetch, ZIP checksum/symlink/duplicate/budget rejection and CFB cycles. Decoded-image and converter resource qualification remains open; see M2-INPUT-TRUST-AUDIT.md."
         },
         {
           "id": "WP-12-T02",
