@@ -162,6 +162,25 @@ final class CanvasObjectAccessibilityElement: NSAccessibilityElement {
         setAccessibilityElement(true)
     }
     override func accessibilityParent() -> Any? { graph?.canvas }
+    override func isAccessibilityElement() -> Bool { graph?.isPresent(key) ?? false }
+    override func isAccessibilityEnabled() -> Bool {
+        // NSAccessibilityElement's inherited default is disabled. Availability
+        // follows the live scene; an editing lock does not disable selection or
+        // inspection, and visible background content remains readable.
+        graph?.isPresent(key) ?? false
+    }
+    private var canSelect: Bool {
+        guard let graph, graph.isPresent(key), let canvas = graph.canvas, canvas.editor != nil else { return false }
+        return key.pageID == canvas.page.id
+    }
+    override func isAccessibilitySelectorAllowed(_ selector: Selector) -> Bool {
+        if selector == #selector(accessibilityPerformPress)
+            || selector == #selector(accessibilityPerformPick)
+            || selector == #selector(setAccessibilityFocused(_:)) {
+            return canSelect
+        }
+        return super.isAccessibilitySelectorAllowed(selector)
+    }
     override func accessibilityLabel() -> String? { graph?.label(key) }
     override func accessibilityHelp() -> String? { graph?.help(key) }
     override func accessibilityFrame() -> NSRect {
@@ -171,7 +190,7 @@ final class CanvasObjectAccessibilityElement: NSAccessibilityElement {
     }
     override func accessibilityLinkedUIElements() -> [Any]? { graph?.relations(key) }
     override func isAccessibilitySelected() -> Bool {
-        guard let canvas = graph?.canvas, canvas.editor != nil, key.pageID == canvas.page.id else { return false }
+        guard canSelect, let canvas = graph?.canvas else { return false }
         switch key.element {
         case .node(let id): return canvas.selectedNodes.contains(id)
         case .edge(let id): return canvas.selectedEdge == id
@@ -191,6 +210,10 @@ final class CanvasObjectAccessibilityElement: NSAccessibilityElement {
               key.pageID == canvas.page.id, graph.isPresent(key) else { return [] }
         var actions = [NSAccessibilityCustomAction(name: "Select and inspect") { [weak self] in self?.accessibilityPerformPress() ?? false }]
         if case .node(let id) = key.element {
+            // The runtime already resolved inherited shape/group/layer locks.
+            // Keep queries calculation-free; finer property guards are checked
+            // by the shared editing policy when an action is invoked.
+            if graph.layer(key)?.runtime.isLocked(nodeID: id) != false { return actions }
             actions.append(NSAccessibilityCustomAction(name: "Edit text") { [weak canvas] in
                 guard let canvas, canvas.focusCanvasObject(self.key) else { return false }
                 return canvas.editCanvasObjectText(id)

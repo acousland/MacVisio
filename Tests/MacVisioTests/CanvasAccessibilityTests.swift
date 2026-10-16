@@ -33,8 +33,16 @@ final class CanvasAccessibilityTests: XCTestCase {
                 XCTAssertFalse(graph.keys.contains(CanvasObjectKey(pageID: drawing.page.id, element: .node(hidden.id))))
                 XCTAssertNotEqual(childElement.accessibilityIdentifier(), graph.element(backKey).accessibilityIdentifier())
                 XCTAssertEqual(childElement.accessibilityLabel(), "Approval alternative, Process")
+                XCTAssertTrue(childElement.isAccessibilityEnabled())
+                XCTAssertTrue(childElement.isAccessibilitySelectorAllowed(#selector(CanvasObjectAccessibilityElement.accessibilityPerformPress)))
                 XCTAssertTrue(graph.element(backKey).accessibilityLabel()?.contains("Backdrop") == true)
+                XCTAssertTrue(graph.element(backKey).isAccessibilityEnabled(), "Visible read-only background content is available for reading.")
+                XCTAssertFalse(graph.element(backKey).isAccessibilitySelectorAllowed(#selector(CanvasObjectAccessibilityElement.accessibilityPerformPress)))
+                XCTAssertTrue(graph.element(backKey).accessibilityCustomActions()?.isEmpty == true)
                 XCTAssertFalse(graph.element(backKey).accessibilityPerformPress())
+                let hiddenElement = graph.element(CanvasObjectKey(pageID: drawing.page.id, element: .node(hidden.id)))
+                XCTAssertFalse(hiddenElement.isAccessibilityEnabled())
+                XCTAssertFalse(hiddenElement.isAccessibilityElement())
                 XCTAssertEqual(graph.relations(edgeKey).map(\.key), [groupKey, childKey])
                 XCTAssertTrue(graph.relations(childKey).map(\.key).contains(groupKey))
                 XCTAssertTrue(graph.element(edgeKey).accessibilityLabel()?.contains("from Order group to Approval alternative") == true)
@@ -46,6 +54,9 @@ final class CanvasAccessibilityTests: XCTestCase {
                 next.page.nodes.removeAll { $0.id == child.id }
                 next.page.edges = []
                 document.replace(with: next, action: "Remove")
+                XCTAssertFalse(childElement.isAccessibilityEnabled())
+                XCTAssertFalse(childElement.isAccessibilityElement())
+                XCTAssertFalse(childElement.isAccessibilitySelectorAllowed(#selector(CanvasObjectAccessibilityElement.accessibilityPerformPress)))
                 XCTAssertFalse(childElement.accessibilityPerformPress(), "Retained stale AX objects cannot select or edit deleted targets.")
             }
         }
@@ -90,6 +101,9 @@ final class CanvasAccessibilityTests: XCTestCase {
             drawing.page.nodes = [DiagramNode(text: "First"), DiagramNode(x: 350, text: "Second")]
             try withEditor(drawing) { _, editor, window in
                 let canvas = editor.canvas
+                // This fixture deliberately supplies a small explicit loop.
+                // The separate real-controller test retains automatic loops.
+                window.autorecalculatesKeyViewLoop = false
                 // Editable fields remain eligible under the default system
                 // keyboard-access policy; an empty-frame button does not.
                 let before = NSTextField(frame: NSRect(x: 20, y: 20, width: 130, height: 24))
@@ -255,6 +269,55 @@ final class CanvasAccessibilityTests: XCTestCase {
                 XCTAssertTrue(window.firstResponder === canvas)
                 XCTAssertEqual(document.diagram.page.nodes[0].text, "t")
                 XCTAssertEqual(canvas.tool, .pointer)
+            }
+        }
+    }
+
+    func testLockedShapeRemainsEnabledForSelectionAndInspection() throws {
+        try onMain {
+            var drawing = Diagram(); var node = DiagramNode(text: "Locked object"); node.locked = true
+            drawing.page.nodes = [node]
+            try withEditor(drawing) { document, editor, _ in
+                let element = editor.canvas.accessibilityGraph.element(CanvasObjectKey(pageID: drawing.page.id, element: .node(node.id)))
+                let state = document.stateID
+                XCTAssertTrue(element.isAccessibilityEnabled())
+                XCTAssertTrue(element.accessibilityPerformPress())
+                XCTAssertEqual(element.accessibilityCustomActions()?.map(\.name), ["Select and inspect"])
+                XCTAssertTrue(element.accessibilityHelp()?.contains("locked") == true)
+                XCTAssertEqual(editor.canvas.selectedNodes, [node.id])
+                XCTAssertEqual(document.stateID, state)
+            }
+        }
+    }
+
+    func testRealEditorKeyViewLoopTraversesSearchAndDynamicInspectorControls() throws {
+        try onMain {
+            var drawing = Diagram(); let node = DiagramNode(text: "Actual controls")
+            drawing.page.nodes = [node]
+            try withEditor(drawing) { document, editor, window in
+                // Selection switches the real inspector from its page layout
+                // to its dynamic shape layout. No fixture key views are added.
+                _ = editor.canvas.focusCanvasObject(CanvasObjectKey(pageID: drawing.page.id, element: .node(node.id)))
+                window.contentView?.layoutSubtreeIfNeeded()
+                RunLoop.main.run(until: Date().addingTimeInterval(0.03))
+                let search = editor.root.stencil.search
+                let text = try XCTUnwrap(editor.root.inspector.subviews.compactMap { $0 as? NSTextField }.first { $0.identifier?.rawValue == "Text" })
+                func editingControl() -> NSControl? {
+                    if let field = window.firstResponder as? NSTextView { return field.delegate as? NSControl }
+                    return window.firstResponder as? NSControl
+                }
+                window.makeFirstResponder(search)
+                XCTAssertTrue(editingControl() === search)
+                window.sendEvent(try key("\t", code: 48, window: window))
+                XCTAssertFalse(editingControl() === search, "Tab must leave the actual shape search field.")
+                window.makeFirstResponder(text)
+                XCTAssertTrue(editingControl() === text)
+                window.sendEvent(try key("\t", code: 48, window: window))
+                XCTAssertFalse(editingControl() === text, "A reused native field editor must change its owning control.")
+                let next = try XCTUnwrap(editingControl() as? NSTextField)
+                XCTAssertTrue(next !== text && next.isEditable)
+                XCTAssertTrue(next.isDescendant(of: editor.root.inspector), "Tab continues into another real inspector edit control.")
+                XCTAssertEqual(document.diagram.page.nodes[0].text, node.text, "Unedited focus traversal does not change shape text.")
             }
         }
     }
