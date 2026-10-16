@@ -71,3 +71,9 @@ Every remainder links the actual unresolved M0 `INV-*` entry and `WP-02-T04-INV-
 ## Validation performed
 
 JSON uniqueness, parent coverage, exact requirement-ID validity, canonical M0 inventory/semantic-child links, all M3 package requirements covered by specific children, every named M0 function/cell mapped, and existence of existing source/test anchors were checked. No Swift build, implementation test, generated fixture or real-reference run was performed by this catalog worker; existing parent-owned checks are explicitly attributed and narrower. The catalog changes neither backlog status nor source/tests.
+
+Current execution state: **needs input upstream**. All parent implementation
+work is blocked because M2 has no accepted M1 engineering handoff and explicitly
+disallows integration. M1 reports a locked graphics session and awaits the
+human response for native-event qualification. The catalog remains discovery
+only; children retain awaiting-foundations/proposed states and none is accepted.

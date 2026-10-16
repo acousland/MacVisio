@@ -1,6 +1,6 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Preparing; M3 is not accepted**.
+16 October 2026, Australia/Melbourne. State: **Needs input upstream; M3 is not accepted**.
 
 The isolated `codex/m3-intelligent-vsdx` branch contains the planning baseline,
 available committed M0 inventory/instrumentation/benchmark/public-harness work,
@@ -64,3 +64,10 @@ five public geometry rows produce six vector commands because the decoder adds
 `Z` to close the path. It now requires the authored rows and semantic M/Z closure
 instead of an incorrect command count. The failing log remains retained. This
 correction makes no claim about historical save intermittency.
+
+Final dependency observation: M2 ended this run as needs_input at `b01871a`,
+with native integration disallowed. M1 reports the Mac graphics session is locked
+and requests the human unlock/response before native-event qualification. No
+accepted M1+M2 handoff exists, so all M3 parent implementation work remains
+blocked. All independent preparation and evidence are committed; no new M3
+production feature or full integrated M0+M1+M2+M3 candidate is claimed.

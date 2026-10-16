@@ -56,14 +56,15 @@
         "M1 accepted commits",
         "M2 accepted commits"
       ],
-      "status": "awaiting_actual_handoff",
+      "status": "needs_input_upstream",
       "required_inputs": [
         "transaction/revision/undo/save contracts",
         "incremental calculation/evaluated-scene/index contracts",
         "owned cancellable I/O/resource budgets",
         "native input/accessibility/diagnostics and lifecycle regressions"
       ],
-      "integration_rule": "Use actual accepted peer commits and handoff contracts; do not implement against speculative interfaces."
+      "integration_rule": "Use actual accepted peer commits and handoff contracts; do not implement against speculative interfaces.",
+      "observed_M2_commit": "b01871a26c387375f0dc6f67800db170646c1fa8"
     },
     {
       "id": "M3-FOUNDATION-M0",
@@ -5789,7 +5790,7 @@
         "WP-14-T01-C003",
         "WP-14-T01-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5813,7 +5814,7 @@
         "WP-14-T02-C002",
         "WP-14-T02-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5833,7 +5834,7 @@
         "WP-14-T03-C002",
         "WP-14-T03-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5855,7 +5856,7 @@
         "WP-14-T04-C002",
         "WP-14-T04-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5881,7 +5882,7 @@
         "WP-15-T01-C004",
         "WP-15-T01-C005"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -5909,7 +5910,7 @@
         "WP-15-T02-C005",
         "WP-15-T02-C006"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6021,7 +6022,7 @@
         "WP-15-T03-C089",
         "WP-15-T03-C090"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6057,7 +6058,7 @@
         "WP-15-T04-C015",
         "WP-15-T04-C016"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6080,7 +6081,7 @@
         "WP-16-T01-C002",
         "WP-16-T01-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6102,7 +6103,7 @@
         "WP-16-T02-C002",
         "WP-16-T02-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6122,7 +6123,7 @@
         "WP-16-T03-C003",
         "WP-16-T03-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6142,7 +6143,7 @@
         "WP-16-T04-C002",
         "WP-16-T04-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6167,7 +6168,7 @@
         "WP-17-T01-C002",
         "WP-17-T01-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6192,7 +6193,7 @@
         "WP-17-T02-C006",
         "WP-17-T02-C007"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6216,7 +6217,7 @@
         "WP-17-T03-C005",
         "WP-17-T03-C006"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6238,7 +6239,7 @@
         "WP-17-T04-C002",
         "WP-17-T04-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6263,7 +6264,7 @@
         "WP-18-T01-C003",
         "WP-18-T01-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6287,7 +6288,7 @@
         "WP-18-T02-C003",
         "WP-18-T02-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6313,7 +6314,7 @@
         "WP-18-T03-C005",
         "WP-18-T03-C006"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6337,7 +6338,7 @@
         "WP-18-T04-C002",
         "WP-18-T04-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6360,7 +6361,7 @@
         "WP-19-T01-C003",
         "WP-19-T01-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6382,7 +6383,7 @@
         "WP-19-T02-C002",
         "WP-19-T02-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6402,7 +6403,7 @@
         "WP-19-T03-C002",
         "WP-19-T03-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6423,7 +6424,7 @@
         "WP-19-T04-C001",
         "WP-19-T04-C002"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6443,7 +6444,7 @@
         "WP-20-T01-C002",
         "WP-20-T01-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6462,7 +6463,7 @@
         "WP-20-T02-C002",
         "WP-20-T02-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6484,7 +6485,7 @@
         "WP-20-T03-C003",
         "WP-20-T03-C004"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6506,7 +6507,7 @@
         "WP-20-T04-C002",
         "WP-20-T04-C003"
       ],
-      "status": "proposed",
+      "status": "blocked_upstream",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -22985,5 +22986,7 @@
     "note_final_integration": "M0 added a benchmark CLI inventory entry; all existing mapped IDs, named72 functions/21 cells and unknown remainders are retained. Reference remains unaccepted."
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
-  "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work."
+  "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
+  "execution_state": "needs_input_upstream",
+  "execution_block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
 }

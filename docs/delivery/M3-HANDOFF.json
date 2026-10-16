@@ -4,11 +4,11 @@
   "thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
   "worktree": "/Users/acousland/.codex/worktrees/8b73/MacVisio",
   "branch": "codex/m3-intelligent-vsdx",
-  "state": "preparing",
-  "handoff_kind": "interim",
-  "candidate_code_commit": "3119858086574bee719bab37339ed2ddd2ea3537",
+  "state": "needs_input",
+  "handoff_kind": "dependency_blocked",
+  "candidate_code_commit": "beef6af1385b903e7b8afde5dde506497162bd6f",
   "milestone_acceptance": {
-    "local_engineering": "pending: accepted M1+M2 engineering prerequisite and M3 implementation not yet delivered",
+    "local_engineering": "blocked: Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -43,9 +43,7 @@
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
-  "active_task_ids": [
-    "WP-15-T01"
-  ],
+  "active_task_ids": [],
   "pending_task_ids": [
     "WP-14-T01",
     "WP-14-T02",
@@ -76,7 +74,36 @@
     "WP-20-T03",
     "WP-20-T04"
   ],
-  "blocked_task_ids": [],
+  "blocked_task_ids": [
+    "WP-14-T01",
+    "WP-14-T02",
+    "WP-14-T03",
+    "WP-14-T04",
+    "WP-15-T01",
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T02",
+    "WP-16-T03",
+    "WP-16-T04",
+    "WP-17-T01",
+    "WP-17-T02",
+    "WP-17-T03",
+    "WP-17-T04",
+    "WP-18-T01",
+    "WP-18-T02",
+    "WP-18-T03",
+    "WP-18-T04",
+    "WP-19-T01",
+    "WP-19-T02",
+    "WP-19-T03",
+    "WP-19-T04",
+    "WP-20-T01",
+    "WP-20-T02",
+    "WP-20-T03",
+    "WP-20-T04"
+  ],
   "dependent_feature_implementation_started": false,
   "decomposition": {
     "catalog": "docs/delivery/M3-CATALOG.json",
@@ -99,6 +126,20 @@
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue independent evidence work and retained-cursor peer waits; integrate accepted M2 candidate, then implement bounded M3 domain slices and re-run affected plus milestone regressions. This interim preparation is not the requested final integrated candidate.",
-  "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm."
+  "next_action": "After the host is unlocked and M1 has an accepted engineering handoff, resume M2 integration/delivery. Resume M3 only after integrating actual accepted M2/M1 engineering commits. Keep M0 reference qualification separate. No M3 feature implementation against provisional interfaces.",
+  "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
+  "head_note": "Code/preparation head before dependency-record commit; final delivery head is in shared M3-status.json.",
+  "partial_task_ids": [
+    "WP-15-T01"
+  ],
+  "integration_allowed": false,
+  "dependency_observation": {
+    "M1_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+    "M1_latest_prompt": "Unlock this Mac for native event trace; graphics session reports screen locked",
+    "M2_thread_id": "01a141d9-478f-7cb0-b568-04467a3badac",
+    "M2_commit": "b01871a26c387375f0dc6f67800db170646c1fa8",
+    "M2_state": "needs_input",
+    "M2_integration_allowed": false,
+    "source": "Actual peer prompt and M2 handoff/shared status, read without mutation"
+  }
 }

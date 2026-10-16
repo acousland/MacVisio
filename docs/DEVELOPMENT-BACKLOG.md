@@ -453,9 +453,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-14"></a>
 ### WP-14 — Make masters, connector sheets and relationships first-class
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** Editable master/style/connector-sheet identities distinct from container/list/graph relationships.
 
@@ -477,9 +477,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-15"></a>
 ### WP-15 — Complete ShapeSheet semantic slices
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** An inventory-driven function/cell/context implementation with usable complete editing.
 
@@ -501,9 +501,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-16"></a>
 ### WP-16 — Complete advanced text, fields and presentation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** Reference-qualified rich text, text blocks, fields, measurement and font behavior across all owners.
 
@@ -525,9 +525,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-17"></a>
 ### WP-17 — Complete geometry, protections, themes and effects
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** Complete inventoried geometry/control/appearance behavior with editable public definitions.
 
@@ -549,9 +549,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-18"></a>
 ### WP-18 — Complete connector behavior and automatic layout
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** Editable connector sheets, glue, routes, jumps and deterministic constrained layout.
 
@@ -573,9 +573,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-19"></a>
 ### WP-19 — Complete pages, layers, scale, export and printing
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** Consistent screen/physical publication with page/background/layer semantics.
 
@@ -597,9 +597,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-20"></a>
 ### WP-20 — Complete stencil/template authoring and VSDX preservation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Blocked
 
-**Readiness:** Refinement required.
+**Readiness:** Bounded source decomposition delivered; accepted M2 handoff blocked by M1 locked-session native qualification.
 
 **Outcome:** A reusable intelligent-shape library workflow and independently editable public VSDX/VSSX/VSTX.
 
@@ -1439,49 +1439,53 @@ Retain the review's `build/architecture-review-*` artifacts as local evidence; c
 <!-- M3-DELIVERY-REFINEMENT -->
 ## 11. M3 delivery refinement — 16 October 2026
 
-Current M3 state: **Preparing**. The original package scope and 161 initial parent
+Current M3 state: **Needs input — accepted upstream engineering unavailable**. The original package scope and 161 initial parent
 tasks remain unchanged. All 28 M3 parents, including all 22 L tasks, now have
 bounded children in [M3-CATALOG.json](delivery/M3-CATALOG.json), with exact
 requirement/canonical M0 inventory mappings and explicit reference remainders.
 The [catalog guide](delivery/M3-CATALOG.md) and
 [domain contracts](delivery/M3-DOMAIN-CONTRACTS.md) describe ownership, dependencies
-and evidence boundaries. All seven M3 packages are Preparing; no package, child,
+and evidence boundaries. All seven M3 packages are Blocked; no package, child,
 parent implementation task or M3/G2 gate is accepted by this refinement.
 
 | Parent task | Current status | Bounded children |
 | --- | --- | ---: |
-| WP-14-T01 | Proposed | 4 |
-| WP-14-T02 | Proposed | 3 |
-| WP-14-T03 | Proposed | 3 |
-| WP-14-T04 | Proposed | 3 |
-| WP-15-T01 | In progress | 5 |
-| WP-15-T02 | Proposed | 6 |
-| WP-15-T03 | Proposed | 90 |
-| WP-15-T04 | Proposed | 16 |
-| WP-16-T01 | Proposed | 3 |
-| WP-16-T02 | Proposed | 3 |
-| WP-16-T03 | Proposed | 4 |
-| WP-16-T04 | Proposed | 3 |
-| WP-17-T01 | Proposed | 3 |
-| WP-17-T02 | Proposed | 7 |
-| WP-17-T03 | Proposed | 6 |
-| WP-17-T04 | Proposed | 3 |
-| WP-18-T01 | Proposed | 4 |
-| WP-18-T02 | Proposed | 4 |
-| WP-18-T03 | Proposed | 6 |
-| WP-18-T04 | Proposed | 3 |
-| WP-19-T01 | Proposed | 4 |
-| WP-19-T02 | Proposed | 3 |
-| WP-19-T03 | Proposed | 3 |
-| WP-19-T04 | Proposed | 2 |
-| WP-20-T01 | Proposed | 3 |
-| WP-20-T02 | Proposed | 3 |
-| WP-20-T03 | Proposed | 4 |
-| WP-20-T04 | Proposed | 3 |
+| WP-14-T01 | Blocked | 4 |
+| WP-14-T02 | Blocked | 3 |
+| WP-14-T03 | Blocked | 3 |
+| WP-14-T04 | Blocked | 3 |
+| WP-15-T01 | Blocked | 5 |
+| WP-15-T02 | Blocked | 6 |
+| WP-15-T03 | Blocked | 90 |
+| WP-15-T04 | Blocked | 16 |
+| WP-16-T01 | Blocked | 3 |
+| WP-16-T02 | Blocked | 3 |
+| WP-16-T03 | Blocked | 4 |
+| WP-16-T04 | Blocked | 3 |
+| WP-17-T01 | Blocked | 3 |
+| WP-17-T02 | Blocked | 7 |
+| WP-17-T03 | Blocked | 6 |
+| WP-17-T04 | Blocked | 3 |
+| WP-18-T01 | Blocked | 4 |
+| WP-18-T02 | Blocked | 4 |
+| WP-18-T03 | Blocked | 6 |
+| WP-18-T04 | Blocked | 3 |
+| WP-19-T01 | Blocked | 4 |
+| WP-19-T02 | Blocked | 3 |
+| WP-19-T03 | Blocked | 3 |
+| WP-19-T04 | Blocked | 2 |
+| WP-20-T01 | Blocked | 3 |
+| WP-20-T02 | Blocked | 3 |
+| WP-20-T03 | Blocked | 4 |
+| WP-20-T04 | Blocked | 3 |
 
-WP-15-T01 is In progress because bounded source functions, cells and contexts are
-mapped; the complete exact-build catalog remains unknown. The other parents stay
-Proposed until their accepted delivery prerequisites exist. The catalog records
+WP-15-T01 has a delivered bounded source decomposition, while its complete
+exact-build catalog remains unknown. All M3 parents are now Blocked on the
+accepted upstream engineering prerequisite; no production feature implementation
+has started. M2 reports needs_input at `b01871a`, with integration disallowed.
+M1 reports that the Mac graphics session is locked and is awaiting the human
+response for native-event qualification. After that qualification, actual accepted
+M1+M2 engineering handoffs are still required. The catalog records
 198 children awaiting foundations and six proposed discovery/qualification
 children. All 204 remain unaccepted; counts are decomposition, not compatibility
 evidence. Unknown runtime functions, cells, owners, masters, text, geometry,
@@ -1512,3 +1516,9 @@ that the initial physical seed lacked explicit public Geometry. It is corrected,
 and the strengthened native test plus an independent SVG path measure pass.
 Earlier native fallback results remain historical and do not prove public
 geometry. This probe changes no child/package/milestone acceptance state.
+
+M3 execution is now waiting for the upstream human prerequisite. No unaccepted
+M1/M2 source was integrated. Unlocking the host is a qualification prerequisite,
+not acceptance by itself; the corrected M1/M2 commits and handoffs must pass
+before M3 production work resumes. Licensed exact-build Visio is also still
+required for independent G2 acceptance.

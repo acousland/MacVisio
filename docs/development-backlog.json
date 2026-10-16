@@ -94,8 +94,8 @@
         "Screen/export/print agree under explicit layer/output policy and defined physical dimensions.",
         "All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability."
       ],
-      "status": "Preparing",
-      "delivery_note": "Independent catalog and synthetic public preservation/physical-PDF fixtures delivered; accepted M2 engineering and full M3 implementation/qualification pending."
+      "status": "Needs input",
+      "delivery_note": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response. Independent M3 preparation is committed; M3 acceptance remains false."
     },
     {
       "id": "M4",
@@ -2544,7 +2544,7 @@
       "owner_role": "Core/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -2576,7 +2576,7 @@
           "deliverable": "Add explicit masters/styles/sheets, connector shape semantics and independent group/container/list/lane membership.",
           "acceptance_criteria": "No container or semantic membership is encoded solely as group parentage.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-LIB-02",
@@ -2610,7 +2610,8 @@
               "WP-14-T01-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-14-T02",
@@ -2618,7 +2619,7 @@
           "deliverable": "Handle inherited/deleted/renamed rows, master groups and instance-scoped references.",
           "acceptance_criteria": "Editing a master updates inherited values and preserves explicit local overrides.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-14-T01"
           ],
@@ -2650,7 +2651,8 @@
               "WP-14-T02-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-14-T03",
@@ -2658,7 +2660,7 @@
           "deliverable": "Map ports/data/fields/resources with preview and retain old native metadata recovery.",
           "acceptance_criteria": "Ambiguous replacement is reported before commit; pasting remaps scoped IDs correctly.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-14-T02"
           ],
@@ -2690,7 +2692,8 @@
               "WP-14-T03-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-14-T04",
@@ -2698,7 +2701,7 @@
           "deliverable": "Round-trip instance edits and master updates without broad unrelated rewrites.",
           "acceptance_criteria": "No hidden dependence on private metadata or cached flattening is accepted.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-14-T03"
           ],
@@ -2732,10 +2735,11 @@
               "WP-14-T04-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-15",
@@ -2744,7 +2748,7 @@
       "owner_role": "Calculation/Compatibility",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-02",
         "WP-07",
@@ -2778,7 +2782,7 @@
           "deliverable": "Create child tasks by function/context/section and prioritize real-document impact plus semantic dependencies.",
           "acceptance_criteria": "No umbrella function-library task is considered complete while catalog children remain.",
           "complexity": "M",
-          "status": "In progress",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-SHS-02",
@@ -2814,7 +2818,8 @@
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
           },
-          "delivery_note": "Bounded source functions/cells/contexts mapped to canonical M0 inventory; exact-build catalog, additional reference entries and qualification remain pending."
+          "delivery_note": "Bounded source functions/cells/contexts mapped to canonical M0 inventory; exact-build catalog, additional reference entries and qualification remain pending.",
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-15-T02",
@@ -2822,7 +2827,7 @@
           "deliverable": "Close name escaping, redirection, inheritance, coercion, errors and contextual evaluation gaps.",
           "acceptance_criteria": "Per-item positive/invalid/rename/cross-object fixtures agree with the reference.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-15-T01"
           ],
@@ -2860,7 +2865,8 @@
               "WP-15-T02-C006"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-15-T03",
@@ -2868,7 +2874,7 @@
           "deliverable": "Deliver numeric/string/date/color/geometry/text/lookup families through the shared engine.",
           "acceptance_criteria": "Each child includes pure/context/gesture/undo/public-interchange evidence.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-15-T02"
           ],
@@ -2991,7 +2997,8 @@
               "WP-15-T03-C090"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-15-T04",
@@ -2999,7 +3006,7 @@
           "deliverable": "Support section/row lifecycle, formula/value views, error navigation and semantic coverage.",
           "acceptance_criteria": "Parser/occurrence counts cannot substitute for accepted context/version coverage.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-15-T03"
           ],
@@ -3045,10 +3052,11 @@
               "WP-15-T04-C016"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-16",
@@ -3057,7 +3065,7 @@
       "owner_role": "Text/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3092,7 +3100,7 @@
           "deliverable": "Complete tabs/bullets/indents/spacing/character properties and connector text editing.",
           "acceptance_criteria": "Mixed Unicode/paragraph fixtures retain selected versus untouched formatting.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-TXT-01",
@@ -3123,7 +3131,8 @@
               "WP-16-T01-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-16-T02",
@@ -3131,7 +3140,7 @@
           "deliverable": "Handle margins/orientation/group/scale and text-driven sizing under audited execution policy.",
           "acceptance_criteria": "Geometry updates converge without caret loss or unrelated recalculation.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-16-T01"
           ],
@@ -3166,7 +3175,8 @@
               "WP-16-T02-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-16-T03",
@@ -3174,7 +3184,7 @@
           "deliverable": "Implement inventoried document/page/background/data/date/dimension fields and format pictures.",
           "acceptance_criteria": "Locale changes preserve stored meaning and foreground background context resolves correctly.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-16-T02"
           ],
@@ -3210,7 +3220,8 @@
               "WP-16-T03-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-16-T04",
@@ -3218,7 +3229,7 @@
           "deliverable": "Use named reference fonts/substitution policy and record remaining approved differences.",
           "acceptance_criteria": "No missing/changed text is hidden by a global pixel similarity score.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-16-T03"
           ],
@@ -3254,10 +3265,11 @@
               "WP-16-T04-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-17",
@@ -3266,7 +3278,7 @@
       "owner_role": "Geometry/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3300,7 +3312,7 @@
           "deliverable": "Implement remaining rows, curves, signed/singular/nested transforms and coordinate/unit constraints.",
           "acceptance_criteria": "Degenerate and deep-group cases have semantic and rendered reference evidence.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-EDT-03",
@@ -3333,7 +3345,8 @@
               "WP-17-T01-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-17-T02",
@@ -3341,7 +3354,7 @@
           "deliverable": "Deliver union/combine/fragment/intersect/subtract/trim and full protection handling per inventory.",
           "acceptance_criteria": "Curves/holes/fill rules/protected edits preserve intended results and undo.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-17-T01"
           ],
@@ -3378,7 +3391,8 @@
               "WP-17-T02-C007"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-17-T03",
@@ -3386,7 +3400,7 @@
           "deliverable": "Implement palette allocation, variants/quick styles, gradients/patterns/shadows and crop/clipping.",
           "acceptance_criteria": "Theme inheritance differs from explicit overrides and public source relationships remain intact.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-17-T02"
           ],
@@ -3422,7 +3436,8 @@
               "WP-17-T03-C006"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-17-T04",
@@ -3430,7 +3445,7 @@
           "deliverable": "Exercise control handles plus text/geometry/theme after move/resize/edit/save.",
           "acceptance_criteria": "Reference rendering/behavior passes with native metadata stripped from validation copies.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-17-T03"
           ],
@@ -3466,10 +3481,11 @@
               "WP-17-T04-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-18",
@@ -3478,7 +3494,7 @@
       "owner_role": "Connections/Layout",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -3517,7 +3533,7 @@
           "deliverable": "Add direction/type/dynamic attachment and protection/document/layer rules.",
           "acceptance_criteria": "Reference valid/invalid endpoints and group/scale transforms match.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-CON-01",
@@ -3554,7 +3570,8 @@
               "WP-18-T01-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-18-T02",
@@ -3562,7 +3579,7 @@
           "deliverable": "Implement curved routes, handles, manual bend constraints, arrows, labels, rounding and line jumps.",
           "acceptance_criteria": "Crossings change appearance without changing connectivity; untouched routes stay stable.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-18-T01"
           ],
@@ -3603,7 +3620,8 @@
               "WP-18-T02-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-18-T03",
@@ -3611,7 +3629,7 @@
           "deliverable": "Support auto-connect/split/heal and inventoried hierarchical/tree/flowchart layouts with preview.",
           "acceptance_criteria": "Pinned/manual constraints are honored and repeated inputs yield identical output.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-18-T02"
           ],
@@ -3652,7 +3670,8 @@
               "WP-18-T03-C006"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-18-T04",
@@ -3660,7 +3679,7 @@
           "deliverable": "Use uncached connector-heavy fixtures and real event routing.",
           "acceptance_criteria": "Budget fallbacks are visible and functional/performance regressions are gated.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-18-T03"
           ],
@@ -3701,10 +3720,11 @@
               "WP-18-T04-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-19",
@@ -3713,7 +3733,7 @@
       "owner_role": "Native/Publication",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-08",
         "WP-09",
@@ -3749,7 +3769,7 @@
           "deliverable": "Add ordering/dependency handling, dynamic fields and full multi-layer/active/snap/glue semantics.",
           "acceptance_criteria": "Page deletion/rename/reorder preserves links or explains dependency changes.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-PAG-01",
@@ -3782,7 +3802,8 @@
               "WP-19-T01-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-19-T02",
@@ -3790,7 +3811,7 @@
           "deliverable": "Implement auto-size, margins, ranges/all-pages/tiling and explicit printer versus drawing scale.",
           "acceptance_criteria": "One metre at 1:50 prints 20 mm at 100% in the calibrated pipeline.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-19-T01"
           ],
@@ -3824,7 +3845,8 @@
               "WP-19-T02-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-19-T03",
@@ -3832,7 +3854,7 @@
           "deliverable": "Finish raster formats/resolution/transparency/bounds and multipage vector/PDF/SVG behavior.",
           "acceptance_criteria": "Canvas/export agree while nonprinting layers and editing decorations follow explicit output policies.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-19-T02"
           ],
@@ -3871,7 +3893,8 @@
               "WP-19-T03-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-19-T04",
@@ -3879,7 +3902,7 @@
           "deliverable": "Record same-font reference exports, measured dimensions and per-region difference dispositions.",
           "acceptance_criteria": "Defined tolerances pass or named material exceptions block the advertised claim.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-19-T03"
           ],
@@ -3914,10 +3937,11 @@
               "WP-19-T04-C002"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-20",
@@ -3926,7 +3950,7 @@
       "owner_role": "Libraries/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Bounded source decomposition available; production implementation awaits actual accepted M1+M2 engineering and integrated M0 harness contracts.",
+      "readiness": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response.",
       "start_dependencies": [
         "WP-09",
         "WP-14",
@@ -3962,7 +3986,7 @@
           "deliverable": "Add missing pin/search/preview/rename/reorder/delete and custom-library edit workflows.",
           "acceptance_criteria": "Large libraries remain responsive and identities do not merge on display-name similarity.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [],
           "requirement_ids": [
             "MV-LIB-01",
@@ -3993,7 +4017,8 @@
               "WP-20-T01-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-20-T02",
@@ -4001,7 +4026,7 @@
           "deliverable": "Carry geometry, formulas, text, media, ports, data, defaults and solution references.",
           "acceptance_criteria": "Selection-to-master and template-to-new-drawing work in a fresh empty host.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-20-T01"
           ],
@@ -4034,7 +4059,8 @@
               "WP-20-T02-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-20-T03",
@@ -4042,7 +4068,7 @@
           "deliverable": "Close relationship/content-type/schema coverage and unrelated-rewrite gaps.",
           "acceptance_criteria": "No-edit payload preservation and expected-only semantic patching pass repeated saves.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-20-T02"
           ],
@@ -4080,7 +4106,8 @@
               "WP-20-T03-C004"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         },
         {
           "id": "WP-20-T04",
@@ -4088,7 +4115,7 @@
           "deliverable": "Run create/open/edit/save/close/reopen in both applications on the declared slice.",
           "acceptance_criteria": "No repair, missing behavior or private-metadata-only result is accepted as compatible.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Blocked",
           "depends_on": [
             "WP-20-T03"
           ],
@@ -4123,10 +4150,11 @@
               "WP-20-T04-C003"
             ],
             "state": "bounded_source_decomposition_reference_remainders_retained"
-          }
+          },
+          "block_reason": "Accepted M2 engineering handoff unavailable: M2 is needs_input/integration disallowed; M1 reports a locked graphics session preventing native-event qualification and awaits human response."
         }
       ],
-      "status": "Preparing"
+      "status": "Blocked"
     },
     {
       "id": "WP-21",
@@ -9077,7 +9105,7 @@
   "delivery_refinements": [
     {
       "milestone": "M3",
-      "state": "preparing",
+      "state": "needs_input",
       "catalog": "delivery/M3-CATALOG.json",
       "domain_contracts": "delivery/M3-DOMAIN-CONTRACTS.md",
       "child_count": 204,
@@ -9095,7 +9123,43 @@
       "M0_final_local_handoff_commit": "02dea53",
       "M0_final_integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
       "independent_public_graphics_probe": "delivery/M3-PUBLIC-PROBE.json",
-      "physical_seed_correction": "Explicit public Geometry replaces the initial dimensions-only seed; native fallback was insufficient evidence. No acceptance promotion."
+      "physical_seed_correction": "Explicit public Geometry replaces the initial dimensions-only seed; native fallback was insufficient evidence. No acceptance promotion.",
+      "blocked_task_ids": [
+        "WP-14-T01",
+        "WP-14-T02",
+        "WP-14-T03",
+        "WP-14-T04",
+        "WP-15-T01",
+        "WP-15-T02",
+        "WP-15-T03",
+        "WP-15-T04",
+        "WP-16-T01",
+        "WP-16-T02",
+        "WP-16-T03",
+        "WP-16-T04",
+        "WP-17-T01",
+        "WP-17-T02",
+        "WP-17-T03",
+        "WP-17-T04",
+        "WP-18-T01",
+        "WP-18-T02",
+        "WP-18-T03",
+        "WP-18-T04",
+        "WP-19-T01",
+        "WP-19-T02",
+        "WP-19-T03",
+        "WP-19-T04",
+        "WP-20-T01",
+        "WP-20-T02",
+        "WP-20-T03",
+        "WP-20-T04"
+      ],
+      "dependency_block": {
+        "M2_observed_commit": "b01871a26c387375f0dc6f67800db170646c1fa8",
+        "M2_state": "needs_input",
+        "M2_integration_allowed": false,
+        "M1_prerequisite": "Unlock the Mac and respond to M1 native-event prompt; then accepted M1 and M2 engineering handoffs are still required."
+      }
     }
   ],
   "m0_execution": {
