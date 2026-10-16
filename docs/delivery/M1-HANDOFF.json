@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "milestone": "M1",
+  "thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+  "worktree": "/Users/acousland/.codex/worktrees/85af/MacVisio",
+  "branch": "codex/m1-editing-foundation",
+  "commit": "873d0043d650716d3b2437f31532aedbdf712da6",
+  "state": "in_progress",
+  "acceptance_passed": false,
+  "working_tree_changes": true,
+  "contract_commits": {
+    "child_slices": "5e31bf8",
+    "WP-05": "bbdfefa",
+    "WP-06": "873d004"
+  },
+  "completed_task_ids": [
+    "WP-05-T01"
+  ],
+  "implemented_unaccepted_task_ids": [
+    "WP-05-T02",
+    "WP-05-T03",
+    "WP-06-T01",
+    "WP-06-T02",
+    "WP-06-T03"
+  ],
+  "blocked_task_ids": [],
+  "dependencies": [
+    "M0 instrumentation3c22d00 and benchmark corpus adapted locally; integration qualification in progress"
+  ],
+  "evidence_paths": [
+    "docs/delivery/M1-IMPLEMENTATION.md",
+    "docs/delivery/M1-WP06-CONTRACT.md",
+    "docs/delivery/M1-WP07-CONTRACT.md",
+    "docs/delivery/M1-WP08-UI-CONTRACT.md",
+    "docs/delivery/M1-WP09-PLAN.md",
+    "build/m1-evidence/baseline-suite.log",
+    "build/m1-evidence/gesture-before.log",
+    "build/m1-evidence/wp05-focused.log"
+  ],
+  "remaining": [
+    "Combined compile/test repair and full suite repeats",
+    "Safe export UI integration and worker/cancellation evidence",
+    "Render dirty-region/cache/scene correctness and controlled traces",
+    "Twenty lifecycle cycles and measured undo/resource bounds",
+    "Final per-task acceptance and backlog reconciliation"
+  ]
+}

@@ -16,6 +16,7 @@ L children, recorded before implementation:
 | WP-05-T03 | a: state tokens survive undo/redo; b: snapshot acknowledgement is independent of AppKit callback timing; c: queued/failing/save-copy transitions retain exact identities |
 | WP-05-T04 | a: invalid/write destination failures preserve file; b: autosave preview and external writer conflict tests; c: recovery checkpoint/reopen evidence |
 | WP-06-T02 | a: ID/hierarchy/adjacency ownership; b: atomic updates for structural edits/undo; c: bounded property-edit updates |
+| WP-06-T02 append child | d1: committed-diff ordered-suffix proof; d2: bounded root foreground append indexes/eligibility/bounds with safe structural fallback; d3: counted obstacle/new-endpoint invalidation plus 1k/20k work and fresh-runtime equivalence regressions |
 | WP-06-T03 | a: conservative spatial buckets; b: draw-order hit/marquee equivalence; c: spatially local snapping with explicit policy |
 | WP-06-T04 | a: typed change sets from committed edits; b: common command integration; c: selection/view events bypass calculation |
 | WP-07-T01 | a: dependency inventory; b: local references/cycles; c: dynamic/volatile conservative fallback |
@@ -39,3 +40,9 @@ WP-05-T01 baseline evidence: the existing timer-driven `AsyncDocumentSaveTests.t
 - Native event regression fails on the baseline: committed node (100,100), saved node (140,140), Escape restores (100,100) while clean (`gesture-before.log`).
 - After preview/state identity change: 60 focused tests pass, one optional installer fixture skipped (`wp05-focused.log`). Includes the retained timer-driven async save, overlapping saves, invalid writes, geometry/control/group undo, explicit snapshot-before-AppKit-token edit, and undo/redo through saved identities.
 - The deterministic boundary test demonstrates and covers a snapshot/token ordering hazard; it does not prove that this was the only cause of the historical suite-context failure. Final acceptance still requires retained repeated full suites and lifecycle/recovery tests.
+
+## Refined local requirement contributions
+
+[M1-TASK-EVIDENCE.json](M1-TASK-EVIDENCE.json) records the exact bounded contribution, requirement IDs and executable checks for all 25 M1 tasks. These mappings refine the initial package-scope associations. They do not close the entire requirement: for example the runtime supports stable identities but does not deliver the complete automation API, and a native routed raster-feedback trace does not prove compositor frame deadlines. The children above inherit only the requirement contribution appropriate to their stated acceptance (preview/save identity, affected indexes, dependency closure, retained presentation or owned lifecycle); the evidence ledger records their parent for review.
+
+The value-snapshot compatibility adapter remains a full input/final model diff. Engine, runtime-update and render-candidate counters measure their named operations; they do not include every value comparison, container copy or initial model/index allocation. Structural and dynamic fallbacks remain visible and intentionally conservative.

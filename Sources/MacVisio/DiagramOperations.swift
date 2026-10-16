@@ -66,7 +66,7 @@ enum DiagramOperations {
         let nested = selected.reduce(into:Set<UUID>()) { ids,id in ids.formUnion(page.descendants(of:id).subtracting([id])) }
         return selected.subtracting(nested)
     }
-    static func transformChildren(in page:inout DiagramPage,from old:DiagramNode,to new:DiagramNode) {
+    static func transformChildren(in page:inout DiagramPage,from old:DiagramNode,to new:DiagramNode,preparedRoutes:[UUID:[CGPoint]]? = nil) {
         guard old.formatting.isGroup else { return }
         var before = page;if let i = before.nodes.firstIndex(where:{$0.id == old.id}) { before.nodes[i] = old }
         let children = page.descendants(of:old.id).subtracting([old.id]),sx = new.width/old.width,sy = new.height/old.height
@@ -81,9 +81,9 @@ enum DiagramOperations {
             page.nodes[i].rotation = new.rotation+(flipX != flipY ? -(page.nodes[i].rotation-old.rotation) : page.nodes[i].rotation-old.rotation)
             if flipX { page.nodes[i].formatting.flipX.toggle() };if flipY { page.nodes[i].formatting.flipY.toggle() }
         }
-        transformGroupedEdges(in:&page,from:before)
+        transformGroupedEdges(in:&page,from:before,preparedRoutes:preparedRoutes)
     }
-    static func transformGroupedEdges(in page:inout DiagramPage,from before:DiagramPage) {
+    static func transformGroupedEdges(in page:inout DiagramPage,from before:DiagramPage,preparedRoutes:[UUID:[CGPoint]]? = nil) {
         let oldNodes = Dictionary(uniqueKeysWithValues:before.nodes.map{($0.id,$0)}),newNodes = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)}),oldEdges = Dictionary(uniqueKeysWithValues:before.edges.map{($0.id,$0)})
         for i in page.edges.indices {
             guard let parentID = page.edges[i].parentID,let old = oldNodes[parentID],let new = newNodes[parentID],let edge = oldEdges[page.edges[i].id],edge.parentID == parentID,
@@ -92,7 +92,12 @@ enum DiagramOperations {
                 let local = DiagramCoordinates.local(p.cgPoint,in:old)
                 return DiagramPoint(DiagramCoordinates.world(CGPoint(x:local.x*new.width/old.width,y:local.y*new.height/old.height),in:new))
             }
-            page.edges[i].points = DiagramGeometry.route(edge,in:before).map{point(DiagramPoint($0))}
+            // Gesture previews supply committed routes. A missing prepared
+            // entry uses cached points, never the formula-bearing route path.
+            let route:[CGPoint]
+            if let preparedRoutes { route = preparedRoutes[edge.id] ?? edge.points?.map(\.cgPoint) ?? [] }
+            else { route = DiagramGeometry.route(edge,in:before) }
+            page.edges[i].points = route.map{point(DiagramPoint($0))}
             page.edges[i].sourcePosition = edge.sourcePosition.map(point);page.edges[i].targetPosition = edge.targetPosition.map(point)
         }
     }

@@ -276,6 +276,7 @@ enum OrthogonalRouter {
     }
 
     private static func search(from start:CGPoint,to goal:CGPoint,bounds:CGRect,obstacles:[Obstacle],paperScale:CGFloat) -> [CGPoint]? {
+        PerformanceEvidence.count(.orthogonalRouteSearches)
         var xs = [start.x,goal.x,bounds.minX,bounds.maxX]
         var ys = [start.y,goal.y,bounds.minY,bounds.maxY]
         for obstacle in obstacles {

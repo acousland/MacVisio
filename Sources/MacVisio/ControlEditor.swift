@@ -57,7 +57,7 @@ enum ControlEditor {
 extension EditorWindowController {
     func setControls(_ controls:[ShapeControl],for id:UUID) throws {
         canvas.finishEditing(commit:true);canvas.finishPageInteraction()
-        diagramDocument.replace(with:try ControlEditor.replace(diagramDocument.diagram,controls:controls,on:id),action:"Edit Control Handles")
+        diagramDocument.replaceInEditor(with:try ControlEditor.replace(diagramDocument.diagram,controls:controls,on:id),action:"Edit Control Handles")
     }
     func setControlCell(_ name:String,value:String,formula:String,for id:UUID) throws {
         let input = diagramDocument.diagram

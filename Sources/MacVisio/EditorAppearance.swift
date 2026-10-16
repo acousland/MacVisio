@@ -15,10 +15,15 @@ enum EditorAppearance {
         default: appearance = NSAppearance(named:.darkAqua)
         }
         NSApp.appearance = appearance
-        for window in NSApp.windows {
+        // AppKit can retain closed windows/controllers beyond document close.
+        // Their model references are no longer valid; hidden windows inherit
+        // NSApp.appearance when shown and need no selection refresh now.
+        for window in NSApp.windows where window.isVisible {
             window.appearance = nil
             window.contentView?.needsDisplay = true
-            (window.windowController as? EditorWindowController)?.root?.ribbon.refreshSelection()
+            if let editor = window.windowController as? EditorWindowController,editor.lifecycleJobs.isActive {
+                editor.root?.ribbon.refreshSelection()
+            }
         }
     }
 }

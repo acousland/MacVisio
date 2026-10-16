@@ -1,5 +1,5 @@
-import Foundation
 import CoreGraphics
+import Foundation
 
 /// An affected set for one committed page revision. Inserted/deleted IDs are
 /// separate from changed IDs, so consumers never have to infer object lifetime.
@@ -13,6 +13,9 @@ struct PageChangeSet: Equatable {
     var deletedEdgeIDs: Set<UUID> = []
     var changedEdgeIDs: Set<UUID> = []
     var nodeOrderChanged = false
+    /// Certified during the full commit diff: existing source order is an exact
+    /// prefix and these inserted IDs form the complete ordered suffix.
+    private(set) var appendedNodeIDs: [UUID]?
     var edgeOrderChanged = false
     var hierarchyChanged = false
     var layersChanged = false
@@ -27,15 +30,20 @@ struct PageChangeSet: Equatable {
             || !insertedEdgeIDs.isEmpty || !deletedEdgeIDs.isEmpty
     }
     var isEmpty: Bool {
-        affectedNodeIDs.isEmpty && affectedEdgeIDs.isEmpty && !requiresRuntimeRebuild && !pagePropertiesChanged
+        affectedNodeIDs.isEmpty && affectedEdgeIDs.isEmpty && !requiresRuntimeRebuild
+            && !pagePropertiesChanged
     }
 
     static func between(_ old: DiagramPage, _ new: DiagramPage) -> PageChangeSet {
         var result = PageChangeSet(pageID: new.id)
-        let oldNodes = firstByID(old.nodes), newNodes = firstByID(new.nodes)
-        let oldEdges = firstByID(old.edges), newEdges = firstByID(new.edges)
-        let oldNodeIDs = Set(oldNodes.keys), newNodeIDs = Set(newNodes.keys)
-        let oldEdgeIDs = Set(oldEdges.keys), newEdgeIDs = Set(newEdges.keys)
+        let oldNodes = firstByID(old.nodes)
+        let newNodes = firstByID(new.nodes)
+        let oldEdges = firstByID(old.edges)
+        let newEdges = firstByID(new.edges)
+        let oldNodeIDs = Set(oldNodes.keys)
+        let newNodeIDs = Set(newNodes.keys)
+        let oldEdgeIDs = Set(oldEdges.keys)
+        let newEdgeIDs = Set(newEdges.keys)
         result.insertedNodeIDs = newNodeIDs.subtracting(oldNodeIDs)
         result.deletedNodeIDs = oldNodeIDs.subtracting(newNodeIDs)
         result.insertedEdgeIDs = newEdgeIDs.subtracting(oldEdgeIDs)
@@ -45,7 +53,9 @@ struct PageChangeSet: Equatable {
             result.changedNodeIDs.insert(id)
             if geometryDiffers(before, after) { result.geometryChangedNodeIDs.insert(id) }
             if before.parentID != after.parentID || before.formatting.isGroup != after.formatting.isGroup
-                || before.kind != after.kind || before.formatting.sheet["DisplayMode"] != after.formatting.sheet["DisplayMode"] {
+                || before.kind != after.kind
+                || before.formatting.sheet["DisplayMode"] != after.formatting.sheet["DisplayMode"]
+            {
                 result.hierarchyChanged = true
             }
         }
@@ -53,13 +63,26 @@ struct PageChangeSet: Equatable {
             result.changedEdgeIDs.insert(id)
             if oldEdges[id]?.parentID != newEdges[id]?.parentID { result.hierarchyChanged = true }
         }
-        result.nodeOrderChanged = old.nodes.map(\.id) != new.nodes.map(\.id)
+        let oldNodeOrder = old.nodes.map(\.id)
+        let newNodeOrder = new.nodes.map(\.id)
+        result.nodeOrderChanged = oldNodeOrder != newNodeOrder
+        if !result.insertedNodeIDs.isEmpty, result.deletedNodeIDs.isEmpty,
+            newNodeOrder.count == oldNodeOrder.count + result.insertedNodeIDs.count,
+            newNodeOrder.starts(with: oldNodeOrder)
+        {
+            let suffix = Array(newNodeOrder.dropFirst(oldNodeOrder.count))
+            if Set(suffix) == result.insertedNodeIDs { result.appendedNodeIDs = suffix }
+        }
         result.edgeOrderChanged = old.edges.map(\.id) != new.edges.map(\.id)
         result.layersChanged = old.layers != new.layers
-        result.pageGeometryChanged = old.width != new.width || old.height != new.height || old.drawingScale != new.drawingScale
-        var oldProperties = old, newProperties = new
-        oldProperties.nodes = []; oldProperties.edges = []
-        newProperties.nodes = []; newProperties.edges = []
+        result.pageGeometryChanged =
+            old.width != new.width || old.height != new.height || old.drawingScale != new.drawingScale
+        var oldProperties = old
+        var newProperties = new
+        oldProperties.nodes = []
+        oldProperties.edges = []
+        newProperties.nodes = []
+        newProperties.edges = []
         result.pagePropertiesChanged = oldProperties != newProperties
         return result
     }
@@ -67,8 +90,11 @@ struct PageChangeSet: Equatable {
     private static func geometryDiffers(_ a: DiagramNode, _ b: DiagramNode) -> Bool {
         a.rect != b.rect || a.rotation != b.rotation || a.strokeWidth != b.strokeWidth
             || a.formatting.flipX != b.formatting.flipX || a.formatting.flipY != b.formatting.flipY
+            || a.formatting.negativeWidth != b.formatting.negativeWidth
+            || a.formatting.negativeHeight != b.formatting.negativeHeight
             || a.formatting.paths != b.formatting.paths || a.formatting.geometry != b.formatting.geometry
-            || a.formatting.connectionPoints != b.formatting.connectionPoints || a.formatting.textBox != b.formatting.textBox
+            || a.formatting.connectionPoints != b.formatting.connectionPoints
+            || a.formatting.textBox != b.formatting.textBox
     }
 
     private static func firstByID<T: Identifiable>(_ values: [T]) -> [UUID: T] where T.ID == UUID {
@@ -90,14 +116,20 @@ struct DocumentChangeSet: Equatable {
 
     var changedPageIDs: Set<UUID> { Set(pages.keys) }
     var affectedPageIDs: Set<UUID> { changedPageIDs.union(insertedPageIDs).union(deletedPageIDs) }
-    var documentStructureChanged: Bool { pageOrderChanged || !insertedPageIDs.isEmpty || !deletedPageIDs.isEmpty }
+    var documentStructureChanged: Bool {
+        pageOrderChanged || !insertedPageIDs.isEmpty || !deletedPageIDs.isEmpty
+    }
     var hasSemanticChanges: Bool { documentStructureChanged || documentPropertiesChanged || !pages.isEmpty }
     var isEmpty: Bool { !hasSemanticChanges && !sourceResourcesChanged && !activePageChanged }
 
     static func between(_ old: Diagram, _ new: Diagram) -> DocumentChangeSet {
         var result = DocumentChangeSet()
-        let oldPages = old.pages.reduce(into: [UUID: DiagramPage]()) { if $0[$1.id] == nil { $0[$1.id] = $1 } }
-        let newPages = new.pages.reduce(into: [UUID: DiagramPage]()) { if $0[$1.id] == nil { $0[$1.id] = $1 } }
+        let oldPages = old.pages.reduce(into: [UUID: DiagramPage]()) {
+            if $0[$1.id] == nil { $0[$1.id] = $1 }
+        }
+        let newPages = new.pages.reduce(into: [UUID: DiagramPage]()) {
+            if $0[$1.id] == nil { $0[$1.id] = $1 }
+        }
         result.insertedPageIDs = Set(newPages.keys).subtracting(oldPages.keys)
         result.deletedPageIDs = Set(oldPages.keys).subtracting(newPages.keys)
         for (id, page) in newPages {
@@ -107,7 +139,8 @@ struct DocumentChangeSet: Equatable {
         }
         result.pageOrderChanged = old.pages.map(\.id) != new.pages.map(\.id)
         result.documentPropertiesChanged = old.title != new.title || old.version != new.version
-        result.sourceResourcesChanged = old.visioArchive != new.visioArchive || old.legacySource != new.legacySource
+        result.sourceResourcesChanged =
+            old.visioArchive != new.visioArchive || old.legacySource != new.legacySource
         result.activePageChanged = old.activePageID != new.activePageID
         return result
     }

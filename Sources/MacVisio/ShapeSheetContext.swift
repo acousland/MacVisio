@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import Foundation
 
 /// Resolves typed dependencies against one immutable page snapshot. Public cell
@@ -9,6 +10,7 @@ final class ShapeSheetContext {
     private enum ThemeLineSelector { case weight(forceConnector:Bool), cap }
     private enum ThemeLineState { case noTheme, active(VisioTheme,ThemeLineComponent), unavailable(String), unknown }
     private enum FormulaHost { case shape(UUID,String?), page(String?) }
+    private(set) var work = CalculationWork(contexts: 1)
     let page:DiagramPage
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
@@ -21,10 +23,13 @@ final class ShapeSheetContext {
     private var unicodeSheetKeys = Set<UUID>()
     private var defaultsCache:[UUID:[String:Double]] = [:]
     private let colorPalette:ShapeSheetColorPalette
-    init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) {
-        self.page = page;nodes = Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
+    private let cancellation:LifecycleJobCancellation?
+    init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette(),nodesByID:[UUID:DiagramNode]? = nil,identifiers:[String:UUID]? = nil,cancellation:LifecycleJobCancellation? = nil) {
+        self.page = page;nodes = nodesByID ?? Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
         self.colorPalette = colorPalette
-        for (i,n) in page.nodes.enumerated() { let id = binding?.nodeIDs[n.id] ?? n.formatting.sourceShapeID ?? String(i+1);if identifiers[id] == nil { identifiers[id] = n.id } }
+        self.cancellation = cancellation
+        if let identifiers { self.identifiers = identifiers }
+        else { for (i,n) in page.nodes.enumerated() { let id = binding?.nodeIDs[n.id] ?? n.formatting.sourceShapeID ?? String(i+1);if self.identifiers[id] == nil { self.identifiers[id] = n.id } } }
     }
     func target(_ reference:String,from id:UUID) throws -> (UUID,String) {
         guard let mark = reference.firstIndex(of:"!") else { return (id,reference) }
@@ -34,6 +39,8 @@ final class ShapeSheetContext {
     }
     func number(_ id:UUID,_ reference:String) throws -> Double { try value(id,reference).numeric() }
     func value(_ id:UUID,_ reference:String) throws -> SheetValue {
+        try cancellation?.check()
+        work.cellRequests += 1
         if reference.uppercased().hasPrefix("THEPAGE!") {
             return try pageValue(String(reference.dropFirst(8)),from:id)
         }
@@ -46,6 +53,8 @@ final class ShapeSheetContext {
         else { canonical = sheetKey(key,on:node) ?? key }
         let token = id.uuidString+"!"+canonical.lowercased()
         if let value = cache[token] { referenceCache[id,default:[:]][key] = value;return value };guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(canonical).") };defer { visiting.remove(token) }
+        work.evaluatedCells += 1
+        PerformanceEvidence.count(.evaluatedCells)
         let result:SheetValue
         if canonical.caseInsensitiveCompare("TheText") == .orderedSame { result = .string(node.text) }
         else {
@@ -74,7 +83,7 @@ final class ShapeSheetContext {
     }
     private func defaults(for node:DiagramNode) -> [String:Double] {
         if let values = defaultsCache[node.id] { return values }
-        let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes)
+        let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes,onDefaultPinFormulaEvaluation:{self.work.defaultPinFormulaEvaluations += 1})
         defaultsCache[node.id] = values
         return values
     }
@@ -102,6 +111,8 @@ final class ShapeSheetContext {
         if let value = cache[token] { return value }
         guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at ThePage!\(key).") }
         defer { visiting.remove(token) }
+        work.evaluatedCells += 1
+        PerformanceEvidence.count(.evaluatedCells)
 
         let cell = storedKey.flatMap{page.sheet?[$0]}
         let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
@@ -141,7 +152,9 @@ final class ShapeSheetContext {
         return parsed
     }
     private func evaluate(_ expression:ShapeSheet.Expression,on id:UUID,host:FormulaHost) throws -> SheetValue {
-        try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
+        try cancellation?.check()
+        work.formulaEvaluations += 1
+        return try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
             if name == "THEMEVAL" {
                 guard args.count <= 2 else { throw DiagramError.invalid("THEMEVAL accepts at most two arguments.") }
                 let colorSelector:ThemeColorSelector?
@@ -221,7 +234,9 @@ final class ShapeSheetContext {
                 var box = node.formatting.textBox ?? ShapeTextBox()
                 if source.formatting.sheet["LeftMargin"] != nil { box.left = try self.number(owner,"LeftMargin")*72 };if source.formatting.sheet["RightMargin"] != nil { box.right = try self.number(owner,"RightMargin")*72 };if source.formatting.sheet["TopMargin"] != nil { box.top = try self.number(owner,"TopMargin")*72 };if source.formatting.sheet["BottomMargin"] != nil { box.bottom = try self.number(owner,"BottomMargin")*72 };node.formatting.textBox = box
             }
-            let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil,metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum)
+            self.work.textMeasurements += 1
+            let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil
+            let metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum,cancellation:self.cancellation)
             return .number(name == "TEXTWIDTH" ? metrics.width : metrics.height)
         },colorPalette:colorPalette)
     }

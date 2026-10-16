@@ -1,3 +1,4 @@
+import MacVisioInfrastructure
 import AppKit
 
 extension NSColor {
@@ -20,11 +21,13 @@ extension NSColor {
 }
 
 enum DiagramDrawing {
-    private static let imageCache = NSCache<NSData,NSImage>()
+    private static let imageCache = ResourceBudgetCache<Data, NSImage>(maximumCount: ResourceBudgets.imageCount, maximumCost: ResourceBudgets.decodedImages)
+    static var imageCacheStatistics: ResourceBudgetCache<Data, NSImage>.Statistics { imageCache.statistics }
+    static func clearImageCache() { imageCache.removeAll() }
     private static func layerColor(_ color:String,transparency:Double) -> String {
         NSColor(hex:color).withAlphaComponent(1-max(0,min(100,transparency))/100).hexString
     }
-    private static func layerColored(_ node:DiagramNode,in page:DiagramPage) -> DiagramNode {
+    static func layerColored(_ node:DiagramNode,in page:DiagramPage) -> DiagramNode {
         let names = Set(node.formatting.layerNames+[node.layer])
         guard names.count == 1,let name = names.first,let layer = page.layers?.first(where:{$0.name == name}),let color = layer.color else { return node }
         var result = node;let displayColor = layerColor(color,transparency:layer.colorTransparency)
@@ -36,7 +39,7 @@ enum DiagramDrawing {
         }
         return result
     }
-    private static func layerColored(_ edge:DiagramEdge,in page:DiagramPage) -> DiagramEdge {
+    static func layerColored(_ edge:DiagramEdge,in page:DiagramPage) -> DiagramEdge {
         guard let name = edge.layer,let layer = page.layers?.first(where:{$0.name == name}),let color = layer.color else { return edge }
         var result = edge;result.color = layerColor(color,transparency:layer.colorTransparency);return result
     }
@@ -113,21 +116,27 @@ enum DiagramDrawing {
         }
         return p
     }
-    static func drawNode(_ input: DiagramNode, shadow: Bool = true,paperScale:Double = 1) {
+    static func drawNode(_ input: DiagramNode, shadow: Bool = true,paperScale:Double = 1, prepared: PreparedNodeDrawing? = nil) {
+        PerformanceEvidence.count(.drawnObjects)
         var n = input;n.fontSize /= paperScale;n.strokeWidth /= paperScale
         NSGraphicsContext.saveGraphicsState()
         let transform = AffineTransform(translationByX:n.center.x,byY:n.center.y)
         let t = NSAffineTransform(transform:transform)
         t.rotate(byDegrees:CGFloat(n.rotation)); t.scaleX(by:n.formatting.flipX ? -1 : 1,yBy:n.formatting.flipY ? -1 : 1); t.translateX(by:-n.center.x,yBy:-n.center.y); t.concat()
-        let p = outline(for:n)
+        let p = prepared?.outline ?? outline(for:n)
         NSColor(hex:n.fill).setFill()
         if let image = n.formatting.image {
-            let key = image.data as NSData
-            let bitmap = imageCache.object(forKey:key) ?? NSImage(data:image.data)
-            if let bitmap = bitmap { imageCache.setObject(bitmap,forKey:key,cost:image.data.count); bitmap.draw(in:n.rect,from:.zero,operation:.sourceOver,fraction:1,respectFlipped:true,hints:nil) }
+            let key = image.data
+            let bitmap = imageCache.value(for: key) ?? NSImage(data: image.data)
+            if let bitmap = bitmap {
+                let width = bitmap.representations.map(\.pixelsWide).max() ?? Int(bitmap.size.width)
+                let height = bitmap.representations.map(\.pixelsHigh).max() ?? Int(bitmap.size.height)
+                let decoded = ResourceBudgets.decodedImageCost(width: width, height: height)
+                imageCache.insert(bitmap, for: key, cost: decoded > Int.max-image.data.count ? Int.max : decoded+image.data.count)
+                bitmap.draw(in:n.rect,from:.zero,operation:.sourceOver,fraction:1,respectFlipped:true,hints:nil) }
         } else if !n.formatting.paths.isEmpty {
-            for vector in n.formatting.paths {
-                let path = vectorPath(vector,in:n.rect)
+            for (index, vector) in n.formatting.paths.enumerated() {
+                let path = prepared?.vectors[index] ?? vectorPath(vector,in:n.rect)
                 if vector.fill { NSColor(hex:n.fill).setFill(); path.fill() }
                 if vector.stroke { NSColor(hex:n.stroke).setStroke(); path.lineWidth = n.strokeWidth; path.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { path.setLineDash(d,count:d.count,phase:0) }; path.stroke() }
             }
@@ -150,13 +159,20 @@ enum DiagramDrawing {
         NSGraphicsContext.saveGraphicsState()
         let textFrame = NSAffineTransform();textFrame.translateX(by:n.center.x,yBy:n.center.y);textFrame.rotate(byDegrees:n.rotation);textFrame.translateX(by:-n.center.x,yBy:-n.center.y);textFrame.concat()
         let paper = NSAffineTransform();paper.scale(by:1/paperScale);paper.concat();n = DrawingScale.paperNode(input,factor:paperScale)
-        let layout = textLayout(for:n);var textRect = layout.rect
+        let layout = textLayout(for:n)
         if layout.rotation != 0 { let t = NSAffineTransform();t.translateX(by:layout.center.x,yBy:layout.center.y);t.rotate(byDegrees:layout.rotation);t.translateX(by:-layout.center.x,yBy:-layout.center.y);t.concat() }
-        let string = ShapeRichText.attributed(n)
-        let measured = string.boundingRect(with:CGSize(width:max(1,textRect.width),height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading])
-        let h = min(textRect.height,ceil(measured.height))
-        let vertical = n.formatting.textBox?.verticalAlignment ?? 1
-        textRect.origin.y += max(0,(textRect.height-h)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5)); textRect.size.height = h
+        let string: NSAttributedString
+        let textRect: CGRect
+        if let prepared { string = prepared.text; textRect = prepared.textRect }
+        else {
+            string = ShapeRichText.attributed(n)
+            var rect = layout.rect
+            let measured = PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements); return string.boundingRect(with:CGSize(width:max(1,rect.width),height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]) }
+            let h = min(rect.height,ceil(measured.height))
+            let vertical = n.formatting.textBox?.verticalAlignment ?? 1
+            rect.origin.y += max(0,(rect.height-h)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5)); rect.size.height = h
+            textRect = rect
+        }
         string.draw(with:textRect,options:[.usesLineFragmentOrigin,.usesFontLeading])
         NSGraphicsContext.restoreGraphicsState()
     }
@@ -170,9 +186,10 @@ enum DiagramDrawing {
         let rect = textRect(for:node),center = reflect(CGPoint(x:rect.midX,y:rect.midY))
         return (CGRect(x:center.x-rect.width/2,y:center.y-rect.height/2,width:rect.width,height:rect.height),center,0)
     }
-    static func drawEdge(_ edge: DiagramEdge, in page: DiagramPage, selected: Bool = false) {
+    static func drawEdge(_ edge: DiagramEdge, in page: DiagramPage, selected: Bool = false, preparedRoute: [CGPoint]? = nil, preparedLabel: PreparedEdgeLabel? = nil) {
+        PerformanceEvidence.count(.drawnObjects)
         let unit = 1/page.paperScale;var edge = edge;edge.width *= unit
-        let points = DiagramGeometry.route(edge,in:page)
+        let points = preparedRoute ?? DiagramGeometry.route(edge,in:page)
         guard let first = points.first, let last = points.last else { return }
         let path = NSBezierPath(); path.move(to:first); for p in points.dropFirst() { path.line(to:p) }
         path.lineJoinStyle = .round; path.lineCapStyle = .round
@@ -193,8 +210,8 @@ enum DiagramDrawing {
         if !edge.label.isEmpty {
             NSGraphicsContext.saveGraphicsState();let paper = NSAffineTransform();paper.scale(by:unit);paper.concat()
             let mid = points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2),middle = CGPoint(x:mid.x*page.paperScale,y:mid.y*page.paperScale)
-            let attrs: [NSAttributedString.Key:Any] = [.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor(hex:edge.color)]
-            let size = (edge.label as NSString).size(withAttributes:attrs)
+            let attrs: [NSAttributedString.Key:Any] = preparedLabel?.attributes ?? [.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor(hex:edge.color)]
+            let size = preparedLabel?.size ?? PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements);return (edge.label as NSString).size(withAttributes:attrs) }
             let box = CGRect(x:middle.x-size.width/2-5,y:middle.y-size.height/2-3,width:size.width+10,height:size.height+6)
             NSColor.white.setFill(); NSBezierPath(roundedRect:box,xRadius:4,yRadius:4).fill()
             (edge.label as NSString).draw(at:CGPoint(x:box.minX+5,y:box.minY+3),withAttributes:attrs);NSGraphicsContext.restoreGraphicsState()
@@ -204,18 +221,27 @@ enum DiagramDrawing {
         ShapeDrawingOrder.ordered(page.nodes,id:\.id,parentID:\.parentID,isGroup:{$0.formatting.isGroup},displayMode:{Double($0.formatting.sheet["DisplayMode"]?.value ?? "").flatMap{Int(exactly:$0)}})
     }
     static func drawContents(_ page:DiagramPage,printing:Bool = true,shadow:Bool = false) {
+        let evidence = PerformanceEvidence.begin(.draw);defer { PerformanceEvidence.end(evidence) }
         let nodes = orderedNodes(in:page)
         for n in nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
         for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(layerColored(e,in:page),in:page) }
         for n in nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:shadow,paperScale:page.paperScale) }
     }
     static func drawPage(_ page:DiagramPage) { drawPage(DiagramScene(page:page)) }
-    static func drawPage(_ scene:DiagramScene) {
+    static func drawPage(_ scene:DiagramScene) { drawPage(RetainedRenderScene(scene: scene)) }
+    static func drawPage(_ prepared: RetainedRenderScene) {
+        let scene = prepared.scene
         let rect = CGRect(x:0,y:0,width:scene.page.paperWidth,height:scene.page.paperHeight)
         NSGraphicsContext.saveGraphicsState();NSBezierPath(rect:rect).addClip();NSColor.white.setFill();rect.fill()
-        for page in scene.layers {
-            NSGraphicsContext.saveGraphicsState();let t = NSAffineTransform(),offset = scene.offset(for:page);t.translateX(by:offset.x,yBy:offset.y);t.scale(by:page.paperScale);t.concat();drawContents(page);NSGraphicsContext.restoreGraphicsState()
-        };NSGraphicsContext.restoreGraphicsState()
+        for layer in prepared.layers {
+            let page = layer.page
+            NSGraphicsContext.saveGraphicsState()
+            let t = NSAffineTransform(), offset = scene.offset(for:page)
+            t.translateX(by:offset.x,yBy:offset.y);t.scale(by:page.paperScale);t.concat()
+            layer.draw(in: CGRect(x: -offset.x/page.paperScale, y: -offset.y/page.paperScale, width: rect.width/page.paperScale, height: rect.height/page.paperScale), printing: true)
+            NSGraphicsContext.restoreGraphicsState()
+        }
+        NSGraphicsContext.restoreGraphicsState()
     }
     static func svg(_ page:DiagramPage) -> String { svg(DiagramScene(page:page)) }
     static func svg(_ scene:DiagramScene) -> String {
@@ -226,6 +252,22 @@ enum DiagramDrawing {
         }.joined(separator:"\n")
         let title = page.name.replacingOccurrences(of:"&",with:"&amp;").replacingOccurrences(of:"<",with:"&lt;").replacingOccurrences(of:">",with:"&gt;")
         return "<?xml version=\"1.0\" encoding=\"UTF-8\"?><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"\(page.paperWidth)\" height=\"\(page.paperHeight)\" viewBox=\"0 0 \(page.paperWidth) \(page.paperHeight)\"><title>\(title)</title><defs><clipPath id=\"paperClip\"><rect width=\"\(page.paperWidth)\" height=\"\(page.paperHeight)\"/></clipPath></defs><rect width=\"100%\" height=\"100%\" fill=\"white\"/><g clip-path=\"url(#paperClip)\">\(body)</g></svg>"
+    }
+    static func svgFragment(node: DiagramNode, in page: DiagramPage) -> String {
+        var fragment = page
+        fragment.nodes = [node]; fragment.edges = []
+        return svgContents(fragment)
+    }
+    static func svgFragment(edge: DiagramEdge, route: [CGPoint], in page: DiagramPage) -> String {
+        guard route.count >= 2 else { return "" }
+        var fragment = page, free = edge
+        fragment.nodes = []
+        free.sourcePort = nil; free.targetPort = nil
+        free.sourcePosition = route.first.map { DiagramPoint(x: $0.x, y: $0.y) }
+        free.targetPosition = route.last.map { DiagramPoint(x: $0.x, y: $0.y) }
+        free.points = route.map { DiagramPoint(x: $0.x, y: $0.y) }
+        fragment.edges = [free]
+        return svgContents(fragment)
     }
     private static func svgContents(_ page: DiagramPage) -> String {
         // SVG carries a vector drawing, not a screenshot, and is independently editable.
@@ -325,12 +367,13 @@ enum DiagramDrawing {
 
 final class ExportPageView: NSView {
     let scene:DiagramScene
+    let prepared: RetainedRenderScene
     var page:DiagramPage { scene.page }
-    init(scene:DiagramScene) { self.scene = scene;super.init(frame:CGRect(x:0,y:0,width:scene.page.paperWidth,height:scene.page.paperHeight)) }
+    init(scene:DiagramScene) { self.scene = scene;self.prepared = RetainedRenderScene(scene: scene);super.init(frame:CGRect(x:0,y:0,width:scene.page.paperWidth,height:scene.page.paperHeight)) }
     convenience init(page:DiagramPage) { self.init(scene:DiagramScene(page:page)) }
     required init?(coder:NSCoder) { fatalError() }
     override var isFlipped: Bool { true }
-    override func draw(_ dirtyRect:NSRect) { DiagramDrawing.drawPage(scene) }
+    override func draw(_ dirtyRect:NSRect) { DiagramDrawing.drawPage(prepared) }
 }
 
 enum DiagramExport {
@@ -342,22 +385,24 @@ enum DiagramExport {
         let data = NSMutableData()
         guard let consumer = CGDataConsumer(data:data),let context = CGContext(consumer:consumer,mediaBox:nil,nil) else { throw DiagramError.invalid("Could not create the PDF document.") }
         for page in pages {
+            let prepared = RetainedRenderScene(scene: diagram.scene(for:page.id))
             var box = CGRect(x:0,y:0,width:page.paperWidth,height:page.paperHeight)
             let media = Data(bytes:&box,count:MemoryLayout<CGRect>.size)
             context.beginPDFPage([kCGPDFContextMediaBox as String:media] as CFDictionary);context.saveGState();context.translateBy(x:0,y:page.paperHeight);context.scaleBy(x:1,y:-1)
-            NSGraphicsContext.saveGraphicsState();NSGraphicsContext.current = NSGraphicsContext(cgContext:context,flipped:true);DiagramDrawing.drawPage(diagram.scene(for:page.id));NSGraphicsContext.restoreGraphicsState()
+            NSGraphicsContext.saveGraphicsState();NSGraphicsContext.current = NSGraphicsContext(cgContext:context,flipped:true);DiagramDrawing.drawPage(prepared);NSGraphicsContext.restoreGraphicsState()
             context.restoreGState();context.endPDFPage()
         };context.closePDF();return data as Data
     }
     static func png(_ page:DiagramPage,scale:Double = 2) throws -> Data { try png(DiagramScene(page:page),scale:scale) }
     static func png(_ scene:DiagramScene,scale:Double = 2) throws -> Data {
         let page = scene.page
+        let prepared = RetainedRenderScene(scene: scene)
         guard scale.isFinite,scale>0,scale<=16,page.paperWidth.isFinite,page.paperHeight.isFinite,page.paperWidth>0,page.paperHeight>0,page.paperWidth*scale<=100000,page.paperHeight*scale<=100000 else { throw DiagramError.invalid("Invalid PNG dimensions or scale.") }
         let width = max(1,Int(page.paperWidth*scale)),height = max(1,Int(page.paperHeight*scale))
         guard width*height <= 100_000_000, let bitmap = NSBitmapImageRep(bitmapDataPlanes:nil,pixelsWide:width,pixelsHigh:height,bitsPerSample:8,samplesPerPixel:4,hasAlpha:true,isPlanar:false,colorSpaceName:.deviceRGB,bytesPerRow:0,bitsPerPixel:0), let context = NSGraphicsContext(bitmapImageRep:bitmap) else { throw DiagramError.invalid("Page is too large to export as PNG.") }
         NSGraphicsContext.saveGraphicsState();context.cgContext.translateBy(x:0,y:CGFloat(height));context.cgContext.scaleBy(x:scale,y:-scale)
         NSGraphicsContext.current = NSGraphicsContext(cgContext:context.cgContext,flipped:true)
-        DiagramDrawing.drawPage(scene);context.flushGraphics();NSGraphicsContext.restoreGraphicsState()
+        DiagramDrawing.drawPage(prepared);context.flushGraphics();NSGraphicsContext.restoreGraphicsState()
         guard let data = bitmap.representation(using:.png,properties:[:]) else { throw DiagramError.invalid("Could not encode the PNG image.") };return data
     }
 }

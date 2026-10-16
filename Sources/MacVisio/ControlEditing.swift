@@ -11,23 +11,84 @@ enum ControlEditing {
         case .binary(let op,let a,let b):return "("+expression(a)+op+expression(b)+")"
         case .call(let name,let args):return name+"("+args.map(expression).joined(separator:",")+")" }
     }
-    static func moved(_ input:Diagram,node id:UUID,control name:String,to world:CGPoint) throws -> Diagram {
+    /// Frozen at gesture start. Values are never shared with a different input.
+    struct Baseline {
+        let input: Diagram
+        let issues: Set<String>
+        let geometryIssuesByPage: [UUID: [String]]
+        let session: CalculationSession
+        let work: CalculationWork
+        let inputIdentity: LifecycleJobInput?
+    }
+    static func prepare(_ input: Diagram) -> Baseline {
+        let session = CalculationSession()
+        let result = ShapeSheetEngine.recalculate(input, incrementalNodes: true, session: session)
+        return Baseline(input: input, issues: Set(result.issues),
+                        geometryIssuesByPage: result.issuesByPage, session: session, work: result.work, inputIdentity: nil)
+    }
+    /// A committed document already owns its diagnostic baseline and retained
+    /// index. Fork runtime state so previews cannot pollute committed hosts.
+    static func prepare(_ input: Diagram, geometryIssuesByPage: [UUID: [String]], session: CalculationSession, inputIdentity: LifecycleJobInput? = nil) -> Baseline {
+        Baseline(input: input, issues: Set(geometryIssuesByPage.values.flatMap { $0 }),
+                 geometryIssuesByPage: geometryIssuesByPage, session: session.fork(), work: CalculationWork(), inputIdentity: inputIdentity)
+    }
+    static func moved(_ input:Diagram,node id:UUID,control name:String,to world:CGPoint,baseline prepared:Baseline? = nil) throws -> Diagram {
+        try preview(input,node:id,control:name,to:world,baseline:prepared).diagram.validated()
+    }
+    static func moved(baseline: Baseline, node id: UUID, control name: String, to world: CGPoint, cancellation: LifecycleJobCancellation? = nil) throws -> Diagram {
+        try preview(baseline: baseline, node: id, control: name, to: world, cancellation: cancellation).diagram
+    }
+    struct Preview { var diagram: Diagram; var work: CalculationWork }
+    /// Compatibility adapter: validates a separately supplied baseline by full
+    /// value comparison. Gesture callers use the baseline-only overload below.
+    static func preview(_ input:Diagram,node id:UUID,control name:String,to world:CGPoint,baseline prepared:Baseline? = nil) throws -> Preview {
+        let baseline = prepared.flatMap { $0.input == input ? $0 : nil } ?? prepare(input)
+        var result = try preview(baseline: baseline, node: id, control: name, to: world)
+        if prepared != nil { result.work.inputComparisonNodes += input.pages.reduce(0) { $0 + $1.nodes.count } }
+        return result
+    }
+    static func preview(baseline: Baseline, node id: UUID, control name: String, to world: CGPoint, cancellation: LifecycleJobCancellation? = nil) throws -> Preview {
+        try cancellation?.check()
+        let evidence = PerformanceEvidence.begin(.calculation)
+        defer { PerformanceEvidence.end(evidence) }
+        // A reusable baseline remains a frozen semantic input. Each solve owns
+        // its host updates, including SETATREFEVAL reads of redirected targets.
+        let session = baseline.session.fork()
+        let input = baseline.input
         var next = input
-        guard let index = next.page.nodes.firstIndex(where:{$0.id == id}),!next.page.isLocked(next.page.nodes[index]),let control = next.page.nodes[index].formatting.controls.first(where:{$0.name == name}),control.visible else { return input }
+        var writeWork = CalculationWork()
+        let indexedBefore = session.indexedNodes, comparedBefore = session.comparedSources
+        let dependency = session.index(for: input.page, binding: input.visioArchive?.pages.first { $0.pageID == input.page.id }, trustChanges: true)
+        writeWork.dependencyNodesIndexed += session.indexedNodes - indexedBefore
+        writeWork.dependencySourcesCompared += session.comparedSources - comparedBefore
+        guard let index = dependency.nodeIndices[id], !next.page.isLocked(next.page.nodes[index]),
+              let control = next.page.nodes[index].formatting.controls.first(where: { $0.name == name }), control.visible else {
+            return Preview(diagram: input, work: writeWork)
+        }
+        let preparedBefore = session.preparedHostNodes
+        var controlNodes = session.nodes(for: input.page, trustChanges: true)
+        writeWork.hostNodesPrepared += session.preparedHostNodes - preparedBefore
+        var writtenNodeIDs = Set<UUID>()
         let node = next.page.nodes[index],p = DiagramCoordinates.local(world,in:node),values = ["X":(p.x+node.sheetOrigin.x)/72,"Y":(node.height-p.y+node.sheetOrigin.y)/72]
         guard values.values.allSatisfy({$0.isFinite && abs($0)<100000}) else { throw DiagramError.invalid("The control position is outside the supported range.") }
         let colorPalette = ShapeSheetColorPalette(documentArchive:next.visioArchive)
         func target(_ reference:String,from i:Int) throws -> (Int,String) {
             if let bang = reference.firstIndex(of:"!") {
-                let sheet = String(reference[..<bang]),key = String(reference[reference.index(after:bang)...]),binding = next.visioArchive?.pages.first{$0.pageID == next.page.id}
-                guard sheet.uppercased().hasPrefix("SHEET."),let other = next.page.nodes.enumerated().first(where:{(binding?.nodeIDs[$0.element.id] ?? $0.element.formatting.sourceShapeID ?? String($0.offset+1)) == String(sheet.dropFirst(6))})?.offset else { throw DiagramError.invalid("Unknown control target: \(reference)") };return (other,key)
+                let sheet = String(reference[..<bang]),key = String(reference[reference.index(after:bang)...])
+                guard sheet.uppercased().hasPrefix("SHEET."), let target = dependency.identifiers[String(sheet.dropFirst(6))],
+                      let other = dependency.nodeIndices[target] else { throw DiagramError.invalid("Unknown control target: \(reference)") }
+                return (other,key)
             };return (i,reference)
         }
         func read(_ i:Int,_ key:String,_ depth:Int = 0) throws -> Double {
-            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette).number(next.page.nodes[i].id,key)
+            let context = ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette,nodesByID:controlNodes,identifiers:dependency.identifiers,cancellation:cancellation)
+            defer { writeWork.add(context.work) }
+            return try context.number(next.page.nodes[i].id,key)
         }
         func evaluate(_ expression:ShapeSheet.Expression,_ i:Int) throws -> Double {
-            try ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette).evaluate(expression,on:next.page.nodes[i].id).numeric()
+            let context = ShapeSheetContext(page:next.page,binding:next.visioArchive?.pages.first{$0.pageID == next.page.id},colorPalette:colorPalette,nodesByID:controlNodes,identifiers:dependency.identifiers,cancellation:cancellation)
+            defer { writeWork.add(context.work) }
+            return try context.evaluate(expression,on:next.page.nodes[i].id).numeric()
         }
         func contains(_ e:ShapeSheet.Expression,_ name:String) -> Bool {
             switch e { case .call(let f,let args):return f.uppercased() == name || args.contains{contains($0,name)};case .unary(_,let e):return contains(e,name);case .binary(_,let a,let b):return contains(a,name) || contains(b,name);default:return false }
@@ -45,6 +106,12 @@ enum ControlEditing {
         }
         var writing = Set<String>()
         func store(_ i:Int,_ key:String,_ cell:ShapeSheetCell) throws {
+            defer {
+                let node = next.page.nodes[i]
+                controlNodes[node.id] = node
+                writtenNodeIDs.insert(node.id)
+                writeWork.hostNodesPrepared += 1
+            }
             if ControlGeometry.cell(key,on:next.page.nodes[i]) != nil { try ControlGeometry.set(key,cell,on:&next.page.nodes[i]) }
             else if GeometrySheet.cell(key,on:next.page.nodes[i]) != nil { try GeometrySheet.set(key,cell,on:&next.page.nodes[i]) }
             else {
@@ -53,6 +120,7 @@ enum ControlEditing {
             }
         }
         func write(_ i:Int,_ key:String,_ value:Double,_ formula:String? = nil,_ depth:Int = 0) throws {
+            try cancellation?.check()
             guard !next.page.isLocked(next.page.nodes[i]),depth <= 10,writing.insert("\(i)!"+key.lowercased()).inserted else { throw DiagramError.invalid("Locked or circular control update target.") };defer { writing.remove("\(i)!"+key.lowercased()) }
             let n = next.page.nodes[i],old = ControlGeometry.cell(key,on:n) ?? GeometrySheet.cell(key,on:n) ?? n.formatting.sheet.first{$0.key.caseInsensitiveCompare(key) == .orderedSame}?.value ?? ShapeSheetCell(value:"")
             let ast = old.formula.isEmpty || ["Inh","No Formula"].contains(old.formula) ? nil : try ShapeSheet.parse(old.formula)
@@ -121,13 +189,27 @@ enum ControlEditing {
             try store(i,key,ShapeSheetCell(value:CompositeGeometry.number(value),formula:result,unit:old.unit))
         }
         for axis in ["X","Y"] where control.behavior(axis)%5 != 1 { try write(index,"Controls."+name+"."+axis,values[axis]!) }
-        let before = Set(ShapeSheetEngine.recalculate(input).issues),calculated = ShapeSheetEngine.recalculate(next,previous:input),added = Set(calculated.issues).subtracting(before)
-        guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) };return try calculated.diagram.validated()
+        var changes = DocumentChangeSet()
+        changes.pages[input.page.id] = PageChangeSet(pageID: input.page.id, changedNodeIDs: writtenNodeIDs)
+        let calculated = ShapeSheetEngine.recalculate(next, previous: input,
+            skipUnchangedPagesComparedTo: input, retainedIssuesByPage: baseline.geometryIssuesByPage,
+            incrementalNodes: true, session: session, changes: changes, cancellation: cancellation)
+        if calculated.cancelled { throw LifecycleJobError.cancelled }
+        try cancellation?.check()
+        let added = Set(calculated.issues).subtracting(baseline.issues)
+        guard added.isEmpty else { throw DiagramError.invalid(added.sorted().prefix(4).joined(separator:"\n")) }
+        writeWork.add(calculated.work)
+        // The frozen committed input already passed validation. Evaluator and
+        // control writes bound the changed cells/geometry; the commit boundary
+        // performs document validation once, rather than scanning every preview.
+        return Preview(diagram: calculated.diagram, work: writeWork)
     }
 }
 
 extension EditorWindowController {
     func moveControl(_ name:String,on id:UUID,to point:CGPoint) throws {
-        canvas.finishEditing(commit:true);diagramDocument.replace(with:try ControlEditing.moved(diagramDocument.diagram,node:id,control:name,to:point),action:"Adjust Control Handle")
+        canvas.finishEditing(commit:true)
+        diagramDocument.adjustControlInEditor(baseline: diagramDocument.prepareControlGesture(), node: id, control: name, to: point)
+        if !diagramDocument.isCalculating, let error = diagramDocument.lastCalculationJobError { throw error }
     }
 }

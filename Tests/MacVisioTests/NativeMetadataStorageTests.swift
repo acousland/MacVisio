@@ -2,6 +2,14 @@ import XCTest
 @testable import MacVisio
 
 final class NativeMetadataStorageTests: XCTestCase {
+    func testEnvelopeDiscriminatorDoesNotRequireMaterializingModelObjects() throws {
+        let payload = Data(#"{"diagram":{"pages":[{"sheet":{"User.Large":{"value":"kept"}}}]},"format":4}"#.utf8)
+        XCTAssertEqual(try NativeMetadataStorage.load(payload, parts: [:]).data, payload)
+        for invalid in [#"{"format":"4"}"#, #"{"format":true}"#, #"{"diagram":{}}"#, #"{"format":4,"diagram": "#] {
+            XCTAssertThrowsError(try NativeMetadataStorage.load(Data(invalid.utf8), parts: [:]))
+        }
+    }
+
     func testSmallPayloadPassesThroughWithoutChangingParts() throws {
         let payload = Data(#"{"format":2,"diagram":{}}"#.utf8)
         var parts = ["vendor/opaque.bin": Data([0x10, 0x20])]

@@ -5,7 +5,7 @@ extension EditorWindowController {
         var next = diagramDocument.diagram
         guard let i = next.page.nodes.firstIndex(where:{$0.id == id}),!next.page.isLocked(next.page.nodes[i]) else { return }
         next.page.nodes[i] = try TextFieldEngine.inserting(formula:formula,picture:picture,type:type,into:next.page.nodes[i],range:range)
-        _ = try next.validated();diagramDocument.replace(with:next,action:"Insert Text Field")
+        _ = try next.validated();diagramDocument.replaceInEditor(with:next,action:"Insert Text Field")
     }
     @objc func insertField(_ sender:Any?) {
         let caret = canvas.fieldInsertionPosition();canvas.finishEditing(commit:true)
@@ -34,7 +34,7 @@ extension EditorWindowController {
         var next = diagramDocument.diagram;guard let i = next.page.nodes.firstIndex(where:{$0.id == id}) else { return }
         next.page.nodes[i].formatting.textFields = fields
         if let runs = next.page.nodes[i].formatting.textRuns { next.page.nodes[i].formatting.textRuns = runs.map{run in var run = run;if let field = run.fieldIndex,!fields.contains(where:{$0.index == field}) { run.fieldIndex = nil;run.fieldToken = nil };return run} }
-        _ = try next.validated();diagramDocument.replace(with:next,action:"Edit Text Fields")
+        _ = try next.validated();diagramDocument.replaceInEditor(with:next,action:"Edit Text Fields")
     }
 }
 private final class FieldInsertionView:FlippedView {

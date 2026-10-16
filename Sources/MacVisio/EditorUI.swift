@@ -52,7 +52,7 @@ extension StencilCard: NSDraggingSource {
 }
 
 final class MasterStencilCard: FlippedView, NSDraggingSource {
-    let definition:StencilDefinition
+    var definition:StencilDefinition
     weak var editor:EditorWindowController?
     private var down:NSEvent?
     private var dragged = false
@@ -92,6 +92,10 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     let heading = uiLabel("Shapes",size:17,weight:.semibold)
     let subtitle = uiLabel("Drag shapes onto the drawing",size:10)
     let openStencil = NSButton(title:"More Shapes…",target:nil,action:nil)
+    private var shapeCards: [String: StencilCard] = [:]
+    private var masterCards: [UUID: MasterStencilCard] = [:]
+    private var visibleRows: [NSView] = []
+    private(set) var cardsCreatedCount = 0
     init(editor:EditorWindowController) {
         self.editor = editor; super.init(frame:.zero)
         wantsLayer = true; layer?.backgroundColor = EditorPalette.panel.cgColor
@@ -107,7 +111,7 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         super.layout(); heading.frame = CGRect(x:20,y:16,width:180,height:25); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
         category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(80,bounds.height-214))
         openStencil.frame = CGRect(x:12,y:bounds.height-72,width:bounds.width-24,height:25)
-        subtitle.frame = CGRect(x:17,y:bounds.height-34,width:bounds.width-20,height:18); rebuild()
+        subtitle.frame = CGRect(x:17,y:bounds.height-34,width:bounds.width-20,height:18); layoutRows()
     }
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance();effectiveAppearance.performAsCurrentDrawingAppearance { layer?.backgroundColor = EditorPalette.panel.cgColor };needsDisplay = true
@@ -132,10 +136,49 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         let q = search.stringValue.lowercased()
         let kinds = category.indexOfSelectedItem >= 4 ? [] : group.filter{q.isEmpty || $0.title.lowercased().contains(q) || $0.rawValue.lowercased().contains(q)}
         let masters = editor.stencils.filter{(category.indexOfSelectedItem == 0 || category.titleOfSelectedItem == $0.family) && (q.isEmpty || $0.name.lowercased().contains(q))}
-        for view in list.subviews { view.removeFromSuperview() }
-        list.frame = CGRect(x:0,y:0,width:max(170,listScroll.contentSize.width),height:CGFloat(kinds.count+masters.count)*46+8)
-        for (i,kind) in kinds.enumerated() { let card = StencilCard(kind:kind,editor:editor); card.frame = CGRect(x:0,y:CGFloat(i)*46,width:list.bounds.width,height:44); list.addSubview(card) }
-        for (i,definition) in masters.enumerated() { let card = MasterStencilCard(definition,editor:editor);card.frame = CGRect(x:0,y:CGFloat(i+kinds.count)*46,width:list.bounds.width,height:44);list.addSubview(card) }
+        let currentMasterIDs = Set(editor.stencils.map(\.id))
+        masterCards = masterCards.filter { currentMasterIDs.contains($0.key) }
+        var rows: [NSView] = []
+        for kind in kinds {
+            if shapeCards[kind.rawValue] == nil {
+                shapeCards[kind.rawValue] = StencilCard(kind: kind, editor: editor)
+                cardsCreatedCount += 1
+            }
+            if let card = shapeCards[kind.rawValue] { rows.append(card) }
+        }
+        for definition in masters {
+            if let card = masterCards[definition.id] {
+                card.definition = definition
+                card.setAccessibilityLabel("Add \(definition.name)")
+                card.needsDisplay = true
+            } else {
+                masterCards[definition.id] = MasterStencilCard(definition, editor: editor)
+                cardsCreatedCount += 1
+            }
+            if let card = masterCards[definition.id] { rows.append(card) }
+        }
+        let currentRows = Set(rows.map(ObjectIdentifier.init))
+        for view in list.subviews where !currentRows.contains(ObjectIdentifier(view)) { view.removeFromSuperview() }
+        for row in rows where row.superview !== list { list.addSubview(row) }
+        visibleRows = rows
+        layoutRows()
+    }
+    private func layoutRows() {
+        list.frame = CGRect(x: 0, y: 0, width: max(170, listScroll.contentSize.width), height: CGFloat(visibleRows.count)*46+8)
+        for (index, row) in visibleRows.enumerated() { row.frame = CGRect(x: 0, y: CGFloat(index)*46, width: list.bounds.width, height: 44) }
+
+    }
+}
+
+final class MixedColorWell: NSColorWell {
+    var isMixed = false { didSet { needsDisplay = true } }
+    override func draw(_ dirtyRect: NSRect) {
+        super.draw(dirtyRect)
+        guard isMixed else { return }
+        let inner = bounds.insetBy(dx: 7, dy: 7)
+        NSColor.controlBackgroundColor.setFill(); inner.fill()
+        ("—" as NSString).draw(at: CGPoint(x: bounds.midX-6, y: bounds.midY-8),
+            withAttributes: [.font: NSFont.systemFont(ofSize: 14), .foregroundColor: NSColor.labelColor])
     }
 }
 
@@ -146,6 +189,15 @@ final class InspectorPanel: FlippedView {
     private var colorWells: [String:NSColorWell] = [:]
     private var currentKey = ""
     private var applying = false
+    private struct CachedLayout {
+        var views: [NSView]
+        var fields: [String: NSTextField]
+        var wells: [String: NSColorWell]
+        var labels: [String: NSTextField]
+    }
+    private var layouts: [String: CachedLayout] = [:]
+    private var dynamicLabels: [String: NSTextField] = [:]
+    private(set) var layoutsCreatedCount = 0
     init(editor:EditorWindowController) {
         self.editor = editor; super.init(frame:.zero); wantsLayer = true; layer?.backgroundColor = EditorPalette.panel.cgColor
     }
@@ -153,27 +205,40 @@ final class InspectorPanel: FlippedView {
     override func viewDidChangeEffectiveAppearance() {
         super.viewDidChangeEffectiveAppearance();effectiveAppearance.performAsCurrentDrawingAppearance { layer?.backgroundColor = EditorPalette.panel.cgColor };needsDisplay = true
     }
-    private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular) { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l) }
+    @discardableResult
+    private func label(_ text:String,_ x:Double,_ y:Double,_ width:Double = 190,size:CGFloat = 11,weight:NSFont.Weight = .regular,key:String? = nil) -> NSTextField { let l = uiLabel(text,size:size,weight:weight); l.frame = CGRect(x:x,y:y,width:width,height:size >= 16 ? 24 : 18); if weight == .bold || weight == .semibold { l.textColor = .labelColor }; addSubview(l); if let key { dynamicLabels[key] = l }; return l }
     private func section(_ text:String,y:Double) { label(text,18,y,190,size:10,weight:.bold) }
     private func field(_ key:String,_ value:String,x:Double = 18,y:Double,width:Double = 194,height:Double = 24) {
         let f = NSTextField(string:value); f.frame = CGRect(x:x,y:y,width:width,height:height); f.font = .systemFont(ofSize:12); f.target = self; f.action = #selector(fieldChanged(_:)); f.identifier = NSUserInterfaceItemIdentifier(key); f.setAccessibilityLabel(key); f.setAccessibilityIdentifier("inspector_\(key)"); addSubview(f); fields[key] = f; displayedFieldValues[key] = value
     }
     private func well(_ key:String,color:String,y:Double) {
         label(key,18,y+5,130)
-        let well = NSColorWell(frame:CGRect(x:169,y:y,width:43,height:28)); well.color = NSColor(hex:color); well.target = self; well.action = #selector(colorChanged(_:)); well.identifier = NSUserInterfaceItemIdentifier(key); well.setAccessibilityLabel(key); addSubview(well); colorWells[key] = well
+        let well = MixedColorWell(frame:CGRect(x:169,y:y,width:43,height:28)); well.color = NSColor(hex:color); well.target = self; well.action = #selector(colorChanged(_:)); well.identifier = NSUserInterfaceItemIdentifier(key); well.setAccessibilityLabel(key); addSubview(well); colorWells[key] = well
     }
     func refresh() {
         guard !applying,let editor = editor else { return }
         let focused = window?.firstResponder as? NSTextView
         if let textField = focused?.delegate as? NSTextField,fields.values.contains(where:{$0 === textField}) { return }
-        for view in subviews { view.removeFromSuperview() }; fields = [:]; displayedFieldValues = [:]; colorWells = [:]
         let selection = editor.selection
         let page = editor.diagramDocument.diagram.page
-        label(!selection.isEmpty || editor.canvas.selectedEdge != nil ? "Format Shape" : "Format Page",18,18,210,size:17,weight:.semibold)
+        let edge = page.edges.first { $0.id == editor.canvas.selectedEdge }
+        let mode = !selection.isEmpty ? "node" : edge != nil ? "edge" : "page"
+        if currentKey != mode {
+            for view in subviews { view.removeFromSuperview() }
+            currentKey = mode
+            fields = [:]; displayedFieldValues = [:]; colorWells = [:]; dynamicLabels = [:]
+        }
+        if let layout = layouts[mode] {
+            fields = layout.fields; colorWells = layout.wells; dynamicLabels = layout.labels
+            for view in layout.views where view.superview !== self { addSubview(view) }
+            updateValues(selection: selection, edge: edge, page: page)
+            return
+        }
+        label(!selection.isEmpty || edge != nil ? "Format Shape" : "Format Page",18,18,210,size:17,weight:.semibold,key:"heading")
         if !selection.isEmpty {
             let node = selection[0]; currentKey = "node"
-            label(selection.count == 1 ? node.kind.title : "\(selection.count) shapes",18,45,190,size:18,weight:.semibold)
-            label(node.locked ? "Locked · unlock to edit" : page.paperScale == 1 ? "Shape properties" : "Drawing lengths · paper fonts",18,72,200,size:11)
+            label(selection.count == 1 ? node.kind.title : "\(selection.count) shapes",18,45,190,size:18,weight:.semibold,key:"selection")
+            label(node.locked ? "Locked · unlock to edit" : page.paperScale == 1 ? "Shape properties" : "Drawing lengths · paper fonts",18,72,200,size:11,key:"detail")
             section("TEXT",y:112); field("Text",node.text,y:139,height:46)
             label("Font size",18,199,95); field("Font size",String(Int(node.fontSize)),x:125,y:194,width:87)
             let bold = NSButton(checkboxWithTitle:"Bold text",target:self,action:#selector(boldChanged(_:))); bold.frame = CGRect(x:16,y:230,width:190,height:24); bold.state = node.bold ? .on : .off; addSubview(bold)
@@ -194,8 +259,8 @@ final class InspectorPanel: FlippedView {
             let layer = NSPopUpButton(frame:CGRect(x:15,y:918,width:201,height:26)); let names = ["Default"]+(page.layers ?? []).map(\.name).filter{$0 != "Default"}; layer.addItems(withTitles:names); layer.selectItem(withTitle:node.layer); layer.target = self; layer.action = #selector(layerChanged(_:)); layer.setAccessibilityLabel("Shape layer"); addSubview(layer)
             let data = NSButton(title:"Shape Data…",target:editor,action:#selector(EditorWindowController.editShapeData(_:))); data.bezelStyle = .rounded; data.frame = CGRect(x:15,y:969,width:201,height:26); addSubview(data)
             let links = NSButton(title:"Hyperlinks…",target:editor,action:#selector(EditorWindowController.editHyperlinks(_:))); links.bezelStyle = .rounded; links.frame = CGRect(x:15,y:1007,width:201,height:26); addSubview(links)
-        } else if let edge = page.edges.first(where:{$0.id == editor.canvas.selectedEdge}) {
-            currentKey = "edge"; label("Connector",18,45,190,size:18,weight:.semibold); label(page.nodes.contains(where:{$0.id == edge.source}) && page.nodes.contains(where:{$0.id == edge.target}) ? "Attached to both shapes" : "Free or partially attached line",18,74)
+        } else if let edge {
+            currentKey = "edge"; label("Connector",18,45,190,size:18,weight:.semibold); label(page.nodes.contains(where:{$0.id == edge.source}) && page.nodes.contains(where:{$0.id == edge.target}) ? "Attached to both shapes" : "Free or partially attached line",18,74,key:"detail")
             section("LABEL",y:118); field("Label",edge.label,y:146)
             section("APPEARANCE",y:210); well("Line",color:edge.color,y:240)
             label("Line width",18,289,100); field("Line width",String(format:"%.1f",edge.width),x:125,y:284,width:87)
@@ -209,10 +274,91 @@ final class InspectorPanel: FlippedView {
             label("Paper width",18,220,91); label("Paper height",121,220,91); field("Page width",String(Int(page.paperWidth)),x:18,y:244,width:91); field("Page height",String(Int(page.paperHeight)),x:121,y:244,width:91)
             label("Dimensions in points (72 = 1 inch)",18,282,200,size:10)
             let setup = NSButton(title:"Page Setup…",target:editor,action:#selector(EditorWindowController.showPageSetup(_:)));setup.bezelStyle = .rounded;setup.frame = CGRect(x:15,y:312,width:201,height:26);addSubview(setup)
-            if let id = page.backgroundPageID,let background = editor.diagramDocument.diagram.pages.first(where:{$0.id == id}) {
-                label("Background: \(background.name)",18,352,200,size:11)
-                let edit = NSButton(title:"Edit Background",target:editor,action:#selector(EditorWindowController.editBackgroundPage(_:)));edit.bezelStyle = .rounded;edit.frame = CGRect(x:15,y:379,width:201,height:26);addSubview(edit)
-            } else if page.isBackground == true { label("Shared background page",18,352,200,size:11) }
+            label("",18,352,200,size:11,key:"background")
+            let edit = NSButton(title:"Edit Background",target:editor,action:#selector(EditorWindowController.editBackgroundPage(_:)));edit.bezelStyle = .rounded;edit.frame = CGRect(x:15,y:379,width:201,height:26);addSubview(edit)
+
+        }
+        layouts[mode] = CachedLayout(views: subviews, fields: fields, wells: colorWells, labels: dynamicLabels)
+        layoutsCreatedCount += 1
+        updateValues(selection: selection, edge: edge, page: page)
+    }
+
+    private func common<T: Equatable>(_ values: [T]) -> T? {
+        guard let first = values.first, values.dropFirst().allSatisfy({ $0 == first }) else { return nil }
+        return first
+    }
+    private func setField(_ key: String, value: String?) {
+        guard let field = fields[key] else { return }
+        field.stringValue = value ?? ""
+        field.placeholderString = value == nil ? "Mixed" : nil
+        field.setAccessibilityValue(value ?? "Mixed")
+        displayedFieldValues[key] = field.stringValue
+    }
+    private func button(_ action: Selector) -> NSButton? {
+        subviews.compactMap { $0 as? NSButton }.first { $0.action == action }
+    }
+    private func setCheck(_ action: Selector, values: [Bool]) {
+        guard let control = button(action) else { return }
+        control.allowsMixedState = true
+        control.state = common(values).map { $0 ? .on : .off } ?? .mixed
+    }
+    private func setPopup(_ action: Selector, index: Int?) {
+        guard let popup = button(action) as? NSPopUpButton else { return }
+        popup.menu?.autoenablesItems = false
+        if popup.lastItem?.title == "Mixed" { popup.removeItem(at: popup.numberOfItems-1) }
+        if let index { popup.selectItem(at: index) }
+        else {
+            popup.addItem(withTitle: "Mixed")
+            popup.lastItem?.isEnabled = false
+            popup.selectItem(at: popup.numberOfItems-1)
+        }
+    }
+    private func setColor(_ key: String, values: [String]) {
+        guard let well = colorWells[key] else { return }
+        let value = common(values)
+        well.color = NSColor(hex: value ?? "#FFFFFF00")
+        (well as? MixedColorWell)?.isMixed = value == nil
+        well.toolTip = value == nil ? "Mixed colors" : key
+        well.setAccessibilityValue(value ?? "Mixed")
+    }
+    private func updateValues(selection: [DiagramNode], edge: DiagramEdge?, page: DiagramPage) {
+        if !selection.isEmpty {
+            dynamicLabels["selection"]?.stringValue = selection.count == 1 ? selection[0].kind.title : "\(selection.count) shapes"
+            let locks = selection.map { page.isLocked($0) }
+            dynamicLabels["detail"]?.stringValue = locks.allSatisfy({ $0 }) ? "Locked · unlock to edit"
+                : locks.contains(true) ? "Includes locked shapes" : page.paperScale == 1 ? "Shape properties" : "Drawing lengths · paper fonts"
+            setField("Text", value: common(selection.map(\.text)))
+            setField("Font", value: common(selection.map { $0.formatting.fontName }))
+            let numeric: [(String, (DiagramNode) -> Double, String)] = [
+                ("Font size", { $0.fontSize }, "%.0f"), ("Line width", { $0.strokeWidth }, "%.1f"),
+                ("X", { $0.x }, "%.0f"), ("Y", { $0.y }, "%.0f"), ("Width", { $0.width }, "%.0f"),
+                ("Height", { $0.height }, "%.0f"), ("Rotation", { $0.rotation }, "%.0f")]
+            for (key, value, format) in numeric { setField(key, value: common(selection.map(value)).map { String(format: format, $0) }) }
+            setCheck(#selector(boldChanged(_:)), values: selection.map(\.bold))
+            setCheck(#selector(italicChanged(_:)), values: selection.map { $0.formatting.italic })
+            setCheck(#selector(underlineChanged(_:)), values: selection.map { $0.formatting.underline })
+            setCheck(#selector(EditorWindowController.toggleLock(_:)), values: selection.map(\.locked))
+            setColor("Fill", values: selection.map(\.fill)); setColor("Line", values: selection.map(\.stroke)); setColor("Text color", values: selection.map(\.textColor))
+            setPopup(#selector(alignmentChanged(_:)), index: common(selection.map { $0.formatting.alignment }).map { $0 == .left ? 0 : $0 == .right ? 2 : 1 })
+            setPopup(#selector(patternChanged(_:)), index: common(selection.map { $0.formatting.linePattern }).map { max(0, min(4, $0-1)) })
+            if let layer = button(#selector(layerChanged(_:))) as? NSPopUpButton {
+                let names = ["Default"]+(page.layers ?? []).map(\.name).filter { $0 != "Default" }
+                if layer.itemTitles.filter({ $0 != "Mixed" }) != names { layer.removeAllItems(); layer.addItems(withTitles: names) }
+                setPopup(#selector(layerChanged(_:)), index: common(selection.map(\.layer)).flatMap { names.firstIndex(of: $0) })
+            }
+        } else if let edge {
+            setField("Label", value: edge.label); setField("Line width", value: String(format: "%.1f", edge.width))
+            setColor("Line", values: [edge.color])
+            dynamicLabels["detail"]?.stringValue = page.nodes.contains { $0.id == edge.source } && page.nodes.contains { $0.id == edge.target }
+                ? "Attached to both shapes" : "Free or partially attached line"
+            setPopup(#selector(routeChanged(_:)), index: edge.style == .orthogonal ? 0 : 1)
+            setCheck(#selector(arrowChanged(_:)), values: [edge.arrow]); setCheck(#selector(startArrowChanged(_:)), values: [edge.startArrow == true])
+            setPopup(#selector(edgePatternChanged(_:)), index: max(0, min(4, (edge.dash ?? 1)-1)))
+        } else {
+            setField("Page name", value: page.name); setField("Page width", value: String(Int(page.paperWidth))); setField("Page height", value: String(Int(page.paperHeight)))
+            let background = page.backgroundPageID.flatMap { id in editor?.diagramDocument.diagram.pages.first { $0.id == id } }
+            dynamicLabels["background"]?.stringValue = background.map { "Background: \($0.name)" } ?? (page.isBackground == true ? "Shared background page" : "")
+            button(#selector(EditorWindowController.editBackgroundPage(_:)))?.isHidden = background == nil
         }
     }
     @objc private func fieldChanged(_ sender:NSTextField) {
@@ -254,20 +400,20 @@ final class InspectorPanel: FlippedView {
     }
     @objc private func colorChanged(_ sender:NSColorWell) {
         guard let editor = editor,let key = sender.identifier?.rawValue else { return }
-        applying = true; defer { applying = false }
+        applying = true; defer { applying = false; refresh() }
         if currentKey == "edge" { editor.modifyEdge("Connector Color") { $0.color = sender.color.hexString } }
         else { editor.modifySelection("Shape Color") { n in if key == "Fill" { n.fill = sender.color.hexString }; if key == "Line" { n.stroke = sender.color.hexString }; if key == "Text color" { n.textColor = sender.color.hexString } } }
     }
     @objc private func boldChanged(_ sender:NSButton) { editor?.modifySelection("Bold Text") { $0.bold = sender.state == .on } }
     @objc private func italicChanged(_ sender:NSButton) { editor?.modifySelection("Italic Text") { $0.formatting.italic = sender.state == .on } }
     @objc private func underlineChanged(_ sender:NSButton) { editor?.modifySelection("Underline Text") { $0.formatting.underline = sender.state == .on } }
-    @objc private func alignmentChanged(_ sender:NSPopUpButton) { editor?.modifySelection("Text Alignment") { $0.formatting.alignment = sender.indexOfSelectedItem == 0 ? .left : sender.indexOfSelectedItem == 2 ? .right : .center } }
-    @objc private func patternChanged(_ sender:NSPopUpButton) { editor?.modifySelection("Line Pattern") { $0.formatting.linePattern = sender.indexOfSelectedItem+1 } }
-    @objc private func layerChanged(_ sender:NSPopUpButton) { editor?.modifySelection("Shape Layer") { $0.layer = sender.titleOfSelectedItem ?? "Default"; $0.formatting.layerNames = [$0.layer] } }
-    @objc private func routeChanged(_ sender:NSPopUpButton) { editor?.modifyEdge("Connector Style") { $0.style = sender.indexOfSelectedItem == 0 ? .orthogonal : .straight;$0.points = nil } }
+    @objc private func alignmentChanged(_ sender:NSPopUpButton) { guard sender.selectedItem?.isEnabled != false else { return }; editor?.modifySelection("Text Alignment") { $0.formatting.alignment = sender.indexOfSelectedItem == 0 ? .left : sender.indexOfSelectedItem == 2 ? .right : .center } }
+    @objc private func patternChanged(_ sender:NSPopUpButton) { guard sender.selectedItem?.isEnabled != false else { return }; editor?.modifySelection("Line Pattern") { $0.formatting.linePattern = sender.indexOfSelectedItem+1 } }
+    @objc private func layerChanged(_ sender:NSPopUpButton) { guard sender.selectedItem?.isEnabled != false else { return }; editor?.modifySelection("Shape Layer") { $0.layer = sender.titleOfSelectedItem ?? "Default"; $0.formatting.layerNames = [$0.layer] } }
+    @objc private func routeChanged(_ sender:NSPopUpButton) { guard sender.selectedItem?.isEnabled != false else { return }; editor?.modifyEdge("Connector Style") { $0.style = sender.indexOfSelectedItem == 0 ? .orthogonal : .straight;$0.points = nil } }
     @objc private func arrowChanged(_ sender:NSButton) { editor?.modifyEdge("Connector Arrow") { $0.arrow = sender.state == .on } }
     @objc private func startArrowChanged(_ sender:NSButton) { editor?.modifyEdge("Connector Start Arrow") { $0.startArrow = sender.state == .on } }
-    @objc private func edgePatternChanged(_ sender:NSPopUpButton) { editor?.modifyEdge("Connector Line Pattern") { $0.dash = sender.indexOfSelectedItem+1 } }
+    @objc private func edgePatternChanged(_ sender:NSPopUpButton) { guard sender.selectedItem?.isEnabled != false else { return }; editor?.modifyEdge("Connector Line Pattern") { $0.dash = sender.indexOfSelectedItem+1 } }
 }
 
 final class EditorRootView: FlippedView {
@@ -287,6 +433,16 @@ final class EditorRootView: FlippedView {
     private var zoomPlus:NSButton!
     private var fit:NSButton!
     private var addPageButton:NSButton!
+    private var pageButtons: [UUID: PageTabButton] = [:]
+    private(set) var pageButtonsCreatedCount = 0
+    private struct PageViewState {
+        var nodeIDs: Set<UUID>
+        var edgeID: UUID?
+        var zoom: Double
+        var scrollOrigin: CGPoint
+        var inspectorOrigin: CGPoint
+    }
+    private var pageViewStates: [UUID: PageViewState] = [:]
     init(editor:EditorWindowController) {
         self.editor = editor;stencil = StencilPanel(editor:editor);inspector = InspectorPanel(editor:editor)
         ribbon = VisioRibbonView(editor:editor)
@@ -345,18 +501,49 @@ final class EditorRootView: FlippedView {
     }
     func refreshPages() {
         guard let editor else{return}
-        for view in pageStrip.subviews { view.removeFromSuperview() }
+        let pages = editor.diagramDocument.diagram.orderedPages
+        let currentIDs = Set(pages.map(\.id))
+        for (id, button) in pageButtons where !currentIDs.contains(id) { button.removeFromSuperview() }
+        pageButtons = pageButtons.filter { currentIDs.contains($0.key) }
+        pageViewStates = pageViewStates.filter { currentIDs.contains($0.key) }
         var x = 0.0
-        for page in editor.diagramDocument.diagram.orderedPages {
-            let button = PageTabButton(title:page.name+(page.isBackground == true ? " ◇" : ""),target:self,action:#selector(pageClicked(_:)))
+        for page in pages {
+            let button: PageTabButton
+            if let retained = pageButtons[page.id] { button = retained }
+            else {
+                button = PageTabButton(title: "", target: self, action: #selector(pageClicked(_:)))
+                pageButtons[page.id] = button; pageButtonsCreatedCount += 1
+                pageStrip.addSubview(button)
+            }
+            button.title = page.name+(page.isBackground == true ? " ◇" : "")
             button.identifier = NSUserInterfaceItemIdentifier(page.id.uuidString)
             button.isCurrent = page.id == editor.diagramDocument.diagram.activePageID
             button.setAccessibilityLabel("Page \(page.name)");button.setAccessibilityValue(button.isCurrent ? "Selected" : "")
             button.toolTip = page.isBackground == true ? "Edit shared background" : "Edit page"
             let width = min(180,max(90,(page.name as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+32))
-            button.frame = CGRect(x:x,y:0,width:width,height:33);pageStrip.addSubview(button);x += width+1
+            button.frame = CGRect(x:x,y:0,width:width,height:33);button.needsDisplay = true;x += width+1
         }
         pageStrip.frame = CGRect(x:0,y:0,width:max(x,pageScroll.contentSize.width),height:33)
+    }
+    func capturePageViewState() {
+        guard let editor else { return }
+        pageViewStates[editor.diagramDocument.diagram.activePageID] = PageViewState(
+            nodeIDs: editor.canvas.selectedNodes, edgeID: editor.canvas.selectedEdge,
+            zoom: editor.canvas.zoom, scrollOrigin: editor.canvas.visibleRect.origin,
+            inspectorOrigin: inspectorScroll.contentView.bounds.origin)
+    }
+    @discardableResult
+    func restorePageViewState(for id: UUID) -> Bool {
+        guard let editor, editor.diagramDocument.diagram.activePageID == id,
+              let state = pageViewStates[id], let page = editor.diagramDocument.diagram.pages.first(where: { $0.id == id }) else { return false }
+        let nodeIDs = state.nodeIDs.intersection(Set(page.nodes.map(\.id)))
+        let edgeID = state.edgeID.flatMap { id in page.edges.contains(where: { $0.id == id }) ? id : nil }
+        editor.canvas.select(nodeIDs, edge: edgeID)
+        editor.canvas.setZoom(state.zoom)
+        editor.canvas.scroll(state.scrollOrigin)
+        inspectorScroll.contentView.scroll(to: state.inspectorOrigin)
+        inspectorScroll.reflectScrolledClipView(inspectorScroll.contentView)
+        return true
     }
     func refreshImportNotes() {
         let count = editor?.diagramDocument.importWarnings.count ?? 0

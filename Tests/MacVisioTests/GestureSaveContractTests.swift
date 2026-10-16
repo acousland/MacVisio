@@ -94,6 +94,49 @@ final class GestureSaveContractTests: XCTestCase {
         }
     }
 
+    func testNativeAutosaveDuringDragCapturesCommittedStateAndEscapeKeepsSavedIdentity() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let directory = FileManager.default.temporaryDirectory.appendingPathComponent("M1-native-autosave-\(UUID())")
+            try FileManager.default.createDirectory(at:directory,withIntermediateDirectories:false)
+            defer { try? FileManager.default.removeItem(at:directory) }
+            let document = MacVisioDocument()
+            document.diagram.page.nodes = [DiagramNode(x:100,y:100)]
+            document.undoManager?.groupsByEvent = false
+            defer { document.close() }
+            let destination = directory.appendingPathComponent("committed.macvisio")
+            try save(document,to:destination)
+            var edited = document.diagram;edited.page.nodes[0].fill = "#CC1122"
+            document.replace(with:edited,action:"Style before drag")
+            XCTAssertTrue(document.hasUnautosavedChanges)
+            document.makeWindowControllers()
+            let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+            let canvas = editor.canvas
+            canvas.zoom = 1;canvas.snapsToGrid = false
+            let committed = document.diagram,identity = document.stateID,revision = document.revision
+            func mouse(_ type:NSEvent.EventType,_ point:CGPoint) throws -> NSEvent {
+                let position = CGPoint(x:canvas.pageOrigin.x+point.x*canvas.coordinateZoom,y:canvas.pageOrigin.y+point.y*canvas.coordinateZoom)
+                return try XCTUnwrap(NSEvent.mouseEvent(with:type,location:canvas.convert(position,to:nil),modifierFlags:[],timestamp:0,windowNumber:editor.window!.windowNumber,context:nil,eventNumber:0,clickCount:1,pressure:1))
+            }
+            canvas.mouseDown(with:try mouse(.leftMouseDown,CGPoint(x:180,y:140)))
+            canvas.mouseDragged(with:try mouse(.leftMouseDragged,CGPoint(x:220,y:180)))
+            XCTAssertNotEqual(canvas.displayedDiagram,committed)
+            var done = false,failure:Error?
+            document.autosave(withImplicitCancellability:false) { failure = $0;done = true }
+            let deadline = Date().addingTimeInterval(20)
+            while !done && Date()<deadline { _ = RunLoop.main.run(mode:.default,before:Date().addingTimeInterval(0.005)) }
+            XCTAssertTrue(done)
+            if let failure { throw failure }
+            XCTAssertEqual(try JSONDecoder().decode(Diagram.self,from:Data(contentsOf:destination)),committed)
+            canvas.keyDown(with:try XCTUnwrap(NSEvent.keyEvent(with:.keyDown,location:.zero,modifierFlags:[],timestamp:0,windowNumber:editor.window!.windowNumber,context:nil,characters:"\u{1b}",charactersIgnoringModifiers:"\u{1b}",isARepeat:false,keyCode:53)))
+            XCTAssertEqual(document.diagram,committed)
+            XCTAssertEqual(document.stateID,identity);XCTAssertEqual(document.revision,revision)
+            XCTAssertFalse(document.isDocumentEdited);XCTAssertFalse(document.hasUnautosavedChanges)
+            XCTAssertEqual(document.saveEvents.last?.phase,"succeeded")
+            XCTAssertEqual(document.saveEvents.last?.snapshotStateID,identity)
+        }
+    }
+
     private func onMain<T>(_ body: () throws -> T) rethrows -> T {
         if Thread.isMainThread { return try body() }
         return try DispatchQueue.main.sync(execute: body)
