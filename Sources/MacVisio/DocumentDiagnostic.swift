@@ -80,4 +80,20 @@ struct DocumentDiagnostic: Codable, Equatable, Identifiable {
                            dimension: .interchange, target: .document,
                            displayState: .notApplicable, message: message)
     }
+
+    /// Called where the evaluator still owns the exact object and authored cell.
+    /// The committed document stamps its accepted input identity on publication.
+    static func calculationFailure(
+        _ message: String, code: String, page: UUID, shape: UUID,
+        binding: VisioPageBinding?, sourceShapeID: String?, cell: String?,
+        feature: String, displayState: DisplayState = .cached
+    ) -> DocumentDiagnostic {
+        DocumentDiagnostic(
+            code: code, origin: .calculation, severity: .warning, dimension: .rendering,
+            target: .shape(page: page, shape: shape),
+            source: Source(part: binding?.part, visioID: binding?.nodeIDs[shape] ?? sourceShapeID,
+                           cell: cell, feature: feature),
+            displayState: displayState, message: message,
+            requestedActions: cell == nil ? [.viewDetails, .revealTarget] : [.viewDetails, .revealTarget, .inspectCell])
+    }
 }

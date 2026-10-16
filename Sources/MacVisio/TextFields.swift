@@ -48,7 +48,7 @@ enum FieldFormatting {
 }
 
 enum TextFieldEngine {
-    struct Calculation { var diagram:Diagram;var issues:[String]; var issuesByPage:[UUID:[String]] = [:]; var work = CalculationWork(); var changedNodeIDsByPage:[UUID:Set<UUID>] = [:]; var cancelled = false }
+    struct Calculation { var diagram:Diagram;var issues:[String]; var issuesByPage:[UUID:[String]] = [:]; var work = CalculationWork(); var changedNodeIDsByPage:[UUID:Set<UUID>] = [:]; var cancelled = false; var diagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:] }
     static func inserting(formula:String,picture:String = "",type:Int = 0,into input:DiagramNode,range requested:NSRange? = nil) throws -> DiagramNode {
         var node = input,fields = node.formatting.textFields ?? [],runs = ShapeRichText.runs(for:node)
         guard fields.count < 1000 else { throw DiagramError.invalid("Too many text fields.") }
@@ -71,9 +71,10 @@ enum TextFieldEngine {
         style.text = "";style.fieldIndex = index;style.fieldToken = UUID()
         let output = prefix+[style]+suffix;node.text = output.map(\.text).joined();node.formatting.textRuns = output;node.formatting.textFields = fields;return node
     }
-    static func recalculate(_ input:Diagram,now:Date = Date(),foreground:DiagramPage? = nil,previous:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:],session:CalculationSession? = nil,changes:DocumentChangeSet? = nil,cancellation:LifecycleJobCancellation? = nil) -> Calculation {
+    static func recalculate(_ input:Diagram,now:Date = Date(),foreground:DiagramPage? = nil,previous:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:],retainedDiagnosticsByPage:[UUID:[DocumentDiagnostic]] = [:],session:CalculationSession? = nil,changes:DocumentChangeSet? = nil,cancellation:LifecycleJobCancellation? = nil) -> Calculation {
         var result = input,issues = Set<String>(),issuesByPage:[UUID:[String]] = [:]
         var work = CalculationWork()
+        var diagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
         var changedNodeIDsByPage:[UUID:Set<UUID>] = [:]
         let session = session ?? CalculationSession()
         let oldPages = previous.map { Dictionary(uniqueKeysWithValues: $0.pages.map { ($0.id, $0) }) } ?? [:]
@@ -94,7 +95,7 @@ enum TextFieldEngine {
             guard !dependency.fieldNodeIDs.isEmpty else { issuesByPage[page.id] = []; continue }
             if contextUnchanged, (trusted ? pageChanges == nil : oldPages[page.id] == page), dependency.volatileNodes.isEmpty {
                 let retained = retainedIssuesByPage[page.id, default: []]
-                issuesByPage[page.id] = retained; issues.formUnion(retained); continue
+                issuesByPage[page.id] = retained; diagnosticsByPage[page.id] = retainedDiagnosticsByPage[page.id] ?? []; issues.formUnion(retained); continue
             }
             var affected: Set<UUID>?
             if contextUnchanged, let oldPage = oldPages[page.id],
@@ -113,6 +114,8 @@ enum TextFieldEngine {
             work.fieldPages += 1
             work.contexts += 1
             var pageIssues = Set<String>()
+            var pageDiagnostics: [DocumentDiagnostic] = []
+            let binding = input.visioArchive?.pages.first { $0.pageID == page.id }
             let preparedBefore = session.preparedHostNodes
             let nodes = session.nodes(for: page, changes: pageChanges, trustChanges: trusted)
             work.hostNodesPrepared += session.preparedHostNodes - preparedBefore
@@ -183,14 +186,22 @@ enum TextFieldEngine {
                 var displays:[Int:String] = [:]
                 for j in fields.indices {
                     let field = fields[j]
+                    var failingCell: String? = "Fields.Value[\(field.index + 1)]"
                     do {
                         guard let valueCell = field.cells["Value"] else { throw DiagramError.invalid("Unresolved field definition; cached display is retained.") }
                         let value = try evaluate(valueCell,id:node.id)
                         let formatCell = field.cells["Format"] ?? ShapeSheetCell(value:"",unit:"STR")
+                        failingCell = "Fields.Format[\(field.index + 1)]"
                         let picture = try evaluate(formatCell,id:node.id).text
+                        failingCell = nil
                         let display = try FieldFormatting.format(value,picture:picture,unit:valueCell.unit,type:Int(field.cells["Type"]?.value ?? "0") ?? 0)
                         fields[j].cells["Value"]?.value = value.text;fields[j].cached = display;displays[field.index] = display
-                    } catch { pageIssues.insert("Text field \(field.index+1): \(error.localizedDescription)") }
+                    } catch {
+                        pageIssues.insert("Text field \(field.index+1): \(error.localizedDescription)")
+                        pageDiagnostics.append(.calculationFailure("Text field \(field.index+1): \(error.localizedDescription)", code: "calculation.field.cell",
+                            page: page.id, shape: node.id, binding: binding, sourceShapeID: node.formatting.sourceShapeID,
+                            cell: failingCell, feature: "text-field"))
+                    }
                 }
                 let runs = originalRuns.map { run in var run = run;if let index = run.fieldIndex,let display = displays[index] { run.text = display };return run }
                 node.text = runs.map(\.text).joined();node.formatting.textRuns = runs;node.formatting.textFields = fields
@@ -198,10 +209,11 @@ enum TextFieldEngine {
                 result.pages[p].nodes[i] = node
             }
             issuesByPage[page.id] = pageIssues.sorted()
+            diagnosticsByPage[page.id] = pageDiagnostics
             issues.formUnion(pageIssues)
         }
         if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
-        return Calculation(diagram:result,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage)
+        return Calculation(diagram:result,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage,diagnosticsByPage:diagnosticsByPage)
     }
     static func patch(_ fields:[ShapeTextField],element:XMLElement,previous:[ShapeTextField] = []) {
         let section = VisioXML.section(element,"Field")

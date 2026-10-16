@@ -95,7 +95,7 @@ final class DocumentSavingTests: XCTestCase {
         }
     }
 
-    func testLegacyVSDCanBeSavedOverwrittenAndReopenedThroughNSDocument() throws {
+    func testLegacyVSDRefusesUnsafeOverwriteAndReopensExplicitCopyThroughNSDocument() throws {
         try onMain {
             _ = NSApplication.shared
             let directory = try temporaryDirectory()
@@ -109,16 +109,40 @@ final class DocumentSavingTests: XCTestCase {
 
             try save(document, to: url, type: MacVisioDocument.legacyType, operation: .saveAsOperation)
             assertSuccessfulSave(document, at: url)
-            document.diagram.page.nodes[0].text = "After legacy overwrite"
+            let originalBytes = try Data(contentsOf: url)
+            document.diagram.page.nodes[0].text = "Edited legacy copy"
             document.updateChangeCount(.changeDone)
+
+            let refusal = try XCTUnwrap(
+                try saveResult(document, to: url, type: MacVisioDocument.legacyType, operation: .saveOperation)
+                    as? DocumentSaveImpact.UnsafeOverwrite)
+            XCTAssertTrue(refusal.assessment.risks.contains { $0.feature == .legacyReconstruction })
+            XCTAssertEqual(try Data(contentsOf: url), originalBytes)
+            XCTAssertTrue(document.isDocumentEdited)
+            XCTAssertEqual(document.fileURL?.standardizedFileURL, url.standardizedFileURL)
+
+            let copyURL = directory.appendingPathComponent("drawing-copy.vsd")
+            document.resolveSaveImpact = { assessment in
+                XCTAssertTrue(assessment.risks.contains { $0.feature == .legacyReconstruction })
+                return .copy(copyURL)
+            }
             try save(document, to: url, type: MacVisioDocument.legacyType, operation: .saveOperation)
-            assertSuccessfulSave(document, at: url)
+            XCTAssertTrue(FileManager.default.fileExists(atPath: copyURL.path))
+            XCTAssertEqual(try Data(contentsOf: url), originalBytes)
+            XCTAssertTrue(document.isDocumentEdited, "Saving a separate copy must leave the original edit pending.")
+            XCTAssertEqual(document.fileURL?.standardizedFileURL, url.standardizedFileURL)
 
             let reopened = try MacVisioDocument(contentsOf: url, ofType: MacVisioDocument.legacyType)
             defer { reopened.close() }
-            XCTAssertEqual(reopened.diagram.page.nodes.first?.text, "After legacy overwrite")
+            XCTAssertEqual(reopened.diagram.page.nodes.first?.text, "Before legacy save")
             XCTAssertFalse(reopened.isDocumentEdited)
             XCTAssertNotNil(reopened.fileModificationDate)
+
+            let copied = try MacVisioDocument(contentsOf: copyURL, ofType: MacVisioDocument.legacyType)
+            defer { copied.close() }
+            XCTAssertEqual(copied.diagram.page.nodes.first?.text, "Edited legacy copy")
+            XCTAssertFalse(copied.isDocumentEdited)
+            XCTAssertNotNil(copied.fileModificationDate)
         }
     }
 
