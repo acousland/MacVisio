@@ -149,6 +149,46 @@ claimed in features it does not yet implement:
 No provisional M1/M2 method names are prescribed here. Integrate their actual
 accepted contracts before choosing adapters or implementing these checks.
 
+### Observed M1 extension points after unlock
+
+Read-only review of committed M1 source at
+`8ba1ff463127e75577777483474dc51d284a38d1` identified the following extension
+points. The five reviewed files matched that commit's bytes; M1 remains
+unaccepted and M2 has not integrated it. Recheck these observations against the
+eventual accepted M2 candidate before implementation.
+
+- `DocumentChanges.swift` currently compares document title/version, pages,
+  source resources and active page. Its semantic classification excludes a
+  source-resource-only change. Authoritative master/style/document-sheet edits
+  need semantic affected sets that reach calculation, presentation, dirty state
+  and undo, including a definition edit whose page instances have no local edits.
+- `Document.swift` rebases a calculated snapshot's preserved archive to the
+  latest successful archive when source lineage matches. Storing a definition
+  edit solely as a change to archived part bytes can lose that edit at this
+  boundary. Keep authoritative editable definitions in committed semantic state;
+  qualification must include save, definition edit, undo/redo, another save and
+  public-only reopen with the same source lineage, plus an older save completing
+  after the definition edit.
+- `CalculationDependencies.swift` indexes node sources, UUID dependencies and
+  page-local public IDs. New connector/master/style/document owners must enter
+  the same dependency and scoped-resolution contract. A changed definition must
+  reach inheriting instance dependents across pages while respecting explicit
+  overrides. Dynamic references retain conservative invalidation and visible
+  work counts. Node-only counters cannot establish bounded work for new owners.
+- `CalculationJobs.swift` inspects node/page formulas for text measurement and
+  publishes an immutable result through owner/snapshot/revision validation. Any
+  new owner's formulas must participate in execution-policy inspection,
+  cancellation, request-local sessions and stale-result rejection. Definition
+  editing must retain active-text Save/Close continuation behavior from M1.
+- `UndoPayloadBudget.swift` caches page/node/edge charges and separately charges
+  preserved resources and document metadata. New semantic definitions and their
+  affected sets must participate in retained-cost accounting, including shared
+  dependency closure and an oversized single action. A source-resource charge
+  alone does not account for a separately retained editable definition model.
+
+These are required integration checks for the new M3 domain. This review runs
+no peer tests, changes no peer source and grants no upstream or M3 acceptance.
+
 ## Current evidence and open gates
 
 `scripts/m3-public-evidence.py` compares public XML structure, all formula/value/
