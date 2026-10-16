@@ -2,7 +2,7 @@
 
 This is the runtime/UI child's implementation ledger. It records delivered scope and executable checks for the milestone owner's final acceptance record. Source is ready and frozen; the child has not run a Swift build or claimed that the latest grouped suite passed.
 
-The parent subsequently qualified this frozen contribution in one full Debug and three consecutive full Release runs, each 607 tests with 16 explicit skips and zero failures. The [final qualification record](M1-QUALIFICATION.md) supersedes the historical pending execution notes below. Three skipped native routing tests still require an unlocked desktop; WP-08-T05 remains unaccepted.
+The parent subsequently qualified this frozen contribution in one full Debug and three consecutive full Release runs, each 607 tests with 16 explicit skips and zero failures. The [final qualification record](M1-QUALIFICATION.md) supersedes the historical pending execution notes below. Those original runs skipped three native routing tests while the desktop was locked. The subsequent unlocked follow-up qualifies WP-08-T05's local contribution, as recorded below.
 
 | Task | Delivered contribution | Checks and explicit limit |
 | --- | --- | --- |
@@ -20,3 +20,5 @@ The parent subsequently qualified this frozen contribution in one full Debug and
 Preview port projection follows committed normalized local coordinates. Nonlinear, constant-offset or external-dependent formulas can move to their exact result on committed release. Formula source remains unchanged. Grouped preview transforms consume committed prepared routes; a missing prepared route uses numeric cached points. Automatic routing still performs conservative geometric obstacle work; no-formula preview does not mean zero route scans or zero allocation.
 
 Resource charges are conservative accounting, not exact allocator measurements. Repeated full-suite stability, named-host product timings, resident-memory trajectories, public-format qualification and the entire M1 acceptance decision remain the milestone owner's responsibility. The audit identified large active-text Save/Close ordering after the child froze. The parent/calculation integration now owns bounded continuations that wait only for text commits those operations initiate; cancellation/stale/failure refuses the operation before snapshot/close. `AsyncCalculationContractTests` covers these paths; final grouped execution remains required.
+
+The unlocked native follow-up `5560ddf` changes only the benchmark driver/harness. Its full Release suite passes 607 tests, 13 optional installer/reference skips, zero failures. All 42 corpus/interaction native attempts pass. See the [current qualification record](M1-QUALIFICATION.md) for measured script latency and the still-unaccepted controlled input/frame and installed recovery gates.

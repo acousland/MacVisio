@@ -4,9 +4,9 @@
   "thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
   "worktree": "/Users/acousland/.codex/worktrees/85af/MacVisio",
   "branch": "codex/m1-editing-foundation",
-  "commit": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "commit": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
   "commit_role": "Qualified code candidate; subsequent documentation-only commits are resolved from the branch/shared orchestration status.",
-  "code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
   "state": "implemented_unaccepted",
   "acceptance_passed": false,
   "implementation_available": true,
@@ -31,6 +31,7 @@
     "WP-08-T02",
     "WP-08-T03",
     "WP-08-T04",
+    "WP-08-T05",
     "WP-09-T01",
     "WP-09-T02",
     "WP-09-T03",
@@ -56,6 +57,7 @@
     "WP-08-T02",
     "WP-08-T03",
     "WP-08-T04",
+    "WP-08-T05",
     "WP-09-T01",
     "WP-09-T02",
     "WP-09-T03",
@@ -63,12 +65,9 @@
     "WP-09-T05"
   ],
   "implemented_unaccepted_task_ids": [
-    "WP-05-T04",
-    "WP-08-T05"
+    "WP-05-T04"
   ],
-  "blocked_task_ids": [
-    "WP-08-T05"
-  ],
+  "blocked_task_ids": [],
   "working_tree_changes": false,
   "contract_commits": {
     "planning": "7c270124993bac09967109f95e603ebb47bd98ff",
@@ -77,28 +76,43 @@
     "WP-06": "873d0043d650716d3b2437f31532aedbdf712da6",
     "implementation": "aa6ff78",
     "critical_formatting": "4c423bc",
-    "final_correctness": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3"
+    "final_correctness": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+    "native_driver_follow_up": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5"
   },
   "dependencies": [
     "M0 instrumentation/corpus/adapter through fc69ccb adapted locally; M0 exact licensed Visio reference remains unavailable.",
     "M1 acceptance remains false; M2 acceptance dependency is not released."
   ],
   "validation": {
-    "full_debug": {
-      "tests": 607,
-      "skipped": 16,
-      "failures": 0
-    },
-    "consecutive_full_release_runs": 3,
-    "each_release": {
-      "tests": 607,
-      "skipped": 16,
-      "failures": 0
-    },
     "python_tests": 34,
     "boundary_audit_tests": 7,
     "pure_import_audit_files": 9,
-    "critical_formatter_files": 25
+    "critical_formatter_files": 25,
+    "foundation_code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+    "foundation_full_debug": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "foundation_consecutive_full_release_runs": 3,
+    "foundation_each_release": {
+      "tests": 607,
+      "skipped": 16,
+      "failures": 0
+    },
+    "current_full_release": {
+      "tests": 607,
+      "skipped": 13,
+      "failures": 0
+    },
+    "native_focused": {
+      "tests": 5,
+      "skipped": 0,
+      "failures": 0
+    },
+    "native_public_scaling_attempts": 12,
+    "native_interaction_attempts": 30,
+    "native_attempt_failures": 0
   },
   "evidence_paths": [
     "docs/delivery/M1-QUALIFICATION.md",
@@ -114,7 +128,11 @@
     "build/m1-evidence/full-debug14.log",
     "build/m1-evidence/full-release-1.log",
     "build/m1-evidence/full-release-2.log",
-    "build/m1-evidence/full-release-3.log"
+    "build/m1-evidence/full-release-3.log",
+    "docs/evidence/M1-NATIVE-QUALIFICATION.json",
+    "build/m1-evidence/full-release-native-final.log",
+    "build/m1-evidence/native-public-matrix.json",
+    "build/m1-evidence/native-interaction-30.json"
   ],
   "remaining": [
     {
@@ -122,8 +140,8 @@
       "required": "Installed-app abrupt termination/automatic macOS relaunch recovery qualification. Local checkpoint/recovery initialization, actual interrupted staging writer and fresh CLI reopen pass."
     },
     {
-      "task_id": "WP-08-T05",
-      "required": "Unlock the desktop, rerun native route tests and exact candidate trace. Current secure graphics session reports CGSSessionScreenIsLocked=1; three native tests explicitly skip. Controlled interaction/frame gates remain open."
+      "gate_scope": "Overall input/frame/performance/reference/release qualification",
+      "required": "Native local contribution passes. Controlled 50 ms input, 33 ms compositor frame and 100 ms save-stall gates remain unaccepted; installed recovery and wider reference/release gates remain open."
     }
   ],
   "limits": [

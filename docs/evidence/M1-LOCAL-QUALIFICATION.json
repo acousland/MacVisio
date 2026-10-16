@@ -67,16 +67,6 @@
   ],
   "artifacts": [
     {
-      "path": ".build-m1/out/Products/Release/MacVisio",
-      "bytes": 8242376,
-      "sha256": "ba0a711f6ff7300f233b4c675c1d784b1c0abf26fa130743a070fe655473fc0c"
-    },
-    {
-      "path": ".build-m1/out/Products/Release/MacVisioTests.xctest/Contents/MacOS/MacVisioTests",
-      "bytes": 14654880,
-      "sha256": "f3d3eb1cc41f946492f0ef9d6db4d1746d42ca41d45ecb3ee5c4f5b50eeaaccd"
-    },
-    {
       "path": "build/m1-evidence/gesture-before.log",
       "bytes": 4217,
       "sha256": "9984195f7ddbf22e4c9d6a7fe9aadbe56c4639aeabae4db1c40ac740f7aff73f"
@@ -699,5 +689,26 @@
     "source_hashes_unchanged": true,
     "result": "passed",
     "log": "build/m1-evidence/final-evidence-validation.log"
+  },
+  "historical_binary_digests": [
+    {
+      "path": ".build-m1/out/Products/Release/MacVisio",
+      "bytes": 8242376,
+      "sha256": "ba0a711f6ff7300f233b4c675c1d784b1c0abf26fa130743a070fe655473fc0c",
+      "availability": "Original digest recorded and verified before the native follow-up rebuild; build path was replaced by the newer candidate. Historical binary bytes are not retained."
+    },
+    {
+      "path": ".build-m1/out/Products/Release/MacVisioTests.xctest/Contents/MacOS/MacVisioTests",
+      "bytes": 14654880,
+      "sha256": "f3d3eb1cc41f946492f0ef9d6db4d1746d42ca41d45ecb3ee5c4f5b50eeaaccd",
+      "availability": "Original digest recorded and verified before the native follow-up rebuild; build path was replaced by the newer candidate. Historical binary bytes are not retained."
+    }
+  ],
+  "record_role": "Historical foundation qualification for 7db0a8b before unlocked native follow-up",
+  "follow_up": {
+    "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+    "record": "M1-NATIVE-QUALIFICATION.json",
+    "native_blocker_resolved": true,
+    "milestone_acceptance_passed": false
   }
 }

@@ -62,7 +62,7 @@
         "Transactions, page indexes, retained scene and incremental calculation satisfy their work-count invariants.",
         "Long jobs are revision-safe/cancellable and resource/undo budgets have measured evidence."
       ],
-      "status": "Implemented; acceptance pending recovery and native event qualification"
+      "status": "Implemented; acceptance pending installed recovery and overall gates"
     },
     {
       "id": "M2",
@@ -1706,7 +1706,7 @@
           "deliverable": "Run layer/color/printability fixtures and real event-loop traces on named hardware.",
           "acceptance_criteria": "Material differences and remaining performance misses are reported rather than hidden by warm caches.",
           "complexity": "M",
-          "status": "Implemented; acceptance pending",
+          "status": "Locally qualified",
           "depends_on": [
             "WP-08-T04"
           ],
@@ -1734,16 +1734,17 @@
           ],
           "evidence": [
             "delivery/M1-QUALIFICATION.md",
-            "delivery/M1-TASK-EVIDENCE.json"
+            "delivery/M1-TASK-EVIDENCE.json",
+            "evidence/M1-NATIVE-QUALIFICATION.json"
           ],
-          "remaining_acceptance": "Screen/output policy fixtures pass. Native event qualification is unavailable while CGSSessionScreenIsLocked=1; the three foreground tests explicitly skip. Controlled interaction/frame gates remain unaccepted.",
           "delivery_requirement_contributions": [
             "MV-NFR-02",
             "MV-NFR-08"
-          ]
+          ],
+          "qualification_scope": "Named-host synthesized native selection/edit/raster traces pass. Three-event script p95 246.7404 ms over thirty 1000-shape samples. Controlled single-input/frame/save-stall release gates remain unaccepted."
         }
       ],
-      "status": "Implemented; acceptance pending",
+      "status": "Locally qualified; M1 acceptance pending",
       "delivery_evidence": "delivery/M1-QUALIFICATION.md"
     },
     {
@@ -8447,7 +8448,7 @@
         "status": "Open; M1 contribution recorded",
         "delivery_disposition": {
           "record": "delivery/M1-QUALIFICATION.md",
-          "scope": "Local immutable-scene, formula-free paint/preview and dirty-region work checks pass; foreground event/frame qualification remains open."
+          "scope": "Local immutable-scene, formula-free paint/preview and dirty-region checks pass. Unlocked native traces pass; controlled frame qualification remains open."
         }
       },
       {
@@ -8655,7 +8656,7 @@
         "status": "Open; M1 contribution recorded",
         "delivery_disposition": {
           "record": "delivery/M1-QUALIFICATION.md",
-          "scope": "Deterministic save-boundary regression and repeated full suites recorded; installed recovery, foreground/controlled performance and trusted release gates remain open."
+          "scope": "Deterministic save-boundary regression, repeated foundation full suites and unlocked native full-suite/traces pass; installed recovery, controlled performance and trusted release gates remain open."
         }
       },
       {
@@ -8810,7 +8811,7 @@
           "WP-19-T03"
         ],
         "status": "Local contribution recorded; overall acceptance open",
-        "delivery_disposition": "Local shared layer/color/printability fixtures pass; foreground trace and independent output/reference qualification remain open.",
+        "delivery_disposition": "Local shared layer/color/printability fixtures and unlocked native routed/raster traces pass; controlled frame/performance and independent output/reference qualification remain open.",
         "evidence": "delivery/M1-QUALIFICATION.md"
       },
       {
@@ -8887,16 +8888,16 @@
   "delivery_evidence": {
     "M1": {
       "state": "implemented_unaccepted",
-      "code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
       "acceptance_passed": false,
-      "locally_qualified_task_count": 23,
+      "locally_qualified_task_count": 24,
       "implemented_unaccepted_task_ids": [
-        "WP-05-T04",
-        "WP-08-T05"
+        "WP-05-T04"
       ],
       "record": "delivery/M1-QUALIFICATION.md",
       "task_ledger": "delivery/M1-TASK-EVIDENCE.json",
-      "scope": "Local task contributions only; original requirement coverage and dependency graph retained."
+      "scope": "Local task contributions only; original requirement coverage and dependency graph retained.",
+      "native_qualification_record": "evidence/M1-NATIVE-QUALIFICATION.json"
     }
   }
 }

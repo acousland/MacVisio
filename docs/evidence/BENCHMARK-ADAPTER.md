@@ -52,14 +52,21 @@ scope. The runner environment should not supply an interaction-gate trace name
 based on this sample alone.
 
 Native routing requires an unlocked macOS graphics session and a key benchmark
-window. The product checks the graphics session before routing and reports an
+window in an active regular application. The product checks the graphics session before routing and reports an
 explicit event-phase failure when it is locked or unavailable. It activates its
 owned window and verifies key-window admission before dispatch. It never replaces
 a failed native route with direct Canvas handler calls. The three native
 `BenchmarkProfileTests` explicitly skip when this prerequisite is absent; refusal
 tests still run. The M1 qualification session reported
-`CGSSessionScreenIsLocked = 1`, so its native trace and frame/performance gates
-remain unaccepted. See [M1 qualification](../delivery/M1-QUALIFICATION.md).
+`CGSSessionScreenIsLocked = 1`. After the user unlocked the desktop, the follow-up
+found that activation admission must dispatch AppKit's native event queue; a
+CFRunLoop turn alone did not deliver it. The driver now pumps that queue until
+both the owned window is key and the app is active, lays out the viewport, and
+scrolls its clip view before input. XCTest configures regular activation once for
+the whole native test group and restores it afterward, avoiding asynchronous
+activation-policy transitions between samples. All five native/refusal tests pass
+on the unlocked desktop. Frame/performance release gates remain separate. See
+[M1 qualification](../delivery/M1-QUALIFICATION.md).
 
 The main run loop is pumped between stages and while waiting for save completion;
 actual main-queue heartbeat deliveries and scheduling gaps are recorded. The

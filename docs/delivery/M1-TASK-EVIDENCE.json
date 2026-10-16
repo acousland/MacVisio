@@ -705,8 +705,8 @@
     },
     {
       "task_id": "WP-08-T05",
-      "state": "implemented_unaccepted",
-      "bounded_scope": "Screen/output policy fixtures plus named-host native routed raster feedback trace",
+      "state": "locally_qualified",
+      "bounded_scope": "Screen/output policy fixtures plus unlocked named-host native routed selection/edit/raster/save traces; twelve scaling attempts and thirty interaction samples. Controlled input/frame release gates remain unaccepted.",
       "requirement_contributions": [
         "MV-NFR-02",
         "MV-NFR-08"
@@ -716,8 +716,7 @@
         "OwnedExportJobTests",
         "BenchmarkProfileTests"
       ],
-      "evidence": "M1-QUALIFICATION.md",
-      "remaining": "Screen/output policy fixtures pass. Native event qualification is unavailable while CGSSessionScreenIsLocked=1; the three foreground tests explicitly skip. Controlled interaction/frame gates remain unaccepted."
+      "evidence": "M1-QUALIFICATION.md"
     },
     {
       "task_id": "WP-09-T01",
@@ -904,11 +903,12 @@
       "evidence": "M1-QUALIFICATION.md"
     }
   ],
-  "code_candidate": "7db0a8b3b9a3bab2cfae6edcf3d6fb0486ffb9d3",
+  "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
   "qualification_record": "M1-QUALIFICATION.md",
   "milestone_acceptance_passed": false,
   "state_definitions": {
     "locally_qualified": "The bounded implementation contribution and named local regressions pass. Does not close whole requirements, downstream dependencies, reference compatibility or milestone/release gates.",
     "implemented_unaccepted": "Implementation and partial local checks exist; an explicit task qualification remains open."
-  }
+  },
+  "native_qualification_record": "../evidence/M1-NATIVE-QUALIFICATION.json"
 }

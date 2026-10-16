@@ -12,7 +12,7 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
-M1 implementation candidate `7db0a8b` is locally qualified on `codex/m1-editing-foundation`: 23 bounded task contributions pass; WP-05-T04 recovery and WP-08-T05 native event qualification remain unaccepted. The [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M1 acceptance remains false; this does not release the M2 acceptance dependency.
+M1 implementation candidate `5560ddf` is locally qualified on `codex/m1-editing-foundation`: 24 bounded task contributions pass; WP-05-T04 installed recovery remains unaccepted. Unlocked native traces pass; controlled input/frame and other release gates remain open. The [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M1 acceptance remains false; this does not release the M2 acceptance dependency.
 
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; current local contributions have separate scope and evidence below. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
@@ -287,7 +287,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-08"></a>
 ### WP-08 — Retain rendering state and update UI selectively
 
-**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Implemented; acceptance pending
+**Milestone:** M1 · **Priority:** P0 · **Owner:** Rendering/Native UI · **Risk:** High · **Status:** Locally qualified; M1 acceptance pending
 
 **Readiness:** Design required; can develop alongside WP-07 after WP-06.
 
@@ -299,7 +299,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 **Architecture findings:** AR-03, AR-04, AR-05, AR-06 (numbered findings in the [review](ARCHITECTURAL-REVIEW.md)).
 
-**Delivery state:** Four task contributions locally qualified; WP-08-T05 remains unaccepted pending an unlocked desktop native trace. [Qualification](delivery/M1-QUALIFICATION.md).
+**Delivery state:** All five bounded task contributions locally qualified, including unlocked native routing and thirty interaction script samples. Controlled input/frame release gates remain unaccepted. [Qualification](delivery/M1-QUALIFICATION.md).
 
 **Package exit:** Painting/hit testing never calculate or mutate; small dirty regions do bounded work and output policy is explicit.
 
@@ -1277,7 +1277,7 @@ On 3,909 shapes, a 16×16 draw took 92.4 ms versus 99.3 ms for the viewport; pai
 
 **Closure evidence:** Painting never calculates or mutates; small dirty regions visit only conservative candidates; caches remain bounded and source/render fixtures pass.
 
-**M1 disposition:** Local immutable-scene, formula-free paint/preview and dirty-region work checks pass; foreground event/frame qualification remains open. [Evidence](delivery/M1-QUALIFICATION.md).
+**M1 disposition:** Local immutable-scene, formula-free paint/preview and dirty-region work checks pass. Unlocked native traces pass; controlled frame qualification remains open. [Evidence](delivery/M1-QUALIFICATION.md).
 
 #### AR-04 — Indexed hierarchy, selection, hit testing and routing
 
@@ -1373,7 +1373,7 @@ The first 454-test suite had one dirty-state failure; later reruns passed. CI la
 
 **Closure evidence:** The exact installed candidate passes platform, update/recovery, security, performance and compatibility gates; undiagnosed release-blocking intermittency prevents acceptance.
 
-**M1 disposition:** Deterministic save-boundary regression and repeated full suites recorded; installed recovery, foreground/controlled performance and trusted release gates remain open. [Evidence](delivery/M1-QUALIFICATION.md).
+**M1 disposition:** Deterministic save-boundary regression, repeated foundation full suites and unlocked native full-suite/traces pass; installed recovery, controlled performance and trusted release gates remain open. [Evidence](delivery/M1-QUALIFICATION.md).
 
 #### AR-10 — Enforced boundaries, shared semantics and readable state paths
 
