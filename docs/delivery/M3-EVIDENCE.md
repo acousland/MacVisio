@@ -46,3 +46,15 @@ regression failure). The XML parser now rejects DTDs through its decoded parser
 callback; valid UTF-16 XML still compares correctly. All nine oracle tests pass
 after the fix. Both the failing probe and corrected run are retained; this is
 tool validation and does not promote any M3 compatibility dimension.
+
+The independent saved-graphics probe found a physical-fixture flaw: the original
+`f0182cb` package contained Width/Height but no public Geometry. Native kind
+fallback drew its rectangle, so those earlier native PDF results did not establish
+public geometry. The seed now contains explicit closed rectangle rows and paint
+cells. The strengthened three Swift tests pass, nine oracle tests pass, and
+`vsd2xhtml0.1.11` measures the actual public black SVG path at19.9999952778mm.
+The [probe record](M3-PUBLIC-PROBE.json) retains prior/corrected input hashes, the
+reproduced omission and independent output hashes. Intelligent-fixture label
+fragments are present in the independent output, while wrapping/formatting remain
+unaccepted. This is public graphics evidence, not actual Visio or full behavior,
+font, printing or bidirectional acceptance.

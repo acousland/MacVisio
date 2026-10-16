@@ -17,7 +17,8 @@ an Office theme; background links, scale and a nonprinting layer; and an opaque
 public payload. This bounded fixture does not cover every M3 catalog entry.
 
 `m3-physical.vsdx` independently authors a 1000 mm object at 1:50 on A4 paper,
-with a visible nonprinting guide. Its expected output width is 20 mm at printer
+with explicit closed public geometry and a visible nonprinting guide. Its
+expected output width is 20 mm at printer
 scale 100%. The local Swift check measures page dimensions and the black object's
 width in a rendered PDF; calibrated physical printing remains pending.
 
@@ -37,3 +38,9 @@ Reference schema/design sources:
 Real exact-build Visio open/edit/save/reopen, repair-prompt checks, fonts,
 rendered comparisons and bidirectional behavior remain pending. This is an
 authored acceptance input, not a claim that a schema validator or Visio accepted it.
+
+The first physical seed (`f0182cb`) omitted Geometry; its native rectangle
+fallback masked that omission. The corrected seed and strengthened test require
+public geometry. The [independent probe](../../../../docs/delivery/M3-PUBLIC-PROBE.json)
+records vsd2xhtml0.1.11 parsing and a19.999995mm public SVG path width. This
+common-reader saved-graphics check is separate from real Visio acceptance.

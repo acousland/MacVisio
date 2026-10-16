@@ -80,6 +80,9 @@ final class M3PublicFixtureTests: XCTestCase {
         let diagram = try VisioFormat.read(from: source).diagram, page = diagram.page
         let object = try XCTUnwrap(page.nodes.first { $0.formatting.sourceShapeID == "1" })
         XCTAssertEqual(object.width / 72 * 25.4, 1000, accuracy: 1e-6)
+        XCTAssertEqual(object.formatting.geometry?.first?.rows.count, 5, "The public package must define its rectangle; a native kind fallback is insufficient.")
+        XCTAssertEqual(object.formatting.paths.first?.commands.first?.kind, "M")
+        XCTAssertEqual(object.formatting.paths.first?.commands.last?.kind, "Z")
         XCTAssertEqual(object.width * page.paperScale / 72 * 25.4, 20, accuracy: 1e-6)
         XCTAssertEqual(page.paperWidth / 72 * 25.4, 210, accuracy: 1e-6)
         XCTAssertEqual(page.paperHeight / 72 * 25.4, 297, accuracy: 1e-6)

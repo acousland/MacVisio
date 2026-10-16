@@ -22936,7 +22936,7 @@
     {
       "id": "M3-SEED-physical",
       "fixture_path": "Tests/MacVisioTests/Fixtures/M3/m3-physical.vsdx",
-      "sha256": "81d57b4748671012c10ddb3487c2b98ff89c1edfb655443c26e76313063f1cfc",
+      "sha256": "3a3c1616db49677f759f51fe033c78b210b6f64b95a6bbffd42dee789747c2cd",
       "manifest_path": "Tests/MacVisioTests/Fixtures/M3/manifest.json",
       "generator_comparator_path": "scripts/m3-public-evidence.py",
       "mutation_test_path": "scripts/tests/test_m3_public_evidence.py",
@@ -22945,15 +22945,19 @@
       "relevant_child_ids": [
         "WP-19-T02-C001"
       ],
-      "content": "Public source one-metre object at drawing scale 1:50; A4 paper; separate nonprinting guide.",
+      "content": "Explicit closed public rectangle geometry for1000mm at1:50 on A4; visible nonprinting guide.",
       "reported_local_checks": [
-        "Parent reports passing public numeric/PDF geometry check: drawing width 1000 mm, paper object width 20 mm, A4 mediaBox, guide excluded and actual rasterized PDF width within 0.2 mm at 100%."
+        "Parent reports passing public numeric/PDF geometry check: drawing width 1000 mm, paper object width 20 mm, A4 mediaBox, guide excluded and actual rasterized PDF width within 0.2 mm at 100%.",
+        "Root re-ran3 Swift fixture tests after requiring explicit public geometry, plus9 oracle tests. Independent vsd2xhtml0.1.11 output measured the black public path at19.9999952778mm. docs/delivery/M3-PUBLIC-PROBE.json retains exact scope and prior/corrected hashes."
       ],
       "evidence_commits": [
         "f0182cb"
       ],
       "verification_by_this_catalog_worker": "Read actual manifest/test and checked fixture hash/path; no test rerun.",
-      "evidence_limit": "Local source/public numeric and PDF output evidence only. Calibrated physical printer, full screen/output behavior and independent exact-build Visio reference acceptance remain pending."
+      "evidence_limit": "Local source/public numeric and PDF output evidence only. Calibrated physical printer, full screen/output behavior and independent exact-build Visio reference acceptance remain pending.",
+      "prior_fixture_sha256": "81d57b4748671012c10ddb3487c2b98ff89c1edfb655443c26e76313063f1cfc",
+      "prior_fixture_limitation": "Before the geometry correction, only dimensions existed publicly; native fallback drew the rectangle. Those historical native tests did not establish public geometry.",
+      "independent_probe": "docs/delivery/M3-PUBLIC-PROBE.json"
     }
   ],
   "m0_inventory_contract": {

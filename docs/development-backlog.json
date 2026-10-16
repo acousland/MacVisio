@@ -9093,7 +9093,9 @@
       ],
       "M0_harness_integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
       "M0_final_local_handoff_commit": "02dea53",
-      "M0_final_integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc"
+      "M0_final_integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+      "independent_public_graphics_probe": "delivery/M3-PUBLIC-PROBE.json",
+      "physical_seed_correction": "Explicit public Geometry replaces the initial dimensions-only seed; native fallback was insufficient evidence. No acceptance promotion."
     }
   ],
   "m0_execution": {

@@ -1506,3 +1506,9 @@ accept a semantic function catalog, or establish Visio/render/physical-printer
 qualification. Full child-level native edit/undo/save/public exchange and all
 five evidence dimensions remain required. No private metadata may carry a
 claimed public capability.
+
+A subsequent [independent graphics probe](delivery/M3-PUBLIC-PROBE.json) found
+that the initial physical seed lacked explicit public Geometry. It is corrected,
+and the strengthened native test plus an independent SVG path measure pass.
+Earlier native fallback results remain historical and do not prove public
+geometry. This probe changes no child/package/milestone acceptance state.

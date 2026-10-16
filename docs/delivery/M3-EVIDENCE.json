@@ -75,6 +75,17 @@
       "executed": 9,
       "failures": 0,
       "scope": "A reproduced UTF16 DTD bypass failed before the parser-callback fix; valid UTF16 XML remains structurally comparable. Nine oracle tests pass after fix. This validates the evidence tool, not Visio compatibility."
+    },
+    {
+      "id": "corrected-public-geometry-input",
+      "outcome": "passed",
+      "swift_tests": 3,
+      "python_oracle_tests": 9,
+      "failures": 0,
+      "independent_tool": "vsd2xhtml0.1.11",
+      "independent_public_path_width_mm": 19.999995277777774,
+      "reference_acceptance": false,
+      "supersedes": "Earlier physical fixture had Width/Height but no Geometry; native fallback made its old PDF test insufficient as public-geometry evidence. Exact prior source/hash and reproduced omission retained in M3-PUBLIC-PROBE.json."
     }
   ],
   "artifacts": [
@@ -117,6 +128,22 @@
     {
       "path": "build/m3-evidence/oracle-encoding-after.log",
       "sha256": "73be85244a6ca07c56d43b81303c579154dde37cea06fbb788103041b0115bc5"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-swift.log",
+      "sha256": "aae8a02c52d0c0b93eeae7a11c82bb5732c912e3c94a051ea807212c46337ad8"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-swift-final.log",
+      "sha256": "2061d53956adb1e374d8e4a1ce019fb70b27523e33952b92c03cfcbc33659893"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-python.log",
+      "sha256": "92bd15a779b3c2bf85c5cc0016031fd2bd93a3462c3c20438dfc17831d9b788e"
+    },
+    {
+      "path": "docs/delivery/M3-PUBLIC-PROBE.json",
+      "sha256": "3bf189a7e80704b262ef26c9f7f7e35efc69ffee3bed1f9882c29d99a4987f50"
     }
   ],
   "five_compatibility_dimensions": {

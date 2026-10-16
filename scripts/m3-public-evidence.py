@@ -137,6 +137,12 @@ def physical_parts() -> dict[str, bytes]:
     parts["visio/_rels/document.xml.rels"] = rels([("pages", T + "pages", "pages/pages.xml"), ("theme", O + "/theme", "theme/theme1.xml")])
     parts["visio/pages/_rels/pages.xml.rels"] = rels([("p0", T + "page", "page1.xml")])
     width, height = 210 * 50 / 25.4, 297 * 50 / 25.4
+    rectangle = f'''<Section N="Geometry" IX="0"><Cell N="NoFill" V="0"/><Cell N="NoLine" V="0"/>
+      <Row IX="1" T="MoveTo"><Cell N="X" V="0"/><Cell N="Y" V="0"/></Row>
+      <Row IX="2" T="LineTo"><Cell N="X" V="{1000/25.4:.15g}" F="Width"/><Cell N="Y" V="0"/></Row>
+      <Row IX="3" T="LineTo"><Cell N="X" V="{1000/25.4:.15g}" F="Width"/><Cell N="Y" V="{250/25.4:.15g}" F="Height"/></Row>
+      <Row IX="4" T="LineTo"><Cell N="X" V="0"/><Cell N="Y" V="{250/25.4:.15g}" F="Height"/></Row>
+      <Row IX="5" T="LineTo"><Cell N="X" V="0"/><Cell N="Y" V="0"/></Row></Section>'''
     parts["visio/pages/pages.xml"] = xml(f'''<Pages xmlns="{V}" xmlns:r="{O}"><Page ID="0" Name="One metre at 1 to 50" NameU="PhysicalScale"><PageSheet>
       <Cell N="PageWidth" V="{width:.15g}"/><Cell N="PageHeight" V="{height:.15g}"/>
       <Cell N="PageScale" V="1"/><Cell N="DrawingScale" V="50"/><Cell N="DrawingScaleType" V="3"/>
@@ -148,10 +154,11 @@ def physical_parts() -> dict[str, bytes]:
       <Shape ID="1" NameU="OneMetre"><Cell N="PinX" V="{2500/25.4:.15g}"/><Cell N="PinY" V="{2500/25.4:.15g}"/>
       <Cell N="Width" V="{1000/25.4:.15g}"/><Cell N="Height" V="{250/25.4:.15g}"/>
       <Cell N="LocPinX" V="{500/25.4:.15g}"/><Cell N="LocPinY" V="{125/25.4:.15g}"/>
-      <Cell N="LineColor" V="#000000"/><Cell N="LineWeight" V="0.00393700787401575"/><Cell N="FillForegnd" V="#000000"/><Text/></Shape>
+      <Cell N="LineColor" V="#000000"/><Cell N="LineWeight" V="0.00393700787401575"/><Cell N="LinePattern" V="1"/>
+      <Cell N="FillForegnd" V="#000000"/><Cell N="FillPattern" V="1"/>{rectangle}<Text/></Shape>
       <Shape ID="2" NameU="NonprintingGuide"><Cell N="PinX" V="{5000/25.4:.15g}"/><Cell N="PinY" V="{5000/25.4:.15g}"/>
       <Cell N="Width" V="{1000/25.4:.15g}"/><Cell N="Height" V="{250/25.4:.15g}"/>
-      <Cell N="LayerMember" V="0"/><Text>Nonprinting guide</Text></Shape>
+      <Cell N="LayerMember" V="0"/>{rectangle}<Text>Nonprinting guide</Text></Shape>
       </Shapes></PageContents>''')
     types = ET.fromstring(parts["[Content_Types].xml"])
     for entry in list(types):

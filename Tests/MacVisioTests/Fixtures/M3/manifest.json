@@ -110,8 +110,8 @@
       "file": "m3-physical.vsdx",
       "case": "m3-physical",
       "format": "vsdx",
-      "sha256": "81d57b4748671012c10ddb3487c2b98ff89c1edfb655443c26e76313063f1cfc",
-      "bytes": 3495,
+      "sha256": "3a3c1616db49677f759f51fe033c78b210b6f64b95a6bbffd42dee789747c2cd",
+      "bytes": 3632,
       "containsNativeMetadata": false,
       "expectedPhysical": {
         "printerScalePercent": 100,
