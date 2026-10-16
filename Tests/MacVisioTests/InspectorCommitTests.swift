@@ -12,10 +12,15 @@ final class InspectorCommitTests: XCTestCase {
             let x = try field("inspector_X", in: editor.root.inspector)
             XCTAssertTrue(window.makeFirstResponder(x))
             let input = try XCTUnwrap(x.currentEditor() as? NSTextView)
-            input.string = "1 in"
+            input.selectAll(nil)
+            input.insertText("1 in", replacementRange: input.selectedRange())
             document.undoManager?.beginUndoGrouping()
-            try sendAction(from: x)
+            window.sendEvent(try XCTUnwrap(NSEvent.keyEvent(
+                with: .keyDown, location: .zero, modifierFlags: [], timestamp: 0,
+                windowNumber: window.windowNumber, context: nil, characters: "\r",
+                charactersIgnoringModifiers: "\r", isARepeat: false, keyCode: 36)))
             document.undoManager?.endUndoGrouping()
+            RunLoop.main.run(until: Date().addingTimeInterval(0.02))
             XCTAssertEqual(document.diagram.page.nodes[0].x, 72)
             XCTAssertEqual(input.string, "72")
             document.undoManager?.undo()

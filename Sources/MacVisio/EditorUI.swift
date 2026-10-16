@@ -346,7 +346,10 @@ final class InspectorPanel: FlippedView, NSTextFieldDelegate {
         field.setAccessibilityValue(value ?? "Mixed")
         displayedFieldValues[key] = field.stringValue
     }
-    func controlTextDidEndEditing(_ notification: Notification) { refresh() }
+    func controlTextDidEndEditing(_ notification: Notification) {
+        // AppKit sends the field's commit action after this notification.
+        DispatchQueue.main.async { [weak self] in self?.refresh() }
+    }
     private func button(_ action: Selector) -> NSButton? {
         subviews.compactMap { $0 as? NSButton }.first { $0.action == action }
     }
