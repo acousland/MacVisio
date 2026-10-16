@@ -22,7 +22,9 @@
     "83670dc0f617b3b5b4498d3c717719b8f2eda56e",
     "f9a16350d2275beefff4f2ea762f2e333e0623be",
     "66c0bcc7e766d2aab8d85f98135906445b857d5c",
-    "1c9dcce2920203894e9268e2d363d83b72d53206"
+    "1c9dcce2920203894e9268e2d363d83b72d53206",
+    "181afca55ddc736a3b270f7265960f35605fd9f0",
+    "7fe36658112770ab87be6753b15a36fff8490e3a"
   ],
   "accepted_upstream_commits": {
     "M0": [
@@ -98,7 +100,9 @@
     "build/m2-support-report.log",
     "build/m2-update-runtime-policy.log",
     "build/m2-final-python.log",
-    "build/m2-pinned-feed-verification.json"
+    "build/m2-pinned-feed-verification.json",
+    "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+    "build/m2-container-trust.log"
   ],
   "development_candidate": {
     "source_commit": "e16604f368d2067cf9c2a6f434a3748de9b92ba8",
@@ -120,7 +124,8 @@
     "Original Home working changes were inspected read-only and not copied.",
     "Developer ID identity available; exact final-candidate/team/notarization and installed journeys unaccepted.",
     "One green debug suite is not a disposition of historical release-suite intermittency.",
-    "All14 M0 retained artifact hashes were checked against its handoff before integration. M2 task states preserved when merging backlog formats."
+    "All14 M0 retained artifact hashes were checked against its handoff before integration. M2 task states preserved when merging backlog formats.",
+    "Input trust audit explicitly leaves decoded-image memory and helper hard-deadline/isolation qualification open;6 hostile-container tests pass."
   ],
   "tests": {
     "native_debug": {
@@ -188,15 +193,21 @@
       "exit_code": 0,
       "report": "build/m2-pinned-feed-verification.json",
       "scope": "Crypto only, no installation or milestone acceptance"
+    },
+    "hostile_container_followup": {
+      "executed": 6,
+      "failures": 0,
+      "log": "build/m2-container-trust.log",
+      "scope": "test-only follow-up; native app source unchanged since 512-test regression"
     }
   },
   "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
-  "implementation_head": "1c9dcce2920203894e9268e2d363d83b72d53206",
+  "implementation_head": "7fe36658112770ab87be6753b15a36fff8490e3a",
   "head_note": "Implementation head before this handoff-only evidence update; shared M2-status.json records the actual current branch head.",
   "evidence": [
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "c1bf3d7f7f4438bb12ba3efad07d6e9e85f8450df76db975abed6d57f8e5be7d",
+      "sha256": "48593c466eab40405888540b8e8702230e1e02be4c9ec771cd6ee214cf7bdca1",
       "scope": "local preparation, not milestone acceptance"
     },
     {
@@ -307,6 +318,16 @@
     {
       "path": "build/m2-pinned-feed-verification.json",
       "sha256": "5f1f81637c3d1dd7d9f5961e8804855f625bdcbe07d03fecb090cfe5bebfc9e5",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+      "sha256": "037d3d397eb985ee2eef874f3d331e8ebda9fd574c177749a82eacda10c64431",
+      "scope": "local preparation, not milestone acceptance"
+    },
+    {
+      "path": "build/m2-container-trust.log",
+      "sha256": "92d81462a1f2e9bdee6aa577010d41ed96d11b932eff4231639d625e29ea85e4",
       "scope": "local preparation, not milestone acceptance"
     }
   ]

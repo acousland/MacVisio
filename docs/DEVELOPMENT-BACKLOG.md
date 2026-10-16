@@ -430,7 +430,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
-| WP-12-T01 | In progress — unaccepted | XML preflight and 8 trust fixtures pass, including calibrated loopback SVG no-fetch. Full hostile corpus/converter resource qualification remains open. |
+| WP-12-T01 | In progress — unaccepted | XML preflight, 8 input-trust fixtures and 6 hostile-container tests pass, including calibrated SVG no-fetch, ZIP checksum/symlink/duplicate/budget rejection and CFB cycles. Decoded-image and converter resource qualification remains open; see M2-INPUT-TRUST-AUDIT.md. |
 | WP-12-T02 | In progress — unaccepted | Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open. |
 | WP-12-T04 | In progress — unaccepted | Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open. |
 
