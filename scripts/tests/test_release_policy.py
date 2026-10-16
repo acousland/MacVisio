@@ -94,6 +94,69 @@ class ReleasePolicyTests(unittest.TestCase):
         path, manifest = self.manifest_fixture()
         self.assertEqual(self.check_manifest(path), manifest)
 
+    def exception_fixture(self, value='waived_by_owner'):
+        path, manifest = self.manifest_fixture()
+        exception = {'version': self.candidate['version'], 'gate': 'performance',
+                     'check': 'controlled-latency', 'approval': 'SIMULATED OWNER DECISION'}
+        record_path = self.root / 'performance.json'
+        record = json.loads(record_path.read_text())
+        record.update(status='accepted_with_exception', exceptions={'controlled-latency': exception})
+        record['checks']['controlled-latency'] = value
+        record_path.write_text(json.dumps(record))
+        manifest['acceptance']['performance']['sha256'] = policy.sha256(record_path)
+        manifest['qualificationExceptions'] = [exception]
+        path.write_text(json.dumps(manifest))
+        return path, manifest, {self.candidate['sha256']: [exception]}
+
+    def test_exact_approved_exception_stays_explicitly_waived(self):
+        path, manifest, approvals = self.exception_fixture()
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            self.assertEqual(self.check_manifest(path), manifest)
+        self.assertEqual(json.loads((self.root / 'performance.json').read_text())['checks']['controlled-latency'],
+                         'waived_by_owner')
+
+    def test_exception_without_exact_archive_and_version_approval_is_rejected(self):
+        path, manifest, approvals = self.exception_fixture()
+        with self.assertRaisesRegex(ValueError, 'not owner-approved'):
+            self.check_manifest(path)
+        approvals[self.candidate['sha256']][0]['version'] = '9.9.9'
+        manifest['qualificationExceptions'] = approvals[self.candidate['sha256']]
+        path.write_text(json.dumps(manifest))
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            with self.assertRaisesRegex(ValueError, 'not owner-approved'):
+                self.check_manifest(path)
+
+    def test_approved_waiver_cannot_be_reported_as_passed(self):
+        path, _, approvals = self.exception_fixture(value='passed')
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            with self.assertRaisesRegex(ValueError, 'never passed'):
+                self.check_manifest(path)
+
+    def test_performance_approval_cannot_waive_security_or_crypto(self):
+        path, manifest, approvals = self.exception_fixture()
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            with self.assertRaisesRegex(ValueError, 'developerIDSigned'):
+                self.check_manifest(path, dict(self.observations, developerIDSigned=False))
+            manifest['qualificationExceptions'][0] = dict(manifest['qualificationExceptions'][0], gate='security')
+            path.write_text(json.dumps(manifest))
+            with self.assertRaisesRegex(ValueError, 'not owner-approved'):
+                self.check_manifest(path)
+
+    def test_approved_waiver_still_requires_retained_artifacts(self):
+        path, manifest, approvals = self.exception_fixture()
+        (self.root / 'simulated-run.txt').write_text('changed')
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            with self.assertRaisesRegex(ValueError, 'digest'):
+                self.check_manifest(path)
+
+    def test_duplicate_approved_exception_is_rejected(self):
+        path, manifest, approvals = self.exception_fixture()
+        manifest['qualificationExceptions'] *= 2
+        path.write_text(json.dumps(manifest))
+        with patch.object(policy, 'APPROVED_STABLE_EXCEPTIONS', approvals):
+            with self.assertRaisesRegex(ValueError, 'duplicated'):
+                self.check_manifest(path)
+
     def test_every_actual_signature_control_is_required_despite_environment(self):
         path, _ = self.manifest_fixture()
         with patch.dict(os.environ, {'MACVISIO_ALLOW_UNNOTARIZED': '1', 'MACVISIO_RELEASE_CHANNEL': 'development'}):

@@ -95,7 +95,7 @@ been removed from the current tooling.
 
    A successful final report records `publicationAccepted: true`. Failed
    verification removes a stale report. `--candidate-only` always records false.
-5. Stable publication is a separate manual workflow dispatch, using the
+5. Stable publication normally uses a separate manual workflow dispatch, using the
    `stable-release` environment and an existing Actions run containing an
    artifact named `stable-candidate`. Its root must contain the exact ZIP,
    appcast, `stable-manifest.json` and evidence paths. The workflow checks out the
@@ -103,6 +103,8 @@ been removed from the current tooling.
    commit to match, then publishes explicit assets on `v<version>`. Existing
    releases are never replaced. Configure environment protections and retain
    qualification artifacts before enabling that operation.
+
+The owner may also explicitly authorize local publication of an accepted candidate. That path runs the same signature and manifest verifier, checks the exact files again, and publishes explicit assets with `gh release create --latest`. It does not bypass candidate identity, signing, notarisation or retained evidence checks.
 
 This change does not supply signing credentials, an approved candidate-producing
 qualification workflow or accepted journeys. No candidate is currently accepted
@@ -132,7 +134,7 @@ come from actual runs and rights review; the verifier checks its binding and
 completeness, not the truth of a human's assertion. Synthetic Python fixtures
 exist only in temporary test directories.
 
-Every named check must have the value `passed`:
+Every named check must have the value `passed`, except an explicitly owner-approved, exact-archive exception pinned in `APPROVED_STABLE_EXCEPTIONS`. An excepted check must remain `waived_by_owner`, with its complete approval record and `accepted_with_exception` gate status. It cannot be relabelled passed, reused for another archive/version, or applied to other checks. The verification report exposes all such decisions as `qualificationExceptions`. Version0.23.4 has the owner-approved controlled-latency exception recorded in [its release evidence](delivery/M2-STABLE-0.23.4.md).
 
 | Gate | Required checks |
 | --- | --- |

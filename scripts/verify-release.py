@@ -110,6 +110,7 @@ def verify(directory, channel, manifest=None, candidate_only=False):
             report['manifestSHA256'] = sha256(manifest)
             report['sourceCommit'] = current_commit
             report['publicationAccepted'] = True
+            report['qualificationExceptions'] = accepted.get('qualificationExceptions', [])
     report_path.write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report, indent=2))
     return report

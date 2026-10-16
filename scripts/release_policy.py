@@ -26,6 +26,19 @@ GATES = {
     'compatibility': {'declared-slice', 'no-silent-loss'},
     'contentRights': {'bundled-content-inventory', 'redistribution-rights'},
 }
+# Owner-approved release decision, bound to one immutable archive. This does
+# not qualify the performance target or permit exceptions for other candidates.
+APPROVED_STABLE_EXCEPTIONS = {
+    '16f5b578d2d0841f5b7c8f57b848438e98fed3434b73d79b0d71d5cc8764ae22': [{
+        'version': '0.23.4',
+        'gate': 'performance',
+        'check': 'controlled-latency',
+        'approvedBy': 'repository owner, direct user instruction',
+        'approvedOn': '2026-10-16',
+        'approval': 'Publish stable with performance exception',
+        'reason': 'Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed.',
+    }],
+}
 MACH_MAGIC = {bytes.fromhex(v) for v in ('feedface', 'cefaedfe', 'feedfacf', 'cffaedfe', 'cafebabe', 'bebafeca', 'cafebabf', 'bfbafeca')}
 
 
@@ -208,18 +221,36 @@ def validate_stable_manifest(manifest_path, candidate, verification):
         {'architecture': arch, 'macOS': candidate['platform']['minimumMacOSByArchitecture'][arch]}
         for arch in candidate['platform']['architectures']
     ]
+    declared_exceptions = manifest.get('qualificationExceptions', [])
+    require(isinstance(declared_exceptions, list), 'Invalid release exceptions')
+    approved = APPROVED_STABLE_EXCEPTIONS.get(candidate['sha256'], [])
+    require(all(item in approved and item.get('version') == candidate['version']
+                for item in declared_exceptions), 'Release exception is not owner-approved for this exact candidate')
+    used_exceptions = []
     for gate, checks in GATES.items():
         record = load_json(checked_attachment(root, evidence[gate]))
-        require(record.get('gate') == gate and record.get('status') == 'accepted', f'{gate}: acceptance missing')
+        gate_exceptions = [item for item in declared_exceptions if item['gate'] == gate]
+        expected_status = 'accepted_with_exception' if gate_exceptions else 'accepted'
+        require(record.get('gate') == gate and record.get('status') == expected_status, f'{gate}: acceptance missing')
         require(record.get('candidateSHA256') == candidate['sha256'], f'{gate}: evidence belongs to another candidate')
         require(isinstance(record.get('reviewer'), str) and record['reviewer'].strip()
                 and isinstance(record.get('recordedAt'), str) and record['recordedAt'].strip(), f'{gate}: reviewer/time required')
         require(record.get('platforms') == required_platforms, f'{gate}: exact declared platform evidence required')
-        require(isinstance(record.get('checks'), dict) and all(record['checks'].get(c) == 'passed' for c in checks), f'{gate}: required journeys are not accepted')
+        require(isinstance(record.get('checks'), dict), f'{gate}: required journeys are not accepted')
+        for check in checks:
+            exception = next((item for item in gate_exceptions if item['check'] == check), None)
+            if exception:
+                require(record['checks'].get(check) == 'waived_by_owner'
+                        and record.get('exceptions', {}).get(check) == exception,
+                        f'{gate}: approved exception must remain explicit, never passed')
+                used_exceptions.append(exception)
+            else:
+                require(record['checks'].get(check) == 'passed', f'{gate}: required journeys are not accepted')
         artifacts = record.get('artifacts', [])
         require(isinstance(artifacts, list) and artifacts, f'{gate}: retained run artifacts required')
         for artifact in artifacts:
             checked_attachment(root, artifact)
+    require(used_exceptions == declared_exceptions, 'Release exceptions are unused, duplicated or out of order')
     return manifest
 
 
