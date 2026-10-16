@@ -122,9 +122,16 @@ def make_inventory(root=ROOT, ledger=None):
         entries.append(entry)
 
     # Literal extraction has a deliberately bounded denominator. UI commands remain an unresolved reference catalog.
-    main = 'Sources/MacVisio/main.swift'
-    for name in sorted(set(re.findall(r'"(--[a-z][a-z0-9-]*)"', (root / main).read_text()))):
-        add('commands', name, 'MV-AUT-02', main, '"' + name + '"')
+    command_sources = ('Sources/MacVisio/main.swift', 'Sources/MacVisio/DeveloperCommands.swift')
+    commands = {}
+    for path in command_sources:
+        # M1 extracts developer dispatch from main; preserve stable inventory
+        # identities while moving each source anchor to its actual owner.
+        if (root / path).exists():
+            for name in re.findall(r'"(--[a-z][a-z0-9-]*)"', (root / path).read_text()):
+                commands.setdefault(name, path)
+    for name, path in sorted(commands.items()):
+        add('commands', name, 'MV-AUT-02', path, '"' + name + '"')
     for r in ledger['requirements']:
         if r['family'] == 'SOL' and r['scope'] != 'X':
             add('solutions', r['id'], r['id'], 'docs/FEATURE-STATUS.md', r['id'], 'documented', r['snapshot']['note'])
