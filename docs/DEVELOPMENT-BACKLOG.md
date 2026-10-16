@@ -431,7 +431,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 | Task | Execution status | Current evidence / remaining acceptance |
 | --- | --- | --- |
 | WP-12-T01 | In progress — unaccepted | XML preflight and 8 trust fixtures pass, including calibrated loopback SVG no-fetch. Full hostile corpus/converter resource qualification remains open. |
-| WP-12-T02 | In progress — unaccepted | Release gate and runtime channel policy implemented:28 Python+3 runtime policy tests pass; stable ad hoc rejected. Signed final candidate/installed-update acceptance remains open. |
+| WP-12-T02 | In progress — unaccepted | Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open. |
 | WP-12-T04 | In progress — unaccepted | Bundle inventory and redacted metadata/native-count summaries implemented;6 privacy tests pass. Native export integration, platform/content-rights/update acceptance remain open. |
 
 **Outcome:** Stable release gates, truthful platform support, safe diagnostics and installed-update evidence.

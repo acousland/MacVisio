@@ -2340,7 +2340,7 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Release gate and runtime channel policy implemented:28 Python+3 runtime policy tests pass; stable ad hoc rejected. Signed final candidate/installed-update acceptance remains open."
+          "execution_note": "Release and runtime channel policy implemented:25 release-policy+3 runtime checks pass; actual feed/archive pinned-key checks and stable ad hoc rejection pass. Final signed candidate/installed-update acceptance remains open."
         },
         {
           "id": "WP-12-T03",
