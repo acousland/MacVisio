@@ -38,9 +38,12 @@ final class GestureSaveContractTests: XCTestCase {
             document.undoManager?.groupsByEvent = false
             document.diagram.page.nodes = [DiagramNode(text: "Before")]
             document.updateChangeCount(.changeDone)
+            document.makeWindowControllers()
+            let window = try XCTUnwrap(document.windowControllers.first?.window)
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("M1-undo-\(UUID()).macvisio")
             defer { try? FileManager.default.removeItem(at: url) }
             try save(document, to: url)
+            XCTAssertFalse(window.isDocumentEdited)
             let savedID = document.stateID
             var next = document.diagram
             next.page.nodes[0].text = "After"
@@ -48,16 +51,20 @@ final class GestureSaveContractTests: XCTestCase {
             document.replace(with: next, action: "Text")
             document.undoManager?.endUndoGrouping()
             XCTAssertTrue(document.isDocumentEdited)
+            XCTAssertTrue(window.isDocumentEdited)
             document.undoManager?.undo()
             XCTAssertEqual(document.stateID, savedID)
             XCTAssertFalse(document.isDocumentEdited)
+            XCTAssertFalse(window.isDocumentEdited, "The title bar must agree with the saved identity after undo.")
             document.undoManager?.redo()
             XCTAssertTrue(document.isDocumentEdited)
+            XCTAssertTrue(window.isDocumentEdited)
             try save(document, to: url)
             document.undoManager?.undo()
             XCTAssertTrue(document.isDocumentEdited)
             document.undoManager?.redo()
             XCTAssertFalse(document.isDocumentEdited)
+            XCTAssertFalse(window.isDocumentEdited, "Redo to the saved identity must clear the title-bar badge.")
         }
     }
 

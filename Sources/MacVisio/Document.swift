@@ -55,6 +55,14 @@ final class MacVisioDocument: NSDocument {
         if let savedStateID { return stateID != savedStateID }
         return super.isDocumentEdited
     }
+    override func updateChangeCount(_ change: NSDocument.ChangeType) {
+        super.updateChangeCount(change)
+        // AppKit's counter and our undo-restored snapshot identity can differ.
+        // Keep every title-bar badge consistent with the document's save policy.
+        for controller in windowControllers {
+            controller.window?.isDocumentEdited = isDocumentEdited
+        }
+    }
     override var hasUnautosavedChanges: Bool {
         if let savedStateID, stateID == savedStateID { return false }
         if let recoveryStateID { return stateID != recoveryStateID }
