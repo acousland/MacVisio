@@ -12,7 +12,7 @@ import urllib.parse
 import xml.etree.ElementTree as ET
 import zipfile
 
-from release_policy import (bundle_platform, check_bundle_channel, require,
+from release_policy import (PUBLIC_KEY, bundle_platform, check_bundle_channel, require,
                             safe_local, sha256, validate_archive, validate_stable_manifest,
                             version_tuple)
 
@@ -31,6 +31,10 @@ def verify(directory, channel, manifest=None, candidate_only=False):
     feed_bytes.decode('utf-8')
     require(b'\x00' not in feed_bytes, 'Appcast must be UTF-8 XML')
     require(b'<!DOCTYPE' not in feed_bytes.upper() and b'<!ENTITY' not in feed_bytes.upper(), 'Appcast must not declare entities')
+    signature_helper = str(Path(__file__).with_name('verify-update-signature.swift'))
+    # Authenticate the exact feed prefix before trusting its XML/enclosure URL.
+    # This uses the pinned public key independently of any private signing key.
+    subprocess.run(['swift', signature_helper, '--feed', str(feed_path), PUBLIC_KEY], check=True)
     feed = ET.fromstring(feed_bytes)
     ns = '{http://www.andymatuschak.org/xml-namespaces/sparkle}'
     items = feed.findall('./channel/item')
@@ -65,7 +69,7 @@ def verify(directory, channel, manifest=None, candidate_only=False):
         require(url.path == f'/acousland/MacVisio/releases/download/{tag}/MacVisio-{version}.zip', 'Stable archive URL mismatch')
     tools = Path('.build/artifacts/sparkle/Sparkle/bin')
     signing = ['--ed-key-file', os.environ['SPARKLE_PRIVATE_KEY_FILE']] if os.environ.get('SPARKLE_PRIVATE_KEY_FILE') else ['--account', 'MacVisio']
-    subprocess.run(['swift', 'scripts/verify-update-signature.swift', str(archive), info['SUPublicEDKey'], signature], check=True)
+    subprocess.run(['swift', signature_helper, str(archive), info['SUPublicEDKey'], signature], check=True)
     subprocess.run([str(tools / 'sign_update'), *signing, '--verify', str(archive), signature], check=True)
     subprocess.run([str(tools / 'sign_update'), *signing, '--verify', str(feed_path)], check=True)
     with tempfile.TemporaryDirectory(prefix='MacVisio-release-check-') as temporary:
@@ -93,6 +97,7 @@ def verify(directory, channel, manifest=None, candidate_only=False):
                  'feedURL': info['SUFeedURL'], 'platform': platform}
     report = {'schemaVersion': 1, 'channel': channel, 'releaseTag': tag, 'candidate': candidate,
               'zipCRCVerified': True, 'archiveSignatureVerified': True, 'feedSignatureVerified': True,
+              'feedPublicKeySignatureVerified': True,
               'bundleSignatureVerified': True, 'executableModeVerified': True, 'frameworkSymlinksVerified': True,
               'developerIDSigned': developer_id, 'teamID': team.group(1) if team else None,
               'hardenedRuntime': hardened, 'notarized': notarized, 'publicationAccepted': False}

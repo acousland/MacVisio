@@ -1,4 +1,4 @@
-"""Synthetic policy fixtures; no fixture constitutes product acceptance evidence."""
+"""Policy fixtures and one real signed development feed; no release acceptance."""
 import copy
 import base64
 import importlib.util
@@ -22,6 +22,30 @@ import release_policy as policy
 spec = importlib.util.spec_from_file_location('verify_release', SCRIPTS / 'verify-release.py')
 verifier = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(verifier)
+
+# Exact public bytes produced by pinned Sparkle 2.10 for the local development
+# candidate 0.23.3-e16604f368d2. Retained inline so CI needs no signing key/network.
+# This feed was verified with the pinned public key before adding parser tests.
+SPARKLE_210_FEED = b'''<?xml version="1.0" standalone="yes"?><!-- sparkle-sign-warning:
+IMPORTANT: This file was signed by Sparkle. Any modifications to this file requires re-signing this file with generate_appcast or sign_update! The signed signature will be embedded at the end of this file.
+--><rss xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" version="2.0">
+    <channel>
+        <title>MacVisio</title>
+        <item>
+            <title>0.23.3</title>
+            <pubDate>Fri, 16 Oct 2026 10:28:03 +1100</pubDate>
+            <link>https://github.com/acousland/MacVisio</link>
+            <sparkle:version>28</sparkle:version>
+            <sparkle:shortVersionString>0.23.3</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>27.0</sparkle:minimumSystemVersion>
+            <enclosure url="https://github.com/acousland/MacVisio/releases/download/development-v0.23.3-e16604f368d2/MacVisio-0.23.3.zip" length="18214188" type="application/octet-stream" sparkle:edSignature="39d3gC4A/ZyLVg/dF9CNOMH56gougcds12ukYWN21379cKclDREYZI678BcFjx+3ZCSCuPwa3m8GMcUral+TDg=="></enclosure>
+        </item>
+    </channel>
+</rss><!-- sparkle-signatures:
+edSignature: hHQ4UL/qTC0XOMTcpMUpgf3eD/c4v1XpLK1aTiFSkr6nBYQf1ekAG5Z1S763vi574yRVK/k5sIv5zVTi9W1gBQ==
+length: 1136
+-->
+'''
 
 
 class ReleasePolicyTests(unittest.TestCase):
@@ -305,6 +329,76 @@ class ReleasePolicyTests(unittest.TestCase):
         changed = subprocess.run(command, capture_output=True, text=True)
         self.assertNotEqual(changed.returncode, 0)
         self.assertIn('does not match', changed.stderr)
+
+    def check_feed(self, data, public_key=policy.PUBLIC_KEY):
+        path = self.root / 'signed-feed.xml'
+        path.write_bytes(data)
+        return subprocess.run(['swift', str(SCRIPTS / 'verify-update-signature.swift'), '--feed', str(path), public_key],
+                              capture_output=True, text=True)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'CryptoKit verifier is a macOS release tool')
+    def test_pinned_public_key_accepts_real_sparkle210_feed_and_exact_signed_boundary(self):
+        self.assertEqual(len(SPARKLE_210_FEED), 1280)
+        self.assertEqual(SPARKLE_210_FEED.index(b'<!-- sparkle-signatures:'), 1136)
+        self.assertEqual(SPARKLE_210_FEED[:1136][-6:], b'</rss>')
+        result = self.check_feed(SPARKLE_210_FEED)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        wrong_key = base64.b64encode(bytes.fromhex('d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a')).decode()
+        result = self.check_feed(SPARKLE_210_FEED, wrong_key)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('does not match the pinned public key', result.stderr)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'CryptoKit verifier is a macOS release tool')
+    def test_signed_feed_rejects_tamper_duplicate_footer_wrong_length_and_unsigned_trailing_content(self):
+        original = SPARKLE_210_FEED
+        footer = original[1136:]
+        mutations = {
+            'changed-signed-version': original.replace(b'<sparkle:version>28', b'<sparkle:version>29'),
+            'changed-signature': original.replace(b'edSignature: hHQ4', b'edSignature: AHQ4'),
+            'short-length': original.replace(b'length: 1136', b'length: 1135'),
+            'long-length': original.replace(b'length: 1136', b'length: 1137'),
+            'zero-length': original.replace(b'length: 1136', b'length: 0'),
+            'overflow-length': original.replace(b'length: 1136', b'length: 9999999999999999999999999999999'),
+            'noncanonical-length': original.replace(b'length: 1136', b'length: 01136'),
+            'duplicate-length': original.replace(b'length: 1136', b'length: 1136\nlength: 1136'),
+            'duplicate-signature': original.replace(b'length: 1136', b'edSignature: ' + b'A' * 86 + b'==\nlength: 1136'),
+            'duplicate-footer': original + footer,
+            'duplicate-token-in-prefix': b'<!-- SPARKLE-SIGNATURES -->' + original,
+            'unsigned-xml-before-footer': original[:1136] + b'<item>unsigned</item>' + footer,
+            'unsigned-xml-with-adjusted-length': (original[:1136] + b'<item>unsigned</item>' + footer).replace(b'length: 1136', b'length: 1157'),
+            'unsigned-xml-after-footer': original + b'<item>unsigned</item>',
+            'unsigned-comment-after-footer': original + b'<!-- unsigned -->',
+            'trailing-extra-newline': original + b'\n',
+            'trailing-space': original + b' ',
+            'no-final-format-newline': original[:-1],
+            'missing-footer': original[:1136],
+            'noncanonical-marker': original.replace(b'<!-- sparkle-signatures:', b'<!--sparkle-signatures:'),
+            'crlf-footer': original[:1136] + footer.replace(b'\n', b'\r\n'),
+            'invalid-base64': original.replace(b'edSignature: hHQ4', b'edSignature: ?HQ4'),
+            'invalid-utf8': b'\xff' + original,
+            'embedded-nul': original[:100] + b'\x00' + original[100:],
+        }
+        for case, data in mutations.items():
+            with self.subTest(case=case):
+                result = self.check_feed(data)
+                self.assertNotEqual(result.returncode, 0, case)
+
+    @unittest.skipUnless(sys.platform == 'darwin', 'CryptoKit verifier is a macOS release tool')
+    def test_signed_feed_read_is_bounded_before_footer_parsing(self):
+        result = self.check_feed(SPARKLE_210_FEED + b'x' * (1024 * 1024))
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('exceeds the 1 MiB limit', result.stderr)
+
+    def test_feed_public_key_failure_stops_before_xml_and_private_signer(self):
+        # The XML is deliberately malformed: public-key verification must happen
+        # before parsing it or consulting any private signing key/account.
+        (self.root / 'appcast.xml').write_bytes(b'<unsigned broken xml')
+        expected = ['swift', str(SCRIPTS / 'verify-update-signature.swift'), '--feed', str((self.root / 'appcast.xml').resolve()), policy.PUBLIC_KEY]
+        with patch.object(verifier.subprocess, 'run', side_effect=subprocess.CalledProcessError(1, expected)) as run:
+            with self.assertRaises(subprocess.CalledProcessError):
+                verifier.verify(self.root, 'stable', candidate_only=True)
+        run.assert_called_once_with(expected, check=True)
+        self.assertFalse((self.root / 'release-verification.json').exists())
 
 
 if __name__ == '__main__':

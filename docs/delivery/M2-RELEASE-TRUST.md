@@ -37,8 +37,8 @@ No imported-content execution or network behavior was enabled by this slice.
   separate. Tag/version consistency and immutable published assets are retained.
 - Stable candidates require observed Developer ID, intended team, hardened
   runtime, stapled notarization/Gatekeeper and valid Sparkle ZIP/feed signatures.
-  A separate CryptoKit verification checks the archive against the pinned public
-  key, so a wrong private signing key cannot merely verify its own signatures.
+  Separate CryptoKit verification checks both archive and feed against the pinned
+  public key, so a wrong private signing key cannot verify its own signatures.
   The old environment override is removed. Candidate-only preparation can never
   accept publication.
 - Stable acceptance binds ZIP/feed SHA256, version/build, bundle ID, source
@@ -85,3 +85,57 @@ signature/interruption/recovery with usable settings/documents; actual platform,
 VoiceOver/keyboard, controlled performance, security and compatibility journeys;
 and bundled-content inventory/redistribution-rights review. None were performed
 or represented as accepted. No publish, push or installed update was attempted.
+
+## Follow-up: independent pinned-key feed verification
+
+This follow-up owns only `scripts/verify-update-signature.swift`,
+`scripts/verify-release.py`, `scripts/tests/test_release_policy.py` and this file.
+It adds release-tooling validation and does not accept an installed-update
+journey or any milestone gate.
+
+Before implementing the parser, the actual local pinned Sparkle 2.10 output at
+`build/releases/development/0.23.3-e16604f368d2/appcast.xml` was inspected as bytes.
+The file is 1,280 bytes, SHA256
+`76c5aec9ea16789179bbe1941b0c17ac4e4f93b6362a407c137c8e64292f6c45`.
+The signature footer starts at byte 1,136 immediately after `</rss>`; its declared
+`length: 1136` equals that exact position. A standalone CryptoKit probe verified
+the signature over those first 1,136 bytes with the repository's pinned public
+key. No XML reserialization or whitespace normalization was used.
+
+The helper's existing archive invocation remains supported. Its new
+`--feed appcast.xml public-key` mode reads at most 1 MiB plus a one-byte overflow
+probe, requires UTF-8 without NUL bytes and exactly one signature marker, then
+accepts only the observed canonical footer format. The footer must be at most
+256 bytes, contain one canonical 64-byte Ed25519/base64 signature, one canonical
+positive decimal length equal to the footer's actual byte offset, and end with
+the pinned output's single LF after `-->`. Duplicate markers/fields, changed
+lengths, alternate formatting and all extra trailing content fail. CryptoKit
+verifies the exact signed prefix against the pinned public key independently of
+`sign_update` and its private key/account checks.
+
+The release verifier performs this check before parsing feed XML or trusting its
+enclosure URL. It still requires the existing Sparkle archive/feed checks and
+independent pinned archive verification, and records
+`feedPublicKeySignatureVerified: true` only after success. A stale accepted
+report is still removed when any check fails.
+
+Tests retain the exact public development-feed bytes inline so CI needs no
+private key, network or local candidate directory. Real CryptoKit checks cover
+the positive feed, wrong public key, changed signed XML/signature, duplicate
+markers/fields, wrong/overflow/noncanonical lengths, unsigned XML before or after
+the footer (including an attacker-adjusted length), trailing comments/whitespace,
+missing footer/newline, CRLF/alternate marker, invalid base64/UTF-8/NUL and an
+oversized file. A verifier test proves pinned-feed failure stops before XML and
+private signer execution. The existing RFC 8032 archive test remains intact.
+
+Follow-up validation on 2026-10-16: `python3 -m unittest discover -s scripts/tests -v`
+passed all 80 Python tests, including 25 release-policy tests. The four new
+feed-focused tests cover the actual positive signature, 24 malicious variants,
+wrong key, bounded reading and early verifier failure. A direct invocation of
+the new helper on the actual local candidate feed also exited successfully.
+`git diff --check` passed.
+
+Only standalone Swift helper invocations and Python tests are exercised; there
+is no full Swift build, key export, signing operation, network access, publication
+or installed update in this follow-up. Actual signature authenticity for this
+development feed does not establish stable or installed-update acceptance.
