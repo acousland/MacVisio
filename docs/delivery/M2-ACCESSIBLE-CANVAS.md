@@ -1,6 +1,6 @@
 # Semantic canvas and keyboard authoring
 
-This WP-11-T01/T02 implementation consumes the accepted M1 retained scene/runtime. It is a bounded implementation slice; real VoiceOver and a complete physical keyboard authoring journey remain separate acceptance requirements.
+This WP-11-T01/T02 implementation consumes the accepted M1 retained scene/runtime. The final local qualification includes actual no-pointer authoring and the semantic AppKit regression suite. VoiceOver operation testing was explicitly removed from M2 requirements by the user on16 October2026, with no pass claimed. See [final qualification](M2-QUALIFICATION.md); the earlier implementation records below remain historical.
 
 `CanvasAccessibility` retains AppKit accessibility elements by `(source page UUID, node-or-edge UUID)`. It reads the already prepared scene, visibility flags, paint order, group indexes, endpoint indexes and bounds. Accessibility queries perform no ShapeSheet evaluation, routing, text measurement or model mutation. Hidden layers and descendants are omitted. Background content is exposed with its own source page identity and a background label; editing actions require the active foreground page. A retained element for a removed/hidden object cannot perform a stale action.
 

@@ -2,7 +2,9 @@
 
 Planning baseline: `7c270124993bac09967109f95e603ebb47bd98ff`. Branch: `codex/m2-native-editor`.
 
-M2 is **in progress, unaccepted** with the accepted M1 engineering prerequisite integrated. Accepted local M1 runtime/transaction/calculation/scene contracts are integrated at `d797a67`; broader M0/reference/performance and M2 qualification are still open. Notarization through the user-selected `renoir-notary` profile is authorized and complete; installation, installed updates and publication remain outside the earlier authorization limits.
+M2 is **complete for the agreed local engineering scope**. The current disposition is the [final qualification](M2-QUALIFICATION.md), with [sixteen qualified task records](M2-TASK-EVIDENCE.json). Japanese and VoiceOver testing were explicitly removed by the user on16 October2026; neither is counted as a pass. Signed installed-update/rejection/interruption/retry, native reopen and the appearance matrix now pass. Stable publication and specification compatibility gates remain separate. Accepted M1 engineering contracts remain integrated at `d797a67`.
+
+The detailed journal below preserves earlier candidate findings and outstanding states. Where it describes an earlier state as unaccepted, the final qualification provides the current engineering disposition.
 
 ## Current notarized candidate and qualification
 
@@ -20,7 +22,7 @@ by Apple using `renoir-notary`, stapled and accepted by Gatekeeper as
 Exact archive/feed signatures, pinned-public-key verification, bundle seal,
 framework symlinks, executable modes and ZIP CRC pass. Real CryptoKit checks
 also accept the exact ZIP/feed and reject altered copies; this is cryptographic
-evidence, not an installed-updater journey. No archive or feed was published.
+evidence. The later actual installed-updater journey passes in `build/m2-closure/update-install.json` and `update-settings.json`; its controlled feeds are separate from the shipping feed. No archive or feed was published.
 
 A real native rich-text check on the earlier `fbd851b` executable exposed
 Command-Z reaching document history while an inline formatting session was
@@ -52,25 +54,16 @@ source archives were actually downloaded and match the installed formulas'
 hashes. The final candidate is rebound in
 `build/m2-rights-review/final-license-verification.json`. See
 [M2 content-rights review](M2-CONTENT-RIGHTS-REVIEW.md) for obligations and the
-remaining application-owner provenance input. This is now a substantive
+recorded first-party provenance and its evidentiary limits. This is a substantive
 third-party review, rather than a license-presence inventory.
 
-Remaining acceptance is specific: observable real VoiceOver operation, Japanese/
-Chinese candidate-picker and minimum-width native cases, the broader appearance/
-proofing/reference matrix, actual installed updates/interruption/recovery,
-minimum-OS27.0 installations, application-owner provenance, and the applicable
-licensed exact-build Visio/reference and controlled performance gates. The
-current tool's app-targeted input does not provide global VoiceOver cursor/action
-evidence. Native dead-key composition is real marked-text evidence but does not
-assert CJK candidate-picker qualification. The temporary Japanese source was authorized and added, but the current bridge
-could not switch the system Input menu. The user then requested **skip and restore**.
-Japanese was removed; Australian-only and Input-menu-off were verified. The globe
-key returned to Show Emoji & Symbols. Adding the source had also automatically
-added Japanese Dictation; it was removed, restoring English (Australia) only with
-Dictation off. The owned Latin-only draft was retained as skipped evidence, its
-recent entry removed, and both test apps quit normally. No CJK pass is asserted.
-See `build/m2-qualified6-japanese-input.json`; its prior pending state is retained
-separately.
+Japanese-language testing is excluded from M2 by explicit user instruction on
+16 October 2026. The prior skipped experiment and restored settings are historical
+evidence, not an outstanding requirement.
+
+Final closure adds actual Dark/Light/System SVG export equivalence and actual signed installed-update/rejection/interruption/retry, with prior/updated native drawing reopen and preserved preference/document hashes. Reports are retained under `build/m2-closure/`. The declared local platform is arm64/macOS27.0.1; derived binary floor27.0 is not a tested27.0 installation. Technical content provenance and five upstream license/source reviews are recorded. Broader platform, controlled numerical performance, licensed Visio and public-release obligations retain their separate owners.
+
+The user also removed VoiceOver testing from M2. The prepared AppleScript driver was never run or enabled. Semantic AppKit and keyboard tests remain qualified. The historical Japanese experiment was skipped and fully restored: Australian-only, Input-menu-off, globe Show Emoji & Symbols, disabled English-Australia-only Dictation. Its record remains `build/m2-qualified6-japanese-input.json`; no candidate-picker or VoiceOver pass is claimed.
 
 ## Earlier local candidates and qualification
 
@@ -95,7 +88,7 @@ VoiceOver was initially off, enabled through native Settings and Use VoiceOver w
 
 ## Ownership and overlap
 
-This managed worktree owns M2. The original checkout's uncommitted Home changes were inspected read-only on 16 October 2026: adaptive 780×640 preferred / 480×440 minimum layout, navigation, document actions and template columns. M2 does not replace or copy that work. M2 adds bounded Locate/Remove callbacks and row actions to its own Home baseline. The original adaptive layout remains separate; native Home/window acceptance is still open.
+This managed worktree owns M2. The original checkout's uncommitted Home changes were inspected read-only on 16 October 2026: adaptive 780×640 preferred / 480×440 minimum layout, navigation, document actions and template columns. M2 does not replace or copy that work. M2 adds bounded Locate/Remove callbacks and row actions to its own Home baseline. The original adaptive layout remains separate; the bounded M2 Home/window journey is qualified in the final checkpoint.
 
 Completed bounded workers contributed search/command UI, canvas accessibility and diagnostics/save integration respectively. The primary owns inspector/workflow/import/trust integration, backlog/status/handoff and this evidence note. Source changes are committed through `0839994`; final checks run on a frozen source, and commits stage explicit owned paths.
 
@@ -106,7 +99,7 @@ Each child preserves its parent acceptance; passing one child does not close its
 | Parent | Bounded children | Dependency / evidence |
 | --- | --- | --- |
 | WP-10-T02 | A: stable cross-page search results including text/data/shape; B: UTF-16-safe selected replacement preserving other runs and fields; C: command search with validation reason; D: native event/focus journey | A/B can be prepared against value models. UI integration waits M1. D requires actual input routing. |
-| WP-11-T01 | A: scene-ID semantic object model and reading order; B: AppKit elements with graph relations, labels and frames; C: select/inspect/move/connect actions; D: VoiceOver journey | Wait M1 scene identity contract. Controller tests are insufficient for D. |
+| WP-11-T01 | A: scene-ID semantic object model and reading order; B: AppKit elements with graph relations, labels and frames; C: select/inspect/move/connect actions; D: VoiceOver journey (removed by explicit user scope decision) | M1 scene identity satisfied; AppKit semantic graph and keyboard checks retained. |
 | WP-11-T02 | A: focus traversal and visible focus; B: movement/resize protection; C: connection start/target/cancel; D: no-pointer create/text/save/export journey | Wait M1 transactions and WP-10 command integration. |
 | WP-11-T03 | A: UTF-16/run editing corpus; B: deterministic missing-font inventory/substitution without metadata rewrite; C: IME/RTL/composition event journey | A/B can be prepared. C needs native input method evidence. |
 | WP-11-T04 | A: actionable content checks; B: spelling/proofing reference disposition; C: narrow-window/long-label editor; D: appearance/export equivalence | Native checks are independent of Visio inventory; reference proofing remains unaccepted without M0 evidence. |
@@ -120,13 +113,13 @@ Each child preserves its parent acceptance; passing one child does not close its
 | Native branching process | Home → template → shapes/branch/connect/arrange → second page/off-page link → save/reopen → PDF/SVG | Model assertions plus real mouse/keyboard journey and public output inspection. No Visio parity implied. |
 | Two documents / duplicate URL / read-only / missing recent | Correct routing, state retention and safe source handling | Native windows, dirty/selection/zoom state, canonical file identity, Locate/Remove, overwrite rejection. |
 | Search rich text | Across-page text, shape/data results; replacement preserves unrelated styles, fields and Unicode | Mixed runs, RTL, combining text, emoji, protected nodes, one undo; actual text input cannot trigger canvas shortcuts. |
-| Accessible graph | Stable shape/edge IDs, order, names, relations, frames and actions | Semantic AppKit assertions plus VoiceOver create/select/move/connect/inspect/save/export. |
+| Accessible graph | Stable shape/edge IDs, order, names, relations, frames and actions | Semantic AppKit assertions plus actual native keyboard authoring; VoiceOver testing removed by user. |
 | Material diagnostic | Unsupported/cyclic/stale calculation + import issue on separate pages | Object/cell provenance, cached/evaluated state, issue navigation, no cross-document leakage, save impact agrees. |
 | Harmless opaque metadata | Preserve bytes with quiet presentation | No warning solely for harmless opaque parts; no unsupported-behavior claim. |
 | Input trust | Malformed ZIP/XML/CFB, resource caps, imported action/hyperlink content | Safe rejection before expensive allocation, no automatic execution or external fetch. |
 | Candidate distribution | Stable versus development identity and actual bundle platform matrix | Ad hoc/stale/missing manifest rejected; Developer ID, notarization, signed feed/archive; real installed-update/interruption/recovery evidence. |
 
-Unaccepted prerequisites remain open: licensed exact-build Visio reference, intended candidate/team signing and notarization, signed installed-update fixtures, supported-platform installation matrix, real VoiceOver and IME acceptance. Local unit/controller tests are implementation evidence only. A known intermittent full-suite failure cannot be closed by an isolated green rerun.
+The final qualification closes intended signing/notarization, actual signed installed updates and native marked-text input for the declared local platform. Japanese and VoiceOver testing are excluded by user instruction. Licensed Visio, broader platform and controlled release obligations remain separate; no baseline compatibility acceptance follows from local controller tests.
 
 ## Historical source findings before implementation
 

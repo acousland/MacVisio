@@ -5,9 +5,14 @@
   "worktree": "/Users/acousland/.codex/worktrees/d598/MacVisio",
   "branch": "codex/m2-native-editor",
   "planning_baseline": "7c270124993bac09967109f95e603ebb47bd98ff",
-  "state": "in_progress",
-  "milestone_acceptance": "unaccepted",
-  "integration_allowed": false,
+  "state": "complete",
+  "milestone_acceptance": {
+    "local_engineering": true,
+    "G1_release": false,
+    "G2_reference": false,
+    "stable_release": false
+  },
+  "integration_allowed": true,
   "local_commits": [
     "46c76e0b1beac6b415c73509aa396a6570944333",
     "d85ce5da08440935a869fd3f6a8bde7edf1cbddd",
@@ -54,25 +59,25 @@
       "0ea6b33ad086abf59b8538bce50ec57ded7dcd68"
     ]
   },
-  "completed_task_ids": [],
-  "implemented_unaccepted_slices": [
-    "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
-    "WP-10-T02: Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
-    "WP-10-T03: Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted.",
-    "WP-10-T04: Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation.",
-    "WP-11-T01: Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open.",
-    "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
-    "WP-11-T03: UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese candidate-picker test skipped at user request; Australian-only, hidden Input menu, original globe-key action and English-Australia-only disabled Dictation restored. CJK candidate-picker qualification remains unaccepted.",
-    "WP-11-T04: Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted.",
-    "WP-12-T01: Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
-    "WP-12-T02: Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
-    "WP-12-T03: Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey.",
-    "WP-12-T04: Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
-    "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
-    "WP-13-T02: Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete.",
-    "WP-13-T03: Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit.",
-    "WP-13-T04: Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage."
+  "completed_task_ids": [
+    "WP-10-T01",
+    "WP-10-T02",
+    "WP-10-T03",
+    "WP-10-T04",
+    "WP-11-T01",
+    "WP-11-T02",
+    "WP-11-T03",
+    "WP-11-T04",
+    "WP-12-T01",
+    "WP-12-T02",
+    "WP-12-T03",
+    "WP-12-T04",
+    "WP-13-T01",
+    "WP-13-T02",
+    "WP-13-T03",
+    "WP-13-T04"
   ],
+  "implemented_unaccepted_slices": [],
   "dependencies": {
     "M0": {
       "state": "implemented_unaccepted",
@@ -110,14 +115,7 @@
       "downstream_acceptance_ready": true
     }
   },
-  "remaining_work": [
-    "Complete observable real VoiceOver graph operation/save/export journey. The app-targeted bridge did not yield global VoiceOver cursor/action evidence; VoiceOver is restored off.",
-    "Complete Japanese/Chinese candidate-picker and minimum-width/full appearance/proofing/reference native matrix. Exact signed-candidate Australian marked-text composition/cancel/commit, selected run Undo/Redo, Unicode save/reopen/public export and spelling selection pass. Japanese testing was skipped at user request; input sources, Input menu, globe-key action and Dictation settings are restored. CJK candidate-picker qualification remains unaccepted.",
-    "Perform actual signed installed-update, invalid-signature, interruption and recovery fixtures. Earlier no-install/update/publication restriction remains; user authorized renoir-notary notarization only. Exact bundle signing/notarization/stapling/Gatekeeper gate is now passed.",
-    "Qualify advertised minimum-OS27.0 installation/platform matrix. Actual signed candidate native journey ran on arm64/macOS27.0.1; no lower-floor installation or broader architecture claim.",
-    "Record application-owner authority/provenance for original application source, built-in shapes/templates and generated icon. Five third-party component licenses and both MPL source archives have now been substantively reviewed/verified against final candidate.",
-    "Complete applicable licensed exact-build Visio/reference and controlled numerical/performance gates. Shared M0 status still needs the reference; accepted local M0/M1 engineering contracts remain satisfied."
-  ],
+  "remaining_work": [],
   "evidence_paths": [
     "build/bundle-verification.json",
     "build/m2-build-qualified2.py",
@@ -128,6 +126,58 @@
     "build/m2-bundle-platform.json",
     "build/m2-bundle-verification.log",
     "build/m2-bundle.log",
+    "build/m2-closure/Appearance-Dark.svg",
+    "build/m2-closure/Appearance-Light.svg",
+    "build/m2-closure/Appearance-System.svg",
+    "build/m2-closure/ClosureFlow.vsdx",
+    "build/m2-closure/appearance.json",
+    "build/m2-closure/baseline-pipeline.log",
+    "build/m2-closure/baseline/archive.log",
+    "build/m2-closure/baseline/baseline.json",
+    "build/m2-closure/baseline/gatekeeper.log",
+    "build/m2-closure/baseline/notarization.json",
+    "build/m2-closure/baseline/sign.log",
+    "build/m2-closure/baseline/staple.log",
+    "build/m2-closure/build-sparkle-cli.py",
+    "build/m2-closure/content-provenance.json",
+    "build/m2-closure/final-document-validation.json",
+    "build/m2-closure/final-ledger.log",
+    "build/m2-closure/finalize-records.py",
+    "build/m2-closure/historical-handoff-before-closure.json",
+    "build/m2-closure/prepare-update-fixtures.py",
+    "build/m2-closure/probe-sign.log",
+    "build/m2-closure/probe.json",
+    "build/m2-closure/qualify-update-settings.py",
+    "build/m2-closure/qualify-updates.py",
+    "build/m2-closure/scope-and-cleanup.json",
+    "build/m2-closure/sparkle-cli-build.json",
+    "build/m2-closure/sparkle-cli-build.log",
+    "build/m2-closure/sparkle-cli-build2.log",
+    "build/m2-closure/sparkle-cli-pipeline.log",
+    "build/m2-closure/sparkle-cli-sign.log",
+    "build/m2-closure/update-cases/PreservedFlow.vsdx",
+    "build/m2-closure/update-cases/bad-archive-sign.log",
+    "build/m2-closure/update-cases/bad-archive.log",
+    "build/m2-closure/update-cases/bad-archive.xml",
+    "build/m2-closure/update-cases/bad-feed-sign.log",
+    "build/m2-closure/update-cases/bad-feed.log",
+    "build/m2-closure/update-cases/bad-feed.xml",
+    "build/m2-closure/update-cases/codesign.log",
+    "build/m2-closure/update-cases/gatekeeper.log",
+    "build/m2-closure/update-cases/interrupt-sign.log",
+    "build/m2-closure/update-cases/interrupt.log",
+    "build/m2-closure/update-cases/interrupt.xml",
+    "build/m2-closure/update-cases/valid-sign.log",
+    "build/m2-closure/update-cases/valid.log",
+    "build/m2-closure/update-cases/valid.xml",
+    "build/m2-closure/update-install.json",
+    "build/m2-closure/update-pipeline.log",
+    "build/m2-closure/update-settings-pipeline.log",
+    "build/m2-closure/update-settings.json",
+    "build/m2-closure/update-settings/appcast.xml",
+    "build/m2-closure/update-settings/feed-sign.log",
+    "build/m2-closure/update-settings/install.log",
+    "build/m2-closure/voiceover-driver.applescript",
     "build/m2-container-trust.log",
     "build/m2-content-inventory.json",
     "build/m2-development-package.log",
@@ -339,9 +389,11 @@
     "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
     "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
     "docs/delivery/M2-NATIVE-CONTRACTS.md",
+    "docs/delivery/M2-QUALIFICATION.md",
     "docs/delivery/M2-RELEASE-TRUST.md",
     "docs/delivery/M2-SEARCH-TEXT.md",
     "docs/delivery/M2-SUPPORT-REPORT.md",
+    "docs/delivery/M2-TASK-EVIDENCE.json",
     "docs/development-backlog.json"
   ],
   "development_candidate": {
@@ -350,7 +402,7 @@
     "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
     "channel": "development",
     "publicationAccepted": false,
-    "installed": false,
+    "installed": true,
     "published": false,
     "architectures": [
       "arm64"
@@ -364,19 +416,22 @@
     "notary_submission_id": "889a4950-4527-4ee1-afdb-4fc3a5577151",
     "stapled": true,
     "gatekeeperAccepted": true,
-    "status": "notarized_local_development_candidate_unaccepted_release",
+    "status": "qualified_local_engineering_development_candidate_unpublished",
     "content_inventory": "build/m2-qualified6-content-inventory.json",
-    "native_replay": "build/m2-qualified6-native-replay.json"
+    "native_replay": "build/m2-qualified6-native-replay.json",
+    "installation_scope": "Owned isolated qualification copies only; normal installation untouched.",
+    "qualified_platform": {
+      "architecture": "arm64",
+      "macOS": "27.0.1"
+    }
   },
   "notes": [
-    "Accepted local M1 prerequisite remains satisfied and integrated at d797a67.",
-    "Source/test candidate committed at 0839994456aa82f3533456c75f9f10da1ebcd2bb; whole M2/M3 integration acceptance remains false.",
-    "Original checkout tracked Home working diff remains five files/285 insertions/111 deletions, inspected read-only.",
-    "Earlier suite/native failures and superseded archives are retained, including failed NSApp action-dispatch harness attempts; corrected first-responder fixture and real native Cmd-Z replay pass.",
-    "Full745/12skip/0fail Swift,87 Python, formatting/import boundaries/ledger and exact signed-candidate native replay pass.",
-    "User selected renoir-notary; actual Developer ID team5NF98M544G, Apple Accepted receipt, stapled ticket, Gatekeeper and final ZIP/feed verification pass. No installation/update/publication performed.",
-    "Third-party rights review is complete for observed final bytes; application-owner provenance input and remaining qualification are explicit.",
-    "User requested Japanese test skip and restoration. Australian-only/Input-menu-off/globe Emoji/disabled English-Australia-only Dictation verified; test apps quit and own recent removed. CJK qualification stays unaccepted."
+    "Accepted M1 integrated at d797a67. All16 local M2 task contributions qualified for source0839994.",
+    "Japanese and VoiceOver testing removed by explicit user instruction; no pass or actual VoiceOver journey claimed. Native keyboard/semantic accessibility retained.",
+    "Actual official Sparkle install/rejection/interruption/retry and native prior/updated reopen pass on owned copies. No normal installation or public feed changed.",
+    "745 Swift tests/12 skips/0 failures and87 Python pass on frozen source. No source change during final scope/evidence closure.",
+    "Local integration is allowed; public release and specification compatibility gates remain unaccepted.",
+    "Original checkout and peer worktrees preserved; test applications quit normally."
   ],
   "tests": {
     "final_integrated_release": {
@@ -413,7 +468,7 @@
       "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
       "passed": true,
       "record": "build/m2-qualified6-native-replay.json",
-      "scope": "Exact notarized app: real marked-text composition/cancel/commit; selected-run native Undo/Redo; Unicode/native save/reopen/public SVG/VSDX; spelling selection; normal quit. Whole AT/CJK/native matrix unaccepted."
+      "scope": "Exact notarized app: native marked-text cancel/commit, selected-run Undo/Redo, Unicode save/reopen/public SVG/VSDX and spelling. Japanese and VoiceOver testing removed from M2 scope by user."
     },
     "exact_bundle_and_development_archive": {
       "passed": true,
@@ -423,7 +478,7 @@
       "notarized": true,
       "stapled": true,
       "gatekeeperAccepted": true,
-      "installed": false,
+      "installed": true,
       "published": false
     },
     "actual_negative_signatures": {
@@ -431,1135 +486,1426 @@
       "cases": 4,
       "record": "build/m2-qualified6-signature-negative.json",
       "scope": "Actual CryptoKit public-key verification, not installed Sparkle updater."
+    },
+    "actual_installed_updates": {
+      "passed": true,
+      "record": "build/m2-closure/update-install.json",
+      "settings_record": "build/m2-closure/update-settings.json",
+      "scope": "Real owned prior signed/notarized app and exact target archive; loopback feeds; rejection, interrupted download, retry, prior/updated native reopen and preserved settings/documents."
+    },
+    "appearance_export_matrix": {
+      "passed": true,
+      "record": "build/m2-closure/appearance.json",
+      "modes": [
+        "Dark",
+        "Light",
+        "System"
+      ],
+      "probe_identity_record": "build/m2-closure/probe.json"
+    },
+    "final_document_validation": {
+      "passed": true,
+      "record": "build/m2-closure/final-document-validation.json",
+      "ledger_log": "build/m2-closure/final-ledger.log"
     }
   },
   "M0_integration_scope": "Locally validated ledger/harness/corpus/instrumentation contracts only; M0/G0/reference/absolute performance remain unaccepted",
   "implementation_head": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
-  "head_note": "Source/test candidate identified above; final shared status records the later documentation-only branch head.",
+  "head_note": "Implementation is frozen at0839994; final documentation commit is recorded in shared M2 status after commit. Acceptance is local engineering only.",
   "evidence": [
     {
       "path": "build/bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-build-qualified2.py",
       "sha256": "aea7ee34da0f6f7a304d2ccf925a05e52cb6fa266476f9457199497a71d375b4",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-build-qualified3.py",
       "sha256": "4ccc1c6701953053910792e23fb29e72e9d719d208e2ad2c5e0528a2d0fe9ca8",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-build-qualified4.py",
       "sha256": "207b183e1641e2a41a85d00483a9dae383c1f976d2c35f8057dd72213780777a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-build-qualified5.py",
       "sha256": "8d41ad11eab40eec98a57865a6dc78f13258b57472f22ffc89c4e483d644d455",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-build-qualified6.py",
       "sha256": "68ee6a04e0caf9bb55264341552c29056061f13fda9880056c9f9b92cdca3813",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-bundle-platform.json",
       "sha256": "fae70e1ca8291ca26654624e4c22a225bd7057f5e18fcfb89b3529dde12ef93e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-bundle.log",
       "sha256": "92f4f6f676c0d4bbde57071e35beaf6b5150e97eac1bd2df09117f6a8aed5a5e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
+    },
+    {
+      "path": "build/m2-closure/Appearance-Dark.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/Appearance-Light.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/Appearance-System.svg",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2eb894c65a4edee05c22bd34aa82e41206b8da08a5d8e217ef2cff62dee1fce3"
+    },
+    {
+      "path": "build/m2-closure/ClosureFlow.vsdx",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6e88f8ea2f4d4777ae66ff87b91b0592fbbb58c6241feac2e5f55d7c2078ab3b"
+    },
+    {
+      "path": "build/m2-closure/appearance.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "c4e915b43565055c9020f236ef11b13e8415b3e0344487e6e48f9dba172813d0"
+    },
+    {
+      "path": "build/m2-closure/baseline-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "131ed792aa5cedf88ef6d6c7c4fc95b8ba1a1f7af37236e5e580c1a6244cd245"
+    },
+    {
+      "path": "build/m2-closure/baseline/archive.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-closure/baseline/baseline.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "34c3663b11ca1def3d85a12a0e6ea5645aab51bd5805c653cbc53fe45a14620b"
+    },
+    {
+      "path": "build/m2-closure/baseline/gatekeeper.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f103942486e9781743046a257e5303e7f222f96eeb4342d78eaa53ea9928e5a3"
+    },
+    {
+      "path": "build/m2-closure/baseline/notarization.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5e918f79102d8bacd96e652cf215354d7a187e57d83a497b55b3620cd0f708eb"
+    },
+    {
+      "path": "build/m2-closure/baseline/sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d583d81c9a19aa43c8d72931deef84ff7b5c23e6786a6e7bd2d067550c25da00"
+    },
+    {
+      "path": "build/m2-closure/baseline/staple.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "ca022646838b12a9c6ec506de4701c84ddbcf43c730fa80e362e4453350c6af9"
+    },
+    {
+      "path": "build/m2-closure/build-sparkle-cli.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5bdf92fe4ae32b1a4e6d0823e627447cc646e69e28cfda7c509687cd339849d3"
+    },
+    {
+      "path": "build/m2-closure/content-provenance.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d73fc8b70ff913d384ee7839b5ec0ea72a49b238b2287bac5d92b7741d02d3c6"
+    },
+    {
+      "path": "build/m2-closure/final-document-validation.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "3123c5b3e6faeed96a4e540f65f31ce6c4a491d70b866718ed4efa958a890da5"
+    },
+    {
+      "path": "build/m2-closure/final-ledger.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9"
+    },
+    {
+      "path": "build/m2-closure/finalize-records.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d85bf8643897d789d24d60fc19e389fda0c38dc13e56d56d937aef193eaad252"
+    },
+    {
+      "path": "build/m2-closure/historical-handoff-before-closure.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "93d21b3168f5b7607e11688cabf3a14297caab88df0cf8877268bd313764176d"
+    },
+    {
+      "path": "build/m2-closure/prepare-update-fixtures.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "0fec010097de2602745fd33854e95c629f3ee86e2a22073e5ebd7e8abf1fd7dc"
+    },
+    {
+      "path": "build/m2-closure/probe-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "60cbc4d710a397da8988970a4508ff0b72d036a6854f5bcb5804d354b50c9ff4"
+    },
+    {
+      "path": "build/m2-closure/probe.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "cfb5f772f8df6697bde21add064b808dccd3fc65fcc2138380bff68bc70078cb"
+    },
+    {
+      "path": "build/m2-closure/qualify-update-settings.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "4be1b6afb596c78dde7e311c3a089702ab3d4c6efccb4c6ec32e26c1a1f4e763"
+    },
+    {
+      "path": "build/m2-closure/qualify-updates.py",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "56d759eadb158bde5afb35c882e7939ac4a2607e6703892ddfb5461bb42540ac"
+    },
+    {
+      "path": "build/m2-closure/scope-and-cleanup.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d2935138d5dd422fb641e1e62c1f3d5d72de1f921d4f8214c7128b57f84131d3"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d889e6e976744cdc8f6dc5e201b3ce1098e05c3446cf5913cccd51c406063b53"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "700f984f4685ffca560fbb2da45480caeca775ef302a7a7472c39a83090b5823"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-build2.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1f1e16fe4d5a8479d8525bd9c26c467670015084cc7be720f072df7ad0e7c456"
+    },
+    {
+      "path": "build/m2-closure/sparkle-cli-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "9aa7abf26cf266c4ef96b35f55a0c0f1b9a00b3d1d7a615a539318d99670644e"
+    },
+    {
+      "path": "build/m2-closure/update-cases/PreservedFlow.vsdx",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6e88f8ea2f4d4777ae66ff87b91b0592fbbb58c6241feac2e5f55d7c2078ab3b"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "ff8a6b40b09be81b5fb8f62c324c109372a1b0c6e64672915eb2dd7724a9f53a"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "28b1251ffed737b943f1e55c70877e6c99801858d0efc538dd408d29f92b2820"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-archive.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a2c2038f541bc1710dfa7d6975a4d372b5205e0e850911bfdaa0ddd2aaeda580"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "09d0105612e2f2cda37e419f89859e74d0d531827943b4a419b0586a3ddd80ce"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "41029a122d385e311e8372d844c8ecd6c7f4f0879bb638dd19176137d7ffdd20"
+    },
+    {
+      "path": "build/m2-closure/update-cases/bad-feed.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6fc0b79a6cc700ad9cf69ee1cb05b4cd01a651aaf4c609c1ab7b2a979d8b6320"
+    },
+    {
+      "path": "build/m2-closure/update-cases/codesign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f5a9e02d45bfc64f6914cfef0fa65668b2bbc809b955f18e36805dbe13a7e616"
+    },
+    {
+      "path": "build/m2-closure/update-cases/gatekeeper.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "6da24082035262799c8bf5ec2dab3e53edac078b9c891ebad8afabd26a179591"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d5cbcbb804df68017fde0340395bde86cd45f8c16ab0b16d5a2c77db8fa6233a"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a0623c9c3b708662e90e03001374cb8347044afec2a82e03372b602acefcffbd"
+    },
+    {
+      "path": "build/m2-closure/update-cases/interrupt.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1422f4a1decb1397494988e3541a6497b943683abc0a0dbfc89e2555655f067b"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "00de1ff862bd22aed5efcb0381160d48ba9a58657ca87b9a7b9c4f4057c3a7ae"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "fe6310b98178f533c496e5ef9c1415e0e5e81c4a7678d37d239b372d2f2b51ad"
+    },
+    {
+      "path": "build/m2-closure/update-cases/valid.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "2c175171cc8a14568b00c48393cba62c58c1c480e8e58257dc7227f48d4584dc"
+    },
+    {
+      "path": "build/m2-closure/update-install.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a2efb595fc8967acd3a8aec70d6a649ceb83d8556788c5790b45e34eaa935895"
+    },
+    {
+      "path": "build/m2-closure/update-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "04ccd884bff8dd438f14610929179de3936fbee1fe1f5f4ed458229bc35c7c29"
+    },
+    {
+      "path": "build/m2-closure/update-settings-pipeline.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "66a9243cb4c89c20685e683b64fb4c227c8f75f3e0d62ac9ad2032b885c45201"
+    },
+    {
+      "path": "build/m2-closure/update-settings.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "8ed680ac0732941106bec1a103b5ba7cc01ab9bd481aee58a12c7f6439500b49"
+    },
+    {
+      "path": "build/m2-closure/update-settings/appcast.xml",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "209793dd5c171c428d8f3f84a73f4a998dc586c7dff0df3104cc79b921aff2cb"
+    },
+    {
+      "path": "build/m2-closure/update-settings/feed-sign.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "5f34fe57ddd361a1b13548c5c0856f0199b8d8c1bf571d5f555b6972673cf729"
+    },
+    {
+      "path": "build/m2-closure/update-settings/install.log",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "959f98b49201f42a36af3e9df8b863b10b5f324dfdb315470dee7308af207cc1"
+    },
+    {
+      "path": "build/m2-closure/voiceover-driver.applescript",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "16f12b41cce249d4b95fdd8a9040006e404f736906624e11b4fd31ee7a1e2a99"
     },
     {
       "path": "build/m2-container-trust.log",
       "sha256": "92d81462a1f2e9bdee6aa577010d41ed96d11b932eff4231639d625e29ea85e4",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-content-inventory.json",
       "sha256": "5244d79e2e1817074efee6312edb3d92ccca349343bc350f84f0d398c1f97217",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-development-package.log",
       "sha256": "d84feceb759ff25ac462e39958c4184bfd45e99316455979260c75ddbc109ee4",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-diagnostics.log",
       "sha256": "888248ab7a5dbdceda21c3008125dd08aaa04228d6c374c146630b3e5a38c196",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-check-final.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-check.log",
       "sha256": "a387d7b82aab33a57064c122d8381791e288410a5bd95f99dceb2e6a400ff3c1",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-fix-2.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-fix-3.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-fix-4.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-fix-final.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-format-fix.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-python-2.log",
       "sha256": "eb240c29e22bc06aacbbc3271898497949334e875bb4f0704835c80e97c9dc5e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-feature-python.log",
       "sha256": "8ee26cb961b8170a536bb9c156cc0103ad603cc1b0f496c481856cc1a914e818",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-bundle-build.log",
       "sha256": "3a06cbad41aaef19dcea078af89ae03d65691d829ccdd8bb22fe7f0c5bda4975",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-bundle-platform.json",
       "sha256": "72f7c88dcf4f4c70fa43de2912718f50649e8c1b495dd938e4ed7db313a6e83d",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-content-inventory.json",
       "sha256": "932ea8f2f52816e87b5da7b04b9a18d211e0825a78fbf1a43592d45c65485dc0",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-export-review.png",
       "sha256": "653ed9ad9c51c92fd8877ff5cbb8ebcb4583d8f1bd203c1fc458790d3a6cf99b",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-multipage-review-1.png",
       "sha256": "260658b5e70b362dc9aef65708e2034c334dc366c7bdde4519d62ff06a0a42ab",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-multipage-review-2.png",
       "sha256": "9c511858d9ee84d7326496a64c133a051ddb6d873ce50af7721306164abc8618",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-native-journey.json",
       "sha256": "4b1f792784f684d8ecc6cf5be731f0fccb8ce75666aea3dbbaa1cf9d38282c26",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-native-wrapper.json",
       "sha256": "015a23d942f159129d56b987f1269580e67a5e5e69780a28ed7f4d6a9295a22f",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-package.log",
       "sha256": "378a9ce3d5563031854c8e88563ebf723f085828d6e8411342fd8d6dc2db083e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-public-output-inspection.json",
       "sha256": "0144fc5c127ddcbbf3bbac528f0ebe9a4b009c2b6491ac73696b13d53c14eb1f",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-python.log",
       "sha256": "940530565e4f533e7d4d6e1ce36ca70669a1263e0098bf59ba9dc1e9cf9abc71",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-redacted-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-final-release-native.log",
       "sha256": "aacfcbfcd7b65839ee2e645e60f08a4f5dad9e9a6b3b2d584343f73a4069fc3c",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-find-return-debug.log",
       "sha256": "a20805af647bcadcd4ebbc9aff60c03a373cea2962c21a7c703b4bd4e5ba572e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-find-return-final.log",
       "sha256": "f9cad0fb0a881ecad9e21313417d5fb4e3cb057b4996f2de2393b5853333202a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-full-native.log",
       "sha256": "ac8c3d345b0a4761dd4283e952a425621630bfc53a36a34387c566dc777fbe32",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-inline-undo-after.log",
       "sha256": "a0549ccc73e988a0f1fc068387fc0830db9c874aae661e8a191470c943b13116",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-inline-undo-before.log",
       "sha256": "17917cbfeb7e6839272d37b9e0d3d5a434b61c59e9a19d2822cf552b0666dc2c",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-inline-undo-routing.log",
       "sha256": "764fb6f13ea0ea5e7063c6bc3cb225ec21a81b70f743331658b7dc689ccc53e3",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-input-actions-focused-12.log",
       "sha256": "6c098fd7eedff2f6684b4191afbc5b80706ba1efa87129b11fbb1a6c0984aedd",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-input-trust.log",
       "sha256": "ed018276ff8a38aa95b3d155038ddb061d5761be3458384cfd408995275f77a6",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-inspector-native-attempt1.json",
       "sha256": "e6c9a28037453048f31bb2fe9f386d03e6f92aa52f1f83e2ad2674e227c135cb",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-inspector-native-attempt2.json",
       "sha256": "265a0f8e5d9a2a76e404b3bf11ae9a0e65bfd53ea4cc8d9e08de8f8287323fe0",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-integrated-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-m0-integrated-native.log",
       "sha256": "5344ed279a0a055201d70481d3fabd53ba1ece3cace0cbe231f5cc875bfb9cb1",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-m0-integrated-python.log",
       "sha256": "d11252d93e0056ec8a1a728db98a7b42b6e9ca9a4453745d3d5cd23c61c114a7",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-m1-accepted-review.json",
       "sha256": "9284b7f60f5c49cdc10798bd35095b3b391d6d5bd10518c171c624fcf632cd25",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-m1-handoff-review.json",
       "sha256": "cf32f6139f2e449efe4f4dcda73b3e4177bda8a02b508c28f5efb26f6eef8bc9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-m1-integrated-native.log",
       "sha256": "31f521355a82e2f1e25b526f58d6cace6c14b34537a2714e309514e45ad1e7ba",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-build-tools/swift",
       "sha256": "bbfeee05e65587dc16d029fc2f95cc57ec5d6eb5fdf9b630bd96c79e360b1002",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-10.log",
       "sha256": "66aeeacd3136cd0bbb63c7fd77dab0562fc4d4e4c536e20ad927254da8635589",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-2.log",
       "sha256": "7e4d366330817e4df01e9abcc1a238cb3113f45e96d30f1bccc2e7930fc886ae",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-3.log",
       "sha256": "5b0cc7e06da5c068abadbcbdefee090500b64f1c4981362b697ec64dbe04e330",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-4.log",
       "sha256": "19e35257c56743c8514404465bbf49d740740e2daa72b011ebab05d4ae9a0c32",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-5.log",
       "sha256": "18ba067807f93d9a4aa2be620ded3a79598a45172232f0e7f357b8e4e4d22dce",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-6.log",
       "sha256": "d5304a493411c80d71162edab7d9679b30c073e22d145eef95c4e4fc333956df",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-7.log",
       "sha256": "4c0646cc572ec9b7f6d7c92c250668d12991cc6f51758b7431fc10422b8ac095",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-8.log",
       "sha256": "f6e85ab3753bbec85342baeb334383b0b93a5e9b2d001f9a9e3b04980ead2290",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused-9.log",
       "sha256": "99b782556a744b114080a4cf14bd3a316f6390920fe33a8a37855072926267b7",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-features-focused.log",
       "sha256": "fd6264d8df117e66cbcba8ad985241ea9d74360ec1c7fc47b801c425de9c9f8a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-integrated-features.log",
       "sha256": "a2991a1f76a10c07ee6f13dc1d3cbfeaf44671bbe5ffee508608e035471077ab",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey-fixtures.json",
       "sha256": "0c3ef7e908f089bfa221ba625b769f8f1184f557d9e7480c40379173713ba9b3",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/FinalFlow.pdf",
       "sha256": "3df5c70dee0eb26a06ef2ca42638a34aa7c9e9259921db10566d90b0f344bde6",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/FinalFlow.svg",
       "sha256": "c89c7dd549ac7207f8f7ee35eeaa3315772d3e531e63e322ca86efe25f0113da",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/FinalFlow.vsdx",
       "sha256": "9ad3fef8381db89b653b03211f39c856ac272480cdb628b9e775fc48e9c9fb47",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/FinalMultipage-Qualified.pdf",
       "sha256": "164ad2227ff20c4b9b5b80e8247cbea7ceac9cc06f16d28ce520e651ac97f0b8",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/FinalNativeSupport.json",
       "sha256": "4180e7d12caf757ce5fd76af0a581f4e7b51adb34e6b63d1f5903f15f7d645b0",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/KeyboardFlow.svg.svg",
       "sha256": "a330bb777a9815e106d672217fc3357c7768f14c25c028527eb94c39b2404c49",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/KeyboardFlow.vsdx",
       "sha256": "145142daa56a75aa39630a503a681b15b262c50aa5b3983d47eb552f3258cb66",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/Material.vsdx",
       "sha256": "39558668e1b6ce598d274c5278573791cac2d7f7ed134df861a5acf9b8141d7e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/MaterialReviewedCopy.vsdx",
       "sha256": "0bf9452755570e0074372f7de07ed73b10d70b7dff6dc172666471a7d77a9bf9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/PreFix-RichInput.vsdx",
       "sha256": "4ee3a8634982142e039f7cc7bd43972244561c0b39965f307e11048b01a85b74",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/Qualified6-IME-Skipped.vsdx",
-      "scope": "Japanese test skipped at user request; restoration evidence only, not CJK qualification.",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied.",
       "sha256": "f665e8128f7ec85c7381019afbac9d2a6f8e918d76e6e7064f9a935fafa568a9"
     },
     {
       "path": "build/m2-native-journey/Qualified6-RichInput.svg",
       "sha256": "bcbdfce9658bcf7feab6be3314b987953bac67cafe9ac3ab67747d03ad747656",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/Qualified6-RichInput.vsdx",
       "sha256": "c6b55a23e15c638fe5e0476fc92506cec2026f8dbbf705923eef6f797cbfb088",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-journey/ReadOnly.vsdx",
       "sha256": "145142daa56a75aa39630a503a681b15b262c50aa5b3983d47eb552f3258cb66",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-preliminary-journey.json",
       "sha256": "751da7052addca8aac5a7d990eb056606379dabea68c31563b94b63ee5a4f34a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-qa-sign.log",
       "sha256": "fa76a7d6fb08b94f00853fad6afb0c4110ae3aaf8a51094c3e4b1209ca28ac5e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-qa-wrapper.json",
       "sha256": "935f16976278f8206891ba309e50e21b684bbc338900e421a4bd1fe46acd6579",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-native-rich-input-before.json",
       "sha256": "e51cd1192703311e3cacceb20252439eaef78c2c4b4e979839590bb1d19e2fb5",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-notary-profile-check.json",
       "sha256": "03fed5f3942edb3a0821e0a22325d649e2a7b4ba317ab7deeb52e087977c8251",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-pinned-feed-verification.json",
       "sha256": "5f1f81637c3d1dd7d9f5961e8804855f625bdcbe07d03fecb090cfe5bebfc9e5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-preparation-final-native.log",
       "sha256": "a63914893ea18b8e86c2fc4c192e3a9e130955b2c9b71a1032ac284ef8b651b0",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-python.log",
       "sha256": "7b9144e657da576b27e85479b30bf5321e2b03f06cbd8cda0e70f4a11844b68b",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-application-support.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-bundle-build.log",
       "sha256": "d157684004e43f6a940e3a11bda637912ef4f1a517a154386e797f70634d0dcb",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-bundle-platform.json",
       "sha256": "0fe986913b50e9c20a24cc6c79dbf009a7b3ebf6a696e30145a40c8dd7b30797",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-native-wrapper.json",
       "sha256": "f9efa5f9816ab73f9ce05e9020944447cf06879529686c914170fe0976336ce6",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-package.log",
       "sha256": "6306cd6a1511babb6d1433118597c091498ed045247a174fa8c03c16eedfc59b",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-platform.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-python.log",
       "sha256": "c80a57c80acf94a31290118f2aa6f095a0b7fa3fe47f32afeb133c5948fb7b48",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified-release-native.log",
       "sha256": "cda013ae182ce85b929458917057ad6a6f6cfd2a77f0eaaf2b3345738876a727",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified2-release-native.log",
       "sha256": "f8b0ecfd9816290e9e0abacc001ae8485118c0d9b75b208a8cef9f755df84eab",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-bundle-build.log",
       "sha256": "05177018715d7e7f1611867beb28bdb4f94ba870af6b6a7ec9f45391c523c891",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-bundle-platform.json",
       "sha256": "76618db94aa09b9af7a3aab7ce78cb6c2a3669a9d11d00a0d936ecf6adbdc7e3",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-content-inventory.json",
       "sha256": "71ec98c39bef632f112b3677250614f2f8bee4a0291e7e8b485d931a3e15bea2",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-native-wrapper.json",
       "sha256": "af51fbceaedd42d801881615ef28250da6cecd3d5e0180f929d5d4ce7decc067",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-package.log",
       "sha256": "973b0687439653c80059a8993dd54cc989230ac0a593deecf84e994885074aa0",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-platform.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-release-native.log",
       "sha256": "6586b3d9d17d3b2af682a175989d24df7960df53f37a2c567ed4d48f5d3a03cf",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified3-support.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-bundle-build.log",
       "sha256": "454c64c0361260741a30bf87bc33912464ddf08cd8f8e528bc1e6a1727028b46",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-bundle-platform.json",
       "sha256": "eb10a3bb1d6ea671459a5b00012ae1a3eb83ea9ce02ac08f3cc2f154cdaf6d86",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-content-inventory.json",
       "sha256": "b69da85082d3c8b4c2d8dfaedf677bf92d1803d2e4d5d05e8dfca72b90a08f0e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-native-wrapper.json",
       "sha256": "b7f9de1507dc349007e77b14c3de7093ab868a5378aef51bdbcea2d29c3a813f",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-package.log",
       "sha256": "006fbfd7a3432ad0bb38819b2d621298318f72277f4fa30204a6893acb853cbc",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-platform.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-release-native.log",
       "sha256": "8d9ef3ada04987133c47bc45a2ad3da5265c4ca799d2badcf9a78f54fbe39d39",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified4-support.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-bundle-build.log",
       "sha256": "12f566b802af82348a514e38e6f63e78e31f6301645086bd9a3f3dc098605aff",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-bundle-platform.json",
       "sha256": "d690c4f239f0e1645ba42c3ff8d8a279daeb691df3d95f37960166a02ae0ba1f",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-content-inventory.json",
       "sha256": "502b96118d25ab3f390fd45bea2263372e90fe1042f731aa6e4d734c4decc22c",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-native-replay.json",
       "sha256": "b6cc7d04178bc49255e477dddb152df67221ff4aa92b7537f7dba30321785d8c",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-native-wrapper.json",
       "sha256": "8d93ea8158ebff07f98f07c7907dd369102cc804acd462b533baadfebc6e06ee",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-package.log",
       "sha256": "0618f94356fc536cd702f719d3ad102600423d904f2b741f1922067514fdfb6d",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-platform.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-python.log",
       "sha256": "f7c2760ed7f1e5144bb5a879db822907f337d182fc7cedadfa4d6d76eb8f61d3",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-release-native.log",
       "sha256": "2d871c7afe22a37ffe655f9eb20fe382eefba60e31f4df7258db2b9cec9c2815",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified5-support.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-application-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-bundle-build.log",
       "sha256": "aa6a569b89a9b04629d87fadf9196a80cad4de781bb7120526903944dbe0d82e",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-bundle-platform.json",
       "sha256": "6d5dab80dd3050b430836dc1832cc77b1de68a8b342b29da425441a27fb124db",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-bundle-verification.json",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-bundle-verification.log",
       "sha256": "02897fa17597c8790906c5a4fdb63fc7c485d8a62445076003b3746b6abf6fa5",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-content-inventory.json",
       "sha256": "f5a7ecc3a20ddb1a3cdff32fd7c0138faaa14626f2a7bb69532103997200f5a6",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-format.log",
       "sha256": "d55de4f1ce36a2883d13238affb9d4c39e1016e00dfdd9a08fd1ce744ab83a33",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-gatekeeper.log",
       "sha256": "4e2af155da2b964b638d6626821fc08688a1871931dcad36fd84d7819927b474",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-japanese-input-pending.json",
-      "scope": "Japanese test skipped at user request; restoration evidence only, not CJK qualification.",
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied.",
       "sha256": "58251c905f1defd89b67404b259cd2100d79a424872f947b279b03c27d5cebc5"
     },
     {
       "path": "build/m2-qualified6-japanese-input.json",
       "sha256": "cfdce1e5fe49cd1a883b1232cb0b9c5f9890ede8b7ca9136f2986113559e4273",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-ledger.log",
       "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-native-profile-baseline.json",
       "sha256": "535f7f4c1b1f60636890fd45ff50eb61f39055a4c552459141373fe7ee1b57b5",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-native-replay.json",
       "sha256": "82262cba974c11d6bece5a51e94fc198e9183f9a1cb2a069e1f2b4e24984e031",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-negative-signatures/tampered-appcast.xml",
       "sha256": "e7efa887552732238d422ce9a22c9965a7b785b0e312d5d8fb1e0dc82be1677a",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-negative-signatures/tampered.zip",
       "sha256": "09536089b1336f1310894ceaa4ab1e00be392aa76937edd9e03adbdad23ccde8",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-notarization.json",
       "sha256": "48cbe99a479c478812b950d215be85470d098800e80b05895bc6bae010fd6838",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-notary-archive.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-notary-submission.zip",
       "sha256": "f3ed07bd754f85540687b08acb0d3da98d7999d19dea34e49fb291d60ad12da0",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-package.log",
       "sha256": "9eee3540635add2596f58f287a1d4ebf91750f15077021eb8b990daa5625df92",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-pipeline.log",
       "sha256": "f89c71c7cd00b2f9b6cc08ed29df6db69a691cf601351b98e22ee802b864f90b",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-platform.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-python.log",
       "sha256": "8fc107834361af36885de4c1d3b6fa03ee87cb6651d11f2e88db3093683330fc",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-release-native.log",
       "sha256": "78b650ef46896129537bc1a4cf95861f82651971bf8836dead642f770cdbbf55",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-signature-negative.json",
       "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-signature-negative.log",
       "sha256": "8b7ea0e7d1906646dc89b46fb194127dc197adc3a8cc634961f31c5b1333cc65",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-signature-negative.py",
       "sha256": "626461c6c552391d6f44deaf0d8a2da0dc13282264f81f8e6f949fd4d55860ac",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-staple-validation.log",
       "sha256": "50292d63bb9071aea2c6f0bb41ad5a5cc1c3dd553d3c7dc7cf4f1b0b3a356f8b",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-staple.log",
       "sha256": "d9b74bd1284bbd949b1cdd3c0c0563350dec26bec234bc6929c6966a439a3757",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-qualified6-support.log",
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-recents.log",
       "sha256": "964adedc21cf49f83faf3a31428cf1b4e93f6f0f80318bd54111fe79a0b2845d",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-redacted-support.json",
       "sha256": "e38f71100a3ad2ab7ad70d467ffcdf97ae30dcc402d0eb4f5f0eeb3e0961ce64",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-release-build.log",
       "sha256": "07aa0e6b8e9369527499261e76bb5c11b5919af4934b60a4342d002c49360104",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-release-suite.log",
       "sha256": "47828db2cb282ad510d9e3907068012c8578237b335d7e3c2bd8cf4c100779e9",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/Sparkle-LICENSE",
       "sha256": "389a4e4e9a32f059775b13a06e25a591445ba229d2838d26dd3e7c0c45127cfe",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/ZIPFoundation-LICENSE",
       "sha256": "93a5b6f4c4fcfbca71aaf17f5758d249cf205d5d1c237becc37f14e43af09f6b",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/final-license-verification.json",
       "sha256": "67dfec5aae308a6e58013ec242bcab73568fe0efc14b01d7e5937ce1b1e8982f",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/icu-LICENSE",
       "sha256": "e55522d81edc687a341a4411e0776e54ca654e90147f354a90458aaced4116af",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/librevenge-source.tar.xz",
       "sha256": "19eacf5ce55d7fe6a990a45142589cdf7da0c7b68701797f133482cb44f189fa",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/libvisio-source.tar.xz",
       "sha256": "2a6efd40b6d9dbcb70fba3be53112366882ba97b57151df3698dfa478c8d8dd3",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/license-verification.json",
       "sha256": "30296c9ccbc0186e58270a109c5660983b84f82988bc6935de7bba52ab4b1470",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-rights-review/source-verification.json",
       "sha256": "d62cf174dcc72b2dcdd2d664c97e59c12afc42bad783f6ffacd0baaae1dde2d7",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-search-input-focused-11.log",
       "sha256": "23dbf0e6c399a80aec562fe2e0abfba2ba8c4098b2598ea937781fa92b7b68c8",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-search-text.log",
       "sha256": "e14c4feadf725c57562825da85c7549f19b99bab885bc2a4b457de4572de9eae",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-signing-prerequisite.json",
       "sha256": "10db7b072f8c9271a67cfbdee12d11e4b8ffa00b192b43dc4fa6f38886953ca8",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-stable-ad-hoc-rejection.json",
       "sha256": "c3113735d16927eb808a530d43f7013702357aae09d7caf8dd9a5f22ac46c379",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-support-report.log",
       "sha256": "8a8f5690608ac98946a8b68ecee1c362fcafac9572db347ce8e4c23acb379c55",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-text-routing.log",
       "sha256": "b23c00889e03ae1bd4048c84a2aae2fd59960fdc5d39a9792bff6c225723edbe",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-update-runtime-policy.log",
       "sha256": "8c6215960caffb4bdbf83fbfb71ee71f046b8ac2db9c8cf9fbb3c2f438b0479e",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-upstream-gate.json",
       "sha256": "e8ded161ee6384a4975bc826b3a84b6e0d1c1a865dca497e5a145caf83908c76",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-upstream-resume.json",
       "sha256": "fbd0b5388721175777249afd37b1e5bfcb5aa826acefec3bed91e2804971eb93",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-current-app.py",
       "sha256": "63fd7dceac7b18bb39801de67de6dd9d8f1d8bec49ae95faae71123dea5943c1",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-qualified-app.py",
       "sha256": "f053bc1454e110650c3b7c3cb50baa476a805c75461a65cb1cf066f200a3758b",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-qualified3-app.py",
       "sha256": "e35a6bf363ed696f5ca8b3f9008710447eefa35d5fbc0a99dbf2027d2488c486",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-qualified4-app.py",
       "sha256": "50ad0531f04f0a8f320997803a14a4f832eb4690461d1189e65b68a6528eec6c",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-qualified5-app.py",
       "sha256": "f7bac3e4844a7edf6bd5ce1df312ce7f9db7ef42dbbacbac6205cf01313aeff6",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-verify-qualified6-app.py",
       "sha256": "d9b2938fae548fd3ef50492a12d4b3aa079e4dbc5b771893c96b5a0aa6fce881",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-window-badge-native-attempt1.json",
       "sha256": "39ddec13532066b69a255441b9d7241b936b04ecf3f6dedf6f0e3e1b49f45dc4",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/m2-window-saved-badge-before.log",
       "sha256": "0dc2ebcdedb09e3a13a57dcb2d5e44edbf6e5ef9ddbbe8829d5ed8244257ef26",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-0839994456aa/MacVisio-0.23.3.zip",
       "sha256": "5f081eea719d3693631586d42a9494a1fb135933ea0385346283ccf429a95028",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-0839994456aa/SHA256SUMS.txt",
       "sha256": "b3db954fd5ac925f1459e5db89b893a18d288b7de2b7565a8f81ce5907cee647",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-0839994456aa/appcast.xml",
       "sha256": "5e375e8c87606278b9e391b28b439079ca880e77e03303a3831ffe9af7589053",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-0839994456aa/release-verification.json",
       "sha256": "10c4cf4525e5f98d7694735484d320b22ea7cbfa81421506dcd37f286e6a02b1",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip",
       "sha256": "dbf1d866f5cc79587588639a52659806f7e4981a6b319216f056f00bf5fd2939",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-fbd851bd9f91/SHA256SUMS.txt",
       "sha256": "f213e67082b4dd5860a902795989a31b546829711f1ca8e7601ca5e48bbb1c57",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-fbd851bd9f91/appcast.xml",
       "sha256": "cb7324492b34c843c21bacbd28d51bdb2d05d17c6cdbf65b37403f38cf2c2063",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "build/releases/development/0.23.3-fbd851bd9f91/release-verification.json",
       "sha256": "cd62d0907faec711be9997ac8405fe88288d291bf9a78f8da7ecb9efa7ee3c58",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Retained historical/scoped evidence; final M2 engineering disposition is docs/delivery/M2-QUALIFICATION.md. No stable or compatibility gate acceptance implied."
     },
     {
       "path": "docs/DEVELOPMENT-BACKLOG.md",
-      "sha256": "8d60e0f5054afafe711ca21736392e91a3cb958a97bbd22b8079a8c293fe636a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "7f63f928007ef6a8ea01935c0a66492fac0d0028c837e40dcc3a099deaf5dd70"
     },
     {
       "path": "docs/DISTRIBUTION.md",
-      "sha256": "bf09437da9d4860fdf72acca2774e666647d595bc47b6944e3c8f15cdf5948e3",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "73ba2304d30ed5cd2be4692bdae4905af3f8d6cb4ed2b121b3e6ed1e10215edb"
     },
     {
       "path": "docs/delivery/M2-ACCESSIBLE-CANVAS.md",
-      "sha256": "83b281927c6c601e94e77192855acd5cb6253b95920d73a97b199c8b57ea312a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "582565eb322ad688dc1511c90cdf46ba358f24cf7cf96d0015fc6b8be3dfa622"
     },
     {
       "path": "docs/delivery/M2-CONTENT-RIGHTS-REVIEW.md",
-      "sha256": "82d50d8d90ec5dd2239cca139425f3f4e3d8b2f4870dc7d79bf5ef87bd2db81e",
-      "scope": "Retained scoped evidence; current/historical candidate and Japanese test disposition are identified explicitly. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "e977c9cf42f84a2731b9480389ab6918eff848c8d440f5582f8ff6a11d4ac5b7"
     },
     {
       "path": "docs/delivery/M2-DIAGNOSTICS.md",
-      "sha256": "55b901db09051d0238bb65874ed51742c8572f36ff81ee15707d0427d2490459",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "55b901db09051d0238bb65874ed51742c8572f36ff81ee15707d0427d2490459"
     },
     {
       "path": "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
-      "sha256": "8c8c0f72f0d972dd2679b862ee1b70eeaba734f997a49e29a30c42c31752e886",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "d218d6c03580774d55e933638239180ea348e8eff531c1b1c3797ad2f16f37aa"
     },
     {
       "path": "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-      "sha256": "f5afa8e138004bffbe2393bfeab99bacde74f715859dc7cf1a6c18c6935f3e9b",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f4070381cae402f4e4a765a7e514ea0cd3be4bdb3cdf1d1e8f914496cc4b9ae8"
     },
     {
       "path": "docs/delivery/M2-NATIVE-CONTRACTS.md",
-      "sha256": "26042a54f6f122056cdc39cc05c044e6e722caf9dd0c9ab133aede064cac7ef7",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "8a394ca5cecb695085c409f80e1e6ce730c9e505baad9e06b89c86bf790b491a"
+    },
+    {
+      "path": "docs/delivery/M2-QUALIFICATION.md",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "3d34eed9998c0c275641b027bddb147b94ab1398cd5fd2828c4e1b24bb769792"
     },
     {
       "path": "docs/delivery/M2-RELEASE-TRUST.md",
-      "sha256": "b92be784a9c6ab1145c27cda46b1e6c73820910279dbede81ab72b06f5f2e6cd",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "a9c0d3d515b6642eb9f5cd3aba82e74821e68a482a57b7b71d3c177c588269c6"
     },
     {
       "path": "docs/delivery/M2-SEARCH-TEXT.md",
-      "sha256": "1aa71d638b8b7d52d97f69720eb4f3f608f49f0d69564d7210601e6d4b3bdebc",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "1aa71d638b8b7d52d97f69720eb4f3f608f49f0d69564d7210601e6d4b3bdebc"
     },
     {
       "path": "docs/delivery/M2-SUPPORT-REPORT.md",
-      "sha256": "f7223283e3f704a72b9e8d52f91d5b4697372708138700e0bb094bf26910914a",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "f7223283e3f704a72b9e8d52f91d5b4697372708138700e0bb094bf26910914a"
+    },
+    {
+      "path": "docs/delivery/M2-TASK-EVIDENCE.json",
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "15da9c35a1094d9530ec5dce39d75cbab9b2bd3845b80beab05cb1ddd0d548ec"
     },
     {
       "path": "docs/development-backlog.json",
-      "sha256": "b514f3dd2c55ffc464fecacc179a5af6670f78a14eddff55b04b84ae93744403",
-      "scope": "Retained scoped evidence; current versus historical candidates are identified in tests/records. Whole M2 acceptance remains false."
+      "scope": "Final M2 scope/qualification, actual owned updater/appearance/provenance evidence; no public or specification compatibility acceptance.",
+      "sha256": "79e5deef2ea147394df9168ebc0c2869bd7eb1595fc9e78894e5be7860027120"
     }
   ],
   "blocked_task_ids": [],
-  "blocked_scope": "Remaining qualification needs observable global VoiceOver/manual native evidence, deferred CJK candidate-picker coverage, authorized installation/update tests, minimum-OS platform, application-owner provenance and licensed Visio/reference/controlled performance inputs. Local implementation/regression and notarization have passed.",
+  "blocked_scope": null,
   "delivery_gate": {
     "state": "satisfied",
     "dependency": "accepted M1 engineering handoff",
@@ -1572,7 +1918,7 @@
     "state": "passed_local_scope",
     "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
     "latest_log": "build/m2-qualified6-release-native.log",
-    "latest_result": "745 tests/12 fixture skips/0failures;87 Python; formatting/import boundaries/ledger; actual signed/notarized/stapled archive and native rich-input replay pass. Whole M2 acceptance remains false."
+    "latest_result": "745 tests/12 fixture skips/0 failures;87 Python; format/import/ledger; signed notarized candidate, native text/flow, appearance and actual update/recovery checks pass for agreed M2 scope."
   },
   "historical_tests": {
     "native_debug": {
@@ -1758,12 +2104,86 @@
       "native_disposition": "build/m2-native-rich-input-before.json"
     }
   ],
-  "updated_utc": "2026-10-16T04:24:03.742388+00:00",
+  "updated_utc": "2026-10-16T04:47:42.975686+00:00",
   "native_input_followup": {
-    "state": "skipped_by_user_restoration_complete",
+    "state": "out_of_scope_by_user_restoration_complete",
     "record": "build/m2-qualified6-japanese-input.json",
     "temporary_source_enabled": false,
     "restoration_pending": false,
-    "CJK_qualification_accepted": false
-  }
+    "CJK_qualification_accepted": false,
+    "required_for_M2": false
+  },
+  "scope_decisions": [
+    {
+      "scope": "Japanese-language input/candidate-picker testing",
+      "decision": "removed by user 2026-10-16"
+    },
+    {
+      "scope": "VoiceOver operation testing",
+      "decision": "removed by user 2026-10-16"
+    }
+  ],
+  "qualified_local_slices": [
+    "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias dirty/selection/zoom retention and locked-file Cancel pass. Final regression covers document/workflow/opening contracts. Original adaptive Home work is preserved separately.",
+    "WP-10-T02: Cross-page find/replace and validated command search pass. Native selected-run formatting Undo/Redo remains in the text responder; signed-candidate save/reopen and SVG retain Unicode and unselected formatting.",
+    "WP-10-T03: Explicit units, mixed/guarded/inherited protection and reversible two-page preview pass. Actual Return1in→25.4mm, Undo/focus exit→169.333mm/clean and locked-movement refusal pass; final suite includes real Return and settled-scrollbar regressions.",
+    "WP-10-T04: Actual branching/subprocess flow, attached labeled connectors, second-page target and off-page navigation survive save/reopen/rename. Public XML and independently inspected PDF/SVG agree for the declared basic slice.",
+    "WP-11-T01: Stable semantic AppKit graph IDs/order/relations/frames/actions, protection and native enabled states pass. Actual VoiceOver operation was explicitly removed from M2 requirements by the user on 2026-10-16; no VoiceOver pass is claimed.",
+    "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passes; native-window focus traversal, exit and connection Undo/cancel regressions pass. VoiceOver operation is outside the user-agreed M2 scope.",
+    "WP-11-T03: Actual Australian marked-text cancel/commit and selected café formatting/Undo/Redo pass on the exact signed app; RTL, decomposed accents and emoji survive save/reopen and public SVG/VSDX. Requested font metadata remains intact. Japanese testing is explicitly excluded by the user; original settings restored.",
+    "WP-11-T04: Actionable content checks and actual spelling selection pass. Native 760×560 editor layout retains canvas/inspector access; real Dark/Light/System SVG exports are byte-identical. External Visio proofing parity is not claimed.",
+    "WP-12-T01: Malformed/oversize ZIP/XML/CFB/native metadata, pre-DOM budgets, 12 bounded-image, six real helper deadline/cancellation and three pre-read admission cases pass. Imported actions stay inert and calibrated external no-fetch fixtures pass. Whole-process codec/sandbox guarantees are not claimed.",
+    "WP-12-T02: Exact source0839994 is Developer ID signed, hardened, Apple Accepted via renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key checks pass; ad hoc/incomplete stable publication is rejected. Development artifact remains unpublished with publicationAccepted:false.",
+    "WP-12-T03: Official pinned Sparkle performs real owned-app installs: altered feed/archive rejected; interrupted download preserves prior bytes; retry installs exact final target. Prior and updated apps open the same drawing. A second install preserves settings, recents/pins/removals and document bytes. Normal installation/public feed untouched.",
+    "WP-12-T04: Actual local qualification declares arm64/macOS27.0.1; binary inventory derives floor27.0 without claiming a27.0 install. Five upstream component notices and two MPL source offers are verified; first-party source/resource provenance and evidentiary limits are recorded. Native support redaction passes.",
+    "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input keys. Actual source traversal and stale-record retirement pass; anonymous legacy notes remain explicitly document-scoped.",
+    "WP-13-T02: Native issue pane distinguishes rendering/cached state and source part/Visio ID. Reveal Target selects the correct source object with another drawing open. The qualified producer slice is explicit; full importer compatibility is not claimed.",
+    "WP-13-T03: Affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy preserve original hash, source URL and dirty state; public copy text verified. Unsafe autosave is refused; Undo restores normal clean close.",
+    "WP-13-T04: Affected/harmless/Undo/multidocument/envelope/warning-retirement fixtures pass. Native material diagnostic/save/support results agree without warning on harmless opaque metadata alone."
+  ],
+  "historical_unaccepted_slices": [
+    "WP-10-T01: Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
+    "WP-10-T02: Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
+    "WP-10-T03: Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted.",
+    "WP-10-T04: Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation.",
+    "WP-11-T01: Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open.",
+    "WP-11-T02: Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
+    "WP-11-T03: UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese-language testing is excluded from M2 by user instruction; it is not an outstanding acceptance gate. Original input settings were restored.",
+    "WP-11-T04: Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted.",
+    "WP-12-T01: Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
+    "WP-12-T02: Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
+    "WP-12-T03: Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey.",
+    "WP-12-T04: Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
+    "WP-13-T01: Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
+    "WP-13-T02: Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete.",
+    "WP-13-T03: Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit.",
+    "WP-13-T04: Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage."
+  ],
+  "qualification": "docs/delivery/M2-QUALIFICATION.md",
+  "task_evidence": "docs/delivery/M2-TASK-EVIDENCE.json",
+  "continuing_release_obligations": [
+    "No stable/publication acceptance or publication.",
+    "Broader platform installations, including exact27.0 binary floor, remain unqualified; actual M2 platform is arm64/macOS27.0.1.",
+    "Licensed exact-build Visio compatibility and controlled numerical performance remain with their original M0/M3/release owners.",
+    "Technical provenance is recorded, without a legal ownership attestation; publication must retain complete third-party source/notice obligations."
+  ],
+  "historical_notes": [
+    "Accepted local M1 prerequisite remains satisfied and integrated at d797a67.",
+    "Source/test candidate committed at 0839994456aa82f3533456c75f9f10da1ebcd2bb; whole M2/M3 integration acceptance remains false.",
+    "Original checkout tracked Home working diff remains five files/285 insertions/111 deletions, inspected read-only.",
+    "Earlier suite/native failures and superseded archives are retained, including failed NSApp action-dispatch harness attempts; corrected first-responder fixture and real native Cmd-Z replay pass.",
+    "Full745/12skip/0fail Swift,87 Python, formatting/import boundaries/ledger and exact signed-candidate native replay pass.",
+    "User selected renoir-notary; actual Developer ID team5NF98M544G, Apple Accepted receipt, stapled ticket, Gatekeeper and final ZIP/feed verification pass. No installation/update/publication performed.",
+    "Third-party rights review is complete for observed final bytes; application-owner provenance input and remaining qualification are explicit.",
+    "User requested Japanese test skip and restoration. Australian-only/Input-menu-off/globe Emoji/disabled English-Australia-only Dictation verified; test apps quit and own recent removed. CJK qualification stays unaccepted."
+  ],
+  "voiceover_followup": {
+    "required_for_M2": false,
+    "state": "removed_by_user",
+    "pass_claimed": false,
+    "apple_script_control_enabled": false,
+    "prepared_driver_executed": false
+  },
+  "acceptance_passed": true,
+  "downstream_acceptance_ready": true
 }

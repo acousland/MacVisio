@@ -74,14 +74,16 @@
         "M1"
       ],
       "exit_criteria": [
-        "Native document, find/command, keyboard/VoiceOver and basic-flowchart journeys pass.",
+        "Native document, find/command, keyboard and basic-flowchart journeys pass.",
         "Recovery/conflict/security and trusted distribution/update-install checks pass for the declared platform.",
         "Material import/calculation issues are visible and release claims match the accepted slice."
       ],
-      "status": "In progress — accepted M1 integrated; unaccepted",
+      "status": "Completed — local engineering checkpoint; publication unaccepted",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
-        "docs/delivery/M2-NATIVE-CONTRACTS.md"
+        "docs/delivery/M2-NATIVE-CONTRACTS.md",
+        "docs/delivery/M2-QUALIFICATION.md",
+        "docs/delivery/M2-TASK-EVIDENCE.json"
       ],
       "delivery_gate": {
         "state": "satisfied",
@@ -89,7 +91,18 @@
         "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
         "integration_commit": "d797a67",
         "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-      }
+      },
+      "scope_exclusions": [
+        {
+          "scope": "Japanese-language input/candidate-picker testing",
+          "decision": "removed by user 2026-10-16"
+        },
+        {
+          "scope": "VoiceOver operation testing",
+          "decision": "removed by user 2026-10-16"
+        }
+      ],
+      "qualification": "docs/delivery/M2-QUALIFICATION.md"
     },
     {
       "id": "M3",
@@ -2178,7 +2191,7 @@
           "deliverable": "Preserve existing welcome-window work; add missing Locate/Remove, read-only and duplicate-file cases.",
           "acceptance_criteria": "Multiple windows retain dirty/selection/view state and commands target the correct document.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-01",
@@ -2210,14 +2223,15 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Native Home Locate/Remove, separate windows, canonical alias retaining dirty/selection/zoom and locked-file Cancel observed on b321 candidate. Storage/workflow/opening fixtures included in final regression. Original adaptive Home work remains separate.",
+          "execution_note": "Native Home Locate/Remove, separate windows, canonical alias dirty/selection/zoom retention and locked-file Cancel pass. Final regression covers document/workflow/opening contracts. Original adaptive Home work is preserved separately.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-10-T02",
@@ -2225,7 +2239,7 @@
           "deliverable": "Provide enabled-state explanations and text/shape/data results across pages.",
           "acceptance_criteria": "Replace preserves unselected rich formatting; canvas shortcuts never fire during text input.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-10-T01"
           ],
@@ -2258,14 +2272,15 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Cross-page state-owned find/replace and validated command search integrated; real keyboard replacement preserves accented/RTL/emoji suffix. Native selected-run rich-text Undo/Redo no longer reaches document history; exact signed-candidate save/reopen/SVG retains text and run styles. Broader native matrix remains unaccepted.",
+          "execution_note": "Cross-page find/replace and validated command search pass. Native selected-run formatting Undo/Redo remains in the text responder; signed-candidate save/reopen and SVG retain Unicode and unselected formatting.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-10-T03",
@@ -2273,7 +2288,7 @@
           "deliverable": "Add explicit units, mixed values, protection explanations and reversible document-wide previews.",
           "acceptance_criteria": "Changing one property does not overwrite unrelated values or guarded cells.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-10-T02"
           ],
@@ -2314,7 +2329,8 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Explicit units/mixed/guarded/inherited protection and two-page preview implemented. Native Return1in→25.4mm, Undo/focus change→169.333mm/clean and locked-movement refusal pass on exact fbd851b executable. Window, scrollbar-fit and real Return regressions pass in full744-test suite; broader native matrix remains unaccepted."
+          "execution_note": "Explicit units, mixed/guarded/inherited protection and reversible two-page preview pass. Actual Return1in→25.4mm, Undo/focus exit→169.333mm/clean and locked-movement refusal pass; final suite includes real Return and settled-scrollbar regressions.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-10-T04",
@@ -2322,7 +2338,7 @@
           "deliverable": "Complete subprocess/off-page linking and the basic shape/connector/arrangement journey.",
           "acceptance_criteria": "A keyboard/mouse-authored multipage flowchart survives save/reopen and declared publication output.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-10-T03"
           ],
@@ -2360,12 +2376,14 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Native branching flow with Start/Process/Decision/Subprocess, four attached labeled branches, second-page process and explicit off-page link saved. Renamed destination still navigates; public XML SubAddress updated. Actual PDF/SVG output inspected; no external Visio validation."
+          "execution_note": "Actual branching/subprocess flow, attached labeled connectors, second-page target and off-page navigation survive save/reopen/rename. Public XML and independently inspected PDF/SVG agree for the declared basic slice.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "In progress — accepted M1 integrated; unaccepted",
+      "status": "Completed — local engineering checkpoint; publication unaccepted",
       "execution_evidence": [
-        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+        "docs/delivery/M2-QUALIFICATION.md"
       ],
       "delivery_gate": {
         "state": "satisfied",
@@ -2403,16 +2421,16 @@
       "architecture_findings": [
         "AR-11"
       ],
-      "outcome": "Meaningful keyboard/VoiceOver authoring, reliable international text input and font/proofing feedback.",
-      "package_acceptance": "Real no-pointer/VoiceOver journeys create, connect, edit text, inspect data, save and export.",
+      "outcome": "Meaningful keyboard authoring, reliable international text input and font/proofing feedback.",
+      "package_acceptance": "Real no-pointer journeys create, connect, edit text, inspect data, save and export.",
       "tasks": [
         {
           "id": "WP-11-T01",
           "title": "Expose semantic diagram accessibility elements",
           "deliverable": "Use stable scene IDs for shapes, edges, relations, reading order, alt text and actions.",
-          "acceptance_criteria": "VoiceOver can identify and operate graph objects beyond toolbar labels.",
+          "acceptance_criteria": "Semantic AppKit graph objects expose stable identities, relations, bounds and operable actions beyond toolbar labels; VoiceOver operation testing is excluded by explicit user instruction.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-ACC-01",
@@ -2442,7 +2460,9 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Persistent semantic graph children, IDs/relations/frames/actions and native enabled states covered. Actual VoiceOver enabled, process observed, then restored off; current input bridge did not provide observable VO cursor/action evidence. Real assistive-technology acceptance remains open."
+          "execution_note": "Stable semantic AppKit graph IDs/order/relations/frames/actions, protection and native enabled states pass. Actual VoiceOver operation was explicitly removed from M2 requirements by the user on 2026-10-16; no VoiceOver pass is claimed.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json",
+          "prior_acceptance_criteria": "VoiceOver can identify and operate graph objects beyond toolbar labels."
         },
         {
           "id": "WP-11-T02",
@@ -2450,7 +2470,7 @@
           "deliverable": "Define focus traversal, object movement/resizing/connection and visible focus states.",
           "acceptance_criteria": "No-pointer full drawing journey works without focus traps or unintended tool shortcuts.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-11-T01"
           ],
@@ -2475,14 +2495,15 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passed on b321 executable. Multipage extension used AX page/menu actions; full keyboard/assistive-technology matrix remains unaccepted.",
+          "execution_note": "Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passes; native-window focus traversal, exit and connection Undo/cancel regressions pass. VoiceOver operation is outside the user-agreed M2 scope.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-11-T03",
@@ -2490,7 +2511,7 @@
           "deliverable": "Exercise selected-run formatting, IME, RTL, combining characters, emoji and deterministic substitutions.",
           "acceptance_criteria": "Text indexes remain intact and original requested font metadata is preserved.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-11-T02"
           ],
@@ -2515,14 +2536,15 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "UTF-16/run protection and requested-font metadata covered. Actual Australian marked-text composition/cancel/commit and selected café formatting/Undo/Redo pass on exact signed candidate; decomposed accent, RTL and emoji survive native save/reopen and public SVG/VSDX. Japanese candidate-picker test skipped at user request; Australian-only, hidden Input menu, original globe-key action and English-Australia-only disabled Dictation restored. CJK candidate-picker qualification remains unaccepted.",
+          "execution_note": "Actual Australian marked-text cancel/commit and selected café formatting/Undo/Redo pass on the exact signed app; RTL, decomposed accents and emoji survive save/reopen and public SVG/VSDX. Requested font metadata remains intact. Japanese testing is explicitly excluded by the user; original settings restored.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-11-T04",
@@ -2530,7 +2552,7 @@
           "deliverable": "Supply baseline-confirmed proofing, content checks and long-label/window-size behavior.",
           "acceptance_criteria": "Issues are actionable; Dark/Light/System never change exported drawing colors.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-11-T03"
           ],
@@ -2562,12 +2584,14 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Actionable content issues, native proofing menu and adaptive editor implemented. Actual Check Document Now selects deliberate misspelling on signed candidate; Light chrome preserves drawing colors in earlier native check. Export equivalence tests pass. Minimum-width/full appearance/proofing/reference native matrix remains unaccepted."
+          "execution_note": "Actionable content checks and actual spelling selection pass. Native 760×560 editor layout retains canvas/inspector access; real Dark/Light/System SVG exports are byte-identical. External Visio proofing parity is not claimed.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "In progress — accepted M1 integrated; unaccepted",
+      "status": "Completed — local engineering checkpoint; publication unaccepted",
       "execution_evidence": [
-        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+        "docs/delivery/M2-QUALIFICATION.md"
       ],
       "delivery_gate": {
         "state": "satisfied",
@@ -2614,7 +2638,7 @@
           "deliverable": "Audit ZIP/XML/CFB/formula/resource limits and prohibited automatic external actions/fetching.",
           "acceptance_criteria": "Malformed/resource-exhaustion fixtures fail safely; opening does not execute imported actions.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-SEC-01",
@@ -2635,14 +2659,15 @@
           "qualification_dependencies": [],
           "architecture_findings": [],
           "architecture_contracts": [],
-          "execution_note": "Pre-DOM XML/ZIP/CFB trust plus12 bounded-image and6 actual helper deadline/cancellation cases pass in feature regression. Three pre-read native file-admission cases pass. Decoder scratch/process-tree/CPU/address-space/network isolation and whole hostile-corpus qualification remain open.",
+          "execution_note": "Malformed/oversize ZIP/XML/CFB/native metadata, pre-DOM budgets, 12 bounded-image, six real helper deadline/cancellation and three pre-read admission cases pass. Imported actions stay inert and calibrated external no-fetch fixtures pass. Whole-process codec/sandbox guarantees are not claimed.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-12-T02",
@@ -2650,7 +2675,7 @@
           "deliverable": "Require a stable manifest and intended signing/notarization/platform evidence before publishing.",
           "acceptance_criteria": "An ad hoc build cannot take the stable publishing path; development artifacts remain distinct.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-12-T01"
           ],
@@ -2675,14 +2700,15 @@
             "AR-09"
           ],
           "architecture_contracts": [],
-          "execution_note": "Exact 0839994 candidate is Developer ID signed with team5NF98M544G, hardened, Apple Accepted via user-selected renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key/bundle checks pass; actual altered ZIP/feed signatures are rejected. Publication acceptance remains false and no feed/archive was published.",
+          "execution_note": "Exact source0839994 is Developer ID signed, hardened, Apple Accepted via renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key checks pass; ad hoc/incomplete stable publication is rejected. Development artifact remains unpublished with publicationAccepted:false.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-12-T03",
@@ -2690,7 +2716,7 @@
           "deliverable": "Test real signed update installation, invalid signatures, interruption and rollback/recovery.",
           "acceptance_criteria": "The prior or updated application stays runnable and settings/documents remain usable.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-12-T02"
           ],
@@ -2722,7 +2748,8 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Real signed installed-update/interruption/recovery fixtures remain unaccepted and outside earlier no-install/update/publication authorization. Real CryptoKit rejection of altered final ZIP/feed bytes passes as narrower cryptographic evidence; it is not an installed-updater journey."
+          "execution_note": "Official pinned Sparkle performs real owned-app installs: altered feed/archive rejected; interrupted download preserves prior bytes; retry installs exact final target. Prior and updated apps open the same drawing. A second install preserves settings, recents/pins/removals and document bytes. Normal installation/public feed untouched.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-12-T04",
@@ -2730,7 +2757,7 @@
           "deliverable": "Derive minimum OS/architectures from bundles; record content rights and provide local redacted support reports.",
           "acceptance_criteria": "All advertised combinations have evidence; no secrets/drawing text leak by default.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-12-T03"
           ],
@@ -2756,19 +2783,21 @@
             "AR-11"
           ],
           "architecture_contracts": [],
-          "execution_note": "Final bundle derives arm64/macOS27.0 floor; exact signed app launched and native save/reopen passed on macOS27.0.1. All five upstream license texts and both MPL source archives verified; application-owner provenance remains pending. Native support redaction passes. Minimum-OS/platform installation acceptance remains open.",
+          "execution_note": "Actual local qualification declares arm64/macOS27.0.1; binary inventory derives floor27.0 without claiming a27.0 install. Five upstream component notices and two MPL source offers are verified; first-party source/resource provenance and evidentiary limits are recorded. Native support redaction passes.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "In progress — accepted M1 integrated; unaccepted",
+      "status": "Completed — local engineering checkpoint; publication unaccepted",
       "execution_evidence": [
-        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+        "docs/delivery/M2-QUALIFICATION.md"
       ],
       "delivery_gate": {
         "state": "satisfied",
@@ -2812,7 +2841,7 @@
           "deliverable": "Keep page/shape/cell IDs, severity, cached state, feature dimension and safe actions.",
           "acceptance_criteria": "Issues retain provenance instead of collapsing into anonymous string sets.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [],
           "requirement_ids": [
             "MV-UX-07",
@@ -2832,14 +2861,15 @@
           "architecture_contracts": [
             "AC-08"
           ],
-          "execution_note": "Typed importer/calculation records retain source/object/cell/cache provenance and committed input key. Corrected actual Shapes-container traversal and stale-record retirement are covered; anonymous notes remain document-scoped.",
+          "execution_note": "Typed importer/calculation records retain source/object/cell/cache provenance and committed input keys. Actual source traversal and stale-record retirement pass; anonymous legacy notes remain explicitly document-scoped.",
           "delivery_gate": {
             "state": "satisfied",
             "dependency": "accepted M1 engineering handoff",
             "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
-          }
+          },
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-13-T02",
@@ -2847,7 +2877,7 @@
           "deliverable": "Connect calculationIssues and importer warnings to a navigable pane/status indicator.",
           "acceptance_criteria": "Selecting an issue reveals the right object/cell and distinguishes cached from evaluated display.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-13-T01"
           ],
@@ -2874,7 +2904,8 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Native issue pane shows import.fill-pattern, rendering/cached, FillPattern, source part and Visio ID; Reveal Target selects owning source shape with another drawing open. Producer coverage stays explicitly incomplete."
+          "execution_note": "Native issue pane distinguishes rendering/cached state and source part/Visio ID. Reveal Target selects the correct source object with another drawing open. The qualified producer slice is explicit; full importer compatibility is not claimed.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-13-T03",
@@ -2882,7 +2913,7 @@
           "deliverable": "Assess edits invalidating unsupported source/solution/signature state before overwrite.",
           "acceptance_criteria": "Cancel/safe-copy/alternate-format actions preserve the original when required.",
           "complexity": "L",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-13-T02"
           ],
@@ -2912,7 +2943,8 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Native affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy leave original hash unchanged, URL/dirty state retained; copy public text verified. Unsafe autosave refused; undo to baseline permits normal quit."
+          "execution_note": "Affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy preserve original hash, source URL and dirty state; public copy text verified. Unsafe autosave is refused; Undo restores normal clean close.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         },
         {
           "id": "WP-13-T04",
@@ -2920,7 +2952,7 @@
           "deliverable": "Test affected versus harmless opaque content and multiple open documents.",
           "acceptance_criteria": "Noisy harmless metadata does not obscure material loss risks; diagnostics/export agree.",
           "complexity": "M",
-          "status": "In progress — unaccepted",
+          "status": "Completed (local)",
           "depends_on": [
             "WP-13-T03"
           ],
@@ -2947,12 +2979,14 @@
             "integration_commit": "d797a67",
             "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
           },
-          "execution_note": "Affected/harmless/undo/multidocument/fast-envelope/warning-retirement fixtures covered; native material issue/save/support results agree. No claim of complete import/calculation producer coverage."
+          "execution_note": "Affected/harmless/Undo/multidocument/envelope/warning-retirement fixtures pass. Native material diagnostic/save/support results agree without warning on harmless opaque metadata alone.",
+          "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "In progress — accepted M1 integrated; unaccepted",
+      "status": "Completed — local engineering checkpoint; publication unaccepted",
       "execution_evidence": [
-        "docs/delivery/M2-NATIVE-ACCEPTANCE.md"
+        "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
+        "docs/delivery/M2-QUALIFICATION.md"
       ],
       "delivery_gate": {
         "state": "satisfied",

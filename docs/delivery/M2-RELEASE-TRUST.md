@@ -10,16 +10,13 @@ pass. The signed app's native rich-input/save/reopen/export replay also passes.
 See [current M2 acceptance](M2-NATIVE-ACCEPTANCE.md) and
 [component-rights review](M2-CONTENT-RIGHTS-REVIEW.md).
 
-The preparation evidence below remains historical. Its intended-signing/profile
-input is resolved by the final notarization receipt; installed update/recovery,
-minimum-OS installations, global VoiceOver and remaining rights/reference gates
-are still unaccepted. No candidate was installed, updated or published.
+Actual signed installed-update/rejection/interrupted-download/retry and preserved settings/documents now pass on owned local copies, using the official pinned Sparkle CLI/framework and signed loopback feeds. Prior and updated apps open the same saved native drawing. See `build/m2-closure/update-install.json`, `update-settings.json` and the [final M2 qualification](M2-QUALIFICATION.md). This qualifies arm64/macOS27.0.1 locally; a27.0 installation is not claimed. No normal installation or public feed was changed.
 
+Japanese and VoiceOver testing are excluded by explicit user instruction. Technical content/source provenance is recorded in the completed review, without legal ownership attestation. Stable/publication acceptance remains false.
 
-This is a bounded WP-12 tooling slice, not package acceptance. AR-09 requires a
-candidate-specific stable release manifest and an independent development path.
-No signed installation, VoiceOver, content-rights, or platform journey is accepted
-by this work. No release is published and no installed application is updated.
+## Historical independent tooling preparation
+
+The following records describe the earlier subtask's narrower work and acceptance limits. They are retained for provenance; current local engineering acceptance is the final qualification linked above.
 
 ## WP-12-T01 decomposition recorded before implementation
 

@@ -33,12 +33,18 @@ Version 0.22.0 is published with a Developer ID signature, accepted Apple notari
 ## Current local M2 candidate
 
 Source `0839994` has a Developer ID signed, hardened, Apple-notarized and
-stapled development candidate. Gatekeeper, exact ZIP/feed signatures and public
-key tamper checks pass; native rich-input/save/reopen/export checks ran on the
-exact signed app. The candidate remains unpublished and publication acceptance
-is false. Installed-update/recovery, minimum-OS/platform, global VoiceOver,
-remaining native and application-owner/reference acceptance are separate gates.
-See [M2 acceptance and exact archive hash](delivery/M2-NATIVE-ACCEPTANCE.md).
+stapled development candidate. Gatekeeper, ZIP/feed signatures, public-key tamper
+checks and native rich-input/save/reopen/export pass. Actual official Sparkle
+installed-update/rejection/interrupted-download/retry checks pass on isolated
+owned copies; prior and updated apps open the preserved drawing and recorded
+settings remain intact. Signed loopback feeds were used for this local test.
+
+The agreed M2 engineering checkpoint is complete on arm64/macOS27.0.1. The
+binary inventory derives a27.0 floor; installation on27.0 and broader platforms
+is not claimed. Japanese and VoiceOver testing are excluded by user instruction.
+The candidate is unpublished and `publicationAccepted` is false. Stable release,
+controlled performance and Visio compatibility gates retain their separate
+qualification requirements. See [final M2 qualification](delivery/M2-QUALIFICATION.md).
 
 ## Current channel and publication contract
 
@@ -49,7 +55,7 @@ update checks. Development archives live under
 `build/releases/development/<version>-<revision>/`. The release workflow publishes
 these with `--prerelease --latest=false`; they cannot replace the stable latest
 feed. Manual development update checks use that same prerelease's feed. The runtime updater delegate rejects development background and information probes even if Sparkle has a persisted automatic-check preference from a stable build. The development automatic-check menu is disabled; the stable preference is not rewritten. Unconfigured builds reject all checks. This is
-an isolated test channel, not an accepted installed-update journey.
+an isolated development channel. The local installed-update journey above qualifies the updater engine using controlled feeds; public endpoint delivery is not claimed.
 
 Stable builds require `MACVISIO_RELEASE_CHANNEL=stable` and an explicit
 `MACVISIO_SIGNING_IDENTITY='Developer ID Application: …'`. Only stable bundles

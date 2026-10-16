@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "milestone": "M2",
+  "status": "complete_local_engineering",
+  "source_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+  "qualified_platform": {
+    "architecture": "arm64",
+    "macOS": "27.0.1"
+  },
+  "scope_exclusions": [
+    "Japanese-language input/candidate-picker testing: removed by user 2026-10-16",
+    "VoiceOver operation testing: removed by user 2026-10-16"
+  ],
+  "publication_accepted": false,
+  "specification_gate_accepted": false,
+  "tasks": [
+    {
+      "id": "WP-10-T01",
+      "status": "qualified_local",
+      "finding": "Native Home Locate/Remove, separate windows, canonical alias dirty/selection/zoom retention and locked-file Cancel pass. Final regression covers document/workflow/opening contracts. Original adaptive Home work is preserved separately.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified5-native-replay.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-10-T02",
+      "status": "qualified_local",
+      "finding": "Cross-page find/replace and validated command search pass. Native selected-run formatting Undo/Redo remains in the text responder; signed-candidate save/reopen and SVG retain Unicode and unselected formatting.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified5-native-replay.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-10-T03",
+      "status": "qualified_local",
+      "finding": "Explicit units, mixed/guarded/inherited protection and reversible two-page preview pass. Actual Return1in→25.4mm, Undo/focus exit→169.333mm/clean and locked-movement refusal pass; final suite includes real Return and settled-scrollbar regressions.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified5-native-replay.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-10-T04",
+      "status": "qualified_local",
+      "finding": "Actual branching/subprocess flow, attached labeled connectors, second-page target and off-page navigation survive save/reopen/rename. Public XML and independently inspected PDF/SVG agree for the declared basic slice.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified5-native-replay.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-11-T01",
+      "status": "qualified_local",
+      "finding": "Stable semantic AppKit graph IDs/order/relations/frames/actions, protection and native enabled states pass. Actual VoiceOver operation was explicitly removed from M2 requirements by the user on 2026-10-16; no VoiceOver pass is claimed.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-closure/appearance.json",
+        "build/m2-closure/probe.json",
+        "build/m2-closure/scope-and-cleanup.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-11-T02",
+      "status": "qualified_local",
+      "finding": "Actual no-pointer Home/template/create/text/move/resize/connect/find/save/PDF/SVG journey passes; native-window focus traversal, exit and connection Undo/cancel regressions pass. VoiceOver operation is outside the user-agreed M2 scope.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-closure/appearance.json",
+        "build/m2-closure/probe.json",
+        "build/m2-closure/scope-and-cleanup.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-11-T03",
+      "status": "qualified_local",
+      "finding": "Actual Australian marked-text cancel/commit and selected café formatting/Undo/Redo pass on the exact signed app; RTL, decomposed accents and emoji survive save/reopen and public SVG/VSDX. Requested font metadata remains intact. Japanese testing is explicitly excluded by the user; original settings restored.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-closure/appearance.json",
+        "build/m2-closure/probe.json",
+        "build/m2-closure/scope-and-cleanup.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-11-T04",
+      "status": "qualified_local",
+      "finding": "Actionable content checks and actual spelling selection pass. Native 760×560 editor layout retains canvas/inspector access; real Dark/Light/System SVG exports are byte-identical. External Visio proofing parity is not claimed.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-qualified6-native-replay.json",
+        "build/m2-closure/appearance.json",
+        "build/m2-closure/probe.json",
+        "build/m2-closure/scope-and-cleanup.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-12-T01",
+      "status": "qualified_local",
+      "finding": "Malformed/oversize ZIP/XML/CFB/native metadata, pre-DOM budgets, 12 bounded-image, six real helper deadline/cancellation and three pre-read admission cases pass. Imported actions stay inert and calibrated external no-fetch fixtures pass. Whole-process codec/sandbox guarantees are not claimed.",
+      "evidence_paths": [
+        "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+        "build/m2-qualified6-notarization.json",
+        "build/m2-closure/update-install.json",
+        "build/m2-closure/update-settings.json",
+        "build/m2-closure/content-provenance.json",
+        "build/m2-rights-review/final-license-verification.json",
+        "build/m2-final-redacted-application-support.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-12-T02",
+      "status": "qualified_local",
+      "finding": "Exact source0839994 is Developer ID signed, hardened, Apple Accepted via renoir-notary, stapled and Gatekeeper accepted. Archive/feed/pinned-key checks pass; ad hoc/incomplete stable publication is rejected. Development artifact remains unpublished with publicationAccepted:false.",
+      "evidence_paths": [
+        "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+        "build/m2-qualified6-notarization.json",
+        "build/m2-closure/update-install.json",
+        "build/m2-closure/update-settings.json",
+        "build/m2-closure/content-provenance.json",
+        "build/m2-rights-review/final-license-verification.json",
+        "build/m2-final-redacted-application-support.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-12-T03",
+      "status": "qualified_local",
+      "finding": "Official pinned Sparkle performs real owned-app installs: altered feed/archive rejected; interrupted download preserves prior bytes; retry installs exact final target. Prior and updated apps open the same drawing. A second install preserves settings, recents/pins/removals and document bytes. Normal installation/public feed untouched.",
+      "evidence_paths": [
+        "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+        "build/m2-qualified6-notarization.json",
+        "build/m2-closure/update-install.json",
+        "build/m2-closure/update-settings.json",
+        "build/m2-closure/content-provenance.json",
+        "build/m2-rights-review/final-license-verification.json",
+        "build/m2-final-redacted-application-support.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-12-T04",
+      "status": "qualified_local",
+      "finding": "Actual local qualification declares arm64/macOS27.0.1; binary inventory derives floor27.0 without claiming a27.0 install. Five upstream component notices and two MPL source offers are verified; first-party source/resource provenance and evidentiary limits are recorded. Native support redaction passes.",
+      "evidence_paths": [
+        "docs/delivery/M2-INPUT-TRUST-AUDIT.md",
+        "build/m2-qualified6-notarization.json",
+        "build/m2-closure/update-install.json",
+        "build/m2-closure/update-settings.json",
+        "build/m2-closure/content-provenance.json",
+        "build/m2-rights-review/final-license-verification.json",
+        "build/m2-final-redacted-application-support.json",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-13-T01",
+      "status": "qualified_local",
+      "finding": "Typed importer/calculation records retain source/object/cell/cache provenance and committed input keys. Actual source traversal and stale-record retirement pass; anonymous legacy notes remain explicitly document-scoped.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-final-public-output-inspection.json",
+        "docs/delivery/M2-DIAGNOSTICS.md",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-13-T02",
+      "status": "qualified_local",
+      "finding": "Native issue pane distinguishes rendering/cached state and source part/Visio ID. Reveal Target selects the correct source object with another drawing open. The qualified producer slice is explicit; full importer compatibility is not claimed.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-final-public-output-inspection.json",
+        "docs/delivery/M2-DIAGNOSTICS.md",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-13-T03",
+      "status": "qualified_local",
+      "finding": "Affected Actions edit triggers Cancel/copy/native alternatives. Cancel and separate VSDX copy preserve original hash, source URL and dirty state; public copy text verified. Unsafe autosave is refused; Undo restores normal clean close.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-final-public-output-inspection.json",
+        "docs/delivery/M2-DIAGNOSTICS.md",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    },
+    {
+      "id": "WP-13-T04",
+      "status": "qualified_local",
+      "finding": "Affected/harmless/Undo/multidocument/envelope/warning-retirement fixtures pass. Native material diagnostic/save/support results agree without warning on harmless opaque metadata alone.",
+      "evidence_paths": [
+        "build/m2-final-native-journey.json",
+        "build/m2-final-public-output-inspection.json",
+        "docs/delivery/M2-DIAGNOSTICS.md",
+        "build/m2-qualified6-release-native.log",
+        "build/m2-qualified6-python.log"
+      ]
+    }
+  ]
+}

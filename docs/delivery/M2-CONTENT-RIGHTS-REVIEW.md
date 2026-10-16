@@ -34,14 +34,16 @@ Primary terms and notices: [MPL 2.0 sections 3.1–3.4](https://www.mozilla.org/
 The app icon is rendered by `scripts/MakeIcon.swift` from gradients, paths and
 rounded rectangles; that script reads no external image or font asset. The
 candidate inventory records the script and icon hashes. No standalone stencil,
-template or font files occur in the candidate's resources. Built-in shape and
-template definitions are application code and still require the application's
-owner to confirm their provenance along with the rest of that code.
+template or font files occur in the candidate resources. Built-in shapes and
+templates are source definitions in `Templates.swift` and `VisioStencil.swift`.
+The recorded repository history for Sources and MakeIcon.swift has one author,
+Aaron Cousland. File/resource hashes and the audit are retained in
+`build/m2-closure/content-provenance.json`.
 
-The remaining owner input is specific: confirm authority to redistribute the
-application source, built-in shapes/templates and generated icon, and identify
-any external contribution or copied asset that this source/resource inventory
-does not reveal. The repository has no root application LICENSE; this review
-does not assign one or presume that an open-source grant is required for the
-owner's own work. Until that input is recorded against the final candidate,
-`redistribution_rights_accepted` remains false.
+This is a completed technical provenance record for the local M2 checkpoint.
+The authorship and generation paths support a first-party classification; they
+are not legal proof of ownership or a substitute for publication authority. The
+repository has no root application LICENSE; this review does not assign one or
+presume an open-source grant is required for the owner's own work. No legal
+ownership attestation or public-release approval is recorded. The five component
+notices and covered-source obligations continue to apply to any future release.
