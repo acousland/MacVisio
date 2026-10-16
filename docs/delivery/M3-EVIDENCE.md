@@ -58,3 +58,9 @@ reproduced omission and independent output hashes. Intelligent-fixture label
 fragments are present in the independent output, while wrapping/formatting remain
 unaccepted. This is public graphics evidence, not actual Visio or full behavior,
 font, printing or bidirectional acceptance.
+
+The first strengthened physical test also had a deterministic assertion error:
+five public geometry rows produce six vector commands because the decoder adds
+`Z` to close the path. It now requires the authored rows and semantic M/Z closure
+instead of an incorrect command count. The failing log remains retained. This
+correction makes no claim about historical save intermittency.

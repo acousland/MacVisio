@@ -85,7 +85,8 @@
       "independent_tool": "vsd2xhtml0.1.11",
       "independent_public_path_width_mm": 19.999995277777774,
       "reference_acceptance": false,
-      "supersedes": "Earlier physical fixture had Width/Height but no Geometry; native fallback made its old PDF test insufficient as public-geometry evidence. Exact prior source/hash and reproduced omission retained in M3-PUBLIC-PROBE.json."
+      "supersedes": "Earlier physical fixture had Width/Height but no Geometry; native fallback made its old PDF test insufficient as public-geometry evidence. Exact prior source/hash and reproduced omission retained in M3-PUBLIC-PROBE.json.",
+      "first_strengthened_test_disposition": "The first strengthened test incorrectly expected5 vector commands from5 public rows. The decoder correctly adds a sixth closingZ command. The assertion now checks five authored geometry rows plus an M-start/Z-close path, while retaining the actual PDF dimension measurement. This deterministic test-assumption correction is not an intermittency disposition."
     }
   ],
   "artifacts": [
