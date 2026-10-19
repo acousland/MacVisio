@@ -156,7 +156,7 @@ enum ShapeSheet {
                 case "INT":try arity(1);result = floor(values[0]); case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
                     result = try sign(values[0],fuzz:values.count == 2 ? values[1] : 1e-9)
-                case "ROUND":try arity(2);let digits = values[1].rounded(.towardZero);let scale = pow(10,digits);result = digits <= -9 || digits > 15 ? values[0] : (values[0]*scale).rounded()/scale
+                case "ROUND":try arity(2);result = try decimalRounded(values[0],digits:values[1])
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let multiple = values.count == 2 ? values[1] : (values[0] < 0 ? -1 : 1)
@@ -196,12 +196,34 @@ enum ShapeSheet {
         }
         return Double(result)
     }
+    /// ROUND's precision is a vSignedInt: truncate towards zero, then range-check.
+    /// Its documented identity range is separate from floating-point scaling.
+    static func decimalRounded(_ number:Double,digits:Double) throws -> Double {
+        guard number.isFinite,digits.isFinite else { throw DiagramError.invalid("ROUND requires finite numeric operands.") }
+        let places = digits.rounded(.towardZero)
+        guard (-32768...32767).contains(places) else { throw DiagramError.invalid("ROUND precision is outside the signed 16-bit range.") }
+        if places <= -9 || places > 15 { return number }
+        // An integral Double already has no decimal places to discard. Avoid
+        // overflowing an otherwise unnecessary scale multiplication.
+        if places >= 0,number.rounded(.towardZero) == number { return number }
+        let scale = pow(10,places),scaled = number*scale,whole = scaled.rounded()
+        guard scaled.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        // Scaling can make an already representable value integral. Returning
+        // it directly avoids a lossy or overflowing reverse scale.
+        if scaled == whole { return number }
+        let result = whole/scale
+        guard result.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        return result
+    }
     static func rounded(_ number:Double,toMultiple multiple:Double,awayFromZero:Bool) throws -> Double {
         guard number.isFinite,multiple.isFinite else { throw DiagramError.invalid("Rounding requires finite values.") }
         if number == 0 || multiple == 0 { return 0 }
         guard number.sign == multiple.sign else { throw DiagramError.invalid("Rounding values must have the same sign.") }
         let quotient = number/multiple
         guard quotient.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        // Nonzero same-sign operands have a positive mathematical quotient.
+        // If Double division underflows to zero, CEILING still takes one step.
+        if quotient == 0,awayFromZero { return multiple }
         let count = awayFromZero ? ceil(quotient) : quotient.rounded(.towardZero)
         let result = count*multiple
         guard result.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }

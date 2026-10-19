@@ -146,13 +146,15 @@ enum TypedShapeSheet {
                         result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
                     } else if let unit = values[0].unit {
                         guard let factor = SheetValue.factor(unit) else { throw DiagramError.invalid("Rounding uses an unsupported unit.") }
-                        let displayNumber = first*factor
+                        // Invert the parser's literal-unit scale directly. A
+                        // reciprocal multiply can push 26mm just below 26.
+                        let displayNumber = first/(1/factor)
                         let displayMultiple:Double
                         if values.count == 2 {
                             let multiple = try values[1].numeric()
                             if let multipleUnit = values[1].unit {
                                 guard values[0].dimension == values[1].dimension,SheetValue.factor(multipleUnit) != nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
-                                displayMultiple = multiple*factor
+                                displayMultiple = multiple/(1/factor)
                             } else { displayMultiple = multiple }
                         } else { displayMultiple = displayNumber < 0 ? -1 : 1 }
                         result = .quantity(try ShapeSheet.rounded(displayNumber,toMultiple:displayMultiple,awayFromZero:name == "CEILING")/factor,unit)
@@ -208,7 +210,13 @@ enum TypedShapeSheet {
                         let unit = values.first?.unit
                         let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
                         let factor = preserve ? SheetValue.factor(unit!)! : 1
-                        let arguments = try values.enumerated().map{ShapeSheet.Expression.number(try $0.element.numeric()*($0.offset == 0 ? factor : 1))}
+                        let arguments = try values.enumerated().map { offset,value -> ShapeSheet.Expression in
+                            let number = try value.numeric()
+                            // ROUND shares CEILING/FLOOR's display-unit rule.
+                            // Other existing numeric functions keep their path.
+                            let operand = offset == 0 ? (name == "ROUND" ? number/(1/factor) : number*factor) : number
+                            return .number(operand)
+                        }
                         let n = try ShapeSheet.evaluate(.call(name,arguments),resolve:{_ in throw DiagramError.invalid("Unexpected numeric reference") })/factor
                         if !scalar,["MIN","MAX","SUM"].contains(name),let unit = values.first(where:{$0.unit != nil})?.unit {
                             let dimensions = Set(values.compactMap(\.dimension));guard dimensions.count == 1,try values.allSatisfy({if $0.unit != nil { return true };return try $0.numeric() == 0}) else { throw DiagramError.invalid("Incompatible dimensional aggregate.") };result = .quantity(n,unit)
