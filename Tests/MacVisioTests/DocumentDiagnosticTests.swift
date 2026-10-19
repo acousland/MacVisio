@@ -60,4 +60,26 @@ final class DocumentDiagnosticTests: XCTestCase {
         issue.target = .page(page)
         XCTAssertNil(issue.target.objectID); XCTAssertEqual(issue.target.pageID, page)
     }
+
+    func testDefinitionDiagnosticsRequireStructuredCellAddressesAndRetainScopedIdentity() throws {
+        let sheet = UUID()
+        let address = DefinitionCellAddress(cell: "Value", section: "User", rowName: "Measure")
+        var issue = DocumentDiagnostic(code: "definition.cell", origin: .calculation,
+            severity: .warning, dimension: .behavior, target: .definition(sheet: sheet),
+            source: .init(part: "visio/masters/master7.xml", visioID: "1", cell: "User.Measure"),
+            displayState: .cached, message: "Unresolved cell",
+            requestedActions: [.revealTarget, .inspectCell])
+        XCTAssertNil(issue.target.pageID)
+        XCTAssertEqual(issue.target.definitionSheetID, sheet)
+        XCTAssertEqual(issue.actions, [.revealTarget])
+        issue.source.definitionCell = address
+        XCTAssertEqual(issue.actions, [.revealTarget, .inspectCell])
+        var sameLabelDifferentRow = issue
+        sameLabelDifferentRow.source.definitionCell?.rowIndex = "3"
+        var sameCellDifferentSheet = issue
+        sameCellDifferentSheet.target = .definition(sheet: UUID())
+        XCTAssertEqual(Set([issue.id, sameLabelDifferentRow.id, sameCellDifferentSheet.id]).count, 3)
+        XCTAssertEqual(try JSONDecoder().decode(DocumentDiagnostic.self,
+            from: JSONEncoder().encode(issue)), issue)
+    }
 }

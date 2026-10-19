@@ -122,6 +122,12 @@ struct ShapeSheetCell: Codable, Equatable {
     var value: String
     var formula: String = ""
     var unit: String = ""
+
+    func hasSameAuthoredFormula(as other: ShapeSheetCell) -> Bool {
+        let authored = formula.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+        return !authored.isEmpty && !["INH", "NO FORMULA"].contains(authored)
+            && formula == other.formula && unit == other.unit
+    }
 }
 struct DiagramLayer: Codable, Equatable, Identifiable {
     var id = UUID()

@@ -153,9 +153,10 @@ final class MacVisioDocument: NSDocument {
         calculationSession = CalculationSession()
     }
     private func publishCalculationDiagnostics() {
+        var seen = Set<DocumentDiagnostic.ID>()
         acceptedCalculationDiagnostics = diagram.pages.flatMap { page in
             (geometryDiagnosticsByPage[page.id] ?? []) + (fieldDiagnosticsByPage[page.id] ?? [])
-        }.map { record in
+        }.filter { seen.insert($0.id).inserted }.map { record in
             var record = record
             record.inputKey = diagnosticInputKey
             return record
@@ -1967,6 +1968,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         NSPrintOperation(view: view, printInfo: info).run()
     }
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(showDefinitionSheets(_:)) {
+            return definitionSheetUnavailableReason == nil
+        }
         if menuItem.action == #selector(editGeometry(_:)) {
             return selection.count == 1 && selection[0].formatting.geometry != nil
                 && !diagramDocument.diagram.page.isLocked(selection[0])

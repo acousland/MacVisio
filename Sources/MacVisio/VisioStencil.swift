@@ -86,7 +86,7 @@ enum VisioStencil {
         let palette = ShapeSheetColorPalette(documentArchive:input.visioArchive)
         for pageIndex in diagram.pages.indices {
             let binding = diagram.visioArchive?.pages.first{$0.pageID == diagram.pages[pageIndex].id}
-            let context = ShapeSheetContext(page:diagram.pages[pageIndex],binding:binding,colorPalette:palette)
+            let context = ShapeSheetContext(page:diagram.pages[pageIndex],binding:binding,colorPalette:palette,document:diagram)
             for nodeIndex in diagram.pages[pageIndex].nodes.indices {
                 let node = diagram.pages[pageIndex].nodes[nodeIndex]
                 for key in node.formatting.sheet.keys {

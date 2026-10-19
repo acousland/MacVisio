@@ -33,6 +33,7 @@ enum DefinitionEditing {
         let parts = try patchedParts(registry, in: prepared.parts)
         var projectionInput = input
         projectionInput.visioArchive = prepared
+        projectionInput.definitions = registry
         var projected = try project(parts, onto: projectionInput)
         projected.definitions = registry
         projected.visioArchive = input.visioArchive
@@ -145,7 +146,30 @@ enum DefinitionEditing {
             for (id, publicID) in binding.edgeIDs { if let prior = edgeIDs[publicID] { objects[id] = prior } }
         }
         let previousEdges = Dictionary(input.pages.flatMap(\.edges).map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let previousNodes = Dictionary(input.pages.flatMap(\.nodes).map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
         let previousPages = Dictionary(input.pages.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        func fieldTokens(_ runs: [ShapeTextRun]?, from previous: [ShapeTextRun]?) -> [ShapeTextRun]? {
+            var prior: [Int: [UUID]] = [:], seen = Set<UUID>()
+            for run in previous ?? [] {
+                if let field = run.fieldIndex, let token = run.fieldToken, seen.insert(token).inserted {
+                    prior[field, default: []].append(token)
+                }
+            }
+            var replacements: [UUID: UUID] = [:], positions: [Int: Int] = [:]
+            return runs?.map { run in
+                var run = run
+                if let field = run.fieldIndex, let token = run.fieldToken {
+                    if replacements[token] == nil {
+                        let position = positions[field, default: 0]
+                        if let tokens = prior[field], tokens.indices.contains(position) { replacements[token] = tokens[position] }
+                        else { replacements[token] = token }
+                        positions[field] = position + 1
+                    }
+                    run.fieldToken = replacements[token]
+                }
+                return run
+            }
+        }
         func remap(_ page: DiagramPage) -> DiagramPage {
             var value = page
             value.id = pages[page.id] ?? page.id
@@ -159,6 +183,8 @@ enum DefinitionEditing {
             for i in value.nodes.indices {
                 value.nodes[i].id = objects[value.nodes[i].id] ?? value.nodes[i].id
                 value.nodes[i].parentID = value.nodes[i].parentID.map { objects[$0] ?? $0 }
+                value.nodes[i].formatting.textRuns = fieldTokens(value.nodes[i].formatting.textRuns,
+                    from: previousNodes[value.nodes[i].id]?.formatting.textRuns)
             }
             for i in value.edges.indices {
                 value.edges[i].id = objects[value.edges[i].id] ?? value.edges[i].id
@@ -166,6 +192,10 @@ enum DefinitionEditing {
                 value.edges[i].source = objects[value.edges[i].source] ?? prior?.source ?? value.edges[i].source
                 value.edges[i].target = objects[value.edges[i].target] ?? prior?.target ?? value.edges[i].target
                 value.edges[i].parentID = value.edges[i].parentID.map { objects[$0] ?? $0 }
+                if value.edges[i].formatting.textRuns != nil {
+                    value.edges[i].formatting.textRuns = fieldTokens(value.edges[i].formatting.textRuns,
+                        from: prior?.formatting.textRuns)
+                }
             }
             return value
         }
@@ -195,7 +225,66 @@ enum DefinitionEditing {
     static func baseline(_ parts: [String: Data], onto input: Diagram, matching pages: [DiagramPage]) throws -> Diagram {
         let cached = try project(parts, onto: input, evaluate: false)
         if cached.pages == pages { return cached }
-        return try evaluated(cached)
+        var result = try evaluated(cached)
+        // Inherited caches belong to the new definition projection, while
+        // authored instance caches still belong to the actual public package.
+        // Comparing both as evaluated would omit local Value/Text cache updates
+        // after TheDoc or another definition changes.
+        let bindings = cached.visioArchive?.pages ?? []
+        for pageIndex in result.pages.indices {
+            let page = cached.pages[pageIndex]
+            guard let binding = bindings.first(where: { $0.pageID == page.id }),
+                  let data = parts[binding.part], let root = try VisioXML.document(data).rootElement() else { continue }
+            let elements = Dictionary((root.firstLocal("Shapes")?.allShapes ?? []).compactMap { element in
+                element.attr("ID").map { ($0, element) }
+            }, uniquingKeysWith: { first,_ in first })
+            func restore(_ detail: ShapeDetails, cached: ShapeDetails, element: XMLElement) -> ShapeDetails {
+                var detail = detail
+                let local = DefinitionRegistry.sheet(element, scope: input.pages[0].id, publicID: "")
+                let aliases = local.cells.flatMap { cell in DefinitionSheetReferences.aliases(cell.address).map { ($0, cell.value) } }
+                let localCells = Dictionary(aliases, uniquingKeysWith: { first,_ in first })
+                for (key, cell) in cached.sheet {
+                    if let authored = localCells[key], authored.formula == cell.formula,
+                       let evaluated = detail.sheet[key], evaluated.hasSameAuthoredFormula(as: cell) {
+                        detail.sheet[key] = cell
+                    }
+                }
+                let localFieldCells = Dictionary(grouping: local.cells.filter { $0.address.section == "Field" },
+                    by: { $0.address.rowIndex.flatMap(Int.init) })
+                for index in (detail.textFields ?? []).indices {
+                    if var field = detail.textFields?[index],
+                       let original = cached.textFields?.first(where: { $0.index == field.index }) {
+                        for authored in localFieldCells[field.index] ?? [] {
+                            let key = authored.address.cell
+                            if let raw = original.cells[key], let evaluated = field.cells[key],
+                               authored.value.formula == raw.formula, evaluated.hasSameAuthoredFormula(as: raw) {
+                                field.cells[key] = raw
+                            }
+                        }
+                        detail.textFields?[index] = field
+                    }
+                }
+                if element.firstLocal("Text") != nil { detail.textRuns = cached.textRuns }
+                return detail
+            }
+            for index in result.pages[pageIndex].nodes.indices {
+                let id = page.nodes[index].id
+                guard result.pages[pageIndex].nodes[index].details != nil || page.nodes[index].details != nil else { continue }
+                guard let source = binding.nodeIDs[id].flatMap({ elements[$0] }) else { continue }
+                result.pages[pageIndex].nodes[index].details = restore(result.pages[pageIndex].nodes[index].formatting,
+                    cached: page.nodes[index].formatting, element: source)
+                if source.firstLocal("Text") != nil { result.pages[pageIndex].nodes[index].text = page.nodes[index].text }
+            }
+            for index in result.pages[pageIndex].edges.indices {
+                let id = page.edges[index].id
+                guard result.pages[pageIndex].edges[index].details != nil || page.edges[index].details != nil else { continue }
+                guard let source = binding.edgeIDs[id].flatMap({ elements[$0] }) else { continue }
+                let details = restore(result.pages[pageIndex].edges[index].formatting, cached: page.edges[index].formatting, element: source)
+                if source.firstLocal("Text") != nil { result.pages[pageIndex].edges[index].label = page.edges[index].label }
+                result.pages[pageIndex].edges[index].details = details
+            }
+        }
+        return result
     }
 
     private static func evaluated(_ result: Diagram) throws -> Diagram {

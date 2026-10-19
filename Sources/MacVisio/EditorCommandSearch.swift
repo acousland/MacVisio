@@ -23,7 +23,7 @@ extension EditorWindowController {
 struct EditorSearchCommand {
     enum Requirement {
         case none, idle, selectedShapes(Int), editableShapes(Int), oneEditableShape
-        case editableObject, group, ungroup, multiplePages
+        case editableObject, group, ungroup, multiplePages, definitionSheets
     }
     let title: String
     let keywords: String
@@ -61,6 +61,7 @@ struct EditorSearchCommand {
         .init(title: "Send to Back", keywords: "arrange order", action: #selector(EditorWindowController.sendToBack(_:)), requirement: .editableShapes(1)),
         .init(title: "Lock / Unlock Shapes", keywords: "protect selection", action: #selector(EditorWindowController.toggleLock(_:)), requirement: .selectedShapes(1)),
         .init(title: "Shape Data…", keywords: "properties values fields", action: #selector(EditorWindowController.editShapeData(_:)), requirement: .oneEditableShape),
+        .init(title: "Definition Sheets…", keywords: "document master style sheets cells formula cached value unit", action: #selector(EditorWindowController.showDefinitionSheets(_:)), requirement: .definitionSheets),
         .init(title: "Connection Points…", keywords: "ports glue", action: #selector(EditorWindowController.editConnectionPoints(_:)), requirement: .oneEditableShape),
         .init(title: "Insert Text Field…", keywords: "formula label", action: #selector(EditorWindowController.insertField(_:)), requirement: .oneEditableShape),
         .init(title: "Add Page", keywords: "new drawing sheet", action: #selector(EditorWindowController.addPage(_:)), requirement: .idle),
@@ -101,6 +102,8 @@ struct EditorSearchCommand {
         }
         switch requirement {
         case .none, .idle: break
+        case .definitionSheets:
+            if let reason = editor.definitionSheetUnavailableReason { return reason }
         case .selectedShapes(let count): if let reason = shapes(count, editable: false) { return reason }
         case .editableShapes(let count): if let reason = shapes(count, editable: true) { return reason }
         case .oneEditableShape:

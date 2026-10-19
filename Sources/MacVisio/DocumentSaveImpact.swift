@@ -83,7 +83,9 @@ enum DocumentSaveImpact {
                     // Supported definition edits change inherited projections,
                     // not local master references. Classify remaining instance
                     // edits against that same public baseline as the writer.
-                    source.pages = try DefinitionEditing.baseline(parts, onto: source, matching: snapshot.pages).pages
+                    var definitionSource = source
+                    definitionSource.definitions = snapshot.definitions
+                    source.pages = try DefinitionEditing.baseline(parts, onto: definitionSource, matching: snapshot.pages).pages
                 }
             } catch { projectionFailure = true }
         }
@@ -228,7 +230,7 @@ enum DocumentSaveImpact {
                     || element?.attr("MasterShape") != nil
                 if inherited,
                     nodes[id]?.parentID != original.parentID
-                        || nodes[id]?.formatting.sheet != original.formatting.sheet
+                        || authoredSheetChanged(nodes[id]?.formatting.sheet, original.formatting.sheet)
                 {
                     append(
                         .masterRelation, .behavior, target,
@@ -247,21 +249,42 @@ enum DocumentSaveImpact {
         }
         for diagnostic in diagnostics
         where diagnostic.origin == .calculation
-            && ["calculation.geometry.cell", "calculation.field.cell"].contains(diagnostic.code)
+            && ["calculation.geometry.cell", "calculation.field.cell", "calculation.connector.cell", "calculation.definition.cell"].contains(diagnostic.code)
             && (diagnostic.displayState == .cached || diagnostic.displayState == .unavailable)
         {
-            guard case .shape(let pageID, let shapeID) = diagnostic.target,
-                let current = pages[pageID], let original = originals[pageID],
-                current.nodes.first(where: { $0.id == shapeID })
-                    != original.nodes.first(where: { $0.id == shapeID }),
-                diagnostic.source.cell != nil
-            else { continue }
+            let affected: Bool
+            switch diagnostic.target {
+            case .shape(let pageID, let id):
+                affected = pages[pageID]?.nodes.first { $0.id == id } != originals[pageID]?.nodes.first { $0.id == id }
+                    && diagnostic.source.cell != nil
+            case .connector(let pageID, let id):
+                affected = pages[pageID]?.edges.first { $0.id == id } != originals[pageID]?.edges.first { $0.id == id }
+                    && diagnostic.source.cell != nil
+            case .definition(let sheet):
+                func cell(in diagram: Diagram) -> ShapeSheetCell? {
+                    guard let registry = diagram.definitions, let address = diagnostic.source.definitionCell else { return nil }
+                    let sheets = [registry.documentSheet].compactMap { $0 } + (registry.masters + registry.styles).flatMap(\.sheets)
+                    return sheets.first { $0.id == sheet }?.cell(address)
+                }
+                affected = diagnostic.source.definitionCell != nil && (definitionContentChanged || cell(in: snapshot) != cell(in: source))
+            case .document, .page: affected = false
+            }
+            guard affected else { continue }
             append(
                 .failedFormula, .behavior, diagnostic.target, diagnostic.source,
                 "An edited object has an unevaluated cell with cached output; source behavior cannot be confirmed."
             )
         }
         return Assessment(risks: risks)
+    }
+
+    private static func authoredSheetChanged(_ current: [String: ShapeSheetCell]?, _ original: [String: ShapeSheetCell]) -> Bool {
+        guard let current else { return true }
+        return Set(current.keys).union(original.keys).contains { key in
+            guard current[key] != original[key] else { return false }
+            guard let next = current[key], let old = original[key] else { return true }
+            return !next.hasSameAuthoredFormula(as: old)
+        }
     }
 
     /// Recognize only an ordinary supported bitmap wrapper with actual supplied

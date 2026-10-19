@@ -323,6 +323,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         shape.addItem(.separator()); item(shape,"Group",#selector(EditorWindowController.groupSelection(_:)),"g"); item(shape,"Ungroup",#selector(EditorWindowController.ungroupSelection(_:)),"g",modifiers:[.command,.shift]); item(shape,"Rotate Left",#selector(EditorWindowController.rotateLeft(_:))); item(shape,"Rotate Right",#selector(EditorWindowController.rotateRight(_:))); item(shape,"Flip Horizontal",#selector(EditorWindowController.flipHorizontal(_:))); item(shape,"Flip Vertical",#selector(EditorWindowController.flipVertical(_:)))
         shape.addItem(.separator()); item(shape,"Shape Data…",#selector(EditorWindowController.editShapeData(_:))); item(shape,"Hyperlinks…",#selector(EditorWindowController.editHyperlinks(_:))); item(shape,"Follow Hyperlink",#selector(EditorWindowController.followHyperlink(_:)))
         item(shape,"ShapeSheet…",#selector(EditorWindowController.showShapeSheet(_:)))
+        item(shape,"Definition Sheets…",#selector(EditorWindowController.showDefinitionSheets(_:)))
         item(shape,"Geometry…",#selector(EditorWindowController.editGeometry(_:)))
         item(shape,"Control Handles…",#selector(EditorWindowController.editControls(_:)))
         item(shape,"Control Cells…",#selector(EditorWindowController.editControlCells(_:)))

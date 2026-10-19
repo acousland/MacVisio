@@ -278,6 +278,7 @@ enum VisioPreservation {
             }
         }
         for connection in connects.elementsLocal("Connect") where deletedShapeIDs.contains(connection.attr("FromSheet") ?? "") || deletedShapeIDs.contains(connection.attr("ToSheet") ?? "") { connection.detach() }
+        let objectsBySource = Dictionary(binding.nodeIDs.merging(binding.edgeIDs,uniquingKeysWith:{$1}).compactMap{key,value in UInt32(value).map{($0,key)}},uniquingKeysWith:{first,_ in first})
         for edge in page.edges {
             let shapeID = binding.edgeIDs[edge.id]!, previous = oldEdges[edge.id]
             let coordinates = DiagramCoordinates.connector(edge,in:page)
@@ -289,9 +290,23 @@ enum VisioPreservation {
             let portsChanged = previous?.sourcePort != edge.sourcePort || previous?.targetPort != edge.targetPort
             let bindingsChanged = detachedInheritance.contains(edge.id) || detachedInheritance.contains(edge.source) || detachedInheritance.contains(edge.target) || originalNodeIDs[edge.source] != binding.nodeIDs[edge.source] || originalNodeIDs[edge.target] != binding.nodeIDs[edge.target] || originalEdgeIDs[edge.id] != shapeID
             let reroute = previous == nil || !sameRoute || parentChanged || bindingsChanged || portsChanged || previous?.source != edge.source || previous?.target != edge.target || previous?.style != edge.style
+            if previous == edge,!reroute,page.layers == old.layers { continue }
             var currentStyle = edge,oldStyle = previous;currentStyle.points = nil;currentStyle.sourcePosition = nil;currentStyle.targetPosition = nil;oldStyle?.points = nil;oldStyle?.sourcePosition = nil;oldStyle?.targetPosition = nil
             if inheritance[edge.id]?.implicit == true,byID[shapeID] == nil,currentStyle == oldStyle,!reroute { continue }
             try require(edge.id)
+            // A local formula cannot address a model-only virtual master member
+            // until that member has a real public instance shell on this page.
+            let oldDetail = previous?.formatting ?? ShapeDetails()
+            var changedCells = edge.formatting.sheet.filter{oldDetail.sheet[$0.key] != $0.value}.map(\.value)
+            for field in edge.formatting.textFields ?? [] {
+                let oldField = oldDetail.textFields?.first{$0.index == field.index}
+                changedCells += field.cells.filter{oldField?.cells[$0.key] != $0.value}.map(\.value)
+            }
+            for cell in changedCells where !cell.formula.isEmpty {
+                for id in connectorFormulaTargets(cell.formula) {
+                    if let object = objectsBySource[id],inheritance[object]?.implicit == true { try require(object) }
+                }
+            }
             let from = ConnectionGeometry.destination(edge.sourcePort,on:newNodes[edge.source]),to = ConnectionGeometry.destination(edge.targetPort,on:newNodes[edge.target])
             let generated = try VisioXML.element(VisioFormat.connectorXML(coordinates.edge,id:Int(shapeID)!,page:coordinates.page,sourceID:binding.nodeIDs[edge.source].flatMap(Int.init),targetID:binding.nodeIDs[edge.target].flatMap(Int.init),sourceCells:(from.x,from.y),targetCells:(to.x,to.y)))
             let element = try byID[shapeID] ?? inheritedElement(edge.id) ?? generated
@@ -309,12 +324,12 @@ enum VisioPreservation {
                 for section in element.elementsLocal("Section") where section.attr("N") == "Geometry" { section.detach() }
                 for section in generated.elementsLocal("Section") where section.attr("N") == "Geometry" { element.addChild(section.copy() as! XMLNode) }
             }
-            if previous?.label != edge.label { VisioXML.setText(element,edge.label) }
             if previous?.color != edge.color { VisioXML.set(element,"LineColor",String(edge.color.prefix(7))) }
             if previous?.width != edge.width { VisioXML.set(element,"LineWeight",edge.width/72) }
             if previous?.arrow != edge.arrow { VisioXML.set(element,"EndArrow",edge.arrow ? 4 : 0) }
             if previous?.startArrow != edge.startArrow { VisioXML.set(element,"BeginArrow",edge.startArrow == true ? 4 : 0) }
             if previous?.dash != edge.dash { VisioXML.set(element,"LinePattern",Double(edge.dash ?? 1)) }
+            patchConnectorDetails(edge,previous:previous,element:element)
             if previous == nil || previous?.layer != edge.layer || page.layers != old.layers {
                 let rows = layerSheet.elementsLocal("Section").first{$0.attr("N") == "Layer"}?.elementsLocal("Row") ?? []
                 if let id = rows.first(where:{VisioXML.value($0,"Name") == edge.layer})?.attr("IX") { VisioXML.set(element,"LayerMember",id) }
@@ -331,14 +346,107 @@ enum VisioPreservation {
         }
         // An edited connector may have required a model-only ancestor after the
         // node attachment pass. Attach that shell as well, without expanding siblings.
-        for id in required where newNodeSet.contains(id) {
-            if let shapeID = binding.nodeIDs[id],let element = elements[shapeID],element.parent == nil {
+        for id in required where newNodeSet.contains(id) || newEdgeSet.contains(id) {
+            if let shapeID = binding.nodeIDs[id] ?? binding.edgeIDs[id],let element = elements[shapeID],element.parent == nil {
                 if inheritance[id] != nil { try attachInherited(id,element) }
                 else { shapes.addChild(element) }
             }
         }
         binding.inheritedShapes = inheritance.filter{newNodeSet.contains($0.key) || newEdgeSet.contains($0.key)}.mapValues{$0}
         for id in required where binding.inheritedShapes?[id] != nil { binding.inheritedShapes?[id]?.implicit = false }
+    }
+
+    private static func connectorFormulaTargets(_ formula:String) -> Set<UInt32> {
+        guard let expression = try? ShapeSheet.parse(formula) else { return [] }
+        var pending = [expression],result = Set<UInt32>()
+        while let next = pending.popLast() {
+            switch next {
+            case .reference(let name):
+                let parts = name.split(separator:"!",maxSplits:1)
+                if parts.count == 2,parts[0].lowercased().hasPrefix("sheet."),let id = UInt32(parts[0].dropFirst(6)) { result.insert(id) }
+            case .unary(_,let value):pending.append(value)
+            case .binary(_,let lhs,let rhs):pending += [lhs,rhs]
+            case .call(_,let values):pending += values
+            default:break
+            }
+        };return result
+    }
+    /// Emit local deltas. Imported connector details contain effective inherited
+    /// values, so serializing the whole payload here would freeze master behavior.
+    private static func patchConnectorDetails(_ edge:DiagramEdge,previous:DiagramEdge?,element:XMLElement) {
+        let detail = edge.formatting,old = previous?.formatting ?? ShapeDetails()
+        if previous?.label != edge.label || detail.textRuns != old.textRuns {
+            if detail.textRuns != nil {
+                let local = Dictionary(element.elementsLocal("Section").filter{["Character","Paragraph"].contains($0.attr("N") ?? "")}.map{section in
+                    (section.attr("N")!,Dictionary(section.elementsLocal("Row").compactMap{row in row.attr("IX").map{($0,row.copy() as! XMLElement)}},uniquingKeysWith:{first,_ in first}))
+                },uniquingKeysWith:{first,_ in first})
+                ShapeRichText.patch(edge.textNode,element:element,previous:previous?.textNode)
+                // Shared patching can add effective source rows. Restore unchanged
+                // local rows and leave unchanged inherited rows in their master.
+                let runs = detail.textRuns ?? [],oldRuns = old.textRuns ?? []
+                for name in ["Character","Paragraph"] {
+                    let unchanged:Set<Int> = name == "Character" ? Set(runs.compactMap{run in oldRuns.contains{$0.character == run.character} ? run.character.sourceIndex : nil}) : Set(runs.compactMap{run in oldRuns.contains{$0.paragraph == run.paragraph} ? run.paragraph.sourceIndex : nil})
+                    guard let section = element.elementsLocal("Section").first(where:{$0.attr("N") == name}) else { continue }
+                    for row in section.elementsLocal("Row") where row.attr("IX").flatMap(Int.init).map({unchanged.contains($0)}) == true {
+                        let index = row.attr("IX")!;row.detach()
+                        if let original = local[name]?[index] { section.addChild(original) }
+                    }
+                    if section.childCount == 0 { section.detach() }
+                }
+            } else { VisioXML.setText(element,edge.label) }
+        }
+        if detail.textFields != old.textFields {
+            let unchanged = Set((detail.textFields ?? []).filter{field in old.textFields?.contains(field) == true}.map(\.index))
+            let existing = Set(element.elementsLocal("Section").filter{$0.attr("N") == "Field"}.flatMap{$0.elementsLocal("Row")}.compactMap{$0.attr("IX").flatMap(Int.init)})
+            TextFieldEngine.patch(detail.textFields ?? [],element:element,previous:old.textFields ?? [])
+            if let section = element.elementsLocal("Section").first(where:{$0.attr("N") == "Field"}) {
+                for row in section.elementsLocal("Row") where row.attr("IX").flatMap(Int.init).map({unchanged.contains($0) && !existing.contains($0)}) == true { row.detach() }
+                if section.childCount == 0 { section.detach() }
+            }
+        }
+        if detail.data != old.data { patchConnectorData(detail.data,previous:old.data,element:element) }
+        if detail.hyperlinks != old.hyperlinks { patchConnectorHyperlinks(detail.hyperlinks,previous:old.hyperlinks,element:element) }
+        if detail.sheet != old.sheet { patchSheet(detail.sheet,old:old.sheet,element:element) }
+        if detail.textRuns == nil {
+            if detail.fontName != old.fontName { VisioXML.set(VisioXML.row(element,"Character"),"Font",detail.fontName == "System" ? "Arial" : detail.fontName) }
+            if detail.italic != old.italic || detail.underline != old.underline {
+                let row = VisioXML.row(element,"Character"),bits = Int(exactly:VisioXML.number(row,"Style")) ?? 0
+                VisioXML.set(row,"Style",Double((bits & ~6) | (detail.italic ? 2 : 0) | (detail.underline ? 4 : 0)))
+            }
+            if detail.alignment != old.alignment { VisioXML.set(VisioXML.row(element,"Paragraph"),"HorzAlign",detail.alignment == .left ? 0 : detail.alignment == .right ? 2 : 1) }
+        }
+    }
+    private static func patchConnectorData(_ values:[ShapeDataProperty],previous:[ShapeDataProperty],element:XMLElement) {
+        let section = VisioXML.section(element,"Property")
+        for value in values {
+            let old = previous.first{$0.key == value.key};guard old != value else { continue }
+            let row = section.elementsLocal("Row").first{$0.attr("N") == value.key} ?? XMLElement(name:"Row")
+            if row.parent == nil { row.setAttr("N",value.key);section.addChild(row) };row.setAttr("Del",nil)
+            for (key,text,before) in [("Label",value.label,old?.label),("Value",value.value,old?.value),("Type",String(value.type),old.map{String($0.type)}),("Format",value.format,old?.format),("Prompt",value.prompt,old?.prompt)] where text != before { VisioXML.set(row,key,text) }
+        }
+        for old in previous where !values.contains(where:{$0.key == old.key}) {
+            for row in section.elementsLocal("Row") where row.attr("N") == old.key { row.detach() }
+            if element.attr("Master") != nil || element.attr("MasterShape") != nil { let row = XMLElement(name:"Row");row.setAttr("N",old.key);row.setAttr("Del","1");section.addChild(row) }
+        }
+        if section.childCount == 0 { section.detach() }
+    }
+    private static func patchConnectorHyperlinks(_ values:[ShapeHyperlink],previous:[ShapeHyperlink],element:XMLElement) {
+        let section = VisioXML.section(element,"Hyperlink")
+        var names = Set<String>()
+        for (index,value) in values.enumerated() {
+            let old = value.sourceRowName.flatMap{name in previous.first{$0.sourceRowName == name}} ?? (index < previous.count ? previous[index] : nil)
+            var name = value.sourceRowName ?? old?.sourceRowName ?? "Row_\(index+1)"
+            while names.contains(name) { name += "_" };names.insert(name)
+            guard old != value else { continue }
+            let row = section.elementsLocal("Row").first{$0.attr("N") == name} ?? XMLElement(name:"Row")
+            if row.parent == nil { row.setAttr("N",name);section.addChild(row) };row.setAttr("Del",nil)
+            for (key,text,before) in [("Address",value.address,old?.address),("SubAddress",value.subAddress,old?.subAddress),("Description",value.description,old?.description)] where text != before { VisioXML.set(row,key,text) }
+        }
+        for name in Set(previous.compactMap(\.sourceRowName)).subtracting(names) {
+            for row in section.elementsLocal("Row") where row.attr("N") == name { row.detach() }
+            if element.attr("Master") != nil || element.attr("MasterShape") != nil { let row = XMLElement(name:"Row");row.setAttr("N",name);row.setAttr("Del","1");section.addChild(row) }
+        }
+        if section.childCount == 0 { section.detach() }
     }
 
     private static func preserveOpaqueInstance(_ original:XMLElement,in element:XMLElement) {
@@ -382,8 +490,20 @@ enum VisioPreservation {
             let fx = element.elementsLocal("Cell").first(where:{$0.attr("N") == "LocPinX"})?.attr("F") ?? old.formatting.sheet["LocPinX"]?.formula ?? ""
             let fy = element.elementsLocal("Cell").first(where:{$0.attr("N") == "LocPinY"})?.attr("F") ?? old.formatting.sheet["LocPinY"]?.formula ?? ""
             func resolve(_ name:String) throws -> Double { if name.lowercased() == "width" { return w };if name.lowercased() == "height" { return h };if let v = node.formatting.sheet.first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame}).flatMap({Double($0.value.value)}) { return v };throw DiagramError.invalid("Unsupported pin formula") }
-            if !fx.isEmpty,let v = try? ShapeSheet.evaluate(fx,resolve:resolve) { lx = v;VisioXML.set(element,"LocPinX",lx,formula:fx) }
-            if !fy.isEmpty,let v = try? ShapeSheet.evaluate(fy,resolve:resolve) { ly = v;VisioXML.set(element,"LocPinY",ly,formula:fy) }
+            func localPin(_ key: String, formula: String) -> Double? {
+                if let current = node.formatting.sheet[key], let previous = old.formatting.sheet[key],
+                   current.hasSameAuthoredFormula(as: previous), current.value != previous.value,
+                   let value = Double(current.value), value.isFinite { return value }
+                return try? ShapeSheet.evaluate(formula,resolve:resolve)
+            }
+            if !fx.isEmpty, let value = localPin("LocPinX",formula:fx) {
+                lx = value
+                if element.elementsLocal("Cell").contains(where:{$0.attr("N") == "LocPinX"}) { VisioXML.set(element,"LocPinX",lx,formula:fx) }
+            }
+            if !fy.isEmpty, let value = localPin("LocPinY",formula:fy) {
+                ly = value
+                if element.elementsLocal("Cell").contains(where:{$0.attr("N") == "LocPinY"}) { VisioXML.set(element,"LocPinY",ly,formula:fy) }
+            }
             if node.sheetWidth != old.sheetWidth { VisioXML.set(element,"Width",w) }
             if node.sheetHeight != old.sheetHeight { VisioXML.set(element,"Height",h) }
             let cx = node.center.x/72,cy = (pageHeight-node.center.y)/72
@@ -463,17 +583,40 @@ enum VisioPreservation {
     }
     static func patchSheet(_ values:[String:ShapeSheetCell],old:[String:ShapeSheetCell],element:XMLElement) {
         for (name,cell) in values where old[name] != cell {
+            if let previous = old[name], cell.hasSameAuthoredFormula(as: previous) {
+                // Refresh existing local caches, but do not materialize an
+                // inherited formula merely because its disposable V changed.
+                let local: XMLElement?
+                if name.hasPrefix("User.") || name.hasPrefix("Prop.") {
+                    let sectionName = name.hasPrefix("User.") ? "User" : "Property"
+                    let address = String(name.dropFirst(5))
+                    let rows = element.elementsLocal("Section").first { $0.attr("N") == sectionName }?.elementsLocal("Row") ?? []
+                    if let row = rows.first(where: { $0.attr("N") == address }) {
+                        local = row.elementsLocal("Cell").first { $0.attr("N") == "Value" }
+                    } else if let separator = address.lastIndex(of: ".") {
+                        let row = rows.first { $0.attr("N") == String(address[..<separator]) }
+                        local = row?.elementsLocal("Cell").first { $0.attr("N") == String(address[address.index(after: separator)...]) }
+                    } else { local = nil }
+                } else if name == "Char.Size" {
+                    local = element.elementsLocal("Section").first { $0.attr("N") == "Character" }?.elementsLocal("Row").first?.elementsLocal("Cell").first { $0.attr("N") == "Size" }
+                } else { local = element.elementsLocal("Cell").first { $0.attr("N") == name } }
+                if local == nil { continue }
+            }
             let parent:XMLElement,key:String
             if name.hasPrefix("User.") || name.hasPrefix("Prop.") {
-                let sectionName = name.hasPrefix("User.") ? "User" : "Property",rowName = String(name.dropFirst(5))
+                let sectionName = name.hasPrefix("User.") ? "User" : "Property",address = String(name.dropFirst(5))
                 let section = VisioXML.section(element,sectionName)
+                var rowName = address,cellName = "Value"
+                if !section.elementsLocal("Row").contains(where:{$0.attr("N") == address}),let separator = address.lastIndex(of:".") {
+                    rowName = String(address[..<separator]);cellName = String(address[address.index(after:separator)...])
+                }
                 let row = section.elementsLocal("Row").first(where:{$0.attr("N") == rowName}) ?? XMLElement(name:"Row")
                 if row.parent == nil { row.setAttr("N",rowName);row.setAttr("IX",String((section.elementsLocal("Row").compactMap{Int($0.attr("IX") ?? "")}.max() ?? -1)+1));section.addChild(row) }
-                parent = row;key = "Value"
+                row.setAttr("Del",nil);parent = row;key = cellName
             } else if name == "Char.Size" { parent = VisioXML.row(element,"Character");key = "Size" }
             else { parent = element;key = name }
             let changed = VisioXML.set(parent,key,cell.value,formula:cell.formula.isEmpty ? nil : cell.formula)
-            if !cell.unit.isEmpty { changed.setAttr("U",cell.unit) }
+            changed.setAttr("U",cell.unit.isEmpty ? nil : cell.unit)
         }
     }
     static func patchHyperlinks(_ links:[ShapeHyperlink],element:XMLElement,previous:[ShapeHyperlink] = []) {
@@ -607,15 +750,20 @@ enum VisioPreservation {
         for page in diagram.pages {
             guard let binding = bindings.first(where:{$0.pageID == page.id}),let data = parts[binding.part] else { continue }
             let old = original?.first(where:{$0.id == page.id})
-            let changed = page.nodes.filter { node in
+            var changed = page.nodes.filter { node in
                 let previous = old?.nodes.first(where:{$0.id == node.id})
                 return original == nil || previous?.formatting.fontName != node.formatting.fontName || previous?.formatting.textRuns != node.formatting.textRuns
             }
+            changed += page.edges.filter { edge in
+                let previous = old?.edges.first(where:{$0.id == edge.id})
+                return original == nil && edge.details != nil || previous?.formatting.fontName != edge.formatting.fontName || previous?.formatting.textRuns != edge.formatting.textRuns
+            }.map(\.textNode)
             guard !changed.isEmpty else { continue }
             let pageXML = try VisioXML.document(data)
             let shapes = pageXML.rootElement()?.firstLocal("Shapes")?.allShapes ?? []
             for node in changed {
-                guard let id = binding.nodeIDs[node.id],let element = shapes.first(where:{$0.attr("ID") == id}) else { continue }
+                guard let id = binding.nodeIDs[node.id] ?? binding.edgeIDs[node.id],let element = shapes.first(where:{$0.attr("ID") == id}) else { continue }
+                if node.formatting.textRuns != nil,!element.elementsLocal("Section").contains(where:{$0.attr("N") == "Character"}) { continue }
                 let section = VisioXML.section(element,"Character")
                 let rows = section.elementsLocal("Row")
                 let entries:[(index:Int,name:String)] = node.formatting.textRuns == nil ? ShapeRichText.fontRows(node) : rows.compactMap { row in
