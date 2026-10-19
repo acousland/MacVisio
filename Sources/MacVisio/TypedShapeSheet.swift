@@ -138,6 +138,13 @@ enum TypedShapeSheet {
                         guard let numberDimension = values[0].dimension,numberDimension == fuzzDimension else { throw DiagramError.invalid("SIGN values use incompatible units.") }
                     }
                     result = .number(try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9))
+                case "ASIN","ACOS","ATAN":
+                    try arity(1)
+                    // These functions return PtgAngDft, whose canonical value
+                    // is radians with DA metadata. Reuse the scalar numerical
+                    // path and its domain/non-finite failure behavior.
+                    let angle = try ShapeSheet.evaluate(.call(name,[.number(try values[0].numeric())]),resolve:{_ in throw DiagramError.invalid("Unexpected inverse-trigonometric reference.")})
+                    result = scalar ? .number(angle) : .quantity(angle,"DA")
                 case "ATAN2":
                     try arity(2)
                     let angle = try ShapeSheet.arcTangent2(try values[0].numeric(),values[1].numeric())
@@ -217,7 +224,7 @@ enum TypedShapeSheet {
                     let second = try colorValue(values[1],palette:colorPalette).hsl.luminosity
                     result = .number(Double(first-second))
                 default:
-                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","LN","EXP","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
+                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
                         let unit = values.first?.unit
                         let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
