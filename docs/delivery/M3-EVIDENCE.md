@@ -1,6 +1,6 @@
 # M3 interim engineering evidence
 
-16 October 2026, Australia/Melbourne. State: **Accepted M2 integrated; M3 implementation in progress; M3 is not accepted**.
+19 October 2026, Australia/Melbourne. State: **Accepted M2 integrated; M3 implementation in progress; M3 is not accepted**.
 
 Accepted M2 engineering `dbce6c2` (product `0839994`) is integrated as `d2d736f`.
 Its accepted handoff SHA-256 is
@@ -114,3 +114,27 @@ unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.
 The final full run has zero failures. Its 13 skips are 12 tests needing installer
 assets and one needing the independent-reader build; none is represented as
 passed. Exact-build Visio/G2 qualification remains a separate open prerequisite.
+
+19 October shared-host checkpoint `9908078` adds the shared document/page/scoped
+definition and connector resolver, connector public cell/data/run/field retention,
+a native Definition Sheets browser, exact typed definition diagnostics, and
+cache-ownership fixes through edit/undo/save/public reopen. Both node and connector
+Format-only field overrides retain inherited Value ownership. Native field-token
+IDs remain stable across definition projection.
+
+The final available Swift run executes 813 tests, with the same 13 external
+prerequisite skips and zero failures. Three native activation benchmark cases are
+explicitly excluded: an earlier full run recorded 17 assertions failing in those
+three cases while waiting for native key/active windows; macOS reported
+SecurityAgent in the foreground. They require an actual rerun when the system
+prompt clears and are not passed evidence. All 105 Python tests and the canonical
+ledger check pass. The ledger appends nine exposed source function candidates
+(180 entries), retaining all 171 prior IDs, mappings, evidence and decisions;
+compatibility dimensions remain unverified.
+
+The [shared-host record](M3-SHARED-HOST-CHECKPOINT.json) retains source/test/log
+hashes, failed/corrected observations, the exact exclusions and limits. This is
+partial local engineering. Endpoint/routing/glue calculation, row/section
+lifecycle, full host/function/appearance/output/library contracts and independent
+Visio/font/physical qualification remain open. All 204 M3 children and the
+milestone remain unaccepted; 17 children are in progress, 181 pending and 6 proposed.

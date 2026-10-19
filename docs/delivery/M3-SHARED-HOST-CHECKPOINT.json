@@ -1,0 +1,423 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T04:29:42.843601+00:00",
+  "state": "partial_engineering_checkpoint_native_activation_pending",
+  "code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
+  "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "implemented_scope": [
+    "Shared immutable document/page/scoped definition/connector scalar and typed-field resolver; page-relative ownership, one request clock and explicit unit modes",
+    "Combined node/connector public ID scope and dependency propagation; retained host/ID maps and separate connector work counters",
+    "Public connector cells/data/hyperlinks/sparse rich runs/fields; old-native-cache migration without changing object identity; nil-details/compact metadata stability",
+    "Connector User/Property and supported line presentation calculation plus fields; source endpoint/route/glue state retained",
+    "Native Definition Sheets browser and one exact existing cell Apply through the document-owned cancellable transaction; no-selection menu/search command; exact scoped labels, stale source/revision and native marked-text checks",
+    "Typed definition producer diagnostic addresses and document-membership navigation; duplicate consumer diagnostics deduplicated",
+    "Public authored-cache versus inherited-cache ownership through edit/undo/redo/save/reopen; exact active F/U retained, Format-only overrides do not localize inherited Field.Value; native field-token reuse"
+  ],
+  "qualification": {
+    "available_swift": {
+      "executed": 813,
+      "skipped": 13,
+      "failures": 0,
+      "command": "swift test --scratch-path build/m3-swift -j 2 --skip 'BenchmarkProfileTests/(testCompletedCalculationSpanWithIssuesIsStillAFailedPhase|testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport|testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput)'",
+      "log": "build/m3-evidence/2026-10-19/shared-host-available-swift-2.log",
+      "excluded_native_tests": [
+        "BenchmarkProfileTests/testCompletedCalculationSpanWithIssuesIsStillAFailedPhase",
+        "BenchmarkProfileTests/testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport",
+        "BenchmarkProfileTests/testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput"
+      ],
+      "exclusion_is_passed_evidence": false
+    },
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "command": "python3 -m unittest discover -s scripts/tests",
+      "log": "build/m3-evidence/2026-10-19/shared-host-python-2.log"
+    },
+    "ledger": {
+      "command": "python3 scripts/build-evidence-ledger.py",
+      "result": "valid:154 requirements,180 bounded entries; all prior171 IDs/evidence/decisions retained; nine existing source candidates appended",
+      "log": "build/m3-evidence/2026-10-19/shared-host-ledger-3.log"
+    },
+    "new_tests_since_initial_checkpoint": 41,
+    "new_test_files": {
+      "M3ConnectorSheetTests": 10,
+      "M3ConnectorCalculationTests": 8,
+      "M3SharedSheetHostTests": 10,
+      "M3DefinitionEditorTests": 8,
+      "M3DefinitionCacheOwnershipTests": 2
+    },
+    "existing_test_file_additions": 3,
+    "skip_meaning": "The same12 installer-asset and one independent-reader-build prerequisites remain skipped. They are not passed evidence.",
+    "full_run_attempt": {
+      "source_state": "earlier uncommitted intermediate source before final field-cache ownership refinements; not the final code commit",
+      "executed": 814,
+      "skipped": 13,
+      "assertion_failures": 17,
+      "failing_tests": [
+        "BenchmarkProfileTests/testCompletedCalculationSpanWithIssuesIsStillAFailedPhase",
+        "BenchmarkProfileTests/testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport",
+        "BenchmarkProfileTests/testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput"
+      ],
+      "observation": "All17 assertion failures came from three native activation benchmark cases. Their callback timed out waiting for key/active window. lsappinfo reported SecurityAgent foreground. No native benchmark qualification is claimed.",
+      "log": "build/m3-evidence/2026-10-19/shared-host-full-swift-1.log",
+      "pending": "Rerun the three actual event-routing benchmarks when the system prompt is dismissed; all816 tests must be included for a full suite claim."
+    }
+  },
+  "regression_dispositions": [
+    {
+      "logs": [
+        "shared-host-connector-1.log"
+      ],
+      "observation": "Overlapping mutation of inherited connector field formula failed Swift exclusive-access compilation. Read the formula into a local before mutation. Corrected builds compile."
+    },
+    {
+      "logs": [
+        "shared-host-connector-2.log"
+      ],
+      "observation": "Shared resolver changed the existing invalid-ID diagnostic text. Restored Invalid shape ID wording; duplicate/invalid-ID regression passes."
+    },
+    {
+      "logs": [
+        "shared-host-connector-3.log"
+      ],
+      "observation": "New UI test helper captured a nonescaping callback in a stored closure. Replaced with the existing nonescaping onMain wrapper."
+    },
+    {
+      "logs": [
+        "shared-host-connector-4.log",
+        "shared-host-connector-5.log"
+      ],
+      "observation": "Fresh connector writer omitted managed line formulas; corrected active supported line-cell serialization. One generated-field diagnostic assertion wrongly assumed zero-based first allocation and was corrected to the authored index. Native definition undo exposed V-only cache classification."
+    },
+    {
+      "logs": [
+        "shared-host-connector-6.log",
+        "shared-host-connector-7.log"
+      ],
+      "observation": "Preservation geometry path materialized inherited LocPin cells and evaluated baselines hid local cache output changes. Corrected authored/inherited cache comparison and local pin handling. Fixed property-cache refresh formula loss and added Format-only ownership regressions."
+    },
+    {
+      "logs": [
+        "shared-host-connector-7.log"
+      ],
+      "observation": "Shared-host save fixture hit the existing review for newly generated attached BeginX/EndX formulas. The independently authored shared-owner fixture now explicitly uses a free fixed connector to isolate scalar/property contracts. Attached route/glue calculation and its save policy remain open; no review was suppressed."
+    },
+    {
+      "logs": [
+        "shared-host-ledger-1.log",
+        "shared-host-ledger-2.log",
+        "shared-host-ledger-3.log"
+      ],
+      "observation": "Moving nine existing field/date/page dispatches into the scanned shared resolver added nine source inventory candidates. Regeneration appends them, retains all171 prior records/evidence/decisions and leaves every compatibility dimension unverified."
+    }
+  ],
+  "limitations": [
+    "No exact-build licensed Visio/COM execution, bidirectional reference acceptance, same-font visual pack or calibrated physical printer run.",
+    "Three native event-routing benchmark tests remain unqualified while SecurityAgent prevents window activation; this is not a full-suite or G1 performance acceptance.",
+    "Row/section lifecycle, master replacement and separate group/container/list/lane relationships remain incomplete.",
+    "Connector endpoint/routing/glue behavior, complete line/arrow forms and rich-text editing owner coverage remain open; current connector calculation is a bounded scalar/line/field slice.",
+    "Full master/style theme/inheritance host semantics, remaining functions/cells/versions, text/geometry/output/library/package and release contracts remain open.",
+    "Definition edits reimport the bounded public package; no incremental or timing qualification is claimed for definition-wide projection. Connector metadata migration may hash/decode a full retained native header on first use; no new main-thread performance claim."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/CalculationAudit.swift",
+      "sha256": "9da05f242c49209fbb889390957b77a315fd20bcf88a10b986730bc0ab4030ef",
+      "bytes": 11340
+    },
+    {
+      "path": "Sources/MacVisio/CalculationDependencies.swift",
+      "sha256": "290693745756418ada52d5a4c99f22a430dae90e1402b331728e14220fb29843",
+      "bytes": 25146
+    },
+    {
+      "path": "Sources/MacVisio/ConnectorSheetCalculation.swift",
+      "sha256": "50f6bb215130c8aed147695967845ca74aadb3028b2ed78d875dc7360d9ca785",
+      "bytes": 4948
+    },
+    {
+      "path": "Sources/MacVisio/ConnectorSheetHost.swift",
+      "sha256": "484cb85439a929941405ce4074d981eb797154f564e43528b622b08e451cb240",
+      "bytes": 1433
+    },
+    {
+      "path": "Sources/MacVisio/ControlEditing.swift",
+      "sha256": "cd00c9a87e87c4454ecb17a1ac4a1c29e7909061e579fdd7b5bd880188f705cc",
+      "bytes": 19397
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionEditing.swift",
+      "sha256": "2766f5def1450521a0fb8e644726a4cddb9dc23494183a9fbed2cb939dc18ac6",
+      "bytes": 18858
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionSheetEditor.swift",
+      "sha256": "4e7d7105dae34903b224402771de19e671bc43c0b2afd541be5c5030c5f0741d",
+      "bytes": 24012
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionSheetReferences.swift",
+      "sha256": "c9d024e2b22cacb9d522defa7360cb111b870e0ea4d912e4660a418f0f220617",
+      "bytes": 1936
+    },
+    {
+      "path": "Sources/MacVisio/DiagramCalculation.swift",
+      "sha256": "e48dca4ab245764770123caeeb5d4e173879371475d14aae2ac1152293e34c6a",
+      "bytes": 8655
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "985299a02058832331153c0d643af1bf08c91ca337366ec1464ff04c5c9a6024",
+      "bytes": 100032
+    },
+    {
+      "path": "Sources/MacVisio/DocumentChanges.swift",
+      "sha256": "d39b4b7b31a8bfa19b17a151e862b06fb796cc0387b9d13faa0ac89bd8a86d8c",
+      "bytes": 8114
+    },
+    {
+      "path": "Sources/MacVisio/DocumentDiagnostic.swift",
+      "sha256": "5ef3f072ee631392d33bff41c82724689f50ae708509004062d92e7e3f4342f2",
+      "bytes": 5699
+    },
+    {
+      "path": "Sources/MacVisio/DocumentSaveImpact.swift",
+      "sha256": "b9dfc2d8890cfdf1815434316097ab964d8a21d187c2c72b876949f868001d58",
+      "bytes": 20576
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "e0176184367f851830bf91647ac2d54bd9104243e1054f967b79e26115efba0f",
+      "bytes": 24703
+    },
+    {
+      "path": "Sources/MacVisio/ImportNotes.swift",
+      "sha256": "a894f41307fbbca19d104be55aafe396c58b7eff1987bc0d9cafa2b839160427",
+      "bytes": 10024
+    },
+    {
+      "path": "Sources/MacVisio/Model.swift",
+      "sha256": "0f3445b6a51fd89fe7d5a3a8e2456467023ff38da1c814be2c140e9549dbb347",
+      "bytes": 26379
+    },
+    {
+      "path": "Sources/MacVisio/ShapeDetails.swift",
+      "sha256": "6586de33b56105775fac648fa2277f8f86c10c05e1fb7a95ccd30712173f5120",
+      "bytes": 8908
+    },
+    {
+      "path": "Sources/MacVisio/ShapeSheetContext.swift",
+      "sha256": "6c37e80283bb7373898e3b8f61e78c9029fa4692aa4d11c8851cc4798b26e0b7",
+      "bytes": 49850
+    },
+    {
+      "path": "Sources/MacVisio/ShapeSheetEngine.swift",
+      "sha256": "6fa871e23757c5c134a72edd21dbb6a1d79089a416ec6b6e03fe8739f582dc2f",
+      "bytes": 30825
+    },
+    {
+      "path": "Sources/MacVisio/TextFields.swift",
+      "sha256": "3fb7d6c79247916ef6cd3568342ecb5a24cdd1938bc7bbe4a2a40161519f7df3",
+      "bytes": 18176
+    },
+    {
+      "path": "Sources/MacVisio/VisioFormat.swift",
+      "sha256": "6e57c8f0e7570a4175aae7e8d366f5ae3fad78f092e64a2141d10345263971c4",
+      "bytes": 168635
+    },
+    {
+      "path": "Sources/MacVisio/VisioPreservation.swift",
+      "sha256": "00936cdf3d00fc0abe16e97cd53edf5d50005b0eedd1fc34c2c699c2d739a564",
+      "bytes": 67998
+    },
+    {
+      "path": "Sources/MacVisio/VisioStencil.swift",
+      "sha256": "3cfd4f322eba1a8646e9effa40bda2c075b95326e86f6d87a76a10e3df47ef94",
+      "bytes": 11602
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "317f36bc160f2337635b1b23c43245f4baceabdb0ea5aa77cb39e2b61a3dbdcc",
+      "bytes": 33881
+    },
+    {
+      "path": "Tests/MacVisioTests/DocumentDiagnosticIntegrationTests.swift",
+      "sha256": "80489928d1f55e920e302c7d5a26abed4d32345c9df8cf75cddcc825199d8584",
+      "bytes": 12460
+    },
+    {
+      "path": "Tests/MacVisioTests/DocumentDiagnosticTests.swift",
+      "sha256": "36b20783768e104fc2ee74433e9a75572b89b8d919eda169a14780ecf774b96c",
+      "bytes": 5217
+    },
+    {
+      "path": "Tests/MacVisioTests/DocumentSaveImpactTests.swift",
+      "sha256": "81cc7d89181931c574c02117196e8a2ea4a4713827de0496881b5e5df39f3d4f",
+      "bytes": 20308
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ConnectorCalculationTests.swift",
+      "sha256": "5563fd0972fd1772aab1b187b5bbdea9a78b46c9bee29394283a64acc1282d18",
+      "bytes": 13859
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ConnectorSheetTests.swift",
+      "sha256": "124a1701b6132d4758c12ca16ee2a2e1416806f205f5512b3b6cfc7d05379974",
+      "bytes": 22736
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionCacheOwnershipTests.swift",
+      "sha256": "ec81fb87dd212cc4f8477d468d9da377ea1a97d3b728f5bfcdd6f8742f99bf8f",
+      "bytes": 10081
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionEditorTests.swift",
+      "sha256": "e53f141f2f0fc3a3ef5caa91ad8ba50c23bb6c46caf9fbf701607a77a3f25f7f",
+      "bytes": 15057
+    },
+    {
+      "path": "Tests/MacVisioTests/M3SharedSheetHostTests.swift",
+      "sha256": "2bdd60f9204a7dcb26761954613a8e94fd4caa04b1c0144c463a881bdc6f3a45",
+      "bytes": 18438
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-available-swift-1.log",
+      "sha256": "f9800db0e47bb8647a8a3a12aaf2882832a40ecda358219597837e5115328002",
+      "bytes": 237737
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-available-swift-2.log",
+      "sha256": "c621a38f04d26aca13e24cc3e0291fdcdceeaf348b34570618825d4146574479",
+      "bytes": 237399
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-1.log",
+      "sha256": "dfe7192a113d597ded30ac91e4939ce08863870ae9025a6bb9bd89c9143071e4",
+      "bytes": 18839
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-2.log",
+      "sha256": "9fab8cd5a314fecc92648e86ee471aa657c6a6fb884e46b1910d43367304a11d",
+      "bytes": 54074
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-3.log",
+      "sha256": "c7304141dda48ea2a80baf962455e4910a6396020b13ba54767b46c6e0f1001e",
+      "bytes": 32375
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-4.log",
+      "sha256": "5262724be33a0b29368606a0215c376f7088a2b2d56fdec8e7c5dbabbbb968e8",
+      "bytes": 56277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-5.log",
+      "sha256": "1e7cdcb83d14b8b87654131e978268c82a55763a1d2d787750db1c9e048f9985",
+      "bytes": 5004
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-6.log",
+      "sha256": "cc2eeffb7a65281eafce79cb046a684b7771e9fd55283d95dcda2c865031d435",
+      "bytes": 64770
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-7.log",
+      "sha256": "362d87e292878df735344613ae9bfb9f1e619bd6716d3d2530b10690c548c569",
+      "bytes": 63430
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-connector-8.log",
+      "sha256": "eca5234dc273fd76c69eb20c8df9da1a20c3cece10dd988fe36c57b7aca419f3",
+      "bytes": 15004
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-full-swift-1.log",
+      "sha256": "98fe538b9ead33c24bf9719f1cb6b3fa559d7b5390df363ff4d5b8cd62a0c4db",
+      "bytes": 242781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-1.log",
+      "sha256": "1836b9c5ba745eacd93fa2f9122a31c06f8a9933b508afb3027b050d07cb3e74",
+      "bytes": 194
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-2.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-3.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-python-1.log",
+      "sha256": "dee21a0c629562f5e5509a31e3f85b0e19fbed7362282467ad0e66b38575ad05",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-python-2.log",
+      "sha256": "f3d5fa4d9c28d8ab81ea56fc6e8dc8e011347c954bb1233b83153bc85f347701",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-activation-observation.txt",
+      "sha256": "f0d9d651ea224063ba9e40401cd8864d681436c108b9751783a9c81bcb854ade",
+      "bytes": 233
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/swift-toolchain.txt",
+      "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
+      "bytes": 98
+    }
+  ],
+  "public_fixture_sources": [
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/m3-intelligent.vsdx",
+      "sha256": "59d32c7e9cfd24fe8041e3a1829c1f293aa4d3365e3afd5e9a91ac03e6cdf5a1",
+      "bytes": 5987
+    }
+  ],
+  "reference_sources": [
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/about-cell-references"
+  ],
+  "inventory_reconciliation": {
+    "path": "docs/evidence/runtime-inventory.json",
+    "sha256": "b0eec6aa16283340230f987aa908e89f4373f81b205dd34f31e6e1338839d996",
+    "entry_count": 180,
+    "retained_entries": 171,
+    "added_source_candidates": [
+      "BKGPAGENAME",
+      "DATE",
+      "FORMAT",
+      "ID",
+      "NOW",
+      "PAGECOUNT",
+      "PAGENAME",
+      "PAGENUMBER",
+      "TODAY"
+    ],
+    "dropped_entries": 0,
+    "retained_evidence_or_decision_changes": 0,
+    "all_five_dimensions": "unverified"
+  },
+  "final_record_validation": {
+    "validated_core_artifacts": 52,
+    "source_test_files_bound_to_commit": 32,
+    "record_validation": {
+      "path": "build/m3-evidence/2026-10-19/shared-host-checkpoint-validation.log",
+      "sha256": "4f7054b19f682ec5b5e07687ea55fa80c8257b03cb69ddfe292b9f2a08b91f29"
+    },
+    "ledger_validation": {
+      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-final.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49"
+    }
+  }
+}

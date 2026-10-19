@@ -281,3 +281,37 @@ page identity. Repeated serialization of the same source-free snapshot therefore
 keeps native metadata byte-stable; after the first successful save, the registry's
 scope remains retained across source rebases and native reopen. The existing
 compact-metadata payload budget remains unchanged.
+
+19 October 2026 continuation: `ShapeSheetContext` now supplies shared scalar and
+typed-field resolution for document/page/scoped definition and connector sheets.
+Geometry and fields use one request clock; page-count/order/background metadata
+and definition changes invalidate both consumers. Page-relative formulas resolve
+within the page. Numeric public IDs share a page scope across nodes/connectors;
+master members retain their separate definition scope. Warm node/connector
+invalidation retains maps in the document calculation session and counts connector
+work separately. Scalar geometry and typed-field unit policies remain explicit.
+
+Connector details retain public cells, typed data/hyperlinks, sparse character/
+paragraph rows and field definitions. The current evaluator covers scalar User/
+Property and supported line presentation cells plus fields. It preserves endpoint,
+route and glue ownership; this does not establish endpoint/route calculation or
+the complete connector appearance catalog. Old native caches hydrate public
+connector details without changing native identities. Current nil-details native
+connectors retain their representation and compact-metadata budgets.
+
+The Definition Sheets native command browses scoped owner/sheet IDs and applies
+one existing authored cell per accepted worker transaction. Marked text is kept
+intact; source resource/lineage, document state/revision and exact selected cell
+are rechecked at Apply. Calculation diagnostics carry a definition sheet UUID and
+structured section/row/cell address, and native navigation rechecks live membership.
+Section/row add/rename/delete remains open.
+
+Public save comparison distinguishes inherited evaluated caches from authored
+instance caches. Changed local formula caches and local field/text displays are
+written publicly. A Format-only field row does not gain an inherited Value cell.
+V-only refreshes with unchanged exact active F/U do not become master-relation
+edits; changed formulas, units, literals and parentage retain review. Projection
+reuses native field-token identities by index and marker occurrence. Definition
+projection still parses the bounded package; no G1 performance qualification is
+claimed for definition-wide edits. Exact Visio, complete host/function/row/schema,
+visual/font and calibrated physical-output obligations remain open.

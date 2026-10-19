@@ -10,9 +10,9 @@ No child is accepted by this catalog.
 
 ## What was discovered
 
-The local source/document scan names **90 function candidates**, **15 modeled section areas** and **13 execution/ownership contexts**. These are discovery lists, not the Visio 2019 catalog. All 72 named M0 functions and 21 named M0 cells map to specific children; the additional unresolved function/cell entries remain pending. The 18 additional function candidates map to `INV-FUNCTIONS-exact-build-catalog-unresolved` with source provenance. Locally dispatched names and documented unsupported/internal names are distinguished. Each named function has its own WP-15-T03 child; WP-15-T01 separately owns reconciliation of signatures, cells, contexts, versions and unmatched entries. Baseline function/cell totals remain unknown.
+The local source/document scan names **90 function candidates**, **15 modeled section areas** and **13 execution/ownership contexts**. These are discovery lists, not the Visio 2019 catalog. The initial 72 named M0 functions and 21 named M0 cells map to specific children; the additional unresolved function/cell entries remain pending. The 18 additional function candidates map to `INV-FUNCTIONS-exact-build-catalog-unresolved` with source provenance. Locally dispatched names and documented unsupported/internal names are distinguished. Each named function has its own WP-15-T03 child; WP-15-T01 separately owns reconciliation of signatures, cells, contexts, versions and unmatched entries. Baseline function/cell totals remain unknown.
 
-The source already contains useful master override/tombstone, grouped connector, control redirection, rich text, curve, theme and public package-preservation tests. The catalog retains those anchors. First-class master/style/connector sheet ownership, independent relationship kinds and shared host-aware ShapeSheet semantics remain explicit delivery slices. TextFieldEngine and CompositeGeometry currently have separate resolution paths; source occurrences do not establish equivalent semantics.
+The source already contains useful master override/tombstone, grouped connector, control redirection, rich text, curve, theme and public package-preservation tests. The catalog retains those anchors. First-class master/style/connector sheet ownership, independent relationship kinds and shared host-aware ShapeSheet semantics remain explicit delivery slices. The original TextFieldEngine resolver is now consolidated with scalar calculation; composite geometry retains its distinct data-result adapter. Source occurrences do not establish equivalent semantics.
 
 ## Parent decomposition
 
@@ -49,7 +49,7 @@ The source already contains useful master override/tombstone, grouped connector,
 
 ## Public fixture and acceptance contract
 
-Per-child subdirectories under `Tests/MacVisioTests/Fixtures/M3/` and `build/m3-evidence/` are **planned**, not generated results. The existing shared `m3-intelligent.vsdx`, `m3-physical.vsdx` and `manifest.json` are registered with actual generator/comparator/test paths and evidence commits `eb84c98`/`f0182cb`. Parent reports 34 aggregate Python checks and 3 Swift discovery tests passing across the evidence work. The M3 Python module currently declares 9 tests. The intelligent seed has two narrow no-edit/isolated-text preservation checks; the physical seed has one source/public-numeric/PDF geometry check. These checks do not complete domain or independent reference acceptance. Each child requires an independently meaningful synthetic public package, expected semantic values/identities, expected-only dependency patches, native edit/undo/cancel/save/reopen checks and both exchange directions. Library/template children declare exact VSDX/VSSX/VSTX fixture families and paths. Legacy VSS/VST entries remain explicit M6/WP-30 work under MV-IO-04, retaining existing useful import slices.
+Per-child subdirectories under `Tests/MacVisioTests/Fixtures/M3/` and `build/m3-evidence/` are **planned**, not generated results. The existing shared `m3-intelligent.vsdx`, `m3-physical.vsdx` and `manifest.json` are registered with actual generator/comparator/test paths and evidence commits `eb84c98`/`f0182cb`. Parent reports 34 aggregate Python checks and 3 Swift discovery tests passing across the evidence work. The initial M3 Python module declared 9 tests; the retained oracle audit subsequently expanded it to 12. The intelligent seed has two narrow no-edit/isolated-text preservation checks; the physical seed has one source/public-numeric/PDF geometry check. These checks do not complete domain or independent reference acceptance. Each child requires an independently meaningful synthetic public package, expected semantic values/identities, expected-only dependency patches, native edit/undo/cancel/save/reopen checks and both exchange directions. Library/template children declare exact VSDX/VSSX/VSTX fixture families and paths. Legacy VSS/VST entries remain explicit M6/WP-30 work under MV-IO-04, retaining existing useful import slices.
 
 Validation copies remove native MacVisio metadata and irrelevant preview caches. Public formulas, master/style/connector identities, row tombstones, relationships, rich text and geometry must carry each claimed capability. Evidence is separate for preservation, rendering, editing, behavior and interchange. Real Visio must open without repair, perform the relevant edit, save, close and reopen in both directions; parsing or cached display cannot replace that result.
 
@@ -87,6 +87,27 @@ Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
 [implementation record](M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
 failed/corrected observations and log hashes. Scoped master/style cell editing,
 source rebasing/undo and selected paragraph lengths are a bounded subset.
-Definition UI, shared document/connector calculation owners, structural/row
-lifecycle and remaining child contracts are open. All 204 children remain
-unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.
+That initial checkpoint left definition UI and shared document/connector
+calculation open; its historical counts were 3 in progress, 195 pending and
+6 proposed. The 19 October continuation below records the current slice.
+
+19 October continuation: document, page and scoped definition cells share scalar
+and typed-field resolution with connector sheets. Native Definition Sheets edits
+one exact existing cell and opens typed producer diagnostic addresses. The
+continuation also retains public connector data, runs and fields; evaluates scalar
+and supported line-style cells; and propagates node/connector dependencies with
+separate work counts. Endpoint/routing/glue calculation, row/section lifecycle,
+complete themes/hosts/functions and remaining child contracts are open.
+
+There are now 17 in-progress children, 181 pending implementation, 6 proposed and
+zero accepted. Nine existing date/page/field candidates moved into the shared
+resolver's scanned source and gained canonical local inventory entries. All 171
+prior entries, decisions and evidence remain; the current inventory contains 180
+entries and 81 named function labels, each still reference-unverified. M3 mappings
+retain the unresolved remainder as well as the exact new IDs.
+
+Shared-host source `9908078` has 813 available Swift tests passing (13 external
+prerequisite skips), with three native activation benchmarks explicitly excluded
+pending the system security prompt. All 105 Python checks pass. The
+[dated checkpoint](M3-SHARED-HOST-CHECKPOINT.json) retains the actual failing/corrected runs,
+source/test/log hashes and limits. This does not close any child contract.

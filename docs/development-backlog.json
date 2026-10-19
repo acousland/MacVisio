@@ -3282,7 +3282,7 @@
           "deliverable": "Close name escaping, redirection, inheritance, coercion, errors and contextual evaluation gaps.",
           "acceptance_criteria": "Per-item positive/invalid/rename/cross-object fixtures agree with the reference.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T01"
           ],
@@ -3328,7 +3328,7 @@
           "deliverable": "Deliver numeric/string/date/color/geometry/text/lookup families through the shared engine.",
           "acceptance_criteria": "Each child includes pure/context/gesture/undo/public-interchange evidence.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T02"
           ],
@@ -3459,7 +3459,7 @@
           "deliverable": "Support section/row lifecycle, formula/value views, error navigation and semantic coverage.",
           "acceptance_criteria": "Parser/occurrence counts cannot substitute for accepted context/version coverage.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T03"
           ],
@@ -3508,7 +3508,7 @@
           }
         }
       ],
-      "status": "Pending"
+      "status": "In progress"
     },
     {
       "id": "WP-16",
@@ -3634,7 +3634,7 @@
           "deliverable": "Implement inventoried document/page/background/data/date/dimension fields and format pictures.",
           "acceptance_criteria": "Locale changes preserve stored meaning and foreground background context resolves correctly.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-16-T02"
           ],
@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Initial scoped definition/cell-edit/save/undo and paragraph subset. Full775 Swift tests (13 skipped) and105 Python tests pass. Zero M3 children accepted; remaining UI/domain/reference obligations retained.",
+      "local_evidence_scope": "Initial checkpoint775/13 skips retained. Current shared-owner, connector source/calculation and definition UI slice:813 available Swift tests (13 prerequisite skips),105 Python pass; three native activation benchmarks pending. Zero M3 children accepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9634,12 +9634,18 @@
       "active_task_ids": [
         "WP-14-T01",
         "WP-14-T02",
-        "WP-16-T01"
+        "WP-15-T02",
+        "WP-15-T03",
+        "WP-15-T04",
+        "WP-16-T01",
+        "WP-16-T03"
       ],
       "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
-      "candidate_code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070"
+      "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
+      "active_work": "19 October shared-host/native definition browser slice committed at 9908078. Continue remaining child obligations; native benchmark activation awaits system prompt.",
+      "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json"
     }
   ],
   "m0_execution": {

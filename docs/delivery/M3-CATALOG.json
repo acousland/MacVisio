@@ -2,11 +2,11 @@
   "schema_version": 1,
   "catalog_version": "0.1-discovery",
   "milestone": "M3",
-  "date": "2026-10-16",
+  "date": "2026-10-19",
   "timezone": "Australia/Melbourne",
   "state": "in_progress",
   "planning_baseline_commit": "7c270124993bac09967109f95e603ebb47bd98ff",
-  "observed_source_commit": "f0182cb21d34e2bb963c0bfa19e53dcd8f7e39c3",
+  "observed_source_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
   "purpose": "Bounded decomposition and discovery inventory for WP-14 through WP-20. This catalog closes no implementation task, milestone or independent G2 acceptance.",
   "owned_artifacts": [
     "docs/delivery/M3-CATALOG.json",
@@ -99,26 +99,17 @@
     "baseline_cell_count": null,
     "reference_accepted_items": 0,
     "note": "Counts measure decomposition/discovery only. They are not baseline catalog completeness or compatibility evidence.",
-    "canonical_M0_entries_mapped": 104,
-    "known_M0_function_labels_mapped": 72,
+    "canonical_M0_entries_mapped": 113,
+    "known_M0_function_labels_mapped": 81,
     "known_M0_cells_mapped": 21,
     "unmatched_source_function_candidates": [
       "ANG360",
-      "BKGPAGENAME",
-      "DATE",
-      "FORMAT",
       "GETREF",
-      "ID",
       "LOG10",
-      "NOW",
       "NURBS",
       "OPENTEXTWIN",
-      "PAGECOUNT",
-      "PAGENAME",
-      "PAGENUMBER",
       "POLYLINE",
       "SETF",
-      "TODAY",
       "TRUNC",
       "_ELLIPSE_THETA"
     ]
@@ -518,9 +509,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              127
+              370
             ]
           }
         ],
@@ -537,16 +528,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-BKGPAGENAME",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-BKGPAGENAME"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-BKGPAGENAME"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -792,10 +786,10 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              117,
-              131
+              138,
+              380
             ]
           }
         ],
@@ -812,16 +806,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-DATE",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-DATE"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-DATE"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -1024,9 +1021,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              132
+              388
             ]
           }
         ],
@@ -1043,16 +1040,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-FORMAT",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-FORMAT"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-FORMAT"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -1255,9 +1255,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              128
+              373
             ]
           }
         ],
@@ -1274,16 +1274,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-ID",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-ID"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-ID"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -1969,9 +1972,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              129
+              378
             ]
           }
         ],
@@ -1988,16 +1991,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-NOW",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-NOW"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-NOW"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -2120,9 +2126,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              126
+              369
             ]
           }
         ],
@@ -2139,16 +2145,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-PAGECOUNT",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-PAGECOUNT"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-PAGECOUNT"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -2156,9 +2165,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              124
+              363
             ]
           }
         ],
@@ -2175,16 +2184,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-PAGENAME",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-PAGENAME"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-PAGENAME"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -2192,9 +2204,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              125
+              366
             ]
           }
         ],
@@ -2211,16 +2223,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-PAGENUMBER",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-PAGENUMBER"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-PAGENUMBER"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -3409,9 +3424,9 @@
         "discovery_state": "dispatch_candidate",
         "sources": [
           {
-            "path": "Sources/MacVisio/TextFields.swift",
+            "path": "Sources/MacVisio/ShapeSheetContext.swift",
             "lines": [
-              130
+              379
             ]
           }
         ],
@@ -3428,16 +3443,19 @@
           "M3-SRC-CONTEXT-shape",
           "M3-SRC-CONTEXT-page",
           "M3-SRC-CONTEXT-field",
-          "M3-SRC-CONTEXT-background_field"
+          "M3-SRC-CONTEXT-background_field",
+          "M3-SRC-CONTEXT-connector"
         ],
         "source_discovery_id": "M3-SRC-FUNC-TODAY",
         "m0_inventory_ids": [
-          "INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "INV-FUNCTIONS-TODAY"
         ],
         "m0_semantic_child_ids": [
-          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+          "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+          "WP-02-T04-INV-FUNCTIONS-TODAY"
         ],
-        "m0_mapping_kind": "candidate_under_unknown_function_remainder",
+        "m0_mapping_kind": "exact_function_label_with_unknown_context_remainder_retained",
         "reference_applicability": "unknown; source/document discovery only"
       },
       {
@@ -5000,6 +5018,18 @@
         "evidence_dimensions": "all_unverified"
       },
       {
+        "id": "INV-FUNCTIONS-BKGPAGENAME",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-BKGPAGENAME",
+        "name": "BKGPAGENAME",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C011"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
         "id": "INV-FUNCTIONS-BLUE",
         "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-BLUE",
         "name": "BLUE",
@@ -5067,6 +5097,18 @@
         "evidence_dimensions": "all_unverified"
       },
       {
+        "id": "INV-FUNCTIONS-DATE",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-DATE",
+        "name": "DATE",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C018"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
         "id": "INV-FUNCTIONS-DEG",
         "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-DEG",
         "name": "DEG",
@@ -5123,6 +5165,18 @@
         "evidence_dimensions": "all_unverified"
       },
       {
+        "id": "INV-FUNCTIONS-FORMAT",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-FORMAT",
+        "name": "FORMAT",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C024"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
         "id": "INV-FUNCTIONS-GREEN",
         "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-GREEN",
         "name": "GREEN",
@@ -5166,6 +5220,18 @@
         ],
         "reference_state": "pending",
         "evidence_dimensions": "all_unverified"
+      },
+      {
+        "id": "INV-FUNCTIONS-ID",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-ID",
+        "name": "ID",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C030"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
       },
       {
         "id": "INV-FUNCTIONS-IF",
@@ -5344,6 +5410,18 @@
         "evidence_dimensions": "all_unverified"
       },
       {
+        "id": "INV-FUNCTIONS-NOW",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-NOW",
+        "name": "NOW",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C048"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
         "id": "INV-FUNCTIONS-OR",
         "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-OR",
         "name": "OR",
@@ -5353,6 +5431,42 @@
         ],
         "reference_state": "pending",
         "evidence_dimensions": "all_unverified"
+      },
+      {
+        "id": "INV-FUNCTIONS-PAGECOUNT",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-PAGECOUNT",
+        "name": "PAGECOUNT",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C052"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
+        "id": "INV-FUNCTIONS-PAGENAME",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-PAGENAME",
+        "name": "PAGENAME",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C053"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
+        "id": "INV-FUNCTIONS-PAGENUMBER",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-PAGENUMBER",
+        "name": "PAGENUMBER",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C054"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
       },
       {
         "id": "INV-FUNCTIONS-PI",
@@ -5669,6 +5783,18 @@
         "evidence_dimensions": "all_unverified"
       },
       {
+        "id": "INV-FUNCTIONS-TODAY",
+        "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-TODAY",
+        "name": "TODAY",
+        "category": "functions",
+        "M3_child_ids": [
+          "WP-15-T03-C085"
+        ],
+        "reference_state": "pending",
+        "evidence_dimensions": "all_unverified",
+        "source_observation": "M3 shared resolver source discovery; canonical local inventory append, not exact-build acceptance"
+      },
+      {
         "id": "INV-FUNCTIONS-TRIM",
         "m0_semantic_child_id": "WP-02-T04-INV-FUNCTIONS-TRIM",
         "name": "TRIM",
@@ -5786,8 +5912,8 @@
     "large_parent_count": 22,
     "child_count": 204,
     "accepted_child_count": 0,
-    "in_progress_child_count": 3,
-    "pending_implementation_child_count": 195,
+    "in_progress_child_count": 17,
+    "pending_implementation_child_count": 181,
     "proposed_child_count": 6
   },
   "parents": [
@@ -5920,7 +6046,7 @@
         "WP-15-T02-C005",
         "WP-15-T02-C006"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6032,7 +6158,7 @@
         "WP-15-T03-C089",
         "WP-15-T03-C090"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6068,7 +6194,7 @@
         "WP-15-T04-C015",
         "WP-15-T04-C016"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6133,7 +6259,7 @@
         "WP-16-T03-C003",
         "WP-16-T03-C004"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6634,7 +6760,7 @@
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Connector shape/sheet identity independent of graph edge",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-01",
@@ -6647,7 +6773,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Core/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -6682,7 +6808,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -6707,7 +6833,8 @@
       "existing_seed_fixture_ids": [
         "M3-SEED-intelligent"
       ],
-      "evidence_limit": "Seed carries relevant public source content. Only no-edit and isolated instance-text preservation are locally checked; proposed behavior/reference acceptance remains pending."
+      "evidence_limit": "Seed carries relevant public source content. Only no-edit and isolated instance-text preservation are locally checked; proposed behavior/reference acceptance remains pending.",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-14-T01-C003",
@@ -8066,7 +8193,7 @@
       "parent_task": "WP-15-T02",
       "work_package": "WP-15",
       "title": "Resolve every sheet-owner context through one host contract",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-03"
@@ -8080,7 +8207,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T01"
@@ -8126,7 +8253,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -8147,7 +8274,8 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T02-C004",
@@ -9140,13 +9268,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close BKGPAGENAME date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-BKGPAGENAME"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -9154,7 +9283,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -9171,7 +9300,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -9185,11 +9315,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -9207,12 +9338,14 @@
         "M3-SRC-FUNC-BKGPAGENAME"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-BKGPAGENAME"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C012",
@@ -9685,13 +9818,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close DATE date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-DATE"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -9699,7 +9833,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -9716,7 +9850,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -9730,11 +9865,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -9752,12 +9888,14 @@
         "M3-SRC-FUNC-DATE"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-DATE"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C019",
@@ -10144,13 +10282,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FORMAT date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-FORMAT"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -10158,7 +10297,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -10175,7 +10314,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -10189,11 +10329,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -10211,12 +10352,14 @@
         "M3-SRC-FUNC-FORMAT"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-FORMAT"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C025",
@@ -10627,13 +10770,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ID date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-ID"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -10641,7 +10785,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -10658,7 +10802,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -10672,11 +10817,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -10694,12 +10840,14 @@
         "M3-SRC-FUNC-ID"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-ID"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C031",
@@ -12020,13 +12168,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close NOW date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-NOW"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -12034,7 +12183,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -12051,7 +12200,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -12065,11 +12215,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12087,12 +12238,14 @@
         "M3-SRC-FUNC-NOW"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-NOW"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C049",
@@ -12330,13 +12483,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGECOUNT date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-PAGECOUNT"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -12344,7 +12498,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -12361,7 +12515,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -12375,11 +12530,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12397,25 +12553,28 @@
         "M3-SRC-FUNC-PAGECOUNT"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-PAGECOUNT"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C053",
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGENAME date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-PAGENAME"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -12423,7 +12582,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -12440,7 +12599,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -12454,11 +12614,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12476,25 +12637,28 @@
         "M3-SRC-FUNC-PAGENAME"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-PAGENAME"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C054",
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close PAGENUMBER date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-PAGENUMBER"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -12502,7 +12666,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -12519,7 +12683,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -12533,11 +12698,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12555,12 +12721,14 @@
         "M3-SRC-FUNC-PAGENUMBER"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-PAGENUMBER"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C055",
@@ -14905,13 +15073,14 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close TODAY date/page/field semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
       ],
       "inventory_ids": [
-        "INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "INV-FUNCTIONS-TODAY"
       ],
       "inventory_remainder_ids": [
         "M3-REM-FUNCTIONS"
@@ -14919,7 +15088,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -14936,7 +15105,8 @@
       ],
       "test_paths": [
         "Tests/MacVisioTests/TextFieldTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3ConnectorCalculationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -14950,11 +15120,12 @@
         "M3-SRC-CONTEXT-shape",
         "M3-SRC-CONTEXT-page",
         "M3-SRC-CONTEXT-field",
-        "M3-SRC-CONTEXT-background_field"
+        "M3-SRC-CONTEXT-background_field",
+        "M3-SRC-CONTEXT-connector"
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -14972,12 +15143,14 @@
         "M3-SRC-FUNC-TODAY"
       ],
       "m0_semantic_child_ids": [
-        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved"
+        "WP-02-T04-INV-FUNCTIONS-exact-build-catalog-unresolved",
+        "WP-02-T04-INV-FUNCTIONS-TODAY"
       ],
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-15-T03-C086",
@@ -16611,7 +16784,7 @@
       "parent_task": "WP-15-T04",
       "work_package": "WP-15",
       "title": "Coverage registry and error-to-source navigation",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-09",
@@ -16627,7 +16800,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T03"
@@ -16641,11 +16814,16 @@
       "source_paths": [
         "Sources/MacVisio/CalculationAudit.swift",
         "Sources/MacVisio/SheetCellEditing.swift",
-        "Sources/MacVisio/EditorUI.swift"
+        "Sources/MacVisio/EditorUI.swift",
+        "Sources/MacVisio/DefinitionSheetEditor.swift",
+        "Sources/MacVisio/DocumentDiagnostic.swift",
+        "Sources/MacVisio/ImportNotes.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/CalculationAuditTests.swift",
-        "Tests/MacVisioTests/TextContextTests.swift"
+        "Tests/MacVisioTests/TextContextTests.swift",
+        "Tests/MacVisioTests/M3DefinitionEditorTests.swift",
+        "Tests/MacVisioTests/DocumentDiagnosticIntegrationTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31504AcceptanceTests.swift",
@@ -16658,7 +16836,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -16679,7 +16857,8 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-16-T01-C001",
@@ -17132,7 +17311,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Document/page/shape information fields",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17144,7 +17323,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Text/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-16-T02"
@@ -17180,7 +17359,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -17201,7 +17380,8 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-16-T03-C002",
@@ -17360,7 +17540,7 @@
       "parent_task": "WP-16-T03",
       "work_package": "WP-16",
       "title": "Foreground-context background fields",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-TXT-04"
@@ -17372,7 +17552,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Text/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-16-T02"
@@ -17406,7 +17586,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_shared_host_UI_connector_regressions_pass; full child contract/reference acceptance pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -17427,7 +17607,8 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "partial_checkpoint": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
     },
     {
       "id": "WP-16-T04-C001",
@@ -22927,7 +23108,8 @@
     "canonical_M0_semantic_child_ids_valid": true,
     "all_72_named_M0_function_entries_mapped": true,
     "all_21_named_M0_cell_entries_mapped": true,
-    "existing_physical_seed_registered": true
+    "existing_physical_seed_registered": true,
+    "all_current_81_named_function_entries_mapped": true
   },
   "existing_seed_fixtures": [
     {
@@ -23014,7 +23196,7 @@
     "reference_state": "pending",
     "qualification": "All five M0 dimensions remain unverified. IDs are canonical source inventory entries, not accepted runtime support.",
     "final_local_handoff_commit": "02dea53",
-    "current_entry_count": 171,
+    "current_entry_count": 180,
     "note_final_integration": "M0 added a benchmark CLI inventory entry; all existing mapped IDs, named72 functions/21 cells and unknown remainders are retained. Reference remains unaccepted.",
     "accepted_M1_rebinding": {
       "code_commit": "1282de7",
@@ -23022,10 +23204,54 @@
       "entry_count": 171,
       "moved_command_source_owners": 29,
       "scope": "Stable IDs, mappings and evidence states unchanged; main.swift command anchors moved to actual DeveloperCommands.swift owner. Historical source inventory identity/hash remains above."
+    },
+    "M3_shared_host_reconciliation": {
+      "path": "docs/evidence/runtime-inventory.json",
+      "sha256": "b0eec6aa16283340230f987aa908e89f4373f81b205dd34f31e6e1338839d996",
+      "entry_count": 180,
+      "retained_entries": 171,
+      "new_function_candidate_ids": [
+        "INV-FUNCTIONS-BKGPAGENAME",
+        "INV-FUNCTIONS-DATE",
+        "INV-FUNCTIONS-FORMAT",
+        "INV-FUNCTIONS-ID",
+        "INV-FUNCTIONS-NOW",
+        "INV-FUNCTIONS-PAGECOUNT",
+        "INV-FUNCTIONS-PAGENAME",
+        "INV-FUNCTIONS-PAGENUMBER",
+        "INV-FUNCTIONS-TODAY"
+      ],
+      "lost_entries": 0,
+      "changed_retained_evidence_or_decisions": 0,
+      "reference_accepted_items": 0
     }
   },
   "source_path_semantics": "source_paths/test_paths are existing anchors; planned_test_path and per-child artifact paths are proposals. Domain contract document is design, not accepted Swift API.",
   "shared_owner_policy": "M3 thread and package role are accountable. Null executor means explicitly unassigned work.",
   "execution_state": "in_progress",
-  "execution_block_reason": null
+  "execution_block_reason": null,
+  "source_snapshot_semantics": "sources retains the original catalog planning hashes; production reconciliation/evidence records bind current changed source separately.",
+  "production_reconciliation": {
+    "date": "2026-10-19",
+    "scope": "Shared scalar/typed-field hosts, connector sheet retention, exact definition-cell UI/diagnostics and local cache ownership; partial engineering only",
+    "source_paths": [
+      "Sources/MacVisio/DefinitionSheetEditor.swift",
+      "Sources/MacVisio/DefinitionSheetReferences.swift",
+      "Sources/MacVisio/ConnectorSheetHost.swift",
+      "Sources/MacVisio/ConnectorSheetCalculation.swift",
+      "Sources/MacVisio/ShapeSheetContext.swift",
+      "Sources/MacVisio/CalculationDependencies.swift",
+      "Sources/MacVisio/DefinitionEditing.swift"
+    ],
+    "test_paths": [
+      "Tests/MacVisioTests/M3SharedSheetHostTests.swift",
+      "Tests/MacVisioTests/M3ConnectorSheetTests.swift",
+      "Tests/MacVisioTests/M3ConnectorCalculationTests.swift",
+      "Tests/MacVisioTests/M3DefinitionEditorTests.swift",
+      "Tests/MacVisioTests/M3DefinitionCacheOwnershipTests.swift"
+    ],
+    "record": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
+    "accepted_children": 0,
+    "code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c"
+  }
 }

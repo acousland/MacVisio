@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+  "code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -281,7 +281,12 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress: initial definition and paragraph slice verified; M3 children and milestone unaccepted",
+  "current_execution_state": "in_progress_shared_hosts_UI_connector_slice_native_activation_pending",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
-  "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json"
+  "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+  "shared_host_checkpoint": {
+    "path": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
+    "sha256": "5b8598f69919d8081a8973dad86bae1228754a7f7e89447bdbf9a1534691284b",
+    "scope": "Partial local engineering;813 available Swift tests with13 skips and105 Python pass. Three activation benchmarks pending; zero children/milestone accepted."
+  }
 }

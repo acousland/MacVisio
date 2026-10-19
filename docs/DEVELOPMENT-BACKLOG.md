@@ -525,7 +525,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-15"></a>
 ### WP-15 — Complete ShapeSheet semantic slices
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Pending
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** In progress
 
 **Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
@@ -1526,12 +1526,12 @@ or G2 gate is accepted by the decomposition or integrated baseline.
 | WP-14-T03 | Pending | 3 |
 | WP-14-T04 | Pending | 3 |
 | WP-15-T01 | Pending | 5 |
-| WP-15-T02 | Pending | 6 |
-| WP-15-T03 | Pending | 90 |
-| WP-15-T04 | Pending | 16 |
+| WP-15-T02 | In progress | 6 |
+| WP-15-T03 | In progress | 90 |
+| WP-15-T04 | In progress | 16 |
 | WP-16-T01 | In progress | 3 |
 | WP-16-T02 | Pending | 3 |
-| WP-16-T03 | Pending | 4 |
+| WP-16-T03 | In progress | 4 |
 | WP-16-T04 | Pending | 3 |
 | WP-17-T01 | Pending | 3 |
 | WP-17-T02 | Pending | 7 |
@@ -1594,6 +1594,27 @@ Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
 [implementation record](delivery/M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
 failed/corrected observations and log hashes. Scoped master/style cell editing,
 source rebasing/undo and selected paragraph lengths are a bounded subset.
-Definition UI, shared document/connector calculation owners, structural/row
-lifecycle and remaining child contracts are open. All 204 children remain
-unaccepted; 3 are in progress, 195 pending implementation and 6 proposed.
+That initial checkpoint left definition UI and shared document/connector
+calculation open; its historical counts were 3 in progress, 195 pending and
+6 proposed. The 19 October continuation below records the current slice.
+
+
+19 October 2026: shared document/page/scoped definition and connector scalar/
+field calculation, connector source retention, and the Definition Sheets browser
+are in progress. The browser applies one exact existing cell through the owned
+worker, with undo, cancellation, marked-text and stale-source checks. Typed
+producer diagnostics retain the definition sheet UUID and structured cell address.
+Row/section lifecycle, attached endpoint/routing behavior, complete host/function
+coverage and independent reference qualification remain open.
+
+Current catalog: 17 children in progress, 181 pending implementation, 6 proposed,
+zero accepted. The shared resolver exposes nine existing date/page/field candidates
+to the canonical source scanner. Its regenerated inventory appends those entries
+(180 total), retaining all 171 prior IDs, evidence and decisions. These source
+candidates remain unverified in every compatibility dimension.
+
+Shared-host source `9908078` has 813 available Swift tests passing (13 external
+prerequisite skips), with three native activation benchmarks explicitly excluded
+pending the system security prompt. All 105 Python checks pass. The
+[dated checkpoint](delivery/M3-SHARED-HOST-CHECKPOINT.json) retains the actual failing/corrected runs,
+source/test/log hashes and limits. This does not close any child contract.

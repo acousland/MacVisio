@@ -6,9 +6,9 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "in_progress",
   "handoff_kind": "interim_engineering",
-  "candidate_code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+  "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: accepted M2 is integrated; M3 production work and qualification remain incomplete.",
+    "local_engineering": "in_progress: shared-owner/connector/definition UI slice has813 available Swift tests (13 prerequisite skips) and105 Python pass; three native activation benchmarks and all child acceptance remain open.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -57,14 +57,19 @@
     "3119858",
     "6b93289",
     "1282de7",
-    "eac0066bc5bb824632ff6e25154165e66bb88070"
+    "eac0066bc5bb824632ff6e25154165e66bb88070",
+    "9908078264b029f5b901d1aea71ec850f5a7580c"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
   "active_task_ids": [
     "WP-14-T01",
     "WP-14-T02",
-    "WP-16-T01"
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T03"
   ],
   "pending_task_ids": [
     "WP-14-T01",
@@ -112,21 +117,26 @@
     "docs/delivery/M3-DOMAIN-CONTRACTS.md",
     "Tests/MacVisioTests/Fixtures/M3/manifest.json",
     "docs/delivery/M3-PUBLIC-PROBE.json",
-    "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json"
+    "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+    "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json"
   ],
   "remaining_prerequisites": [
     "all WP14–20 production feature children and affected/native/public milestone regressions",
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue shared owner-aware ShapeSheet/connector/document definition semantics, then definition UI/typed diagnostics and remaining bounded domain/paragraph children. Initial subset passes 775 Swift tests (13 skips), 105 Python checks. No M3 child or milestone is accepted.",
+  "next_action": "Rerun three activation benchmarks after system prompt clears, then continue row/section lifecycle, relationship identity, remaining host/function/connector/text/output/library and public qualification children.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "candidate_code_commit identifies verified product source; shared M3-status.json records the final delivery-record commit.",
   "partial_task_ids": [
     "WP-14-T01",
     "WP-14-T02",
     "WP-15-T01",
-    "WP-16-T01"
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T03"
   ],
   "integration_allowed": false,
   "dependency_observation": {
