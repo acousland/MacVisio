@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Source 100bdf7: 79 focused output/print/search checks pass with 20 new JPEG/TIFF tests; 31 actual images independently decoded/hashed/visually inspected. Membership/MODULUS/pin evidence is retained in prior checkpoint. Current full native qualification awaits UserNotificationCenter dismissal; all 204 M3 children unaccepted.",
+      "local_evidence_scope": "Source 100bdf7 passes the complete 1104-test Swift suite with 13 prerequisite skips and zero failures after confirmed desktop readiness, including native event routing with no exclusions. Actual packages, raster files and native save PDFs are independently verified. All 204 M3 children remain unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9652,7 +9652,7 @@
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
       "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
-      "active_work": "After desktop readiness, run the complete current-source suite without native benchmark exclusions, then continue remaining local M3 production contracts. Native/reference/physical acceptance and release remain open.",
+      "active_work": "Review bounded ordered List membership, explicit print tiling and further numeric proposals, then continue remaining local M3 contracts. Combine overlap semantics need stronger evidence. Reference/physical qualification and release remain open.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
       "lifecycle_checkpoint": {
         "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
@@ -9695,6 +9695,13 @@
         "bytes": 75446,
         "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
         "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     }
   ],

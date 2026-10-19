@@ -8,7 +8,7 @@
   "handoff_kind": "interim_engineering",
   "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: Source 100bdf7: 79 focused output/print/search checks pass with 20 new JPEG/TIFF tests; 31 actual images independently decoded/hashed/visually inspected. Membership/MODULUS/pin evidence is retained in prior checkpoint. Current full native qualification awaits UserNotificationCenter dismissal; all 204 M3 children unaccepted.",
+    "local_engineering": "in_progress: Source 100bdf7 passes the complete 1104-test Swift suite with 13 prerequisite skips and zero failures after confirmed desktop readiness, including native event routing with no exclusions. Actual packages, raster files and native save PDFs are independently verified. All 204 M3 children remain unaccepted.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -144,15 +144,15 @@
     "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
     "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
     "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
-    "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json"
+    "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json"
   ],
   "remaining_prerequisites": [
-    "current complete native regression qualification after retained activation failures",
     "all WP14–20 production feature children and affected/native/public milestone regressions",
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "After desktop readiness, run the complete current-source suite without native benchmark exclusions, then continue remaining local M3 production contracts. Native/reference/physical acceptance and release remain open.",
+  "next_action": "Review bounded ordered List membership, explicit print tiling and further numeric proposals, then continue remaining local M3 contracts. Combine overlap semantics need stronger evidence. Reference/physical qualification and release remain open.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "candidate_code_commit binds committed source with focused evidence and pending complete qualification; the last passing full baseline is separate. Shared M3-status.json records the eventual delivery-record commit.",
   "partial_task_ids": [
@@ -255,5 +255,12 @@
     "bytes": 75446,
     "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
     "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+  },
+  "native_regression_checkpoint": {
+    "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+    "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+    "bytes": 57258,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
   }
 }

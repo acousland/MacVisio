@@ -320,6 +320,16 @@
       "skips": 0,
       "failures": 0,
       "record": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-native-ready",
+      "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "outcome": "passed",
+      "executed": 1104,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -432,6 +442,11 @@
       "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
       "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
       "bytes": 75446
+    },
+    {
+      "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+      "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+      "bytes": 57258
     }
   ],
   "five_compatibility_dimensions": {
@@ -452,7 +467,7 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_raster_formats_focused_pass_full_native_qualification_pending",
+  "current_execution_state": "in_progress_complete_local_regressions_pass_remaining_production_contracts_open",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
@@ -503,5 +518,12 @@
     "bytes": 75446,
     "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
     "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+  },
+  "native_regression_checkpoint": {
+    "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+    "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+    "bytes": 57258,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
   }
 }

@@ -6892,7 +6892,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -6925,7 +6925,14 @@
         "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/source.vsdx",
         "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected-add40-page.xml",
         "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected.json"
-      ]
+      ],
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
+      }
     },
     {
       "id": "WP-14-T01-C004",
@@ -9584,7 +9591,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -9614,6 +9621,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "CEILING finite/quotient-underflow and typed display-unit boundaries have bounded local evidence; full signature/coercion/context/reference contracts remain open."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -10286,7 +10300,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -10316,6 +10330,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "FLOOR typed display-unit exact/adjacent boundaries have bounded local evidence without snapping/tolerance; full child/reference obligations remain open."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -12105,7 +12126,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12135,6 +12156,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "MODULUS finite/divisor-range/remainder/sign/error and first-unit semantics have14 passing local cases within67 focused tests/4 existing skips. Six actual native/public pairs independently reviewed. Current complete qualification and full signature/coercion/host/reference obligations remain pending."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -13607,7 +13635,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -13637,6 +13665,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "ROUND signed-16-bit precision, identity range, finite extremes and typed display-unit boundaries have bounded local evidence; full child/reference obligations remain open."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -18652,7 +18687,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -18687,6 +18722,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "Extends existing protection slice with owned Cut/copy/removal proof, clipboard identity gate, complete connector closure and retained source-owner/policy guards. Full protection inventory/exact-build behavior and current full requalification remain open."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -21225,7 +21267,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded_raster_formats_focused_checks_pass; current_full_native_qualification_and_full_child_contract_pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21267,6 +21309,13 @@
         "bytes": 75446,
         "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
         "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -21617,7 +21666,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
+        "local_engineering": "bounded_checkpoint_complete_local_regressions_pass; full_child_and_reference_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21652,6 +21701,13 @@
         "bytes": 126318,
         "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
         "scope": "Extends existing library slice with explicit local pins after visible startup, exact source Retry/Unpin/Cancel availability controls, manual palette identity and owned lifecycle/retained-resource budgets. Passing1065-test baseline; full large-library/reference contracts remain open."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
       }
     },
     {
@@ -23555,5 +23611,12 @@
     "bytes": 75446,
     "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
     "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+  },
+  "native_regression_reconciliation": {
+    "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+    "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+    "bytes": 57258,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
   }
 }
