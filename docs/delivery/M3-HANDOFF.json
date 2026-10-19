@@ -6,9 +6,9 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "in_progress",
   "handoff_kind": "interim_engineering",
-  "candidate_code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+  "candidate_code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: shared-owner/connector/definition UI slice passes all816 Swift tests (13 prerequisite skips) and105 Python checks. Three native activation benchmarks rerun successfully; all child/milestone acceptance remains open.",
+    "local_engineering": "in_progress: source232f7eb passes full868 Swift tests (13 prerequisite skips) and105 Python checks with no native exclusions. Remaining production features and every full child/milestone acceptance stay open.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -59,7 +59,8 @@
     "1282de7",
     "eac0066bc5bb824632ff6e25154165e66bb88070",
     "9908078264b029f5b901d1aea71ec850f5a7580c",
-    "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5"
+    "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+    "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -75,6 +76,8 @@
     "WP-17-T02",
     "WP-18-T01",
     "WP-19-T01",
+    "WP-19-T03",
+    "WP-20-T01",
     "WP-20-T02"
   ],
   "pending_task_ids": [
@@ -125,14 +128,15 @@
     "docs/delivery/M3-PUBLIC-PROBE.json",
     "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
     "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
-    "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json"
+    "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json"
   ],
   "remaining_prerequisites": [
     "all WP14–20 production feature children and affected/native/public milestone regressions",
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue explicit export settings and persistent library management, then remaining local relationship/host/function/Boolean/appearance/layout/package children and independent public qualification. No native activation blocker remains after the successful repeated full851-test run.",
+  "next_action": "Continue bounded Boolean geometry, identity-preserving custom stencil management and native print pipeline, then remaining local relationship/host/function/appearance/layout/package children and independent public qualification.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "candidate_code_commit identifies verified product source; shared M3-status.json records the final delivery-record commit.",
   "partial_task_ids": [
@@ -148,6 +152,8 @@
     "WP-17-T02",
     "WP-18-T01",
     "WP-19-T01",
+    "WP-19-T03",
+    "WP-20-T01",
     "WP-20-T02"
   ],
   "integration_allowed": false,
@@ -188,5 +194,12 @@
     "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
     "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
     "bytes": 17602
+  },
+  "output_library_checkpoint": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620,
+    "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
   }
 }

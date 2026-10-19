@@ -5912,8 +5912,8 @@
     "large_parent_count": 22,
     "child_count": 204,
     "accepted_child_count": 0,
-    "in_progress_child_count": 25,
-    "pending_implementation_child_count": 173,
+    "in_progress_child_count": 28,
+    "pending_implementation_child_count": 170,
     "proposed_child_count": 6
   },
   "parents": [
@@ -6539,7 +6539,7 @@
         "WP-19-T03-C002",
         "WP-19-T03-C003"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -6580,7 +6580,7 @@
         "WP-20-T01-C002",
         "WP-20-T01-C003"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -21066,7 +21066,7 @@
       "parent_task": "WP-19-T03",
       "work_package": "WP-19",
       "title": "Raster format/resolution/transparency/bounds settings",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-06"
@@ -21093,11 +21093,15 @@
       "expected_behavior": "Output pixel dimensions and clipping match preview while respecting shared evaluated scene policy.",
       "source_paths": [
         "Sources/MacVisio/Drawing.swift",
-        "Sources/MacVisio/EditorFeatures.swift"
+        "Sources/MacVisio/EditorFeatures.swift",
+        "Sources/MacVisio/ExportJobs.swift",
+        "Sources/MacVisio/ExportOptionsView.swift",
+        "Sources/MacVisio/Document.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/LayerSettingsTests.swift",
-        "Tests/MacVisioTests/DrawingScaleTests.swift"
+        "Tests/MacVisioTests/DrawingScaleTests.swift",
+        "Tests/MacVisioTests/M3OutputOptionsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31903AcceptanceTests.swift",
@@ -21110,7 +21114,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_output_library_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21131,14 +21135,21 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "output_library_checkpoint": {
+        "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+        "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+        "bytes": 10620,
+        "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+        "scope": "PNG page-bound DPI/transparency and resource guards; selection/content bounds and remaining format/settings obligations stay open."
+      }
     },
     {
       "id": "WP-19-T03-C002",
       "parent_task": "WP-19-T03",
       "work_package": "WP-19",
       "title": "Vector PDF/SVG multipage and page settings",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-06"
@@ -21163,11 +21174,15 @@
       "expected_behavior": "Each page retains intended physical size, vector geometry, selected bounds and background semantics.",
       "source_paths": [
         "Sources/MacVisio/Drawing.swift",
-        "Sources/MacVisio/PageOperations.swift"
+        "Sources/MacVisio/PageOperations.swift",
+        "Sources/MacVisio/ExportJobs.swift",
+        "Sources/MacVisio/ExportOptionsView.swift",
+        "Sources/MacVisio/Document.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/PageBackgroundTests.swift",
-        "Tests/MacVisioTests/DrawingScaleTests.swift"
+        "Tests/MacVisioTests/DrawingScaleTests.swift",
+        "Tests/MacVisioTests/M3OutputOptionsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31903AcceptanceTests.swift",
@@ -21180,7 +21195,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_output_library_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21201,7 +21216,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "output_library_checkpoint": {
+        "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+        "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+        "bytes": 10620,
+        "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+        "scope": "Ordered identity-bound PDF page choices, mixed physical media sizes and actual output geometry; complete SVG/bounds/reference obligations remain open."
+      }
     },
     {
       "id": "WP-19-T03-C003",
@@ -21423,7 +21445,7 @@
       "parent_task": "WP-20-T01",
       "work_package": "WP-20",
       "title": "Offline library search/pins/previews/metadata",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-01"
@@ -21447,10 +21469,13 @@
       "source_paths": [
         "Sources/MacVisio/VisioLibrary.swift",
         "Sources/MacVisio/VisioStencil.swift",
-        "Sources/MacVisio/EditorUI.swift"
+        "Sources/MacVisio/EditorUI.swift",
+        "Sources/MacVisio/LibraryPins.swift",
+        "Sources/MacVisio/main.swift"
       ],
       "test_paths": [
-        "Tests/MacVisioTests/StencilLibraryTests.swift"
+        "Tests/MacVisioTests/StencilLibraryTests.swift",
+        "Tests/MacVisioTests/M3LibraryPinsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M32001AcceptanceTests.swift",
@@ -21463,7 +21488,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_output_library_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21484,7 +21509,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "output_library_checkpoint": {
+        "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+        "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+        "bytes": 10620,
+        "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+        "scope": "Persistent offline library/master pins, scoped public metadata/search and native filtering with duplicate-name/source-path distinctions; full large-library/favorite-loading and reference contracts remain open."
+      }
     },
     {
       "id": "WP-20-T01-C002",
@@ -23339,5 +23371,12 @@
     "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
     "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
     "bytes": 17602
+  },
+  "output_library_reconciliation": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620,
+    "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
   }
 }

@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+  "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -190,6 +190,17 @@
       "excluded_native_tests": [],
       "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
       "record": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-output-library",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 868,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+      "record": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -277,6 +288,11 @@
       "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
       "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
       "bytes": 17602
+    },
+    {
+      "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+      "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+      "bytes": 10620
     }
   ],
   "five_compatibility_dimensions": {
@@ -297,7 +313,7 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_lifecycle_connector_pointer_slice_full_local_regressions_pass",
+  "current_execution_state": "in_progress_output_library_slice_full_local_regressions_pass",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
@@ -311,5 +327,12 @@
     "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
     "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
     "bytes": 17602
+  },
+  "output_library_checkpoint": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620,
+    "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
   }
 }

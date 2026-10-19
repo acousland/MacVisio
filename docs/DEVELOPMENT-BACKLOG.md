@@ -1543,9 +1543,9 @@ or G2 gate is accepted by the decomposition or integrated baseline.
 | WP-18-T04 | Pending | 3 |
 | WP-19-T01 | In progress | 4 |
 | WP-19-T02 | Pending | 3 |
-| WP-19-T03 | Pending | 3 |
+| WP-19-T03 | In progress | 3 |
 | WP-19-T04 | Pending | 2 |
-| WP-20-T01 | Pending | 3 |
+| WP-20-T01 | In progress | 3 |
 | WP-20-T02 | In progress | 3 |
 | WP-20-T03 | Pending | 4 |
 | WP-20-T04 | Pending | 3 |
@@ -1629,3 +1629,5 @@ exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
 relationships and remaining feature/reference obligations remain the next work.
 
 19 October lifecycle continuation: source `df44f6b` adds scoped definition User/Property row and local-section editing, source-preserving save/undo, connector paste/layer/background fixes and native pointer protection. The full suite passes851 Swift tests (13 prerequisite skips), with no native test exclusions;105 Python checks pass. All204 children remain unaccepted:25 are in progress,173 pending and6 proposed. Full output/library/geometry/relationship and exact-Visio obligations remain open. See [lifecycle checkpoint](delivery/M3-LIFECYCLE-CHECKPOINT.json).
+
+19 October output/library continuation: source `232f7eb` adds native PNG resolution/transparency, ordered identity-bound PDF page choices and persistent offline library/master pins with source metadata. The final full run passes **868 Swift tests,13 prerequisite skips,zero failures**, with no native exclusions;105 Python checks pass.17 tests were added since the lifecycle checkpoint. There are28 in-progress children,170 pending,6 proposed and zero accepted. Selection/content bounds, full print/format policy, automatic favorite loading, unavailable-pin controls, custom stencil management, remaining production features and independent reference/physical qualification remain open. See [output/library checkpoint](delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json).

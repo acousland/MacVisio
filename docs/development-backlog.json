@@ -4292,7 +4292,7 @@
           "deliverable": "Finish raster formats/resolution/transparency/bounds and multipage vector/PDF/SVG behavior.",
           "acceptance_criteria": "Canvas/export agree while nonprinting layers and editing decorations follow explicit output policies.",
           "complexity": "M",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-19-T02"
           ],
@@ -4422,7 +4422,7 @@
           "deliverable": "Add missing pin/search/preview/rename/reorder/delete and custom-library edit workflows.",
           "acceptance_criteria": "Large libraries remain responsive and identities do not merge on display-name similarity.",
           "complexity": "M",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-LIB-01",
@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Source df44f6b:851 Swift/13 prerequisite skips/0 failures;105 Python pass; native3 actual rerun and repeated complete suite pass.35 tests added since816. Definition lifecycle/connector/pointer subsets; all204 children remain unaccepted.",
+      "local_evidence_scope": "Source232f7eb:868 Swift/13 prerequisite skips/0 failures, no native exclusions;105 Python pass. PNG/PDF settings and offline pins/metadata added; all204 children remain unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9643,8 +9643,8 @@
       "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
-      "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
-      "active_work": "19 October shared-host/native definition browser slice committed at9908078. Desktop prompt resolved; full local regression suite passed. Continue remaining row/section, relationship and feature qualification obligations.",
+      "candidate_code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+      "active_work": "Continue Boolean geometry, custom stencil management, print pipeline and remaining local child contracts; independent reference/physical qualification stays open.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
       "lifecycle_checkpoint": {
         "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
@@ -9652,6 +9652,13 @@
         "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
         "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
         "bytes": 17602
+      },
+      "output_library_checkpoint": {
+        "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+        "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+        "bytes": 10620,
+        "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+        "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
       }
     }
   ],
