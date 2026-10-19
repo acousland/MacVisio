@@ -1451,6 +1451,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         guard !editorIsDetached else { return }
         editorIsDetached = true
         if lifecycleJobs.isActive { canvas.finishEditing(commit: true) }
+        detachBooleanOperandChooser()
         lifecycleJobs.close()
         pendingPrintHandle = nil
         printSessionIsActive = false
@@ -2049,6 +2050,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
         if menuItem.action == #selector(unionSelection(_:)) { return unionUnavailableReason == nil }
+        if menuItem.action == #selector(intersectSelection(_:)) { return intersectUnavailableReason == nil }
+        if menuItem.action == #selector(subtractSelection(_:)) { return subtractUnavailableReason == nil }
         if menuItem.action == #selector(printDiagram(_:)) {
             guard lifecycleJobs.isActive else { return false }
             return !isPrinting && !diagramDocument.isCalculating && diagramDocument.diagram.pages.contains{$0.isBackground != true}

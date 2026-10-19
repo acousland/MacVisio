@@ -344,6 +344,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         item(shape,"Definition Sheets…",#selector(EditorWindowController.showDefinitionSheets(_:)))
         item(shape,"Geometry…",#selector(EditorWindowController.editGeometry(_:)))
         item(shape,"Union Shapes",#selector(EditorWindowController.unionSelection(_:)))
+        item(shape,"Intersect Shapes",#selector(EditorWindowController.intersectSelection(_:)))
+        item(shape,"Subtract Shapes…",#selector(EditorWindowController.subtractSelection(_:)))
         item(shape,"Control Handles…",#selector(EditorWindowController.editControls(_:)))
         item(shape,"Control Cells…",#selector(EditorWindowController.editControlCells(_:)))
         item(shape,"Connection Points…",#selector(EditorWindowController.editConnectionPoints(_:)))

@@ -49,6 +49,8 @@ struct EditorSearchCommand {
         .init(title: "Group Shapes", keywords: "combine selection", action: #selector(EditorWindowController.groupSelection(_:)), requirement: .group),
         .init(title: "Ungroup Shapes", keywords: "separate group", action: #selector(EditorWindowController.ungroupSelection(_:)), requirement: .ungroup),
         .init(title: "Union Shapes", keywords: "boolean geometry combine outline", action: #selector(EditorWindowController.unionSelection(_:)), requirement: .editableShapes(2)),
+        .init(title: "Intersect Shapes", keywords: "boolean common overlap geometry", action: #selector(EditorWindowController.intersectSelection(_:)), requirement: .editableShapes(2)),
+        .init(title: "Subtract Shapes…", keywords: "boolean cut difference base geometry", action: #selector(EditorWindowController.subtractSelection(_:)), requirement: .editableShapes(2)),
         .init(title: "Rotate Left", keywords: "turn anticlockwise", action: #selector(EditorWindowController.rotateLeft(_:)), requirement: .editableShapes(1)),
         .init(title: "Rotate Right", keywords: "turn clockwise", action: #selector(EditorWindowController.rotateRight(_:)), requirement: .editableShapes(1)),
         .init(title: "Flip Horizontal", keywords: "mirror", action: #selector(EditorWindowController.flipHorizontal(_:)), requirement: .editableShapes(1)),
@@ -148,6 +150,8 @@ struct EditorSearchCommand {
         }
         let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
         if action == #selector(EditorWindowController.unionSelection(_:)),let reason = editor.unionUnavailableReason { return reason }
+        if action == #selector(EditorWindowController.intersectSelection(_:)), let reason = editor.intersectUnavailableReason { return reason }
+        if action == #selector(EditorWindowController.subtractSelection(_:)), let reason = editor.subtractUnavailableReason { return reason }
         if !editor.validateMenuItem(item) { return "This command is unavailable for the current selection." }
         return nil
     }

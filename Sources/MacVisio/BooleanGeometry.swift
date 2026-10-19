@@ -4,6 +4,10 @@ import MacVisioInfrastructure
 /// A deliberately bounded surface operation. Authored behavior is never
 /// converted into a cached outline merely to make an operation possible.
 enum BooleanGeometry {
+    enum Operation: Equatable {
+        case union, intersect, subtract(baseID: UUID)
+        var title: String { switch self { case .union: return "Union"; case .intersect: return "Intersect"; case .subtract: return "Subtract" } }
+    }
     static let maximumShapes = 32
     static let maximumInputCommands = 2048
     static let maximumOutputCommands = 8192
@@ -99,9 +103,43 @@ enum BooleanGeometry {
 
     static func union(_ ids: Set<UUID>, in input: Diagram, resultID: UUID = UUID(),
                       cancellation: LifecycleJobCancellation = LifecycleJobCancellation()) throws -> Diagram {
+        try applying(.union, ids: ids, in: input, resultID: resultID, cancellation: cancellation)
+    }
+
+    static func intersect(_ ids: Set<UUID>, in input: Diagram, resultID: UUID = UUID(),
+                          cancellation: LifecycleJobCancellation = LifecycleJobCancellation()) throws -> Diagram {
+        try applying(.intersect, ids: ids, in: input, resultID: resultID, cancellation: cancellation)
+    }
+
+    static func subtract(_ ids: Set<UUID>, in input: Diagram, baseID: UUID, resultID: UUID = UUID(),
+                         cancellation: LifecycleJobCancellation = LifecycleJobCancellation()) throws -> Diagram {
+        try applying(.subtract(baseID: baseID), ids: ids, in: input, resultID: resultID, cancellation: cancellation)
+    }
+
+    static func unavailableReason(_ ids: Set<UUID>, in input: Diagram, operation: Operation) -> String? {
+        if operation != .union, ids.count != 2 { return "Select exactly two filled sibling shapes for \(operation.title)." }
+        if case .subtract(let baseID) = operation, !ids.contains(baseID) { return "Choose one of the two selected shapes to subtract from." }
+        return unavailableReason(ids, in: input).map { describing($0, for: operation) }
+    }
+
+    private static func describing(_ reason: String, for operation: Operation) -> String {
+        guard operation != .union else { return reason }
+        return reason.replacingOccurrences(of: "Union", with: operation.title)
+            .replacingOccurrences(of: "unite", with: operation == .intersect ? "intersect" : "subtract")
+            .replacingOccurrences(of: "uniting", with: operation == .intersect ? "intersecting" : "subtracting")
+    }
+
+    private static func applying(_ operation: Operation, ids: Set<UUID>, in input: Diagram, resultID: UUID,
+                                 cancellation: LifecycleJobCancellation) throws -> Diagram {
+        do { return try build(operation, ids: ids, in: input, resultID: resultID, cancellation: cancellation) }
+        catch DiagramError.invalid(let reason) { throw DiagramError.invalid(describing(reason, for: operation)) }
+    }
+
+    private static func build(_ operation: Operation, ids: Set<UUID>, in input: Diagram, resultID: UUID,
+                              cancellation: LifecycleJobCancellation) throws -> Diagram {
         try cancellation.check()
         _ = try input.validated()
-        if let reason = unavailableReason(ids, in: input) { throw DiagramError.invalid(reason) }
+        if let reason = unavailableReason(ids, in: input, operation: operation) { throw DiagramError.invalid(reason) }
         let page = input.page, nodes = page.nodes.filter { ids.contains($0.id) }
         guard !input.pages.contains(where: { $0.nodes.contains { $0.id == resultID } || $0.edges.contains { $0.id == resultID } }) else {
             throw DiagramError.invalid("The Union result needs a new object identity.")
@@ -131,7 +169,7 @@ enum BooleanGeometry {
                 operands.append((node, path))
             }
         }
-        var result: CGPath?
+        var result: CGPath?, surfaces: [UUID: CGPath] = [:]
         for (node, path) in operands {
             try cancellation.check()
             let source = try cgPath(path, on: node)
@@ -144,13 +182,41 @@ enum BooleanGeometry {
                   abs(area(try commands(normalized, bounds: box, cancellation: cancellation))) > 1e-12 else {
                 throw DiagramError.invalid("Union contains an empty, singular or degenerate filled surface.")
             }
-            result = result.map { $0.union(normalized, using: .winding) } ?? normalized
-            _ = try commands(try unwrap(result), bounds: nil, cancellation: cancellation)
+            if operation == .union {
+                // Preserve the existing Union fold and its regression coverage.
+                result = result.map { $0.union(normalized, using: .winding) } ?? normalized
+                _ = try commands(try unwrap(result), bounds: nil, cancellation: cancellation)
+            } else {
+                // Geometry sections within one shape are one operand surface.
+                // Intersecting individual sections would erase disjoint pieces.
+                surfaces[node.id] = surfaces[node.id].map { $0.union(normalized, using: .winding) } ?? normalized
+                _ = try commands(try unwrap(surfaces[node.id]), bounds: nil, cancellation: cancellation)
+            }
+        }
+        if operation != .union {
+            var preparedCommands = 0
+            for node in nodes {
+                preparedCommands += try commands(try unwrap(surfaces[node.id]), bounds: nil, cancellation: cancellation).count
+                guard preparedCommands <= maximumOutputCommands else { throw DiagramError.invalid("Prepared operand surfaces exceed the \(maximumOutputCommands)-command limit.") }
+            }
+            try cancellation.check()
+            switch operation {
+            case .intersect: result = try unwrap(surfaces[nodes[0].id]).intersection(unwrap(surfaces[nodes[1].id]), using: .winding)
+            case .subtract(let baseID):
+                guard let cutter = nodes.first(where: { $0.id != baseID }) else { throw DiagramError.invalid("Choose a distinct subtraction cutter.") }
+                result = try unwrap(surfaces[baseID]).subtracting(unwrap(surfaces[cutter.id]), using: .winding)
+            case .union: break
+            }
+            try cancellation.check()
+            guard result?.isEmpty == false else { throw DiagramError.invalid("The operation produces no filled area. The original shapes were kept.") }
         }
         let output = try unwrap(result), bounds = output.boundingBoxOfPath
         guard !bounds.isNull, !bounds.isInfinite, [bounds.minX, bounds.minY, bounds.width, bounds.height].allSatisfy(\.isFinite),
               bounds.width > 1e-8, bounds.height > 1e-8 else { throw DiagramError.invalid("Union produced an empty or degenerate surface.") }
         let vector = VectorPath(commands: try commands(output, bounds: bounds, cancellation: cancellation), fill: true, stroke: nodes[0].formatting.paths.first?.stroke ?? true, evenOdd: false)
+        if operation != .union, abs(area(vector.commands)) <= 1e-12 {
+            throw DiagramError.invalid("The operation produces no filled area. The original shapes were kept.")
+        }
         var node = DiagramNode(x: bounds.minX, y: bounds.minY, text: "")
         node.id = resultID; node.width = bounds.width; node.height = bounds.height; node.parentID = nodes[0].parentID
         node.fill = nodes[0].fill; node.stroke = nodes[0].stroke; node.strokeWidth = nodes[0].strokeWidth; node.layer = nodes[0].layer
@@ -174,7 +240,7 @@ enum BooleanGeometry {
             next.page.edges[index].sourceShapeID = binding?.edgeIDs[next.page.edges[index].id] ?? String(page.nodes.count + index + 1)
         }
         next.page.nodes.removeAll { ids.contains($0.id) }
-        // A new Union shape is topmost. Public preservation appends it to its
+        // A new Boolean shape is topmost. Public preservation appends it to its
         // containing Shapes element, so native and public paint order agree.
         next.page.nodes.append(node)
         try cancellation.check()
