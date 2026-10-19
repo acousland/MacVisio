@@ -84,6 +84,8 @@ struct EditorSearchCommand {
         .init(title: "Export PDF…", keywords: "publish save document", action: #selector(EditorWindowController.exportPDF(_:))),
         .init(title: "Export SVG…", keywords: "publish save vector", action: #selector(EditorWindowController.exportSVG(_:))),
         .init(title: "Export PNG…", keywords: "publish save image", action: #selector(EditorWindowController.exportPNG(_:))),
+        .init(title: "Export JPEG…", keywords: "publish save image jpg raster", action: #selector(EditorWindowController.exportJPEG(_:))),
+        .init(title: "Export TIFF…", keywords: "publish save image tif raster alpha", action: #selector(EditorWindowController.exportTIFF(_:))),
         .init(title: "Print…", keywords: "printer document pages range paper scale", action: #selector(EditorWindowController.printDiagram(_:)), requirement: .idle)
     ]
 

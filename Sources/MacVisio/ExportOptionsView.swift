@@ -19,6 +19,7 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     let resolutionField = NSTextField(string: "144")
     let rasterBoundsMode = NSPopUpButton(frame: .zero, pullsDown: false)
     let transparencyButton = NSButton(checkboxWithTitle: "Transparent page background", target: nil, action: nil)
+    let jpegQualityPicker = NSPopUpButton(frame: .zero, pullsDown: false)
     let sizeLabel = NSTextField(labelWithString: "")
     let pageMode = NSPopUpButton(frame: .zero, pullsDown: false)
     let table = NSTableView()
@@ -38,8 +39,8 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
             PageChoice(id: $0.id, title: "\(ordinals[$0.id] ?? 0). \($0.name)\($0.isBackground == true ? " (background)" : "")",
                        size: String(format: "%.1f × %.1f mm", $0.paperWidth / 72 * 25.4, $0.paperHeight / 72 * 25.4))
         }
-        super.init(frame: NSRect(x: 0, y: 0, width: 460, height: format == .pdf ? 290 : (format == .png ? 158 : 118)))
-        if format == .png { makeRasterControls() }
+        super.init(frame: NSRect(x: 0, y: 0, width: 460, height: format == .pdf ? 290 : (format.isRaster ? 158 : 118)))
+        if format.isRaster { makeRasterControls() }
         if format == .pdf {
             makePageControls(allPages: allPages)
             let initial = Set(allPages ? foregroundIDs : [activePageID])
@@ -56,19 +57,26 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
         }
         var result = OwnedExportOptions()
         switch format {
-        case .png:
+        case .png, .jpeg, .tiff:
             guard let dpi = Double(resolutionField.stringValue.trimmingCharacters(in: .whitespacesAndNewlines)) else {
-                throw DiagramError.invalid("Enter a PNG resolution between 36 and 1200 dpi.")
+                throw DiagramError.invalid("Enter a \(format.displayName) resolution between 36 and 1200 dpi.")
             }
             result.rasterDPI = dpi
             result.transparentBackground = transparencyButton.state == .on
+            if format == .jpeg {
+                guard JPEGExportQuality.allCases.indices.contains(jpegQualityPicker.indexOfSelectedItem) else {
+                    throw DiagramError.invalid("Choose a JPEG quality preset.")
+                }
+                result.jpegQuality = JPEGExportQuality.allCases[jpegQualityPicker.indexOfSelectedItem]
+            }
+            try result.validateRasterFormat(format)
             try result.validateRasterDPI()
             guard RasterExportRegion.allCases.indices.contains(rasterBoundsMode.indexOfSelectedItem) else {
-                throw DiagramError.invalid("Choose a PNG output region.")
+                throw DiagramError.invalid("Choose a \(format.displayName) output region.")
             }
             result.rasterRegion = RasterExportRegion.allCases[rasterBoundsMode.indexOfSelectedItem]
             if result.rasterRegion == .page {
-                _ = try result.rasterSize(width: paperSize.width, height: paperSize.height)
+                try result.validateRasterDimensions(result.rasterSize(width: paperSize.width, height: paperSize.height), format: format)
             } else if result.rasterRegion == .selection {
                 guard let capturedSelection, !capturedSelection.isEmpty else {
                     throw DiagramError.invalid("Select one or more objects before opening Export.")
@@ -90,27 +98,39 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     }
 
     private func makeRasterControls() {
-        let boundsLabel = NSTextField(labelWithString: "PNG bounds:")
+        let boundsLabel = NSTextField(labelWithString: "\(format.displayName) bounds:")
         boundsLabel.frame = NSRect(x: 0, y: 128, width: 82, height: 20); addSubview(boundsLabel)
         rasterBoundsMode.frame = NSRect(x: 85, y: 121, width: 365, height: 28)
         rasterBoundsMode.addItems(withTitles: ["Page", "Drawing content (including off-page artwork)", "Selection"])
         rasterBoundsMode.menu?.autoenablesItems = false
         rasterBoundsMode.item(at: 2)?.isEnabled = capturedSelection?.isEmpty == false
         rasterBoundsMode.target = self; rasterBoundsMode.action = #selector(rasterBoundsChanged(_:))
-        rasterBoundsMode.setAccessibilityLabel("PNG output bounds")
+        rasterBoundsMode.setAccessibilityLabel("\(format.displayName) output bounds")
         addSubview(rasterBoundsMode)
         let label = NSTextField(labelWithString: "Resolution:")
         label.frame = NSRect(x: 0, y: 88, width: 82, height: 20); addSubview(label)
         resolutionField.frame = NSRect(x: 85, y: 85, width: 80, height: 24)
         resolutionField.delegate = self
-        resolutionField.setAccessibilityLabel("PNG resolution in dots per inch")
+        resolutionField.setAccessibilityLabel("\(format.displayName) resolution in dots per inch")
         addSubview(resolutionField)
         let units = NSTextField(labelWithString: "dpi (36–1200)")
         units.frame = NSRect(x: 173, y: 88, width: 180, height: 20); addSubview(units)
-        transparencyButton.frame = NSRect(x: 0, y: 53, width: 350, height: 24)
-        addSubview(transparencyButton)
+        if format == .jpeg {
+            let quality = NSTextField(labelWithString: "JPEG quality:")
+            quality.frame = NSRect(x: 0, y: 55, width: 100, height: 20); addSubview(quality)
+            jpegQualityPicker.frame = NSRect(x: 105, y: 48, width: 345, height: 28)
+            jpegQualityPicker.addItems(withTitles: JPEGExportQuality.allCases.map(\.title))
+            jpegQualityPicker.selectItem(at: 1)
+            jpegQualityPicker.setAccessibilityLabel("JPEG compression quality")
+            addSubview(jpegQualityPicker)
+        } else {
+            transparencyButton.frame = NSRect(x: 0, y: 53, width: 350, height: 24)
+            addSubview(transparencyButton)
+        }
         sizeLabel.frame = NSRect(x: 0, y: 28, width: 455, height: 20); addSubview(sizeLabel)
-        let note = NSTextField(labelWithString: "Assigned background artwork stays visible within output bounds.")
+        let note = NSTextField(labelWithString: format == .jpeg
+            ? "JPEG is lossy with white background; assigned background art is included."
+            : "Assigned background artwork stays visible within output bounds.")
         note.font = .systemFont(ofSize: 11); note.textColor = .secondaryLabelColor
         note.frame = NSRect(x: 0, y: 5, width: 455, height: 20); addSubview(note)
         updateRasterSize()
@@ -164,13 +184,17 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     private func updateRasterSize() {
         var options = OwnedExportOptions()
         options.rasterDPI = Double(resolutionField.stringValue) ?? .nan
-        if (try? options.validateRasterDPI()) == nil {
-            sizeLabel.stringValue = "Enter a PNG resolution between 36 and 1200 dpi."
+        if (try? options.validateRasterDPI()) == nil || (try? options.validateRasterFormat(format)) == nil {
+            sizeLabel.stringValue = "Enter a \(format.displayName) resolution between 36 and 1200 dpi."
         } else if rasterBoundsMode.indexOfSelectedItem != 0 {
             sizeLabel.stringValue = "Crop size is measured during export (+1 pixel per side)."
-        } else if let size = try? options.rasterSize(width: paperSize.width, height: paperSize.height) {
+        } else if let size = try? options.rasterSize(width: paperSize.width, height: paperSize.height),
+                  (try? options.validateRasterDimensions(size, format: format)) != nil {
             sizeLabel.stringValue = "\(size.width) × \(size.height) pixels; physical paper size is preserved."
-        } else { sizeLabel.stringValue = "Enter a supported resolution within the 100 million pixel limit." }
+        } else {
+            sizeLabel.stringValue = format == .jpeg ? "JPEG limit: 65,000 pixels per side / 100 million total."
+                : "Enter a supported resolution within the 100 million pixel limit."
+        }
     }
     private func updatePageControls() {
         let custom = pageMode.indexOfSelectedItem == 2

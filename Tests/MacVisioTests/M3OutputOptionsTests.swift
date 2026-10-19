@@ -237,7 +237,7 @@ final class M3OutputOptionsTests: XCTestCase {
         }
     }
 
-    func testActualPageActivationInvalidatesPNGAndPDFDraftsWithoutContentRevisionChange() throws {
+    func testActualPageActivationInvalidatesRasterAndPDFDraftsWithoutContentRevisionChange() throws {
         try onMain {
             _ = NSApplication.shared
             let document = MacVisioDocument(); defer { document.close() }
@@ -246,7 +246,7 @@ final class M3OutputOptionsTests: XCTestCase {
             let second = DiagramPage(name: "Different paper", width: 300, height: 200)
             diagram.pages.append(second); document.diagram = diagram
             let owner = LifecycleJobOwner()
-            for format in [OwnedExportFormat.png, .pdf] {
+            for format in [OwnedExportFormat.png, .jpeg, .tiff, .pdf] {
                 document.activatePage(firstID)
                 let captured = LifecycleJobInput(ownerID: owner.id, snapshotID: document.stateID, revision: document.revision)
                 let view = ExportOptionsView(snapshot: document.diagram, format: format, allPages: false, input: captured)

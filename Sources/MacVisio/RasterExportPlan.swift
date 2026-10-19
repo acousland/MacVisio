@@ -69,7 +69,7 @@ struct RasterExportViewport: Equatable {
         guard !bounds.isNull, !bounds.isInfinite,
               [bounds.minX, bounds.minY, bounds.maxX, bounds.maxY].allSatisfy({ $0.isFinite && abs($0) <= 1e9 }),
               bounds.width >= 0, bounds.height >= 0 else {
-            throw DiagramError.invalid("There is no printable artwork in the requested PNG region.")
+            throw DiagramError.invalid("There is no printable artwork in the requested raster region.")
         }
         let scale = options.rasterDPI / 72
         let left = floor(bounds.minX * scale) - 1, top = floor(bounds.minY * scale) - 1
@@ -78,11 +78,11 @@ struct RasterExportViewport: Equatable {
         guard width >= 1, height >= 1,
               width <= Double(OwnedExportOptions.maximumRasterDimension),
               height <= Double(OwnedExportOptions.maximumRasterDimension) else {
-            throw DiagramError.invalid("The cropped region exceeds the supported PNG dimensions. Choose a lower resolution.")
+            throw DiagramError.invalid("The cropped region exceeds the supported raster dimensions. Choose a lower resolution.")
         }
         let w = Int(width), h = Int(height)
         guard w <= OwnedExportOptions.maximumRasterPixels / h else {
-            throw DiagramError.invalid("PNG export supports up to 100 million pixels. Choose a lower resolution.")
+            throw DiagramError.invalid("Raster export supports up to 100 million pixels. Choose a lower resolution.")
         }
         return Self(rect: CGRect(x: left / scale, y: top / scale, width: width / scale, height: height / scale),
                     pixelWidth: w, pixelHeight: h)

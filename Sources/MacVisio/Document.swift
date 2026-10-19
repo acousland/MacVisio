@@ -1972,6 +1972,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc func exportPDF(_ sender: Any?) { exportFile(ext: "pdf") }
     @objc func exportAllPagesPDF(_ sender: Any?) { exportFile(ext: "pdf", allPages: true) }
     @objc func exportPNG(_ sender: Any?) { exportFile(ext: "png") }
+    @objc func exportJPEG(_ sender: Any?) { exportFile(ext: "jpg") }
+    @objc func exportTIFF(_ sender: Any?) { exportFile(ext: "tiff") }
     @objc func exportSVG(_ sender: Any?) { exportFile(ext: "svg") }
     @objc func exportVSDX(_ sender: Any?) { exportFile(ext: "vsdx") }
     @objc func exportVSD(_ sender: Any?) { exportFile(ext: "vsd") }
@@ -2003,7 +2005,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             input: panelInput, pageID: diagramDocument.diagram.activePageID,
             nodeIDs: canvas.selectedNodes, edgeIDs: Set([canvas.selectedEdge].compactMap { $0 }))
         let optionsView: ExportOptionsView?
-        if let format = OwnedExportFormat(rawValue: ext), format == .png || format == .pdf {
+        if let format = OwnedExportFormat(rawValue: ext), format.isRaster || format == .pdf {
             optionsView = ExportOptionsView(snapshot: diagramDocument.diagram, format: format,
                                             allPages: allPages, input: panelInput, selection: panelSelection)
             panel.accessoryView = optionsView

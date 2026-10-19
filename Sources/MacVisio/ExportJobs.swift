@@ -4,29 +4,54 @@ import MacVisioInfrastructure
 
 enum OwnedExportFormat: String {
     case pdf, png, svg, vsdx, vsd, vstx
+    case jpeg = "jpg"
+    case tiff
+    var isRaster: Bool { self == .png || self == .jpeg || self == .tiff }
+    var displayName: String { self == .jpeg ? "JPEG" : rawValue.uppercased() }
+}
+
+/// ImageIO's documented quality input; these labels make no codec, chroma
+/// sampling, file-size or reference-fidelity promise.
+enum JPEGExportQuality: Double, CaseIterable, Hashable {
+    case standard = 0.6, high = 0.85, maximum = 1
+    var title: String {
+        switch self { case .standard: return "Standard (60%)"
+        case .high: return "High (85%)"
+        case .maximum: return "Maximum (100%)" }
+    }
 }
 
 /// Value settings captured with the immutable export snapshot. Physical page
-/// dimensions stay in points; PNG resolution changes only the raster sampling.
+/// dimensions stay in points; raster resolution changes only the sampling.
 struct OwnedExportOptions: Equatable {
     static let supportedDPI = 36.0...1200.0
     static let maximumRasterDimension = 100_000
+    /// Conservative product bound for this JPEG writer, not a codec maximum.
+    static let maximumJPEGRasterDimension = 65_000
     static let maximumRasterPixels = 100_000_000
     var rasterDPI: Double = 144
     var transparentBackground = false
+    /// Nil uses High for JPEG. A JPEG-only request on another format is refused.
+    var jpegQuality: JPEGExportQuality? = nil
     /// Explicit PDF order takes precedence over the legacy active/all selector.
     var pdfPageIDs: [UUID]? = nil
     var rasterRegion: RasterExportRegion = .page
     var rasterSelection: RasterExportSelection? = nil
 
     func pageIDs(in snapshot: Diagram, format: OwnedExportFormat, allPages: Bool = false) throws -> [UUID] {
-        if format != .pdf, pdfPageIDs != nil { throw DiagramError.invalid("Page selection is available for PDF export.") }
-        if format != .png, rasterRegion != .page || rasterSelection != nil {
-            throw DiagramError.invalid("Region selection is available for PNG export.")
+        try validateRasterFormat(format)
+        if (format == .jpeg || format == .tiff), allPages {
+            throw DiagramError.invalid("JPEG and TIFF export one active page or region. Use PDF to export multiple pages.")
         }
-        if format == .png {
+        if format != .pdf, pdfPageIDs != nil { throw DiagramError.invalid("Page selection is available for PDF export.") }
+        if !format.isRaster, rasterRegion != .page || rasterSelection != nil {
+            throw DiagramError.invalid("Region selection is available for raster export.")
+        }
+        if format.isRaster {
             try validateRasterDPI()
-            if rasterRegion == .page { _ = try rasterSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight) }
+            if rasterRegion == .page {
+                try validateRasterDimensions(rasterSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight), format: format)
+            }
             if rasterRegion != .selection, rasterSelection != nil {
                 throw DiagramError.invalid("A captured selection requires Selection bounds.")
             }
@@ -45,9 +70,24 @@ struct OwnedExportOptions: Equatable {
         return result
     }
 
+    func validateRasterFormat(_ format: OwnedExportFormat) throws {
+        if format == .jpeg, transparentBackground {
+            throw DiagramError.invalid("JPEG requires an opaque white background. Choose PNG or TIFF to retain transparency.")
+        }
+        if format != .jpeg, jpegQuality != nil {
+            throw DiagramError.invalid("JPEG quality is available only for JPEG export.")
+        }
+    }
+
+    func validateRasterDimensions(_ size: (width: Int, height: Int), format: OwnedExportFormat) throws {
+        if format == .jpeg, size.width > Self.maximumJPEGRasterDimension || size.height > Self.maximumJPEGRasterDimension {
+            throw DiagramError.invalid("JPEG export supports dimensions up to 65,000 pixels and 100 million pixels total. Choose a lower resolution.")
+        }
+    }
+
     func validateRasterDPI() throws {
         guard rasterDPI.isFinite, Self.supportedDPI.contains(rasterDPI) else {
-            throw DiagramError.invalid("PNG resolution must be between 36 and 1200 dpi.")
+            throw DiagramError.invalid("Raster resolution must be between 36 and 1200 dpi.")
         }
     }
 
@@ -56,11 +96,11 @@ struct OwnedExportOptions: Equatable {
         let scale = rasterDPI / 72, w = width * scale, h = height * scale
         guard width.isFinite, height.isFinite, width > 0, height > 0, w.isFinite, h.isFinite,
               w >= 1, h >= 1, w <= Double(Self.maximumRasterDimension), h <= Double(Self.maximumRasterDimension) else {
-            throw DiagramError.invalid("The page and resolution exceed the supported PNG dimensions.")
+            throw DiagramError.invalid("The page and resolution exceed the supported raster dimensions.")
         }
         let pixels = (width: Int(w), height: Int(h))
         guard pixels.width <= Self.maximumRasterPixels / pixels.height else {
-            throw DiagramError.invalid("PNG export supports up to 100 million pixels. Choose a lower resolution.")
+            throw DiagramError.invalid("Raster export supports up to 100 million pixels. Choose a lower resolution.")
         }
         return pixels
     }
@@ -134,8 +174,9 @@ enum OwnedExportJobs {
         progress: @escaping (LifecycleJobProgress) -> Void = { _ in },
         completion: @escaping (Result<OwnedExportResult, Error>) -> Void
     ) throws -> LifecycleJobHandle {
-        if format != .png, options.rasterRegion != .page || options.rasterSelection != nil {
-            throw DiagramError.invalid("Region selection is available for PNG export.")
+        try options.validateRasterFormat(format)
+        if !format.isRaster, options.rasterRegion != .page || options.rasterSelection != nil {
+            throw DiagramError.invalid("Region selection is available for raster export.")
         }
         let jobID = UUID()
         let handle = try LifecycleJobService.shared.submit(
@@ -158,11 +199,11 @@ enum OwnedExportJobs {
                     case .vstx:
                         context.progress("Writing Visio template")
                         try VisioReusableFormat.writeTemplate(snapshot, to: staging)
-                    case .pdf, .png, .svg:
+                    case .pdf, .png, .jpeg, .tiff, .svg:
                         let prepared = try MainExportRecorder.prepare(
                             snapshot: snapshot, format: format, allPages: allPages, options: options, context: context)
                         preparation = prepared.work
-                        context.progress("Assembling \(format.rawValue.uppercased())")
+                        context.progress("Assembling \(format.displayName)")
                         try ExportRecordAssembly.write(
                             prepared.pages, to: staging, format: format, options: options, context: context)
                     }
@@ -265,7 +306,7 @@ private final class MainExportRecorder {
     private let membership: RasterExportMembership?
     private var measuringBounds = false
     private var paintBounds = CGRect.null
-    private var isCroppedRaster: Bool { format == .png && options.rasterRegion != .page }
+    private var isCroppedRaster: Bool { format.isRaster && options.rasterRegion != .page }
 
     private init(
         snapshot: Diagram, format: OwnedExportFormat, pageIDs: [UUID], context: LifecycleJobContext,
@@ -287,7 +328,7 @@ private final class MainExportRecorder {
         let snapshot = try snapshot.validated()
         let pageIDs = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
         let membership: RasterExportMembership?
-        if format == .png, options.rasterRegion == .selection {
+        if format.isRaster, options.rasterRegion == .selection {
             guard let selection = options.rasterSelection else { throw DiagramError.invalid("Capture a selection before exporting Selection bounds.") }
             membership = try selection.expanded(in: snapshot, input: context.input, cancellation: context.cancellation)
         } else { membership = nil }
@@ -319,8 +360,8 @@ private final class MainExportRecorder {
                 }
                 steps += 1
             }
-            context.progress(measuringBounds ? "Measuring PNG bounds: \(work.measuredObjects) objects"
-                             : "Preparing \(format.rawValue.uppercased()): \(work.preparedObjects) objects")
+            context.progress(measuringBounds ? "Measuring \(format.displayName) bounds: \(work.measuredObjects) objects"
+                             : "Preparing \(format.displayName): \(work.preparedObjects) objects")
             DispatchQueue.main.async { self.step() }
         } catch { waiter.finish(.failure(error)) }
     }
@@ -345,6 +386,7 @@ private final class MainExportRecorder {
         if layerIndex >= scene.layers.count {
             if measuringBounds {
                 let viewport = try RasterExportViewport.cropped(paintBounds, options: options)
+                try options.validateRasterDimensions((viewport.pixelWidth, viewport.pixelHeight), format: format)
                 pages[pages.count - 1] = ExportRecordPage(width: viewport.rect.width, height: viewport.rect.height,
                                                         title: scene.page.name, rasterViewport: viewport)
                 work.rasterViewport = viewport.rect
@@ -539,17 +581,19 @@ private enum ExportRecordAssembly {
                 throw DiagramError.invalid("Could not create the PDF output.")
             }
             try writePDF(pages, in: drawing, context: context)
-        case .png:
+        case .png, .jpeg, .tiff:
+            try options.validateRasterFormat(format)
             let size: (width: Int, height: Int)
             if let viewport = first.rasterViewport { size = (viewport.pixelWidth, viewport.pixelHeight) }
             else { size = try options.rasterSize(width: first.width, height: first.height) }
+            try options.validateRasterDimensions(size, format: format)
             let width = size.width, height = size.height
             guard let drawing = CGContext(
                     data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
                     space: CGColorSpaceCreateDeviceRGB(),
-                    bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+                    bitmapInfo: (format == .jpeg ? CGImageAlphaInfo.noneSkipLast : .premultipliedLast).rawValue)
             else {
-                throw DiagramError.invalid("Page is too large to export as PNG.")
+                throw DiagramError.invalid("Page is too large to export as \(format.displayName).")
             }
             drawing.clear(CGRect(x: 0, y: 0, width: width, height: height))
             let scale = options.rasterDPI / 72
@@ -559,17 +603,33 @@ private enum ExportRecordAssembly {
                 drawing.fill(CGRect(x: 0, y: 0, width: first.width, height: first.height))
             }
             try draw(first.records, in: drawing, context: context)
+            try context.checkpoint()
+            let type = format == .jpeg ? "public.jpeg" : (format == .tiff ? "public.tiff" : "public.png")
             guard let image = drawing.makeImage(),
                 let destination = CGImageDestinationCreateWithURL(
-                    output as CFURL, "public.png" as CFString, 1, nil)
+                    output as CFURL, type as CFString, 1, nil)
             else {
-                throw DiagramError.invalid("Could not encode the PNG image.")
+                throw DiagramError.invalid("Could not encode the \(format.displayName) image.")
             }
-            let properties = [kCGImagePropertyDPIWidth: options.rasterDPI, kCGImagePropertyDPIHeight: options.rasterDPI] as CFDictionary
-            CGImageDestinationAddImage(destination, image, properties)
+            var properties: [CFString: Any] = [kCGImagePropertyDPIWidth: options.rasterDPI, kCGImagePropertyDPIHeight: options.rasterDPI]
+            if format == .jpeg {
+                properties[kCGImageDestinationLossyCompressionQuality] = (options.jpegQuality ?? .high).rawValue
+            }
+            if format == .jpeg || format == .tiff {
+                properties[kCGImagePropertyOrientation] = 1
+                // ImageIO writes JPEG physical density in EXIF's TIFF IFD.
+                // Its JFIF unit is an aspect ratio, not an absolute DPI claim.
+                // Keep the resolution unit integer-typed alongside the rationals.
+                let density: [CFString: Any] = [kCGImagePropertyTIFFXResolution: options.rasterDPI,
+                    kCGImagePropertyTIFFYResolution: options.rasterDPI, kCGImagePropertyTIFFResolutionUnit: 2]
+                properties[kCGImagePropertyTIFFDictionary] = density
+            }
+            CGImageDestinationAddImage(destination, image, properties as CFDictionary)
+            try context.checkpoint()
             guard CGImageDestinationFinalize(destination) else {
-                throw DiagramError.invalid("Could not finish the PNG image.")
+                throw DiagramError.invalid("Could not finish the \(format.displayName) image.")
             }
+            try context.checkpoint()
         default: throw DiagramError.invalid("This export does not use prepared vector records.")
         }
     }
