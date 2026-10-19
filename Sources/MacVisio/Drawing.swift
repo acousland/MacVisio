@@ -43,7 +43,13 @@ enum DiagramDrawing {
     static func layerColored(_ edge:DiagramEdge,in page:DiagramPage) -> DiagramEdge {
         let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
         guard names.count == 1,let name = names.first,let layer = page.layers?.first(where:{$0.name == name}),let color = layer.color else { return edge }
-        var result = edge;result.color = layerColor(color,transparency:layer.colorTransparency);return result
+        var result = edge;let displayColor = layerColor(color,transparency:layer.colorTransparency)
+        result.color = displayColor
+        if var runs = result.formatting.textRuns {
+            for index in runs.indices { runs[index].character.color = displayColor }
+            result.formatting.textRuns = runs
+        }
+        return result
     }
     static func vectorPath(_ vector:VectorPath,in r:CGRect) -> NSBezierPath {
         let path = NSBezierPath()

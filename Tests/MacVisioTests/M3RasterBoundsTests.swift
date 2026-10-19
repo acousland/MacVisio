@@ -5,6 +5,27 @@ import XCTest
 @testable import MacVisio
 
 final class M3RasterBoundsTests: XCTestCase {
+    func testLayerColoredRichConnectorUsesTheSamePaintInPageAndSelectionExports() throws {
+        try onMain {
+            _ = NSApplication.shared
+            var model = fixture();model.page.width = 400;model.page.height = 180
+            let source = node(10,80,10,10,"#FFFFFF00"),target = node(380,80,10,10,"#FFFFFF00")
+            var edge = DiagramEdge(source:source.id,target:target.id,label:"Layer label",style:.straight)
+            edge.layer = "Color";edge.arrow = false
+            var style = ShapeCharacterStyle(node:edge.textNode)
+            style.fontName = "Arial";style.size = 30;style.color = "#FF0000"
+            edge.formatting.textRuns = [ShapeTextRun(text:edge.label,character:style,paragraph:ShapeParagraphStyle())]
+            model.page.nodes = [source,target];model.page.edges = [edge]
+            model.page.layers = [DiagramLayer(name:"Color",color:"#00AA00")]
+            let full = try export(model,region:.page),crop = try export(model,region:.selection,edges:[edge.id])
+            let green:(Pixel)->Bool = {$0.g>120 && $0.r<80 && $0.b<80 && $0.a>220}
+            XCTAssertGreaterThan(crop.pixels.count(where:green),200)
+            XCTAssertLessThanOrEqual(abs(crop.pixels.count(where:green)-full.pixels.count(where:green)),20)
+            XCTAssertEqual(crop.pixels.count{$0.r>180 && $0.g<80 && $0.b<80},0)
+            XCTAssertEqual(model.page.edges[0].formatting.textRuns?.first?.character.color,"#FF0000")
+        }
+    }
+
     func testStyledConnectorSelectionKeepsGlyphsAndDecorationsWithoutEndpointPaint() throws {
         try onMain {
             _ = NSApplication.shared

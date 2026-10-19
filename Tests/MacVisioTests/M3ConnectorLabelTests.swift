@@ -61,6 +61,23 @@ final class M3ConnectorLabelTests: XCTestCase {
         XCTAssertEqual(scene.routes[page.edges[0].id],DiagramGeometry.route(page.edges[0],in:page))
     }
 
+    func testLayerColorAndTransparencyProjectIntoRichRunsWithoutChangingSource() throws {
+        _ = NSApplication.shared
+        var page = fixture();page.edges[0].layer = "Color"
+        page.layers = [DiagramLayer(name:"Color",color:"#00AA00",colorTransparency:50)]
+        let original = page.edges[0],colored = DiagramDrawing.layerColored(original,in:page)
+        XCTAssertEqual(colored.formatting.textRuns?.map{$0.character.color},Array(repeating:"#00AA0080",count:4))
+        let svg = DiagramDrawing.svg(page)
+        XCTAssertFalse(svg.contains("fill=\"#FF0000\""));XCTAssertFalse(svg.contains("fill=\"#0000FF\""))
+        XCTAssertTrue(svg.contains("fill=\"#00AA00\""));XCTAssertTrue(svg.contains("fill-opacity=\"0.5019607843137255\""))
+        page.layers?[0].colorTransparency = 100
+        let hidden = PreparedEdgeLabel(DiagramDrawing.layerColored(original,in:page))
+        hidden.attributed.enumerateAttribute(.foregroundColor,in:NSRange(location:0,length:hidden.attributed.length)) { value,_,_ in
+            XCTAssertEqual((value as? NSColor)?.alphaComponent,0)
+        }
+        XCTAssertEqual(page.edges[0],original)
+    }
+
     func testNativeAndSVGExportsShowRunColorsSizesAndDecorationsAtPaperScaleOnce() throws {
         _ = NSApplication.shared
         var artifacts:[String:Data] = [:]
