@@ -19,10 +19,18 @@ enum FontSubstitution {
         var isSubstituted: Bool { reason != .installed && normalized(requestedName) != "system" }
     }
     struct Use: Equatable {
+        enum Owner: Equatable { case shape(UUID), connector(UUID) }
         var pageID: UUID
-        var nodeID: UUID
-        /// nil means the shape's base style; empty/field runs still count.
+        var owner: Owner
+        /// nil means the owner's base style; empty/field runs still count.
         var runIndex: Int?
+
+        init(pageID: UUID, nodeID: UUID, runIndex: Int?) {
+            self.pageID = pageID; owner = .shape(nodeID); self.runIndex = runIndex
+        }
+        init(pageID: UUID, connectorID: UUID, runIndex: Int?) {
+            self.pageID = pageID; owner = .connector(connectorID); self.runIndex = runIndex
+        }
     }
     struct InventoryEntry: Equatable {
         var resolution: Resolution
@@ -60,7 +68,7 @@ enum FontSubstitution {
         return Resolution(requestedName: requested, renderingName: "System", reason: .system)
     }
 
-    /// Includes requested names in base styles and every stored run. Exact UTF-8
+    /// Includes shape and connector base styles and every stored run. Exact UTF-8
     /// keys retain even canonically equivalent spellings as separate requests.
     static func inventory(in diagram: Diagram, using catalog: Catalog) -> [InventoryEntry] {
         var entries: [InventoryEntry] = []
@@ -78,6 +86,12 @@ enum FontSubstitution {
                 add(node.formatting.fontName, use: Use(pageID: page.id, nodeID: node.id, runIndex: nil))
                 for (index, run) in (node.formatting.textRuns ?? []).enumerated() {
                     add(run.character.fontName, use: Use(pageID: page.id, nodeID: node.id, runIndex: index))
+                }
+            }
+            for edge in page.edges {
+                add(edge.formatting.fontName, use: Use(pageID: page.id, connectorID: edge.id, runIndex: nil))
+                for (index, run) in (edge.formatting.textRuns ?? []).enumerated() {
+                    add(run.character.fontName, use: Use(pageID: page.id, connectorID: edge.id, runIndex: index))
                 }
             }
         }
