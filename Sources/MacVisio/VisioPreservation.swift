@@ -767,7 +767,8 @@ enum VisioPreservation {
         for (index,face) in faces.elementsLocal("FaceName").enumerated() {
             if let name = face.attr("NameU") ?? face.attr("Name") {
                 if ids[name] == nil { ids[name] = String(index) }
-                if face.attr("NameU") == nil { face.setAttr("NameU",name);changedDocument = true }
+                // Name-only source entries already identify an existing face.
+                // Preserve their optional attributes on unrelated edits.
             }
         }
         var nextID = faces.elementsLocal("FaceName").count

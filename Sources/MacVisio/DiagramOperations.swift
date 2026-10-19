@@ -51,6 +51,7 @@ enum DiagramOperations {
         _ fragment: DiagramPage, into page: inout DiagramPage, at origin: CGPoint? = nil,
         reservedIDs: [String] = []
     ) throws -> Set<UUID> {
+        try DiagramMemberships.validatePaste(fragment)
         let fragment = DrawingScale.convert(fragment, to: page.paperScale, targetMeasured: page.isMeasured)
         guard !fragment.nodes.isEmpty || !fragment.edges.isEmpty else { return [] }
         var check = Diagram()

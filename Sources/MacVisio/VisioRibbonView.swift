@@ -506,7 +506,7 @@ final class VisioRibbonView: FlippedView, NSTextFieldDelegate, NSComboBoxDelegat
 
     @objc private func paste(_ sender: Any?) { editor?.pasteSelection() }
     @objc private func copy(_ sender: Any?) { editor?.copySelection() }
-    @objc private func cut(_ sender: Any?) { editor?.copySelection(); editor?.deleteSelection(sender) }
+    @objc private func cut(_ sender: Any?) { editor?.cutSelection(sender) }
 
     @objc private func fillChanged(_ sender: NSColorWell) {
         editor?.modifySelection("Shape Fill") { $0.fill = sender.color.hexString }

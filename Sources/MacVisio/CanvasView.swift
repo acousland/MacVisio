@@ -1112,8 +1112,7 @@ final class CanvasView: NSView {
     }
     @objc func copy(_ sender: Any?) { editor?.copySelection() }
     @objc func cut(_ sender: Any?) {
-        editor?.copySelection()
-        editor?.deleteSelection(nil)
+        editor?.cutSelection(sender)
     }
     @objc func paste(_ sender: Any?) { editor?.pasteSelection() }
     override func selectAll(_ sender: Any?) { select(Set(page.nodes.filter { !$0.locked }.map(\.id))) }

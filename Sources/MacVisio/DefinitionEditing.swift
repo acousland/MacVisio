@@ -7,6 +7,7 @@ import MacVisioInfrastructure
 enum DefinitionEditing {
     static func settingCell(in input: Diagram, sheetID: UUID, address: DefinitionCellAddress,
                             value: ShapeSheetCell?) throws -> Diagram {
+        if address.section == nil, let reason = DiagramMemberships.managedCellReason(address.cell) { throw DiagramError.invalid(reason) }
         guard var registry = input.definitions, input.visioArchive != nil else {
             throw DiagramError.invalid("This drawing has no public definition source.")
         }

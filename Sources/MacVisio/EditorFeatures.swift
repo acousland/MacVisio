@@ -227,9 +227,23 @@ extension EditorWindowController {
         canvas.finishEditing(commit:true)
         do { var next = diagramDocument.diagram;let binding = next.visioArchive?.pages.first{$0.pageID == next.page.id};let id = try DiagramOperations.group(canvas.selectedNodes,in:&next.page,binding:binding); diagramDocument.replaceInEditor(with:try next.validated(),action:"Group Shapes"); canvas.select([id]) } catch { presentError(error) }
     }
-    @objc func ungroupSelection(_ sender:Any?) {
-        canvas.finishEditing(commit:true); var next = diagramDocument.diagram
-        let ids = DiagramOperations.ungroup(canvas.selectedNodes,in:&next.page); diagramDocument.replaceInEditor(with:next,action:"Ungroup Shapes"); canvas.select(ids)
+    @objc func ungroupSelection(_ sender: Any?) {
+        canvas.finishEditing(commit: true)
+        let before = diagramDocument.diagram
+        var next = before
+        let ids = DiagramOperations.ungroup(canvas.selectedNodes, in: &next.page)
+        let removed = Set(before.page.nodes.map(\.id)).subtracting(next.page.nodes.map(\.id))
+        let proposed = next
+        if !DiagramMemberships.needsSourceProof(in: before, pageID: before.page.id) {
+            diagramDocument.replaceInEditor(with: proposed, action: "Ungroup Shapes")
+            canvas.select(ids)
+            return
+        }
+        diagramDocument.replaceInEditor(with: proposed, action: "Ungroup Shapes", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try DiagramMemberships.validateRemoval(removed, in: before, pageID: before.page.id, cancellation: cancellation)
+            return (proposed, CalculationWork())
+        })
+        canvas.select(ids)
     }
     @objc func flipHorizontal(_ sender:Any?) { modifySelection("Flip Horizontal") { $0.formatting.flipX.toggle() } }
     @objc func flipVertical(_ sender:Any?) { modifySelection("Flip Vertical") { $0.formatting.flipY.toggle() } }
@@ -318,7 +332,7 @@ extension EditorWindowController {
         if selected.formatting.sheet["LocPinX"] == nil { cells["LocPinX"]?.formula = "Width*0.5" };if selected.formatting.sheet["LocPinY"] == nil { cells["LocPinY"]?.formula = "Height*0.5" }
         let editable = cells.filter { ShapeSheetEngine.geometryKeys.contains($0.key) || ShapeSheetEngine.textKeys.contains($0.key) || $0.key.hasPrefix("User.") || $0.key.hasPrefix("Prop.") }
         let grid = PropertyGrid(columns:["Cell","Cached value","Formula","Unit"],rows:editable.keys.sorted().map{[$0,editable[$0]!.value,editable[$0]!.formula,editable[$0]!.unit]},width:900)
-        guard grid.run(title:"ShapeSheet — Sheet.\(next.page.nodes[index].formatting.sourceShapeID ?? "")",message:"Lengths use inches and angles use radians internally. STR stores text; DATE stores dates. Formulas can reference text, properties, controls, geometry and other shapes. Unsupported formulas retain their cached value.") else { return }
+        guard grid.run(title:"ShapeSheet — Sheet.\(next.page.nodes[index].formatting.sourceShapeID ?? "")",message:"Lengths use inches and angles use radians internally. STR stores text; DATE stores dates. Formulas can reference text, properties, controls, geometry and other shapes. Unsupported formulas retain their cached value. Relationships is managed by Memberships and is read-only here.") else { return }
         let names = grid.rows.map{$0[0].trimmingCharacters(in:.whitespacesAndNewlines)}
         guard Set(names.map{$0.lowercased()}).count == names.count else { presentError(DiagramError.invalid("Cell names must be unique."));return }
         do {

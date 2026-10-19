@@ -122,6 +122,10 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
     deinit { timer?.invalidate();if let parentCloseObserver { NotificationCenter.default.removeObserver(parentCloseObserver) } }
     var hasMarkedText:Bool { (window?.firstResponder as? NSTextView)?.hasMarkedText() == true }
     var selectedAddress:DefinitionCellAddress? { selectedCell?.address }
+    private var managedCellFailure: String? {
+        guard let address = selectedAddress, address.section == nil else { return nil }
+        return DiagramMemberships.managedCellReason(address.cell)
+    }
     func explain(_ text:String) { reasonLabel.stringValue = text }
 
     override func showWindow(_ sender:Any?) {
@@ -252,7 +256,7 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         let key = Availability(active:jobOwner.isActive,visible:window?.isVisible == true,calculating:drawing?.isCalculating ?? false,stateID:drawing?.stateID,revision:drawing?.revision,resourceID:drawing?.diagram.visioArchive?.sourceResourceID,composition:composition,cellID:selectedCell?.id,draft:draft)
         guard key != availability else { return };availability = key
         let failure = snapshotFailure(checkCell:false)
-        let editable = failure == nil && key.visible
+        let editable = failure == nil && key.visible && managedCellFailure == nil
         // Disabling an active field editor can finalize marked text. Leave its
         // native composition intact while disabling every submitting action.
         for field in [valueField,formulaField,unitField] { field.isEnabled = jobOwner.isActive && ((editable && selectedCell != nil) || composition) }
@@ -270,11 +274,13 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         applyButton.isEnabled = editable && !composition && selectedCell != nil && selectedCell?.value != draft
         if composition { explain("Finish text composition before applying a cell.") }
         else if let failure { explain(failure) }
+        else if let managedCellFailure { explain(managedCellFailure) }
         else if let backendFailure { explain(backendFailure) }
         else if selectedCell?.value == draft { explain("Edit the selected cell's cached value, formula or unit, then apply it once.") }
         else { explain("Apply the selected cell, or add, rename or delete a named User or Property row.") }
     }
     @discardableResult func applySelectedCell() -> Bool {
+        if let reason = managedCellFailure { explain(reason); return false }
         guard jobOwner.isActive,let editor,let drawing,window?.isVisible == true else { return false }
         if hasMarkedText || drawing.windowControllers.contains(where:{($0.window?.firstResponder as? NSTextView)?.hasMarkedText() == true}) {
             explain("Finish text composition before applying a cell.");return false

@@ -342,6 +342,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         shape.addItem(.separator()); item(shape,"Shape Data…",#selector(EditorWindowController.editShapeData(_:))); item(shape,"Hyperlinks…",#selector(EditorWindowController.editHyperlinks(_:))); item(shape,"Follow Hyperlink",#selector(EditorWindowController.followHyperlink(_:)))
         item(shape,"ShapeSheet…",#selector(EditorWindowController.showShapeSheet(_:)))
         item(shape,"Definition Sheets…",#selector(EditorWindowController.showDefinitionSheets(_:)))
+        item(shape,"Memberships…",#selector(EditorWindowController.showMemberships(_:)))
         item(shape,"Geometry…",#selector(EditorWindowController.editGeometry(_:)))
         item(shape,"Union Shapes",#selector(EditorWindowController.unionSelection(_:)))
         item(shape,"Intersect Shapes",#selector(EditorWindowController.intersectSelection(_:)))

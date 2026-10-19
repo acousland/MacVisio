@@ -68,6 +68,7 @@ struct CalculationDependencyIndex {
         var formulas: [String]
         var calculatesGeometry: Bool
         var hasFields: Bool
+        var hasStructuralOwnerMetadata: Bool
         var dependencySignature: [String]
         static func == (lhs: Source, rhs: Source) -> Bool {
             lhs.kind == rhs.kind && lhs.objectIndex == rhs.objectIndex && lhs.endpoints == rhs.endpoints
@@ -75,6 +76,7 @@ struct CalculationDependencyIndex {
                 && lhs.sourceShapeID == rhs.sourceShapeID
                 && lhs.identifierAvailable == rhs.identifierAvailable
                 && lhs.calculatesGeometry == rhs.calculatesGeometry && lhs.hasFields == rhs.hasFields
+                && lhs.hasStructuralOwnerMetadata == rhs.hasStructuralOwnerMetadata
                 && lhs.dependencySignature == rhs.dependencySignature
         }
     }
@@ -85,6 +87,7 @@ struct CalculationDependencyIndex {
     private(set) var nodeIndices: [UUID: Int] = [:]
     private(set) var edgeIndices: [UUID: Int] = [:]
     private(set) var sourceIndices: [UUID: Int] = [:]
+    private(set) var structuralNodeIDs: Set<UUID> = []
     private(set) var identifiers: [String: UUID] = [:]
     private(set) var publicIDsByObject: [UUID: String] = [:]
     private(set) var geometryNodeIDs: Set<UUID> = []
@@ -148,6 +151,7 @@ struct CalculationDependencyIndex {
             }
             let formulas = cells.keys.sorted().compactMap { key -> String? in
                 guard let cell = cells[key] else { return nil }
+                if DiagramMemberships.isRecognizedStructuralCell(key: key, cell: cell) { return nil }
                 let formula = cell.formula.trimmingCharacters(in: .whitespacesAndNewlines)
                 guard !formula.isEmpty, !["INH", "NO FORMULA"].contains(formula.uppercased()) else {
                     return nil
@@ -187,6 +191,7 @@ struct CalculationDependencyIndex {
                     || !node.formatting.connectionPoints.isEmpty || !node.formatting.controls.isEmpty
                     || node.formatting.geometry != nil,
                 hasFields: node.formatting.textFields?.isEmpty == false,
+                hasStructuralOwnerMetadata: DiagramMemberships.hasStructuralOwnerMetadata(node),
                 dependencySignature: dependencySignature)
     }
 
@@ -198,6 +203,7 @@ struct CalculationDependencyIndex {
             switch source.kind {
             case .node:
                 nodeIndices[source.id] = source.objectIndex
+                if source.hasStructuralOwnerMetadata { structuralNodeIDs.insert(source.id) }
                 if source.calculatesGeometry { geometryNodeIDs.insert(source.id) }
                 if source.hasFields { fieldNodeIDs.insert(source.id) }
             case .connector:
@@ -460,6 +466,15 @@ final class CalculationSession {
         return nodes
     }
 
+    func retainedStructuralNodeIDs(pageID: UUID) -> Set<UUID>? {
+        let geometry = entries[Key(pageID: pageID, fieldIdentifiers: false)]?.index.structuralNodeIDs
+        let fields = entries[Key(pageID: pageID, fieldIdentifiers: true)]?.index.structuralNodeIDs
+        guard geometry != nil || fields != nil else { return nil }
+        // Geometry and field passes can retain different source generations.
+        // A stale positive is conservative; preferring an older empty graph
+        // could hide a newly authored/resolved structural owner.
+        return (geometry ?? []).union(fields ?? [])
+    }
     func retainedNodes(pageID: UUID) -> [UUID: DiagramNode]? { hosts[pageID]?.nodes }
     func retainedNodeIndices(pageID: UUID) -> [UUID: Int]? { hosts[pageID]?.indices }
     func fork() -> CalculationSession {

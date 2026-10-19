@@ -23,7 +23,7 @@ extension EditorWindowController {
 struct EditorSearchCommand {
     enum Requirement {
         case none, idle, selectedShapes(Int), editableShapes(Int), oneEditableShape
-        case editableObject, group, ungroup, multiplePages, definitionSheets
+        case editableObject, group, ungroup, multiplePages, definitionSheets, memberships
     }
     let title: String
     let keywords: String
@@ -65,6 +65,7 @@ struct EditorSearchCommand {
         .init(title: "Lock / Unlock Shapes", keywords: "protect selection", action: #selector(EditorWindowController.toggleLock(_:)), requirement: .selectedShapes(1)),
         .init(title: "Shape Data…", keywords: "properties values fields", action: #selector(EditorWindowController.editShapeData(_:)), requirement: .oneEditableShape),
         .init(title: "Definition Sheets…", keywords: "document master style sheets cells formula cached value unit", action: #selector(EditorWindowController.showDefinitionSheets(_:)), requirement: .definitionSheets),
+        .init(title: "Memberships…", keywords: "container list lane member relationships independent group", action: #selector(EditorWindowController.showMemberships(_:)), requirement: .memberships),
         .init(title: "Connection Points…", keywords: "ports glue", action: #selector(EditorWindowController.editConnectionPoints(_:)), requirement: .oneEditableShape),
         .init(title: "Insert Text Field…", keywords: "formula label", action: #selector(EditorWindowController.insertField(_:)), requirement: .oneEditableShape),
         .init(title: "Add Page", keywords: "new drawing sheet", action: #selector(EditorWindowController.addPage(_:)), requirement: .idle),
@@ -108,6 +109,8 @@ struct EditorSearchCommand {
         case .none, .idle: break
         case .definitionSheets:
             if let reason = editor.definitionSheetUnavailableReason { return reason }
+        case .memberships:
+            if let reason = editor.membershipUnavailableReason { return reason }
         case .selectedShapes(let count): if let reason = shapes(count, editable: false) { return reason }
         case .editableShapes(let count): if let reason = shapes(count, editable: true) { return reason }
         case .oneEditableShape:
