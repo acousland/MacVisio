@@ -6,9 +6,9 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "in_progress",
   "handoff_kind": "interim_engineering",
-  "candidate_code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+  "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: Source 44bc3ca: 979 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Intersect/Subtract and PNG content/selection bounds; all 204 children remain unaccepted.",
+    "local_engineering": "in_progress: Source 100bdf7: 79 focused output/print/search checks pass with 20 new JPEG/TIFF tests; 31 actual images independently decoded/hashed/visually inspected. Membership/MODULUS/pin evidence is retained in prior checkpoint. Current full native qualification awaits UserNotificationCenter dismissal; all 204 M3 children unaccepted.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -63,7 +63,14 @@
     "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
     "af764fad3112d46466dcb999d743377ccafe92b8",
     "0f967c00e46105e9b79ec60dbc553e371d17adc6",
-    "44bc3ca24933ca577dd3d295219244fd28d9dcdc"
+    "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "f2155ddddb600ed24a01bee188d322acb39dfa2c",
+    "e2e2cfed8e0ee5a47ea9b9bdfb04cf91e76550a1",
+    "f4854ef7d1ab47cb29290a722f63ddaf78465e7d",
+    "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+    "e891d6f20509db4a72084258b793241d38c2e5a5",
+    "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "100bdf7f778655ab049009200d84b866a30480b7"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -135,16 +142,19 @@
     "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
     "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
     "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
-    "docs/delivery/M3-SET-RASTER-CHECKPOINT.json"
+    "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json"
   ],
   "remaining_prerequisites": [
+    "current complete native regression qualification after retained activation failures",
     "all WP14–20 production feature children and affected/native/public milestone regressions",
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue independent container/list relationships, explicit pinned-library loading and remaining local production contracts; exact-build reference and physical qualification remain open.",
+  "next_action": "After desktop readiness, run the complete current-source suite without native benchmark exclusions, then continue remaining local M3 production contracts. Native/reference/physical acceptance and release remain open.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
-  "head_note": "candidate_code_commit identifies verified product source; shared M3-status.json records the final delivery-record commit.",
+  "head_note": "candidate_code_commit binds committed source with focused evidence and pending complete qualification; the last passing full baseline is separate. Shared M3-status.json records the eventual delivery-record commit.",
   "partial_task_ids": [
     "WP-14-T01",
     "WP-14-T02",
@@ -222,5 +232,28 @@
     "bytes": 39948,
     "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
     "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+  },
+  "release_published": false,
+  "membership_numeric_pins_checkpoint": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318,
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+  },
+  "current_full_qualification": {
+    "state": "pending",
+    "last_passing_code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+    "last_complete_outcome": "failed",
+    "last_complete_code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+    "latest_code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json"
+  },
+  "raster_formats_checkpoint": {
+    "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+    "bytes": 75446,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
   }
 }

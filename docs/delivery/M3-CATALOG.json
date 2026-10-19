@@ -5912,8 +5912,8 @@
     "large_parent_count": 22,
     "child_count": 204,
     "accepted_child_count": 0,
-    "in_progress_child_count": 33,
-    "pending_implementation_child_count": 165,
+    "in_progress_child_count": 38,
+    "pending_implementation_child_count": 160,
     "proposed_child_count": 6
   },
   "parents": [
@@ -6841,7 +6841,7 @@
       "parent_task": "WP-14-T01",
       "work_package": "WP-14",
       "title": "Separate group parentage from container/list/lane membership",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-06",
@@ -6856,7 +6856,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Core/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -6867,11 +6867,16 @@
       "expected_behavior": "Represent each relationship kind independently; moving/ungrouping does not erase semantic membership or graph identity.",
       "source_paths": [
         "Sources/MacVisio/Model.swift",
-        "Sources/MacVisio/DiagramOperations.swift"
+        "Sources/MacVisio/DiagramOperations.swift",
+        "Sources/MacVisio/DiagramMemberships.swift",
+        "Sources/MacVisio/MembershipEditor.swift",
+        "Sources/MacVisio/CalculationDependencies.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/GroupedConnectorTests.swift",
-        "Tests/MacVisioTests/EditingCompatibilityTests.swift"
+        "Tests/MacVisioTests/EditingCompatibilityTests.swift",
+        "Tests/MacVisioTests/M3MembershipTests.swift",
+        "Tests/MacVisioTests/M3MembershipEditorTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31401AcceptanceTests.swift",
@@ -6887,7 +6892,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -6908,7 +6913,19 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "Independent Relationships graph, reciprocal container edges and owned native editor have passing local evidence. Typed retained-owner nil-cell proof preserves refusals while new ordinary unbound objects remain usable. Lists/lanes/callouts/inheritance and full child/reference contracts remain open; current full qualification pending."
+      },
+      "actual_local_fixture_paths": [
+        "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/source.vsdx",
+        "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected-add40-page.xml",
+        "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected.json"
+      ]
     },
     {
       "id": "WP-14-T01-C004",
@@ -9521,7 +9538,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close CEILING numeric/logical semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -9535,7 +9552,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -9551,7 +9568,8 @@
         "Sources/MacVisio/TypedShapeSheet.swift"
       ],
       "test_paths": [
-        "Tests/MacVisioTests/ShapeSheetTests.swift"
+        "Tests/MacVisioTests/ShapeSheetTests.swift",
+        "Tests/MacVisioTests/M3NumericBoundaryTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -9566,7 +9584,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -9589,7 +9607,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "CEILING finite/quotient-underflow and typed display-unit boundaries have bounded local evidence; full signature/coercion/context/reference contracts remain open."
+      }
     },
     {
       "id": "WP-15-T03-C015",
@@ -10215,7 +10240,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close FLOOR numeric/logical semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -10229,7 +10254,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -10245,7 +10270,8 @@
         "Sources/MacVisio/TypedShapeSheet.swift"
       ],
       "test_paths": [
-        "Tests/MacVisioTests/ShapeSheetTests.swift"
+        "Tests/MacVisioTests/ShapeSheetTests.swift",
+        "Tests/MacVisioTests/M3NumericBoundaryTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -10260,7 +10286,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -10283,7 +10309,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "FLOOR typed display-unit exact/adjacent boundaries have bounded local evidence without snapping/tolerance; full child/reference obligations remain open."
+      }
     },
     {
       "id": "WP-15-T03-C024",
@@ -12026,7 +12059,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close MODULUS numeric/logical semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -12040,7 +12073,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -12056,7 +12089,8 @@
         "Sources/MacVisio/TypedShapeSheet.swift"
       ],
       "test_paths": [
-        "Tests/MacVisioTests/ShapeSheetTests.swift"
+        "Tests/MacVisioTests/ShapeSheetTests.swift",
+        "Tests/MacVisioTests/M3ModulusTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -12071,7 +12105,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -12094,7 +12128,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "MODULUS finite/divisor-range/remainder/sign/error and first-unit semantics have14 passing local cases within67 focused tests/4 existing skips. Six actual native/public pairs independently reviewed. Current complete qualification and full signature/coercion/host/reference obligations remain pending."
+      }
     },
     {
       "id": "WP-15-T03-C047",
@@ -13520,7 +13561,7 @@
       "parent_task": "WP-15-T03",
       "work_package": "WP-15",
       "title": "Close ROUND numeric/logical semantic/context slice",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-SHS-06"
@@ -13534,7 +13575,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Calculation/Compatibility",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-15-T02"
@@ -13550,7 +13591,8 @@
         "Sources/MacVisio/TypedShapeSheet.swift"
       ],
       "test_paths": [
-        "Tests/MacVisioTests/ShapeSheetTests.swift"
+        "Tests/MacVisioTests/ShapeSheetTests.swift",
+        "Tests/MacVisioTests/M3NumericBoundaryTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31503AcceptanceTests.swift",
@@ -13565,7 +13607,7 @@
       ],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -13588,7 +13630,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "ROUND signed-16-bit precision, identity range, finite extremes and typed display-unit boundaries have bounded local evidence; full child/reference obligations remain open."
+      }
     },
     {
       "id": "WP-15-T03-C066",
@@ -18566,7 +18615,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Geometry/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-17-T01"
@@ -18580,12 +18629,17 @@
       "source_paths": [
         "Sources/MacVisio/CanvasView.swift",
         "Sources/MacVisio/DiagramOperations.swift",
-        "Sources/MacVisio/ControlEditing.swift"
+        "Sources/MacVisio/ControlEditing.swift",
+        "Sources/MacVisio/Document.swift",
+        "Sources/MacVisio/DiagramMemberships.swift",
+        "Sources/MacVisio/MembershipEditor.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/ControlHandleTests.swift",
         "Tests/MacVisioTests/EditorTests.swift",
-        "Tests/MacVisioTests/M3PointerProtectionTests.swift"
+        "Tests/MacVisioTests/M3PointerProtectionTests.swift",
+        "Tests/MacVisioTests/M3MembershipEditorTests.swift",
+        "Tests/MacVisioTests/M3MembershipTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31702AcceptanceTests.swift",
@@ -18598,7 +18652,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded_lifecycle_checkpoint_passes; full_child_contract_pending",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -18626,6 +18680,13 @@
         "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
         "scope": "Actual pointer move/resize protections and atomic refusal; full selection/rotation/protection inventory remains open.",
         "bytes": 17602
+      },
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "Extends existing protection slice with owned Cut/copy/removal proof, clipboard identity gate, complete connector closure and retained source-owner/policy guards. Full protection inventory/exact-build behavior and current full requalification remain open."
       }
     },
     {
@@ -21141,13 +21202,17 @@
         "Sources/MacVisio/ExportOptionsView.swift",
         "Sources/MacVisio/Document.swift",
         "Sources/MacVisio/PublicationBounds.swift",
-        "Sources/MacVisio/RasterExportPlan.swift"
+        "Sources/MacVisio/RasterExportPlan.swift",
+        "Sources/MacVisio/main.swift",
+        "Sources/MacVisio/EditorCommandSearch.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/LayerSettingsTests.swift",
         "Tests/MacVisioTests/DrawingScaleTests.swift",
         "Tests/MacVisioTests/M3OutputOptionsTests.swift",
-        "Tests/MacVisioTests/M3RasterBoundsTests.swift"
+        "Tests/MacVisioTests/M3RasterBoundsTests.swift",
+        "Tests/MacVisioTests/M3RasterFormatTests.swift",
+        "Tests/MacVisioTests/EditorCommandSearchTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31903AcceptanceTests.swift",
@@ -21160,7 +21225,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded_set_raster_checkpoint_passes; full_child_contract_pending",
+        "local_engineering": "bounded_raster_formats_focused_checks_pass; current_full_native_qualification_and_full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21195,6 +21260,13 @@
         "bytes": 39948,
         "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
         "scope": "Adds Page/Content/Selection PNG bounds to existing DPI/transparency controls. Physical conservative paint bounds, full-scene routing, raw selection draft identity, limits and destination/lifecycle refusals are locally qualified; exact-build parity remains open."
+      },
+      "raster_formats_checkpoint": {
+        "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+        "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+        "bytes": 75446,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
       }
     },
     {
@@ -21510,7 +21582,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Libraries/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -21524,11 +21596,15 @@
         "Sources/MacVisio/VisioStencil.swift",
         "Sources/MacVisio/EditorUI.swift",
         "Sources/MacVisio/LibraryPins.swift",
-        "Sources/MacVisio/main.swift"
+        "Sources/MacVisio/main.swift",
+        "Sources/MacVisio/PinnedLibraryLoading.swift",
+        "Sources/MacVisio/PinnedLibraryControls.swift",
+        "Sources/MacVisio/Document.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/StencilLibraryTests.swift",
-        "Tests/MacVisioTests/M3LibraryPinsTests.swift"
+        "Tests/MacVisioTests/M3LibraryPinsTests.swift",
+        "Tests/MacVisioTests/M3PinnedLibraryLoadingTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M32001AcceptanceTests.swift",
@@ -21541,7 +21617,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded_output_library_checkpoint_passes; full_child_contract_pending",
+        "local_engineering": "bounded local evidence retained; current full qualification and full child contract pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21569,6 +21645,13 @@
         "bytes": 10620,
         "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
         "scope": "Persistent offline library/master pins, scoped public metadata/search and native filtering with duplicate-name/source-path distinctions; full large-library/favorite-loading and reference contracts remain open."
+      },
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "Extends existing library slice with explicit local pins after visible startup, exact source Retry/Unpin/Cancel availability controls, manual palette identity and owned lifecycle/retained-resource budgets. Passing1065-test baseline; full large-library/reference contracts remain open."
       }
     },
     {
@@ -23458,5 +23541,19 @@
     "bytes": 39948,
     "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
     "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+  },
+  "membership_numeric_pins_reconciliation": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318,
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+  },
+  "raster_formats_reconciliation": {
+    "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+    "bytes": 75446,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
   }
 }

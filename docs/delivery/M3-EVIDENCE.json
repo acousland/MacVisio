@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+  "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -223,6 +223,103 @@
       "failures": 0,
       "excluded_native_tests": [],
       "record": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-membership-numeric-pins-last-passing-full",
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+      "outcome": "passed",
+      "executed": 1065,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-full-swift-1.log",
+        "sha256": "288f2c00febb71fe18e9cde694c64c3d8afcf605cdeb2027023798d5e9c1eb75",
+        "bytes": 309525
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Last passing complete baseline; not current4b9cf62 full qualification."
+    },
+    {
+      "id": "m3-membership-retained-owner-focused",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "passed",
+      "executed": 84,
+      "skips": 0,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-focused-1.log",
+        "sha256": "549235bf15bf76da9b7517bf2edaa5b0eca167051ed5d03ecebdcdceb0118be8",
+        "bytes": 25703
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Retained-owner/new-ordinary focused proof only."
+    },
+    {
+      "id": "m3-membership-retained-owner-complete",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "failed",
+      "executed": 1070,
+      "skips": 13,
+      "failures": 17,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+        "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+        "bytes": 316195
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Known activation assertions retained; no exclusions or pass claim."
+    },
+    {
+      "id": "m3-membership-native-benchmark-rerun",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "failed",
+      "executed": 5,
+      "skips": 0,
+      "failures": 17,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+        "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+        "bytes": 7960
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Isolated rerun repeats17 assertions."
+    },
+    {
+      "id": "m3-modulus-focused",
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "outcome": "passed",
+      "executed": 67,
+      "skips": 4,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/modulus-focused-1.log",
+        "sha256": "0babde94c0033e6adb6497540ec141062faa25e4c7bf4e1a6f794d29656bbeef",
+        "bytes": 24255
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Focused numeric/shared-host/field run;14 new MODULUS cases pass; complete suite pending."
+    },
+    {
+      "id": "m3-membership-numeric-pins-current-full",
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "pending",
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "No complete passing run for current source; JPEG/TIFF excluded."
+    },
+    {
+      "id": "m3-raster-formats",
+      "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "outcome": "focused_passed_full_pending",
+      "executed": 79,
+      "skips": 0,
+      "failures": 0,
+      "record": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -325,6 +422,16 @@
       "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
       "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
       "bytes": 39948
+    },
+    {
+      "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+      "bytes": 126318
+    },
+    {
+      "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+      "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+      "bytes": 75446
     }
   ],
   "five_compatibility_dimensions": {
@@ -334,7 +441,7 @@
     "behavior": "unverified",
     "interchange": "unverified"
   },
-  "unresolved_intermittency": "M1 accepted local engineering disposition is integrated with its deterministic snapshot/gesture regressions and repeated full-suite evidence. M3 focused results do not independently establish absence of races or release/reference acceptance.",
+  "unresolved_intermittency": "M1 accepted local engineering disposition is integrated with its deterministic snapshot/gesture regressions and repeated full-suite evidence. M3 focused results do not independently establish absence of races or release/reference acceptance. Current complete e891d6f qualification retains17 activation assertions in3 existing BenchmarkProfile cases, repeated in an isolated5-case run. Temporary reverted diagnostics observe inactive/keyless test windows and UserNotificationCenter frontmost. Cause and desktop clearance remain unproven;4b9cf62 MODULUS has passing focused evidence, not a passing current full run.",
   "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
   "accepted_M2_integration": {
     "source_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
@@ -345,7 +452,7 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_set_raster_slice_full_local_regressions_pass",
+  "current_execution_state": "in_progress_raster_formats_focused_pass_full_native_qualification_pending",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
@@ -380,5 +487,21 @@
     "bytes": 39948,
     "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
     "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+  },
+  "integration_allowed": false,
+  "release_published": false,
+  "membership_numeric_pins_checkpoint": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318,
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+  },
+  "raster_formats_checkpoint": {
+    "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+    "bytes": 75446,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
   }
 }

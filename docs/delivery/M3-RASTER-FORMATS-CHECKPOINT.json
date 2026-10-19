@@ -1,0 +1,1297 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T10:15:46.491436+00:00",
+  "state": "partial_engineering_checkpoint_full_native_qualification_pending",
+  "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+  "source_hash_binding": "Source/test hashes bind to git objects at code_commit, not a later working tree.",
+  "prior_checkpoint": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318
+  },
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Native File menu and command search expose JPEG and TIFF. All three raster formats use the existing immutable owned recorder/worker path, physical DPI and Page/Content/Selection bounds, frozen full-scene routing, assigned backgrounds, group expansion and one outward pixel guard.",
+    "JPEG is a single 8-bit RGB image on fixed opaque white; partly transparent artwork composites over white. Three ImageIO quality presets request 60/85/100 percent. Maximum remains lossy. Unsupported transparency and quality on other formats refuse.",
+    "TIFF is one 8-bit RGB/alpha image using ImageIO defaults. Supported transparency or explicit white paper are retained. No multipage, compression-choice, CMYK, palette, bilevel or higher bit-depth claim is made.",
+    "Both new formats accept fractional 36–1200 DPI. Physical density is explicit TIFF X/YResolution with integer ResolutionUnit 2; for JPEG this is in EXIF TIFF-IFD0. JPEG JFIF unit 0 is square aspect ratio only. The writer does not claim absolute physical density for JFIF-only consumers.",
+    "Existing 100-million-pixel, 100,000-axis and 128 MiB retained-record caps remain; JPEG adds a conservative65,000-axis product bound. Main raster preparation and captured snapshot semantics, source/destination alias protection, cancellation/closed-owner gates and staged output preservation remain.",
+    "Actual JPEG/TIFF/PNG outputs are independently checked with Pillow and direct JPEG APP0/APP1 TIFF-IFD parsing. All 31 retained images were visually inspected through unchanged-byte-bound contact sheets; 25.4 mm one-inch and20 mm public 1:50 markers were independently measured."
+  ],
+  "qualification": {
+    "focused": {
+      "executed": 79,
+      "skipped": 0,
+      "failures": 0,
+      "new_format_tests_passed": 20,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-formats-focused-2.log",
+        "sha256": "cd15d16dc2f0510b1b74a10cba61927c7cb86f6fea094efb7f9be70afbbc59ed",
+        "bytes": 23422
+      }
+    },
+    "focused_command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3RasterFormatTests|M3RasterBoundsTests|M3OutputOptionsTests|OwnedExportJobTests|M3PrintingTests|EditorCommandSearchTests'",
+    "full_current_source": {
+      "state": "pending_native_desktop_readiness",
+      "full_suite_passed": false,
+      "excluded_tests_for_full_acceptance": [],
+      "last_failed_attempt_source": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "last_failed_attempt": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+        "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+        "bytes": 316195
+      },
+      "observation": "1,070 tests,13 prerequisite skips,17 assertion failures in 3 existing native activation benchmark cases; later reverted-source diagnostic observed UserNotificationCenter foreground, inactive app and no key window. Current 100bdf7 full suite has not run; failed/pending is not a pass."
+    },
+    "independent_images": {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/independent-image-review.json",
+      "sha256": "2f5b08591c715ca5fd12864efd28011f9a0675dfdd9bf4716c1226570764e88e",
+      "bytes": 23552
+    },
+    "visual_images": {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/visual-review.json",
+      "sha256": "8d7c6fa2d33849a8e407066fba80a167eebd3b9acbda9cba3cdd20329bfe0546",
+      "bytes": 1174
+    },
+    "python_and_ledger_after_records": {
+      "state": "passed",
+      "python": {
+        "executed": 105,
+        "failures": 0,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-python-records-1.log",
+          "sha256": "3b58e864fd8e1f7d62dc4bf09f01e00faa5ed0ebc92194582f3eca07da315fff",
+          "bytes": 18240
+        }
+      },
+      "ledger": {
+        "requirements": 154,
+        "bounded_inventory_entries": 180,
+        "compatibility_accepted": false,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-ledger-records-1.log",
+          "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+          "bytes": 107
+        }
+      },
+      "scope": "Root post-record structural/Python validation with later JPEG/TIFF source100bdf7 present. This is not complete native regression or reference qualification."
+    }
+  },
+  "regression_dispositions": [
+    {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-formats-focused-1.log",
+        "sha256": "637dc575a7bf39953fc5c9f5794476d595260ba315e83c00f2ea0de678e44a9b",
+        "bytes": 36666
+      },
+      "observation": "First 79-test run had one failure: the proposed local JFIFunit 1 assumption did not match actual ImageIO output. The file already had EXIF rational 300 DPI and ResolutionUnit 2, while JFIFunit 0 described aspect ratio. The first code also imposed whole-number JPEG DPI solely for that unsupported JFIF assumption."
+    },
+    {
+      "observation": "Eight isolated ImageIO variants confirmed JFIF remains unit 0. An additional fractional experiment exposed Swift numeric dictionary inference: mixing rational resolutions with untyped integer literals can turn ResolutionUnit into Double, and ImageIO may omit it. Final code uses explicitly heterogeneous[CFString: Any] density with integer unit 2. Independent direct TIFF-IFD checks and fractional 300.5 DPI pixel/physical assertions replace the unsupported JFIF1 assumption. No JPEG bytes are manually patched."
+    },
+    {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-formats-focused-2.log",
+        "sha256": "cd15d16dc2f0510b1b74a10cba61927c7cb86f6fea094efb7f9be70afbbc59ed",
+        "bytes": 23422
+      },
+      "observation": "Corrected 79-test focused run passes, including 20 new format tests and existing print/output/search tests. Failed/corrected files and producer experiments remain retained. Full native event-routing qualification remains pending, with no native tests excluded for acceptance."
+    }
+  ],
+  "primary_contracts": [
+    {
+      "url": "https://www.w3.org/Graphics/JPEG/jfif.pdf",
+      "scope": "JFIF1.02 page 5: density unit 0 means aspect ratio;1inches;2centimetres."
+    },
+    {
+      "url": "https://cipa.jp/std/documents/e/DC-X010-2017.pdf",
+      "scope": "CIPA TIFF-derived image metadata: X/YResolution rational pixels per ResolutionUnit;unit 2 = inches."
+    }
+  ],
+  "limitations": [
+    "All 204 M3 children and milestone remain unaccepted. No push, integration, main merge, publication or release permission is granted. M2 release exceptions are not adopted for M3.",
+    "Full current-source qualification awaits native window activation after the user dismisses the system prompt. Focused tests, skipped prerequisites, independent local decoders and saved print PDFs do not establish exact-build runtime or calibrated physical-printer acceptance.",
+    "JPEG physical DPI requires an EXIF-aware consumer; JFIF-only consumers receive square aspect ratio without absolute density. No chroma sampling/progressive/profile/file-size/fidelity guarantee. ImageIO finalization is synchronous and not interruptible; a cancellation after the existing final atomic boundary can accompany a complete file.",
+    "New commands are native UI exports. The existing headless --render-document CLI remains PNG/PDF/SVG. Full raster/vector/print/catalog and remaining M3 contracts stay open. Crops remain conservative publication bounds rather than pixel-tight ink bounds; retained limits do not bound total process RSS."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "3694bc414d9cfaf7da55778de6b532c4c3e150eb684ab76b8d41f68d6f1a35d0",
+      "bytes": 110406
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "3d0527b346ec22a1a7db690486ad8a6772c1d43112aabf31f808a6c3e71fe41d",
+      "bytes": 26550
+    },
+    {
+      "path": "Sources/MacVisio/ExportJobs.swift",
+      "sha256": "6c8e78c4048c58c182e2f95bfdf742222a61f85bdb94269035441ea0654ddeae",
+      "bytes": 32413
+    },
+    {
+      "path": "Sources/MacVisio/ExportOptionsView.swift",
+      "sha256": "096617eaf90984f1dfe72e05283edeebabaff6cd3b61ca7da7b3e4c86fb3ca2a",
+      "bytes": 13563
+    },
+    {
+      "path": "Sources/MacVisio/RasterExportPlan.swift",
+      "sha256": "d2470c908e9bde6cac0f4fa11a40ef7944cd7238705b4077f13d6f9bd6d84936",
+      "bytes": 4118
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "ed08abe53ca43422dcad013c25a9080be3d37ac5e35b3b0f85eb1bf73f36e2e6",
+      "bytes": 35762
+    },
+    {
+      "path": "Tests/MacVisioTests/EditorCommandSearchTests.swift",
+      "sha256": "83e12f0d1109bd4ee8a9af716af9f2fdce264616a6e6b38adb1b9707009ffcf2",
+      "bytes": 11910
+    },
+    {
+      "path": "Tests/MacVisioTests/M3OutputOptionsTests.swift",
+      "sha256": "9ab6073db7ad075f081cdaf2a0ad26119ef0a1664163b2e1bd828b5d1873c667",
+      "bytes": 19769
+    },
+    {
+      "path": "Tests/MacVisioTests/M3RasterFormatTests.swift",
+      "sha256": "81f7d01224845efeb98b8b0fadb4c7fdabb4a6715695a87c239d9f7173200b16",
+      "bytes": 34665
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-focused-1.log",
+      "sha256": "637dc575a7bf39953fc5c9f5794476d595260ba315e83c00f2ea0de678e44a9b",
+      "bytes": 36666
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-focused-2.log",
+      "sha256": "cd15d16dc2f0510b1b74a10cba61927c7cb86f6fea094efb7f9be70afbbc59ed",
+      "bytes": 23422
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-jpeg-density-experiment-1.log",
+      "sha256": "8147f9fba26a5cf17e9d35f7fc9de67ec3b8d6c58e2f34fc3d937a94efa790cc",
+      "bytes": 4744
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-jpeg-density-experiment-2.log",
+      "sha256": "775085837fc0b8b719e9753232b62e3caee527c08c1131c192e76ecb6318677e",
+      "bytes": 4732
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-jpeg-density-experiment-3.log",
+      "sha256": "0e5bdb081158d8b51e32b13156124a20f01f70d3a079bf215cbb80328d614a2b",
+      "bytes": 4792
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-python-records-1.log",
+      "sha256": "3b58e864fd8e1f7d62dc4bf09f01e00faa5ed0ebc92194582f3eca07da315fff",
+      "bytes": 18240
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-ledger-records-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    }
+  ],
+  "retained_publication_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "97e254b1ea76fb6f863d3a61b4e643979a1c27c5541cdb745a7b79206f674538",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "eedb50a8a3ffe5b64780187081d47f6ff1da256ba9366baecc87a588a7e2bcf7",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "d5222baade71b7cdb1b46a5580abf010cc2c8411d32309a2a29663f86cfcc869",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "f722caadb55fdff1ec0b59d8063f8849235eca7ac891114845114db8fcc057f1",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "cbdaa07c521409469206cfe881d0c769d9176b7ca5cdf8c962a797bab1cc4262",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "689c0b926a21475a92f8a8bc1ae2c1d32c2713dc3e26e308d168f4d8cadcacaf",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "81272e84ba0ced6a0778023440aacd1e5a99b02cb5679a4369f6a5696c54ffb8",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "cdcc3c2268708ca79172e65df13d3bcb7e3f410343aecc7609f3ed432322272e",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "061c6cbc2d66f4f5fa422228406a3a5b82f724ce4b3855f9bb993b1342523ecb",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "71af12dcb3b37b8b2f3d8d0e5b2af5b477bf240062ae397ef7232a8b1d3314a0",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "fe2c2c56e917b22006c41a0255d4e75f61109dae6cca978cc8470308dcbdbc83",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "a706018d2efdafe207a6f213f7a64d0270d0fb7efbd57fabb29582347460bd52",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg",
+      "sha256": "1ab12e52332d445a6506196f03c3118e416b36eabd125a6689a9c5b1db3ed333",
+      "bytes": 2287
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg.json",
+      "sha256": "b7fe1dc3ae7a6fc0aa955e801913ce5913fac055a6d080c4c898ebbd14425551",
+      "bytes": 375
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff",
+      "sha256": "a48b5016af7e18dd54b2d9e0d2b68a635284c29889fcb7aff76b690e8adffd7d",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff.json",
+      "sha256": "ab175604b09ac93e7b836a5d17db5541aaaa3072e8baaa54ad26163a6ca169b3",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg",
+      "sha256": "a654551af51ded9ff150fce70259e4b31a89f7c194d48224bf640d3cbe410eee",
+      "bytes": 5061
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg.json",
+      "sha256": "7521c63cace22437c3d29dfe538378ace10c56435943d4261ed63607cf40a84d",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png",
+      "sha256": "ef0e6ea2edb39fbccc45cd8125d1dff1fa04ba15e025645442bd3f975188c63f",
+      "bytes": 2424
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png.json",
+      "sha256": "e6874a6ce64351ad1dc44d0b9a87ed171bd5b8cddf4470be1e41a8f2ae1316f9",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff",
+      "sha256": "0dc3841d2b7ddceb3f3c19e21165bb49503ed38e3f40e6612cc6c278eac760b6",
+      "bytes": 27250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff.json",
+      "sha256": "83d399ae742f788000e239b78d17a8c092930368fb9711fed313143262ad123f",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg",
+      "sha256": "edda48e906bede6f8f42a78d2786b1334da8d7e3320e7c5395b9f51c99015910",
+      "bytes": 2978
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg.json",
+      "sha256": "6b0dca5d9f26d453f1377643d9015fe6f0bb05266966391f01bcf07cdc9a2316",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg",
+      "sha256": "4e323d8cf97a4ab5a5020e23286a7cbf5d51bcb458a4c98e0075c1dbbaf614a0",
+      "bytes": 3874
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg.json",
+      "sha256": "1f52479aa10e99e6e396e21009130dc446c4de73eb3f4c7efa68174534346d0d",
+      "bytes": 369
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg",
+      "sha256": "8486fd7ca5a3b11f70c24b7e13239402c019ae40d87af42cbf0769a091e55334",
+      "bytes": 5529
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg.json",
+      "sha256": "cb93907e62df87d9e27915a3f063a4633c30637ade533cca311adebec3c4e1ff",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg",
+      "sha256": "81e88652f99f4a858170e53ac60ac66d51f7ad8826240a2656bbd1b8a65cf452",
+      "bytes": 13292
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg.json",
+      "sha256": "c97949390e03c1a5640096f315baee539435bd8d7f95451bc7402ed0b38345bb",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png",
+      "sha256": "b91191eee1f44fda78cca4ec9fef6bcc1668380043f68cbe346d30ac24ef7723",
+      "bytes": 1747
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png.json",
+      "sha256": "47c32b74d4db1a87e6d9b9cb603813f404161545839fa33ae837ce79273c6aa0",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg",
+      "sha256": "77e993d773be70626d19744e2e74671bb1924ab3fdcd1679f0529db92182d7de",
+      "bytes": 2693
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg.json",
+      "sha256": "f5b98ceb5c4eda0d2e1fee24d32a8fe8275532d313e971a04523f7a93b91c999",
+      "bytes": 443
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff",
+      "sha256": "744e4139eabb0979f6b99f189125ad9e09df3bf3fe03d7e40c312581a3edec12",
+      "bytes": 8186
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff.json",
+      "sha256": "f66fe69d7882d2c315dceda4141593852ca42a1fc199431bf26b648dfb004791",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg",
+      "sha256": "e3e5aca3375b350633863956568ba9399ff824726d71a3cbaef7764af9163343",
+      "bytes": 4965
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg.json",
+      "sha256": "c794b6738771bb48c7229b5519447c3645e0d9c4edcf6451a5b1b8dee5cebdda",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png",
+      "sha256": "953d282e839cd90f9a65e266c4b326006a1747f8d0dfa05f8c72c2a25de47a26",
+      "bytes": 1227
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png.json",
+      "sha256": "eabc05cf6ee759abbd7f42fd08b3eb64fda4c71b28d9418d3f86c1af792e1a58",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff",
+      "sha256": "4869221c709940a1b3825223e2e48f5b4eae059af837fa8a10669550c8472c60",
+      "bytes": 114986
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff.json",
+      "sha256": "365907217aa92ea36886b510c51b602aff5afb15309ce43bc3ff01eec447a54d",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg",
+      "sha256": "8842cd2e1c8669480e62adb5b406f5613214803c42aec31366b1c3ece98c49da",
+      "bytes": 2882
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg.json",
+      "sha256": "f233e491519c3df83207617c2632f06d3aba42480e70ea97e6f01b3bf0c82c7b",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png",
+      "sha256": "81f029bd71d0ff0524c799e89af3224e07b3f7ef93614ece689030f4a4a90863",
+      "bytes": 1324
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png.json",
+      "sha256": "d711db9fb7563ec3de1c84dba272d1b45de088779bbe0855b187cf891bb1fc4b",
+      "bytes": 373
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff",
+      "sha256": "4b811aefafcd83691c65d6a16b1dd398f6b90caa4d95d30aee52d86467b05599",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff.json",
+      "sha256": "2fb47326d9fb6a3f79b69a85469b31306122edf11ca2091541591dbcf4ee5814",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg",
+      "sha256": "773824d764d558a44324a56240fb492e5f81ea2b749719c1e17f75fe11a54c8f",
+      "bytes": 2953
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg.json",
+      "sha256": "2d5f4b78d14443b0c0b107875cbad78c993e410130b8c012567e58e4c487abde",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png",
+      "sha256": "b221ae7bb0a57d1a09cb0878d8779901b1da7ae42c902d33c3b59296d735e553",
+      "bytes": 346
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png.json",
+      "sha256": "d5d8cd9938d481307e8f54f57e1b9e4bb9dd8328d7bb6a575dc323954271bbb9",
+      "bytes": 446
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff",
+      "sha256": "393216bb50df31318411fb382945728bdbc5c2bf2434e1944a0aef5777658b85",
+      "bytes": 10666
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff.json",
+      "sha256": "0440e59c419a768d63486f8efa355f889bce9500b3c2e5d1ce9ad2b95345430e",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.0-white-1.0.jpg",
+      "sha256": "873c0189f309573415bf3e881e56c4f7f5cc7bb62aeb1399d3e6d297ba88418e",
+      "bytes": 13199
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.0-white-1.0.jpg.json",
+      "sha256": "c61568e8e3b62e6b7197b601cda1b70f82c801cb79e0fef05f87e345a3e86669",
+      "bytes": 375
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff",
+      "sha256": "235a490236e2a988c7ade53535fa54c20bfd017d0791e078a6a94355514330e4",
+      "bytes": 721498
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff.json",
+      "sha256": "ca927c8c69cb5d794ca56d4b923a0d125ff395b24b99ac1287dc757211dfbeb2",
+      "bytes": 384
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg",
+      "sha256": "952abe275beb44f8e08ec7df196f8ecae847da79ffd8bfcfd459dfe26684e54f",
+      "bytes": 3054
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg.json",
+      "sha256": "7c685ab5075e39bbe5464aa0913e44a3f11d49071414e765bf4e0eefcb04928a",
+      "bytes": 496
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff",
+      "sha256": "8e0fbd9117907aed70770d37d62aa7677fee42f04c09ed6cc4c332be08154c2a",
+      "bytes": 60982
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff.json",
+      "sha256": "543ec2361df59b8970b9cd7db0eb91bd30e5055d4929a1223a42776160dc9e4b",
+      "bytes": 501
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg",
+      "sha256": "9a6b5b543d2e975f1442d717db27c19b6dc39914483c9b094ae6b25ed3908361",
+      "bytes": 20441
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg.json",
+      "sha256": "5ae00493b844933a462ab40ffc05a7541350533f8a557b1a458ead9a355fd84a",
+      "bytes": 448
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png",
+      "sha256": "4ecb30e5fb2d0a3dc23ad0a192fbb78db7d4ca4398d727452f32d14f1eb93604",
+      "bytes": 9189
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png.json",
+      "sha256": "f8a4cc9c8a9b46a541debbe1547bf6b5b6bafd7a30cf813b29d97993d9e8a8c4",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff",
+      "sha256": "576ee206305bddb0fb5f1b02729f11bad74fcb8d1f2d5707297fbedc2610d967",
+      "bytes": 115274
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff.json",
+      "sha256": "313f19817205d0c93f0f1777bc8516b9f8f609d6fb9c10b529c887a8bee9be9a",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff",
+      "sha256": "6be9a2d340c7bb15c50a8e3bc30171d1ec138c74cc9ea0adc118eb21698ca4f4",
+      "bytes": 36166
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff.json",
+      "sha256": "55a8a33ebe2bec65edfce9a8fe3a9644aabfe77e481f801868de7fb997abda22",
+      "bytes": 518
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff",
+      "sha256": "839316bc54606744911156ab7dcc2eed4f92e701d71bd6250ab56383c265b3d9",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff.json",
+      "sha256": "811fed612414c5f1d2f50c14b32daf0ecb579f8ebf146e3b229772fa34ad0606",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff",
+      "sha256": "914570c1d59b8ddb876186825b265c009f2a6d01abc9b35d103824d155c82cf4",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff.json",
+      "sha256": "497479c9184bda97e38ed42ea59305d62944b3ff471e281212ca686bcba2d840",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "f35269c8245a4ddf7e24cc00443517c3f6d4332092f902510eeb2854e92e0c02",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "01973fd38ed2e081f4895dde926cd00ce37314053f448cc645767cdbfce8c1f7",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "dff6397a0c0cb63ae164bfc952318872bdf8822993abff101bd07c9413d97572",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "5fb0f178984654ccbf08170cf0eec9399d4afe5b49a8288315e01db026415531",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "2d82fc5214f0191b0e123b3cf077acc14a6b2fa1e237df1dc703018edc068215",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "d4cade01a362aa9d58ae6f4ef794fbb838a38913bcc157a24b442873af7c46f7",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "4a4d215f357f3886deafde33936715b4820f0d95b4dad207302384f0bef6f7f1",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "cb17792e1c5d779d81502109114c975c92d8da8cfbd4718bb3d03182c253e9b4",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "ab06487c034dfead1ca378c70aebdb0945906995edc815fe75ec3767e31cdc4e",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "bb004a4d8feffe257e6697bb6bb463ab8847f91c64ea196c2628680e571d4908",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "206f32a6f933d5e78ee7a41ed80d597485ff01f47172ca758554638f35295b35",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "4eeda33733893de86c901dfd3992aeb90a7389bbe3e9d1ab9cdabec820229f83",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg",
+      "sha256": "1ab12e52332d445a6506196f03c3118e416b36eabd125a6689a9c5b1db3ed333",
+      "bytes": 2287
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg.json",
+      "sha256": "b7fe1dc3ae7a6fc0aa955e801913ce5913fac055a6d080c4c898ebbd14425551",
+      "bytes": 375
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff",
+      "sha256": "a48b5016af7e18dd54b2d9e0d2b68a635284c29889fcb7aff76b690e8adffd7d",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff.json",
+      "sha256": "ab175604b09ac93e7b836a5d17db5541aaaa3072e8baaa54ad26163a6ca169b3",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg",
+      "sha256": "a654551af51ded9ff150fce70259e4b31a89f7c194d48224bf640d3cbe410eee",
+      "bytes": 5061
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg.json",
+      "sha256": "7521c63cace22437c3d29dfe538378ace10c56435943d4261ed63607cf40a84d",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png",
+      "sha256": "ef0e6ea2edb39fbccc45cd8125d1dff1fa04ba15e025645442bd3f975188c63f",
+      "bytes": 2424
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png.json",
+      "sha256": "e6874a6ce64351ad1dc44d0b9a87ed171bd5b8cddf4470be1e41a8f2ae1316f9",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff",
+      "sha256": "0dc3841d2b7ddceb3f3c19e21165bb49503ed38e3f40e6612cc6c278eac760b6",
+      "bytes": 27250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff.json",
+      "sha256": "83d399ae742f788000e239b78d17a8c092930368fb9711fed313143262ad123f",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg",
+      "sha256": "edda48e906bede6f8f42a78d2786b1334da8d7e3320e7c5395b9f51c99015910",
+      "bytes": 2978
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg.json",
+      "sha256": "6b0dca5d9f26d453f1377643d9015fe6f0bb05266966391f01bcf07cdc9a2316",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg",
+      "sha256": "4e323d8cf97a4ab5a5020e23286a7cbf5d51bcb458a4c98e0075c1dbbaf614a0",
+      "bytes": 3874
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg.json",
+      "sha256": "1f52479aa10e99e6e396e21009130dc446c4de73eb3f4c7efa68174534346d0d",
+      "bytes": 369
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg",
+      "sha256": "8486fd7ca5a3b11f70c24b7e13239402c019ae40d87af42cbf0769a091e55334",
+      "bytes": 5529
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg.json",
+      "sha256": "cb93907e62df87d9e27915a3f063a4633c30637ade533cca311adebec3c4e1ff",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg",
+      "sha256": "81e88652f99f4a858170e53ac60ac66d51f7ad8826240a2656bbd1b8a65cf452",
+      "bytes": 13292
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg.json",
+      "sha256": "c97949390e03c1a5640096f315baee539435bd8d7f95451bc7402ed0b38345bb",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png",
+      "sha256": "b91191eee1f44fda78cca4ec9fef6bcc1668380043f68cbe346d30ac24ef7723",
+      "bytes": 1747
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png.json",
+      "sha256": "47c32b74d4db1a87e6d9b9cb603813f404161545839fa33ae837ce79273c6aa0",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg",
+      "sha256": "77e993d773be70626d19744e2e74671bb1924ab3fdcd1679f0529db92182d7de",
+      "bytes": 2693
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg.json",
+      "sha256": "f5b98ceb5c4eda0d2e1fee24d32a8fe8275532d313e971a04523f7a93b91c999",
+      "bytes": 443
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff",
+      "sha256": "744e4139eabb0979f6b99f189125ad9e09df3bf3fe03d7e40c312581a3edec12",
+      "bytes": 8186
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff.json",
+      "sha256": "f66fe69d7882d2c315dceda4141593852ca42a1fc199431bf26b648dfb004791",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg",
+      "sha256": "e3e5aca3375b350633863956568ba9399ff824726d71a3cbaef7764af9163343",
+      "bytes": 4965
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg.json",
+      "sha256": "c794b6738771bb48c7229b5519447c3645e0d9c4edcf6451a5b1b8dee5cebdda",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png",
+      "sha256": "953d282e839cd90f9a65e266c4b326006a1747f8d0dfa05f8c72c2a25de47a26",
+      "bytes": 1227
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png.json",
+      "sha256": "eabc05cf6ee759abbd7f42fd08b3eb64fda4c71b28d9418d3f86c1af792e1a58",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff",
+      "sha256": "4869221c709940a1b3825223e2e48f5b4eae059af837fa8a10669550c8472c60",
+      "bytes": 114986
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff.json",
+      "sha256": "365907217aa92ea36886b510c51b602aff5afb15309ce43bc3ff01eec447a54d",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg",
+      "sha256": "8842cd2e1c8669480e62adb5b406f5613214803c42aec31366b1c3ece98c49da",
+      "bytes": 2882
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg.json",
+      "sha256": "f233e491519c3df83207617c2632f06d3aba42480e70ea97e6f01b3bf0c82c7b",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png",
+      "sha256": "81f029bd71d0ff0524c799e89af3224e07b3f7ef93614ece689030f4a4a90863",
+      "bytes": 1324
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png.json",
+      "sha256": "d711db9fb7563ec3de1c84dba272d1b45de088779bbe0855b187cf891bb1fc4b",
+      "bytes": 373
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff",
+      "sha256": "4b811aefafcd83691c65d6a16b1dd398f6b90caa4d95d30aee52d86467b05599",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff.json",
+      "sha256": "2fb47326d9fb6a3f79b69a85469b31306122edf11ca2091541591dbcf4ee5814",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg",
+      "sha256": "773824d764d558a44324a56240fb492e5f81ea2b749719c1e17f75fe11a54c8f",
+      "bytes": 2953
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg.json",
+      "sha256": "2d5f4b78d14443b0c0b107875cbad78c993e410130b8c012567e58e4c487abde",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png",
+      "sha256": "b221ae7bb0a57d1a09cb0878d8779901b1da7ae42c902d33c3b59296d735e553",
+      "bytes": 346
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png.json",
+      "sha256": "d5d8cd9938d481307e8f54f57e1b9e4bb9dd8328d7bb6a575dc323954271bbb9",
+      "bytes": 446
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff",
+      "sha256": "393216bb50df31318411fb382945728bdbc5c2bf2434e1944a0aef5777658b85",
+      "bytes": 10666
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff.json",
+      "sha256": "0440e59c419a768d63486f8efa355f889bce9500b3c2e5d1ce9ad2b95345430e",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-1.0.jpg",
+      "sha256": "617718012c7dbb7837feb48d3e5081e04315491023293c664f7b47d7c16128b4",
+      "bytes": 12922
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-1.0.jpg.json",
+      "sha256": "33b8ac19f962f5f5f9d498beded9b0d99f607b3bb2635271325b31d102b8e8e1",
+      "bytes": 379
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff",
+      "sha256": "235a490236e2a988c7ade53535fa54c20bfd017d0791e078a6a94355514330e4",
+      "bytes": 721498
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff.json",
+      "sha256": "ca927c8c69cb5d794ca56d4b923a0d125ff395b24b99ac1287dc757211dfbeb2",
+      "bytes": 384
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg",
+      "sha256": "952abe275beb44f8e08ec7df196f8ecae847da79ffd8bfcfd459dfe26684e54f",
+      "bytes": 3054
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg.json",
+      "sha256": "7c685ab5075e39bbe5464aa0913e44a3f11d49071414e765bf4e0eefcb04928a",
+      "bytes": 496
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff",
+      "sha256": "8e0fbd9117907aed70770d37d62aa7677fee42f04c09ed6cc4c332be08154c2a",
+      "bytes": 60982
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff.json",
+      "sha256": "543ec2361df59b8970b9cd7db0eb91bd30e5055d4929a1223a42776160dc9e4b",
+      "bytes": 501
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg",
+      "sha256": "9a6b5b543d2e975f1442d717db27c19b6dc39914483c9b094ae6b25ed3908361",
+      "bytes": 20441
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg.json",
+      "sha256": "5ae00493b844933a462ab40ffc05a7541350533f8a557b1a458ead9a355fd84a",
+      "bytes": 448
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png",
+      "sha256": "4ecb30e5fb2d0a3dc23ad0a192fbb78db7d4ca4398d727452f32d14f1eb93604",
+      "bytes": 9189
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png.json",
+      "sha256": "f8a4cc9c8a9b46a541debbe1547bf6b5b6bafd7a30cf813b29d97993d9e8a8c4",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff",
+      "sha256": "576ee206305bddb0fb5f1b02729f11bad74fcb8d1f2d5707297fbedc2610d967",
+      "bytes": 115274
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff.json",
+      "sha256": "313f19817205d0c93f0f1777bc8516b9f8f609d6fb9c10b529c887a8bee9be9a",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff",
+      "sha256": "6be9a2d340c7bb15c50a8e3bc30171d1ec138c74cc9ea0adc118eb21698ca4f4",
+      "bytes": 36166
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff.json",
+      "sha256": "55a8a33ebe2bec65edfce9a8fe3a9644aabfe77e481f801868de7fb997abda22",
+      "bytes": 518
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff",
+      "sha256": "839316bc54606744911156ab7dcc2eed4f92e701d71bd6250ab56383c265b3d9",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff.json",
+      "sha256": "811fed612414c5f1d2f50c14b32daf0ecb579f8ebf146e3b229772fa34ad0606",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff",
+      "sha256": "914570c1d59b8ddb876186825b265c009f2a6d01abc9b35d103824d155c82cf4",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-artifacts/focused-2/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff.json",
+      "sha256": "497479c9184bda97e38ed42ea59305d62944b3ff471e281212ca686bcba2d840",
+      "bytes": 377
+    }
+  ],
+  "diagnostic_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/JPEG-DENSITY-REVIEW.md",
+      "sha256": "fc15c9f25488e3d7c7410d7d5cf272ff858107e82564d122a3f65839fe84ce2c",
+      "bytes": 5678
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/all.jpg",
+      "sha256": "16ae6712c2e009491e655369320183fc7852e8196e838c774aaa8061c06134f4",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/global-both.jpg",
+      "sha256": "c95a42ebdc31aae006229266ec0873bead3a954d4a282107fd87706e9bf8e0ae",
+      "bytes": 703
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/global-jfif.jpg",
+      "sha256": "16ae6712c2e009491e655369320183fc7852e8196e838c774aaa8061c06134f4",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/imageio-properties.json",
+      "sha256": "9f078234b5eb7bbdb02c85759f63a496a3d6ca10eaa39e23791f282413362ff0",
+      "bytes": 4743
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/jfif.jpg",
+      "sha256": "f464a16e3e5fd7c8098d1b58af6742d4e93b4f2fed7b0f0bf547fd128b6a1a0b",
+      "bytes": 761
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/tiff.jpg",
+      "sha256": "17ba6ca5483992fd51823b8694e3a1a378b3821002cdf309a5d0f608eeb9f826",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/top-jfif.jpg",
+      "sha256": "16ae6712c2e009491e655369320183fc7852e8196e838c774aaa8061c06134f4",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/top.jpg",
+      "sha256": "16ae6712c2e009491e655369320183fc7852e8196e838c774aaa8061c06134f4",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-1/version.jpg",
+      "sha256": "16ae6712c2e009491e655369320183fc7852e8196e838c774aaa8061c06134f4",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/all.jpg",
+      "sha256": "db1814b78d245d33ba3e206e2670f1e40ef5d9b0946ee2c15d699a6c23c94aa9",
+      "bytes": 801
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/global-both.jpg",
+      "sha256": "c95a42ebdc31aae006229266ec0873bead3a954d4a282107fd87706e9bf8e0ae",
+      "bytes": 703
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/global-jfif.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/imageio-properties.json",
+      "sha256": "50c1ee803fffaadee75c2cc1605d7b683e604849bee4d333661e02b42622a8fd",
+      "bytes": 4731
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/jfif.jpg",
+      "sha256": "f464a16e3e5fd7c8098d1b58af6742d4e93b4f2fed7b0f0bf547fd128b6a1a0b",
+      "bytes": 761
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/tiff.jpg",
+      "sha256": "ab49f85b22e7e843dca8f4dad92034f6a15175fe848e977f7560bd8f3eea800c",
+      "bytes": 801
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/top-jfif.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/top.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-2/version.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/all.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/global-both.jpg",
+      "sha256": "c95a42ebdc31aae006229266ec0873bead3a954d4a282107fd87706e9bf8e0ae",
+      "bytes": 703
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/global-jfif.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/imageio-properties.json",
+      "sha256": "4c3a3de885be4968c40a3191e042043905b06cceedb7a39d3dd6c2185a9f12ef",
+      "bytes": 4791
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/jfif.jpg",
+      "sha256": "f464a16e3e5fd7c8098d1b58af6742d4e93b4f2fed7b0f0bf547fd128b6a1a0b",
+      "bytes": 761
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/tiff.jpg",
+      "sha256": "58400758e0272cadb143064d681c2daa21e1ee5ef4bef968063cdb4d69df6dc2",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/top-jfif.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/top.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/density-experiment-3/version.jpg",
+      "sha256": "6fcd691daec68db60a59f986370b9addb051efbf172f6201b0ae4dbefb80388d",
+      "bytes": 813
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/contact-1.png",
+      "sha256": "c9e0163c5a827704cece11b55f55631d1ab3e87cc8f62b48e3b2f8bfb1301bfe",
+      "bytes": 191554
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/contact-2.png",
+      "sha256": "10ee6c5a9f2cc6cc14086fd1b4d9a897f9a6eaf587471470490330a3ee712c26",
+      "bytes": 4829
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/independent-image-review.json",
+      "sha256": "2f5b08591c715ca5fd12864efd28011f9a0675dfdd9bf4716c1226570764e88e",
+      "bytes": 23552
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/focused-2/visual-review.json",
+      "sha256": "8d7c6fa2d33849a8e407066fba80a167eebd3b9acbda9cba3cdd20329bfe0546",
+      "bytes": 1174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/jpeg-density-proof.json",
+      "sha256": "986caa3517590cb10968a79f702ad7219803a7936168a67856c30fe09ba59204",
+      "bytes": 1803
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/m3-jpeg-density-experiment.swift",
+      "sha256": "1ff2f4e280da0a21aa1b518ded89fd35cea28bc1ec2a86bb4c557c5203c53030",
+      "bytes": 2385
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/m3-jpeg-fractional-density-experiment.swift",
+      "sha256": "567a86f3be979e5f44d2d11a952fd81b2dd9a00ed8eaa19c2681ac25c9d36732",
+      "bytes": 2401
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/m3-jpeg-typed-density-experiment.swift",
+      "sha256": "31da36e6dec689ef6e3e4b916ebf0df14acad58e51911a2c312ddeee6e5ae1f6",
+      "bytes": 2438
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-formats-diagnostic/m3-raster-format-review.py",
+      "sha256": "16f1f26ea906f629461fc57461d8aa9a962e7e336d55c04f5517ad94d8d97354",
+      "bytes": 6397
+    }
+  ],
+  "record_validation_log": "build/m3-evidence/2026-10-19/raster-formats-record-validation.log"
+}

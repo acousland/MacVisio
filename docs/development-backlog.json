@@ -119,7 +119,7 @@
         "All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability."
       ],
       "status": "In progress; local engineering and G2 unaccepted",
-      "delivery_note": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted."
+      "delivery_note": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted. Source4b9cf62 membership/numeric/pins continuation retains a1065-test passing baseline, later focused proof/MODULUS passes and pending current full qualification after retained activation failures. All204 children and G2 remain unaccepted; see delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json."
     },
     {
       "id": "M4",
@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Source 44bc3ca: 979 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Intersect/Subtract and PNG content/selection bounds; all 204 children remain unaccepted.",
+      "local_evidence_scope": "Source 100bdf7: 79 focused output/print/search checks pass with 20 new JPEG/TIFF tests; 31 actual images independently decoded/hashed/visually inspected. Membership/MODULUS/pin evidence is retained in prior checkpoint. Current full native qualification awaits UserNotificationCenter dismissal; all 204 M3 children unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9651,8 +9651,8 @@
       "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
-      "candidate_code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
-      "active_work": "Continue independent container/list relationships, explicit pinned-library loading and remaining local production contracts; exact-build reference and physical qualification remain open.",
+      "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "active_work": "After desktop readiness, run the complete current-source suite without native benchmark exclusions, then continue remaining local M3 production contracts. Native/reference/physical acceptance and release remain open.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
       "lifecycle_checkpoint": {
         "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
@@ -9681,6 +9681,20 @@
         "bytes": 39948,
         "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
         "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+      },
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+      },
+      "raster_formats_checkpoint": {
+        "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+        "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+        "bytes": 75446,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
       }
     }
   ],

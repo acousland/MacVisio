@@ -1,0 +1,2430 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T10:12:12.447145+00:00",
+  "state": "partial_engineering_checkpoint_full_qualification_pending",
+  "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+  "code_commits": [
+    "f2155ddddb600ed24a01bee188d322acb39dfa2c",
+    "e2e2cfed8e0ee5a47ea9b9bdfb04cf91e76550a1",
+    "f4854ef7d1ab47cb29290a722f63ddaf78465e7d",
+    "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+    "e891d6f20509db4a72084258b793241d38c2e5a5",
+    "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838"
+  ],
+  "source_hash_binding": "Only changed Sources/Tests are rebound here to git objects at code_commit. Planning discovery/inventory and prior checkpoint bindings remain immutable; later worktree/proposal changes are excluded.",
+  "prior_checkpoint": {
+    "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+    "bytes": 39948
+  },
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Independent derived Relationships index keeps group parentage separate from container/list/callout/lane metadata. The bounded parser retains SUM/DEPENDSON categories 1–11 and numeric page Sheet.ID!SheetRef targets. Only explicit reciprocal Container membership is editable; list/lane/callout clauses remain retained and read-only.",
+    "Membership proves public identity, namespaces, local structural ownership, supported literal role/policy units, reciprocal closure, mixed container/list cycles, protection and frozen public IDs. Master/MasterShape/ancestor inheritance and unknown/deleted/ambiguous/stale retained owners remain unproven even without local Relationships. A typed proof flag permits genuine new unbound ordinary native objects without retained structural metadata; ancestor uncertainty still propagates. No inherited structural runtime is claimed.",
+    "Native Memberships uses owned worker indexing, distinct UUID menu items, owner/state/revision/page/raw-selection/source/IME gates and one drawing undo. Source-backed/structural clipboard work is owned. Cut validates complete copied/removed connector closure, protection and clipboard changeCount, encodes bytes before publication, and publishes clipboard immediately before nonthrowing drawing commit.",
+    "Cached structural-owner candidate sets union geometry/field indices independently of scalar formulas. Warm transform checks use old/new candidates and retained indices with one page lookup; cold/evicted/order/owner-source changes can scan page size. No performance or activation qualification is inferred from focused tests.",
+    "ROUND validates truncated signed-16-bit precision separately from its documented identity range and avoids unnecessary scale overflow. CEILING handles nonzero quotient underflow. Typed ROUND/CEILING/FLOOR recover display quantities using reciprocal parser scale, without tolerance or boundary snapping; neighboring representable values remain distinct.",
+    "MODULUS validates finite operands, nonzero finite single-precision-range divisor magnitude (including subnormals) without narrowing Double values, uses truncating remainder to avoid quotient overflow/cancellation, applies divisor-sign correction, and refuses unrepresentable correction instead of fabricating a boundary. Typed results retain the first operand unit while arithmetic uses canonical internal values; errors preserve existing caches/source formulas.",
+    "Visible editor startup loads explicit persisted local VSSX library/master pins through one replaceable owned job. Canonical source/master deduplication preserves manual additions and identities. Native availability controls show full paths and missing/invalid/changed/unsupported/cancel states with exact-key Retry/Unpin/Cancel.",
+    "Pinned loading validates regular local source metadata before/after reading, shares the 16-entry/32-MiB resource cache, caps a result at 32 source paths/10,000 masters/32 MiB declared retained cost, and refuses stale owner/generation/pins or incompatible palette changes. Separate retained budgets do not establish a total-RSS bound.",
+    "Actual membership and MODULUS native/public save pairs are retained and independently hash/ZIP/XML checked. Existing Name-only FaceName attributes remain unchanged during unrelated edits. A native transparent pin-control capture and a separately hashed dark composite serve different visual-inspection roles."
+  ],
+  "qualification": {
+    "membership_focused": {
+      "executed": 171,
+      "skipped": 0,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-focused-2.log",
+        "sha256": "16f6d3d77d0a675f953fb55a66d39e410b2542de9292f755a30098907489e745",
+        "bytes": 51892
+      },
+      "code_commit": "f2155ddddb600ed24a01bee188d322acb39dfa2c"
+    },
+    "membership_full": {
+      "executed": 1026,
+      "skipped": 13,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-full-swift-1.log",
+        "sha256": "3bb8d54739d220ff5e18e6a6d27493dddb73dc7f63d2f157014130cefaabdc35",
+        "bytes": 298563
+      },
+      "code_commit": "f2155ddddb600ed24a01bee188d322acb39dfa2c"
+    },
+    "numeric_rounding_focused": {
+      "executed": 53,
+      "skipped": 4,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/numeric-rounding-focused-1.log",
+        "sha256": "300880684508e1b62ec88dc13fafa4119020cb9d1680193e97f1774be9d8817d",
+        "bytes": 20169
+      },
+      "code_commit": "e2e2cfed8e0ee5a47ea9b9bdfb04cf91e76550a1"
+    },
+    "numeric_rounding_full": {
+      "executed": 1041,
+      "skipped": 13,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/numeric-rounding-full-swift-1.log",
+        "sha256": "5e752e883b0839a4818744cdf1f9772efa3da7719dd67e42bb5c50cc51e04a4c",
+        "bytes": 302776
+      },
+      "code_commit": "e2e2cfed8e0ee5a47ea9b9bdfb04cf91e76550a1"
+    },
+    "membership_capture": {
+      "executed": 47,
+      "skipped": 0,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-capture-1.log",
+        "sha256": "bd79e0de7b9b7c823e3e747dfc2c4294f2749b5612fa180a97370264bf04344f",
+        "bytes": 15344
+      },
+      "code_commit": "f4854ef7d1ab47cb29290a722f63ddaf78465e7d"
+    },
+    "pinned_libraries_focused": {
+      "executed": 50,
+      "skipped": 2,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-focused-1.log",
+        "sha256": "7110aa263e1a353fd620dde743d1cb6cff2c26e5a5c1a45e67eb4a81b6aa2328",
+        "bytes": 29295
+      },
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d"
+    },
+    "last_passing_full_swift": {
+      "executed": 1065,
+      "skipped": 13,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-full-swift-1.log",
+        "sha256": "288f2c00febb71fe18e9cde694c64c3d8afcf605cdeb2027023798d5e9c1eb75",
+        "bytes": 309525
+      },
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d"
+    },
+    "last_passing_baseline_python": {
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-python-1.log",
+        "sha256": "6a69c24de8fff344d80acbd5b72e75aa4ddb79de32bc7556167bf63afa85e3e4",
+        "bytes": 206
+      }
+    },
+    "membership_proof_focused": {
+      "executed": 84,
+      "skipped": 0,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-focused-1.log",
+        "sha256": "549235bf15bf76da9b7517bf2edaa5b0eca167051ed5d03ecebdcdceb0118be8",
+        "bytes": 25703
+      },
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5"
+    },
+    "latest_complete_full_swift": {
+      "executed": 1070,
+      "skipped": 13,
+      "failures": 17,
+      "outcome": "failed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+        "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+        "bytes": 316195
+      },
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "failed_test_cases": [
+        "BenchmarkProfileTests.testCompletedCalculationSpanWithIssuesIsStillAFailedPhase",
+        "BenchmarkProfileTests.testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport",
+        "BenchmarkProfileTests.testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput"
+      ]
+    },
+    "native_benchmark_rerun": {
+      "executed": 5,
+      "skipped": 0,
+      "failures": 17,
+      "outcome": "failed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+        "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+        "bytes": 7960
+      },
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "failed_test_cases": [
+        "BenchmarkProfileTests.testCompletedCalculationSpanWithIssuesIsStillAFailedPhase",
+        "BenchmarkProfileTests.testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport",
+        "BenchmarkProfileTests.testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput"
+      ]
+    },
+    "temporary_native_activation_diagnostic": {
+      "executed": 1,
+      "skipped": 0,
+      "failures": 2,
+      "outcome": "failed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-diagnostic-1.log",
+        "sha256": "2b689da223cf49c88cfdc7a75296088e39b1bc72b1aba4944f47bf3af3e120cf",
+        "bytes": 2569
+      },
+      "source_scope": "Temporary diagnostic instrumentation, reverted; not an unchanged-source product qualification run.",
+      "failed_test_cases": [
+        "BenchmarkProfileTests.testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport"
+      ],
+      "observed_state": {
+        "active": false,
+        "key_window_number": -1,
+        "frontmost_bundle": "com.apple.UserNotificationCenter"
+      },
+      "inference_limit": "This diagnostic identifies foreground/inactive-window state, not a proven sole cause or a passing benchmark."
+    },
+    "modulus_focused": {
+      "executed": 67,
+      "skipped": 4,
+      "failures": 0,
+      "outcome": "passed",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/modulus-focused-1.log",
+        "sha256": "0babde94c0033e6adb6497540ec141062faa25e4c7bf4e1a6f794d29656bbeef",
+        "bytes": 24255
+      },
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "new_modulus_tests": 14,
+      "new_modulus_failures": 0,
+      "independent_package_review": {
+        "path": "build/m3-evidence/2026-10-19/modulus-diagnostic/focused-1-independent-packages.json",
+        "sha256": "f69a5f9a0943283f3bf83e10cc0edbf01fec343427a3f96461b16f1c99684ca7",
+        "bytes": 4402
+      }
+    },
+    "current_full_swift": {
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "state": "pending",
+      "passed": false,
+      "reason": "No complete passing run for current source. The last complete run at e891d6f failed17 assertions in 3 existing BenchmarkProfile cases; the isolated5-test rerun repeated them. MODULUS is focused-only qualified. No full2 pass exists.",
+      "required_command": "swift test --scratch-path build/m3-swift -j 2",
+      "excluded_native_tests": [],
+      "exclusions_used_to_claim_pass": false
+    },
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "outcome": "passed_retained_run",
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-python-1.log",
+        "sha256": "4baf3d6a7e226b66935fda55e8906a5a38ee7b244dd2930675bdfa94c6de350b",
+        "bytes": 18240
+      },
+      "scope": "Retained actual Python run before this records reconciliation; post-apply 105-check rerun is pending root."
+    },
+    "ledger": {
+      "requirements": 154,
+      "bounded_inventory_entries": 180,
+      "compatibility_accepted": false,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-ledger-1.log",
+        "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+        "bytes": 107
+      },
+      "scope": "Retained structural check; post-apply ledger validation is pending root."
+    },
+    "pinned_controls_visual_inspection": {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-diagnostic/focused-1-visual-review.json",
+      "sha256": "bf8c9f38e181e3f21c7f8af95f1680bba3b6dd2f287b5b1702e4cef637e55d09",
+      "bytes": 1097
+    },
+    "prior_membership_independent_package_review": {
+      "path": "build/m3-evidence/2026-10-19/membership-diagnostic/capture-1-independent-packages.json",
+      "sha256": "8adb52be812a4aa9c840ed56acee5a971875b2efd5a6561bac99c091252bb9fe",
+      "bytes": 2924
+    },
+    "record_post_apply_validation": {
+      "state": "passed",
+      "python": {
+        "executed": 105,
+        "failures": 0,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-python-records-1.log",
+          "sha256": "3b58e864fd8e1f7d62dc4bf09f01e00faa5ed0ebc92194582f3eca07da315fff",
+          "bytes": 18240
+        }
+      },
+      "ledger": {
+        "requirements": 154,
+        "bounded_inventory_entries": 180,
+        "compatibility_accepted": false,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-ledger-records-1.log",
+          "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+          "bytes": 107
+        }
+      },
+      "scope": "Root post-record structural/Python validation with later JPEG/TIFF source100bdf7 present. This is not complete native regression or reference qualification."
+    }
+  },
+  "regression_dispositions": [
+    {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-focused-1.log",
+        "sha256": "64ef68facecc8254344ea656eea4c51e72058c070cdefca3f7e03b80e2d92919",
+        "bytes": 63840
+      },
+      "observation": "Initial 153-test run had3 assertions:2 stale-source test assertions incorrectly treated direct diagram.visioArchive assignment as source-only; the corrected test uses successful Save As installation, preserving state/revision/page with changed sourceResource in the same lineage. The third exposed unsolicited NameU on an existing Name-only FaceName. Production now preserves existing attributes; exact preservation assertions remain."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+          "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+          "bytes": 316195
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+          "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+          "bytes": 7960
+        }
+      ],
+      "observation": "Complete 1070/13skip/17 assertions and isolated5/17 assertions fail in the same 3 existing BenchmarkProfile activation/event-routing cases. The 52 membership tests pass within that complete run. These failed runs remain retained; no unchanged-source successful full rerun is claimed."
+    },
+    {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-diagnostic-1.log",
+        "sha256": "2b689da223cf49c88cfdc7a75296088e39b1bc72b1aba4944f47bf3af3e120cf",
+        "bytes": 2569
+      },
+      "observation": "One temporary diagnostic test records2 assertions, active=false/key=-1/frontmost=com.apple.UserNotificationCenter. Instrumentation was reverted and is not bound as production source. CUA denied native surface access and a human desktop-readiness prompt is pending, as reported by the root task. No specific external cause or subsequent desktop clearance is proven. Independent local engineering/records work continues."
+    },
+    {
+      "artifacts": [
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-focused-2.log",
+          "sha256": "16f6d3d77d0a675f953fb55a66d39e410b2542de9292f755a30098907489e745",
+          "bytes": 51892
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-full-swift-1.log",
+          "sha256": "3bb8d54739d220ff5e18e6a6d27493dddb73dc7f63d2f157014130cefaabdc35",
+          "bytes": 298563
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-capture-1.log",
+          "sha256": "bd79e0de7b9b7c823e3e747dfc2c4294f2749b5612fa180a97370264bf04344f",
+          "bytes": 15344
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/numeric-rounding-full-swift-1.log",
+          "sha256": "5e752e883b0839a4818744cdf1f9772efa3da7719dd67e42bb5c50cc51e04a4c",
+          "bytes": 302776
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/pinned-libraries-full-swift-1.log",
+          "sha256": "288f2c00febb71fe18e9cde694c64c3d8afcf605cdeb2027023798d5e9c1eb75",
+          "bytes": 309525
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/membership-proof-focused-1.log",
+          "sha256": "549235bf15bf76da9b7517bf2edaa5b0eca167051ed5d03ecebdcdceb0118be8",
+          "bytes": 25703
+        },
+        {
+          "path": "build/m3-evidence/2026-10-19/modulus-focused-1.log",
+          "sha256": "0babde94c0033e6adb6497540ec141062faa25e4c7bf4e1a6f794d29656bbeef",
+          "bytes": 24255
+        }
+      ],
+      "observation": "Corrected earlier membership/numeric/pin source has its actual passing focused/full evidence; retained-owner refinement and MODULUS have passing focused evidence. Only afe81f5 remains the most recent passing full baseline. Later focus results do not upgrade current full qualification."
+    },
+    {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-diagnostic/focused-1-visual-review.json",
+        "sha256": "bf8c9f38e181e3f21c7f8af95f1680bba3b6dd2f287b5b1702e4cef637e55d09",
+        "bytes": 1097
+      },
+      "observation": "The original PNG is an unchanged transparent native content-view bitmap. The separately hashed dark-background composite is for legible layout inspection. Neither is an exact-build reference screenshot nor proof of a shown/foreground panel."
+    }
+  ],
+  "limitations": [
+    "All 204 M3 children and the milestone remain unaccepted. No integration, push, main merge, publication or release permission is granted.",
+    "Current full-suite qualification is pending, with known retained activation failures. No native cases are excluded to manufacture a pass, and no passing proof-full2 exists. Desktop readiness is not a blocker for independent M3 work.",
+    "Membership is edge-only. Lists/lanes/callouts, inherited master/style structural closure, automatic container resizing/motion and full context behavior remain open. Unknown source is retained; affected uncertain retained owners refuse even without local Relationships. The ordinary-new-object exception does not turn inherited source into proven closure.",
+    "Cut can retain drawing and report a system write failure after clipboard clear, while the clipboard may be empty. External pasteboard clients have no atomic compare-and-swap with drawing commit. Drawing undo does not restore the clipboard. Partial connector closure refuses.",
+    "ROUND/CEILING/FLOOR/MODULUS changes cover bounded local vectors and hosts. Complete signatures/coercion/error/context/exact-build semantics remain open. Existing prerequisite skips are not passes.",
+    "Pins are explicit local files; remote sources, inferred favorites/folders, automatic template opening, large-library streaming and full catalog/package closure remain open. Master-only pins still import the source under package limits.",
+    "JPEG/TIFF is a frozen but unapplied proposal at the 4b9cf62 checkpoint, excluded from its source bindings and qualification. Next work is JPEG/TIFF review/integration and remaining independent local M3 contracts while full native requalification remains pending.",
+    "Licensed exact-build Visio/COM, bidirectional no-repair interchange, same-font regional and calibrated physical-printer acceptance remain absent. M2 release exceptions are not adopted for M3."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/CalculationDependencies.swift",
+      "sha256": "88de228ffae4d3232b6d3ab358335f18d0d644b29f5b3de019e50c65ef94ecf1",
+      "bytes": 26234
+    },
+    {
+      "path": "Sources/MacVisio/CanvasView.swift",
+      "sha256": "8b2f15e72afeb43a7b1ddd853a010aff2a8bc2d269d5c4799420d1b5dcf5699a",
+      "bytes": 53435
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionEditing.swift",
+      "sha256": "4d20c03ff850201170e800df4834378a0f84ce12ebb7a7312722487570481d2b",
+      "bytes": 21686
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionSheetEditor.swift",
+      "sha256": "51a910f8d4aefb864c70bfb6e912f7228c9d67c9507c2f5de3fa2c41582bab89",
+      "bytes": 30892
+    },
+    {
+      "path": "Sources/MacVisio/DiagramMemberships.swift",
+      "sha256": "dd1fc6dfe3e8eef938ec45ec8f020cfc18590c9708a76098857d945ae20d85c9",
+      "bytes": 49866
+    },
+    {
+      "path": "Sources/MacVisio/DiagramOperations.swift",
+      "sha256": "b2bd784ce243a81d9d5255357cfdd3bcec95a7f9e44b8c787f65299397ec782a",
+      "bytes": 17096
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "4194eaec4dcf3b46fe1cc3f87959a3627e7fd1711b298f349fc66883353b98d3",
+      "bytes": 110266
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "c3dc0a3fbf96739778780affd67d73e6905c1db2a70cb2866bd122cff5621b52",
+      "bytes": 26262
+    },
+    {
+      "path": "Sources/MacVisio/EditorFeatures.swift",
+      "sha256": "254bb3f6639e4629cd17bfa06393f481f7af2e8f58f85d61c3d04747de5adc91",
+      "bytes": 29187
+    },
+    {
+      "path": "Sources/MacVisio/EditorUI.swift",
+      "sha256": "9af3a8e263ea3a2ff048550031742a743308b4f57f177b9a25d708e23398f0d3",
+      "bytes": 51327
+    },
+    {
+      "path": "Sources/MacVisio/InspectorMeasurements.swift",
+      "sha256": "05b5b6c0480564c7523b6cf3c76c14d5773aa94f09d044be2aa77ecf78cbce5e",
+      "bytes": 8149
+    },
+    {
+      "path": "Sources/MacVisio/LibraryPins.swift",
+      "sha256": "f39175eb2d4e1892432abd80166ebbc8ff21ba1c910e42bd38abd8ee3b8c0f15",
+      "bytes": 3717
+    },
+    {
+      "path": "Sources/MacVisio/MembershipEditor.swift",
+      "sha256": "ceda8c03d7e5fc229484de7c55aa8fb96513083bdcd2e24cd0e080704652c8a7",
+      "bytes": 29408
+    },
+    {
+      "path": "Sources/MacVisio/PinnedLibraryControls.swift",
+      "sha256": "741c5d1959fd145217362a29da1e88115b8afb02af042356c88935765e4eb8fa",
+      "bytes": 7745
+    },
+    {
+      "path": "Sources/MacVisio/PinnedLibraryLoading.swift",
+      "sha256": "80789fb89edd12db36f921545bcdaaa693c9caaa162e1ecc731e1a88155b4dd1",
+      "bytes": 22495
+    },
+    {
+      "path": "Sources/MacVisio/ShapeSheet.swift",
+      "sha256": "0e5701a0b18c2f35afc426bd812d322350ce26500377ce5f16ed3e6f580df54a",
+      "bytes": 24665
+    },
+    {
+      "path": "Sources/MacVisio/SheetCellEditing.swift",
+      "sha256": "e1d581e2d50effe77146aa7854c00811a88337ebdb55daed09c3dcdae98f5802",
+      "bytes": 2907
+    },
+    {
+      "path": "Sources/MacVisio/TypedShapeSheet.swift",
+      "sha256": "d08cd67bf691e8e8217c2ba9e34c002090ece342b4bb00d2af5bfa640236ff72",
+      "bytes": 21955
+    },
+    {
+      "path": "Sources/MacVisio/VisioLibrary.swift",
+      "sha256": "74b65cb416a692f6cdebdf15ee4bbe3bc053137f9fe9e50a2cdc483d2151ac05",
+      "bytes": 8337
+    },
+    {
+      "path": "Sources/MacVisio/VisioPreservation.swift",
+      "sha256": "9550303e3af2f4273fc7ffbfbbbbb2ad7be4f6c41af86bf6642a45b7648fd5a0",
+      "bytes": 70238
+    },
+    {
+      "path": "Sources/MacVisio/VisioRibbonView.swift",
+      "sha256": "b4d05216323c30099468cd9ebfcf710a9e49bd4c76d9e2ca5ee924fffab2ea6d",
+      "bytes": 37347
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "88fe97f403f2c30f7d4f2332ab84ef57f6aa8a6eb5cfe4337849929e252d7e30",
+      "bytes": 35606
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected-add40-page.xml",
+      "sha256": "a4d05a144145a73d5a616f277a2438c466f1daf97968ac3e9313270c55c176a1",
+      "bytes": 3357
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected.json",
+      "sha256": "2170adbc0f27457aeabdd16b07f022e373feb84292a69603973399087ffeafcf",
+      "bytes": 509
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/source.vsdx",
+      "sha256": "95a82df0187414b6fa9db689803e3e43e9d3465cba740f74a45aea965fa1cc22",
+      "bytes": 2728
+    },
+    {
+      "path": "Tests/MacVisioTests/M3MembershipEditorTests.swift",
+      "sha256": "19e075f6d1f2ab7589d216b9d1c5853b214c15a7d16c4e8d126c8330a545020b",
+      "bytes": 34801
+    },
+    {
+      "path": "Tests/MacVisioTests/M3MembershipTests.swift",
+      "sha256": "7e4e3ae0401871d0c6f23f5ca6f2c6a3afd67c7a4956a460f248a6c76306bb31",
+      "bytes": 57247
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ModulusTests.swift",
+      "sha256": "f25e3c5e36551e7ab9c1712ebacb354fecc6269b05483ab3b619269521a94fe0",
+      "bytes": 19495
+    },
+    {
+      "path": "Tests/MacVisioTests/M3NumericBoundaryTests.swift",
+      "sha256": "9b9c2de88ea75c6ab8e50b52d87fc56c5f4519415cb9cf7f372e2b1f546b02be",
+      "bytes": 15097
+    },
+    {
+      "path": "Tests/MacVisioTests/M3PinnedLibraryLoadingTests.swift",
+      "sha256": "e064e125f554cd8ccac67eeca897140a4127cc30879c9fa268bbfe01f8109a12",
+      "bytes": 30783
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-capture-1.log",
+      "sha256": "bd79e0de7b9b7c823e3e747dfc2c4294f2749b5612fa180a97370264bf04344f",
+      "bytes": 15344
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-focused-1.log",
+      "sha256": "64ef68facecc8254344ea656eea4c51e72058c070cdefca3f7e03b80e2d92919",
+      "bytes": 63840
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-focused-2.log",
+      "sha256": "16f6d3d77d0a675f953fb55a66d39e410b2542de9292f755a30098907489e745",
+      "bytes": 51892
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-full-swift-1.log",
+      "sha256": "3bb8d54739d220ff5e18e6a6d27493dddb73dc7f63d2f157014130cefaabdc35",
+      "bytes": 298563
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-diagnostic-1.log",
+      "sha256": "2b689da223cf49c88cfdc7a75296088e39b1bc72b1aba4944f47bf3af3e120cf",
+      "bytes": 2569
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+      "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+      "bytes": 7960
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-focused-1.log",
+      "sha256": "549235bf15bf76da9b7517bf2edaa5b0eca167051ed5d03ecebdcdceb0118be8",
+      "bytes": 25703
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+      "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+      "bytes": 316195
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-python-1.log",
+      "sha256": "4baf3d6a7e226b66935fda55e8906a5a38ee7b244dd2930675bdfa94c6de350b",
+      "bytes": 18240
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-python-1.log",
+      "sha256": "6faff6130de0278e78a304877a22339ad539c0e07df6a392301e43b4404e2442",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/numeric-rounding-focused-1.log",
+      "sha256": "300880684508e1b62ec88dc13fafa4119020cb9d1680193e97f1774be9d8817d",
+      "bytes": 20169
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/numeric-rounding-full-swift-1.log",
+      "sha256": "5e752e883b0839a4818744cdf1f9772efa3da7719dd67e42bb5c50cc51e04a4c",
+      "bytes": 302776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/numeric-rounding-python-1.log",
+      "sha256": "d7e76aa1f2f40008b974aba0146b52ba8d0ecf3710f812efcbfdd4f977384c9b",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-focused-1.log",
+      "sha256": "7110aa263e1a353fd620dde743d1cb6cff2c26e5a5c1a45e67eb4a81b6aa2328",
+      "bytes": 29295
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-full-swift-1.log",
+      "sha256": "288f2c00febb71fe18e9cde694c64c3d8afcf605cdeb2027023798d5e9c1eb75",
+      "bytes": 309525
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-python-1.log",
+      "sha256": "6a69c24de8fff344d80acbd5b72e75aa4ddb79de32bc7556167bf63afa85e3e4",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-focused-1.log",
+      "sha256": "0babde94c0033e6adb6497540ec141062faa25e4c7bf4e1a6f794d29656bbeef",
+      "bytes": 24255
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-python-records-1.log",
+      "sha256": "3b58e864fd8e1f7d62dc4bf09f01e00faa5ed0ebc92194582f3eca07da315fff",
+      "bytes": 18240
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-numeric-pins-raster-ledger-records-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    }
+  ],
+  "retained_publication_and_package_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+      "sha256": "9226ef4a09739ce44c4365bfa1bc221cb9685b19c26baf02605d1c53dac2e65f",
+      "bytes": 6018
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+      "sha256": "d5f944ea5d8bc10dfaf95548132d95542cf69b1bfbdfe96a50df44dc497489dc",
+      "bytes": 5282
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+      "sha256": "1740ce63f85fbea5eea76afd3623af38a697f1a2eac292fece14361b5a376f53",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+      "sha256": "03f3ac098b2394cca9a3ae982e7664002d7eaa0ac322e260a6aaee410d1e24ac",
+      "bytes": 6005
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+      "sha256": "44ebefa95ac08254464925f640c2595e69b60570be41212bee47607ca6853051",
+      "bytes": 5282
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+      "sha256": "0831477dcffbebd646f12ca27191a6db882e9f891d4c65db661ff0d93631c013",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+      "sha256": "14807521579325f4f66c540b1ce3b8014147608a24f641f5cf2b2d235e724042",
+      "bytes": 6024
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+      "sha256": "97982e3af9fe34ef23140c2b47982eb21af9dda6e424a322a9a932a86424743d",
+      "bytes": 5292
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+      "sha256": "6f8c94ecab90ef22553c93fde52827c9463551153dfb6333e7f6f9d413ffa594",
+      "bytes": 2779
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+      "sha256": "ef1e67adf22f7ff0834b9f485e58ca1ce9405c0e28388575a80ec62c2c18c5ca",
+      "bytes": 5873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+      "sha256": "846c1a10f7d8337d1c6441f9223391fe8218d2158f8f9a7a3a37ea609ab62e2d",
+      "bytes": 5281
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+      "sha256": "d6b39e87d618348efea4cf40584a219f1dfceb467766755d44e2e6eb78248d14",
+      "bytes": 2774
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+      "sha256": "61f3a0086e1f7313411e89f3dd04a9c4779984c5e1f8e7f1e94d792187ceaa9a",
+      "bytes": 3277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+      "sha256": "c8544ab95bfc0891a36f751e0d06d3685ba8b5bd7200c2b1b904653f9d0021f8",
+      "bytes": 7007
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/capture-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+      "sha256": "d892d61c7477d7f6dd628f48c34085552a51c0cb6e12684e32643c3690c71255",
+      "bytes": 4085
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/focused-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "5a128de0d4b1026376506a541528078aa869cb139fbb7fec315cc206aac913e5",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/focused-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "89d1e859ac629e6cda82b2832c1e77ae7a7363a941c3899ac2c69fb349e5e727",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/focused-2/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "b297c50ce50ace8812c12f4ddc9ebfdb17d11f89a293a292ae394941303b4df9",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/focused-2/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "826e187af65f7c8b53cc56d30bcbd7a4c4af81e633c3bb06c6b809da153aacce",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "11c0bb320f9b0b480c0d63e2682ba72fe3a8b04635734a469e49a6ce67132611",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "9c56bd75946b1686a14bcbedf243c589e2ac62f085278c989d8b1b14bda791c2",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "e2c3a596aeaadf4607498c08f8e84cda47623bc2a71fa08744416e2817897c2c",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "70dde9870d6255c86fa2787e7de26d4595463ff1b486587989c48c191fcf3907",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "899041289b8a1bcc3e81fc48b292fbdd6acca83c3000eb2d04c9755a0600c8f7",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "b97f7c5eb173bcc3703cd0c5e340d4dee849914cfefb0fcd8e69319e5903caf6",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "0c2f011002f4af934d11426dac6646ea684b5b1f4932c131ab851b35f47d3121",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "6dd0c9b34c4ef444df35d3627eb9fb4db4449fa77611a4d67e2bbc6a2fd5b4fa",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "6ec1f8738a3b10d83a9634218a3f40a16001996297f33b61d7edcf4449f38847",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "7338c210152d523306fc57c97ce5b72f964e6bdbee50f024e3caee0bceb8d34b",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "e1b70be57a4b5a9c54b744b49c41b604f386f048344fddc6c75491c9b2d08cbf",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "0e42a77c24bc70ba89f0ebfb61b4156ac6829a21a0246d1c616ad6166906f1f7",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "93f4901d5bfb2f85f570a74e0d9816030ab641ff75c68bfc66395ab6dda63a85",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "88db19d4c16adfec2886f2ecc63e1b89c12bab1a5b23faa5dc3f9a6e3751162e",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "f50feeeb9902f39abfb15dc1e72167b92e6045e09d5e8c60fa44be428cb9c591",
+      "bytes": 6394
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "bee668d37056218fcc3cbdd70e89a39d970960f60652e7e7b66d98e054faa1f0",
+      "bytes": 3624
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "d33bc901fd9cc734b97e4d023591fc7819099c19a56489e51ff5169f9f35f39a",
+      "bytes": 6550
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "e54c12d8e7b64a5e22b8a0256ec84457ee86ebf4cfb5286fa96d56cc5d2ad9cc",
+      "bytes": 3662
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "458d1bda8206783e787717c400051f32c6a0c98823f67012992f68ac6d85752c",
+      "bytes": 6909
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "db78bcc888c3eb26a7d47f54ae5687a4242f97a6e5a6e7a6eeba031cef1242c0",
+      "bytes": 3796
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/focused-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/manifest.json",
+      "sha256": "0d95ea6c88544d0db713e31925ac5b2589cf62eeea345fa5ba8d2093cc61b27a",
+      "bytes": 824
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/focused-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/pinned-libraries.png",
+      "sha256": "683837a5590254b5ad44cd7e6033ce85ff3fe6240662ebca5f289f8d8387e050",
+      "bytes": 114732
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "65c4293f0b929ffd34e78b4586c3c001eed4bea1d91a82cd29813f2840937ddd",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "564a34fb776e5955c8b5326caca7a86d48dd96eec7b39f41bd1a9ecef978e352",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+      "sha256": "54fb20f7697ffcee70c38980f64c4793624e91d1a86a02ffb71d6706d16a4606",
+      "bytes": 6018
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+      "sha256": "c8f92d514d477346039b0eaa7476980df880c72177a344590647efb61bfbc0cf",
+      "bytes": 5289
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+      "sha256": "2a48643e0e769735c13fa2e7ee0e3c61147b8531ba29646ba27c83b5e9839f03",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+      "sha256": "017939b08ce816707f1f186ae636d4b1e5c774512f2d6477e72972d8d9ed77f7",
+      "bytes": 6005
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+      "sha256": "6ecdd7f943be25f402b6e8e71deb238483dd846c3f5e485e2e868fc72293e7b3",
+      "bytes": 5280
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+      "sha256": "efd7446b9d95b646c79fb081b09d88166a3474e8664a2a9770961f664a69db28",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+      "sha256": "ecb7ce2a3c439e4d9f541403e72dbdde356ddf5c3632078a51aface8e33b16aa",
+      "bytes": 6024
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+      "sha256": "576c213ae12cfa939397fe50bd63baceaf2608f59b6f3144eaf78d61df36855e",
+      "bytes": 5287
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+      "sha256": "54399f8616b8e207d26396046c58b806304e2350123c788898bfde15c413b42e",
+      "bytes": 2779
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+      "sha256": "f8e643c4f7d65458d9035765a3bdec1d1cf9fb06dfcb54976741f8f5565dfe88",
+      "bytes": 5873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+      "sha256": "db66a04d852f5aa25bd075396fc971f5465a950920c1eb880c5131eb6ba91049",
+      "bytes": 5275
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+      "sha256": "0c0db7c26060a6c4dc4ac49e7944db79f4b96cc089bafe7c23401653d27fbc4d",
+      "bytes": 2774
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+      "sha256": "a6d75e039a3e853b645e6ed06ce06d47cb8689de3ab2fc2aec72875c24f9f0bc",
+      "bytes": 3277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+      "sha256": "835a025eb23d8fc5452f1384fbaee0ede9a5027c67fc357d400449c42a5da30f",
+      "bytes": 7016
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+      "sha256": "8aa8b9add635febd3a36e3e7a8b7035914834aee02aeff24c6d5fa11a25dc4b4",
+      "bytes": 4087
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/manifest.json",
+      "sha256": "09726b7460d5e96fd90a58abd7ccd442b46f5134bd1abb74c305b6363a9716eb",
+      "bytes": 824
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/pinned-libraries.png",
+      "sha256": "4b45c95c78c8952ef33cd8772ee051090dcbe894ad9bafd3c2462ea49e312690",
+      "bytes": 113583
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "26bd39cb65e8dbf227ca5d4d4d195bc725c90e6503a62fb5452761bc4173afb8",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "c9b5c865f4faf7aaa4d6ac35a1b343e228d7f8c1d10f2c87bfb57fa3bea9cecb",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "a094322db35d500edeeb2d00f5686b76affd5b78b6f4b1c01b8f81f4764dcfab",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "a3f8ab5f846108549d2307802d8b1b10b4190ef2ad0b3fe0ff88fc96d7c0ccba",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "4129b3b67173b5f52c2b3a5e29a8b118c514d834fdd356785a975bb7c76ddf0c",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "cd0dd7e683bf906b40ec49252154529898e1a190231f6002696fc9431f9fc3d6",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "c2e65283ad4cbfdbfeee300d71b9a3c62904388ee2aadbdc21efc18190f0ac24",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "6b1e10f49eb857d86ca7c00b1679d8ff9da510cac569a8f59ba8968d05412265",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "728fec909ce1cc3ac1cfe9e4eb40a7bc97d6258a2a2d8867e3eac627db2553f4",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "4f3fdb4fd0eca4ad0799d461f09cbe21a9d19e994bbd74e9413bbd30e025b7d6",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "29c65c8a4903e76af5fb9fd78d9062df3e79508390857ef54d73e01b7455df8b",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "91bc2e8d1447239f5205dc289af4ec2a5b36a4419021f4a0c159f7a5caeea894",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "a4e9a41cf8138ea9c0cec2605448c89cc2b07b272b784c6c1ef1c1e0613a9ea6",
+      "bytes": 6398
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "86e59da7c0d49bb9b5ecd49206d2ed0f6019051bab72c1ba21e100aec3ed8bd2",
+      "bytes": 3633
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "5c5113134bd76747bb2a9c75e795d4222324aad28e220cec2a0689c058138dc8",
+      "bytes": 6544
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "e2a891a3aaf9e674b07ac2b8dbbb6d5d23dacc57f165a95d09441b554d566efd",
+      "bytes": 3664
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "9aa2d259e7d6e0315055c9fe6631bd2236cda9230d5d00b0485c769764c672ed",
+      "bytes": 6912
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "ebc33b89a2aace8659d096c1a5b462588fd69436d5357b48c7f5237815536310",
+      "bytes": 3793
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+      "sha256": "2e71f77563e1a05c73b31c07bbf78d050fa0fbde39c9fecbec1dde8d2aeb00bc",
+      "bytes": 6018
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+      "sha256": "6ecd6913b10e613940f31bb6a35d62d420b94aecb6a819579775fa8ea6c15856",
+      "bytes": 5284
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+      "sha256": "a87daa9c754cafd3fd52767b16f532dcfbf0efcecbb8e5165016f23aaeccd275",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+      "sha256": "c5fec9a1c9a74795bfbcad48421f0e3e7d42e88309529022b5707846e65e739e",
+      "bytes": 6005
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+      "sha256": "0254fb81ea32bd585ba001a92fd08018ba870927cf6715797ced257837784b25",
+      "bytes": 5284
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+      "sha256": "a4c808519ad39a766781b5e514d8e5eb202ac55eb69d6dcdff34570aeeee7e08",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+      "sha256": "a581327f048a86e3a6fe3e0f2093e9447f57e075d99d18fbd9945a5641d2a95e",
+      "bytes": 6024
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+      "sha256": "41a80dfc10b9c93cdeb351795e559eb0c68be158cc9ee76c6868611b39005b5d",
+      "bytes": 5290
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+      "sha256": "95c950e6f34ffbce79fc8e8824deafdef76712fe611a9c0bb7971335c4545429",
+      "bytes": 2779
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+      "sha256": "b6f9f3cbac5612a1791aa37639fd15faa428b0d049244fcb4ee77cde63218990",
+      "bytes": 5873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+      "sha256": "f167cd3b5c64699c7774f4a99cd29b13a1174de702e22ef95a3760d5a384cff1",
+      "bytes": 5277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+      "sha256": "a6412964b7ae974793b27692c5663aaa2881c1874801fc7c96e3a665e5492f8e",
+      "bytes": 2774
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+      "sha256": "04128fa5296913f474f0af5bdbc8df12eae227ca6599eefa016b4ffa57db8b36",
+      "bytes": 3277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+      "sha256": "6c32c9c726e2b2ff27bf090d6c0a0381cc9a1ffb400f279908214b5f215840bf",
+      "bytes": 7013
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+      "sha256": "a4106278746d855d4620f8fc34488e625ce46af5bd64c2ebe818419b2388697f",
+      "bytes": 4087
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "04f01d6af58243ee6e3c1e675f79a2895cbd11be23c034af162be483a29952ba",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "040df6285f1deebb4b9c6077678e895cb65175c37c9468afc38ace1857f0345e",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+      "sha256": "7923ddd68ebbda7982a0cefa85fc5c7603ccb9db84de1332ae02fe24f835942e",
+      "bytes": 6018
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+      "sha256": "2e7a63d9b4b7d6873932b8ea6ab70c46fcf1f107e610d2df9dc4adfdc1c0c234",
+      "bytes": 5280
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+      "sha256": "38859b2b96942b3e80030c2ee90d6442b1fe03e055f8396b6abc8176904b8c4b",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+      "sha256": "6861aef96b9549d7c2c7d4d45ebdb1e4531ebc877df7ea4fc36e6db3a723477c",
+      "bytes": 6005
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+      "sha256": "aba08c3fb39881f0723abab516179afcbfeb500ecf0a33d95cec8b949f309165",
+      "bytes": 5283
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+      "sha256": "f6ed397a88d6d45afdde201a0be8ae4f8edca06189c9d286acc57e2b66d91bdb",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+      "sha256": "9220b2474a0af2c188b3b5309fcbc4404a860d9e4563fb5d77b41aed308cb662",
+      "bytes": 6024
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+      "sha256": "8038a67b32ba2db2624c0feeed827193c31bf559a10df37c7b14cec3db470f4e",
+      "bytes": 5283
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+      "sha256": "2f9de878cd2dd9881ae4520a66410bff8000bf5f962edf463add6bfd6a6d357e",
+      "bytes": 2779
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+      "sha256": "370263d1a7c86d39cfc6711b1ec829fbe01c825a78cffd410820ae5b431e0b7d",
+      "bytes": 5873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+      "sha256": "cbf356c4bde9c97c3c4849aba2180d37ba0f7e67dbbc021df9f5618da8437e27",
+      "bytes": 5278
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+      "sha256": "4d347785f7d788b9c749e5eb35706200ff9761cd8058a73f7166571ff1cb4966",
+      "bytes": 2774
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+      "sha256": "b7e6e5817563472c6cffecf4fa66f6cf89f5bddd5a9c9865a7a77bc5ed438425",
+      "bytes": 3277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+      "sha256": "9f0ed2f7e9d86107afc784359e461a96ba5da7bf00411af0f2e63c4a150dc31b",
+      "bytes": 7012
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+      "sha256": "3356b8b1c6ddb390f4b3dda199374de5281c43e0976ba773b18ccb852c97a8b8",
+      "bytes": 4085
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/manifest.json",
+      "sha256": "2f68bce20d67140436391b1d67bc2e029f10e46dfec6817a60b1535f7fee1758",
+      "bytes": 824
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/pinned-libraries.png",
+      "sha256": "d6e5bcbfe2cf58553dfff10e306e777398008c7015328f028b11634afb8d7af1",
+      "bytes": 114848
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "1936f32681f35fd0799c0c7fd7f8958eedc66c1d5d9025bea1289bcea7b13b73",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "b412029e49ad774b9a0ff8f79f236034f15df6ab1487d666439b617ff0d1a826",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "7c85edfd342564cd234c245b6bc4908994d3822f126fb8f0325ed8ff31fc4db4",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "22f832397872fe7e53adf132493fd9e6f7036b62bebd8469c5541de5d99791d4",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "dea1300172e725e57e53e6802ced757555ed4208a5177d4fbc5b50a9d1a8cb3b",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "0526a26d443859c8b6bc35ba65404f488e98b26d04b68a39c10e7395de872e52",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "aa1cc63f29f71927c6ae0b5b05725b02448860af6b30751fbf12118c64f56db3",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "4549ee1cdcada974400883949162f78d4586834e151149dfe839f76c0ba6bdae",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "6248d1f841d5b62e807c4a658820179d5fbd318753683844332f64423e16e022",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "2299f66b1980073e79352abf34abc410cc00adbcf3ddebd4dafc111efa8eabea",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "fb54d05c4376d969a8b4eaca311241d5361c2129f98c170cfff8c5cc55563f5b",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "70348db54d738a8cb10745dc75420cbc5e2da89d8493e6d27c1f97116a59ce31",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "5b6073d70d85a19a716cb867a199b2aced944dd1c3c2a43ed0998b393269c15c",
+      "bytes": 6400
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "3009f8635ec28aaba9dafce99667ea8f0bfbd5d3ebc8348eee9f22c5cf170bda",
+      "bytes": 3628
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "ef6027ff53de312e2830173924c0bc3eac4e7f262b598baca3a5c56bc2ff5af9",
+      "bytes": 6557
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "d951aa7c80b5261434ba3bd42b9a7280e2f5d51f50255655539ffc0f8fdecc47",
+      "bytes": 3666
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "da1f4562240568ecc972c241d8bd922d2b4d2d6e2eeb96fdde9e87f597d82fa7",
+      "bytes": 6917
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "797de01d237e24f3ae610e515a7d68119ef885b5e42d247164de3e45f88970d0",
+      "bytes": 3794
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/manifest.json",
+      "sha256": "bc8c29c698d7303c21376986894bd148644bb0db6047e1383cafdbf3e09f3c40",
+      "bytes": 1162
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/native.vsdx",
+      "sha256": "7f004c66f1d99a4db774c061b1b67a1b9f72deba10d61e82b366f34c8f984f79",
+      "bytes": 6150
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/public.vsdx",
+      "sha256": "2a5c11be3b3dcfcc5c4e88f13e2f62b41410987ceb7963eeba22e6d1e1a9a594",
+      "bytes": 3595
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/manifest.json",
+      "sha256": "ef69b951ee27bf6b3261e047e78dbf34b58b1d8147471ec7f1d662bd1a9020e3",
+      "bytes": 1171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/native.vsdx",
+      "sha256": "15fd6d0dda8e68b6d9327bd36139d8865f09a6416bf1cff3ef1b76e819ea120b",
+      "bytes": 3570
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/public.vsdx",
+      "sha256": "15fd6d0dda8e68b6d9327bd36139d8865f09a6416bf1cff3ef1b76e819ea120b",
+      "bytes": 3570
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/manifest.json",
+      "sha256": "62dd2974219c4a247576496ccbc728b7d61fad3b3b313594edadb23abe518151",
+      "bytes": 1172
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/native.vsdx",
+      "sha256": "bf70c2da5c2f3f7f3d46d4861fe445731834f92bad4e7fbaebd0758f8a638ded",
+      "bytes": 3571
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/public.vsdx",
+      "sha256": "bf70c2da5c2f3f7f3d46d4861fe445731834f92bad4e7fbaebd0758f8a638ded",
+      "bytes": 3571
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/manifest.json",
+      "sha256": "340d3c5a2c9178fcff95f4e083e06dd3d170370754f263d5270289736f0c19b9",
+      "bytes": 1174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/native.vsdx",
+      "sha256": "4f23d3772375f0f05a5d96ea794505842c08a3d1f0074d5bac0657183f9f71d7",
+      "bytes": 3575
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/public.vsdx",
+      "sha256": "4f23d3772375f0f05a5d96ea794505842c08a3d1f0074d5bac0657183f9f71d7",
+      "bytes": 3575
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/manifest.json",
+      "sha256": "e75bd766241fdd5301457a24893ea63a9cfa1d380181b0d8c7914226b9355110",
+      "bytes": 1181
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/native.vsdx",
+      "sha256": "ac3c8ec48ee7f25035585a514af234dbd26f837b87ba454a22c47d47a3b3f29c",
+      "bytes": 3573
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/public.vsdx",
+      "sha256": "17265ea7726ebf370483a3daaabfae5911eafad4c5912070a1dd80a69ba32a1d",
+      "bytes": 3573
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/manifest.json",
+      "sha256": "7ed28b9a73bd4fcab3f7d4e880a810bcb0868a0b732538bd08e2366224b7d597",
+      "bytes": 1161
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/native.vsdx",
+      "sha256": "d3503c75eabaa7889f7581af2a823aca89cd2ae786cc892d2e66914e9fa81700",
+      "bytes": 3566
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/public.vsdx",
+      "sha256": "d3503c75eabaa7889f7581af2a823aca89cd2ae786cc892d2e66914e9fa81700",
+      "bytes": 3566
+    }
+  ],
+  "diagnostic_publication_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/membership-diagnostic/capture-1-independent-packages.json",
+      "sha256": "8adb52be812a4aa9c840ed56acee5a971875b2efd5a6561bac99c091252bb9fe",
+      "bytes": 2924
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-diagnostic/focused-1-on-dark.png",
+      "sha256": "f86bbea038be966b66d733325dd97a6d2e53d22b9e62002c81c756efce3496c6",
+      "bytes": 92119
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/pinned-libraries-diagnostic/focused-1-visual-review.json",
+      "sha256": "bf8c9f38e181e3f21c7f8af95f1680bba3b6dd2f287b5b1702e4cef637e55d09",
+      "bytes": 1097
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/modulus-diagnostic/focused-1-independent-packages.json",
+      "sha256": "f69a5f9a0943283f3bf83e10cc0edbf01fec343427a3f96461b16f1c99684ca7",
+      "bytes": 4402
+    }
+  ],
+  "independent_actual_membership_datasets": [
+    {
+      "dataset": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1",
+      "scope": "Actual five membership save pairs from the last passing complete baseline.",
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+      "originating_run_passed": true,
+      "pairs": 5,
+      "checks_passed": true,
+      "cases": [
+        {
+          "test": "testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+            "sha256": "54fb20f7697ffcee70c38980f64c4793624e91d1a86a02ffb71d6706d16a4606",
+            "bytes": 6018
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+              "sha256": "c8f92d514d477346039b0eaa7476980df880c72177a344590647efb61bfbc0cf",
+              "bytes": 5289,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+              "sha256": "2a48643e0e769735c13fa2e7ee0e3c61147b8531ba29646ba27c83b5e9839f03",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testActualPublicSaveStripPrivateReopenPreservesIndependentMembership()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+            "sha256": "017939b08ce816707f1f186ae636d4b1e5c774512f2d6477e72972d8d9ed77f7",
+            "bytes": 6005
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+              "sha256": "6ecdd7f943be25f402b6e8e71deb238483dd846c3f5e485e2e868fc72293e7b3",
+              "bytes": 5280,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+              "sha256": "efd7446b9d95b646c79fb081b09d88166a3474e8664a2a9770961f664a69db28",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+            "sha256": "ecb7ce2a3c439e4d9f541403e72dbdde356ddf5c3632078a51aface8e33b16aa",
+            "bytes": 6024
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+              "sha256": "576c213ae12cfa939397fe50bd63baceaf2608f59b6f3144eaf78d61df36855e",
+              "bytes": 5287,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+              "sha256": "54399f8616b8e207d26396046c58b806304e2350123c788898bfde15c413b42e",
+              "bytes": 2779,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+            "sha256": "f8e643c4f7d65458d9035765a3bdec1d1cf9fb06dfcb54976741f8f5565dfe88",
+            "bytes": 5873
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+              "sha256": "db66a04d852f5aa25bd075396fc971f5465a950920c1eb880c5131eb6ba91049",
+              "bytes": 5275,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+              "sha256": "0c0db7c26060a6c4dc4ac49e7944db79f4b96cc089bafe7c23401653d27fbc4d",
+              "bytes": 2774,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+            "sha256": "a6d75e039a3e853b645e6ed06ce06d47cb8689de3ab2fc2aec72875c24f9f0bc",
+            "bytes": 3277
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+              "sha256": "835a025eb23d8fc5452f1384fbaee0ede9a5027c67fc357d400449c42a5da30f",
+              "bytes": 7016,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/pinned-libraries-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+              "sha256": "8aa8b9add635febd3a36e3e7a8b7035914834aee02aeff24c6d5fa11a25dc4b4",
+              "bytes": 4087,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "2",
+            "10",
+            "30",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1",
+      "scope": "Actual five membership pairs from the passing retained-owner proof focus.",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "originating_run_passed": true,
+      "pairs": 5,
+      "checks_passed": true,
+      "cases": [
+        {
+          "test": "testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+            "sha256": "2e71f77563e1a05c73b31c07bbf78d050fa0fbde39c9fecbec1dde8d2aeb00bc",
+            "bytes": 6018
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+              "sha256": "6ecd6913b10e613940f31bb6a35d62d420b94aecb6a819579775fa8ea6c15856",
+              "bytes": 5284,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+              "sha256": "a87daa9c754cafd3fd52767b16f532dcfbf0efcecbb8e5165016f23aaeccd275",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testActualPublicSaveStripPrivateReopenPreservesIndependentMembership()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+            "sha256": "c5fec9a1c9a74795bfbcad48421f0e3e7d42e88309529022b5707846e65e739e",
+            "bytes": 6005
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+              "sha256": "0254fb81ea32bd585ba001a92fd08018ba870927cf6715797ced257837784b25",
+              "bytes": 5284,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+              "sha256": "a4c808519ad39a766781b5e514d8e5eb202ac55eb69d6dcdff34570aeeee7e08",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+            "sha256": "a581327f048a86e3a6fe3e0f2093e9447f57e075d99d18fbd9945a5641d2a95e",
+            "bytes": 6024
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+              "sha256": "41a80dfc10b9c93cdeb351795e559eb0c68be158cc9ee76c6868611b39005b5d",
+              "bytes": 5290,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+              "sha256": "95c950e6f34ffbce79fc8e8824deafdef76712fe611a9c0bb7971335c4545429",
+              "bytes": 2779,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+            "sha256": "b6f9f3cbac5612a1791aa37639fd15faa428b0d049244fcb4ee77cde63218990",
+            "bytes": 5873
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+              "sha256": "f167cd3b5c64699c7774f4a99cd29b13a1174de702e22ef95a3760d5a384cff1",
+              "bytes": 5277,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+              "sha256": "a6412964b7ae974793b27692c5663aaa2881c1874801fc7c96e3a665e5492f8e",
+              "bytes": 2774,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+            "sha256": "04128fa5296913f474f0af5bdbc8df12eae227ca6599eefa016b4ffa57db8b36",
+            "bytes": 3277
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+              "sha256": "6c32c9c726e2b2ff27bf090d6c0a0381cc9a1ffb400f279908214b5f215840bf",
+              "bytes": 7013,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/focused-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+              "sha256": "a4106278746d855d4620f8fc34488e625ce46af5bd64c2ebe818419b2388697f",
+              "bytes": 4087,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "2",
+            "10",
+            "30",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        }
+      ]
+    },
+    {
+      "dataset": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1",
+      "scope": "Actual five membership pairs produced by passing membership tests within the failed complete run; this does not make the full run pass.",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "originating_run_passed": false,
+      "pairs": 5,
+      "checks_passed": true,
+      "cases": [
+        {
+          "test": "testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+            "sha256": "7923ddd68ebbda7982a0cefa85fc5c7603ccb9db84de1332ae02fe24f835942e",
+            "bytes": 6018
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+              "sha256": "2e7a63d9b4b7d6873932b8ea6ab70c46fcf1f107e610d2df9dc4adfdc1c0c234",
+              "bytes": 5280,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+              "sha256": "38859b2b96942b3e80030c2ee90d6442b1fe03e055f8396b6abc8176904b8c4b",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testActualPublicSaveStripPrivateReopenPreservesIndependentMembership()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+            "sha256": "6861aef96b9549d7c2c7d4d45ebdb1e4531ebc877df7ea4fc36e6db3a723477c",
+            "bytes": 6005
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+              "sha256": "aba08c3fb39881f0723abab516179afcbfeb500ecf0a33d95cec8b949f309165",
+              "bytes": 5283,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+              "sha256": "f6ed397a88d6d45afdde201a0be8ae4f8edca06189c9d286acc57e2b66d91bdb",
+              "bytes": 2776,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+            "sha256": "9220b2474a0af2c188b3b5309fcbc4404a860d9e4563fb5d77b41aed308cb662",
+            "bytes": 6024
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+              "sha256": "8038a67b32ba2db2624c0feeed827193c31bf559a10df37c7b14cec3db470f4e",
+              "bytes": 5283,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+              "sha256": "2f9de878cd2dd9881ae4520a66410bff8000bf5f962edf463add6bfd6a6d357e",
+              "bytes": 2779,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+            "sha256": "370263d1a7c86d39cfc6711b1ec829fbe01c825a78cffd410820ae5b431e0b7d",
+            "bytes": 5873
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+              "sha256": "cbf356c4bde9c97c3c4849aba2180d37ba0f7e67dbbc021df9f5618da8437e27",
+              "bytes": 5278,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+              "sha256": "4d347785f7d788b9c749e5eb35706200ff9761cd8058a73f7166571ff1cb4966",
+              "bytes": 2774,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "10",
+            "11",
+            "12",
+            "20",
+            "30",
+            "40",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        },
+        {
+          "test": "testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen()",
+          "manifest": {
+            "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+            "sha256": "b7e6e5817563472c6cffecf4fa66f6cf89f5bddd5a9c9865a7a77bc5ed438425",
+            "bytes": 3277
+          },
+          "packages": [
+            {
+              "kind": "native",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+              "sha256": "9f0ed2f7e9d86107afc784359e461a96ba5da7bf00411af0f2e63c4a150dc31b",
+              "bytes": 7012,
+              "private_part_count": 1
+            },
+            {
+              "kind": "public",
+              "path": "build/m3-evidence/2026-10-19/membership-proof-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+              "sha256": "3356b8b1c6ddb390f4b3dda199374de5281c43e0976ba773b18ccb852c97a8b8",
+              "bytes": 4085,
+              "private_part_count": 0
+            }
+          ],
+          "public_shape_ids": [
+            "2",
+            "10",
+            "30",
+            "50"
+          ],
+          "checks": [
+            "ZIP/XML integrity",
+            "actual-byte package hash/size",
+            "no private public parts",
+            "identical public ID/group-parent/Relationships V/F/U between native and stripped files",
+            "manifest public-reopen IDs/parent UUID mapping/Relationships agree with actual XML"
+          ]
+        }
+      ]
+    }
+  ],
+  "independent_actual_modulus_dataset": {
+    "dataset": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1",
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "pairs": 6,
+    "checks_passed": true,
+    "independent_review": {
+      "path": "build/m3-evidence/2026-10-19/modulus-diagnostic/focused-1-independent-packages.json",
+      "sha256": "f69a5f9a0943283f3bf83e10cc0edbf01fec343427a3f96461b16f1c99684ca7",
+      "bytes": 4402
+    },
+    "cases": [
+      {
+        "scenario": "computed-field",
+        "formula": "MODULUS(13mm*2,1)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/manifest.json",
+          "sha256": "bc8c29c698d7303c21376986894bd148644bb0db6047e1383cafdbf3e09f3c40",
+          "bytes": 1162
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/native.vsdx",
+            "sha256": "7f004c66f1d99a4db774c061b1b67a1b9f72deba10d61e82b366f34c8f984f79",
+            "bytes": 6150,
+            "private_part_count": 1
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/public.vsdx",
+            "sha256": "2a5c11be3b3dcfcc5c4e88f13e2f62b41410987ceb7963eeba22e6d1e1a9a594",
+            "bytes": 3595,
+            "private_part_count": 0
+          }
+        ]
+      },
+      {
+        "scenario": "divisor-above-range",
+        "formula": "MODULUS(3,1e39)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/manifest.json",
+          "sha256": "ef69b951ee27bf6b3261e047e78dbf34b58b1d8147471ec7f1d662bd1a9020e3",
+          "bytes": 1171
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/native.vsdx",
+            "sha256": "15fd6d0dda8e68b6d9327bd36139d8865f09a6416bf1cff3ef1b76e819ea120b",
+            "bytes": 3570,
+            "private_part_count": 0
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/public.vsdx",
+            "sha256": "15fd6d0dda8e68b6d9327bd36139d8865f09a6416bf1cff3ef1b76e819ea120b",
+            "bytes": 3570,
+            "private_part_count": 0
+          }
+        ]
+      },
+      {
+        "scenario": "divisor-below-range",
+        "formula": "MODULUS(3,1e-50)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/manifest.json",
+          "sha256": "62dd2974219c4a247576496ccbc728b7d61fad3b3b313594edadb23abe518151",
+          "bytes": 1172
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/native.vsdx",
+            "sha256": "bf70c2da5c2f3f7f3d46d4861fe445731834f92bad4e7fbaebd0758f8a638ded",
+            "bytes": 3571,
+            "private_part_count": 0
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/public.vsdx",
+            "sha256": "bf70c2da5c2f3f7f3d46d4861fe445731834f92bad4e7fbaebd0758f8a638ded",
+            "bytes": 3571,
+            "private_part_count": 0
+          }
+        ]
+      },
+      {
+        "scenario": "nonfinite-operand",
+        "formula": "MODULUS(EXP(1000),2)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/manifest.json",
+          "sha256": "340d3c5a2c9178fcff95f4e083e06dd3d170370754f263d5270289736f0c19b9",
+          "bytes": 1174
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/native.vsdx",
+            "sha256": "4f23d3772375f0f05a5d96ea794505842c08a3d1f0074d5bac0657183f9f71d7",
+            "bytes": 3575,
+            "private_part_count": 0
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/public.vsdx",
+            "sha256": "4f23d3772375f0f05a5d96ea794505842c08a3d1f0074d5bac0657183f9f71d7",
+            "bytes": 3575,
+            "private_part_count": 0
+          }
+        ]
+      },
+      {
+        "scenario": "unrepresentable-correction",
+        "formula": "MODULUS(-1e-308,1)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/manifest.json",
+          "sha256": "e75bd766241fdd5301457a24893ea63a9cfa1d380181b0d8c7914226b9355110",
+          "bytes": 1181
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/native.vsdx",
+            "sha256": "ac3c8ec48ee7f25035585a514af234dbd26f837b87ba454a22c47d47a3b3f29c",
+            "bytes": 3573,
+            "private_part_count": 0
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/public.vsdx",
+            "sha256": "17265ea7726ebf370483a3daaabfae5911eafad4c5912070a1dd80a69ba32a1d",
+            "bytes": 3573,
+            "private_part_count": 0
+          }
+        ]
+      },
+      {
+        "scenario": "zero-divisor",
+        "formula": "MODULUS(3,0)",
+        "manifest": {
+          "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/manifest.json",
+          "sha256": "7ed28b9a73bd4fcab3f7d4e880a810bcb0868a0b732538bd08e2366224b7d597",
+          "bytes": 1161
+        },
+        "packages": [
+          {
+            "kind": "native",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/native.vsdx",
+            "sha256": "d3503c75eabaa7889f7581af2a823aca89cd2ae786cc892d2e66914e9fa81700",
+            "bytes": 3566,
+            "private_part_count": 0
+          },
+          {
+            "kind": "public",
+            "path": "build/m3-evidence/2026-10-19/modulus-artifacts/focused-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/public.vsdx",
+            "sha256": "d3503c75eabaa7889f7581af2a823aca89cd2ae786cc892d2e66914e9fa81700",
+            "bytes": 3566,
+            "private_part_count": 0
+          }
+        ]
+      }
+    ]
+  },
+  "record_validation_log": "build/m3-evidence/2026-10-19/membership-numeric-pins-record-validation.log"
+}
