@@ -402,6 +402,53 @@ final class M3MembershipEditorTests: XCTestCase {
         }
     }
 
+    func testRetainedOwnerWithoutRelationshipsCutRefusalPreservesClipboardAndNativeHistory() throws {
+        for variant in M3MembershipFixture.RetainedOwnerCase.allCases {
+            let model = try M3MembershipFixture.retainedOwnerWithoutRelationships(variant)
+            try withEditor(model) { document, editor in
+                let board = NSPasteboard(name: NSPasteboard.Name("M3RetainedOwnerCut-\(UUID())")); defer { board.releaseGlobally() }
+                board.setString("retain clipboard", forType: .string); let clipboardVersion = board.changeCount
+                let selected = try M3MembershipFixture.id("12", in: document.diagram)
+                editor.canvas.select([selected])
+                let entry = try XCTUnwrap(DiagramMemberships.index(in: document.diagram, pageID: document.diagram.page.id).entries[selected])
+                XCTAssertNil(entry.cell); XCTAssertTrue(entry.unprovenRetainedOwnership)
+                let before = document.diagram, state = document.stateID, revision = document.revision
+                editor.cutSelection(nil, pasteboard: board); waitForDocument(document)
+                XCTAssertTrue(document.lastCalculationJobError?.localizedDescription.contains("Retained source ownership") == true, "\(variant)")
+                XCTAssertEqual(document.diagram, before); XCTAssertEqual(document.stateID, state); XCTAssertEqual(document.revision, revision)
+                XCTAssertEqual(editor.canvas.selectedNodes, [selected]); XCTAssertFalse(document.undoManager?.canUndo ?? true)
+                XCTAssertFalse(document.isDocumentEdited); XCTAssertEqual(board.changeCount, clipboardVersion)
+                XCTAssertEqual(board.string(forType: .string), "retain clipboard")
+            }
+        }
+    }
+
+    func testNewUnboundOrdinaryNodeInSourceDrawingSupportsOwnedCopyAndCutUndo() throws {
+        var model = try M3MembershipFixture.drawing()
+        let added = DiagramNode(x: 430, y: 300, text: "Unsaved ordinary native object")
+        model.page.nodes.append(added)
+        try withEditor(model) { document, editor in
+            editor.canvas.select([added.id])
+            let entry = try XCTUnwrap(DiagramMemberships.index(in: document.diagram, pageID: document.diagram.page.id).entries[added.id])
+            XCTAssertNil(entry.cell); XCTAssertNotNil(entry.sourceRefusal); XCTAssertFalse(entry.unprovenRetainedOwnership)
+            var copied: DiagramPage?
+            editor.prepareMembershipFragment([added.id]) { copied = $0 }
+            let deadline = Date().addingTimeInterval(15)
+            while copied == nil && Date() < deadline { _ = RunLoop.main.run(mode: .default, before: Date().addingTimeInterval(0.01)) }
+            XCTAssertEqual(try XCTUnwrap(copied).nodes.map(\.id), [added.id])
+            let board = NSPasteboard(name: NSPasteboard.Name("M3UnboundOrdinaryCut-\(UUID())")); defer { board.releaseGlobally() }
+            board.setString("old clipboard", forType: .string)
+            let before = document.diagram, state = document.stateID
+            editor.cutSelection(nil, pasteboard: board); waitForDocument(document)
+            XCTAssertNil(document.lastCalculationJobError)
+            XCTAssertFalse(document.diagram.page.nodes.contains { $0.id == added.id })
+            let fragment = try JSONDecoder().decode(DiagramPage.self, from: XCTUnwrap(board.data(forType: CanvasView.fragmentPasteboardType)))
+            XCTAssertEqual(fragment.nodes.map(\.id), [added.id]); XCTAssertEqual(document.undoManager?.undoActionName, "Cut")
+            document.undoManager?.undo(); XCTAssertEqual(document.diagram, before); XCTAssertEqual(document.stateID, state)
+            XCTAssertFalse(document.undoManager?.canUndo ?? true); XCTAssertFalse(document.isDocumentEdited)
+        }
+    }
+
     private func drag(from start: CGPoint, to end: CGPoint, editor: EditorWindowController) throws {
         func event(_ type: NSEvent.EventType, _ point: CGPoint) throws -> NSEvent {
             let canvas = editor.canvas

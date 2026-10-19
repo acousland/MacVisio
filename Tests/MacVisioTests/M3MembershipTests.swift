@@ -37,6 +37,69 @@ enum M3MembershipFixture {
         }
         return visit(try XCTUnwrap(VisioXML.document(bytes).rootElement()))
     }
+    enum RetainedOwnerCase: CaseIterable, Equatable {
+        case master, masterShape, ancestorMaster, deletedShape, deletedAncestor
+        case deletedUserRow, deletedUserSection, foreignUserSection, unknownUserRowAttribute
+        case foreignShapeOwnershipAttribute, staleLexicalID, missingBoundOwner
+    }
+
+    /// Independently authored public XML paired with an older native cache.
+    /// Shape12 has no local Relationships in either view. Source master/policy,
+    /// tombstone and ownership changes must not be hidden by that absent cell.
+    /// This deliberately adversarial input does not claim Visio qualification.
+    static func retainedOwnerWithoutRelationships(_ variant: RetainedOwnerCase) throws -> Diagram {
+        var result = try drawing(), source = try XCTUnwrap(result.visioArchive), parts = source.parts
+        let xml = try VisioXML.document(XCTUnwrap(parts["visio/pages/page1.xml"]))
+        let shapes = try XCTUnwrap(xml.rootElement()?.firstLocal("Shapes"))
+        let target = try XCTUnwrap(shapes.allShapes.first { $0.attr("ID") == "12" })
+        let group = try XCTUnwrap(shapes.allShapes.first { $0.attr("ID") == "10" })
+        let ns = DiagramMemberships.namespace
+        if variant == .ancestorMaster || variant == .deletedAncestor {
+            // Keep an unrelated existing Relationships owner outside the
+            // uncertain ancestor so the nil-cell guard is the refusal cause.
+            let unrelated = try XCTUnwrap(shapes.allShapes.first { $0.attr("ID") == "11" })
+            unrelated.detach(); shapes.addChild(unrelated)
+        }
+        switch variant {
+        case .master:
+            target.setAttr("Master", "7")
+            target.addChild(try VisioXML.element("<Section xmlns=\"\(ns)\" N=\"User\"><Row N=\"msvSDContainerResize\"><Cell N=\"Value\" V=\"0\"/></Row></Section>"))
+        case .masterShape: target.setAttr("MasterShape", "1")
+        case .ancestorMaster: group.setAttr("Master", "7")
+        case .deletedShape: target.setAttr("Del", "1")
+        case .deletedAncestor: group.setAttr("Del", "1")
+        case .deletedUserRow:
+            target.addChild(try VisioXML.element("<Section xmlns=\"\(ns)\" N=\"User\"><Row N=\"msvStructureType\" Del=\"1\"><Cell N=\"Value\" V=\"Container\" U=\"STR\"/></Row></Section>"))
+        case .deletedUserSection:
+            target.addChild(try VisioXML.element("<Section xmlns=\"\(ns)\" N=\"User\" Del=\"1\"><Row N=\"msvStructureType\"><Cell N=\"Value\" V=\"Container\" U=\"STR\"/></Row></Section>"))
+        case .foreignUserSection:
+            target.addChild(try VisioXML.element("<extra:Section xmlns:extra=\"urn:unproven-owner\" xmlns=\"\(ns)\" N=\"User\"><Row N=\"msvStructureType\"><Cell N=\"Value\" V=\"Container\" U=\"STR\"/></Row></extra:Section>"))
+        case .unknownUserRowAttribute:
+            target.addChild(try VisioXML.element("<Section xmlns=\"\(ns)\" N=\"User\"><Row N=\"msvStructureType\" UnknownOwner=\"7\"><Cell N=\"Value\" V=\"Container\" U=\"STR\"/></Row></Section>"))
+        case .foreignShapeOwnershipAttribute: target.setAttr("ext:Master", "7")
+        case .staleLexicalID: target.setAttr("ID", "012")
+        case .missingBoundOwner: target.detach()
+        }
+        if [.master, .masterShape, .ancestorMaster].contains(variant) {
+            let rel = "http://schemas.openxmlformats.org/package/2006/relationships"
+            let vr = "http://schemas.microsoft.com/visio/2010/relationships/"
+            let documentRels = try VisioXML.document(XCTUnwrap(parts["visio/_rels/document.xml.rels"]))
+            documentRels.rootElement()?.addChild(try VisioXML.element("<Relationship xmlns=\"\(rel)\" Id=\"rIdOwnerProof\" Type=\"\(vr)masters\" Target=\"masters/masters.xml\"/>"))
+            parts["visio/_rels/document.xml.rels"] = documentRels.xmlData(options: .nodePreserveAll)
+            parts["visio/masters/masters.xml"] = Data("<Masters xmlns=\"\(ns)\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\"><Master ID=\"7\" NameU=\"Unproven inherited owner\"><Rel r:id=\"rId1\"/></Master></Masters>".utf8)
+            parts["visio/masters/_rels/masters.xml.rels"] = Data("<Relationships xmlns=\"\(rel)\"><Relationship Id=\"rId1\" Type=\"\(vr)master\" Target=\"master7.xml\"/></Relationships>".utf8)
+            parts["visio/masters/master7.xml"] = Data("<MasterContents xmlns=\"\(ns)\" xmlns:extra=\"urn:retained-owner-proof\"><Shapes><Shape ID=\"1\" Type=\"Shape\"><Cell N=\"Relationships\" V=\"0\" F=\"0\" U=\"BOOL\"/><Cell N=\"LockDelete\" V=\"1\"/><Section N=\"User\"><Row N=\"msvStructureType\"><Cell N=\"Value\" V=\"Container\" U=\"STR\"/></Row><Row N=\"msvSDUnknownPolicy\"><Cell N=\"Value\" V=\"1\"/></Row></Section><extra:Policy extra:owner=\"7\">retained unknown policy</extra:Policy></Shape></Shapes></MasterContents>".utf8)
+            let types = try VisioXML.document(XCTUnwrap(parts["[Content_Types].xml"]))
+            for (part, contentType) in [("masters.xml", "masters"), ("master7.xml", "master")] {
+                types.rootElement()?.addChild(try VisioXML.element("<Override xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\" PartName=\"/visio/masters/\(part)\" ContentType=\"application/vnd.ms-visio.\(contentType)+xml\"/>"))
+            }
+            parts["[Content_Types].xml"] = types.xmlData(options: .nodePreserveAll)
+        }
+        parts["visio/pages/page1.xml"] = xml.xmlData(options: .nodePreserveAll)
+        source.parts = parts; result.visioArchive = source
+        return result
+    }
+
     static func mixedNative() -> Diagram {
         var container = DiagramNode(x: 80, y: 70, text: "Native container")
         container.formatting.sourceShapeID = "10"
@@ -613,6 +676,59 @@ final class M3MembershipTests: XCTestCase {
         structural.page.nodes[0].x += 20
         XCTAssertTrue(DiagramMemberships.needsTransformGuard(from: plain, proposed: structural, changes: DocumentChangeSet.between(plain, structural), session: session))
         XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: plain, to: structural, beforeSession: session, afterSession: session))
+    }
+
+    func testRetainedSourceOwnersWithoutRelationshipsRefuseAffectedCopyAndRemoval() throws {
+        for variant in M3MembershipFixture.RetainedOwnerCase.allCases {
+            let drawing = try M3MembershipFixture.retainedOwnerWithoutRelationships(variant)
+            let affected = try M3MembershipFixture.id("12", in: drawing)
+            let index = try DiagramMemberships.index(in: drawing, pageID: drawing.page.id)
+            let entry = try XCTUnwrap(index.entries[affected])
+            XCTAssertTrue(index.issues.isEmpty, "\(variant): \(index.issues)")
+            XCTAssertNil(entry.cell, "\(variant)")
+            XCTAssertNotNil(entry.sourceRefusal, "\(variant)")
+            XCTAssertTrue(entry.unprovenRetainedOwnership, "\(variant)")
+            let before = drawing
+            XCTAssertThrowsError(try DiagramMemberships.validateCopy([affected], in: drawing, pageID: drawing.page.id)) {
+                XCTAssertTrue($0.localizedDescription.contains("Retained source ownership"), "\(variant): \($0)")
+            }
+            XCTAssertThrowsError(try DiagramMemberships.validateRemoval([affected], in: drawing, pageID: drawing.page.id)) {
+                XCTAssertTrue($0.localizedDescription.contains("Retained source ownership"), "\(variant): \($0)")
+            }
+            XCTAssertEqual(drawing, before)
+        }
+    }
+
+    func testNewUnboundOrdinaryNativeObjectsStayUsableBesideUnprovenRetainedOwners() throws {
+        var drawing = try M3MembershipFixture.retainedOwnerWithoutRelationships(.master)
+        var group = DiagramNode(text: "New ordinary native group"); group.formatting.isGroup = true
+        var child = DiagramNode(text: "New ordinary native child"); child.parentID = group.id
+        var edge = DiagramEdge(source: child.id, target: UUID()); edge.sourceShapeID = "104"
+        edge.parentID = group.id; edge.sourcePosition = DiagramPoint(x: 10, y: 10); edge.targetPosition = DiagramPoint(x: 70, y: 10)
+        drawing.page.nodes += [group, child]; drawing.page.edges.append(edge)
+        let ids: Set<UUID> = [group.id, child.id, edge.id]
+        let index = try DiagramMemberships.index(in: drawing, pageID: drawing.page.id)
+        XCTAssertTrue(index.issues.isEmpty)
+        XCTAssertTrue(index.entries[try M3MembershipFixture.id("12", in: drawing)]?.unprovenRetainedOwnership == true)
+        for id in ids {
+            let entry = try XCTUnwrap(index.entries[id])
+            XCTAssertNil(entry.cell); XCTAssertNotNil(entry.sourceRefusal)
+            XCTAssertFalse(entry.unprovenRetainedOwnership)
+        }
+        XCTAssertNoThrow(try DiagramMemberships.validateCopy(ids, in: drawing, pageID: drawing.page.id))
+        XCTAssertNoThrow(try DiagramMemberships.validateRemoval(ids, in: drawing, pageID: drawing.page.id))
+    }
+
+    func testNewUnboundChildCannotHideAnUnprovenRetainedAncestor() throws {
+        var drawing = try M3MembershipFixture.retainedOwnerWithoutRelationships(.ancestorMaster)
+        var child = DiagramNode(text: "Unsaved child of retained master group")
+        child.parentID = try M3MembershipFixture.id("10", in: drawing); drawing.page.nodes.append(child)
+        let index = try DiagramMemberships.index(in: drawing, pageID: drawing.page.id)
+        let entry = try XCTUnwrap(index.entries[child.id])
+        XCTAssertTrue(index.issues.isEmpty); XCTAssertNil(entry.cell)
+        XCTAssertTrue(entry.unprovenRetainedOwnership)
+        XCTAssertThrowsError(try DiagramMemberships.validateCopy([child.id], in: drawing, pageID: drawing.page.id))
+        XCTAssertThrowsError(try DiagramMemberships.validateRemoval([child.id], in: drawing, pageID: drawing.page.id))
     }
 
     func testCancelledMembershipPreparationNeverMutatesInput() throws {

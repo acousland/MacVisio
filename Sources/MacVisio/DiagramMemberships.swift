@@ -74,6 +74,9 @@ enum DiagramMemberships {
         let cell: ShapeSheetCell?
         let formula: Formula?
         let sourceRefusal: String?
+        /// A retained source/cache owner could not prove its structural closure.
+        /// Separate from missing public source for an ordinary unsaved object.
+        var unprovenRetainedOwnership: Bool
         let connector: Bool
     }
     struct Relation: Hashable {
@@ -252,9 +255,33 @@ enum DiagramMemberships {
                     refusal = "The source container has an unproven structural policy and remains read-only."
                 }
             }
+            // Newly authored ordinary objects have no source owner yet. A
+            // bound/matching raw owner, or retained structural metadata, never
+            // qualifies for that exception even when Relationships is absent.
+            let hasBinding = connector ? binding?.edgeIDs[id] != nil : binding?.nodeIDs[id] != nil
+            let structuralMetadata = detail.sheet.keys.contains {
+                managedCellReason($0) != nil || $0.lowercased().hasPrefix("user.msv")
+            }
+            let newUnboundOrdinary = sourceBacked && original == nil && !hasBinding && !structuralMetadata
+            let unprovenRetainedOwnership = refusal != nil && !newUnboundOrdinary
             let name = original?.name.isEmpty == false ? original!.name : text.isEmpty ? "Unnamed shape" : text
-            entries[id] = Entry(id: id, publicID: publicID, sourceID: original?.sourceID ?? explicit ?? String(publicID), title: "\(name) · Sheet.\(publicID)", role: role, cell: cell, formula: formula, sourceRefusal: refusal, connector: connector)
+            entries[id] = Entry(id: id, publicID: publicID, sourceID: original?.sourceID ?? explicit ?? String(publicID), title: "\(name) · Sheet.\(publicID)", role: role, cell: cell, formula: formula, sourceRefusal: refusal, unprovenRetainedOwnership: unprovenRetainedOwnership, connector: connector)
             if let refusal, cell != nil { issues.append("Sheet.\(publicID): \(refusal)") }
+        }
+        let parentIDs = Dictionary((page.nodes.map { ($0.id, $0.parentID) } + page.edges.map { ($0.id, $0.parentID) })
+            .compactMap { id, parent in parent.map { (id, $0) } }, uniquingKeysWith: { first, _ in first })
+        var ownershipMemo: [UUID: Bool] = [:], ownershipVisiting = Set<UUID>()
+        func unprovenOwner(_ id: UUID, depth: Int = 0) -> Bool {
+            if let cached = ownershipMemo[id] { return cached }
+            guard depth < 64, let entry = entries[id], ownershipVisiting.insert(id).inserted else { return true }
+            let unproven = entry.unprovenRetainedOwnership || parentIDs[id].map { unprovenOwner($0, depth: depth + 1) } == true
+            ownershipVisiting.remove(id); ownershipMemo[id] = unproven
+            return unproven
+        }
+        for (offset, id) in order.enumerated() {
+            if offset.isMultiple(of: 128) { try checkpoint(cancellation) }
+            let unproven = unprovenOwner(id)
+            entries[id]?.unprovenRetainedOwnership = unproven
         }
         var relations: [Relation] = [], outgoing: [UUID: [Relation]] = [:], incoming: [UUID: [Relation]] = [:]
         for (offset, id) in order.enumerated() {
@@ -368,7 +395,10 @@ enum DiagramMemberships {
         guard index.issues.isEmpty else { throw invalid(index.issues[0]) }
         for id in objectIDs {
             guard let entry = index.entries[id] else { throw invalid("A copied shape is unavailable.") }
-            if let reason = entry.sourceRefusal { throw invalid(reason) }
+            if entry.unprovenRetainedOwnership {
+                throw invalid("Retained source ownership is unproven. Reopen a source with resolved inheritance, owner identity and structural policy before copying or removing it.")
+            }
+            if entry.cell != nil, let reason = entry.sourceRefusal { throw invalid(reason) }
             for relation in index.outgoing[id, default: []] + index.incoming[id, default: []] {
                 guard objectIDs.contains(relation.owner), objectIDs.contains(relation.target) else {
                     throw invalid("Copy the complete container/list relationship endpoint set, or explicitly detach it first.")
@@ -397,7 +427,10 @@ enum DiagramMemberships {
         guard index.issues.isEmpty else { throw invalid(index.issues[0]) }
         for id in objectIDs {
             guard let entry = index.entries[id] else { throw invalid("A removed source identity is unavailable.") }
-            if let reason = entry.sourceRefusal { throw invalid(reason) }
+            if entry.unprovenRetainedOwnership {
+                throw invalid("Retained source ownership is unproven. Reopen a source with resolved inheritance, owner identity and structural policy before copying or removing it.")
+            }
+            if entry.cell != nil, let reason = entry.sourceRefusal { throw invalid(reason) }
         }
         for id in objectIDs where !(index.outgoing[id] ?? []).isEmpty || !(index.incoming[id] ?? []).isEmpty {
             throw invalid("A selected identity participates in structural relationships. Detach it before deleting or ungrouping.")
