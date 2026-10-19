@@ -3118,7 +3118,7 @@
           "deliverable": "Map ports/data/fields/resources with preview and retain old native metadata recovery.",
           "acceptance_criteria": "Ambiguous replacement is reported before commit; pasting remaps scoped IDs correctly.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-14-T02"
           ],
@@ -3801,7 +3801,7 @@
           "deliverable": "Deliver union/combine/fragment/intersect/subtract/trim and full protection handling per inventory.",
           "acceptance_criteria": "Curves/holes/fill rules/protected edits preserve intended results and undo.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-17-T01"
           ],
@@ -3977,7 +3977,7 @@
           "deliverable": "Add direction/type/dynamic attachment and protection/document/layer rules.",
           "acceptance_criteria": "Reference valid/invalid endpoints and group/scale transforms match.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-CON-01",
@@ -4209,7 +4209,7 @@
           "deliverable": "Add ordering/dependency handling, dynamic fields and full multi-layer/active/snap/glue semantics.",
           "acceptance_criteria": "Page deletion/rename/reorder preserves links or explains dependency changes.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-PAG-01",
@@ -4461,7 +4461,7 @@
           "deliverable": "Carry geometry, formulas, text, media, ports, data, defaults and solution references.",
           "acceptance_criteria": "Selection-to-master and template-to-new-drawing work in a fresh empty host.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-20-T01"
           ],
@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Initial checkpoint775/13 skips retained. Current shared-owner, connector source/calculation and definition UI slice: full816 Swift tests (13 unchanged prerequisite skips),105 Python pass. Three native activation benchmarks rerun successfully. Zero M3 children accepted.",
+      "local_evidence_scope": "Source df44f6b:851 Swift/13 prerequisite skips/0 failures;105 Python pass; native3 actual rerun and repeated complete suite pass.35 tests added since816. Definition lifecycle/connector/pointer subsets; all204 children remain unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9645,7 +9645,14 @@
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
       "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
       "active_work": "19 October shared-host/native definition browser slice committed at9908078. Desktop prompt resolved; full local regression suite passed. Continue remaining row/section, relationship and feature qualification obligations.",
-      "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json"
+      "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
+      "lifecycle_checkpoint": {
+        "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+        "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+        "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+        "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
+        "bytes": 17602
+      }
     }
   ],
   "m0_execution": {

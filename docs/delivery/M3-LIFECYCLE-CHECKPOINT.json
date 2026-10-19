@@ -1,0 +1,400 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T06:13:12.546194+00:00",
+  "state": "partial_engineering_checkpoint",
+  "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+  "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Definition User/Property named-row insertion, stable native identities through rename, removal and empty local-section insertion/removal through the native owned transaction; exact existing-cell editing remains available.",
+    "Scoped reference rewriting preserves string literals, canonicalizes numeric Sheet aliases and refuses referenced deletion or partial/suppressed inherited overrides; public source deltas and typed author metadata remain aligned.",
+    "Successful-save source row/section addresses and bounded retained XML support undo/redo after save; opaque attributes/children and ancestor namespace declarations survive restoration. Immutable-source validation is cached by resource identity; row patching uses address/ID indexes and bounded cancellation checks.",
+    "Definition projection is calculated output rather than a new literal canvas edit; inherited F/U and imported geometry caches survive native commit/undo/save. Deletion references are checked after pending native page changes reach the completed public package.",
+    "Connector paste remaps connector and node references, field/run metadata and source IDs together; complete connector layer membership participates in model/runtime/drawing/public writers, layer editing and background foreground-context fields.",
+    "Native pointer move/resize and finish-interaction commits reject protected roots/descendants and locked group connectors atomically, preserving formulas, undo, dirty state and committed geometry.",
+    "Definition worker failures stay visible in their owned native panel/status instead of opening a duplicate blocking error alert."
+  ],
+  "qualification": {
+    "full_swift": {
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "executed": 851,
+      "skipped": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "log": "build/m3-evidence/2026-10-19/lifecycle-full-swift-3.log"
+    },
+    "native_rerun": {
+      "executed": 3,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/lifecycle-native-rerun-1.log"
+    },
+    "python": {
+      "command": "python3 -m unittest discover -s scripts/tests",
+      "executed": 105,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/lifecycle-python-1.log"
+    },
+    "ledger": {
+      "command": "python3 scripts/build-evidence-ledger.py",
+      "requirements": 154,
+      "bounded_inventory_entries": 180,
+      "compatibility_accepted": false,
+      "log": "build/m3-evidence/2026-10-19/lifecycle-ledger-1.log"
+    },
+    "new_tests_since_9908078": 35,
+    "test_files": {
+      "M3DefinitionRowTests": 14,
+      "M3DefinitionEditorTests": 12,
+      "M3ConnectorParticipationTests": 8,
+      "M3PointerProtectionTests": 9
+    }
+  },
+  "regression_dispositions": [
+    {
+      "logs": [
+        "row-edit-compile-1.log"
+      ],
+      "observation": "Intermediate reference-scanner string literal failed compilation; corrected before product qualification."
+    },
+    {
+      "logs": [
+        "row-edit-tests-1.log",
+        "row-edit-tests-2.log",
+        "row-edit-save-probe.log",
+        "row-edit-save-probe-2.log",
+        "row-and-connector-tests-1.log"
+      ],
+      "observation": "Actual save/undo exposed inherited pin F becoming a literal and pin drift while restoring imported caches. Projection/native-preparation and geometry cache restoration were corrected; real save/undo/redo passes."
+    },
+    {
+      "logs": [
+        "row-section-connector-tests-2.log",
+        "section-pointer-probe-2.log"
+      ],
+      "observation": "Pointer test helper created empty native undo groups on refused actions. Removed the artificial wrapper; retained state/history/dirty/formula assertions and verified all9 actual event cases."
+    },
+    {
+      "logs": [
+        "section-save-probe-1.log",
+        "section-save-probe-2.log",
+        "section-save-probe-3.log",
+        "section-save-probe-4.log",
+        "section-save-probe-5.log",
+        "row-section-tests-3.log"
+      ],
+      "observation": "Section removal with a pending native reference deletion was checked against stale archived F. Strict validation now examines final public parts after native deltas. The section fixture isolates this from existing attached-connector source-review policy; that policy was not relaxed."
+    },
+    {
+      "logs": [
+        "lifecycle-review-tests-1.log",
+        "lifecycle-review-hang-sample.txt",
+        "lifecycle-review-tests-2.log",
+        "lifecycle-review-tests-3.log"
+      ],
+      "observation": "Independent review added leading-zero references, inherited partial-row overrides, source-record integrity, indexed/cancellable patching, namespace preservation and persistent failure reasons. Native error testing exposed duplicate blocking AppKit presentation; owned-panel failure routing fixed. Source-backed migration now rebuilds its scoped source index along with a missing registry."
+    },
+    {
+      "logs": [
+        "lifecycle-full-swift-1.log"
+      ],
+      "observation": "Earlier intermediate source passed845/13skip/0; this is historical, not the final source result."
+    },
+    {
+      "logs": [
+        "lifecycle-full-swift-2.log",
+        "lifecycle-native-rerun-1.log",
+        "lifecycle-full-swift-3.log"
+      ],
+      "observation": "Final source full851 run initially recorded17 assertions across3 native activation benchmarks. Memoir recorder was observed foreground; no causality or permanent blocker inferred. Immediate actual3-case rerun and repeated complete851 suite passed with no exclusions. The failed run is retained."
+    }
+  ],
+  "limitations": [
+    "This is a bounded engineering checkpoint; all204 children and the M3 milestone remain unaccepted and integration/release permission is false.",
+    "Native structural controls cover local User/Property rows and sections in document/master/style definition sheets. General instance/PageSheet/Geometry/control/field row lifecycle, master replacement and independent relationship kinds remain open.",
+    "Partial/inherited/suppressed instance row overrides are refused for structural definition edits; they are not automatically migrated. Names retained by source/undo history cannot be reused by a different native row.",
+    "Connector endpoint/routing/curved/line-jump/direction/glue semantics and full selection/rotation/protection contracts remain open; the existing attached BeginX/EndX source-review policy is preserved.",
+    "Remaining host/function/text/appearance/Boolean geometry/layout/output/library/package children require local implementation and qualification.",
+    "No exact-build licensed Visio/COM run, bidirectional no-repair/edit/save qualification, same-font regional pack or calibrated physical-printer run; all five compatibility dimensions remain unverified.",
+    "M2 v0.23.4 performance exception does not qualify M3. The13 installer/independent-reader prerequisite skips are not passed evidence."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/CanvasView.swift",
+      "sha256": "fa59c70c520feb5e25b6f38e026f3439d2d4e2e51ee016caa1dbfe198b9c841b",
+      "bytes": 53467
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionEditing.swift",
+      "sha256": "acd8e4a5b147520fabe6716b194f5c82608886b7be11b3f56f513a93162c42f8",
+      "bytes": 21548
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionReferenceEditing.swift",
+      "sha256": "6e449f478ead722544e713e10d731d0678ca9691f300020e8cd403178c167392",
+      "bytes": 12651
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionRowEditing.swift",
+      "sha256": "5d27738a1c244d510b5c13dbc8a666b496b04ce51521ffaa84c432e13aa12750",
+      "bytes": 26962
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionSheetEditor.swift",
+      "sha256": "5ead20923660084ae3f6f115b3d8d7fdad876815096b4d9eb4333593a263483d",
+      "bytes": 30509
+    },
+    {
+      "path": "Sources/MacVisio/DiagramDefinitions.swift",
+      "sha256": "cf6a123ddaf6703cbaeac7ed079766a705206c7e449982fafd99978f7381447c",
+      "bytes": 26334
+    },
+    {
+      "path": "Sources/MacVisio/DiagramOperations.swift",
+      "sha256": "ad5018d504c88ae581260eac4d2890495265bcff2b3158572a4aafb4235a9e34",
+      "bytes": 17041
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "1068721088330f6e2fcf5bd6e4e147440754e11c28de04d4d90f6a1512991122",
+      "bytes": 100858
+    },
+    {
+      "path": "Sources/MacVisio/DocumentSaveImpact.swift",
+      "sha256": "c5dca6c6623a6819f2bffcfc833cbe4631c70d7a3f59aac59cbce6fa65872c6a",
+      "bytes": 20671
+    },
+    {
+      "path": "Sources/MacVisio/Drawing.swift",
+      "sha256": "8bd0d97ee4e5c822217e7b8fad84a1c9ad97944c938d13cf384dfeb6cafbf064",
+      "bytes": 33978
+    },
+    {
+      "path": "Sources/MacVisio/EditorFeatures.swift",
+      "sha256": "a8d179667e3a33b77da54dbec02a6ff8678cd336ded84cdd51d4897c358df05d",
+      "bytes": 28449
+    },
+    {
+      "path": "Sources/MacVisio/Model.swift",
+      "sha256": "abf71e18bf62d1f4e89d9659fd323feac3e1c47814ee26e379c736d4b4a88e9f",
+      "bytes": 28329
+    },
+    {
+      "path": "Sources/MacVisio/PageRuntime.swift",
+      "sha256": "314362337dfe8851a71e51def9a7e44121539e622261d289f257b2df5e1451f9",
+      "bytes": 29782
+    },
+    {
+      "path": "Sources/MacVisio/ShapeSheetEngine.swift",
+      "sha256": "8c0f308e06cc2dcb75391f05d1cac5b46a51d015d8344a849ccfe3762dd7ceae",
+      "bytes": 31247
+    },
+    {
+      "path": "Sources/MacVisio/VisioFormat.swift",
+      "sha256": "eae5e4bfcffebd85095db44bfb4954a24a47a51456d35c36bcc6610c3c554bde",
+      "bytes": 168906
+    },
+    {
+      "path": "Sources/MacVisio/VisioPackage.swift",
+      "sha256": "8d5630755373e8d2a03d64b8fefc6fdb563fdf1030573924614d8389560f4687",
+      "bytes": 14767
+    },
+    {
+      "path": "Sources/MacVisio/VisioPreservation.swift",
+      "sha256": "3f7c342fd9a72e77e84bc15b6354e5127e728ed5a023f730c0a3ddc3b3027361",
+      "bytes": 70184
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ConnectorParticipationTests.swift",
+      "sha256": "d23f3749686cb4a6248421a90bb94e8650ec7c4f811220f543568afd546b68aa",
+      "bytes": 18119
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionEditorTests.swift",
+      "sha256": "0522d6e1ce532091c36af54d8e715828037680f2a9233655c47f22e61137401d",
+      "bytes": 21507
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionRowTests.swift",
+      "sha256": "f7ff3a3dcbb04d3f679670952f8fd8729ca99ebfeecb01b552e804d3bf33b17f",
+      "bytes": 23141
+    },
+    {
+      "path": "Tests/MacVisioTests/M3PointerProtectionTests.swift",
+      "sha256": "75528f9a679dd49ffa7f006f7704e2ef794466d249a4ec583d25d0f27765a414",
+      "bytes": 14076
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-focused-4.log",
+      "sha256": "dcbcd0b1e18b1cbf7497268762e205e6190434e55c71e4d2db0e0301237316ca",
+      "bytes": 37233
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-full-swift-1.log",
+      "sha256": "45b04d3aad81d9af0e46cd956c1935d5ffbd9b4a6dd52b54073ad42fc1e980c4",
+      "bytes": 247091
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-full-swift-2.log",
+      "sha256": "6cc31457e18ef30aa662297ab47cd38e7670d4a58aa39b1cf78ddd93e1d1b625",
+      "bytes": 254047
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-full-swift-3.log",
+      "sha256": "a0615fdec52d72305002ec046b885a921a16b9ad53b0254920d857a737cbd3d4",
+      "bytes": 248652
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-native-rerun-1.log",
+      "sha256": "3f06be0881f59b1ef3133e77b1832d36f4d305cc6dacc4670687aea179a4907c",
+      "bytes": 2176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-python-1.log",
+      "sha256": "6c154cd8b51aa6befc914d743a44b4c0eac9749e17b8a2960f6996d97f6f4631",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-review-hang-sample.txt",
+      "sha256": "51149971561e549f3649851d43b44d8d99a1444be281e93231ab5405803866b1",
+      "bytes": 266827
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-review-tests-1.log",
+      "sha256": "0b9d83045fa0f51c292c6174167922ee1033539e65b5f54fbae6d3139da7feba",
+      "bytes": 22134
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-review-tests-2.log",
+      "sha256": "83ac8bf24eb56d8ed36998220ef698ce67eb5fd1abe022c116d5945cf125921a",
+      "bytes": 35096
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-review-tests-3.log",
+      "sha256": "ea854b8b806ba5a617ccf1e6e8f973d560c6876571ca747a7c1becf4a0fbdf71",
+      "bytes": 22430
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-and-connector-tests-1.log",
+      "sha256": "85a8d614269b56c656cbd556b4271a0f53113c76d939d771a46197855b12c273",
+      "bytes": 18167
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-and-section-tests-1.log",
+      "sha256": "b8633006394c6fdaff48506350a7d62b1b3bb4e8b9dda842ddfdaa437c1b7264",
+      "bytes": 30459
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-compile-1.log",
+      "sha256": "c578508fca3beecd23e9d4ce3a3bc4ca0026d6c35ad17aac7dbd1e7f971134c8",
+      "bytes": 10415
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-compile-2.log",
+      "sha256": "336d6ff3c0ee227194cee4e2bb23fff1ff277154a06bf6a4b1dd08032c01ae6d",
+      "bytes": 25521
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-save-probe-2.log",
+      "sha256": "66be259f2e71ff94c9a0c455eca2fe322a0afa61616c271b57790b99a1e45d81",
+      "bytes": 3835
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-save-probe-3.log",
+      "sha256": "031d3036d92553931dbcce6c5dca756d5d8b7ea9151eb6f627a31a793cd191d4",
+      "bytes": 1968
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-save-probe.log",
+      "sha256": "75a411d04d38927057893302495cc836bf88860f682cf59612d378fab42ac850",
+      "bytes": 3372
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-tests-1.log",
+      "sha256": "8d317e5386d190054446ed3f22ade4402e96084d3014c9057d6c907a34004333",
+      "bytes": 7770
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-edit-tests-2.log",
+      "sha256": "f0f87ebcf05d37b7026e745977e4a913e5d64575989e3af8fc641f07d9d146cc",
+      "bytes": 14219
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-section-connector-tests-2.log",
+      "sha256": "2b06921a0a2835f5034a220361838ab7e9c1d23eda2a8f856239b95318206cb8",
+      "bytes": 25444
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/row-section-tests-3.log",
+      "sha256": "d80323faedba53cd55f833b1530a73f2324ddadaf47613d72c3ccf633f808e42",
+      "bytes": 5832
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/section-pointer-probe-2.log",
+      "sha256": "3c8fa69ec244551ad06a2e4e5a06e17ce5ec235683ee960e8ddb1330537694f1",
+      "bytes": 5377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/section-save-probe-1.log",
+      "sha256": "5f83d50350757b22f4e4b643132a822de8ab91b050827f3d67a976eeb33fa786",
+      "bytes": 2449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/section-save-probe-3.log",
+      "sha256": "91de327b08aa812861bbd6d925620f24f96ec1b02f4506549224b375b87737cc",
+      "bytes": 2552
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/section-save-probe-4.log",
+      "sha256": "817ab84f55788e61c594d2a490b537b6d1c9a6a3ba1284ed1036f001867f439d",
+      "bytes": 2648
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/section-save-probe-5.log",
+      "sha256": "92426c23dead28abc47900fc4fc19e600f897260292a032e3535a0808d63f117",
+      "bytes": 2990
+    }
+  ],
+  "public_fixture_sources": [
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/m3-intelligent.vsdx",
+      "sha256": "59d32c7e9cfd24fe8041e3a1829c1f293aa4d3365e3afd5e9a91ac03e6cdf5a1",
+      "bytes": 5987
+    }
+  ],
+  "reference_sources": [
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/row-element-user-defined-cells-sectionvisio-xml",
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/row-element-controls-sectionvisio-xml",
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/about-cell-references"
+  ],
+  "source_hash_binding": "source_and_test_artifacts are exact git-show bytes at code_commit, independent of later uncommitted work.",
+  "record_checks": {
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/lifecycle-python-records-2.log",
+        "sha256": "c9c2f83736003c0963555f6cbd8b5b4f2a8fe80a53b131dc9afa57cceea0d9fb",
+        "bytes": 206
+      }
+    },
+    "ledger": {
+      "path": "build/m3-evidence/2026-10-19/lifecycle-ledger-records-2.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    "validation_log": "build/m3-evidence/2026-10-19/lifecycle-record-validation.log"
+  }
+}

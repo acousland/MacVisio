@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
+  "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -179,6 +179,17 @@
       "accepted_children": 0,
       "report_path": "build/m3-evidence/M3-catalog-consistency.json",
       "report_sha256": "25036d0a0c88983641db07bff59299f2dc86ccab5129eecaa72a7076b20a18c8"
+    },
+    {
+      "id": "m3-lifecycle-connector-pointer",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 851,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+      "record": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -261,6 +272,11 @@
     {
       "path": "build/m3-evidence/M1-integrated-python-final.log",
       "sha256": "dffa8ca577e68d541a603b5999cac2f9849591c93e5d20352e87c749788e923a"
+    },
+    {
+      "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+      "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+      "bytes": 17602
     }
   ],
   "five_compatibility_dimensions": {
@@ -281,12 +297,19 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_shared_hosts_UI_connector_slice_full_local_regressions_pass",
+  "current_execution_state": "in_progress_lifecycle_connector_pointer_slice_full_local_regressions_pass",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
     "path": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
     "sha256": "d956582f915f27655655b7a304c681d442db1ce8a4a33d2b36a53f7b03b2f3fd",
     "scope": "Partial local engineering; full816 Swift tests with13 prerequisite skips and105 Python pass. All three native activation benchmarks rerun successfully; zero M3 children/milestone accepted."
+  },
+  "lifecycle_checkpoint": {
+    "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+    "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+    "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
+    "bytes": 17602
   }
 }

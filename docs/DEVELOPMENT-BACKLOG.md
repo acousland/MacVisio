@@ -1523,7 +1523,7 @@ or G2 gate is accepted by the decomposition or integrated baseline.
 | --- | --- | ---: |
 | WP-14-T01 | In progress | 4 |
 | WP-14-T02 | In progress | 3 |
-| WP-14-T03 | Pending | 3 |
+| WP-14-T03 | In progress | 3 |
 | WP-14-T04 | Pending | 3 |
 | WP-15-T01 | Pending | 5 |
 | WP-15-T02 | In progress | 6 |
@@ -1534,19 +1534,19 @@ or G2 gate is accepted by the decomposition or integrated baseline.
 | WP-16-T03 | In progress | 4 |
 | WP-16-T04 | Pending | 3 |
 | WP-17-T01 | Pending | 3 |
-| WP-17-T02 | Pending | 7 |
+| WP-17-T02 | In progress | 7 |
 | WP-17-T03 | Pending | 6 |
 | WP-17-T04 | Pending | 3 |
-| WP-18-T01 | Pending | 4 |
+| WP-18-T01 | In progress | 4 |
 | WP-18-T02 | Pending | 4 |
 | WP-18-T03 | Pending | 6 |
 | WP-18-T04 | Pending | 3 |
-| WP-19-T01 | Pending | 4 |
+| WP-19-T01 | In progress | 4 |
 | WP-19-T02 | Pending | 3 |
 | WP-19-T03 | Pending | 3 |
 | WP-19-T04 | Pending | 2 |
 | WP-20-T01 | Pending | 3 |
-| WP-20-T02 | Pending | 3 |
+| WP-20-T02 | In progress | 3 |
 | WP-20-T03 | Pending | 4 |
 | WP-20-T04 | Pending | 3 |
 
@@ -1627,3 +1627,5 @@ This supersedes the earlier partial run and activation blocker while retaining
 those failed observations. Source remains `9908078`; no reference/performance
 exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
 relationships and remaining feature/reference obligations remain the next work.
+
+19 October lifecycle continuation: source `df44f6b` adds scoped definition User/Property row and local-section editing, source-preserving save/undo, connector paste/layer/background fixes and native pointer protection. The full suite passes851 Swift tests (13 prerequisite skips), with no native test exclusions;105 Python checks pass. All204 children remain unaccepted:25 are in progress,173 pending and6 proposed. Full output/library/geometry/relationship and exact-Visio obligations remain open. See [lifecycle checkpoint](delivery/M3-LIFECYCLE-CHECKPOINT.json).

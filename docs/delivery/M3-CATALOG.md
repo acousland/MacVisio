@@ -120,3 +120,7 @@ This supersedes the earlier partial run and activation blocker while retaining
 those failed observations. Source remains `9908078`; no reference/performance
 exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
 relationships and remaining feature/reference obligations remain the next work.
+
+19 October lifecycle checkpoint `df44f6b` adds native scoped definition User/Property rows and empty local sections, stable identities through rename, scoped reference rewriting/refusal, opaque XML/namespace restoration through save/undo/redo, connector paste/layer/background participation and atomic native pointer protections. The final complete run passes **851 Swift tests,13 unchanged prerequisite skips,zero failures**, with no native exclusions;105 Python checks pass.35 tests were added since the816-test checkpoint. Independent review also strengthened source ownership validation, indexed cancellation, cache/pin preservation, migration and nonblocking native error reporting.
+
+The [lifecycle record](M3-LIFECYCLE-CHECKPOINT.json) retains source/test/log hashes and all failed/corrected observations, including an intermediate native activation timeout, its successful actual3-case rerun and the repeated complete851-test run. There are25 in-progress children,173 pending,6 proposed and zero accepted. This checkpoint does not complete general row/section families, master replacement, Boolean/appearance/layout/output/library/package work or independent Visio/font/physical qualification. No M3 release was published.
