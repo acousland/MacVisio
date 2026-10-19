@@ -1069,9 +1069,19 @@ final class MacVisioDocument: NSDocument {
     /// Public definition projection owns the accepted editor worker and snapshot.
     func editDefinitionCell(sheetID: UUID, address: DefinitionCellAddress, value: ShapeSheetCell?) {
         let snapshot = diagram
-        replaceInEditor(with: snapshot, action: "Edit Definition", forceAsync: true, preparation: { cancellation in
+        replaceInEditor(with: snapshot, action: "Edit Definition", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
             try cancellation.check()
             let next = try DefinitionEditing.settingCell(in: snapshot, sheetID: sheetID, address: address, value: value)
+            try cancellation.check()
+            return (next, CalculationWork())
+        })
+    }
+
+    func editDefinitionRow(sheetID: UUID, edit: DefinitionRowEdit) {
+        let snapshot = diagram
+        replaceInEditor(with: snapshot, action: "Edit Definition Row", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try cancellation.check()
+            let next = try DefinitionEditing.editingRow(in: snapshot, sheetID: sheetID, edit: edit)
             try cancellation.check()
             return (next, CalculationWork())
         })
@@ -1081,7 +1091,7 @@ final class MacVisioDocument: NSDocument {
     /// second command from being based on an unfinished result; other windows
     /// and autosave continue to use their committed state.
     func replaceInEditor(
-        with next: Diagram, action: String, forceAsync: Bool = false,
+        with next: Diagram, action: String, forceAsync: Bool = false, presentFailureAlert: Bool = true,
         preparation: ((LifecycleJobCancellation) throws -> (diagram: Diagram, work: CalculationWork))? = nil
     ) {
         guard pendingCalculation == nil else {
@@ -1219,7 +1229,10 @@ final class MacVisioDocument: NSDocument {
                         for controller in self.windowControllers {
                             (controller as? EditorWindowController)?.refresh()
                         }
-                        if !hasTextContinuation,
+                        if !presentFailureAlert {
+                            for controller in self.windowControllers { (controller as? EditorWindowController)?.root.showMessage(error.localizedDescription) }
+                        }
+                        if presentFailureAlert, !hasTextContinuation,
                             (error as? LifecycleJobError) != .cancelled
                                 && (error as? LifecycleJobError) != .staleInput
                         {
@@ -1239,7 +1252,7 @@ final class MacVisioDocument: NSDocument {
             DispatchQueue.main.async { [weak self] in
                 self?.restorePendingEditorSelections(selections, input: input)
             }
-            if !finalizingTextForSave && !finalizingTextForClose { presentError(error) }
+            if presentFailureAlert && !finalizingTextForSave && !finalizingTextForClose { presentError(error) }
         }
     }
 

@@ -40,8 +40,8 @@ extension EditorWindowController {
     }
 }
 
-/// A browser owns display snapshots and drafts only. One selected existing cell
-/// enters the document's accepted cancellable definition transaction per Apply.
+/// The browser owns drafts; cell and row edits share the document's
+/// cancellable, revision-checked transaction and undo publication.
 final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,NSTableViewDataSource,NSTableViewDelegate,NSTextFieldDelegate {
     struct Owner {
         var id:UUID
@@ -74,7 +74,9 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
     private var timer:Timer?
     private var snapshot:Snapshot?
     private var submitted:Snapshot?
+    private var submittedAddress:DefinitionCellAddress?
     private var availability:Availability?
+    private var backendFailure:String?
     private var selecting = false
     private(set) var owners:[Owner] = []
     private(set) var selectedOwnerID:UUID?
@@ -91,11 +93,24 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
     let reasonLabel = NSTextField(wrappingLabelWithString:"Select an existing cell to edit its cached value, formula or unit.")
     let applyButton = NSButton(title:"Apply Cell",target:nil,action:nil)
     let reloadButton = NSButton(title:"Reload",target:nil,action:nil)
+    let rowSectionPicker = NSPopUpButton(frame:.zero,pullsDown:false)
+    let rowNameField = NSTextField(string:"")
+    let addRowButton = NSButton(title:"Add Row",target:nil,action:nil)
+    let renameRowButton = NSButton(title:"Rename Row",target:nil,action:nil)
+    let deleteRowButton = NSButton(title:"Delete Row",target:nil,action:nil)
+    let addSectionButton = NSButton(title:"Add Section",target:nil,action:nil)
+    let removeSectionButton = NSButton(title:"Remove Section",target:nil,action:nil)
+    private var selectedNamedRow:DefinitionRow? {
+        guard let address = selectedAddress, ["User","Property"].contains(address.section ?? ""), address.rowName != nil,
+              address.rowIndex == nil,address.sectionIndex == nil else { return nil }
+        var row = address;row.cell = ""
+        return selectedSheet?.rows.first{$0.address == row && !$0.deleted}
+    }
 
     init(editor:EditorWindowController) {
         self.editor = editor;drawing = editor.diagramDocument;jobOwner = editor.lifecycleJobs
-        let panel = NSPanel(contentRect:CGRect(x:0,y:0,width:960,height:640),styleMask:[.titled,.closable,.resizable],backing:.buffered,defer:false)
-        panel.title = "Definition Sheets";panel.minSize = CGSize(width:700,height:520)
+        let panel = NSPanel(contentRect:CGRect(x:0,y:0,width:960,height:760),styleMask:[.titled,.closable,.resizable],backing:.buffered,defer:false)
+        panel.title = "Definition Sheets";panel.minSize = CGSize(width:760,height:710)
         panel.isReleasedWhenClosed = false;panel.autorecalculatesKeyViewLoop = true
         super.init(window:panel);panel.delegate = self;panel.setAccessibilityIdentifier("MacVisioDefinitionSheets")
         buildUI()
@@ -139,6 +154,7 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
               editor.definitionSheetUnavailableReason == nil else {
             explain(editor?.definitionSheetUnavailableReason ?? "The definition source is unavailable.");applyButton.isEnabled = false;return false
         }
+        backendFailure = nil
         var next:[Owner] = []
         if let sheet = registry.documentSheet {
             next.append(Owner(id:registry.sourceDocumentID,title:"Document · \(registry.documentPart)",part:registry.documentPart,sheets:[sheet]))
@@ -194,9 +210,12 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
     }
     private func clearDraft() { valueField.stringValue = "";formulaField.stringValue = "";unitField.stringValue = "" }
     private func loadSelectedCell() {
+        backendFailure = nil
         selectedCell = cells.indices.contains(table.selectedRow) ? cells[table.selectedRow] : nil
         if let cell = selectedCell { valueField.stringValue = cell.value.value;formulaField.stringValue = cell.value.formula;unitField.stringValue = cell.value.unit }
         else { clearDraft() }
+        if let row = selectedNamedRow { rowNameField.stringValue = row.name ?? "";rowSectionPicker.selectItem(withTitle:row.section) }
+        else { rowNameField.stringValue = "" }
         availability = nil;refreshAvailability()
     }
     private func snapshotFailure(checkCell:Bool) -> String? {
@@ -207,11 +226,13 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
               snapshot.resourceID == source.sourceResourceID,snapshot.lineageID == source.sourceLineageID,snapshot.registryID == registry.sourceDocumentID,snapshot.documentPart == registry.documentPart else {
             return "The drawing or source changed. Reload and review the current cell before applying."
         }
-        guard let cell = selectedCell,let sheetID = selectedSheetID,let ownerID = selectedOwnerID else { return "Select an existing cell." }
-        if checkCell {
-            let sheet:DefinitionSheet?
+        guard let sheetID = selectedSheetID,let ownerID = selectedOwnerID else { return "Select a definition sheet." }
+        let sheet:DefinitionSheet?
             if ownerID == registry.sourceDocumentID { sheet = registry.documentSheet?.id == sheetID ? registry.documentSheet : nil }
             else { sheet = (registry.masters + registry.styles).first{$0.id == ownerID}?.sheets.first{$0.id == sheetID} }
+        guard sheet != nil else { return "The definition sheet is no longer available." }
+        if checkCell {
+            guard let cell = selectedCell else { return "Select an existing cell." }
             guard sheet?.cells.contains(where:{$0.id == cell.id && $0.address == cell.address && $0.value == cell.value}) == true else { return "The authored cell changed. Reload and review its current value." }
         }
         return nil
@@ -220,10 +241,12 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         if let submitted,let drawing,!drawing.isCalculating {
             self.submitted = nil
             if drawing.lastCalculationJobError == nil,drawing.stateID != submitted.input.snapshotID {
-                let sheetID = selectedSheetID,address = selectedAddress
-                _ = reloadSnapshot(sheetID:sheetID,address:address);explain("Cell applied.");return
+                let sheetID = selectedSheetID,address = submittedAddress ?? selectedAddress
+                submittedAddress = nil
+                _ = reloadSnapshot(sheetID:sheetID,address:address);explain("Definition edit applied.");return
             }
-            if let error = drawing.lastCalculationJobError { explain(error.localizedDescription) }
+            submittedAddress = nil
+            if let error = drawing.lastCalculationJobError { backendFailure = error.localizedDescription }
         }
         let composition = hasMarkedText || (drawing?.windowControllers.contains(where:{($0.window?.firstResponder as? NSTextView)?.hasMarkedText() == true}) ?? false)
         let key = Availability(active:jobOwner.isActive,visible:window?.isVisible == true,calculating:drawing?.isCalculating ?? false,stateID:drawing?.stateID,revision:drawing?.revision,resourceID:drawing?.diagram.visioArchive?.sourceResourceID,composition:composition,cellID:selectedCell?.id,draft:draft)
@@ -232,15 +255,24 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         let editable = failure == nil && key.visible
         // Disabling an active field editor can finalize marked text. Leave its
         // native composition intact while disabling every submitting action.
-        for field in [valueField,formulaField,unitField] { field.isEnabled = jobOwner.isActive && (editable || composition) }
+        for field in [valueField,formulaField,unitField] { field.isEnabled = jobOwner.isActive && ((editable && selectedCell != nil) || composition) }
+        rowNameField.isEnabled = jobOwner.isActive && (editable || composition)
+        rowSectionPicker.isEnabled = editable && !composition
+        addRowButton.isEnabled = editable && !composition && !rowNameField.stringValue.isEmpty
+        renameRowButton.isEnabled = editable && !composition && selectedNamedRow != nil && !rowNameField.stringValue.isEmpty && selectedNamedRow?.name != rowNameField.stringValue
+        deleteRowButton.isEnabled = editable && !composition && selectedNamedRow != nil
+        let section = selectedSheet?.sections?.first{$0.name == rowSectionPicker.titleOfSelectedItem && $0.index == nil}
+        addSectionButton.isEnabled = editable && !composition && section == nil && selectedSheet?.sections != nil
+        removeSectionButton.isEnabled = editable && !composition && section != nil
         ownerPicker.isEnabled = jobOwner.isActive && !key.calculating && !composition
         sheetPicker.isEnabled = ownerPicker.isEnabled
         reloadButton.isEnabled = ownerPicker.isEnabled
-        applyButton.isEnabled = editable && !composition && selectedCell?.value != draft
+        applyButton.isEnabled = editable && !composition && selectedCell != nil && selectedCell?.value != draft
         if composition { explain("Finish text composition before applying a cell.") }
         else if let failure { explain(failure) }
+        else if let backendFailure { explain(backendFailure) }
         else if selectedCell?.value == draft { explain("Edit the selected cell's cached value, formula or unit, then apply it once.") }
-        else { explain("Apply changes only the selected authored cell. Row and section editing is not available here.") }
+        else { explain("Apply the selected cell, or add, rename or delete a named User or Property row.") }
     }
     @discardableResult func applySelectedCell() -> Bool {
         guard jobOwner.isActive,let editor,let drawing,window?.isVisible == true else { return false }
@@ -260,8 +292,45 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         }
         drawing.editDefinitionCell(sheetID:sheetID,address:selectedCell.address,value:value)
         guard drawing.isCalculating else { explain(drawing.lastCalculationJobError?.localizedDescription ?? "The cell was not submitted.");return false }
+        submittedAddress = selectedCell.address
         submitted = snapshot;availability = nil;refreshAvailability();return true
     }
+    @discardableResult func submitRowEdit(_ edit:DefinitionRowEdit) -> Bool {
+        guard jobOwner.isActive,let editor,let drawing,window?.isVisible == true else { return false }
+        guard !hasMarkedText,!drawing.windowControllers.contains(where:{($0.window?.firstResponder as? NSTextView)?.hasMarkedText() == true}) else {
+            explain("Finish text composition before changing a row.");return false
+        }
+        guard window?.makeFirstResponder(table) != false else { return false }
+        drawing.commitTextEditing();editor.canvas.finishPageInteraction()
+        if let failure = snapshotFailure(checkCell:false) { explain(failure);availability = nil;refreshAvailability();return false }
+        guard let snapshot,let sheetID = selectedSheetID,let registry = drawing.diagram.definitions else { return false }
+        do {
+            let proposal = try DefinitionRowEditing.proposal(edit,sheetID:sheetID,registry:registry)
+            guard proposal != registry else { return false }
+            switch edit {
+            case .insert(let section,let name): submittedAddress = DefinitionCellAddress(cell:"Value",section:section,rowName:name)
+            case .rename(let id,_):
+                if let row = proposal.editableSheets.first(where:{$0.id == sheetID})?.rows.first(where:{$0.id == id}) {
+                    var address = row.address;address.cell = selectedAddress?.cell ?? "Value";submittedAddress = address
+                }
+            case .remove, .insertSection, .removeSection: submittedAddress = nil
+            }
+        } catch { explain(error.localizedDescription);return false }
+        drawing.editDefinitionRow(sheetID:sheetID,edit:edit)
+        guard drawing.isCalculating else { explain(drawing.lastCalculationJobError?.localizedDescription ?? "The row was not submitted.");return false }
+        submitted = snapshot;availability = nil;refreshAvailability();return true
+    }
+    @objc private func addSection(_ sender:Any?) { _ = submitRowEdit(.insertSection(name:rowSectionPicker.titleOfSelectedItem ?? "User")) }
+    @objc private func removeSection(_ sender:Any?) {
+        if let section = selectedSheet?.sections?.first(where:{$0.name == rowSectionPicker.titleOfSelectedItem && $0.index == nil}) {
+            _ = submitRowEdit(.removeSection(sectionID:section.id))
+        }
+    }
+    @objc private func rowDraftChanged(_ sender:Any?) { backendFailure = nil;availability = nil;refreshAvailability() }
+    @objc private func addRow(_ sender:Any?) { _ = submitRowEdit(.insert(section:rowSectionPicker.titleOfSelectedItem ?? "User",name:rowNameField.stringValue)) }
+    @objc private func renameRow(_ sender:Any?) { if let row = selectedNamedRow { _ = submitRowEdit(.rename(rowID:row.id,name:rowNameField.stringValue)) } }
+    @objc private func deleteRow(_ sender:Any?) { if let row = selectedNamedRow { _ = submitRowEdit(.remove(rowID:row.id)) } }
+
     func numberOfRows(in tableView:NSTableView) -> Int { cells.count }
     func tableView(_ tableView:NSTableView,viewFor tableColumn:NSTableColumn?,row:Int) -> NSView? {
         guard cells.indices.contains(row) else { return nil };let cell = cells[row]
@@ -277,7 +346,7 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
     }
     func selectionShouldChange(in tableView:NSTableView) -> Bool { !hasMarkedText }
     func tableViewSelectionDidChange(_ notification:Notification) { if !selecting { loadSelectedCell() } }
-    func controlTextDidChange(_ obj:Notification) { availability = nil;refreshAvailability() }
+    func controlTextDidChange(_ obj:Notification) { backendFailure = nil;availability = nil;refreshAvailability() }
     private static func addressLabel(_ address:DefinitionCellAddress) -> String {
         var parts = [address.section.map{$0+(address.sectionIndex.map{"[\($0)]"} ?? "")} ?? "Root"]
         if let name = address.rowName { parts.append("Row \(name)"+(address.rowIndex.map{" [\($0)]"} ?? "")) }
@@ -314,6 +383,15 @@ final class DefinitionSheetEditorController:NSWindowController,NSWindowDelegate,
         table.delegate = self;table.dataSource = self;table.usesAlternatingRowBackgroundColors = true;table.allowsMultipleSelection = false;table.rowHeight = 25;table.setAccessibilityLabel("Definition cells")
         let scroll = NSScrollView();scroll.documentView = table;scroll.hasVerticalScroller = true;scroll.hasHorizontalScroller = true;scroll.borderType = .bezelBorder
         stack.addArrangedSubview(scroll);scroll.widthAnchor.constraint(equalTo:stack.widthAnchor).isActive = true;scroll.heightAnchor.constraint(greaterThanOrEqualToConstant:220).isActive = true
+        rowSectionPicker.addItems(withTitles:["User","Property"]);rowSectionPicker.target = self;rowSectionPicker.action = #selector(rowDraftChanged(_:));rowSectionPicker.setAccessibilityLabel("Row section")
+        rowNameField.delegate = self;rowNameField.placeholderString = "Row name";rowNameField.setAccessibilityLabel("Row name")
+        addRowButton.target = self;addRowButton.action = #selector(addRow(_:))
+        renameRowButton.target = self;renameRowButton.action = #selector(renameRow(_:))
+        deleteRowButton.target = self;deleteRowButton.action = #selector(deleteRow(_:))
+        addSectionButton.target = self;addSectionButton.action = #selector(addSection(_:))
+        removeSectionButton.target = self;removeSectionButton.action = #selector(removeSection(_:))
+        let rows = row([rowSectionPicker,rowNameField,addRowButton,renameRowButton,deleteRowButton]);stack.addArrangedSubview(rows);rows.widthAnchor.constraint(equalTo:stack.widthAnchor).isActive = true
+        let sections = row([addSectionButton,removeSectionButton,NSTextField(labelWithString:"Local User / Property sections")]);stack.addArrangedSubview(sections)
         for (label,field) in [("Cached value",valueField),("Formula",formulaField),("Unit",unitField)] {
             field.delegate = self;field.setAccessibilityLabel(label);field.font = .monospacedSystemFont(ofSize:12,weight:.regular)
             let labelView = NSTextField(labelWithString:label);labelView.widthAnchor.constraint(equalToConstant:100).isActive = true

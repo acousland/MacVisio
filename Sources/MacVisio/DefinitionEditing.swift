@@ -10,27 +10,54 @@ enum DefinitionEditing {
         guard var registry = input.definitions, input.visioArchive != nil else {
             throw DiagramError.invalid("This drawing has no public definition source.")
         }
-        var found = false
-        if registry.documentSheet?.id == sheetID {
-            registry.documentSheet?.set(address, to: value)
-            found = true
-        }
-        for index in registry.masters.indices {
-            if let sheet = registry.masters[index].sheets.firstIndex(where: { $0.id == sheetID }) {
-                registry.masters[index].sheets[sheet].set(address, to: value); found = true
-            }
-        }
-        for index in registry.styles.indices {
-            if let sheet = registry.styles[index].sheets.firstIndex(where: { $0.id == sheetID }) {
-                registry.styles[index].sheets[sheet].set(address, to: value); found = true
-            }
-        }
-        guard found else { throw DiagramError.invalid("The definition sheet is no longer available.") }
+        try registry.editSheet(sheetID) { $0.set(address, to: value) }
         try registry.validate()
         guard registry != input.definitions else { return input }
+        return try applying(registry, to: input)
+    }
+
+    static func editingRow(in input: Diagram, sheetID: UUID, edit: DefinitionRowEdit) throws -> Diagram {
+        guard let registry = input.definitions, input.visioArchive != nil else {
+            throw DiagramError.invalid("This drawing has no public definition source.")
+        }
+        if let sheet = registry.editableSheets.first(where: { $0.id == sheetID }) {
+            let name: String?, section: String?, editingID: UUID?
+            switch edit {
+            case .insert(let kind, let proposed): name = proposed;section = kind;editingID = nil
+            case .rename(let id, let proposed): name = proposed;section = sheet.rows.first { $0.id == id }?.section;editingID = id
+            case .insertSection(let proposed): name = nil;section = proposed;editingID = nil
+            default: name = nil;section = nil;editingID = nil
+            }
+            if let section, input.visioArchive?.definitionRows?.contains(where: { source in
+                source.sheetID == sheetID && source.rowID != editingID && source.address.section == section
+                    && source.address.sectionIndex == nil && source.address.rowIndex == nil
+                    && (name.map { proposed in source.address.rowName?.caseInsensitiveCompare(proposed) == .orderedSame } ?? (source.isSection == true))
+                    && !sheet.rows.contains(where: { row in row.id == source.rowID })
+                    && !(sheet.sections ?? []).contains(where: { section in section.id == source.rowID })
+            }) == true {
+                throw DiagramError.invalid("Choose a different name; this name is retained by the current source or undo history.")
+            }
+        }
+        let next = try DefinitionRowEditing.proposal(edit, sheetID: sheetID, registry: registry)
+        guard next != registry else { return input }
+        return try applying(next, to: input)
+    }
+
+    private static func applying(_ proposed: DefinitionRegistry, to input: Diagram) throws -> Diagram {
+        var registry = proposed
         // Capture unsaved instance edits before changing their inherited source.
         let prepared = try VisioPreservation.prepared(input)
-        let parts = try patchedParts(registry, in: prepared.parts)
+        let parts = try patchedParts(registry, in: prepared.parts, sourceRows: prepared.definitionRows, bindings: prepared.pages)
+        // Reference rewriting changes authored formulas as well as XML. Keep the
+        // native registry and public projection in the same undo transaction.
+        var valuesBySheet: [UUID: [DefinitionCellAddress: ShapeSheetCell]] = [:]
+        _ = try DefinitionRowEditing.elements(registry, parts: parts) { sheet, element, _ in
+            valuesBySheet[sheet.id] = Dictionary(DefinitionRegistry.sheet(element, scope: sheet.id, publicID: sheet.publicID).cells.map { ($0.address, $0.value) }, uniquingKeysWith: { a, _ in a })
+        }
+        registry.forEachEditableSheet { target in
+            guard let values = valuesBySheet[target.id] else { return }
+            for i in target.cells.indices { if let value = values[target.cells[i].address] { target.cells[i].value = value } }
+        }
         var projectionInput = input
         projectionInput.visioArchive = prepared
         projectionInput.definitions = registry
@@ -41,9 +68,12 @@ enum DefinitionEditing {
         return try projected.validated()
     }
 
-    static func patchedParts(_ registry: DefinitionRegistry?, in original: [String: Data]) throws -> [String: Data] {
+    static func patchedParts(_ registry: DefinitionRegistry?, in original: [String: Data],
+                             sourceRows: [DefinitionSourceRow]? = nil, bindings: [VisioPageBinding] = [], checkingDeletedReferences: Bool = true) throws -> [String: Data] {
         guard let registry else { return original }
-        var parts = original
+        let sources = sourceRows ?? DefinitionSourceRow.index(registry)
+        try DefinitionSourceRow.validate(sources)
+        var parts = try DefinitionRowEditing.patchRows(registry, parts: original, sources: sources)
         var documents: [String: XMLDocument] = [:]
         var masterSheets: [String: [String: XMLElement]] = [:]
         var styleSheets: [String: [String: XMLElement]] = [:]
@@ -101,7 +131,7 @@ enum DefinitionEditing {
             }
         }
         for part in changed { parts[part] = documents[part]!.xmlData(options: .nodePreserveAll) }
-        return parts
+        return try DefinitionReferenceEditing.patch(registry, parts: parts, sources: sources, bindings: bindings, checkingDeletedReferences: checkingDeletedReferences)
     }
 
     private static func cellOwner(_ address: DefinitionCellAddress, in element: XMLElement,

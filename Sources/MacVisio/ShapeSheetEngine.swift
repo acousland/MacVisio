@@ -38,6 +38,10 @@ enum ShapeSheetEngine {
         var nodeIndicesByPage: [UUID: [UUID: Int]] = [:]
         let session = session ?? CalculationSession()
         let colorPalette = ShapeSheetColorPalette(documentArchive:diagram.visioArchive)
+        // DefinitionEditing already projects and evaluates public inheritance.
+        // Its geometry/style differences are computed results, not new literal
+        // canvas edits; preparing them against the previous caches would erase F.
+        let definitionProjection = previous.map { $0.definitions != input.definitions } ?? false
         func documentContext(_ diagram: Diagram) -> [DiagramPage] {
             diagram.pages.map { page in var value = page; value.nodes = []; value.edges = []; return value }
         }
@@ -129,6 +133,7 @@ enum ShapeSheetEngine {
             work.hostConnectorsPrepared += session.preparedHostConnectors - connectorsBefore
             for i in candidates {
                 if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
+                if definitionProjection { continue }
                 if let prior = oldNodesByID?[page.nodes[i].id],let oldPage = old,let oldNodesByID {
                     if prior.width != page.nodes[i].width || prior.height != page.nodes[i].height { page.nodes[i].formatting.controls = ControlGeometry.resized(page.nodes[i].formatting.controls,from:prior,to:page.nodes[i]) }
                     let before = defaults(prior,page:oldPage,nodesByID:oldNodesByID,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1}),after = defaults(page.nodes[i],page:page,nodesByID:pageNodesByID,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1})
@@ -157,7 +162,7 @@ enum ShapeSheetEngine {
                 if trusted, let index = dependency?.edgeIndices[id], let old,
                    old.edges.indices.contains(index), old.edges[index].id == id { prior = old.edges[index] }
                 else { prior = oldEdges?[id] }
-                page.edges[i] = ConnectorSheetCalculation.prepare(page.edges[i], previous: prior)
+                if !definitionProjection { page.edges[i] = ConnectorSheetCalculation.prepare(page.edges[i], previous: prior) }
                 pageNodesByID[page.edges[i].id] = ConnectorSheetHost.node(page.edges[i], in: page, nodesByID: pageNodesByID)
                 work.hostConnectorsPrepared += 1
             }

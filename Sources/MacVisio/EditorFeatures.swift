@@ -10,6 +10,7 @@ enum LayerPropertiesEditing {
             let name = text(row,0)
             let old = previous.first(where:{$0.name == name}) ?? (rows.count == previous.count && previous.indices.contains(index) ? previous[index] : nil)
             var layer = old ?? DiagramLayer(name:name)
+            layer.name = name
             layer.visible = yes(text(row,1),true);layer.locked = yes(text(row,2),false);layer.printable = yes(text(row,3),true);layer.snap = yes(text(row,4),true);layer.glue = yes(text(row,5),true)
             let color = text(row,6)
             if color.isEmpty || color.caseInsensitiveCompare("none") == .orderedSame { layer.color = nil }
@@ -27,6 +28,24 @@ enum LayerPropertiesEditing {
         }
         guard Set(updated.map(\.name)).count == updated.count else { throw DiagramError.invalid("Layer names must be unique.") }
         return updated
+    }
+    static func replacing(_ previous:[DiagramLayer],with updated:[DiagramLayer],on input:DiagramPage) -> DiagramPage {
+        var page = input;page.layers = updated
+        let names = Set(updated.map(\.name))
+        let renamed = Dictionary(uniqueKeysWithValues:previous.compactMap { old in updated.first(where:{$0.id == old.id}).map{(old.name,$0.name)} })
+        for i in page.nodes.indices {
+            page.nodes[i].layer = renamed[page.nodes[i].layer] ?? page.nodes[i].layer
+            if !names.contains(page.nodes[i].layer) { page.nodes[i].layer = "Default" }
+            page.nodes[i].formatting.layerNames = page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
+        }
+        for i in page.edges.indices {
+            if let name = page.edges[i].layer { page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) }
+            if var detail = page.edges[i].details {
+                detail.layerNames = detail.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
+                page.edges[i].details = detail
+            }
+        }
+        return page
     }
 }
 
@@ -252,15 +271,8 @@ extension EditorWindowController {
         guard grid.run(title:"Drawing Layers",message:"Snap lets other shapes align to shapes on the layer. Glue lets connectors attach to shapes on the layer. A color overrides a shape's colors when it belongs to exactly one layer; blank disables it. Enter six-digit RGB hex. Transparency is 0% opaque to 100% clear.") else { return }
         let updated:[DiagramLayer]
         do { updated = try LayerPropertiesEditing.apply(grid.rows,previous:layers) } catch { presentError(error); return }
-        var next = diagramDocument.diagram; next.page.layers = updated
-        let names = Set(updated.map(\.name))
-        let renamed = Dictionary(uniqueKeysWithValues:layers.compactMap { old in updated.first(where:{$0.id == old.id}).map{(old.name,$0.name)} })
-        for i in next.page.nodes.indices {
-            next.page.nodes[i].layer = renamed[next.page.nodes[i].layer] ?? next.page.nodes[i].layer
-            if !names.contains(next.page.nodes[i].layer) { next.page.nodes[i].layer = "Default" }
-            next.page.nodes[i].formatting.layerNames = next.page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
-        }
-        for i in next.page.edges.indices { if let name = next.page.edges[i].layer { next.page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) } }
+        var next = diagramDocument.diagram
+        next.page = LayerPropertiesEditing.replacing(layers,with:updated,on:next.page)
         diagramDocument.replaceInEditor(with:next,action:"Layer Properties")
     }
     @objc func insertImage(_ sender:Any?) {

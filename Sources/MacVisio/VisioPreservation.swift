@@ -24,7 +24,8 @@ enum VisioPreservation {
     /// document installs this baseline only after a successful destination save.
     static func prepared(_ diagram: Diagram) throws -> VisioDocumentArchive {
         guard var source = diagram.visioArchive else { throw DiagramError.invalid("The original Visio package is unavailable.") }
-        var parts = try DefinitionEditing.patchedParts(diagram.definitions, in: source.parts)
+        let definitionRows = try DefinitionRowEditing.advancedSources(diagram.definitions, original: source.parts, sources: source.definitionRows)
+        var parts = try DefinitionEditing.patchedParts(diagram.definitions, in: source.parts, sourceRows: source.definitionRows, bindings: source.pages, checkingDeletedReferences: false)
         if parts != source.parts {
             var baseline = diagram
             baseline.pages = source.pages.map(\.original)
@@ -53,9 +54,16 @@ enum VisioPreservation {
                 if flag != (page.isBackground == true) || target != nil && target != actual { backgroundSync = true }
             }
         }
+        func checkRemovedRowReferences(_ final: [String: Data]) throws {
+            guard let registry = diagram.definitions, let records = source.definitionRows else { return }
+            // Pending native cell edits may intentionally remove references.
+            // Check the completed public package, after those edits are patched.
+            _ = try DefinitionReferenceEditing.patch(registry, parts: final, sources: records, bindings: source.pages, rewritingRenames: false)
+        }
         if source.pages.map(\.original) == diagram.pages && !backgroundSync {
+            try checkRemovedRowReferences(parts)
             if parts[nativePart] != nil { parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages) }
-            var rebased = source;rebased.parts = parts
+            var rebased = source;rebased.parts = parts;rebased.definitionRows = definitionRows
             return rebased
         }
         guard let indexData = parts[source.pagesPart] else { throw DiagramError.invalid("The original Visio page index is missing.") }
@@ -133,8 +141,9 @@ enum VisioPreservation {
         ensureType("json","application/json",root:typeRoot)
         parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll)
         try ensureFonts(diagram,parts:&parts,bindings:bindings,original:source.pages.map(\.original))
+        try checkRemovedRowReferences(parts)
         parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:bindings)
-        var rebased = source;rebased.parts = parts;rebased.pages = bindings
+        var rebased = source;rebased.parts = parts;rebased.definitionRows = definitionRows;rebased.pages = bindings
         return rebased
     }
 
@@ -330,10 +339,21 @@ enum VisioPreservation {
             if previous?.startArrow != edge.startArrow { VisioXML.set(element,"BeginArrow",edge.startArrow == true ? 4 : 0) }
             if previous?.dash != edge.dash { VisioXML.set(element,"LinePattern",Double(edge.dash ?? 1)) }
             patchConnectorDetails(edge,previous:previous,element:element)
-            if previous == nil || previous?.layer != edge.layer || page.layers != old.layers {
+            let membershipsChanged = previous == nil || previous?.layer != edge.layer
+                || previous?.formatting.layerNames != edge.formatting.layerNames
+            if membershipsChanged || page.layers != old.layers {
+                let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
                 let rows = layerSheet.elementsLocal("Section").first{$0.attr("N") == "Layer"}?.elementsLocal("Row") ?? []
-                if let id = rows.first(where:{VisioXML.value($0,"Name") == edge.layer})?.attr("IX") { VisioXML.set(element,"LayerMember",id) }
-                else { element.elementsLocal("Cell").first{$0.attr("N") == "LayerMember"}?.detach() }
+                let ids = rows.filter{names.contains(VisioXML.value($0,"Name") ?? "")}.compactMap{$0.attr("IX")}
+                let source = VisioXML.value(element,"LayerMember") ?? previous?.formatting.sheet["LayerMember"]?.value ?? ""
+                let sourceIDs = Set(source.split(separator:";").map(String.init))
+                if !ids.isEmpty {
+                    // A layer property/order edit must not materialize an inherited
+                    // membership or discard an unchanged authored formula.
+                    if membershipsChanged || sourceIDs != Set(ids) { VisioXML.set(element,"LayerMember",ids.joined(separator:";")) }
+                } else if !sourceIDs.isEmpty && (element.attr("Master") != nil || element.attr("MasterShape") != nil) {
+                    VisioXML.set(element,"LayerMember","")
+                } else { element.elementsLocal("Cell").first{$0.attr("N") == "LayerMember"}?.detach() }
             }
             if previous == nil || bindingsChanged || portsChanged || reroute && inheritance[edge.id] != nil || previous?.source != edge.source || previous?.target != edge.target {
                 for connection in connects.elementsLocal("Connect") where connection.attr("FromSheet") == shapeID { connection.detach() }
@@ -490,9 +510,13 @@ enum VisioPreservation {
             let fx = element.elementsLocal("Cell").first(where:{$0.attr("N") == "LocPinX"})?.attr("F") ?? old.formatting.sheet["LocPinX"]?.formula ?? ""
             let fy = element.elementsLocal("Cell").first(where:{$0.attr("N") == "LocPinY"})?.attr("F") ?? old.formatting.sheet["LocPinY"]?.formula ?? ""
             func resolve(_ name:String) throws -> Double { if name.lowercased() == "width" { return w };if name.lowercased() == "height" { return h };if let v = node.formatting.sheet.first(where:{$0.key.caseInsensitiveCompare(name) == .orderedSame}).flatMap({Double($0.value.value)}) { return v };throw DiagramError.invalid("Unsupported pin formula") }
+            let restoringGeometryCaches = ["Width","Height","PinX","PinY"].contains { key in
+                guard let current = node.formatting.sheet[key], let previous = old.formatting.sheet[key] else { return false }
+                return current.hasSameAuthoredFormula(as: previous) && current.value != previous.value
+            }
             func localPin(_ key: String, formula: String) -> Double? {
                 if let current = node.formatting.sheet[key], let previous = old.formatting.sheet[key],
-                   current.hasSameAuthoredFormula(as: previous), current.value != previous.value,
+                   current.hasSameAuthoredFormula(as: previous), (current.value != previous.value || restoringGeometryCaches),
                    let value = Double(current.value), value.isFinite { return value }
                 return try? ShapeSheet.evaluate(formula,resolve:resolve)
             }

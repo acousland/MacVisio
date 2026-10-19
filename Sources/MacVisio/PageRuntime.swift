@@ -92,12 +92,14 @@ final class PageRuntime {
     func permitsShapeSnap(nodeID: UUID) -> Bool { snapByID[nodeID] ?? false }
     func isVisible(edgeID: UUID) -> Bool {
         guard let edge = edgesByID[edgeID] else { return false }
-        if let name = edge.layer, layersByName[name]?.visible == false { return false }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap { $0 })
+        if names.contains(where: { layersByName[$0]?.visible == false }) { return false }
         return edge.parentID.map { visibleByID[$0] ?? true } ?? true
     }
     func isLocked(edgeID: UUID) -> Bool {
         guard let edge = edgesByID[edgeID] else { return true }
-        if let name = edge.layer, layersByName[name]?.locked == true { return true }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap { $0 })
+        if names.contains(where: { layersByName[$0]?.locked == true }) { return true }
         return edge.parentID.map { lockedByID[$0] ?? false } ?? false
     }
 

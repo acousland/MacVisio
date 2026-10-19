@@ -162,11 +162,13 @@ struct DiagramPage: Codable, Equatable, Identifiable {
         }; return true
     }
     func isVisible(_ edge:DiagramEdge,printing:Bool = false) -> Bool {
-        if (layers ?? []).contains(where:{$0.name == edge.layer && (!$0.visible || printing && !$0.printable)}) { return false }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+        if (layers ?? []).contains(where:{names.contains($0.name) && (!$0.visible || printing && !$0.printable)}) { return false }
         return edge.parentID.flatMap{id in nodes.first{$0.id == id}}.map{isVisible($0,printing:printing)} ?? true
     }
     func isLocked(_ edge:DiagramEdge) -> Bool {
-        if (layers ?? []).contains(where:{$0.name == edge.layer && $0.locked}) { return true }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+        if (layers ?? []).contains(where:{names.contains($0.name) && $0.locked}) { return true }
         return edge.parentID.flatMap{id in nodes.first{$0.id == id}}.map{isLocked($0)} ?? false
     }
     func descendants(of id: UUID) -> Set<UUID> {
@@ -203,7 +205,10 @@ struct Diagram: Codable, Equatable {
         while let id = next,seen.count<=pages.count,seen.insert(id).inserted,let background = byID[id] {
             backgrounds.append(background);next = background.backgroundPageID
         }
-        if backgrounds.contains(where:{$0.nodes.contains{$0.formatting.textFields?.isEmpty == false}}) {
+        if backgrounds.contains(where:{background in
+            background.nodes.contains{$0.formatting.textFields?.isEmpty == false}
+                || background.edges.contains{$0.formatting.textFields?.isEmpty == false}
+        }) {
             let evaluated = TextFieldEngine.recalculate(self,foreground:foreground).diagram
             backgrounds = backgrounds.map{background in evaluated.pages.first{$0.id == background.id} ?? background}
         }
@@ -213,6 +218,29 @@ struct Diagram: Codable, Equatable {
         guard version == 1, !pages.isEmpty, pages.count <= 1000 else { throw DiagramError.invalid("Unsupported version or invalid page count.") }
         if definitions == nil, visioArchive != nil { return try DefinitionRegistry.hydrate(self).validated() }
         try definitions?.validate()
+        if let registry = definitions, let archive = visioArchive, archive.definitionRows != nil { try DefinitionSourceRow.validateArchive(archive,registry:registry) }
+        if let registry = definitions, let archive = visioArchive, registry.editableSheets.contains(where: { $0.sections == nil }) {
+            var hydrated = registry
+            var sectionsBySheet: [UUID: [DefinitionSection]] = [:]
+            _ = try DefinitionRowEditing.elements(registry, parts: archive.parts) { sheet, element, _ in
+                guard sheet.sections == nil else { return }
+                var sections = DefinitionRegistry.sheet(element, scope: sheet.id, publicID: sheet.publicID).sections ?? []
+                for i in sections.indices { sections[i].id = DefinitionRegistry.stableID(sheet.id, "section:" + sections[i].address.key) }
+                sectionsBySheet[sheet.id] = sections
+            }
+            hydrated.forEachEditableSheet { if let sections = sectionsBySheet[$0.id] { $0.sections = sections } }
+            var indexed = self; indexed.definitions = hydrated
+            if let prior = archive.definitionRows {
+                let existing = Set(prior.map(\.rowID))
+                indexed.visioArchive?.definitionRows = prior + DefinitionSourceRow.index(hydrated).filter { !existing.contains($0.rowID) }
+            }
+            return try indexed.validated()
+        }
+        if let definitions, let archive = visioArchive, archive.definitionRows == nil {
+            var indexed = self
+            indexed.visioArchive?.definitionRows = DefinitionSourceRow.index(definitions)
+            return try indexed.validated()
+        }
         if visioArchive != nil,pages.contains(where:{$0.drawingScale == nil}),let hydrated = try DrawingScale.hydrate(self) { return try hydrated.validated() }
         if let archive = visioArchive,archive.connectorHierarchyVersion != 1 { return try DiagramCoordinates.hydrateArchivedConnectors(self).validated() }
         if let hydrated = try VisioFormat.hydrateMissingConnectorDetails(self) { return try hydrated.validated() }

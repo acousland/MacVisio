@@ -207,4 +207,90 @@ final class M3DefinitionEditorTests:XCTestCase {
             XCTAssertFalse(controller.applySelectedCell());XCTAssertFalse(controller.applyButton.isEnabled)
         }
     }
+    func testNativeRowAddRenameDeleteShareOwnedWorkerAndUndoWithoutCanvasSelection() throws {
+        try withEditor { document,editor in
+            editor.canvas.select([])
+            let sheet = try XCTUnwrap(document.diagram.definitions?.documentSheet)
+            editor.showDefinitionSheet(sheetID:sheet.id,address:nil)
+            let controller = editor.definitionSheetController,before = document.diagram
+            XCTAssertNil(controller.selectedCell)
+            XCTAssertTrue(controller.submitRowEdit(.insert(section:"Property",name:"Project")))
+            XCTAssertEqual(document.diagram,before);XCTAssertTrue(document.isCalculating)
+            XCTAssertFalse(controller.submitRowEdit(.insert(section:"User",name:"Second")))
+            waitForCalculation(document);controller.refreshAvailability()
+            XCTAssertNil(document.lastCalculationJobError)
+            let row = try XCTUnwrap(document.diagram.definitions?.documentSheet?.rows.first{$0.name == "Project"})
+            XCTAssertEqual(controller.selectedAddress,DefinitionCellAddress(cell:"Value",section:"Property",rowName:"Project"))
+            XCTAssertEqual(document.undoManager?.undoActionName,"Edit Definition Row")
+            XCTAssertTrue(controller.submitRowEdit(.rename(rowID:row.id,name:"Workstream")))
+            waitForCalculation(document);controller.refreshAvailability();XCTAssertNil(document.lastCalculationJobError)
+            XCTAssertEqual(controller.selectedCell?.address.rowName,"Workstream")
+            XCTAssertTrue(controller.submitRowEdit(.remove(rowID:row.id)))
+            waitForCalculation(document);controller.refreshAvailability();XCTAssertNil(document.lastCalculationJobError)
+            XCTAssertFalse(document.diagram.definitions?.documentSheet?.rows.contains{$0.id == row.id} ?? true)
+            document.undoManager?.undo()
+            XCTAssertEqual(document.diagram.definitions?.documentSheet?.rows.first{$0.id == row.id}?.name,"Workstream")
+            document.undoManager?.undo();document.undoManager?.undo()
+            XCTAssertEqual(document.diagram.definitions,before.definitions)
+            XCTAssertTrue(editor.canvas.selectedNodes.isEmpty)
+        }
+    }
+
+    func testNativeRowDraftRefusesIMEStaleSnapshotAndClosedOwner() throws {
+        try withEditor { document,editor in
+            let sheet = try XCTUnwrap(document.diagram.definitions?.documentSheet)
+            editor.showDefinitionSheet(sheetID:sheet.id,address:nil)
+            let controller = editor.definitionSheetController,before = document.diagram
+            XCTAssertTrue(controller.window?.makeFirstResponder(controller.rowNameField) == true)
+            let field = try XCTUnwrap(controller.rowNameField.currentEditor() as? NSTextView)
+            field.setMarkedText("あ",selectedRange:NSRange(location:1,length:0),replacementRange:NSRange(location:NSNotFound,length:0))
+            XCTAssertFalse(controller.submitRowEdit(.insert(section:"User",name:"Draft")))
+            XCTAssertTrue(field.hasMarkedText());XCTAssertEqual(document.diagram,before);field.unmarkText()
+            var changed = document.diagram;changed.pages[0].name = "Concurrent page name"
+            document.replace(with:changed,action:"Concurrent edit")
+            XCTAssertFalse(controller.submitRowEdit(.insert(section:"User",name:"Draft")))
+            XCTAssertFalse(document.isCalculating)
+            XCTAssertTrue(controller.reasonLabel.stringValue.contains("changed"))
+            editor.close();XCTAssertFalse(controller.submitRowEdit(.insert(section:"User",name:"Draft")))
+        }
+    }
+
+    func testNativeEmptySectionLifecycleHasOneUndoPerCommand() throws {
+        try withEditor { document,editor in
+            let sheet = try XCTUnwrap(document.diagram.definitions?.documentSheet)
+            editor.showDefinitionSheet(sheetID:sheet.id,address:nil)
+            let controller = editor.definitionSheetController
+            XCTAssertTrue(controller.submitRowEdit(.insertSection(name:"Property")))
+            waitForCalculation(document);controller.refreshAvailability();XCTAssertNil(document.lastCalculationJobError)
+            let section = try XCTUnwrap(document.diagram.definitions?.documentSheet?.sections?.first{$0.name == "Property"})
+            XCTAssertTrue(controller.submitRowEdit(.removeSection(sectionID:section.id)))
+            waitForCalculation(document);controller.refreshAvailability();XCTAssertNil(document.lastCalculationJobError)
+            XCTAssertFalse(document.diagram.definitions?.documentSheet?.sections?.contains{$0.id == section.id} ?? true)
+            document.undoManager?.undo()
+            XCTAssertEqual(document.diagram.definitions?.documentSheet?.sections?.first{$0.id == section.id},section)
+            document.undoManager?.undo();XCTAssertEqual(document.diagram.definitions?.documentSheet,sheet)
+            XCTAssertFalse(document.undoManager?.canUndo ?? true)
+        }
+    }
+
+    func testReferencedRowWorkerFailureRemainsVisibleUntilNewDraft() throws {
+        try withEditor { document,editor in
+            let sheet = try XCTUnwrap(document.diagram.definitions?.documentSheet)
+            let row = try XCTUnwrap(sheet.rows.first{$0.name == "Revision"})
+            document.diagram.pages[0].nodes[1].formatting.sheet["Width"] = ShapeSheetCell(value:"3",formula:"TheDoc!User.Revision")
+            editor.showDefinitionSheet(sheetID:sheet.id,address:DefinitionCellAddress(cell:"Value",section:"User",rowName:"Revision"))
+            let controller = editor.definitionSheetController,before = document.diagram
+            XCTAssertTrue(controller.submitRowEdit(.remove(rowID:row.id)))
+            waitForCalculation(document);controller.refreshAvailability()
+            XCTAssertNotNil(document.lastCalculationJobError)
+            XCTAssertTrue(controller.reasonLabel.stringValue.contains("still referenced"),controller.reasonLabel.stringValue)
+            controller.refreshAvailability()
+            XCTAssertTrue(controller.reasonLabel.stringValue.contains("still referenced"))
+            XCTAssertEqual(document.diagram,before);XCTAssertFalse(document.undoManager?.canUndo ?? true)
+            controller.rowNameField.stringValue = "New draft"
+            controller.controlTextDidChange(Notification(name:NSControl.textDidChangeNotification,object:controller.rowNameField))
+            XCTAssertFalse(controller.reasonLabel.stringValue.contains("still referenced"))
+        }
+    }
+
 }

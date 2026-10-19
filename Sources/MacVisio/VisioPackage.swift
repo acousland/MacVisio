@@ -67,10 +67,19 @@ struct VisioDocumentArchive: Codable, Equatable {
     }
     var sourceResourceID: UUID { sourceParts.id }
     var sourceLineageID: UUID { sourceParts.lineageID }
-    var sourceByteCount: Int { sourceParts.byteCount }
+    var sourceByteCount: Int { sourceParts.byteCount + definitionRowByteCount }
     var pagesPart: String
     var pages: [VisioPageBinding]
     var connectorHierarchyVersion:Int? = nil
+    /// Stable row identities at the last successful public save; removed XML is retained for undo.
+    var definitionRows: [DefinitionSourceRow]? = nil {
+        didSet { definitionRowByteCount = Self.rowSourceCharge(definitionRows);definitionRowsResourceID = UUID() }
+    }
+    private(set) var definitionRowsResourceID = UUID()
+    private var definitionRowByteCount = 0
+    private static func rowSourceCharge(_ rows: [DefinitionSourceRow]?) -> Int {
+        rows?.reduce(0) { $0 + 256 + $1.address.key.utf8.count + ($1.removedXML?.count ?? 0) } ?? 0
+    }
     /// The Office theme selected through the document's theme relationship.
     /// The package parts remain authoritative for round-trip preservation.
     var theme: VisioTheme? = nil
@@ -83,8 +92,14 @@ struct VisioDocumentArchive: Codable, Equatable {
         self.theme = theme
     }
 
+    static func == (lhs: Self, rhs: Self) -> Bool {
+        lhs.sourceParts == rhs.sourceParts && lhs.pagesPart == rhs.pagesPart && lhs.pages == rhs.pages
+            && lhs.connectorHierarchyVersion == rhs.connectorHierarchyVersion && lhs.theme == rhs.theme
+            && lhs.definitionRows == rhs.definitionRows
+    }
+
     private enum CodingKeys: String, CodingKey {
-        case parts, pagesPart, pages, connectorHierarchyVersion, theme
+        case parts, pagesPart, pages, connectorHierarchyVersion, theme, definitionRows
     }
 
     init(from decoder: Decoder) throws {
@@ -94,6 +109,8 @@ struct VisioDocumentArchive: Codable, Equatable {
         pages = try values.decode([VisioPageBinding].self, forKey: .pages)
         connectorHierarchyVersion = try values.decodeIfPresent(Int.self, forKey: .connectorHierarchyVersion)
         theme = try values.decodeIfPresent(VisioTheme.self, forKey: .theme)
+        definitionRows = try values.decodeIfPresent([DefinitionSourceRow].self, forKey: .definitionRows)
+        definitionRowByteCount = Self.rowSourceCharge(definitionRows)
     }
 
     func encode(to encoder: Encoder) throws {
@@ -103,6 +120,7 @@ struct VisioDocumentArchive: Codable, Equatable {
         try values.encode(pages, forKey: .pages)
         try values.encodeIfPresent(connectorHierarchyVersion, forKey: .connectorHierarchyVersion)
         try values.encodeIfPresent(theme, forKey: .theme)
+        try values.encodeIfPresent(definitionRows, forKey: .definitionRows)
     }
 }
 

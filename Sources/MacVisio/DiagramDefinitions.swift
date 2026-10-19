@@ -20,6 +20,8 @@ struct DefinitionCell: Codable, Equatable, Identifiable {
     var id: UUID
     var address: DefinitionCellAddress
     var value: ShapeSheetCell
+    /// The original public address anchors identity across an authored row rename.
+    var identityAddress: DefinitionCellAddress? = nil
     var inherits: Bool { value.value.caseInsensitiveCompare("Inh") == .orderedSame || value.formula.uppercased() == "INH" }
 }
 
@@ -31,6 +33,19 @@ struct DefinitionRow: Codable, Equatable, Identifiable {
     var index: String?
     var type: String?
     var deleted: Bool
+    var identityAddress: DefinitionCellAddress? = nil
+
+    var address: DefinitionCellAddress {
+        DefinitionCellAddress(cell: "", section: section, sectionIndex: sectionIndex, rowName: name, rowIndex: index)
+    }
+}
+
+struct DefinitionSection: Codable, Equatable, Identifiable {
+    var id: UUID
+    var name: String
+    var index: String?
+    var attributes: [String: String]
+    var address: DefinitionCellAddress { DefinitionCellAddress(cell: "", section: name, sectionIndex: index) }
 }
 
 struct DefinitionSheet: Codable, Equatable, Identifiable {
@@ -40,6 +55,7 @@ struct DefinitionSheet: Codable, Equatable, Identifiable {
     var attributes: [String: String]
     var cells: [DefinitionCell]
     var rows: [DefinitionRow]
+    var sections: [DefinitionSection]? = nil
     var text: String?
 
     func cell(_ address: DefinitionCellAddress) -> ShapeSheetCell? {
@@ -47,6 +63,18 @@ struct DefinitionSheet: Codable, Equatable, Identifiable {
     }
 
     mutating func set(_ address: DefinitionCellAddress, to value: ShapeSheetCell?) {
+        if value != nil, let section = address.section {
+            let sectionAddress = DefinitionCellAddress(cell: "", section: section, sectionIndex: address.sectionIndex)
+            if sections != nil, sections?.contains(where: { $0.address == sectionAddress }) == false {
+                var attributes = ["N": section];attributes["IX"] = address.sectionIndex
+                sections?.append(DefinitionSection(id: DefinitionRegistry.stableID(id, "section:" + sectionAddress.key), name: section, index: address.sectionIndex, attributes: attributes))
+            }
+            var rowAddress = address;rowAddress.cell = ""
+            if address.rowName != nil || address.rowIndex != nil, !rows.contains(where: { $0.address == rowAddress }) {
+                rows.append(DefinitionRow(id: DefinitionRegistry.stableID(id,rowAddress.key),section:section,sectionIndex:address.sectionIndex,
+                    name:address.rowName,index:address.rowIndex,type:nil,deleted:false))
+            }
+        }
         if let index = cells.firstIndex(where: { $0.address == address }) {
             if let value { cells[index].value = value } else { cells.remove(at: index) }
         } else if let value {
@@ -213,6 +241,7 @@ struct DefinitionRegistry: Codable, Equatable {
         result.definitions = DefinitionRegistry(sourceDocumentID: scope, documentPart: documentPart,
             documentSheet: document.firstLocal("DocumentSheet").map { sheet($0, scope: scope, publicID: "TheDoc") },
             masters: masters, styles: styles, uses: uses)
+        result.visioArchive?.definitionRows = result.definitions.map(DefinitionSourceRow.index)
         return result
     }
 
@@ -236,6 +265,7 @@ struct DefinitionRegistry: Codable, Equatable {
         }
         var cells: [DefinitionCell] = []
         var rows: [DefinitionRow] = []
+        var sections: [DefinitionSection] = []
         func appendCells(_ owner: XMLElement, section: String? = nil, sectionIndex: String? = nil, rowName: String? = nil, rowIndex: String? = nil) {
             for element in owner.elementsLocal("Cell") {
                 guard let name = element.attr("N") else { continue }
@@ -248,6 +278,11 @@ struct DefinitionRegistry: Codable, Equatable {
         for section in element.elementsLocal("Section") {
             guard let name = section.attr("N") else { continue }
             let index = section.attr("IX")
+            let address = DefinitionCellAddress(cell: "", section: name, sectionIndex: index)
+            sections.append(DefinitionSection(id: stableID(id, "section:" + address.key), name: name, index: index,
+                attributes: Dictionary((section.attributes ?? []).compactMap { attribute in
+                    attribute.name.flatMap { key in attribute.stringValue.map { (key, $0) } }
+                }, uniquingKeysWith: { a, _ in a })))
             appendCells(section, section: name, sectionIndex: index)
             for row in section.elementsLocal("Row") {
                 let rowName = row.attr("N"), rowIndex = row.attr("IX")
@@ -259,7 +294,7 @@ struct DefinitionRegistry: Codable, Equatable {
             }
         }
         return DefinitionSheet(id: id, publicID: publicID, parentID: parent, attributes: attributes,
-            cells: cells, rows: rows, text: element.firstLocal("Text")?.stringValue)
+            cells: cells, rows: rows, sections: sections, text: element.firstLocal("Text")?.stringValue)
     }
 
     private static func relationshipElements(_ parts: [String: Data], source: String) throws -> [XMLElement] {
@@ -276,7 +311,7 @@ struct DefinitionRegistry: Codable, Equatable {
 
     func validate() throws {
         let definitions = masters + styles
-        guard version == 1, definitions.count <= 10000, Set(definitions.map(\.id)).count == definitions.count,
+        guard (1...2).contains(version), definitions.count <= 10000, Set(definitions.map(\.id)).count == definitions.count,
               Set(masters.compactMap { UInt32($0.publicID) }).count == masters.count,
               Set(styles.compactMap { UInt32($0.publicID) }).count == styles.count,
               uses.count <= 1_000_000,
@@ -289,7 +324,7 @@ struct DefinitionRegistry: Codable, Equatable {
             guard documentSheet.publicID == "TheDoc", documentSheet.parentID == nil,
                   documentSheet.id == Self.stableID(sourceDocumentID, "sheet:TheDoc"),
                   editableSheetIDs.insert(documentSheet.id).inserted else { throw DiagramError.invalid("Invalid document sheet identity.") }
-            try Self.validateSheet(documentSheet)
+            try Self.validateSheet(documentSheet, version: version)
         }
         for definition in definitions {
             try VisioPackage.validatePath(definition.part)
@@ -312,7 +347,7 @@ struct DefinitionRegistry: Codable, Equatable {
                     guard seen.insert(id).inserted, seen.count <= 64, let next = parents[id] else { throw DiagramError.invalid("Invalid definition sheet hierarchy.") }
                     parent = next
                 }
-                try Self.validateSheet(sheet)
+                try Self.validateSheet(sheet, version: version)
             }
         }
         let masterTargets = Dictionary(masters.map { ($0.id, Set($0.sheets.map(\.publicID))) }, uniquingKeysWith: { first, _ in first })
@@ -336,11 +371,11 @@ struct DefinitionRegistry: Codable, Equatable {
                     throw DiagramError.invalid("Invalid source master target.")
                 }
             } else if use.masterShapeID != nil { throw DiagramError.invalid("A master shape requires a master owner.") }
-            try Self.validateSheet(use.localSheet)
+            try Self.validateSheet(use.localSheet, version: version)
         }
     }
 
-    private static func validateSheet(_ sheet: DefinitionSheet) throws {
+    private static func validateSheet(_ sheet: DefinitionSheet, version: Int) throws {
         func name(_ value: String?) -> Bool { value.map { !$0.isEmpty && $0.utf8.count <= 256 } ?? true }
         func index(_ value: String?) -> Bool { value.map { UInt32($0) != nil } ?? true }
         func address(_ value: DefinitionCellAddress) -> Bool {
@@ -355,8 +390,24 @@ struct DefinitionRegistry: Codable, Equatable {
               Set(sheet.cells.map(\.id)).count == sheet.cells.count,
               Set(sheet.cells.map(\.address)).count == sheet.cells.count,
               Set(sheet.rows.map(\.id)).count == sheet.rows.count else { throw DiagramError.invalid("Invalid definition sheet.") }
+        let sections = sheet.sections ?? []
+        guard sections.count <= 10000, Set(sections.map(\.id)).count == sections.count else { throw DiagramError.invalid("Invalid definition sections.") }
+        for section in sections {
+            guard name(section.name), index(section.index), section.id == stableID(sheet.id, "section:" + section.address.key),
+                  section.attributes.count <= 256, section.attributes["N"] == section.name,
+                  section.attributes["IX"] == section.index,
+                  section.attributes.allSatisfy({ !$0.key.isEmpty && $0.key.utf8.count <= 256 && $0.value.utf8.count <= VisioPackage.partLimit }) else {
+                throw DiagramError.invalid("Invalid definition section identity or attributes.")
+            }
+        }
         for cell in sheet.cells {
-            guard address(cell.address), cell.id == stableID(sheet.id, cell.address.key),
+            let identity = cell.identityAddress ?? cell.address
+            guard address(cell.address), address(identity),
+                  (cell.identityAddress == nil || version == 2),
+                  identity.section == cell.address.section, identity.sectionIndex == cell.address.sectionIndex,
+                  identity.rowIndex == cell.address.rowIndex, identity.cell == cell.address.cell,
+                  (identity.rowName == nil) == (cell.address.rowName == nil),
+                  cell.id == stableID(sheet.id, identity.key),
                   cell.value.value.utf8.count <= VisioPackage.partLimit,
                   cell.value.formula.utf8.count <= 16384, cell.value.unit.utf8.count <= 64 else {
                 throw DiagramError.invalid("Invalid definition cell identity or value.")
@@ -364,11 +415,14 @@ struct DefinitionRegistry: Codable, Equatable {
         }
         var rows: Set<String> = []
         for row in sheet.rows {
-            let key = DefinitionCellAddress(cell: "", section: row.section, sectionIndex: row.sectionIndex,
-                                            rowName: row.name, rowIndex: row.index).key
+            let key = row.address.key
+            let identity = row.identityAddress ?? row.address
             guard name(row.section), name(row.name), index(row.sectionIndex), index(row.index),
                   (row.type?.utf8.count ?? 0) <= 256, rows.insert(key).inserted,
-                  row.id == stableID(sheet.id, key) else { throw DiagramError.invalid("Invalid definition row identity.") }
+                  (row.identityAddress == nil || version == 2), identity.cell.isEmpty,
+                  identity.section == row.section, identity.sectionIndex == row.sectionIndex,
+                  identity.rowIndex == row.index, name(identity.rowName), (identity.rowName == nil) == (row.name == nil),
+                  row.id == stableID(sheet.id, identity.key) else { throw DiagramError.invalid("Invalid definition row identity.") }
         }
     }
 }

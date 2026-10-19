@@ -77,7 +77,7 @@ enum DocumentSaveImpact {
         var definitionContentChanged = false
         if snapshot.definitions != nil {
             do {
-                let parts = try DefinitionEditing.patchedParts(snapshot.definitions, in: archive.parts)
+                let parts = try DefinitionEditing.patchedParts(snapshot.definitions, in: archive.parts, sourceRows: archive.definitionRows, bindings: archive.pages, checkingDeletedReferences: false)
                 if parts != archive.parts {
                     definitionContentChanged = true
                     // Supported definition edits change inherited projections,

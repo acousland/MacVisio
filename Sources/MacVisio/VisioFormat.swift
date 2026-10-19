@@ -772,7 +772,10 @@ enum VisioFormat {
                 let coordinates = DiagramCoordinates.connector(edge,in:page)
                 let from = ConnectionGeometry.destination(edge.sourcePort,on:page.nodes.first{$0.id == edge.source}),to = ConnectionGeometry.destination(edge.targetPort,on:page.nodes.first{$0.id == edge.target})
                 let element = try VisioXML.element(connectorXML(coordinates.edge,id:id,page:coordinates.page,sourceID:fromID,targetID:toID,sourceCells:(from.x,from.y),targetCells:(to.x,to.y)))
-                if let layer = edge.layer,let index = (page.layers ?? []).firstIndex(where:{$0.name == layer}) { VisioXML.set(element,"LayerMember",String(index)) }
+                let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+                let memberships = (page.layers ?? []).enumerated().filter{names.contains($0.element.name)}.map{String($0.offset)}
+                if !memberships.isEmpty { VisioXML.set(element,"LayerMember",memberships.joined(separator:";")) }
+                else { element.elementsLocal("Cell").first{$0.attr("N") == "LayerMember"}?.detach() }
                 if let parentID = edge.parentID,let parent = elements[parentID] { let children = parent.firstLocal("Shapes") ?? XMLElement(name:"Shapes");if children.parent == nil { parent.addChild(children) };children.addChild(element) }
                 else { shapes.addChild(element) }
                 if let fromID = fromID { connectionsXML += "<Connect FromSheet=\"\(id)\" FromCell=\"BeginX\" FromPart=\"9\" ToSheet=\"\(fromID)\" ToCell=\"\(xml(from.x))\" ToPart=\"\(from.part)\"/>" }
