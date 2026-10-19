@@ -151,7 +151,7 @@ enum ShapeSheet {
                 case "SQRT":try arity(1);result = sqrt(values[0])
                 case "SIN":try arity(1);result = sin(values[0]); case "COS":try arity(1);result = cos(values[0]); case "TAN":try arity(1);result = tan(values[0])
                 case "ASIN":try arity(1);result = asin(values[0]); case "ACOS":try arity(1);result = acos(values[0]); case "ATAN":try arity(1);result = atan(values[0])
-                case "ATAN2":try arity(2);result = atan2(values[0],values[1])
+                case "ATAN2":try arity(2);result = try arcTangent2(values[0],values[1])
                 case "LN":try arity(1);result = log(values[0]); case "EXP":try arity(1);result = exp(values[0])
                 case "INT":try arity(1);result = floor(values[0]); case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
@@ -180,6 +180,19 @@ enum ShapeSheet {
             }
             guard result.isFinite else { throw DiagramError.invalid("ShapeSheet calculation produced a non-finite value.") }; return result
         }; return try eval(expression)
+    }
+    /// MS-VSDX ATan2 returns a default-angle value in (-pi, pi]. The
+    /// platform atan2 also accepts signed zero and includes -pi, so its axis
+    /// and rounded endpoint results need canonicalization for this contract.
+    static func arcTangent2(_ y:Double,_ x:Double) throws -> Double {
+        guard y.isFinite,x.isFinite else { throw DiagramError.invalid("ATAN2 requires finite numeric vector components.") }
+        if y == 0,x == 0 { return 0 }
+        // Call atan2 directly; forming y/x first can overflow or underflow
+        // even when the angle of the finite vector is representable.
+        let angle = atan2(y,x)
+        guard angle.isFinite else { throw DiagramError.invalid("ATAN2 produced a non-finite angle.") }
+        if angle <= -Double.pi { return Double.pi }
+        return angle
     }
     static func bitwise(_ name:String,_ operands:[Double]) throws -> Double {
         let function = name.uppercased()
