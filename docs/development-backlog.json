@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Initial checkpoint775/13 skips retained. Current shared-owner, connector source/calculation and definition UI slice:813 available Swift tests (13 prerequisite skips),105 Python pass; three native activation benchmarks pending. Zero M3 children accepted.",
+      "local_evidence_scope": "Initial checkpoint775/13 skips retained. Current shared-owner, connector source/calculation and definition UI slice: full816 Swift tests (13 unchanged prerequisite skips),105 Python pass. Three native activation benchmarks rerun successfully. Zero M3 children accepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9644,7 +9644,7 @@
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
       "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
-      "active_work": "19 October shared-host/native definition browser slice committed at 9908078. Continue remaining child obligations; native benchmark activation awaits system prompt.",
+      "active_work": "19 October shared-host/native definition browser slice committed at9908078. Desktop prompt resolved; full local regression suite passed. Continue remaining row/section, relationship and feature qualification obligations.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json"
     }
   ],

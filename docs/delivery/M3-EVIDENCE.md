@@ -138,3 +138,12 @@ partial local engineering. Endpoint/routing/glue calculation, row/section
 lifecycle, full host/function/appearance/output/library contracts and independent
 Visio/font/physical qualification remain open. All 204 M3 children and the
 milestone remain unaccepted; 17 children are in progress, 181 pending and 6 proposed.
+
+Later on 19 October, the user confirmed the system security prompt was dismissed.
+All three native activation/event-routing benchmarks then passed. The complete
+`swift test --scratch-path build/m3-swift -j 2` run passed **816 tests, with13
+unchanged prerequisite skips and zero failures**; no native benchmark was excluded.
+This supersedes the earlier partial run and activation blocker while retaining
+those failed observations. Source remains `9908078`; no reference/performance
+exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
+relationships and remaining feature/reference obligations remain the next work.

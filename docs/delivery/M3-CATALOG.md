@@ -111,3 +111,12 @@ prerequisite skips), with three native activation benchmarks explicitly excluded
 pending the system security prompt. All 105 Python checks pass. The
 [dated checkpoint](M3-SHARED-HOST-CHECKPOINT.json) retains the actual failing/corrected runs,
 source/test/log hashes and limits. This does not close any child contract.
+
+Later on 19 October, the user confirmed the system security prompt was dismissed.
+All three native activation/event-routing benchmarks then passed. The complete
+`swift test --scratch-path build/m3-swift -j 2` run passed **816 tests, with13
+unchanged prerequisite skips and zero failures**; no native benchmark was excluded.
+This supersedes the earlier partial run and activation blocker while retaining
+those failed observations. Source remains `9908078`; no reference/performance
+exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
+relationships and remaining feature/reference obligations remain the next work.

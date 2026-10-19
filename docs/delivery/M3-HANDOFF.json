@@ -8,7 +8,7 @@
   "handoff_kind": "interim_engineering",
   "candidate_code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: shared-owner/connector/definition UI slice has813 available Swift tests (13 prerequisite skips) and105 Python pass; three native activation benchmarks and all child acceptance remain open.",
+    "local_engineering": "in_progress: shared-owner/connector/definition UI slice passes all816 Swift tests (13 prerequisite skips) and105 Python checks. Three native activation benchmarks rerun successfully; all child/milestone acceptance remains open.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -125,7 +125,7 @@
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Rerun three activation benchmarks after system prompt clears, then continue row/section lifecycle, relationship identity, remaining host/function/connector/text/output/library and public qualification children.",
+  "next_action": "Continue named row/section lifecycle, relationship identity, remaining host/function/connector/text/output/library and public qualification children. Native activation blocker is resolved.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "candidate_code_commit identifies verified product source; shared M3-status.json records the final delivery-record commit.",
   "partial_task_ids": [

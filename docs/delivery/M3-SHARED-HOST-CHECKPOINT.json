@@ -2,8 +2,8 @@
   "schema_version": 1,
   "milestone": "M3",
   "date": "2026-10-19",
-  "updated_utc": "2026-10-19T04:29:42.843601+00:00",
-  "state": "partial_engineering_checkpoint_native_activation_pending",
+  "updated_utc": "2026-10-19T05:11:48.817602+00:00",
+  "state": "partial_engineering_checkpoint",
   "code_commit": "9908078264b029f5b901d1aea71ec850f5a7580c",
   "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
   "milestone_accepted": false,
@@ -30,7 +30,8 @@
         "BenchmarkProfileTests/testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport",
         "BenchmarkProfileTests/testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput"
       ],
-      "exclusion_is_passed_evidence": false
+      "exclusion_is_passed_evidence": false,
+      "state": "historical_partial_run_superseded_by_full_swift"
     },
     "python": {
       "executed": 105,
@@ -65,7 +66,31 @@
       ],
       "observation": "All17 assertion failures came from three native activation benchmark cases. Their callback timed out waiting for key/active window. lsappinfo reported SecurityAgent foreground. No native benchmark qualification is claimed.",
       "log": "build/m3-evidence/2026-10-19/shared-host-full-swift-1.log",
-      "pending": "Rerun the three actual event-routing benchmarks when the system prompt is dismissed; all816 tests must be included for a full suite claim."
+      "pending": null,
+      "resolution": "Superseded by actual three-case rerun and full816-test run recorded above; earlier17 assertions remain retained as failed historical evidence."
+    },
+    "full_swift": {
+      "executed": 816,
+      "skipped": 13,
+      "failures": 0,
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "log": "build/m3-evidence/2026-10-19/shared-host-full-swift-2.log",
+      "excluded_native_tests": [],
+      "meaning": "Full local regression suite on code9908078 after system prompt dismissal. This is not full M3 or numerical G1/reference acceptance."
+    },
+    "native_benchmark_rerun": {
+      "executed": 3,
+      "skipped": 0,
+      "failures": 0,
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter 'BenchmarkProfileTests/(testCompletedCalculationSpanWithIssuesIsStillAFailedPhase|testNativeRoutingScrollsOffscreenSyntheticTargetIntoViewport|testOwnedSyntheticEventSaveAndCloseProduceActualEvidenceWithoutChangingInput)'",
+      "log": "build/m3-evidence/2026-10-19/shared-host-native-benchmark-rerun-1.log",
+      "source_commit": "9908078264b029f5b901d1aea71ec850f5a7580c"
+    },
+    "native_activation_resolution": {
+      "state": "resolved",
+      "human_observation": "User confirmed the system security prompt was finished or dismissed.",
+      "observed_result": "All three previously failing native activation/event-routing cases passed; the subsequent complete816-test suite passed with13 unchanged prerequisite skips and no exclusions.",
+      "reference_or_performance_exception_adopted": false
     }
   },
   "regression_dispositions": [
@@ -118,7 +143,7 @@
   ],
   "limitations": [
     "No exact-build licensed Visio/COM execution, bidirectional reference acceptance, same-font visual pack or calibrated physical printer run.",
-    "Three native event-routing benchmark tests remain unqualified while SecurityAgent prevents window activation; this is not a full-suite or G1 performance acceptance.",
+    "Native activation/event-routing regressions now pass after the system prompt was dismissed. Numerical G1, exact Visio and full M3 compatibility acceptance remain separate and open.",
     "Row/section lifecycle, master replacement and separate group/container/list/lane relationships remain incomplete.",
     "Connector endpoint/routing/glue behavior, complete line/arrow forms and rich-text editing owner coverage remain open; current connector calculation is a bounded scalar/line/field slice.",
     "Full master/style theme/inheritance host semantics, remaining functions/cells/versions, text/geometry/output/library/package and release contracts remain open.",
@@ -376,6 +401,16 @@
       "path": "build/m3-evidence/2026-10-19/swift-toolchain.txt",
       "sha256": "04630ab8fa201f57c63c59730e638135e32584a97e16e004a417eb8ed283dc83",
       "bytes": 98
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-native-benchmark-rerun-1.log",
+      "sha256": "5b3a23bcd0eadf6bf173e80617ec6e304963c8237fa94925485d15093602b963",
+      "bytes": 2210
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/shared-host-full-swift-2.log",
+      "sha256": "d40d533bc2e626cd976ae32e60f9a37e777ae4596597662610bc668342234806",
+      "bytes": 238353
     }
   ],
   "public_fixture_sources": [
@@ -409,15 +444,19 @@
     "all_five_dimensions": "unverified"
   },
   "final_record_validation": {
-    "validated_core_artifacts": 52,
+    "validated_core_artifacts": 54,
     "source_test_files_bound_to_commit": 32,
     "record_validation": {
-      "path": "build/m3-evidence/2026-10-19/shared-host-checkpoint-validation.log",
-      "sha256": "4f7054b19f682ec5b5e07687ea55fa80c8257b03cb69ddfe292b9f2a08b91f29"
+      "path": "build/m3-evidence/2026-10-19/shared-host-validation-after-native.log",
+      "sha256": "ba34209c7195d98cd2c90ba387499fed6a5be83833ca0551ba1ae9df02ede956"
     },
     "ledger_validation": {
-      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-final.log",
+      "path": "build/m3-evidence/2026-10-19/shared-host-ledger-after-native.log",
       "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49"
+    },
+    "historical_validation_before_activation_resolution": {
+      "path": "build/m3-evidence/2026-10-19/shared-host-checkpoint-validation.log",
+      "sha256": "4f7054b19f682ec5b5e07687ea55fa80c8257b03cb69ddfe292b9f2a08b91f29"
     }
   }
 }
