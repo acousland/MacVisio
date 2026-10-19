@@ -169,7 +169,7 @@ enum ShapeSheet {
                     try arity(3)
                     guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
                     result = try colorPalette.index(for:values)
-                case "MODULUS":try arity(2);guard values[1] != 0 else { throw DiagramError.invalid("MODULUS divisor cannot be zero.") };result = values[0]-values[1]*floor(values[0]/values[1])
+                case "MODULUS":try arity(2);result = try modulus(values[0],divisor:values[1])
                 case "DEG":try arity(1);result = values[0]*180 / .pi
                 case "RAD":try arity(1);result = values[0] * .pi/180
                 case "POW":try arity(2);result = pow(values[0],values[1])
@@ -195,6 +195,26 @@ enum ShapeSheet {
         default:throw DiagramError.invalid("Unsupported ShapeSheet bitwise function: \(function).")
         }
         return Double(result)
+    }
+    /// MODULUS uses a range-qualified vFloat divisor, without narrowing the
+    /// original Double value. Remainder arithmetic avoids quotient overflow
+    /// and cancellation in number - divisor * floor(number / divisor).
+    static func modulus(_ number:Double,divisor:Double) throws -> Double {
+        guard number.isFinite,divisor.isFinite else { throw DiagramError.invalid("MODULUS requires finite numeric operands.") }
+        guard divisor != 0 else { throw DiagramError.invalid("MODULUS divisor cannot be zero.") }
+        let magnitude = abs(divisor)
+        guard magnitude >= Double(Float.leastNonzeroMagnitude),magnitude <= Double(Float.greatestFiniteMagnitude) else {
+            throw DiagramError.invalid("MODULUS divisor is outside the finite single-precision range.")
+        }
+        let remainder = number.truncatingRemainder(dividingBy:divisor)
+        if remainder == 0 { return 0 }
+        let result = remainder.sign == divisor.sign ? remainder : remainder+divisor
+        // Opposite-sign correction can round a tiny remainder onto the divisor
+        // boundary. Do not fabricate zero or a neighboring interior value.
+        guard result.isFinite,result != 0,result.sign == divisor.sign,abs(result) < magnitude else {
+            throw DiagramError.invalid("MODULUS result cannot be represented within the divisor magnitude.")
+        }
+        return result
     }
     /// ROUND's precision is a vSignedInt: truncate towards zero, then range-check.
     /// Its documented identity range is separate from floating-point scaling.

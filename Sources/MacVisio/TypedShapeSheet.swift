@@ -138,6 +138,12 @@ enum TypedShapeSheet {
                         guard let numberDimension = values[0].dimension,numberDimension == fuzzDimension else { throw DiagramError.invalid("SIGN values use incompatible units.") }
                     }
                     result = .number(try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9))
+                case "MODULUS":
+                    try arity(2)
+                    let remainder = try ShapeSheet.modulus(try values[0].numeric(),divisor:values[1].numeric())
+                    // Unit numbers are evaluated in their canonical internal
+                    // values; the first operand's unit remains result metadata.
+                    result = !scalar ? values[0].unit.map{.quantity(remainder,$0)} ?? .number(remainder) : .number(remainder)
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let first = try values[0].numeric()
@@ -205,7 +211,7 @@ enum TypedShapeSheet {
                     let second = try colorValue(values[1],palette:colorPalette).hsl.luminosity
                     result = .number(Double(first-second))
                 default:
-                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","ATAN2","LN","EXP","INT","SIGN","ROUND","MODULUS","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
+                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","ATAN2","LN","EXP","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
                         let unit = values.first?.unit
                         let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
