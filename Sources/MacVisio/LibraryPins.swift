@@ -58,6 +58,16 @@ final class LibraryPins {
         guard source.url.isFileURL,UInt32(source.masterID) != nil else { throw DiagramError.invalid("This master has no stable public library identity.") }
         try update { if pinned { $0.masters.insert(source.key) } else { $0.masters.remove(source.key) } }
     }
+    /// Remove the exact stored identity, including a now-invalid or missing pin.
+    /// This never resolves a URL or changes another pin for the same caption.
+    func remove(_ reference:PinnedLibraryReference) throws {
+        try update {
+            switch reference {
+            case .library(let key): $0.libraries.remove(key)
+            case .master(let key): $0.masters.remove(key)
+            }
+        }
+    }
     func isPinned(_ entry:VisioLibraryEntry) -> Bool { snapshot.libraries.contains(entry.url.standardizedFileURL.absoluteString) }
     func isPinned(_ source:StencilSource?) -> Bool { source.map { snapshot.masters.contains($0.key) } ?? false }
 }

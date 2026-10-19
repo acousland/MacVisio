@@ -56,6 +56,7 @@ final class VisioLibraryPicker:FlippedView,NSTableViewDataSource,NSTableViewDele
     let pinnedOnly = NSButton(checkboxWithTitle:"Pinned only",target:nil,action:nil)
     private let pins:LibraryPins
     private var observer:NSObjectProtocol?
+    private var hasMarkedText:Bool { (search.currentEditor() as? NSTextView)?.hasMarkedText() == true }
     var selected:VisioLibraryEntry? { filtered.indices.contains(table.selectedRow) ? filtered[table.selectedRow] : nil }
     init(entries:[VisioLibraryEntry],pins:LibraryPins = .shared) {
         self.entries = entries;filtered = entries;self.pins = pins
@@ -79,8 +80,9 @@ final class VisioLibraryPicker:FlippedView,NSTableViewDataSource,NSTableViewDele
         label.font = .systemFont(ofSize:12);label.textColor = .labelColor;label.toolTip = entry.url.path
         label.setAccessibilityLabel(entry.name+", "+entry.type+", "+entry.url.path);return label
     }
-    func controlTextDidChange(_ notification:Notification) { refresh() }
+    func controlTextDidChange(_ notification:Notification) { if !hasMarkedText { refresh() } }
     func refresh() {
+        guard !hasMarkedText else { return }
         let old = selected,state = pins.snapshot
         filtered = VisioLibrary.filter(entries,query:search.stringValue).filter{pinnedOnly.state != .on || state.libraries.contains($0.url.standardizedFileURL.absoluteString)}
         filtered.sort { first,second in
@@ -99,8 +101,9 @@ final class VisioLibraryPicker:FlippedView,NSTableViewDataSource,NSTableViewDele
         pinButton.title = selected.map { pins.isPinned($0) ? "Unpin" : "Pin" } ?? "Pin"
     }
     @discardableResult func toggleSelectedPin() -> Bool {
+        guard !hasMarkedText else { pinButton.toolTip = "Finish text composition before changing library pins.";return false }
         guard let selected else { return false }
-        do { try pins.setLibrary(selected.url,pinned:!pins.isPinned(selected));refresh();return true }
+        do { try pins.setLibrary(selected.url,pinned:!pins.isPinned(selected));pinButton.toolTip = nil;refresh();return true }
         catch { pinButton.toolTip = error.localizedDescription;return false }
     }
     @objc private func toggleSelectedPin(_ sender:Any?) { _ = toggleSelectedPin() }

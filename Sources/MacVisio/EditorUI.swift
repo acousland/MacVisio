@@ -89,11 +89,14 @@ final class MasterStencilCard: FlippedView, NSDraggingSource {
         item.target = self;menu.addItem(item);return menu
     }
     @discardableResult func togglePin() -> Bool {
-        guard let source = definition.source else { return false }
+        guard let editor,editor.lifecycleJobs.isActive,let source = definition.source else { return false }
+        guard (editor.window?.firstResponder as? NSTextView)?.hasMarkedText() != true else {
+            editor.root.showMessage("Finish text composition before changing master pins.");return false
+        }
         do {
             let wasPinned = pins.isPinned(source);try pins.setMaster(source,pinned:!wasPinned)
-            editor?.root.showMessage((wasPinned ? "Unpinned " : "Pinned ") + definition.name);return true
-        } catch { editor?.root.showMessage(error.localizedDescription);return false }
+            editor.root.showMessage((wasPinned ? "Unpinned " : "Pinned ") + definition.name);return true
+        } catch { editor.root.showMessage(error.localizedDescription);return false }
     }
     @objc private func togglePin(_ sender:Any?) { _ = togglePin() }
     func draggingSession(_ session:NSDraggingSession,sourceOperationMaskFor context:NSDraggingContext) -> NSDragOperation { .copy }
@@ -108,6 +111,7 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     let heading = uiLabel("Shapes",size:17,weight:.semibold)
     let subtitle = uiLabel("Drag shapes onto the drawing",size:10)
     let openStencil = NSButton(title:"More Shapes…",target:nil,action:nil)
+    let managePins = NSButton(title:"Pinned Libraries…",target:nil,action:nil)
     private var shapeCards: [String: StencilCard] = [:]
     private var masterCards: [UUID: MasterStencilCard] = [:]
     private var visibleRows: [NSView] = []
@@ -123,7 +127,9 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers","Pinned masters"]); category.item(at:4)?.representedObject = "pinned";category.target = self; category.action = #selector(filterChanged(_:)); category.font = .systemFont(ofSize:12,weight:.medium)
         listScroll.documentView = list; listScroll.hasVerticalScroller = true; listScroll.autohidesScrollers = true; listScroll.drawsBackground = false
         openStencil.target = editor;openStencil.action = #selector(EditorWindowController.openStencil(_:));openStencil.bezelStyle = .recessed;openStencil.font = .systemFont(ofSize:11)
-        [heading,search,category,listScroll,subtitle,openStencil].forEach { addSubview($0) }
+        managePins.target = editor;managePins.action = #selector(EditorWindowController.managePinnedLibraries(_:));managePins.bezelStyle = .recessed;managePins.font = .systemFont(ofSize:11)
+        managePins.setAccessibilityIdentifier("managePinnedLibraries")
+        [heading,search,category,listScroll,subtitle,openStencil,managePins].forEach { addSubview($0) }
         pinObserver = NotificationCenter.default.addObserver(forName:LibraryPins.didChange,object:pins,queue:.main){[weak self] _ in self?.rebuild()}
         rebuild()
     }
@@ -132,7 +138,7 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     func detachEditor() {
         if let pinObserver { NotificationCenter.default.removeObserver(pinObserver);self.pinObserver = nil }
         editor = nil
-        search.delegate = nil;category.target = nil;openStencil.target = nil
+        search.delegate = nil;category.target = nil;openStencil.target = nil;managePins.target = nil
         for card in shapeCards.values { card.editor = nil }
         for card in masterCards.values { card.editor = nil }
         for row in list.subviews { row.removeFromSuperview() }
@@ -140,7 +146,8 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     }
     override func layout() {
         super.layout(); heading.frame = CGRect(x:20,y:16,width:180,height:25); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
-        category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(80,bounds.height-214))
+        category.frame = CGRect(x:12,y:84,width:bounds.width-24,height:26); listScroll.frame = CGRect(x:10,y:123,width:bounds.width-20,height:max(80,bounds.height-244))
+        managePins.frame = CGRect(x:12,y:bounds.height-102,width:bounds.width-24,height:25)
         openStencil.frame = CGRect(x:12,y:bounds.height-72,width:bounds.width-24,height:25)
         subtitle.frame = CGRect(x:17,y:bounds.height-34,width:bounds.width-20,height:18); layoutRows()
     }

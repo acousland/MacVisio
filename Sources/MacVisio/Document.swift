@@ -1488,6 +1488,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         editorIsDetached = true
         if lifecycleJobs.isActive { canvas.finishEditing(commit: true) }
         detachBooleanOperandChooser()
+        detachPinnedLibraries()
         lifecycleJobs.close()
         pendingPrintHandle = nil
         printSessionIsActive = false
@@ -1515,6 +1516,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 self.window?.makeFirstResponder(self.canvas)
             }
         }
+        if window?.isVisible == true { startPinnedLibraries() }
     }
     func windowDidBecomeKey(_ notification: Notification) {
         guard !editorIsDetached, lifecycleJobs.isActive else { return }
