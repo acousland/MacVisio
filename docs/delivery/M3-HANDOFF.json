@@ -6,9 +6,9 @@
   "branch": "codex/m3-intelligent-vsdx",
   "state": "in_progress",
   "handoff_kind": "interim_engineering",
-  "candidate_code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+  "candidate_code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
   "milestone_acceptance": {
-    "local_engineering": "in_progress: source232f7eb passes full868 Swift tests (13 prerequisite skips) and105 Python checks with no native exclusions. Remaining production features and every full child/milestone acceptance stay open.",
+    "local_engineering": "in_progress: Source af764fa: 942 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Union, custom stencil drafts and multipage printing; all 204 children remain unaccepted.",
     "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
     "accepted": false
   },
@@ -60,7 +60,8 @@
     "eac0066bc5bb824632ff6e25154165e66bb88070",
     "9908078264b029f5b901d1aea71ec850f5a7580c",
     "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
-    "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b"
+    "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "af764fad3112d46466dcb999d743377ccafe92b8"
   ],
   "completed_task_ids": [],
   "implemented_unaccepted_task_ids": [],
@@ -76,6 +77,7 @@
     "WP-17-T02",
     "WP-18-T01",
     "WP-19-T01",
+    "WP-19-T02",
     "WP-19-T03",
     "WP-20-T01",
     "WP-20-T02"
@@ -129,14 +131,15 @@
     "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
     "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
     "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
-    "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json"
+    "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json"
   ],
   "remaining_prerequisites": [
     "all WP14–20 production feature children and affected/native/public milestone regressions",
     "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
     "same-font per-region visual evidence and calibrated physical-print evidence"
   ],
-  "next_action": "Continue bounded Boolean geometry, identity-preserving custom stencil management and native print pipeline, then remaining local relationship/host/function/appearance/layout/package children and independent public qualification.",
+  "next_action": "Continue bounded Intersect/Subtract, explicit PNG content/selection bounds, independent structural relationships and remaining local contracts; exact-build reference and physical qualification remain open.",
   "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
   "head_note": "candidate_code_commit identifies verified product source; shared M3-status.json records the final delivery-record commit.",
   "partial_task_ids": [
@@ -152,6 +155,7 @@
     "WP-17-T02",
     "WP-18-T01",
     "WP-19-T01",
+    "WP-19-T02",
     "WP-19-T03",
     "WP-20-T01",
     "WP-20-T02"
@@ -201,5 +205,12 @@
     "bytes": 10620,
     "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
     "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+  },
+  "geometry_stencil_print_checkpoint": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716,
+    "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+    "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
   }
 }

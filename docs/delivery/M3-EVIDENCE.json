@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+  "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -201,6 +201,17 @@
       "excluded_native_tests": [],
       "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
       "record": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-geometry-stencil-print",
+      "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 942,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -293,6 +304,11 @@
       "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
       "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
       "bytes": 10620
+    },
+    {
+      "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+      "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+      "bytes": 43716
     }
   ],
   "five_compatibility_dimensions": {
@@ -313,7 +329,7 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_output_library_slice_full_local_regressions_pass",
+  "current_execution_state": "in_progress_geometry_stencil_print_slice_full_local_regressions_pass",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
@@ -334,5 +350,12 @@
     "bytes": 10620,
     "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
     "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+  },
+  "geometry_stencil_print_checkpoint": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716,
+    "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+    "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
   }
 }

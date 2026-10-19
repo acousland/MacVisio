@@ -1542,7 +1542,7 @@ or G2 gate is accepted by the decomposition or integrated baseline.
 | WP-18-T03 | Pending | 6 |
 | WP-18-T04 | Pending | 3 |
 | WP-19-T01 | In progress | 4 |
-| WP-19-T02 | Pending | 3 |
+| WP-19-T02 | In progress | 3 |
 | WP-19-T03 | In progress | 3 |
 | WP-19-T04 | Pending | 2 |
 | WP-20-T01 | In progress | 3 |
@@ -1631,3 +1631,5 @@ relationships and remaining feature/reference obligations remain the next work.
 19 October lifecycle continuation: source `df44f6b` adds scoped definition User/Property row and local-section editing, source-preserving save/undo, connector paste/layer/background fixes and native pointer protection. The full suite passes851 Swift tests (13 prerequisite skips), with no native test exclusions;105 Python checks pass. All204 children remain unaccepted:25 are in progress,173 pending and6 proposed. Full output/library/geometry/relationship and exact-Visio obligations remain open. See [lifecycle checkpoint](delivery/M3-LIFECYCLE-CHECKPOINT.json).
 
 19 October output/library continuation: source `232f7eb` adds native PNG resolution/transparency, ordered identity-bound PDF page choices and persistent offline library/master pins with source metadata. The final full run passes **868 Swift tests,13 prerequisite skips,zero failures**, with no native exclusions;105 Python checks pass.17 tests were added since the lifecycle checkpoint. There are28 in-progress children,170 pending,6 proposed and zero accepted. Selection/content bounds, full print/format policy, automatic favorite loading, unavailable-pin controls, custom stencil management, remaining production features and independent reference/physical qualification remain open. See [output/library checkpoint](delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json).
+
+19 October geometry/stencil/print continuation: source `af764fa` adds bounded editable curved/holed Union with consistent native/public stacking, source-preserving custom VSSX Save As drafts and native foreground page-range/all-page printing from an immutable PDF. The full suite passes **942 Swift tests, 13 prerequisite skips and zero failures**, with no native exclusions; 105 Python checks pass. Actual native print-to-PDF files measure 20 mm at 100% and 10 mm at 50% in both raster assertions and independent content-stream extraction. Calibrated physical-printer tolerance remains unqualified. There are 31 in-progress children, 167 pending, 6 proposed and zero accepted. Other Boolean operations, text/master/glue policies, formula/visual/cross-library stencil management, tiling/device qualification and remaining M3 production/reference obligations remain open. No release was published. See the [geometry/stencil/print checkpoint](delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json).

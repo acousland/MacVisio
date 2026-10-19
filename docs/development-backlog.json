@@ -4250,7 +4250,7 @@
           "deliverable": "Implement auto-size, margins, ranges/all-pages/tiling and explicit printer versus drawing scale.",
           "acceptance_criteria": "One metre at 1:50 prints 20 mm at 100% in the calibrated pipeline.",
           "complexity": "L",
-          "status": "Pending",
+          "status": "In progress",
           "depends_on": [
             "WP-19-T01"
           ],
@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Source232f7eb:868 Swift/13 prerequisite skips/0 failures, no native exclusions;105 Python pass. PNG/PDF settings and offline pins/metadata added; all204 children remain unaccepted.",
+      "local_evidence_scope": "Source af764fa: 942 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Union, custom stencil drafts and multipage printing; all 204 children remain unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9634,17 +9634,25 @@
       "active_task_ids": [
         "WP-14-T01",
         "WP-14-T02",
+        "WP-14-T03",
         "WP-15-T02",
         "WP-15-T03",
         "WP-15-T04",
         "WP-16-T01",
-        "WP-16-T03"
+        "WP-16-T03",
+        "WP-17-T02",
+        "WP-18-T01",
+        "WP-19-T01",
+        "WP-19-T02",
+        "WP-19-T03",
+        "WP-20-T01",
+        "WP-20-T02"
       ],
       "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
-      "candidate_code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
-      "active_work": "Continue Boolean geometry, custom stencil management, print pipeline and remaining local child contracts; independent reference/physical qualification stays open.",
+      "candidate_code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+      "active_work": "Continue bounded Intersect/Subtract, explicit PNG content/selection bounds, independent structural relationships and remaining local contracts; exact-build reference and physical qualification remain open.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
       "lifecycle_checkpoint": {
         "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
@@ -9659,6 +9667,13 @@
         "bytes": 10620,
         "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
         "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+      },
+      "geometry_stencil_print_checkpoint": {
+        "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+        "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+        "bytes": 43716,
+        "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+        "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
       }
     }
   ],

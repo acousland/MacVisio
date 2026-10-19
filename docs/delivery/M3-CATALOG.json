@@ -5912,8 +5912,8 @@
     "large_parent_count": 22,
     "child_count": 204,
     "accepted_child_count": 0,
-    "in_progress_child_count": 28,
-    "pending_implementation_child_count": 170,
+    "in_progress_child_count": 31,
+    "pending_implementation_child_count": 167,
     "proposed_child_count": 6
   },
   "parents": [
@@ -6519,7 +6519,7 @@
         "WP-19-T02-C002",
         "WP-19-T02-C003"
       ],
-      "status": "pending_implementation",
+      "status": "in_progress",
       "catalog_decomposed": true,
       "implementation_complete": false,
       "acceptance_complete": false,
@@ -18083,7 +18083,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Union curved/holed paths as one reversible edit",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18097,7 +18097,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Geometry/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-17-T01"
@@ -18111,11 +18111,15 @@
       "source_paths": [
         "Sources/MacVisio/DiagramOperations.swift",
         "Sources/MacVisio/CompositeGeometry.swift",
-        "Sources/MacVisio/SVGPath.swift"
+        "Sources/MacVisio/SVGPath.swift",
+        "Sources/MacVisio/BooleanGeometry.swift",
+        "Sources/MacVisio/BooleanGeometryEditor.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/CompositeGeometryTests.swift",
-        "Tests/MacVisioTests/EditorTests.swift"
+        "Tests/MacVisioTests/EditorTests.swift",
+        "Tests/MacVisioTests/M3BooleanGeometryTests.swift",
+        "Tests/MacVisioTests/M3CommandRoutingTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31702AcceptanceTests.swift",
@@ -18128,7 +18132,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_geometry_stencil_print_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -18149,7 +18153,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "geometry_stencil_print_checkpoint": {
+        "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+        "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+        "bytes": 43716,
+        "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+        "scope": "Bounded editable curved/holed Union with native async transaction/undo, source/reference refusals, raw tombstone reservations, topmost save/reopen stacking and actual pixel checks. Text/data/master/glue operands refused; first document-order appearance and selected-result policies remain local, not exact-build parity."
+      }
     },
     {
       "id": "WP-17-T02-C002",
@@ -20995,7 +21006,7 @@
       "parent_task": "WP-19-T02",
       "work_package": "WP-19",
       "title": "Print page ranges and all foreground pages",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-IO-07"
@@ -21007,7 +21018,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Native/Publication",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-19-T01"
@@ -21021,11 +21032,16 @@
       "source_paths": [
         "Sources/MacVisio/Drawing.swift",
         "Sources/MacVisio/EditorFeatures.swift",
-        "Sources/MacVisio/PageEditor.swift"
+        "Sources/MacVisio/PageEditor.swift",
+        "Sources/MacVisio/Printing.swift",
+        "Sources/MacVisio/ExportJobs.swift",
+        "Sources/MacVisio/Document.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/DrawingScaleTests.swift",
-        "Tests/MacVisioTests/PageBackgroundTests.swift"
+        "Tests/MacVisioTests/PageBackgroundTests.swift",
+        "Tests/MacVisioTests/M3PrintingTests.swift",
+        "Tests/MacVisioTests/M3CommandRoutingTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31902AcceptanceTests.swift",
@@ -21038,7 +21054,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_geometry_stencil_print_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21059,7 +21075,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "geometry_stencil_print_checkpoint": {
+        "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+        "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+        "bytes": 43716,
+        "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+        "scope": "Owned immutable PDF preparation and foreground-page range/all printing on one common paper size. Explicit requested scale is applied once in PDF playback, then native scale1; page/margin clipping and unsupported effective options refuse before spooling. Native save-to-PDF checks are local; tiling/device media/calibrated printer qualification remain open."
+      }
     },
     {
       "id": "WP-19-T03-C001",
@@ -21523,7 +21546,7 @@
       "parent_task": "WP-20-T01",
       "work_package": "WP-20",
       "title": "Custom master/stencil identity-preserving management",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-LIB-04"
@@ -21536,7 +21559,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Libraries/Interchange",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [],
       "foundation_contracts": [
@@ -21548,11 +21571,17 @@
       "source_paths": [
         "Sources/MacVisio/VisioLibrary.swift",
         "Sources/MacVisio/VisioStencil.swift",
-        "Sources/MacVisio/VisioReusableFormat.swift"
+        "Sources/MacVisio/VisioReusableFormat.swift",
+        "Sources/MacVisio/StencilPackageEditing.swift",
+        "Sources/MacVisio/StencilPackageJobs.swift",
+        "Sources/MacVisio/StencilPackageEditor.swift",
+        "Sources/MacVisio/main.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/StencilLibraryTests.swift",
-        "Tests/MacVisioTests/MasterInheritanceTests.swift"
+        "Tests/MacVisioTests/MasterInheritanceTests.swift",
+        "Tests/MacVisioTests/M3CustomStencilTests.swift",
+        "Tests/MacVisioTests/M3CustomStencilEditorTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M32001AcceptanceTests.swift",
@@ -21565,7 +21594,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_geometry_stencil_print_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21590,7 +21619,14 @@
         "vssx",
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "geometry_stencil_print_checkpoint": {
+        "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+        "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+        "bytes": 43716,
+        "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+        "scope": "Source-preserving VSSX Save As draft with rename, same-package duplication, order, safe deletion and exact existing literal values; stable public IDs/NameU/GUIDs/resources, native undo/cancel/stale/close ownership. Deletion proof is deliberately closed and conservative. Formula/visual editing, cross-library closure and reference qualification remain open."
+      }
     },
     {
       "id": "WP-20-T01-C003",
@@ -23378,5 +23414,12 @@
     "bytes": 10620,
     "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
     "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+  },
+  "geometry_stencil_print_reconciliation": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716,
+    "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+    "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
   }
 }
