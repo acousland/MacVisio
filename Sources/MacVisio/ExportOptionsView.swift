@@ -14,8 +14,10 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     private let activePageID: UUID
     private let foregroundIDs: [UUID]
     private let paperSize: CGSize
+    private let capturedSelection: RasterExportSelection?
     private var pages: [PageChoice]
     let resolutionField = NSTextField(string: "144")
+    let rasterBoundsMode = NSPopUpButton(frame: .zero, pullsDown: false)
     let transparencyButton = NSButton(checkboxWithTitle: "Transparent page background", target: nil, action: nil)
     let sizeLabel = NSTextField(labelWithString: "")
     let pageMode = NSPopUpButton(frame: .zero, pullsDown: false)
@@ -23,9 +25,11 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     let moveUpButton = NSButton(title: "Move Up", target: nil, action: nil)
     let moveDownButton = NSButton(title: "Move Down", target: nil, action: nil)
 
-    init(snapshot: Diagram, format: OwnedExportFormat, allPages: Bool, input: LifecycleJobInput) {
+    init(snapshot: Diagram, format: OwnedExportFormat, allPages: Bool, input: LifecycleJobInput,
+         selection: RasterExportSelection? = nil) {
         self.input = input
         self.format = format
+        capturedSelection = selection
         activePageID = snapshot.page.id
         foregroundIDs = snapshot.orderedPages.filter { $0.isBackground != true }.map(\.id)
         paperSize = CGSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight)
@@ -34,7 +38,7 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
             PageChoice(id: $0.id, title: "\(ordinals[$0.id] ?? 0). \($0.name)\($0.isBackground == true ? " (background)" : "")",
                        size: String(format: "%.1f × %.1f mm", $0.paperWidth / 72 * 25.4, $0.paperHeight / 72 * 25.4))
         }
-        super.init(frame: NSRect(x: 0, y: 0, width: 460, height: format == .pdf ? 290 : 118))
+        super.init(frame: NSRect(x: 0, y: 0, width: 460, height: format == .pdf ? 290 : (format == .png ? 158 : 118)))
         if format == .png { makeRasterControls() }
         if format == .pdf {
             makePageControls(allPages: allPages)
@@ -45,7 +49,8 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     }
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    func options(for currentInput: LifecycleJobInput, activePageID currentPageID: UUID) throws -> OwnedExportOptions {
+    func options(for currentInput: LifecycleJobInput, activePageID currentPageID: UUID,
+                 selection currentSelection: RasterExportSelection? = nil) throws -> OwnedExportOptions {
         guard currentInput == input, currentPageID == activePageID else {
             throw DiagramError.invalid("The drawing or active page changed while export options were open. Reopen Export to review the current pages.")
         }
@@ -57,7 +62,21 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
             }
             result.rasterDPI = dpi
             result.transparentBackground = transparencyButton.state == .on
-            _ = try result.rasterSize(width: paperSize.width, height: paperSize.height)
+            try result.validateRasterDPI()
+            guard RasterExportRegion.allCases.indices.contains(rasterBoundsMode.indexOfSelectedItem) else {
+                throw DiagramError.invalid("Choose a PNG output region.")
+            }
+            result.rasterRegion = RasterExportRegion.allCases[rasterBoundsMode.indexOfSelectedItem]
+            if result.rasterRegion == .page {
+                _ = try result.rasterSize(width: paperSize.width, height: paperSize.height)
+            } else if result.rasterRegion == .selection {
+                guard let capturedSelection, !capturedSelection.isEmpty else {
+                    throw DiagramError.invalid("Select one or more objects before opening Export.")
+                }
+                guard capturedSelection == currentSelection, capturedSelection.input == currentInput,
+                      capturedSelection.pageID == currentPageID else { throw LifecycleJobError.staleInput }
+                result.rasterSelection = capturedSelection
+            }
         case .pdf:
             switch pageMode.indexOfSelectedItem {
             case 0: result.pdfPageIDs = [activePageID]
@@ -71,6 +90,15 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     }
 
     private func makeRasterControls() {
+        let boundsLabel = NSTextField(labelWithString: "PNG bounds:")
+        boundsLabel.frame = NSRect(x: 0, y: 128, width: 82, height: 20); addSubview(boundsLabel)
+        rasterBoundsMode.frame = NSRect(x: 85, y: 121, width: 365, height: 28)
+        rasterBoundsMode.addItems(withTitles: ["Page", "Drawing content (including off-page artwork)", "Selection"])
+        rasterBoundsMode.menu?.autoenablesItems = false
+        rasterBoundsMode.item(at: 2)?.isEnabled = capturedSelection?.isEmpty == false
+        rasterBoundsMode.target = self; rasterBoundsMode.action = #selector(rasterBoundsChanged(_:))
+        rasterBoundsMode.setAccessibilityLabel("PNG output bounds")
+        addSubview(rasterBoundsMode)
         let label = NSTextField(labelWithString: "Resolution:")
         label.frame = NSRect(x: 0, y: 88, width: 82, height: 20); addSubview(label)
         resolutionField.frame = NSRect(x: 85, y: 85, width: 80, height: 24)
@@ -82,7 +110,7 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
         transparencyButton.frame = NSRect(x: 0, y: 53, width: 350, height: 24)
         addSubview(transparencyButton)
         sizeLabel.frame = NSRect(x: 0, y: 28, width: 455, height: 20); addSubview(sizeLabel)
-        let note = NSTextField(labelWithString: "Assigned background artwork remains visible.")
+        let note = NSTextField(labelWithString: "Assigned background artwork stays visible within output bounds.")
         note.font = .systemFont(ofSize: 11); note.textColor = .secondaryLabelColor
         note.frame = NSRect(x: 0, y: 5, width: 455, height: 20); addSubview(note)
         updateRasterSize()
@@ -129,13 +157,18 @@ final class ExportOptionsView: NSView, NSTableViewDataSource, NSTableViewDelegat
     func tableViewSelectionDidChange(_ notification: Notification) { updatePageControls() }
     func controlTextDidChange(_ obj: Notification) { updateRasterSize() }
     @objc func pageModeChanged(_ sender: Any?) { updatePageControls() }
+    @objc func rasterBoundsChanged(_ sender: Any?) { updateRasterSize() }
     @objc private func movePDFSelectionUp(_ sender: Any?) { moveSelection(by: -1) }
     @objc private func movePDFSelectionDown(_ sender: Any?) { moveSelection(by: 1) }
 
     private func updateRasterSize() {
         var options = OwnedExportOptions()
         options.rasterDPI = Double(resolutionField.stringValue) ?? .nan
-        if let size = try? options.rasterSize(width: paperSize.width, height: paperSize.height) {
+        if (try? options.validateRasterDPI()) == nil {
+            sizeLabel.stringValue = "Enter a PNG resolution between 36 and 1200 dpi."
+        } else if rasterBoundsMode.indexOfSelectedItem != 0 {
+            sizeLabel.stringValue = "Crop size is measured during export (+1 pixel per side)."
+        } else if let size = try? options.rasterSize(width: paperSize.width, height: paperSize.height) {
             sizeLabel.stringValue = "\(size.width) × \(size.height) pixels; physical paper size is preserved."
         } else { sizeLabel.stringValue = "Enter a supported resolution within the 100 million pixel limit." }
     }

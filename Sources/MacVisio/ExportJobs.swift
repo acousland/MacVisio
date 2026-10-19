@@ -16,10 +16,21 @@ struct OwnedExportOptions: Equatable {
     var transparentBackground = false
     /// Explicit PDF order takes precedence over the legacy active/all selector.
     var pdfPageIDs: [UUID]? = nil
+    var rasterRegion: RasterExportRegion = .page
+    var rasterSelection: RasterExportSelection? = nil
 
     func pageIDs(in snapshot: Diagram, format: OwnedExportFormat, allPages: Bool = false) throws -> [UUID] {
         if format != .pdf, pdfPageIDs != nil { throw DiagramError.invalid("Page selection is available for PDF export.") }
-        if format == .png { _ = try rasterSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight) }
+        if format != .png, rasterRegion != .page || rasterSelection != nil {
+            throw DiagramError.invalid("Region selection is available for PNG export.")
+        }
+        if format == .png {
+            try validateRasterDPI()
+            if rasterRegion == .page { _ = try rasterSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight) }
+            if rasterRegion != .selection, rasterSelection != nil {
+                throw DiagramError.invalid("A captured selection requires Selection bounds.")
+            }
+        }
         guard format == .pdf else { return [snapshot.page.id] }
         if let selected = pdfPageIDs {
             let available = Set(snapshot.pages.map(\.id))
@@ -34,10 +45,14 @@ struct OwnedExportOptions: Equatable {
         return result
     }
 
-    func rasterSize(width: Double, height: Double) throws -> (width: Int, height: Int) {
+    func validateRasterDPI() throws {
         guard rasterDPI.isFinite, Self.supportedDPI.contains(rasterDPI) else {
             throw DiagramError.invalid("PNG resolution must be between 36 and 1200 dpi.")
         }
+    }
+
+    func rasterSize(width: Double, height: Double) throws -> (width: Int, height: Int) {
+        try validateRasterDPI()
         let scale = rasterDPI / 72, w = width * scale, h = height * scale
         guard width.isFinite, height.isFinite, width > 0, height > 0, w.isFinite, h.isFinite,
               w >= 1, h >= 1, w <= Double(Self.maximumRasterDimension), h <= Double(Self.maximumRasterDimension) else {
@@ -54,6 +69,8 @@ struct OwnedExportOptions: Equatable {
 struct ExportPreparationWork {
     var mainBatches = 0
     var preparedObjects = 0
+    var measuredObjects = 0
+    var rasterViewport: CGRect? = nil
     var retainedRecordBytes = 0
     var maximumMainStepSeconds: TimeInterval = 0
     var maximumObjectSeconds: TimeInterval = 0
@@ -117,6 +134,9 @@ enum OwnedExportJobs {
         progress: @escaping (LifecycleJobProgress) -> Void = { _ in },
         completion: @escaping (Result<OwnedExportResult, Error>) -> Void
     ) throws -> LifecycleJobHandle {
+        if format != .png, options.rasterRegion != .page || options.rasterSelection != nil {
+            throw DiagramError.invalid("Region selection is available for PNG export.")
+        }
         let jobID = UUID()
         let handle = try LifecycleJobService.shared.submit(
             id: jobID, kind: .export, input: input,
@@ -195,6 +215,7 @@ private struct ExportRecordPage {
     let height: Double
     let title: String
     var records: [Data] = []
+    var rasterViewport: RasterExportViewport? = nil
 }
 
 private struct RecordedExport {
@@ -240,16 +261,23 @@ private final class MainExportRecorder {
     private var layerIndex = 0
     private var objectIndex = 0
     private var work = ExportPreparationWork()
+    private let options: OwnedExportOptions
+    private let membership: RasterExportMembership?
+    private var measuringBounds = false
+    private var paintBounds = CGRect.null
+    private var isCroppedRaster: Bool { format == .png && options.rasterRegion != .page }
 
     private init(
         snapshot: Diagram, format: OwnedExportFormat, pageIDs: [UUID], context: LifecycleJobContext,
-        waiter: ExportPreparationWaiter
+        waiter: ExportPreparationWaiter, options: OwnedExportOptions, membership: RasterExportMembership?
     ) {
         self.snapshot = snapshot
         self.format = format
         self.context = context
         self.waiter = waiter
         self.pageIDs = pageIDs
+        self.options = options
+        self.membership = membership
     }
 
     static func prepare(
@@ -258,11 +286,17 @@ private final class MainExportRecorder {
         precondition(!Thread.isMainThread, "The worker waits while main prepares bounded drawing records")
         let snapshot = try snapshot.validated()
         let pageIDs = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
+        let membership: RasterExportMembership?
+        if format == .png, options.rasterRegion == .selection {
+            guard let selection = options.rasterSelection else { throw DiagramError.invalid("Capture a selection before exporting Selection bounds.") }
+            membership = try selection.expanded(in: snapshot, input: context.input, cancellation: context.cancellation)
+        } else { membership = nil }
         let waiter = ExportPreparationWaiter()
         let handler = context.cancellation.onCancel { waiter.finish(.failure(LifecycleJobError.cancelled)) }
         defer { context.cancellation.removeHandler(handler) }
         let recorder = MainExportRecorder(
-            snapshot: snapshot, format: format, pageIDs: pageIDs, context: context, waiter: waiter)
+            snapshot: snapshot, format: format, pageIDs: pageIDs, context: context, waiter: waiter,
+            options: options, membership: membership)
         DispatchQueue.main.async { recorder.step() }
         return try waiter.wait()
     }
@@ -285,7 +319,8 @@ private final class MainExportRecorder {
                 }
                 steps += 1
             }
-            context.progress("Preparing \(format.rawValue.uppercased()): \(work.preparedObjects) objects")
+            context.progress(measuringBounds ? "Measuring PNG bounds: \(work.measuredObjects) objects"
+                             : "Preparing \(format.rawValue.uppercased()): \(work.preparedObjects) objects")
             DispatchQueue.main.async { self.step() }
         } catch { waiter.finish(.failure(error)) }
     }
@@ -298,6 +333,8 @@ private final class MainExportRecorder {
         if scene == nil {
             let prepared = snapshot.scene(for: pageIDs[pageIndex])
             scene = prepared
+            measuringBounds = isCroppedRaster
+            paintBounds = .null
             pages.append(
                 ExportRecordPage(
                     width: prepared.page.paperWidth, height: prepared.page.paperHeight,
@@ -306,6 +343,17 @@ private final class MainExportRecorder {
         }
         let scene = self.scene!
         if layerIndex >= scene.layers.count {
+            if measuringBounds {
+                let viewport = try RasterExportViewport.cropped(paintBounds, options: options)
+                pages[pages.count - 1] = ExportRecordPage(width: viewport.rect.width, height: viewport.rect.height,
+                                                        title: scene.page.name, rasterViewport: viewport)
+                work.rasterViewport = viewport.rect
+                measuringBounds = false
+                runtime = nil
+                layerIndex = 0
+                objectIndex = 0
+                return false
+            }
             self.scene = nil
             runtime = nil
             layerIndex = 0
@@ -314,6 +362,10 @@ private final class MainExportRecorder {
             return false
         }
         let layer = scene.layers[layerIndex]
+        if measuringBounds, options.rasterRegion == .selection, layer.id != scene.page.id {
+            layerIndex += 1
+            return false
+        }
         if runtime == nil {
             var printingPage = layer
             printingPage.layers = layer.layers?.map {
@@ -333,6 +385,8 @@ private final class MainExportRecorder {
         }
         let element = runtime.paintOrder[objectIndex]
         objectIndex += 1
+        if options.rasterRegion == .selection, layer.id == scene.page.id,
+           membership?.contains(element) != true { return false }
         let start = ProcessInfo.processInfo.systemUptime
         let record: Data?
         switch element {
@@ -344,7 +398,14 @@ private final class MainExportRecorder {
             } else {
                 let colored = DiagramDrawing.layerColored(node, in: layer)
                 let prepared = PreparedNodeDrawing(colored, paperScale: layer.paperScale)
-                record = try pdfRecord(layer: layer, scene: scene) {
+                if measuringBounds {
+                    let bounds = try PublicationBounds.node(colored, prepared: prepared, paperScale: layer.paperScale)
+                    paintBounds = paintBounds.union(PublicationBounds.offset(bounds, by: scene.offset(for: layer)))
+                    work.measuredObjects += 1
+                    work.maximumObjectSeconds = max(work.maximumObjectSeconds, ProcessInfo.processInfo.systemUptime - start)
+                    return false
+                }
+                record = try pdfRecord(layer: layer, scene: scene, viewport: pages.last?.rasterViewport?.rect) {
                     DiagramDrawing.drawNode(
                         colored, shadow: false, paperScale: layer.paperScale, prepared: prepared)
                 }
@@ -352,14 +413,22 @@ private final class MainExportRecorder {
         case .edge(let id):
             guard runtime.isVisible(edgeID: id), let edge = runtime.edgesByID[id] else { return false }
             let route = DiagramGeometry.route(edge, in: layer)
+            let colored = DiagramDrawing.layerColored(edge, in: layer)
+            let label = isCroppedRaster && !edge.label.isEmpty ? PreparedEdgeLabel(text: colored.label, color: colored.color) : nil
+            if measuringBounds {
+                let bounds = PublicationBounds.edge(colored, route: route, label: label, paperScale: layer.paperScale)
+                paintBounds = paintBounds.union(PublicationBounds.offset(bounds, by: scene.offset(for: layer)))
+                work.measuredObjects += 1
+                work.maximumObjectSeconds = max(work.maximumObjectSeconds, ProcessInfo.processInfo.systemUptime - start)
+                return false
+            }
             if format == .svg {
                 record = svgRecord(
                     DiagramDrawing.svgFragment(edge: edge, route: route, in: layer), layer: layer,
                     scene: scene)
             } else {
-                record = try pdfRecord(layer: layer, scene: scene) {
-                    DiagramDrawing.drawEdge(
-                        DiagramDrawing.layerColored(edge, in: layer), in: layer, preparedRoute: route)
+                record = try pdfRecord(layer: layer, scene: scene, viewport: pages.last?.rasterViewport?.rect) {
+                    DiagramDrawing.drawEdge(colored, in: layer, preparedRoute: route, preparedLabel: label)
                 }
             }
         }
@@ -383,9 +452,10 @@ private final class MainExportRecorder {
                 .utf8)
     }
 
-    private func pdfRecord(layer: DiagramPage, scene: DiagramScene, draw: () -> Void) throws -> Data {
+    private func pdfRecord(layer: DiagramPage, scene: DiagramScene, viewport: CGRect? = nil, draw: () -> Void) throws -> Data {
         let data = NSMutableData()
-        var box = CGRect(x: 0, y: 0, width: scene.page.paperWidth, height: scene.page.paperHeight)
+        let source = viewport ?? CGRect(x: 0, y: 0, width: scene.page.paperWidth, height: scene.page.paperHeight)
+        var box = CGRect(origin: .zero, size: source.size)
         guard let consumer = CGDataConsumer(data: data),
             let drawing = CGContext(consumer: consumer, mediaBox: &box, nil)
         else {
@@ -393,7 +463,7 @@ private final class MainExportRecorder {
         }
         drawing.beginPDFPage(nil)
         drawing.clip(to: box)
-        drawing.translateBy(x: 0, y: box.height)
+        drawing.translateBy(x: -source.minX, y: source.maxY)
         drawing.scaleBy(x: 1, y: -1)
         let offset = scene.offset(for: layer)
         drawing.translateBy(x: offset.x, y: offset.y)
@@ -470,7 +540,9 @@ private enum ExportRecordAssembly {
             }
             try writePDF(pages, in: drawing, context: context)
         case .png:
-            let size = try options.rasterSize(width: first.width, height: first.height)
+            let size: (width: Int, height: Int)
+            if let viewport = first.rasterViewport { size = (viewport.pixelWidth, viewport.pixelHeight) }
+            else { size = try options.rasterSize(width: first.width, height: first.height) }
             let width = size.width, height = size.height
             guard let drawing = CGContext(
                     data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,

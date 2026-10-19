@@ -1934,7 +1934,14 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc func exportVSD(_ sender: Any?) { exportFile(ext: "vsd") }
     @objc func exportTemplate(_ sender: Any?) { exportFile(ext: "vstx") }
     func exportFile(ext: String, allPages: Bool = false) {
-        canvas.finishEditing(commit: true)
+        guard lifecycleJobs.isActive else { return }
+        guard (window?.firstResponder as? NSTextView)?.hasMarkedText() != true else {
+            root.showMessage("Finish text composition before exporting."); return
+        }
+        diagramDocument.commitTextEditing(); canvas.finishPageInteraction()
+        guard !diagramDocument.isCalculating else {
+            root.showMessage("Wait for calculation to finish or cancel it before exporting."); return
+        }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [UTType(filenameExtension: ext) ?? .data]
         panel.nameFieldStringValue = "\(diagramDocument.diagram.title).\(ext)"
@@ -1949,20 +1956,19 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         let panelOwner = lifecycleJobs
         let panelInput = LifecycleJobInput(
             ownerID: panelOwner.id, snapshotID: diagramDocument.stateID, revision: diagramDocument.revision)
+        let panelSelection = RasterExportSelection(
+            input: panelInput, pageID: diagramDocument.diagram.activePageID,
+            nodeIDs: canvas.selectedNodes, edgeIDs: Set([canvas.selectedEdge].compactMap { $0 }))
         let optionsView: ExportOptionsView?
         if let format = OwnedExportFormat(rawValue: ext), format == .png || format == .pdf {
             optionsView = ExportOptionsView(snapshot: diagramDocument.diagram, format: format,
-                                            allPages: allPages, input: panelInput)
+                                            allPages: allPages, input: panelInput, selection: panelSelection)
             panel.accessoryView = optionsView
         } else { optionsView = nil }
         guard let window = window else { return }
         panel.beginSheetModal(for: window) { [weak self] response in
             guard response == .OK, let self = self, let url = panel.url else { return }
-            let snapshot = self.diagramDocument.diagram
             let owner = self.lifecycleJobs
-            let input = LifecycleJobInput(
-                ownerID: owner.id, snapshotID: self.diagramDocument.stateID,
-                revision: self.diagramDocument.revision)
             let progress = LifecycleProgressController(
                 title: "Exporting drawing", detail: url.lastPathComponent)
             do {
@@ -1976,7 +1982,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                         throw DiagramError.invalid("Finish entering export options before exporting.")
                     }
                 }
-                let options = try optionsView?.options(for: input, activePageID: snapshot.activePageID) ?? OwnedExportOptions()
+                let snapshot = self.diagramDocument.diagram
+                let input = LifecycleJobInput(
+                    ownerID: owner.id, snapshotID: self.diagramDocument.stateID,
+                    revision: self.diagramDocument.revision)
+                let currentSelection = RasterExportSelection(
+                    input: input, pageID: snapshot.activePageID,
+                    nodeIDs: self.canvas.selectedNodes,
+                    edgeIDs: Set([self.canvas.selectedEdge].compactMap { $0 }))
+                let options = try optionsView?.options(
+                    for: input, activePageID: snapshot.activePageID,
+                    selection: currentSelection) ?? OwnedExportOptions()
                 _ = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
                 let handle = try OwnedExportJobs.submit(
                     snapshot: snapshot, input: input, sourceURL: self.diagramDocument.fileURL,
