@@ -218,11 +218,11 @@ enum DiagramDrawing {
         if !edge.label.isEmpty {
             NSGraphicsContext.saveGraphicsState();let paper = NSAffineTransform();paper.scale(by:unit);paper.concat()
             let mid = points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2),middle = CGPoint(x:mid.x*page.paperScale,y:mid.y*page.paperScale)
-            let attrs: [NSAttributedString.Key:Any] = preparedLabel?.attributes ?? [.font:NSFont.systemFont(ofSize:12,weight:.medium),.foregroundColor:NSColor(hex:edge.color)]
-            let size = preparedLabel?.size ?? PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements);return (edge.label as NSString).size(withAttributes:attrs) }
+            let label = preparedLabel ?? PreparedEdgeLabel(edge)
+            let size = label.size
             let box = CGRect(x:middle.x-size.width/2-5,y:middle.y-size.height/2-3,width:size.width+10,height:size.height+6)
             NSColor.white.setFill(); NSBezierPath(roundedRect:box,xRadius:4,yRadius:4).fill()
-            (edge.label as NSString).draw(at:CGPoint(x:box.minX+5,y:box.minY+3),withAttributes:attrs);NSGraphicsContext.restoreGraphicsState()
+            label.draw(in:CGRect(x:box.minX+5,y:box.minY+3,width:size.width,height:size.height));NSGraphicsContext.restoreGraphicsState()
         }
     }
     static func orderedNodes(in page:DiagramPage) -> [DiagramNode] {
@@ -365,7 +365,15 @@ enum DiagramDrawing {
             }
             if !e.label.isEmpty {
                 let mid = points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2)
+                let label = PreparedEdgeLabel(e)
+                if label.isRich {
+                    let rect = CGRect(x:mid.x*page.paperScale-label.size.width/2,
+                                      y:mid.y*page.paperScale-label.size.height/2,
+                                      width:label.size.width,height:label.size.height)
+                    body += "<g transform=\"scale(\(unit))\"><rect x=\"\(rect.minX-5)\" y=\"\(rect.minY-3)\" width=\"\(rect.width+10)\" height=\"\(rect.height+6)\" rx=\"4\" fill=\"white\"/>\(label.svg(in:rect))</g>"
+                } else {
                 body += "<text x=\"\(mid.x)\" y=\"\(mid.y-5*unit)\" text-anchor=\"middle\" font-family=\"Helvetica,Arial,sans-serif\" font-size=\"\(12*unit)\" fill=\"\(color(e.color))\" stroke=\"white\" stroke-width=\"\(5*unit)\" paint-order=\"stroke\">\(xml(e.label))</text>"
+                }
             }
         }
         body += nodes.filter { $0.kind != .swimlane && page.isVisible($0,printing:true) }.map(shape).joined(separator:"\n")

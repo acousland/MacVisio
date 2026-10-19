@@ -456,7 +456,7 @@ private final class MainExportRecorder {
             guard runtime.isVisible(edgeID: id), let edge = runtime.edgesByID[id] else { return false }
             let route = DiagramGeometry.route(edge, in: layer)
             let colored = DiagramDrawing.layerColored(edge, in: layer)
-            let label = isCroppedRaster && !edge.label.isEmpty ? PreparedEdgeLabel(text: colored.label, color: colored.color) : nil
+            let label = isCroppedRaster && !edge.label.isEmpty ? PreparedEdgeLabel(colored) : nil
             if measuringBounds {
                 let bounds = PublicationBounds.edge(colored, route: route, label: label, paperScale: layer.paperScale)
                 paintBounds = paintBounds.union(PublicationBounds.offset(bounds, by: scene.offset(for: layer)))

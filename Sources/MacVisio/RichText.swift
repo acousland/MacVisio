@@ -336,7 +336,7 @@ enum ShapeRichText {
         let (styles,_,assigned) = indices(runs(for:node).map(\.character),source:{$0.sourceIndex})
         return styles.enumerated().map{(assigned[$0.offset],$0.element.fontName)}
     }
-    static func svg(_ node:DiagramNode,rect:CGRect) -> String {
+    static func svg(_ node:DiagramNode,rect:CGRect,clipRect:CGRect? = nil) -> String {
         guard !node.text.isEmpty else { return "" }
         let storage = NSTextStorage(attributedString:attributed(node)),manager = NSLayoutManager(),container = NSTextContainer(containerSize:CGSize(width:max(1,rect.width),height:100000))
         container.lineFragmentPadding = 0;manager.addTextContainer(container);storage.addLayoutManager(manager);manager.ensureLayout(for:container)
@@ -356,8 +356,8 @@ enum ShapeRichText {
                 spans += "<tspan x=\"\(rect.minX+line.minX+position.x)\" y=\"\(dy+line.minY+position.y)\" font-family=\"\(xml(font.familyName ?? font.fontName))\" font-size=\"\(font.pointSize)\" font-weight=\"\(traits.contains(.boldFontMask) ? 700 : 400)\" font-style=\"\(traits.contains(.italicFontMask) ? "italic" : "normal")\" fill=\"\(String(color.hexString.prefix(7)))\" fill-opacity=\"\(color.alphaComponent)\" text-decoration=\"\(decoration.isEmpty ? "none" : decoration.joined(separator:" "))\">\(xml(text))</tspan>"
             }
         }
-        let clip = "text-"+node.id.uuidString
-        return "<defs><clipPath id=\"\(clip)\"><rect x=\"\(rect.minX)\" y=\"\(rect.minY)\" width=\"\(rect.width)\" height=\"\(rect.height)\"/></clipPath></defs><text xml:space=\"preserve\" clip-path=\"url(#\(clip))\">\(spans)</text>"
+        let clip = "text-"+node.id.uuidString,clipBounds = clipRect ?? rect
+        return "<defs><clipPath id=\"\(clip)\"><rect x=\"\(clipBounds.minX)\" y=\"\(clipBounds.minY)\" width=\"\(clipBounds.width)\" height=\"\(clipBounds.height)\"/></clipPath></defs><text xml:space=\"preserve\" clip-path=\"url(#\(clip))\">\(spans)</text>"
     }
     static func patch(_ node:DiagramNode,element:XMLElement,previous:DiagramNode? = nil,fresh:Bool = false) {
         let runs = runs(for:node)

@@ -5,6 +5,30 @@ import XCTest
 @testable import MacVisio
 
 final class M3RasterBoundsTests: XCTestCase {
+    func testStyledConnectorSelectionKeepsGlyphsAndDecorationsWithoutEndpointPaint() throws {
+        try onMain {
+            _ = NSApplication.shared
+            var model = fixture();model.page.width = 500;model.page.height = 240
+            let source = node(20,110,20,20,"#FFFFFF00"),target = node(460,110,20,20,"#FFFFFF00")
+            var edge = DiagramEdge(source:source.id,target:target.id,label:"Red italic Blue",style:.straight)
+            edge.arrow = false;edge.color = "#444444"
+            var red = ShapeCharacterStyle(node:edge.textNode)
+            red.fontName = "Arial";red.size = 36;red.italic = true;red.underline = true;red.color = "#FF0000"
+            var blue = red;blue.size = 18;blue.underline = false;blue.color = "#0000FF"
+            edge.formatting.textRuns = [ShapeTextRun(text:"Red italic ",character:red,paragraph:ShapeParagraphStyle()),
+                ShapeTextRun(text:"Blue",character:blue,paragraph:ShapeParagraphStyle())]
+            model.page.nodes = [source,target];model.page.edges = [edge]
+            let full = try export(model,region:.page),crop = try export(model,region:.selection,edges:[edge.id])
+            let redInk:(Pixel)->Bool = {$0.r>180 && $0.g<80 && $0.b<80 && $0.a>220}
+            let blueInk:(Pixel)->Bool = {$0.b>180 && $0.r<80 && $0.g<80 && $0.a>220}
+            XCTAssertGreaterThan(crop.pixels.count(where:redInk),200)
+            XCTAssertGreaterThan(crop.pixels.count(where:blueInk),50)
+            XCTAssertLessThanOrEqual(abs(crop.pixels.count(where:redInk)-full.pixels.count(where:redInk)),20)
+            XCTAssertLessThanOrEqual(abs(crop.pixels.count(where:blueInk)-full.pixels.count(where:blueInk)),20)
+            XCTAssertEqual(crop.result.preparation.preparedObjects,1)
+        }
+    }
+
     func testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI() throws {
         try onMain {
             _ = NSApplication.shared

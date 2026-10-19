@@ -69,9 +69,9 @@ enum PublicationBounds {
         if let label, !edge.label.isEmpty {
             let mid = route.count > 2 ? CGPoint(x: (route[1].x + route[2].x) / 2, y: (route[1].y + route[2].y) / 2)
                 : CGPoint(x: (first.x + last.x) / 2, y: (first.y + last.y) / 2)
-            result = result.union(CGRect(x: mid.x * paperScale - label.size.width / 2 - 5,
-                                        y: mid.y * paperScale - label.size.height / 2 - 3,
-                                        width: label.size.width + 10, height: label.size.height + 6))
+            let origin = CGPoint(x:mid.x*paperScale-label.size.width/2,y:mid.y*paperScale-label.size.height/2)
+            result = result.union(CGRect(origin:origin,size:label.size).insetBy(dx:-5,dy:-3))
+            result = result.union(label.paintBounds.offsetBy(dx:origin.x,dy:origin.y))
         }
         return result
     }
@@ -92,7 +92,7 @@ enum PublicationBounds {
         return visible
     }
 
-    private static func textBounds(_ text: NSAttributedString, in rect: CGRect) -> CGRect {
+    static func textBounds(_ text: NSAttributedString, in rect: CGRect) -> CGRect {
         guard text.length > 0, rect.width > 0, rect.height > 0 else { return .null }
         let storage = NSTextStorage(attributedString: text), manager = NSLayoutManager()
         let container = NSTextContainer(containerSize: CGSize(width: max(1, rect.width), height: max(1, rect.height)))
