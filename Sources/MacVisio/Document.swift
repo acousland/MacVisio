@@ -1930,8 +1930,17 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
         if allPages {
             panel.message =
-                "Export foreground pages with their assigned backgrounds. Background pages are not separate PDF pages."
+                "Choose pages and export order below. Each page includes its assigned background artwork."
         }
+        let panelOwner = lifecycleJobs
+        let panelInput = LifecycleJobInput(
+            ownerID: panelOwner.id, snapshotID: diagramDocument.stateID, revision: diagramDocument.revision)
+        let optionsView: ExportOptionsView?
+        if let format = OwnedExportFormat(rawValue: ext), format == .png || format == .pdf {
+            optionsView = ExportOptionsView(snapshot: diagramDocument.diagram, format: format,
+                                            allPages: allPages, input: panelInput)
+            panel.accessoryView = optionsView
+        } else { optionsView = nil }
         guard let window = window else { return }
         panel.beginSheetModal(for: window) { [weak self] response in
             guard response == .OK, let self = self, let url = panel.url else { return }
@@ -1946,9 +1955,18 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 guard let format = OwnedExportFormat(rawValue: ext) else {
                     throw DiagramError.invalid("This export format is unavailable.")
                 }
+                guard owner.isActive else { throw LifecycleJobError.staleInput }
+                if optionsView != nil {
+                    guard (panel.firstResponder as? NSTextView)?.hasMarkedText() != true,
+                          panel.makeFirstResponder(nil) else {
+                        throw DiagramError.invalid("Finish entering export options before exporting.")
+                    }
+                }
+                let options = try optionsView?.options(for: input, activePageID: snapshot.activePageID) ?? OwnedExportOptions()
+                _ = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
                 let handle = try OwnedExportJobs.submit(
                     snapshot: snapshot, input: input, sourceURL: self.diagramDocument.fileURL,
-                    destination: url, format: format, allPages: allPages, owner: owner,
+                    destination: url, format: format, allPages: allPages, options: options, owner: owner,
                     progress: { progress.update($0) },
                     completion: { [weak self] result in
                         progress.finish()

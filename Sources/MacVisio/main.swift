@@ -113,6 +113,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func loadVisioLibrary(_ directory:URL) {
         let requestID = UUID();libraryRequestID = requestID
         let owner = libraryJobOwner
+        let pinnedLibraries = LibraryPins.shared.snapshot.libraryURLs
         let jobID = UUID()
         let progress = LifecycleProgressController(title:"Scanning library",detail:directory.lastPathComponent)
         do {
@@ -121,7 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.libraryRequestID == candidate.snapshotID && owner.isActive
             },progress:{ progress.update($0) },work:{ context in
                 context.progress("Scanning \(directory.lastPathComponent)")
-                let entries = try VisioLibrary.entries(in:directory)
+                let entries = try VisioLibrary.includingPinned(pinnedLibraries,in:VisioLibrary.entries(in:directory))
                 guard !entries.isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") }
                 return entries
             },completion:{ [weak self] result in

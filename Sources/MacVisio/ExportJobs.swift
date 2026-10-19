@@ -6,6 +6,51 @@ enum OwnedExportFormat: String {
     case pdf, png, svg, vsdx, vsd, vstx
 }
 
+/// Value settings captured with the immutable export snapshot. Physical page
+/// dimensions stay in points; PNG resolution changes only the raster sampling.
+struct OwnedExportOptions: Equatable {
+    static let supportedDPI = 36.0...1200.0
+    static let maximumRasterDimension = 100_000
+    static let maximumRasterPixels = 100_000_000
+    var rasterDPI: Double = 144
+    var transparentBackground = false
+    /// Explicit PDF order takes precedence over the legacy active/all selector.
+    var pdfPageIDs: [UUID]? = nil
+
+    func pageIDs(in snapshot: Diagram, format: OwnedExportFormat, allPages: Bool = false) throws -> [UUID] {
+        if format != .pdf, pdfPageIDs != nil { throw DiagramError.invalid("Page selection is available for PDF export.") }
+        if format == .png { _ = try rasterSize(width: snapshot.page.paperWidth, height: snapshot.page.paperHeight) }
+        guard format == .pdf else { return [snapshot.page.id] }
+        if let selected = pdfPageIDs {
+            let available = Set(snapshot.pages.map(\.id))
+            guard !selected.isEmpty, selected.count <= 1000, Set(selected).count == selected.count,
+                  selected.allSatisfy({ available.contains($0) }) else {
+                throw DiagramError.invalid("Choose one or more different pages from the current drawing, in export order.")
+            }
+            return selected
+        }
+        let result = allPages ? snapshot.orderedPages.filter { $0.isBackground != true }.map(\.id) : [snapshot.page.id]
+        guard !result.isEmpty else { throw DiagramError.invalid("There are no foreground pages to export.") }
+        return result
+    }
+
+    func rasterSize(width: Double, height: Double) throws -> (width: Int, height: Int) {
+        guard rasterDPI.isFinite, Self.supportedDPI.contains(rasterDPI) else {
+            throw DiagramError.invalid("PNG resolution must be between 36 and 1200 dpi.")
+        }
+        let scale = rasterDPI / 72, w = width * scale, h = height * scale
+        guard width.isFinite, height.isFinite, width > 0, height > 0, w.isFinite, h.isFinite,
+              w >= 1, h >= 1, w <= Double(Self.maximumRasterDimension), h <= Double(Self.maximumRasterDimension) else {
+            throw DiagramError.invalid("The page and resolution exceed the supported PNG dimensions.")
+        }
+        let pixels = (width: Int(w), height: Int(h))
+        guard pixels.width <= Self.maximumRasterPixels / pixels.height else {
+            throw DiagramError.invalid("PNG export supports up to 100 million pixels. Choose a lower resolution.")
+        }
+        return pixels
+    }
+}
+
 struct ExportPreparationWork {
     var mainBatches = 0
     var preparedObjects = 0
@@ -30,7 +75,7 @@ enum OwnedExportJobs {
     @discardableResult
     static func submit(
         snapshot: Diagram, input: LifecycleJobInput, sourceURL: URL?, destination: URL,
-        format: OwnedExportFormat, allPages: Bool = false, owner: LifecycleJobOwner,
+        format: OwnedExportFormat, allPages: Bool = false, options: OwnedExportOptions = OwnedExportOptions(), owner: LifecycleJobOwner,
         progress: @escaping (LifecycleJobProgress) -> Void = { _ in },
         completion: @escaping (Result<OwnedExportResult, Error>) -> Void
     ) throws -> LifecycleJobHandle {
@@ -57,11 +102,11 @@ enum OwnedExportJobs {
                         try VisioReusableFormat.writeTemplate(snapshot, to: staging)
                     case .pdf, .png, .svg:
                         let prepared = try MainExportRecorder.prepare(
-                            snapshot: snapshot, format: format, allPages: allPages, context: context)
+                            snapshot: snapshot, format: format, allPages: allPages, options: options, context: context)
                         preparation = prepared.work
                         context.progress("Assembling \(format.rawValue.uppercased())")
                         try ExportRecordAssembly.write(
-                            prepared.pages, to: staging, format: format, context: context)
+                            prepared.pages, to: staging, format: format, options: options, context: context)
                     }
                 }
                 return OwnedExportResult(
@@ -159,28 +204,27 @@ private final class MainExportRecorder {
     private var work = ExportPreparationWork()
 
     private init(
-        snapshot: Diagram, format: OwnedExportFormat, allPages: Bool, context: LifecycleJobContext,
+        snapshot: Diagram, format: OwnedExportFormat, pageIDs: [UUID], context: LifecycleJobContext,
         waiter: ExportPreparationWaiter
     ) {
         self.snapshot = snapshot
         self.format = format
         self.context = context
         self.waiter = waiter
-        pageIDs =
-            allPages && format == .pdf
-            ? snapshot.orderedPages.filter { $0.isBackground != true }.map(\.id) : [snapshot.page.id]
+        self.pageIDs = pageIDs
     }
 
     static func prepare(
-        snapshot: Diagram, format: OwnedExportFormat, allPages: Bool, context: LifecycleJobContext
+        snapshot: Diagram, format: OwnedExportFormat, allPages: Bool, options: OwnedExportOptions, context: LifecycleJobContext
     ) throws -> RecordedExport {
         precondition(!Thread.isMainThread, "The worker waits while main prepares bounded drawing records")
         let snapshot = try snapshot.validated()
+        let pageIDs = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
         let waiter = ExportPreparationWaiter()
         let handler = context.cancellation.onCancel { waiter.finish(.failure(LifecycleJobError.cancelled)) }
         defer { context.cancellation.removeHandler(handler) }
         let recorder = MainExportRecorder(
-            snapshot: snapshot, format: format, allPages: allPages, context: context, waiter: waiter)
+            snapshot: snapshot, format: format, pageIDs: pageIDs, context: context, waiter: waiter)
         DispatchQueue.main.async { recorder.step() }
         return try waiter.wait()
     }
@@ -328,7 +372,7 @@ private final class MainExportRecorder {
 
 private enum ExportRecordAssembly {
     static func write(
-        _ pages: [ExportRecordPage], to output: URL, format: OwnedExportFormat, context: LifecycleJobContext
+        _ pages: [ExportRecordPage], to output: URL, format: OwnedExportFormat, options: OwnedExportOptions, context: LifecycleJobContext
     ) throws {
         precondition(!Thread.isMainThread)
         guard let first = pages.first else {
@@ -366,19 +410,22 @@ private enum ExportRecordAssembly {
             }
             drawing.closePDF()
         case .png:
-            let width = Int(first.width * 2)
-            let height = Int(first.height * 2)
-            guard width > 0, height > 0, width <= 100000, height <= 100000, width <= 100_000_000 / height,
-                let drawing = CGContext(
+            let size = try options.rasterSize(width: first.width, height: first.height)
+            let width = size.width, height = size.height
+            guard let drawing = CGContext(
                     data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0,
                     space: CGColorSpaceCreateDeviceRGB(),
                     bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
             else {
                 throw DiagramError.invalid("Page is too large to export as PNG.")
             }
-            drawing.scaleBy(x: 2, y: 2)
-            drawing.setFillColor(CGColor(gray: 1, alpha: 1))
-            drawing.fill(CGRect(x: 0, y: 0, width: first.width, height: first.height))
+            drawing.clear(CGRect(x: 0, y: 0, width: width, height: height))
+            let scale = options.rasterDPI / 72
+            drawing.scaleBy(x: scale, y: scale)
+            if !options.transparentBackground {
+                drawing.setFillColor(CGColor(gray: 1, alpha: 1))
+                drawing.fill(CGRect(x: 0, y: 0, width: first.width, height: first.height))
+            }
             try draw(first.records, in: drawing, context: context)
             guard let image = drawing.makeImage(),
                 let destination = CGImageDestinationCreateWithURL(
@@ -386,7 +433,8 @@ private enum ExportRecordAssembly {
             else {
                 throw DiagramError.invalid("Could not encode the PNG image.")
             }
-            CGImageDestinationAddImage(destination, image, nil)
+            let properties = [kCGImagePropertyDPIWidth: options.rasterDPI, kCGImagePropertyDPIHeight: options.rasterDPI] as CFDictionary
+            CGImageDestinationAddImage(destination, image, properties)
             guard CGImageDestinationFinalize(destination) else {
                 throw DiagramError.invalid("Could not finish the PNG image.")
             }

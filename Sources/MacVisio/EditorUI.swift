@@ -56,8 +56,10 @@ final class MasterStencilCard: FlippedView, NSDraggingSource {
     weak var editor:EditorWindowController?
     private var down:NSEvent?
     private var dragged = false
-    init(_ definition:StencilDefinition,editor:EditorWindowController) {
-        self.definition = definition;self.editor = editor;super.init(frame:.zero)
+    private let pins:LibraryPins
+    init(_ definition:StencilDefinition,editor:EditorWindowController,pins:LibraryPins = .shared) {
+        self.definition = definition;self.editor = editor;self.pins = pins;super.init(frame:.zero)
+        toolTip = definition.metadataDescription
         setAccessibilityElement(true);setAccessibilityRole(.button);setAccessibilityLabel("Add \(definition.name)")
     }
     required init?(coder:NSCoder) { fatalError() }
@@ -80,6 +82,20 @@ final class MasterStencilCard: FlippedView, NSDraggingSource {
     }
     override func mouseUp(with event:NSEvent) { if !dragged { editor?.insertStencil(definition) };down = nil }
     override func accessibilityPerformPress() -> Bool { editor?.insertStencil(definition);return true }
+    override func menu(for event:NSEvent) -> NSMenu? {
+        guard definition.source != nil else { return nil }
+        let menu = NSMenu()
+        let item = NSMenuItem(title:pins.isPinned(definition.source) ? "Unpin Master" : "Pin Master",action:#selector(togglePin(_:)),keyEquivalent:"")
+        item.target = self;menu.addItem(item);return menu
+    }
+    @discardableResult func togglePin() -> Bool {
+        guard let source = definition.source else { return false }
+        do {
+            let wasPinned = pins.isPinned(source);try pins.setMaster(source,pinned:!wasPinned)
+            editor?.root.showMessage((wasPinned ? "Unpinned " : "Pinned ") + definition.name);return true
+        } catch { editor?.root.showMessage(error.localizedDescription);return false }
+    }
+    @objc private func togglePin(_ sender:Any?) { _ = togglePin() }
     func draggingSession(_ session:NSDraggingSession,sourceOperationMaskFor context:NSDraggingContext) -> NSDragOperation { .copy }
 }
 
@@ -95,25 +111,32 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     private var shapeCards: [String: StencilCard] = [:]
     private var masterCards: [UUID: MasterStencilCard] = [:]
     private var visibleRows: [NSView] = []
+    private let pins:LibraryPins
+    private var pinObserver:NSObjectProtocol?
+    private(set) var visibleMasterIDs:[UUID] = []
     private(set) var cardsCreatedCount = 0
-    init(editor:EditorWindowController) {
-        self.editor = editor; super.init(frame:.zero)
+    init(editor:EditorWindowController,pins:LibraryPins = .shared) {
+        self.editor = editor;self.pins = pins; super.init(frame:.zero)
         wantsLayer = true; layer?.backgroundColor = EditorPalette.panel.cgColor
         heading.textColor = .labelColor
         search.placeholderString = "Search shapes"; search.delegate = self; search.setAccessibilityIdentifier("shapeSearch")
-        category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers"]); category.target = self; category.action = #selector(filterChanged(_:)); category.font = .systemFont(ofSize:12,weight:.medium)
+        category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers","Pinned masters"]); category.item(at:4)?.representedObject = "pinned";category.target = self; category.action = #selector(filterChanged(_:)); category.font = .systemFont(ofSize:12,weight:.medium)
         listScroll.documentView = list; listScroll.hasVerticalScroller = true; listScroll.autohidesScrollers = true; listScroll.drawsBackground = false
         openStencil.target = editor;openStencil.action = #selector(EditorWindowController.openStencil(_:));openStencil.bezelStyle = .recessed;openStencil.font = .systemFont(ofSize:11)
-        [heading,search,category,listScroll,subtitle,openStencil].forEach { addSubview($0) }; rebuild()
+        [heading,search,category,listScroll,subtitle,openStencil].forEach { addSubview($0) }
+        pinObserver = NotificationCenter.default.addObserver(forName:LibraryPins.didChange,object:pins,queue:.main){[weak self] _ in self?.rebuild()}
+        rebuild()
     }
     required init?(coder:NSCoder) { fatalError() }
+    deinit { if let pinObserver { NotificationCenter.default.removeObserver(pinObserver) } }
     func detachEditor() {
+        if let pinObserver { NotificationCenter.default.removeObserver(pinObserver);self.pinObserver = nil }
         editor = nil
         search.delegate = nil;category.target = nil;openStencil.target = nil
         for card in shapeCards.values { card.editor = nil }
         for card in masterCards.values { card.editor = nil }
         for row in list.subviews { row.removeFromSuperview() }
-        shapeCards = [:];masterCards = [:];visibleRows = []
+        shapeCards = [:];masterCards = [:];visibleRows = [];visibleMasterIDs = []
     }
     override func layout() {
         super.layout(); heading.frame = CGRect(x:20,y:16,width:180,height:25); search.frame = CGRect(x:15,y:48,width:bounds.width-30,height:26)
@@ -126,10 +149,16 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
     }
     @objc func filterChanged(_ sender:Any?) { rebuild() }
     func refreshCategories(selecting family:String? = nil) {
-        let old = family ?? category.titleOfSelectedItem
-        category.removeAllItems();category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers"])
-        for name in Set(editor?.stencils.map(\.family) ?? []).sorted() { category.addItem(withTitle:name) }
-        if let old = old { category.selectItem(withTitle:old) };rebuild()
+        let old = family.map { "family:"+$0 } ?? (category.selectedItem?.representedObject as? String)
+        let oldIndex = category.indexOfSelectedItem
+        category.removeAllItems();category.addItems(withTitles:["All shapes","Flowchart","Basic shapes","Containers","Pinned masters"]);category.item(at:4)?.representedObject = "pinned"
+        for name in Set(editor?.stencils.map(\.family) ?? []).sorted() {
+            let item = NSMenuItem(title:name,action:nil,keyEquivalent:"")
+            item.representedObject = "family:"+name;category.menu?.addItem(item)
+        }
+        if let old,let item = category.itemArray.first(where:{($0.representedObject as? String) == old}) { category.select(item) }
+        else if old == nil,(0..<4).contains(oldIndex) { category.selectItem(at:oldIndex) }
+        rebuild()
     }
     func controlTextDidChange(_ obj:Notification) { rebuild() }
     func rebuild() {
@@ -143,7 +172,15 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         }
         let q = search.stringValue.lowercased()
         let kinds = category.indexOfSelectedItem >= 4 ? [] : group.filter{q.isEmpty || $0.title.lowercased().contains(q) || $0.rawValue.lowercased().contains(q)}
-        let masters = editor.stencils.filter{(category.indexOfSelectedItem == 0 || category.titleOfSelectedItem == $0.family) && (q.isEmpty || $0.name.lowercased().contains(q))}
+        let state = pins.snapshot
+        let pinnedCategory = (category.selectedItem?.representedObject as? String) == "pinned"
+        let family = (category.selectedItem?.representedObject as? String).flatMap { $0.hasPrefix("family:") ? String($0.dropFirst(7)) : nil }
+        let words = q.split(whereSeparator:{$0.isWhitespace})
+        let masters = editor.stencils.filter { definition in
+            let categoryMatches = category.indexOfSelectedItem == 0 || (pinnedCategory ? definition.source.map { state.masters.contains($0.key) } == true : family == definition.family)
+            return categoryMatches && words.allSatisfy { definition.searchMetadata.localizedCaseInsensitiveContains(String($0)) }
+        }
+        visibleMasterIDs = masters.map(\.id)
         let currentMasterIDs = Set(editor.stencils.map(\.id))
         masterCards = masterCards.filter { currentMasterIDs.contains($0.key) }
         var rows: [NSView] = []
@@ -157,10 +194,11 @@ final class StencilPanel: FlippedView, NSSearchFieldDelegate {
         for definition in masters {
             if let card = masterCards[definition.id] {
                 card.definition = definition
+                card.toolTip = definition.metadataDescription
                 card.setAccessibilityLabel("Add \(definition.name)")
                 card.needsDisplay = true
             } else {
-                masterCards[definition.id] = MasterStencilCard(definition, editor: editor)
+                masterCards[definition.id] = MasterStencilCard(definition, editor: editor,pins:pins)
                 cardsCreatedCount += 1
             }
             if let card = masterCards[definition.id] { rows.append(card) }
