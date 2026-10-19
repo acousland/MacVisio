@@ -1,4 +1,5 @@
 import Foundation
+import CryptoKit
 import MacVisioInfrastructure
 import XCTest
 @testable import MacVisio
@@ -52,6 +53,146 @@ enum M3MembershipFixture {
         edge.formatting.sheet["User.Incoming"] = ShapeSheetCell(value: "2.2222222222222223", formula: "Sheet.2!Width", unit: "IN")
         var result = Diagram(); result.page.nodes = [container, member, reader]; result.page.edges = [edge]
         return result
+    }
+}
+
+/// Opt-in retention of actual files emitted by the existing save tests. Fixed
+/// test directories bound the retained set; capture is evidence, not acceptance.
+/// The helper never serializes or repairs a VSDX package.
+enum M3MembershipEvidence {
+    private static let packageLimit = 16 * 1_024 * 1_024
+    private static let manifestLimit = 64 * 1_024
+    private static let allowed: [String: Set<String>] = [
+        "M3MembershipTests": [
+            "testActualPublicSaveStripPrivateReopenPreservesIndependentMembership()",
+            "testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen()",
+            "testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen()",
+            "testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly()"
+        ],
+        "M3MembershipEditorTests": ["testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen()"]
+    ]
+    fileprivate struct Artifact: Codable {
+        let path: String
+        let byteCount: Int
+        let sha256: String
+    }
+    fileprivate struct ObjectIdentity: Codable {
+        let kind: String
+        let nativeUUID: UUID
+        let publicID: String?
+        let groupParentUUID: UUID?
+        let sourceUUID: UUID?
+        let targetUUID: UUID?
+        let relationships: ShapeSheetCell?
+        let structureType: ShapeSheetCell?
+    }
+    fileprivate struct Identity: Codable {
+        let pageUUID: UUID
+        let sourceResourceUUID: UUID?
+        let sourceLineageUUID: UUID?
+        let objects: [ObjectIdentity]
+    }
+    private struct Manifest: Codable {
+        let schema: String
+        let suite: String
+        let test: String
+        let inputKind: String
+        let state: String
+        let claim: String
+        let native: Artifact
+        var publicPackage: Artifact?
+        let savedModel: Identity
+        var publicReopen: Identity?
+    }
+    struct Capture {
+        fileprivate let directory: URL
+        fileprivate let suite: String
+        fileprivate let test: String
+        fileprivate let inputKind: String
+        fileprivate let native: Artifact
+        fileprivate let savedModel: Identity
+
+        func finish(publicURL: URL, reopened: Diagram) throws {
+            let publicData = try M3MembershipEvidence.boundedData(publicURL)
+            let identity = try M3MembershipEvidence.identity(reopened)
+            let artifact = M3MembershipEvidence.artifact("public.vsdx", publicData)
+            let manifest = Manifest(schema: "macvisio.m3.membership-save.v1", suite: suite, test: test,
+                inputKind: inputKind, state: "saved-and-stripped-files-captured",
+                claim: "Actual local test outputs only. Consult the XCTest log for assertions; exact Visio/G2 acceptance remains unknown.",
+                native: native, publicPackage: artifact, savedModel: savedModel, publicReopen: identity)
+            let manifestData = try M3MembershipEvidence.encoded(manifest)
+            try publicData.write(to: directory.appendingPathComponent("public.vsdx"), options: .atomic)
+            try manifestData.write(to: directory.appendingPathComponent("manifest.json"), options: .atomic)
+        }
+    }
+    static func begin(suite: String, test: String, inputKind: String, nativeURL: URL, diagram: Diagram) throws -> Capture? {
+        guard let path = ProcessInfo.processInfo.environment["M3_EVIDENCE_DIR"], !path.isEmpty else { return nil }
+        guard (path as NSString).isAbsolutePath, allowed[suite]?.contains(test) == true else {
+            throw DiagramError.invalid("Membership evidence requires an absolute M3_EVIDENCE_DIR and a known save test.")
+        }
+        let nativeData = try boundedData(nativeURL), model = try identity(diagram)
+        let native = artifact("native.vsdx", nativeData)
+        let name = String(test.dropLast(2))
+        let directory = URL(fileURLWithPath: path, isDirectory: true)
+            .appendingPathComponent(suite, isDirectory: true).appendingPathComponent(name, isDirectory: true)
+        let manifest = Manifest(schema: "macvisio.m3.membership-save.v1", suite: suite, test: test,
+            inputKind: inputKind, state: "saved-file-captured-before-strip",
+            claim: "Actual local test output only; incomplete until public capture finishes. Consult the XCTest log; no acceptance claim.",
+            native: native, publicPackage: nil, savedModel: model, publicReopen: nil)
+        let manifestData = try encoded(manifest)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        // Fixed names bound repeated runs and avoid a previous public file
+        // masquerading as output from an incomplete current test.
+        let publicURL = directory.appendingPathComponent("public.vsdx")
+        if FileManager.default.fileExists(atPath: publicURL.path) { try FileManager.default.removeItem(at: publicURL) }
+        try nativeData.write(to: directory.appendingPathComponent("native.vsdx"), options: .atomic)
+        try manifestData.write(to: directory.appendingPathComponent("manifest.json"), options: .atomic)
+        return Capture(directory: directory, suite: suite, test: test, inputKind: inputKind, native: native, savedModel: model)
+    }
+    private static func boundedData(_ url: URL) throws -> Data {
+        let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+        guard let count = attributes[.size] as? NSNumber, count.int64Value > 0, count.int64Value <= Int64(packageLimit) else {
+            throw DiagramError.invalid("A membership evidence package exceeds the 16 MiB retention limit.")
+        }
+        let data = try Data(contentsOf: url)
+        guard !data.isEmpty, data.count <= packageLimit else { throw DiagramError.invalid("Membership evidence grew past its 16 MiB retention limit.") }
+        return data
+    }
+    private static func artifact(_ name: String, _ data: Data) -> Artifact {
+        Artifact(path: name, byteCount: data.count, sha256: SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined())
+    }
+    private static func encoded(_ manifest: Manifest) throws -> Data {
+        let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+        let data = try encoder.encode(manifest)
+        guard data.count <= manifestLimit else { throw DiagramError.invalid("The membership evidence manifest exceeds 64 KiB.") }
+        return data
+    }
+    private static func identity(_ diagram: Diagram) throws -> Identity {
+        let page = diagram.page, binding = diagram.visioArchive?.pages.first { $0.pageID == page.id }
+        guard page.nodes.count + page.edges.count <= 256 else { throw DiagramError.invalid("Membership evidence identities exceed the 256-object retention limit.") }
+        var remainingTextBytes = 32 * 1_024
+        func checked(_ publicID: String?, _ detail: ShapeDetails) throws {
+            let cells = [detail.sheet["Relationships"], detail.sheet["User.msvStructureType"]].compactMap { $0 }
+            for text in [publicID].compactMap({ $0 }) + cells.flatMap({ [$0.value, $0.formula, $0.unit] }) {
+                guard text.utf8.count <= remainingTextBytes else { throw DiagramError.invalid("Membership evidence identity strings exceed 32 KiB.") }
+                remainingTextBytes -= text.utf8.count
+            }
+        }
+        var objects: [ObjectIdentity] = []
+        for node in page.nodes {
+            let publicID = binding?.nodeIDs[node.id] ?? node.formatting.sourceShapeID
+            try checked(publicID, node.formatting)
+            objects.append(ObjectIdentity(kind: "shape", nativeUUID: node.id, publicID: publicID, groupParentUUID: node.parentID,
+                sourceUUID: nil, targetUUID: nil, relationships: node.formatting.sheet["Relationships"], structureType: node.formatting.sheet["User.msvStructureType"]))
+        }
+        for edge in page.edges {
+            let publicID = binding?.edgeIDs[edge.id] ?? edge.sourceShapeID
+            try checked(publicID, edge.formatting)
+            objects.append(ObjectIdentity(kind: "connector", nativeUUID: edge.id, publicID: publicID, groupParentUUID: edge.parentID,
+                sourceUUID: edge.source, targetUUID: edge.target, relationships: edge.formatting.sheet["Relationships"], structureType: edge.formatting.sheet["User.msvStructureType"]))
+        }
+        return Identity(pageUUID: page.id, sourceResourceUUID: diagram.visioArchive?.sourceResourceID,
+            sourceLineageUUID: diagram.visioArchive?.sourceLineageID, objects: objects)
     }
 }
 
@@ -115,6 +256,7 @@ final class M3MembershipTests: XCTestCase {
     func testActualPublicSaveStripPrivateReopenPreservesIndependentMembership() throws {
         let edited = try edit(M3MembershipFixture.drawing()), url = file()
         try VisioFormat.write(edited, to: url)
+        let capture = try M3MembershipEvidence.begin(suite: "M3MembershipTests", test: #function, inputKind: "independently authored public membership fixture", nativeURL: url, diagram: edited)
         let stripped = try M3MembershipFixture.stripped(VisioPackage.read(url)); try VisioPackage.write(stripped, to: url)
         XCTAssertFalse(try VisioPackage.read(url).keys.contains { $0.hasPrefix("macvisio/") })
         let reopened = try VisioFormat.read(from: url).diagram, member = try M3MembershipFixture.id("11", in: reopened)
@@ -123,6 +265,7 @@ final class M3MembershipTests: XCTestCase {
         XCTAssertTrue(index.contains(member: member, container: try M3MembershipFixture.id("20", in: reopened)))
         XCTAssertEqual(index.outgoing[member]?.filter { $0.kind == .list }.map(\.target), [try M3MembershipFixture.id("30", in: reopened)])
         XCTAssertEqual(reopened.page.nodes.first { $0.id == member }?.parentID, try M3MembershipFixture.id("10", in: reopened))
+        try capture?.finish(publicURL: url, reopened: reopened)
     }
 
     func testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen() throws {
@@ -131,11 +274,13 @@ final class M3MembershipTests: XCTestCase {
         XCTAssertEqual(edge.sourceShapeID, "50"); XCTAssertEqual(edge.formatting.sourceShapeID, "50")
         XCTAssertEqual(edge.formatting.sheet["User.Weight"], source.page.edges[0].formatting.sheet["User.Weight"])
         let url = file(); try VisioFormat.write(edited, to: url)
+        let capture = try M3MembershipEvidence.begin(suite: "M3MembershipTests", test: #function, inputKind: "independently authored public connector membership fixture", nativeURL: url, diagram: edited)
         let parts = try M3MembershipFixture.stripped(VisioPackage.read(url)); try VisioPackage.write(parts, to: url)
         let reopened = try VisioFormat.read(from: url).diagram
         let index = try DiagramMemberships.index(in: reopened, pageID: reopened.page.id)
         XCTAssertTrue(index.contains(member: try M3MembershipFixture.id("50", in: reopened), container: try M3MembershipFixture.id("40", in: reopened)))
         XCTAssertEqual(reopened.page.edges.first?.formatting.sheet["User.Weight"]?.formula, "7")
+        try capture?.finish(publicURL: url, reopened: reopened)
     }
 
     func testNativeCodableRoundTripNeedsNoNewMembershipGraphOrMigration() throws {
@@ -247,6 +392,7 @@ final class M3MembershipTests: XCTestCase {
         XCTAssertEqual(edited.page.edges[0].sourceShapeID, "50")
         XCTAssertEqual(edited.page.edges[0].formatting.sheet["User.Incoming"]?.formula, "Sheet.2!Width")
         let url = file(); try VisioFormat.write(edited, to: url)
+        let capture = try M3MembershipEvidence.begin(suite: "M3MembershipTests", test: #function, inputKind: "native mixed explicit and implicit public identity page", nativeURL: url, diagram: edited)
         let publicParts = try M3MembershipFixture.stripped(VisioPackage.read(url)); try VisioPackage.write(publicParts, to: url)
         let reopened = try VisioFormat.read(from: url).diagram
         let index = try DiagramMemberships.index(in: reopened, pageID: reopened.page.id)
@@ -254,6 +400,7 @@ final class M3MembershipTests: XCTestCase {
         let reader = try XCTUnwrap(reopened.page.nodes.first { $0.formatting.sourceShapeID == "30" })
         XCTAssertEqual(reader.formatting.sheet["User.Incoming"]?.formula, "Sheet.2!Width")
         XCTAssertEqual(try ShapeSheetContext(page: reopened.page).number(reader.id, "User.Incoming"), reopened.page.nodes.first { $0.formatting.sourceShapeID == "2" }!.width / 72, accuracy: 1e-8)
+        try capture?.finish(publicURL: url, reopened: reopened)
     }
 
     func testImplicitCollisionWithPrimaryConnectorIDOrConflictingDetailIDRefuses() throws {
@@ -309,11 +456,13 @@ final class M3MembershipTests: XCTestCase {
             XCTAssertEqual(cell.attr("F"), "0"); XCTAssertEqual(cell.attr("V"), "0"); XCTAssertEqual(cell.attr("U"), "BOOL")
         }
         let url = file(); try VisioFormat.write(removed, to: url)
+        let capture = try M3MembershipEvidence.begin(suite: "M3MembershipTests", test: #function, inputKind: "independently authored public last-member-detach fixture", nativeURL: url, diagram: removed)
         try VisioPackage.write(M3MembershipFixture.stripped(VisioPackage.read(url)), to: url)
         let reopened = try VisioFormat.read(from: url).diagram
         let index = try DiagramMemberships.index(in: reopened, pageID: reopened.page.id)
         XCTAssertFalse(index.contains(member: try M3MembershipFixture.id("50", in: reopened), container: try M3MembershipFixture.id("40", in: reopened)))
         XCTAssertEqual(reopened.page.edges.first?.formatting.sheet["Relationships"]?.formula, "0")
+        try capture?.finish(publicURL: url, reopened: reopened)
     }
 
     func testDeletedStructuralRowsSectionsShapesAndUnknownOwnerAttributesCannotProvePolicy() throws {

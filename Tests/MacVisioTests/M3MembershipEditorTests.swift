@@ -82,9 +82,11 @@ final class M3MembershipEditorTests: XCTestCase {
             let url = FileManager.default.temporaryDirectory.appendingPathComponent("M3-membership-native-\(UUID()).vsdx")
             defer { try? FileManager.default.removeItem(at: url) }
             try VisioFormat.write(document.diagram, to: url)
+            let capture = try M3MembershipEvidence.begin(suite: "M3MembershipEditorTests", test: #function, inputKind: "native Memberships Apply and undo/redo over authored public fixture", nativeURL: url, diagram: document.diagram)
             let publicParts = try M3MembershipFixture.stripped(VisioPackage.read(url)); try VisioPackage.write(publicParts, to: url)
             let reopened = try VisioFormat.read(from: url).diagram
             XCTAssertTrue(try DiagramMemberships.index(in: reopened, pageID: reopened.page.id).contains(member: M3MembershipFixture.id("11", in: reopened), container: M3MembershipFixture.id("40", in: reopened)))
+            try capture?.finish(publicURL: url, reopened: reopened)
         }
     }
 
