@@ -1392,6 +1392,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     var root: EditorRootView!
     private(set) var retainedScene: RetainedRenderScene!
     var stencils: [StencilDefinition] = []
+    private var pendingPrintHandle: LifecycleJobHandle?
+    private var printSessionIsActive = false
+    private(set) var lastPrintError: Error?
+    var printSessionRunner: ((DiagramPrintSession) throws -> Bool)?
+    var isPreparingPrint: Bool { pendingPrintHandle != nil }
+    var isPrinting: Bool { isPreparingPrint || printSessionIsActive }
     private var fittedInitialPage = false
     private var editorIsDetached = false
     var selection: [DiagramNode] {
@@ -1446,6 +1452,9 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         editorIsDetached = true
         if lifecycleJobs.isActive { canvas.finishEditing(commit: true) }
         lifecycleJobs.close()
+        pendingPrintHandle = nil
+        printSessionIsActive = false
+        printSessionRunner = nil
         root?.detachEditor()
         canvas.detachEditor()
         retainedScene = nil
@@ -1519,8 +1528,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                         ? "\(canvas.selectedNodes.count) selected"
                         : "\(page.nodes.count) shapes · \(page.edges.count) connectors"
         let materialIssues = diagramDocument.currentDiagnostics.filter(\.isMaterial).count
-        root.status.stringValue =
-            "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
+        if let error = lastPrintError,(error as? LifecycleJobError) != .cancelled {
+            root.status.stringValue = "Printing: "+error.localizedDescription
+        } else {
+            root.status.stringValue =
+                "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
+        }
         root.zoomLabel.stringValue = "\(Int((canvas.zoom*100).rounded()))%"
         root.ribbon.refreshSelection()
     }
@@ -1989,16 +2002,57 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
     @objc func printDiagram(_ sender: Any?) {
-        canvas.finishEditing(commit: true)
-        let view = ExportPageView(scene: diagramDocument.diagram.scene())
-        let info = NSPrintInfo.shared.copy() as! NSPrintInfo
-        info.horizontalPagination = .fit
-        info.verticalPagination = .fit
-        info.isHorizontallyCentered = true
-        info.isVerticallyCentered = true
-        NSPrintOperation(view: view, printInfo: info).run()
+        guard lifecycleJobs.isActive else { return }
+        guard !isPrinting else { root.showMessage("A print operation is already in progress for this drawing."); return }
+        guard (window?.firstResponder as? NSTextView)?.hasMarkedText() != true else {
+            root.showMessage("Finish text composition before printing.");return
+        }
+        diagramDocument.commitTextEditing();canvas.finishPageInteraction()
+        guard !diagramDocument.isCalculating else { root.showMessage("Wait for calculation to finish or cancel it before printing.");return }
+        let snapshot = diagramDocument.diagram, owner = lifecycleJobs
+        let input = LifecycleJobInput(ownerID:owner.id,snapshotID:diagramDocument.stateID,revision:diagramDocument.revision)
+        let progress = LifecycleProgressController(title:"Preparing drawing for print",detail:snapshot.title)
+        lastPrintError = nil
+        updateStatus()
+        do {
+            let handle = try OwnedPrintJobs.submit(snapshot:snapshot,input:input,owner:owner,
+                progress:{ progress.update($0) },completion:{ [weak self] outcome in
+                    progress.finish()
+                    guard let self else { return }
+                    self.pendingPrintHandle = nil
+                    guard owner.isActive else { return }
+                    do {
+                        self.printSessionIsActive = true
+                        defer { self.printSessionIsActive = false }
+                        let prepared = try outcome.get()
+                        guard self.diagramDocument.stateID == input.snapshotID,self.diagramDocument.revision == input.revision else {
+                            throw LifecycleJobError.staleInput
+                        }
+                        let session = try DiagramPrintSession(prepared:prepared,title:snapshot.title)
+                        if let runner = self.printSessionRunner { _ = try runner(session) }
+                        else {
+                            _ = try session.run(isOwnerActive:{ [weak self] in
+                                guard owner.isActive,let self else { return false }
+                                return self.diagramDocument.stateID == input.snapshotID && self.diagramDocument.revision == input.revision
+                            })
+                        }
+                    } catch {
+                        self.lastPrintError = error
+                        if (error as? LifecycleJobError) == .staleInput {
+                            self.root.showMessage("The drawing changed before printing. Start Print again to use the current drawing.")
+                        } else if (error as? LifecycleJobError) != .cancelled { self.root.showMessage(error.localizedDescription) }
+                    }
+                })
+            pendingPrintHandle = handle;progress.onCancel = { handle.cancel() }
+            progress.show(attachedTo:window)
+        } catch { lastPrintError = error;root.showMessage(error.localizedDescription) }
     }
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(unionSelection(_:)) { return unionUnavailableReason == nil }
+        if menuItem.action == #selector(printDiagram(_:)) {
+            guard lifecycleJobs.isActive else { return false }
+            return !isPrinting && !diagramDocument.isCalculating && diagramDocument.diagram.pages.contains{$0.isBackground != true}
+        }
         if menuItem.action == #selector(showDefinitionSheets(_:)) {
             return definitionSheetUnavailableReason == nil
         }

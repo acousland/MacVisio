@@ -48,6 +48,7 @@ struct EditorSearchCommand {
         .init(title: "Delete Selection", keywords: "remove shape connector", action: #selector(EditorWindowController.deleteSelection(_:)), requirement: .editableObject),
         .init(title: "Group Shapes", keywords: "combine selection", action: #selector(EditorWindowController.groupSelection(_:)), requirement: .group),
         .init(title: "Ungroup Shapes", keywords: "separate group", action: #selector(EditorWindowController.ungroupSelection(_:)), requirement: .ungroup),
+        .init(title: "Union Shapes", keywords: "boolean geometry combine outline", action: #selector(EditorWindowController.unionSelection(_:)), requirement: .editableShapes(2)),
         .init(title: "Rotate Left", keywords: "turn anticlockwise", action: #selector(EditorWindowController.rotateLeft(_:)), requirement: .editableShapes(1)),
         .init(title: "Rotate Right", keywords: "turn clockwise", action: #selector(EditorWindowController.rotateRight(_:)), requirement: .editableShapes(1)),
         .init(title: "Flip Horizontal", keywords: "mirror", action: #selector(EditorWindowController.flipHorizontal(_:)), requirement: .editableShapes(1)),
@@ -79,7 +80,8 @@ struct EditorSearchCommand {
         .init(title: "Export Redacted Support Report…", keywords: "diagnostics troubleshooting privacy", action: #selector(EditorWindowController.exportRedactedSupportReport(_:))),
         .init(title: "Export PDF…", keywords: "publish save document", action: #selector(EditorWindowController.exportPDF(_:))),
         .init(title: "Export SVG…", keywords: "publish save vector", action: #selector(EditorWindowController.exportSVG(_:))),
-        .init(title: "Export PNG…", keywords: "publish save image", action: #selector(EditorWindowController.exportPNG(_:)))
+        .init(title: "Export PNG…", keywords: "publish save image", action: #selector(EditorWindowController.exportPNG(_:))),
+        .init(title: "Print…", keywords: "printer document pages range paper scale", action: #selector(EditorWindowController.printDiagram(_:)), requirement: .idle)
     ]
 
     static func matching(_ text: String) -> [EditorSearchCommand] {
@@ -145,6 +147,7 @@ struct EditorSearchCommand {
             }
         }
         let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+        if action == #selector(EditorWindowController.unionSelection(_:)),let reason = editor.unionUnavailableReason { return reason }
         if !editor.validateMenuItem(item) { return "This command is unavailable for the current selection." }
         return nil
     }
@@ -159,6 +162,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
         var nodes: Set<UUID>
         var edge: UUID?
         var calculating: Bool
+        var printing: Bool
         var parentComposition: Bool
         var inlineEditing: Bool
         var filterGeneration: UInt64
@@ -258,6 +262,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
         let key = AvailabilityKey(stateID: drawing.stateID, revision: drawing.revision, pageID: drawing.diagram.activePageID,
                                   nodes: editor.canvas.selectedNodes, edge: editor.canvas.selectedEdge,
                                   calculating: drawing.isCalculating,
+                                  printing: editor.isPrinting,
                                   parentComposition: (editor.window?.firstResponder as? NSTextView)?.hasMarkedText() == true,
                                   inlineEditing: editor.canvas.isEditingText, filterGeneration: filterGeneration)
         guard key != availabilityKey else { return false }

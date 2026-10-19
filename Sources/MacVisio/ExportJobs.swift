@@ -66,11 +66,49 @@ struct OwnedExportResult {
     let preparation: ExportPreparationWork
 }
 
+/// Immutable worker-produced PDF used by publication consumers that do not need
+/// a file destination. AppKit painting has already completed before delivery.
+struct OwnedPreparedPDF {
+    let jobID: UUID
+    let input: LifecycleJobInput
+    let data: Data
+    let pageIDs: [UUID]
+    let preparation: ExportPreparationWork
+}
+
 /// UI drawing/font/layout work is recorded on main in bounded batches. Workers
 /// receive only immutable PDF bytes or SVG markup, never AppKit views, mutable
 /// retained scene layers, NSFontManager or live document state.
 enum OwnedExportJobs {
     static let maximumRecordingBytes = 128 * 1024 * 1024
+
+    @discardableResult
+    static func submitPreparedPDF(
+        snapshot: Diagram, input: LifecycleJobInput, pageIDs: [UUID], owner: LifecycleJobOwner,
+        progress: @escaping (LifecycleJobProgress) -> Void = { _ in },
+        completion: @escaping (Result<OwnedPreparedPDF, Error>) -> Void
+    ) throws -> LifecycleJobHandle {
+        let jobID = UUID()
+        let options = OwnedExportOptions(pdfPageIDs: pageIDs)
+        let handle = try LifecycleJobService.shared.submit(
+            id: jobID, kind: .export, input: input,
+            accepts: { owner.isActive && $0.ownerID == owner.id }, progress: progress,
+            work: { context in
+                let prepared = try MainExportRecorder.prepare(
+                    snapshot: snapshot, format: .pdf, allPages: false, options: options, context: context)
+                context.progress("Assembling print PDF")
+                let data = try ExportRecordAssembly.pdfData(prepared.pages, context: context)
+                try context.checkpoint()
+                return OwnedPreparedPDF(
+                    jobID: jobID, input: input, data: data, pageIDs: pageIDs,
+                    preparation: prepared.work)
+            }, completion: { result in
+                owner.finish(jobID)
+                completion(result)
+            })
+        owner.track(handle)
+        return handle
+    }
 
     @discardableResult
     static func submit(
@@ -371,6 +409,38 @@ private final class MainExportRecorder {
 }
 
 private enum ExportRecordAssembly {
+    /// A consumer callback refuses bytes before the retained output exceeds the
+    /// same 128 MiB bound as the preparation records. Assembly stays on a worker.
+    static func pdfData(_ pages: [ExportRecordPage], context: LifecycleJobContext) throws -> Data {
+        precondition(!Thread.isMainThread)
+        let output = BoundedPDFOutput(limit: OwnedExportJobs.maximumRecordingBytes)
+        var callbacks = CGDataConsumerCallbacks(putBytes: { info, bytes, count in
+            guard let info else { return 0 }
+            return Unmanaged<BoundedPDFOutput>.fromOpaque(info).takeUnretainedValue()
+                .append(bytes, count: count)
+        }, releaseConsumer: { info in
+            guard let info else { return }
+            Unmanaged<BoundedPDFOutput>.fromOpaque(info).release()
+        })
+        let retainedOutput = Unmanaged.passRetained(output)
+        guard let consumer = CGDataConsumer(info: retainedOutput.toOpaque(), cbks: &callbacks) else {
+            // Failed construction never transfers callback ownership.
+            retainedOutput.release()
+            throw DiagramError.invalid("Could not create the prepared print PDF consumer.")
+        }
+        guard let drawing = CGContext(consumer: consumer, mediaBox: nil, nil) else {
+            // Releasing the successfully created consumer balances its retain,
+            // including on this context-construction failure path.
+            throw DiagramError.invalid("Could not create the prepared print PDF.")
+        }
+        try writePDF(pages, in: drawing, context: context)
+        guard !output.exceeded else {
+            throw DiagramError.invalid("Prepared print PDF exceeds the 128 MB retention limit.")
+        }
+        try context.checkpoint()
+        return output.data as Data
+    }
+
     static func write(
         _ pages: [ExportRecordPage], to output: URL, format: OwnedExportFormat, options: OwnedExportOptions, context: LifecycleJobContext
     ) throws {
@@ -398,17 +468,7 @@ private enum ExportRecordAssembly {
             else {
                 throw DiagramError.invalid("Could not create the PDF output.")
             }
-            for page in pages {
-                try context.checkpoint()
-                var box = CGRect(x: 0, y: 0, width: page.width, height: page.height)
-                let media = Data(bytes: &box, count: MemoryLayout<CGRect>.size)
-                drawing.beginPDFPage([kCGPDFContextMediaBox as String: media] as CFDictionary)
-                drawing.setFillColor(CGColor(gray: 1, alpha: 1))
-                drawing.fill(box)
-                try draw(page.records, in: drawing, context: context)
-                drawing.endPDFPage()
-            }
-            drawing.closePDF()
+            try writePDF(pages, in: drawing, context: context)
         case .png:
             let size = try options.rasterSize(width: first.width, height: first.height)
             let width = size.width, height = size.height
@@ -442,6 +502,24 @@ private enum ExportRecordAssembly {
         }
     }
 
+    private static func writePDF(
+        _ pages: [ExportRecordPage], in drawing: CGContext, context: LifecycleJobContext
+    ) throws {
+        defer { drawing.closePDF() }
+        guard !pages.isEmpty else { throw DiagramError.invalid("There are no foreground pages to print.") }
+        for page in pages {
+            try context.checkpoint()
+            var box = CGRect(x: 0, y: 0, width: page.width, height: page.height)
+            let media = Data(bytes: &box, count: MemoryLayout<CGRect>.size)
+            drawing.beginPDFPage([kCGPDFContextMediaBox as String: media] as CFDictionary)
+            drawing.setFillColor(CGColor(gray: 1, alpha: 1))
+            drawing.fill(box)
+            do { try draw(page.records, in: drawing, context: context) }
+            catch { drawing.endPDFPage(); throw error }
+            drawing.endPDFPage()
+        }
+    }
+
     private static func draw(_ records: [Data], in drawing: CGContext, context: LifecycleJobContext) throws {
         for record in records {
             try context.checkpoint()
@@ -452,5 +530,22 @@ private enum ExportRecordAssembly {
             }
             drawing.drawPDFPage(page)
         }
+    }
+}
+
+private final class BoundedPDFOutput {
+    let data = NSMutableData()
+    let limit: Int
+    private(set) var exceeded = false
+
+    init(limit: Int) { self.limit = limit }
+
+    func append(_ bytes: UnsafeRawPointer, count: Int) -> Int {
+        guard !exceeded, count <= limit - data.length else {
+            exceeded = true
+            return 0
+        }
+        data.append(bytes, length: count)
+        return count
     }
 }
