@@ -4,7 +4,7 @@
   "milestone": "M3",
   "compatibility_accepted": false,
   "reference_run": false,
-  "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+  "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
   "environment": {
     "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
     "target": "arm64-apple-macosx27.0.0",
@@ -212,6 +212,17 @@
       "failures": 0,
       "excluded_native_tests": [],
       "record": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-set-raster",
+      "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 979,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json"
     }
   ],
   "artifacts": [
@@ -309,6 +320,11 @@
       "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
       "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
       "bytes": 43716
+    },
+    {
+      "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+      "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+      "bytes": 39948
     }
   ],
   "five_compatibility_dimensions": {
@@ -329,7 +345,7 @@
     "mismatches": 0,
     "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
   },
-  "current_execution_state": "in_progress_geometry_stencil_print_slice_full_local_regressions_pass",
+  "current_execution_state": "in_progress_set_raster_slice_full_local_regressions_pass",
   "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
   "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
   "shared_host_checkpoint": {
@@ -357,5 +373,12 @@
     "bytes": 43716,
     "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
     "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+  },
+  "set_raster_checkpoint": {
+    "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+    "bytes": 39948,
+    "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
   }
 }

@@ -5912,8 +5912,8 @@
     "large_parent_count": 22,
     "child_count": 204,
     "accepted_child_count": 0,
-    "in_progress_child_count": 31,
-    "pending_implementation_child_count": 167,
+    "in_progress_child_count": 33,
+    "pending_implementation_child_count": 165,
     "proposed_child_count": 6
   },
   "parents": [
@@ -18313,7 +18313,7 @@
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Intersect curved/holed paths as one reversible edit",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18327,7 +18327,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Geometry/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-17-T01"
@@ -18341,11 +18341,14 @@
       "source_paths": [
         "Sources/MacVisio/DiagramOperations.swift",
         "Sources/MacVisio/CompositeGeometry.swift",
-        "Sources/MacVisio/SVGPath.swift"
+        "Sources/MacVisio/SVGPath.swift",
+        "Sources/MacVisio/BooleanGeometry.swift",
+        "Sources/MacVisio/BooleanGeometryEditor.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/CompositeGeometryTests.swift",
-        "Tests/MacVisioTests/EditorTests.swift"
+        "Tests/MacVisioTests/EditorTests.swift",
+        "Tests/MacVisioTests/M3BooleanSetOperationsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31702AcceptanceTests.swift",
@@ -18358,7 +18361,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_set_raster_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -18379,14 +18382,21 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "set_raster_checkpoint": {
+        "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+        "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+        "bytes": 39948,
+        "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+        "scope": "Bounded curved/holed two-shape Intersect with public reopen, source safety, one native undo and cancel/stale/close ownership; full child/reference obligations remain open."
+      }
     },
     {
       "id": "WP-17-T02-C005",
       "parent_task": "WP-17-T02",
       "work_package": "WP-17",
       "title": "Subtract curved/holed paths as one reversible edit",
-      "state": "pending_implementation",
+      "state": "in_progress",
       "kind": "implementation_and_qualification",
       "requirement_ids": [
         "MV-EDT-08"
@@ -18400,7 +18410,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Geometry/Rendering",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-17-T01"
@@ -18414,11 +18424,14 @@
       "source_paths": [
         "Sources/MacVisio/DiagramOperations.swift",
         "Sources/MacVisio/CompositeGeometry.swift",
-        "Sources/MacVisio/SVGPath.swift"
+        "Sources/MacVisio/SVGPath.swift",
+        "Sources/MacVisio/BooleanGeometry.swift",
+        "Sources/MacVisio/BooleanOperandChooser.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/CompositeGeometryTests.swift",
-        "Tests/MacVisioTests/EditorTests.swift"
+        "Tests/MacVisioTests/EditorTests.swift",
+        "Tests/MacVisioTests/M3BooleanSetOperationsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31702AcceptanceTests.swift",
@@ -18431,7 +18444,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "pending_for_this_child",
+        "local_engineering": "bounded_set_raster_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -18452,7 +18465,14 @@
       "public_fixture_formats": [
         "vsdx"
       ],
-      "planned_artifact_state": "not_created"
+      "planned_artifact_state": "not_created",
+      "set_raster_checkpoint": {
+        "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+        "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+        "bytes": 39948,
+        "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+        "scope": "Bounded curved/holed two-shape Subtract with explicit UUID-bound base chooser, public reopen, source safety and one native undo; full child/reference obligations remain open."
+      }
     },
     {
       "id": "WP-17-T02-C006",
@@ -21103,7 +21123,7 @@
       "owner": {
         "accountable_thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
         "role": "Native/Publication",
-        "executor": null
+        "executor": "M3 current chat"
       },
       "depends_on": [
         "WP-19-T02"
@@ -21119,12 +21139,15 @@
         "Sources/MacVisio/EditorFeatures.swift",
         "Sources/MacVisio/ExportJobs.swift",
         "Sources/MacVisio/ExportOptionsView.swift",
-        "Sources/MacVisio/Document.swift"
+        "Sources/MacVisio/Document.swift",
+        "Sources/MacVisio/PublicationBounds.swift",
+        "Sources/MacVisio/RasterExportPlan.swift"
       ],
       "test_paths": [
         "Tests/MacVisioTests/LayerSettingsTests.swift",
         "Tests/MacVisioTests/DrawingScaleTests.swift",
-        "Tests/MacVisioTests/M3OutputOptionsTests.swift"
+        "Tests/MacVisioTests/M3OutputOptionsTests.swift",
+        "Tests/MacVisioTests/M3RasterBoundsTests.swift"
       ],
       "planned_test_path": {
         "path": "Tests/MacVisioTests/M31903AcceptanceTests.swift",
@@ -21137,7 +21160,7 @@
       "context_ids": [],
       "acceptance": {
         "state": "not_accepted",
-        "local_engineering": "bounded_output_library_checkpoint_passes; full_child_contract_pending",
+        "local_engineering": "bounded_set_raster_checkpoint_passes; full_child_contract_pending",
         "reference": "pending; exact build/runtime unavailable"
       },
       "artifacts": {
@@ -21165,6 +21188,13 @@
         "bytes": 10620,
         "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
         "scope": "PNG page-bound DPI/transparency and resource guards; selection/content bounds and remaining format/settings obligations stay open."
+      },
+      "set_raster_checkpoint": {
+        "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+        "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+        "bytes": 39948,
+        "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+        "scope": "Adds Page/Content/Selection PNG bounds to existing DPI/transparency controls. Physical conservative paint bounds, full-scene routing, raw selection draft identity, limits and destination/lifecycle refusals are locally qualified; exact-build parity remains open."
       }
     },
     {
@@ -23421,5 +23451,12 @@
     "bytes": 43716,
     "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
     "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+  },
+  "set_raster_reconciliation": {
+    "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+    "bytes": 39948,
+    "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
   }
 }

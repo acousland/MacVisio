@@ -9603,7 +9603,7 @@
       "child_count": 204,
       "accepted_child_count": 0,
       "completed_task_ids": [],
-      "local_evidence_scope": "Source af764fa: 942 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Union, custom stencil drafts and multipage printing; all 204 children remain unaccepted.",
+      "local_evidence_scope": "Source 44bc3ca: 979 Swift tests, 13 prerequisite skips, zero failures, no native exclusions; 105 Python checks pass. Bounded Intersect/Subtract and PNG content/selection bounds; all 204 children remain unaccepted.",
       "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
       "M0_inventory_integration_commit": "6ba6901",
       "pending": [
@@ -9651,8 +9651,8 @@
       "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
       "M2_integration_commit": "d2d736f",
       "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
-      "candidate_code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
-      "active_work": "Continue bounded Intersect/Subtract, explicit PNG content/selection bounds, independent structural relationships and remaining local contracts; exact-build reference and physical qualification remain open.",
+      "candidate_code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+      "active_work": "Continue independent container/list relationships, explicit pinned-library loading and remaining local production contracts; exact-build reference and physical qualification remain open.",
       "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
       "lifecycle_checkpoint": {
         "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
@@ -9674,6 +9674,13 @@
         "bytes": 43716,
         "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
         "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+      },
+      "set_raster_checkpoint": {
+        "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+        "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+        "bytes": 39948,
+        "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+        "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
       }
     }
   ],
