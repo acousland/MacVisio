@@ -4,7 +4,9 @@ Source and downloads are hosted at https://github.com/acousland/MacVisio. Versio
 
 The MacVisio menu includes **Check for Updates…** and **Automatically Check for Updates**. Scheduled checks are enabled by default. Sparkle presents available releases and asks before installation. Command-line conversion/rendering and the isolated launch diagnostic do not initiate update checks.
 
-The stable feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/appcast.xml`. Both the appcast and the ZIP use the app's Ed25519 update key; signed feeds and signature verification before extraction are required by the bundle. The public key is committed in Info.plist. The documented signing routes use the local Keychain MacVisio account or the encrypted GitHub Actions secret `SPARKLE_PRIVATE_KEY`. Private signing material is excluded from source and release assets. Development builds use the separate channel described below.
+The stable feed URL is `https://github.com/acousland/MacVisio/releases/latest/download/appcast.xml`. Both the appcast and the ZIP use the app's Ed25519 update key; signed feeds and signature verification before extraction are required by the bundle. The public key is committed in Info.plist. The documented signing routes use the local Keychain MacVisio account or a local key file named by `SPARKLE_PRIVATE_KEY_FILE`. Private signing material is excluded from source and release assets. Development builds use the separate channel described below.
+
+MacVisio has no hosted CI or GitHub Actions workflows. Builds, tests, signing, notarisation and packaging run on the owner's Mac, and only the resulting release assets are uploaded to GitHub Releases with `gh release create`. Before packaging any release, run `swift test`, `python3 -m unittest discover -s scripts/tests`, `scripts/build-app.sh` and `python3 scripts/verify-app.py` locally.
 
 ## Version 0.23.3
 
@@ -58,9 +60,9 @@ The build defaults to `development`. Before signing, `build-app.sh` records
 `MacVisioReleaseChannel`, sets a feed URL for the exact
 `development-v<version>-<source revision>` prerelease and disables scheduled
 update checks. Development archives live under
-`build/releases/development/<version>-<revision>/`. The release workflow publishes
-these with `--prerelease --latest=false`; they cannot replace the stable latest
-feed. Manual development update checks use that same prerelease's feed. The runtime updater delegate rejects development background and information probes even if Sparkle has a persisted automatic-check preference from a stable build. The development automatic-check menu is disabled; the stable preference is not rewritten. Unconfigured builds reject all checks. This is
+`build/releases/development/<version>-<revision>/`. They are published locally
+with `gh release create development-v<version>-<revision> <files> --prerelease --latest=false`;
+they cannot replace the stable latest feed. Manual development update checks use that same prerelease's feed. The runtime updater delegate rejects development background and information probes even if Sparkle has a persisted automatic-check preference from a stable build. The development automatic-check menu is disabled; the stable preference is not rewritten. Unconfigured builds reject all checks. This is
 an isolated development channel. The local installed-update journey above qualifies the updater engine using controlled feeds; public endpoint delivery is not claimed.
 
 Stable builds require `MACVISIO_RELEASE_CHANNEL=stable` and an explicit
@@ -101,19 +103,14 @@ been removed from the current tooling.
 
    A successful final report records `publicationAccepted: true`. Failed
    verification removes a stale report. `--candidate-only` always records false.
-5. Stable publication normally uses a separate manual workflow dispatch, using the
-   `stable-release` environment and an existing Actions run containing an
-   artifact named `stable-candidate`. Its root must contain the exact ZIP,
-   appcast, `stable-manifest.json` and evidence paths. The workflow checks out the
-   selected source ref, repeats verification, requires the manifest's full source
-   commit to match, then publishes explicit assets on `v<version>`. Existing
-   releases are never replaced. Configure environment protections and retain
-   qualification artifacts before enabling that operation.
+5. Publish locally, only with the owner's explicit authorization. Re-run the
+   verifier from step 4 on the exact candidate directory, confirm the manifest's
+   full source commit matches the tagged commit, then upload the explicit assets
+   with `gh release create v<version> <files> --latest`. Existing releases are
+   never replaced. This does not bypass candidate identity, signing, notarisation
+   or retained evidence checks.
 
-The owner may also explicitly authorize local publication of an accepted candidate. That path runs the same signature and manifest verifier, checks the exact files again, and publishes explicit assets with `gh release create --latest`. It does not bypass candidate identity, signing, notarisation or retained evidence checks.
-
-This change does not supply signing credentials, an approved candidate-producing
-qualification workflow or accepted journeys. No candidate is currently accepted
+This change does not supply signing credentials or accepted journeys. No candidate is currently accepted
 by this tooling change. Local packaging/verifier commands do not publish.
 
 ## Stable manifest and evidence
