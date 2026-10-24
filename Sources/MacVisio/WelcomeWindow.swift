@@ -1022,6 +1022,9 @@ private final class RecentDrawingRow: NSView {
         more.identifier = NSUserInterfaceItemIdentifier("welcomeRecentActions.\(path)")
         more.setAccessibilityLabel("Actions for \(drawing.title)")
         more.toolTip = "Locate a moved drawing or remove its history entry. Files are never deleted."
+        // Keep the actions menu compact so the drawing name and location take the row's spare width.
+        more.setContentHuggingPriority(.required, for: .horizontal)
+        more.setContentCompressionResistancePriority(.required, for: .horizontal)
         let row = NSStackView(views: [icon, labels, pin, open, more])
         row.orientation = .horizontal
         row.alignment = .centerY
@@ -1041,6 +1044,7 @@ private final class RecentDrawingRow: NSView {
             pin.widthAnchor.constraint(equalToConstant: 28),
             pin.heightAnchor.constraint(equalToConstant: 28),
             open.widthAnchor.constraint(equalToConstant: 58),
+            more.widthAnchor.constraint(equalToConstant: 76),
             heightAnchor.constraint(greaterThanOrEqualToConstant: 58)
         ])
         setAccessibilityElement(true)

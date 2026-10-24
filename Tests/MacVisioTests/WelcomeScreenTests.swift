@@ -121,6 +121,23 @@ final class WelcomeScreenTests: XCTestCase {
         }
     }
 
+    func testRecentRowActionsMenuStaysCompact() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let drawing = recentDrawing(isPinned: false)
+            let controller = makeController()
+            defer { controller.close() }
+            controller.showWindow(nil)
+            let window = try XCTUnwrap(controller.window)
+            window.setContentSize(NSSize(width: 780, height: 640))
+            controller.refresh(recents: [drawing], section: .home, canGoBack: false)
+            window.contentView?.layoutSubtreeIfNeeded()
+            let content = try XCTUnwrap(window.contentView)
+            let more = try XCTUnwrap(descendants(of: content).first { $0.identifier?.rawValue == "welcomeRecentActions.\(drawing.url.path)" })
+            XCTAssertLessThanOrEqual(more.frame.width, 90, "The actions menu must not stretch across the row")
+        }
+    }
+
     func testClickingRecentRowOpensItsDrawing() throws {
         try onMain {
             _ = NSApplication.shared
