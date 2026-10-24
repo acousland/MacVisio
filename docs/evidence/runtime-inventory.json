@@ -1329,6 +1329,69 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-COMMANDS-measure-drag-pan",
+      "category": "commands",
+      "name": "--measure-drag-pan",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/main.swift",
+        "anchor": "\"--measure-drag-pan\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/main.swift",
+        "anchor": "\"--measure-drag-pan\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow."
+      },
+      "child_task_id": "WP-02-T04-INV-COMMANDS-measure-drag-pan",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-COMMANDS-open-check",
       "category": "commands",
       "name": "--open-check",
@@ -11109,6 +11172,22 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-COMMANDS-measure-drag-pan",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-COMMANDS-measure-drag-pan",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow. Case: --measure-drag-pan",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-COMMANDS-open-check",
       "parent": "WP-02-T04",
       "inventory_id": "INV-COMMANDS-open-check",
@@ -13426,11 +13505,11 @@
       ]
     }
   ],
-  "entry_count": 171,
+  "entry_count": 172,
   "category_counts": {
     "apis_events": 6,
     "cells": 22,
-    "commands": 33,
+    "commands": 34,
     "filters": 14,
     "functions": 73,
     "integrations": 6,

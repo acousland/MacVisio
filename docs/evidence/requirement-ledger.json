@@ -33,7 +33,32 @@
     "behavior",
     "interchange"
   ],
-  "scope_decisions": [],
+  "scope_decisions": [
+    {
+      "id": "SD-2026-10-24-01",
+      "state": "approved",
+      "approved_by": "repository owner (direct instruction, 2026-10-24)",
+      "kind": "applicability_exclusion",
+      "rationale": "Owner permanently de-scoped VoiceOver and accessibility features.",
+      "requirement_ids": [
+        "MV-ACC-01",
+        "MV-ACC-02",
+        "MV-ACC-03"
+      ],
+      "approval_path": "docs/evidence/decisions/SD-2026-10-24-01-accessibility.md"
+    },
+    {
+      "id": "SD-2026-10-24-02",
+      "state": "approved",
+      "approved_by": "repository owner (direct instruction, 2026-10-16, confirmed 2026-10-24)",
+      "kind": "qualification_exclusion",
+      "rationale": "Japanese input-method testing excluded; the requirement remains applicable otherwise.",
+      "requirement_ids": [
+        "MV-TXT-05"
+      ],
+      "approval_path": "docs/evidence/decisions/SD-2026-10-24-02-japanese-input.md"
+    }
+  ],
   "requirements": [
     {
       "id": "MV-UX-01",
@@ -8878,10 +8903,10 @@
       ],
       "acceptance_owner": "WP-34",
       "applicability": {
-        "state": "declared",
-        "basis": "MacVisio product decision",
+        "state": "excluded",
+        "basis": "owner scope decision",
         "runtime_verified": false,
-        "decision_id": null
+        "decision_id": "SD-2026-10-24-01"
       },
       "fixture": {
         "state": "unresolved",
@@ -8944,10 +8969,10 @@
       ],
       "acceptance_owner": "WP-34",
       "applicability": {
-        "state": "declared",
-        "basis": "MacVisio product decision",
+        "state": "excluded",
+        "basis": "owner scope decision",
         "runtime_verified": false,
-        "decision_id": null
+        "decision_id": "SD-2026-10-24-01"
       },
       "fixture": {
         "state": "unresolved",
@@ -9010,10 +9035,10 @@
       ],
       "acceptance_owner": "WP-34",
       "applicability": {
-        "state": "declared",
-        "basis": "MacVisio product decision",
+        "state": "excluded",
+        "basis": "owner scope decision",
         "runtime_verified": false,
-        "decision_id": null
+        "decision_id": "SD-2026-10-24-01"
       },
       "fixture": {
         "state": "unresolved",

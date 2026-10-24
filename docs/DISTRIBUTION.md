@@ -148,12 +148,11 @@ Every named check must have the value `passed`, except an explicitly owner-appro
 | `platform` | `launch`, `open-edit-save-reopen` |
 | `installedUpdate` | `signed-install`, `invalid-signature`, `interruption`, `rollback-recovery`, `documents-settings-preserved` |
 | `security` | `zip-xml-cfb-limits`, `formula-resource-limits`, `no-automatic-actions-or-fetch` |
-| `accessibility` | `keyboard` |
 | `performance` | `controlled-latency`, `intermittency-disposition` |
 | `compatibility` | `declared-slice`, `no-silent-loss` |
 | `contentRights` | `bundled-content-inventory`, `redistribution-rights` |
 
-VoiceOver operation testing was explicitly removed from the release requirements by the user on16 October2026. Semantic accessibility and native keyboard evidence are retained; no VoiceOver pass is claimed. Japanese testing was also explicitly excluded.
+Accessibility, including VoiceOver and keyboard qualification, is out of scope by owner decision [SD-2026-10-24-01](evidence/decisions/SD-2026-10-24-01-accessibility.md) and is no longer a release gate. Japanese input testing is excluded by [SD-2026-10-24-02](evidence/decisions/SD-2026-10-24-02-japanese-input.md).
 
 The workflow retains the supplied evidence in the candidate run; it publishes the
 manifest and verification hashes, not raw support logs or drawing contents.

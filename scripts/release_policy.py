@@ -19,9 +19,8 @@ GATES = {
     'platform': {'launch', 'open-edit-save-reopen'},
     'installedUpdate': {'signed-install', 'invalid-signature', 'interruption', 'rollback-recovery', 'documents-settings-preserved'},
     'security': {'zip-xml-cfb-limits', 'formula-resource-limits', 'no-automatic-actions-or-fetch'},
-    # User explicitly removed VoiceOver operation testing on 2026-10-16.
-    # Semantic AppKit and native keyboard qualification remain required.
-    'accessibility': {'keyboard'},
+    # Accessibility (including VoiceOver and keyboard qualification) is out of scope by owner decision
+    # SD-2026-10-24-01 and is no longer a release gate.
     'performance': {'controlled-latency', 'intermittency-disposition'},
     'compatibility': {'declared-slice', 'no-silent-loss'},
     'contentRights': {'bundled-content-inventory', 'redistribution-rights'},
