@@ -1,4 +1,5 @@
 import AppKit
+import QuartzCore
 
 enum CanvasTool: Int { case pointer, connector, text, line }
 
@@ -65,11 +66,14 @@ final class CanvasView: NSView {
     }
     private var previewScene: RetainedRenderScene?
     var renderScene: RetainedRenderScene {
-        previewStateID == document.stateID ? (previewScene ?? editor!.retainedScene) : editor!.retainedScene
+        applyPendingDrag()
+        return previewStateID == document.stateID ? (previewScene ?? editor!.retainedScene) : editor!.retainedScene
     }
     private var previewStateID: UUID?
+    /// Reading the preview first applies any coalesced drag position, so callers always see current state.
     var displayedDiagram: Diagram {
-        previewStateID == document.stateID ? (interactionPreview ?? document.diagram) : document.diagram
+        applyPendingDrag()
+        return previewStateID == document.stateID ? (interactionPreview ?? document.diagram) : document.diagram
     }
     var page: DiagramPage { displayedDiagram.page }
     private func beginGesturePreview() {
@@ -92,8 +96,60 @@ final class CanvasView: NSView {
             document.replaceInEditor(with: next, action: resizeHandle == nil ? "Move Shapes" : "Resize Shape")
         }
     }
+    private var cachedGridTile: (key: [Double], image: CGImage)?
+    /// A 10x10 block of grid dots, centred in step-sized cells, rendered at the current device scale.
+    private func gridTile(step: Double) -> CGImage? {
+        let scale = coordinateZoom * (window?.backingScaleFactor ?? 2)
+        let key = [step, scale]
+        if let cachedGridTile, cachedGridTile.key == key { return cachedGridTile.image }
+        let pixels = Int((step * 10 * scale).rounded())
+        guard pixels > 0, pixels <= 4096,
+              let context = CGContext(data: nil, width: pixels, height: pixels, bitsPerComponent: 8, bytesPerRow: 0,
+                                      space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        else { return nil }
+        let cell = Double(pixels) / 10, dot = 1.3 / page.paperScale * scale
+        context.setFillColor(NSColor(hex: "#DCE4EF").cgColor)
+        for i in 0..<10 { for j in 0..<10 {
+            context.fillEllipse(in: CGRect(x: (Double(i) + 0.5) * cell - dot / 2, y: (Double(j) + 0.5) * cell - dot / 2, width: dot, height: dot))
+        } }
+        guard let image = context.makeImage() else { return nil }
+        cachedGridTile = (key, image)
+        return image
+    }
     var selectedNodes = Set<UUID>()
     var selectedEdge: UUID?
+    /// View area invalidated by the previous move/resize preview step, so the next step also clears it.
+    private var lastDragDamage: CGRect?
+    /// View-space area a move or resize preview step can change: the moved shapes (with text overflow,
+    /// shadows and selection handles), every connector whose route differs from the committed scene,
+    /// and connectors attached to or grouped with the moved shapes, including their labels.
+    private func dragDamage(moving ids: Set<UUID>) -> CGRect {
+        var area = CGRect.null
+        for node in page.nodes where ids.contains(node.id) {
+            let rect = node.rect
+            if node.rotation == 0 { area = area.union(rect) } else {
+                let radius = hypot(rect.width, rect.height) / 2
+                area = area.union(CGRect(x: rect.midX - radius, y: rect.midY - radius, width: radius * 2, height: radius * 2))
+            }
+        }
+        let preview = renderScene.foreground.routeBounds
+        let committed = editor?.retainedScene.foreground.routeBounds ?? [:]
+        let labelMargin = CGSize(width: 80 / page.paperScale, height: 30 / page.paperScale)
+        for edge in page.edges {
+            let attached = ids.contains(edge.source) || ids.contains(edge.target) || edge.parentID.map(ids.contains) == true
+            let before = committed[edge.id], after = preview[edge.id]
+            guard attached || before != after else { continue }
+            for bounds in [before, after].compactMap({ $0 }) {
+                area = area.union(bounds.insetBy(dx: -labelMargin.width, dy: -labelMargin.height))
+            }
+        }
+        guard !area.isNull else { return visibleRect }
+        let margin = 24 / coordinateZoom
+        let pageArea = area.insetBy(dx: -margin, dy: -margin)
+        let origin = pageOrigin
+        return CGRect(x: origin.x + pageArea.minX * coordinateZoom, y: origin.y + pageArea.minY * coordinateZoom,
+                      width: pageArea.width * coordinateZoom, height: pageArea.height * coordinateZoom)
+    }
     var tool: CanvasTool = .pointer {
         didSet {
             pendingSource = nil
@@ -103,7 +159,7 @@ final class CanvasView: NSView {
         }
     }
     var zoom: Double = 0.85
-    var coordinateZoom: Double { zoom * page.paperScale }
+    var coordinateZoom: Double { zoom * document.diagram.page.paperScale }
     var showsGrid = true
     var snapsToGrid = true
     var pendingSource: UUID?
@@ -135,8 +191,64 @@ final class CanvasView: NSView {
     static let stencilPasteboardType = NSPasteboard.PasteboardType("com.macvisio.stencil-master")
     static let fragmentPasteboardType = NSPasteboard.PasteboardType("com.macvisio.fragment")
     override var isFlipped: Bool { true }
+    // draw(_:) fills its whole dirty area with the workspace colour first, so the canvas is opaque.
+    override var isOpaque: Bool { true }
+
+    // MARK: Tiled display
+    // On screen the canvas shows its content through tile layers rendered by draw(_:), so scrolling
+    // moves already-rendered pixels and edits redraw only the invalidated parts of tiles. Snapshot
+    // drawing (cacheDisplay, export previews) still calls draw(_:) directly.
+    private let tileView = CanvasTileView(frame: .zero)
+    private let tiles = CanvasTileCache()
+    private var scrollObserver: NSObjectProtocol?
+    override var wantsUpdateLayer: Bool { true }
+    override func updateLayer() {
+        layer?.backgroundColor = EditorPalette.workspace.cgColor
+        applyPendingDrag()
+        updateTiles()
+    }
+    override func setNeedsDisplay(_ invalidRect: NSRect) {
+        tiles.invalidate(invalidRect)
+        super.setNeedsDisplay(invalidRect)
+    }
+    override var needsDisplay: Bool {
+        get { super.needsDisplay }
+        set {
+            if newValue { tiles.invalidate(bounds) }
+            super.needsDisplay = newValue
+        }
+    }
+    override func setFrameSize(_ newSize: NSSize) {
+        if newSize != frame.size { tiles.removeAll() }
+        super.setFrameSize(newSize)
+        tileView.frame = bounds
+    }
+    override func viewDidChangeBackingProperties() {
+        super.viewDidChangeBackingProperties()
+        tiles.removeAll()
+        needsDisplay = true
+    }
+    override func viewDidMoveToSuperview() {
+        super.viewDidMoveToSuperview()
+        if let scrollObserver { NotificationCenter.default.removeObserver(scrollObserver) }
+        scrollObserver = nil
+        guard let clip = superview as? NSClipView else { return }
+        clip.postsBoundsChangedNotifications = true
+        scrollObserver = NotificationCenter.default.addObserver(
+            forName: NSView.boundsDidChangeNotification, object: clip, queue: nil
+        ) { [weak self] _ in MainActor.assumeIsolated { self?.updateTiles() } }
+    }
+    private func updateTiles() {
+        guard let window, editor != nil else { return }
+        tiles.update(visible: visibleRect, bounds: bounds, scale: window.backingScaleFactor,
+                     colorSpace: window.colorSpace?.cgColorSpace ?? CGColorSpace(name: CGColorSpace.sRGB)!,
+                     host: tileView.tileLayer) { draw($0) }
+    }
     override var acceptsFirstResponder: Bool { true }
-    var pageOrigin: CGPoint { CGPoint(x: max(44, (bounds.width - page.width * coordinateZoom) / 2), y: 36) }
+    // Page size and paper scale never change during a shape gesture, so viewport geometry reads the
+    // committed page and does not force a coalesced drag preview to be built.
+    private var geometryPage: DiagramPage { document.diagram.page }
+    var pageOrigin: CGPoint { CGPoint(x: max(44, (bounds.width - geometryPage.width * coordinateZoom) / 2), y: 36) }
     var pageFrame: CGRect {
         CGRect(
             x: pageOrigin.x, y: pageOrigin.y, width: page.width * coordinateZoom,
@@ -144,6 +256,8 @@ final class CanvasView: NSView {
     }
     override init(frame: NSRect) {
         super.init(frame: frame)
+        layerContentsRedrawPolicy = .onSetNeedsDisplay
+        addSubview(tileView, positioned: .below, relativeTo: nil)
         registerForDraggedTypes([Self.shapePasteboardType, Self.stencilPasteboardType])
         setAccessibilityIdentifier("diagramCanvas")
         setAccessibilityLabel("Diagram canvas")
@@ -185,6 +299,7 @@ final class CanvasView: NSView {
     }
     func detachEditor() {
         finishEditing(commit: false)
+        pendingDragPoint = nil
         interactionPreview = nil
         previewStateID = nil
         beforeDrag = nil
@@ -295,7 +410,9 @@ final class CanvasView: NSView {
     ) -> String { controlToolTips[tag] ?? "" }
     func pointInPage(_ event: NSEvent) -> CGPoint {
         let p = convert(event.locationInWindow, from: nil)
-        return ViewportCoordinates(pageOrigin: pageOrigin, paperScale: page.paperScale, zoom: zoom).drawing(
+        // The committed page has the same paper scale as any preview; reading it keeps drag coalescing.
+        let paperScale = document.diagram.page.paperScale
+        return ViewportCoordinates(pageOrigin: pageOrigin, paperScale: paperScale, zoom: zoom).drawing(
             CanvasLocation(point: p)
         ).point
     }
@@ -348,20 +465,32 @@ final class CanvasView: NSView {
     }
     override func draw(_ dirtyRect: NSRect) {
         let evidence = PerformanceEvidence.begin(.draw)
-        defer { PerformanceEvidence.end(evidence) }
+        let probeStart = DragPanProbe.active == nil ? 0 : CACurrentMediaTime()
+        DragPanProbe.active?.dirty(dirtyRect, visible: visibleRect)
+        defer {
+            PerformanceEvidence.end(evidence)
+            DragPanProbe.active?.drew(since: probeStart)
+        }
         guard editor != nil else { return }
         EditorPalette.workspace.setFill()
         bounds.fill()
         let paper = pageFrame
-        NSGraphicsContext.saveGraphicsState()
-        let shadow = NSShadow()
-        shadow.shadowColor = NSColor(hex: "#263953").withAlphaComponent(0.15)
-        shadow.shadowBlurRadius = 16
-        shadow.shadowOffset = NSSize(width: 0, height: 2)
-        shadow.set()
-        NSColor.white.setFill()
-        paper.fill()
-        NSGraphicsContext.restoreGraphicsState()
+        // The paper's blurred shadow only shows around its edges; blurring it for a dirty area wholly
+        // inside the paper (most scroll and drag redraws) costs a full-area blur for nothing.
+        if paper.insetBy(dx: 1, dy: 1).contains(dirtyRect) {
+            NSColor.white.setFill()
+            paper.intersection(dirtyRect).fill()
+        } else {
+            NSGraphicsContext.saveGraphicsState()
+            let shadow = NSShadow()
+            shadow.shadowColor = NSColor(hex: "#263953").withAlphaComponent(0.15)
+            shadow.shadowBlurRadius = 16
+            shadow.shadowOffset = NSSize(width: 0, height: 2)
+            shadow.set()
+            NSColor.white.setFill()
+            paper.fill()
+            NSGraphicsContext.restoreGraphicsState()
+        }
         // Ruler remains outside the drawing and is never included in exports.
         let rulerFont = NSFont.monospacedDigitSystemFont(ofSize: 9, weight: .regular)
         let rulerAttrs: [NSAttributedString.Key: Any] = [
@@ -462,22 +591,16 @@ final class CanvasView: NSView {
                 x: max(0, (dirtyRect.minX - paper.minX) / coordinateZoom),
                 y: max(0, (dirtyRect.minY - paper.minY) / coordinateZoom),
                 width: dirtyRect.width / coordinateZoom + 40, height: dirtyRect.height / coordinateZoom + 40)
-            let dots = NSBezierPath()
-            for x in stride(
-                from: floor(clip.minX * page.paperScale / 20) * 20 / page.paperScale,
-                through: min(page.width, clip.maxX), by: 20 / page.paperScale)
-            {
-                for y in stride(
-                    from: floor(clip.minY * page.paperScale / 20) * 20 / page.paperScale,
-                    through: min(page.height, clip.maxY), by: 20 / page.paperScale)
-                {
-                    dots.appendOval(
-                        in: CGRect(
-                            x: x - 0.65 / page.paperScale, y: y - 0.65 / page.paperScale,
-                            width: 1.3 / page.paperScale, height: 1.3 / page.paperScale))
+            // Stamp a cached 10x10-dot tile instead of filling every dot: thousands of dots per
+            // exposure made grid drawing dominate scrolling.
+            let step = 20 / page.paperScale, tile = step * 10
+            if let image = gridTile(step: step), let context = NSGraphicsContext.current?.cgContext {
+                for x in stride(from: floor(clip.minX / tile) * tile, through: min(page.width, clip.maxX), by: tile) {
+                    for y in stride(from: floor(clip.minY / tile) * tile, through: min(page.height, clip.maxY), by: tile) {
+                        context.draw(image, in: CGRect(x: x - step / 2, y: y - step / 2, width: tile, height: tile))
+                    }
                 }
             }
-            dots.fill()
         }
         retained.foreground.draw(in: dirty, printing: false, selectedEdge: selectedEdge, shadow: true)
         if tool == .connector {
@@ -705,8 +828,12 @@ final class CanvasView: NSView {
         }
     }
     override func mouseDragged(with event: NSEvent) {
+        DragPanProbe.active?.inputStarted()
         let evidence = PerformanceEvidence.begin(.event)
-        defer { PerformanceEvidence.end(evidence) }
+        defer {
+            PerformanceEvidence.end(evidence)
+            DragPanProbe.active?.inputHandled()
+        }
         let p = pointInPage(event)
         pointer = p
         if tool == .connector || tool == .line {
@@ -733,9 +860,20 @@ final class CanvasView: NSView {
             autoscroll(with: event)
             return
         }
-        let snap = snapsToGrid && !event.modifierFlags.contains(.option)
+        // Pointer devices deliver several drag events per display frame. Record only the latest
+        // position here; the preview is rebuilt once per frame, just before tiles render.
+        pendingDragPoint = (p, snapsToGrid && !event.modifierFlags.contains(.option))
+        super.setNeedsDisplay(CGRect(x: visibleRect.minX, y: visibleRect.minY, width: 1, height: 1))
+        autoscroll(with: event)
+    }
+    /// Latest unapplied move/resize position and whether grid snapping applies to it.
+    private var pendingDragPoint: (point: CGPoint, snap: Bool)?
+    private func applyPendingDrag() {
+        guard let (p, snap) = pendingDragPoint else { return }
+        pendingDragPoint = nil
+        guard let start = dragStart, beforeDrag != nil else { return }
         var next = beforeDrag ?? document.diagram
-        var group = originalRects.values.reduce(CGRect.null) { $0.union($1) }
+        let group = originalRects.values.reduce(CGRect.null) { $0.union($1) }
         var movement: CGPoint?
         if resizeHandle == nil, !group.isNull {
             let dx = p.x - start.x
@@ -804,8 +942,11 @@ final class CanvasView: NSView {
                 preparedRoutes: editor?.retainedScene.foreground.routes ?? [:])
         }
         interactionPreview = next
-        needsDisplay = true
-        autoscroll(with: event)
+        // Redraw only what this step and the previous one touched; a full-canvas redraw of a large
+        // page per drag step cannot keep up with input.
+        let damage = dragDamage(moving: Set(originalRects.keys))
+        setNeedsDisplay(lastDragDamage.map { damage.union($0) } ?? damage)
+        lastDragDamage = damage
     }
     override func mouseUp(with event: NSEvent) {
         let evidence = PerformanceEvidence.begin(.event)
@@ -827,7 +968,9 @@ final class CanvasView: NSView {
             needsDisplay = true
             editor?.updateStatus()
         }
+        applyPendingDrag()
         if beforeDrag != nil { commitGesturePreview() }
+        lastDragDamage = nil
         dragStart = nil
         beforeDrag = nil
         resizeHandle = nil

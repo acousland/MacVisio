@@ -432,7 +432,7 @@ enum DeveloperCommands {
             "--generate-geometry-example": 1, "--generate-field-example": 1,
             "--generate-rich-text-example": 1, "--generate-engineering-example": 2,
             "--generate-library-example": 2, "--inspect-libraries": 2,
-            "--profile-interactions": 2, "--profile-open": 2, "--benchmark-sample": 2,
+            "--profile-interactions": 2, "--profile-open": 2, "--measure-drag-pan": 2, "--benchmark-sample": 2,
             "--convert": 2, "--render-document": 2, "--export-all-pdf": 2,
             "--render-welcome": 1, "--render-ui": 1, "--generate-page-example": 1,
             "--generate-examples": 1, "--ribbon-tab": 1, "--appearance": 1,

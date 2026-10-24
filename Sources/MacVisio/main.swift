@@ -19,16 +19,21 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let openJobOwner = LifecycleJobOwner()
     private let libraryJobOwner = LifecycleJobOwner()
     private var libraryRequestID = UUID()
-    lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check"))
+    lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check") && !CommandLine.arguments.contains("--measure-drag-pan"))
     // This delegate owns startup templates and file-opening behavior. Letting
     // AppKit also create an untitled document produces a second blank window.
     func applicationShouldOpenUntitledFile(_ sender:NSApplication) -> Bool { false }
     func applicationDidFinishLaunching(_ notification:Notification) {
         NSColorPanel.shared.showsAlpha = true
         buildMenus()
-        if !CommandLine.arguments.contains("--launch-check") && !CommandLine.arguments.contains("--open-check") { updates.start() }
+        if !CommandLine.arguments.contains("--launch-check") && !CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--measure-drag-pan") { updates.start() }
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
+            if let index = CommandLine.arguments.firstIndex(of:"--measure-drag-pan"),CommandLine.arguments.indices.contains(index+2) {
+                if #available(macOS 14.0, *) { DragPanPerformance.run(self,input:URL(fileURLWithPath:CommandLine.arguments[index+1]),output:URL(fileURLWithPath:CommandLine.arguments[index+2])) }
+                else { fputs("Drag/pan measurement requires macOS 14 or later.\n",stderr);exit(2) }
+                return
+            }
             if let index = CommandLine.arguments.firstIndex(of:"--open-check"),CommandLine.arguments.indices.contains(index+2) {
                 LiveOpenCheck.run(self,input:URL(fileURLWithPath:CommandLine.arguments[index+1]),output:URL(fileURLWithPath:CommandLine.arguments[index+2]));return
             }
@@ -234,7 +239,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func application(_ sender:NSApplication,openFiles filenames:[String]) {
         // Diagnostic arguments include paths which AppKit may also deliver as
         // opening events at launch. The diagnostic opens its input explicitly.
-        if CommandLine.arguments.contains("--open-check") { sender.reply(toOpenOrPrint:.success);return }
+        if CommandLine.arguments.contains("--open-check") || CommandLine.arguments.contains("--measure-drag-pan") { sender.reply(toOpenOrPrint:.success);return }
         openedAtLaunch = true
         guard !filenames.isEmpty else { sender.reply(toOpenOrPrint:.success);return }
         var remaining = filenames.count,failed = false
