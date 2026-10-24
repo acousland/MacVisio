@@ -35,6 +35,20 @@ enum DeveloperCommands {
                 exit(1)
             }
         }
+        if let index = arguments.firstIndex(of: "--automation-prototype"), arguments.indices.contains(index + 2) {
+            do {
+                let script = try String(contentsOf: URL(fileURLWithPath: arguments[index + 1]), encoding: .utf8)
+                let outcome = AutomationPrototype.run(script, on: Diagram())
+                let report: [String: Any] = ["error": outcome.error as Any? ?? NSNull(), "result": outcome.result ?? NSNull(),
+                                             "shapes": AutomationPrototype.visioShapes(outcome.diagram)]
+                try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys])
+                    .write(to: URL(fileURLWithPath: arguments[index + 2]), options: .atomic)
+                exit(outcome.error == nil ? 0 : 1)
+            } catch {
+                fputs("Automation prototype failed: \(error.localizedDescription)\n", stderr)
+                exit(1)
+            }
+        }
         if let index = arguments.firstIndex(of: "--dump-model"), arguments.indices.contains(index + 2) {
             // Writes the model MacVisio reads from a VSDX/VSD, for reimport comparisons. Never saves the input.
             do {
@@ -443,7 +457,7 @@ enum DeveloperCommands {
     /// available to the normal bootstrap.
     static func usageError(arguments: [String]) -> String? {
         let operands: [String: Int] = [
-            "--prepare-interchange-fixtures": 1, "--dump-model": 2, "--inspect-calculation": 2, "--inspect-geometry": 2,
+            "--prepare-interchange-fixtures": 1, "--dump-model": 2, "--automation-prototype": 2, "--inspect-calculation": 2, "--inspect-geometry": 2,
             "--generate-curve-example": 1, "--generate-curve-library-example": 2,
             "--generate-text-context-example": 1, "--generate-control-example": 1,
             "--generate-geometry-example": 1, "--generate-field-example": 1,
