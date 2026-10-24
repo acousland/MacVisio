@@ -3,12 +3,24 @@
   "date_local": "2026-10-16",
   "timezone": "Australia/Melbourne",
   "parent_task": "WP-04-T04",
-  "state": "deferred_unaccepted",
+  "state": "decisions_published_children_deferred",
   "purpose": "Bounded downstream feasibility/acceptance proposals; no implementation approach or exclusion approved.",
-  "reference_exact_build": null,
+  "reference_exact_build": "16.0.10730.20102",
   "full_baseline_retained": true,
   "approved_scope_exclusions": [],
-  "implementation_path_selected": null,
+  "implementation_path_selected": {
+    "record": "docs/evidence/ARCHITECTURE-DECISIONS.md",
+    "decisions": [
+      "ADR-01 binary VSD: direct path, experimental",
+      "ADR-02 automation: JavaScriptCore object model; unmodified VBA/COM open blocker",
+      "ADR-03 OLE: preserve without activation; editing open blocker",
+      "ADR-04 protection: honour cells; IRM open blocker",
+      "ADR-05 CAD: open blocker pending exact generations",
+      "ADR-06 data: native linking; DB reverse engineering open blocker",
+      "ADR-07 VSDX: primary interchange, bidirectional reference check"
+    ],
+    "approved_scope_exclusions": "none (owner: infeasible capabilities stay open blockers)"
+  },
   "cost_estimate": null,
   "cost_limit": "Qualitative cost drivers only; no effort/budget commitment before exact-build/member/version/driver denominators and probe results.",
   "shared_acceptance_contract": {

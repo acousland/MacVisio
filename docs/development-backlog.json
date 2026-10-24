@@ -2391,6 +2391,12 @@
         "accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
         "integration_commit": "d797a67",
         "reason": "Actual accepted handoff reviewed;112 current upstream artifact hashes verified; accepted M1 implementation integrated preserving M0 and M2. Combined baseline655 tests/15 skips/0fail. Broader release/reference/performance gates remain open."
+      },
+      "reference_children": {
+        "count": 18,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
       }
     },
     {
@@ -3328,7 +3334,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 137,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-16",
@@ -4212,7 +4224,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 6,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-21",
@@ -4476,7 +4494,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 40,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-23",
@@ -4663,7 +4687,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 1,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-24",
@@ -4793,7 +4823,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 16,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-25",
@@ -4924,7 +4960,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 83,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-26",
@@ -5062,7 +5104,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 34,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-27",
@@ -5193,7 +5241,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 20,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-28",
@@ -5335,7 +5389,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 74,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-29",
@@ -5466,7 +5526,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 588,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-30",
@@ -5605,7 +5671,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 11,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-31",
@@ -5753,7 +5825,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 132,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-32",
@@ -5899,7 +5977,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 86,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-33",
@@ -6041,7 +6125,13 @@
           "architecture_contracts": []
         }
       ],
-      "status": "Proposed"
+      "status": "Proposed",
+      "reference_children": {
+        "count": 14,
+        "source": "docs/evidence/reference/visio-2019-inventory.json",
+        "reference_build": "16.0.10730.20102",
+        "note": "Observed exact-build items this package owns; each child must close or carry an explicit unsupported decision."
+      }
     },
     {
       "id": "WP-34",
@@ -9266,6 +9356,48 @@
       },
       "final_native_replay": "../build/m2-qualified5-native-replay.json",
       "development_candidate": "../build/releases/development/0.23.3-fbd851bd9f91/MacVisio-0.23.3.zip"
+    }
+  },
+  "reference_inventory": {
+    "path": "docs/evidence/reference/visio-2019-inventory.json",
+    "generator": "scripts/build-reference-inventory.py",
+    "reference_build": "16.0.10730.20102",
+    "counts": {
+      "functions_observed": 192,
+      "functions_recognized": 186,
+      "functions_implemented": 68,
+      "cells": 495,
+      "cells_uncovered": 442,
+      "sections": 28,
+      "rows": 59,
+      "commands": 714,
+      "interfaces": 211,
+      "event_interfaces": 18,
+      "templates": 320,
+      "stencils": 535,
+      "masters": 12106,
+      "filters": 17,
+      "addons": 100,
+      "odbc_drivers": 17,
+      "children": 1260,
+      "child_members": 17317
+    },
+    "children_by_work_package": {
+      "WP-10": 18,
+      "WP-15": 137,
+      "WP-20": 6,
+      "WP-22": 40,
+      "WP-23": 1,
+      "WP-24": 16,
+      "WP-25": 83,
+      "WP-26": 34,
+      "WP-27": 20,
+      "WP-28": 74,
+      "WP-29": 588,
+      "WP-30": 11,
+      "WP-31": 132,
+      "WP-32": 86,
+      "WP-33": 14
     }
   }
 }

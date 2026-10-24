@@ -69,6 +69,69 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-COMMANDS-automation-prototype",
+      "category": "commands",
+      "name": "--automation-prototype",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--automation-prototype\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--automation-prototype\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow."
+      },
+      "child_task_id": "WP-02-T04-INV-COMMANDS-automation-prototype",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-COMMANDS-benchmark-sample",
       "category": "commands",
       "name": "--benchmark-sample",
@@ -228,6 +291,69 @@
         "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow."
       },
       "child_task_id": "WP-02-T04-INV-COMMANDS-convert",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-COMMANDS-dump-model",
+      "category": "commands",
+      "name": "--dump-model",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--dump-model\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--dump-model\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow."
+      },
+      "child_task_id": "WP-02-T04-INV-COMMANDS-dump-model",
       "evidence": {
         "preservation": {
           "state": "unverified",
@@ -10852,6 +10978,22 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-COMMANDS-automation-prototype",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-COMMANDS-automation-prototype",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow. Case: --automation-prototype",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-COMMANDS-benchmark-sample",
       "parent": "WP-02-T04",
       "inventory_id": "INV-COMMANDS-benchmark-sample",
@@ -10894,6 +11036,22 @@
       "size": "S",
       "state": "planned",
       "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow. Case: --convert",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-COMMANDS-dump-model",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-COMMANDS-dump-model",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow. Case: --dump-model",
       "work_packages": [
         "WP-09",
         "WP-31"
@@ -13505,11 +13663,11 @@
       ]
     }
   ],
-  "entry_count": 172,
+  "entry_count": 174,
   "category_counts": {
     "apis_events": 6,
     "cells": 22,
-    "commands": 34,
+    "commands": 36,
     "filters": 14,
     "functions": 73,
     "integrations": 6,
