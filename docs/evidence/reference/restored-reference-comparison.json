@@ -1,0 +1,637 @@
+{
+  "schemaVersion": 1,
+  "matched": false,
+  "fixtures": 14,
+  "scope": "Windows open/edit/save/reopen and authored public snapshots, including optional formulas/master identity/data/glue; formula execution, master inheritance, graphics fidelity and bidirectional reimport are separate acceptance criteria",
+  "differences": [
+    {
+      "file": "*",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "blank.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "flowchart.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "organization.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "network.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "network.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "network.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "network.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "swimlane.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "background-pages.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "execution",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "open",
+      "path": "status",
+      "expected": "passed",
+      "actual": "failed"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "inspect",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "saveAs",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "close",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "reopen",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "exportPdf",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "exportSvg",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "inspect",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "mutation",
+      "path": "status",
+      "expected": "passed",
+      "actual": "skipped"
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "mutation",
+      "path": "target",
+      "expected": "a supported property of an existing shape",
+      "actual": {
+        "status": "skipped",
+        "pageIndex": null,
+        "shapeId": null,
+        "property": "text",
+        "originalValue": null,
+        "newValue": null,
+        "error": null
+      }
+    },
+    {
+      "file": "public-semantics.vsd",
+      "phase": "reopen",
+      "path": "pages",
+      "expected": "page snapshots",
+      "actual": null
+    }
+  ]
+}

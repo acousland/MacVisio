@@ -57,6 +57,10 @@ A local completion label applies only to the task's stated local contract. Full 
 - S/M/L are relative complexity only: bounded, cross-layer, and multi-slice/uncertain respectively. Every L item must split into reviewable child tasks before implementation. No duration, story-point total or delivery date is supported yet.
 - Task requirement lists initially express package scope. Refinement must assign exact children to individual requirements/inventory entries; broad shared mappings are not sufficient acceptance evidence.
 
+## M0–M2 close-out — 25 October 2026
+
+M0 is **accepted** against the exact reference (Visio Professional 2019 16.0.10730.20102): all 17 tasks pass their criteria ([completion record](delivery/M0-COMPLETION.md)). M1 remains accepted. M2 is complete: MV-NFR-02 now passes without an exception ([performance record](delivery/M2-PERFORMANCE.md)), the declared VSDX slice round-trips with Visio 2019 in both directions, glue included, and accessibility is out of scope by owner decision [SD-2026-10-24-01](evidence/decisions/SD-2026-10-24-01-accessibility.md). The observed reference inventory adds 1,260 child items to downstream packages ([inventory](evidence/reference/visio-2019-inventory.json)); architecture decisions and open blockers are in [ARCHITECTURE-DECISIONS](evidence/ARCHITECTURE-DECISIONS.md). Binary VSD remains experimental.
+
 ## 2. Milestone roadmap
 
 | Milestone | Outcome | Packages | Specification relationship | Exit evidence |

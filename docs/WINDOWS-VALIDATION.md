@@ -28,6 +28,16 @@ Separately, on 2026-10-15 the QEMU guest's .NET ZIP and XML readers opened five 
 
 **Results.** Visio 2019 rejected every MacVisio VSDX with `0x86DB04F7` ("some parts are missing or invalid"). Part-swap bisection against a Visio-saved drawing isolated the cause: Visio 2019 requires a `visio/windows.xml` part; MacVisio wrote none, and every other package difference was accepted. MacVisio now adds a minimal windows part (with its document relationship and content type) to every VSDX drawing it writes. With fixtures generated from the corrected build, all seven VSDX cases passed open, inspection, text edit, Save As, close, reopen, PDF and SVG export in Visio 2019, and the comparator found no differences in pages, shapes, IDs, parents, text, cached cells or the reopened edit. All seven experimental binary `.vsd` fixtures still fail to open ("An exception occurred"); binary VSD output remains unaccepted. This is synthetic-corpus smoke evidence only; it does not establish complete Visio parity or visual fidelity.
 
+### 2026-10-25: glue, reverse direction, frozen reference and inventory
+
+**Glue.** The fixtures now record each page's expected Connects and the comparator checks them. Visio 2019 reported **zero** connections for MacVisio connectors and saved its copies without glue: Visio derives glue from endpoint formulas, not Connect records alone. MacVisio now writes `_WALKGLUE` (whole-shape) or `PAR(PNT(...))` (connection point) endpoints with `_XFTRIGGER(Sheet.N!EventXFMod)` triggers; Visio then reports every authored connection before and after Save As. The worker reads `Cell.Name` (Visio's `Cell` has no `NameU`).
+
+**Reverse direction.** `compare-macvisio-reimport.py` reads Visio's edited, saved copies with `MacVisio --dump-model` and compares them with the authored files: all 7 VSDX match apart from Visio's single text edit, pages paired by name because Visio moves background pages. Visio also saved each fixture as binary VSD; MacVisio's libvisio-based read of those files loses page names and connectors (see [ADR-01](evidence/ARCHITECTURE-DECISIONS.md)).
+
+**Frozen reference.** The guest is frozen as internal snapshot `m0-reference-20261025`. Restore by stopping the VM and running `scripts/windows/start-reference-snapshot.sh`, which starts QEMU with `-loadvm` so the signed-in session returns; the monitor `loadvm` into a running VM aborted QEMU. After restore, all 7 VSDX fixtures passed with 0 differences.
+
+**Inventory.** `Inventory-VisioReference.ps1` observes the reference; `build-reference-inventory.py` produces [the exact-build inventory](evidence/reference/visio-2019-inventory.json) and its child backlog. Automation was verified from both x86 and native ARM64 PowerShell.
+
 Microsoft documents x86 emulation on Windows 11 Arm and Office 2019's 32-bit/64-bit deployment configuration. This guest setup uses x86 Visio and x86 PowerShell for COM. These documents do not by themselves certify this particular Visio 2019 build on ARM; only a completed guest run provides runtime evidence:
 
 - [How emulation works on Arm](https://learn.microsoft.com/en-ca/windows/arm/apps-on-arm-x86-emulation)

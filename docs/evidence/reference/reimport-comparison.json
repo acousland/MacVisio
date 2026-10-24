@@ -1,0 +1,178 @@
+{
+  "schemaVersion": 1,
+  "direction": "Visio-saved -> MacVisio reimport",
+  "reference": {
+    "qemuInstance": "mondrian-win",
+    "guestHostname": "LIMA",
+    "windowsProductName": "Microsoft Windows 11 Pro",
+    "windowsVersion": "10.0.26300",
+    "windowsBuild": "26300",
+    "osArchitecture": "ARM 64-bit Processor",
+    "visioVersion": "16.0",
+    "visioProductVersion": "16.0.10730.20102",
+    "visioExecutable": "C:\\Program Files (x86)\\Microsoft Office\\Root\\Office16\\VISIO.EXE",
+    "automationBitness": 32,
+    "timeoutSecondsPerFile": 300
+  },
+  "matched": true,
+  "compared": 7,
+  "files": [
+    {
+      "file": "blank.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 1,
+      "editVerified": false
+    },
+    {
+      "file": "blank.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "flowchart.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 1,
+      "editVerified": true
+    },
+    {
+      "file": "flowchart.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "organization.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 1,
+      "editVerified": true
+    },
+    {
+      "file": "organization.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "network.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 1,
+      "editVerified": true
+    },
+    {
+      "file": "network.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "swimlane.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 1,
+      "editVerified": true
+    },
+    {
+      "file": "swimlane.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "background-pages.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 3,
+      "editVerified": true
+    },
+    {
+      "file": "background-pages.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    },
+    {
+      "file": "public-semantics.vsdx",
+      "status": "passed",
+      "differences": 0,
+      "pages": 2,
+      "editVerified": true
+    },
+    {
+      "file": "public-semantics.vsd",
+      "status": "not_compared",
+      "reason": "Visio did not save this fixture"
+    }
+  ],
+  "differences": [],
+  "referenceFailures": [
+    {
+      "file": "blank.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "flowchart.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "organization.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "network.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "swimlane.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "background-pages.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    },
+    {
+      "file": "public-semantics.vsd",
+      "failedPhases": {
+        "open": {
+          "type": "System.Runtime.InteropServices.COMException",
+          "message": "\n\nAn exception occurred.",
+          "hresult": "0x86DB0C3C"
+        }
+      }
+    }
+  ]
+}

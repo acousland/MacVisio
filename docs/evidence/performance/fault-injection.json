@@ -1,0 +1,335 @@
+{
+  "schemaVersion": 1,
+  "requirement": "MV-NFR-01",
+  "seed": 20261025,
+  "uninterruptedSaveSeconds": 1.93,
+  "trials": 40,
+  "killedDuringSave": 33,
+  "keptPrevious": 32,
+  "completedNew": 8,
+  "invalidOrMissing": 0,
+  "trialsWithStrayFiles": 0,
+  "passed": true,
+  "details": [
+    {
+      "trial": 0,
+      "killAfterSeconds": 1.052,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 1,
+      "killAfterSeconds": 1.894,
+      "killedDuringSave": true,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 2,
+      "killAfterSeconds": 0.513,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 3,
+      "killAfterSeconds": 1.75,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 4,
+      "killAfterSeconds": 2.127,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 5,
+      "killAfterSeconds": 0.22,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 6,
+      "killAfterSeconds": 2.186,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 7,
+      "killAfterSeconds": 0.909,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 8,
+      "killAfterSeconds": 0.391,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 9,
+      "killAfterSeconds": 1.679,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 10,
+      "killAfterSeconds": 0.369,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 11,
+      "killAfterSeconds": 0.851,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 12,
+      "killAfterSeconds": 0.97,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 13,
+      "killAfterSeconds": 1.84,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 14,
+      "killAfterSeconds": 2.196,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 15,
+      "killAfterSeconds": 1.427,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 16,
+      "killAfterSeconds": 0.246,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 17,
+      "killAfterSeconds": 2.305,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 18,
+      "killAfterSeconds": 2.374,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 19,
+      "killAfterSeconds": 2.247,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 20,
+      "killAfterSeconds": 0.154,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 21,
+      "killAfterSeconds": 1.546,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 22,
+      "killAfterSeconds": 0.195,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 23,
+      "killAfterSeconds": 0.125,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 24,
+      "killAfterSeconds": 1.038,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 25,
+      "killAfterSeconds": 2.322,
+      "killedDuringSave": false,
+      "destination": "new",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 26,
+      "killAfterSeconds": 1.214,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 27,
+      "killAfterSeconds": 0.097,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 28,
+      "killAfterSeconds": 0.818,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 29,
+      "killAfterSeconds": 0.968,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 30,
+      "killAfterSeconds": 1.144,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 31,
+      "killAfterSeconds": 1.437,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 32,
+      "killAfterSeconds": 0.582,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 33,
+      "killAfterSeconds": 1.154,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 34,
+      "killAfterSeconds": 1.597,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 35,
+      "killAfterSeconds": 0.17,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 36,
+      "killAfterSeconds": 0.737,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 37,
+      "killAfterSeconds": 1.52,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 38,
+      "killAfterSeconds": 0.332,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    },
+    {
+      "trial": 39,
+      "killAfterSeconds": 0.798,
+      "killedDuringSave": true,
+      "destination": "previous",
+      "valid": true,
+      "strayFiles": []
+    }
+  ]
+}

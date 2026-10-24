@@ -1,0 +1,48 @@
+{
+ "background-pages": {
+  "differences": 3,
+  "kinds": {
+   "System overview": 1,
+   "Delivery workflow": 1,
+   "Shared title block": 1
+  }
+ },
+ "blank": {
+  "differences": 2,
+  "kinds": {
+   "width": 1,
+   "height": 1
+  }
+ },
+ "flowchart": {
+  "differences": 1,
+  "kinds": {
+   "Approval process": 1
+  }
+ },
+ "network": {
+  "differences": 1,
+  "kinds": {
+   "Infrastructure": 1
+  }
+ },
+ "organization": {
+  "differences": 1,
+  "kinds": {
+   "Organization": 1
+  }
+ },
+ "public-semantics": {
+  "differences": 2,
+  "kinds": {
+   "Groups, ports and Unicode": 1,
+   "Scale 1 to 50": 1
+  }
+ },
+ "swimlane": {
+  "differences": 1,
+  "kinds": {
+   "Responsibilities": 1
+  }
+ }
+}
