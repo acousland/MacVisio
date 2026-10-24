@@ -5,7 +5,12 @@
 #
 #   -Mode Preflight  read-only: mounts the ISO, reads its payload version and channel,
 #                    writes configuration.xml and prints the plan. Installs nothing.
-#   -Mode Install    runs the same checks, then ODT /configure with logging enabled.
+#   -Mode Install    runs the same checks, then installs with logging enabled.
+#
+# On ARM64 the install runs the media's own Office\Setup32.exe instead of ODT /configure:
+# current ODT ignores OfficeClientEdition="32" on ARM (its log reports platformToInstall=x64,
+# isArm=1) and then blocks x64 Office older than version 2105. Setup32.exe installed this
+# 16.0.10730 build cleanly on Windows 11 ARM64 on 2026-10-24.
 #
 # No product key is supplied or queried and no activation setting is changed.
 param(
@@ -109,9 +114,18 @@ Write-Host $config
 
 if ($Mode -eq 'Preflight') { Write-Step "Preflight complete. Nothing was installed. Rerun with -Mode Install."; return }
 
-Write-Step 'Running Office Deployment Tool /configure (setup windows will appear)'
 $started = Get-Date
-$process = Start-Process -FilePath $OdtSetup -ArgumentList @('/configure', "`"$configPath`"") -WorkingDirectory (Split-Path -Parent $OdtSetup) -PassThru -Wait
+if ($env:PROCESSOR_ARCHITECTURE -eq 'ARM64') {
+    if ($bits -ne '32') { throw 'This Visio build can only be installed as 32-bit on ARM64.' }
+    $mediaSetup = Join-Path $source 'Office\Setup32.exe'
+    $mediaSignature = Get-AuthenticodeSignature -LiteralPath $mediaSetup
+    if ($mediaSignature.Status -ne 'Valid' -or $mediaSignature.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') { throw "Setup32.exe signature is not a valid Microsoft signature: $($mediaSignature.Status)" }
+    Write-Step "Running the media's Office\Setup32.exe (ARM64; setup windows will appear)"
+    $process = Start-Process -FilePath $mediaSetup -WorkingDirectory (Split-Path -Parent $mediaSetup) -PassThru -Wait
+} else {
+    Write-Step 'Running Office Deployment Tool /configure (setup windows will appear)'
+    $process = Start-Process -FilePath $OdtSetup -ArgumentList @('/configure', "`"$configPath`"") -WorkingDirectory (Split-Path -Parent $OdtSetup) -PassThru -Wait
+}
 $exit = $process.ExitCode
 $elapsed = [int]((Get-Date) - $started).TotalSeconds
 

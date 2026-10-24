@@ -753,6 +753,7 @@ enum VisioFormat {
         put("visio/pages/_rels/pages.xml.rels", relationshipXML(pageRelations))
         put("[Content_Types].xml", header + "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"json\" ContentType=\"application/json\"/><Override PartName=\"/visio/document.xml\" ContentType=\"application/vnd.ms-visio.drawing.main+xml\"/><Override PartName=\"/visio/pages/pages.xml\" ContentType=\"application/vnd.ms-visio.pages+xml\"/><Override PartName=\"/docProps/core.xml\" ContentType=\"application/vnd.openxmlformats-package.core-properties+xml\"/>\(pageContentTypes)\(extraTypes.elementsLocal("Default").map(\.xmlString).joined())</Types>")
         try VisioPreservation.ensureFonts(diagram,parts:&parts,bindings:freshBindings)
+        try VisioPreservation.ensureWindowsPart(parts:&parts)
         parts[nativePart] = try nativeMetadata(diagram,parts:&parts,bindings:freshBindings)
         guard parts.values.allSatisfy({ $0.count <= PackageReader.partLimit }), parts.values.reduce(0, { $0 + $1.count }) <= PackageReader.totalLimit else { throw DiagramError.invalid("This drawing exceeds the VSDX export size limit.") }
         try VisioPackage.write(parts, to: url)

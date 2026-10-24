@@ -208,7 +208,7 @@ try {
     }
 
     try {
-        $document = $application.Documents.Open($fixturePath)
+        $document = $application.Documents.Open([string]$fixturePath)
         $result.phases.open.status = 'passed'
     } catch {
         Set-PhaseError $result.phases.open $_.Exception
@@ -260,7 +260,7 @@ try {
             try {
                 $savedPath = Join-Path (Join-Path $artifactRoot 'saved') $FixtureName
                 $null = New-Item -ItemType Directory -Force -Path (Split-Path -Parent $savedPath)
-                $document.SaveAs($savedPath)
+                $document.SaveAs([string]$savedPath)
                 $result.phases.saveAs.status = 'passed'
                 $result.phases.saveAs.path = $savedPath
                 $result.artifacts.savedDocument = $savedPath
@@ -292,7 +292,7 @@ try {
             try {
                 $pdfPath = Join-Path (Join-Path $artifactRoot 'pdf') ([IO.Path]::GetFileNameWithoutExtension($FixtureName) + '.pdf')
                 $null = New-Item -ItemType Directory -Force -Path (Split-Path -Parent $pdfPath)
-                $reopened.ExportAsFixedFormat(1, $pdfPath, 1, 0, 0, 0, $false, $true, $true, $true, $false, $null)
+                $reopened.ExportAsFixedFormat(1, [string]$pdfPath, 1, 0, 0, 0, $false, $true, $true, $true, $false, [Type]::Missing)
                 $pdfInfo = Get-Item -LiteralPath $pdfPath
                 if ($pdfInfo.Length -le 0) { throw 'Visio produced an empty PDF.' }
                 $result.phases.exportPdf.status = 'passed'
@@ -309,7 +309,7 @@ try {
                 $svgPaths = New-Object 'System.Collections.Generic.List[string]'
                 for ($pageIndex = 1; $pageIndex -le $reopened.Pages.Count; $pageIndex++) {
                     $svgPath = Join-Path $svgDirectory ('{0}-page-{1:D3}.svg' -f [IO.Path]::GetFileNameWithoutExtension($FixtureName), $pageIndex)
-                    $reopened.Pages.Item($pageIndex).Export($svgPath)
+                    $reopened.Pages.Item($pageIndex).Export([string]$svgPath)
                     if (!(Test-Path -LiteralPath $svgPath) -or (Get-Item -LiteralPath $svgPath).Length -le 0) {
                         throw "Visio produced an empty or missing SVG for page $pageIndex."
                     }

@@ -36,7 +36,12 @@ def assess(manifest, report, tolerance=1e-7):
         if not equal:
             issue(file, phase, path, expected, actual)
 
+    def as_list(value):
+        # Windows PowerShell's ConvertTo-Json writes a one-element array as a bare object.
+        return [value] if isinstance(value, dict) else value
+
     def pages(file, phase, expected, actual):
+        actual = as_list(actual)
         if not isinstance(actual, list):
             issue(file, phase, "pages", "page snapshots", actual)
             return
@@ -46,9 +51,9 @@ def assess(manifest, report, tolerance=1e-7):
             for key in ("index", "name", "background", "width", "height"):
                 same(file, phase, path + "/" + key, old[key], new.get(key))
             if "connects" in old:
-                same(file, phase, path + "/connects", old["connects"], new.get("connects"))
+                same(file, phase, path + "/connects", old["connects"], as_list(new.get("connects")))
             expected_shapes = old.get("shapes", [])
-            actual_shapes = new.get("shapes", [])
+            actual_shapes = as_list(new.get("shapes", []))
             if not isinstance(actual_shapes, list):
                 issue(file, phase, path + "/shapes", "shape snapshots", actual_shapes)
                 continue
@@ -62,8 +67,9 @@ def assess(manifest, report, tolerance=1e-7):
                 if current is None:
                     continue  # The missing shape is already reported in shapeOrder.
                 shape_path = path + "/shape/" + shape_id
-                for key in ("text", "parentID"):
-                    same(file, phase, shape_path + "/" + key, shape[key], current.get(key))
+                same(file, phase, shape_path + "/text", shape["text"], current.get("text"))
+                # The guest reports a top-level shape's parent as an empty string; the manifest uses null.
+                same(file, phase, shape_path + "/parentID", shape["parentID"], current.get("parentID") or None)
                 if "masterID" in shape:
                     same(file, phase, shape_path + "/masterID", shape["masterID"], current.get("masterID"))
                 for field in ("formulas", "data"):

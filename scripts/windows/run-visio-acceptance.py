@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import uuid
 import zipfile
 from xml.etree import ElementTree as ET
@@ -24,6 +25,8 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 WINDOWS_DIR = Path(__file__).resolve().parent
 RUNNER_PS = WINDOWS_DIR / "Run-VisioAcceptance.ps1"
 WORKER_PS = WINDOWS_DIR / "Invoke-VisioFixture.ps1"
+PROMPT_PS = WINDOWS_DIR / "Close-VisioKeyPrompt.ps1"
+DESKTOP_TASK = "MacVisioAcceptanceDesktop"
 SAFE_NAME = re.compile(r"^[A-Za-z0-9_.-]+\.vsd(x)?$", re.IGNORECASE)
 SAFE_INSTANCE = re.compile(r"^[A-Za-z0-9_.-]+$")
 
@@ -150,6 +153,54 @@ def report_for_host_error(fixtures: list[dict], message: str) -> dict:
     }
 
 
+def run_in_desktop_session(args: argparse.Namespace, remote_root: str, remote_scripts: str,
+                           runner_call: str, timeout: int) -> subprocess.CompletedProcess[str]:
+    """Run the guest runner in the signed-in desktop session and wait for its exit-code file.
+
+    Over SSH Visio starts in session 0, where first-run and licensing prompts have no visible
+    window and block automation indefinitely. A one-off interactive scheduled task runs the same
+    runner in the user's desktop session instead.
+    """
+    quote = lambda value: "'" + str(value).replace("'", "''") + "'"
+    launcher_path = remote_root + "\\desktop-launcher.ps1"
+    done_path = remote_root + "\\desktop-exit-code.txt"
+    console_path = remote_root + "\\desktop-console.txt"
+    prompt_script = remote_scripts + "\\Close-VisioKeyPrompt.ps1"
+    prompt_log = remote_root + "\\prompt-watcher.log"
+    lines = []
+    if args.close_product_key_prompt:
+        lines.append(f"Start-Process powershell.exe -WindowStyle Hidden -ArgumentList '-NoProfile','-ExecutionPolicy','Bypass',"
+                     f"'-File',{quote(prompt_script)},'-StopFile',{quote(done_path)},'-Log',{quote(prompt_log)}")
+        lines.append("Start-Sleep -Seconds 2")
+    lines.append(f"{runner_call} *> {quote(console_path)}")
+    lines.append(f"Set-Content -LiteralPath {quote(done_path)} -Value $LASTEXITCODE")
+    register = (
+        "$ErrorActionPreference = 'Stop'; "
+        "if (-not (Get-Process explorer -ErrorAction SilentlyContinue)) { throw 'No signed-in desktop session in the guest. Sign in through the VM display first.' }; "
+        f"Set-Content -LiteralPath {quote(launcher_path)} -Value {quote(chr(10).join(lines))} -Encoding UTF8; "
+        f"$action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument {quote('-NoProfile -ExecutionPolicy Bypass -WindowStyle Hidden -File "' + launcher_path + '"')}; "
+        f"$principal = New-ScheduledTaskPrincipal -UserId {quote(args.desktop_user)} -LogonType Interactive -RunLevel Highest; "
+        f"Register-ScheduledTask -TaskName {quote(DESKTOP_TASK)} -Action $action -Principal $principal -Force | Out-Null; "
+        f"Start-ScheduledTask -TaskName {quote(DESKTOP_TASK)}"
+    )
+    guest = ["limactl", "shell", args.instance, "powershell.exe", "-NoLogo", "-NoProfile", "-NonInteractive", "-EncodedCommand"]
+    started = run_checked(guest + [powershell_encoded(register)], timeout=60)
+    if started.returncode:
+        return started
+    poll = f"if (Test-Path -LiteralPath {quote(done_path)}) {{ 'EXIT=' + (Get-Content -LiteralPath {quote(done_path)} -Raw).Trim() }}"
+    deadline = time.monotonic() + timeout
+    try:
+        while time.monotonic() < deadline:
+            time.sleep(10)
+            match = re.search(r"EXIT=(-?\d+)", run_checked(guest + [powershell_encoded(poll)], timeout=60).stdout)
+            if match:
+                return subprocess.CompletedProcess(["desktop-session"], int(match.group(1)), "", "")
+        raise RuntimeError(f"Desktop-session run did not finish within {timeout} seconds.")
+    finally:
+        cleanup = f"Unregister-ScheduledTask -TaskName {quote(DESKTOP_TASK)} -Confirm:$false -ErrorAction SilentlyContinue"
+        run_checked(guest + [powershell_encoded(cleanup)], timeout=60)
+
+
 def write_json(path: Path, value: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_name(path.name + ".tmp")
@@ -165,6 +216,11 @@ def main() -> int:
     parser.add_argument("--instance", default="mondrian-win")
     parser.add_argument("--timeout-per-file", type=int, default=300)
     parser.add_argument("--remote-base", default=r"C:\Users\mondrian\AppData\Local\Temp")
+    parser.add_argument("--desktop-session", action="store_true",
+                        help="Run Visio in the signed-in guest desktop session through a one-off scheduled task instead of the SSH session")
+    parser.add_argument("--close-product-key-prompt", action="store_true",
+                        help="With --desktop-session, close Visio's 'Enter your product key' prompt on an unactivated reference install")
+    parser.add_argument("--desktop-user", default="mondrian")
     args = parser.parse_args()
 
     if not SAFE_INSTANCE.fullmatch(args.instance):
@@ -173,6 +229,10 @@ def main() -> int:
         parser.error("--timeout-per-file must be between 10 and 3600 seconds")
     if not re.fullmatch(r"[A-Za-z]:\\[A-Za-z0-9_ .\\-]+", args.remote_base):
         parser.error("--remote-base must be a simple absolute Windows path without quotes")
+    if args.close_product_key_prompt and not args.desktop_session:
+        parser.error("--close-product-key-prompt requires --desktop-session")
+    if not SAFE_INSTANCE.fullmatch(args.desktop_user):
+        parser.error("--desktop-user must contain only letters, numbers, dot, underscore, or hyphen")
 
     report_path = args.report.resolve()
     artifacts_path = args.artifacts.resolve()
@@ -210,7 +270,7 @@ def main() -> int:
             fixture_sources = [str(staging / "manifest.json")] + [str(staging / fixture["file"]) for fixture in fixtures]
             commands = [
                 ["limactl", "copy", "--backend=scp", *fixture_sources, f"{args.instance}:{remote_input}/"],
-                ["limactl", "copy", "--backend=scp", str(RUNNER_PS), str(WORKER_PS), f"{args.instance}:{remote_scripts}/"],
+                ["limactl", "copy", "--backend=scp", str(RUNNER_PS), str(WORKER_PS), str(PROMPT_PS), f"{args.instance}:{remote_scripts}/"],
             ]
             for command in commands:
                 copied = run_checked(command, timeout=300)
@@ -221,22 +281,26 @@ def main() -> int:
         quote = lambda value: "'" + str(value).replace("'", "''") + "'"
         guest_runner = remote_scripts + "\\Run-VisioAcceptance.ps1"
         guest_worker = remote_scripts + "\\Invoke-VisioFixture.ps1"
-        guest_command = (
+        runner_call = (
             f"& {quote(guest_runner)} "
             f"-FixtureDirectory {quote(remote_input)} "
             f"-WorkerPath {quote(guest_worker)} "
             f"-ReportPath {quote(remote_report)} "
             f"-ArtifactDirectory {quote(remote_artifacts)} "
             f"-InstanceName {quote(args.instance)} "
-            f"-TimeoutSeconds {args.timeout_per_file}; exit $LASTEXITCODE"
+            f"-TimeoutSeconds {args.timeout_per_file}"
         )
+        guest_command = runner_call + "; exit $LASTEXITCODE"
         remote_report_scp = remote_report.replace("\\", "/")
         remote_artifacts_scp = remote_artifacts.replace("\\", "/")
         command_timeout = len(fixtures) * (args.timeout_per_file + 5) + 180
-        run_result = run_checked([
-            "limactl", "shell", args.instance, "powershell.exe", "-NoLogo", "-NoProfile",
-            "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand", powershell_encoded(guest_command),
-        ], timeout=command_timeout)
+        if args.desktop_session:
+            run_result = run_in_desktop_session(args, remote_root, remote_scripts, runner_call, command_timeout)
+        else:
+            run_result = run_checked([
+                "limactl", "shell", args.instance, "powershell.exe", "-NoLogo", "-NoProfile",
+                "-NonInteractive", "-ExecutionPolicy", "Bypass", "-EncodedCommand", powershell_encoded(guest_command),
+            ], timeout=command_timeout)
 
         report_path.parent.mkdir(parents=True, exist_ok=True)
         copied_report = run_checked([

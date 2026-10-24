@@ -35,6 +35,7 @@ enum VisioPreservation {
             }
         }
         if source.pages.map(\.original) == diagram.pages && !backgroundSync {
+            try ensureWindowsPart(parts:&parts)
             if parts[nativePart] != nil { parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages) }
             try VisioPackage.write(parts,to:url)
             var rebased = source;rebased.parts = parts
@@ -115,6 +116,7 @@ enum VisioPreservation {
         ensureType("json","application/json",root:typeRoot)
         parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll)
         try ensureFonts(diagram,parts:&parts,bindings:bindings,original:source.pages.map(\.original))
+        try ensureWindowsPart(parts:&parts)
         parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:bindings)
         try VisioPackage.write(parts,to:url)
         var rebased = source;rebased.parts = parts;rebased.pages = bindings
@@ -614,6 +616,27 @@ enum VisioPreservation {
             parts[binding.part] = pageXML.xmlData(options:.nodePreserveAll)
         }
         if changedDocument { parts[docPart] = document.xmlData(options:.nodePreserveAll) }
+    }
+    /// Visio 2019 (16.0.10730) rejects a drawing package without a windows part as having missing or
+    /// invalid parts; a client-size-only Windows element is enough for it to open the drawing.
+    static func ensureWindowsPart(parts:inout [String:Data]) throws {
+        let docPart = try VisioReusableFormat.documentPart(parts)
+        let directory = (docPart as NSString).deletingLastPathComponent
+        let relPart = (directory.isEmpty ? "" : directory+"/")+"_rels/"+(docPart as NSString).lastPathComponent+".rels"
+        let rels = try parts[relPart].map(VisioXML.document) ?? VisioXML.document(Data("<Relationships xmlns=\"http://schemas.openxmlformats.org/package/2006/relationships\"/>".utf8))
+        guard let relRoot = rels.rootElement() else { throw DiagramError.invalid("Invalid document relationships.") }
+        if let existing = relRoot.elementsLocal("Relationship").first(where:{$0.attr("Type") == visioRel+"windows"}),let target = existing.attr("Target"),
+           parts[try VisioFormat.resolve(target,relativeTo:docPart)] != nil { return }
+        relRoot.elementsLocal("Relationship").filter{$0.attr("Type") == visioRel+"windows"}.forEach{$0.detach()}
+        var windowsPart = (directory.isEmpty ? "" : directory+"/")+"windows.xml",suffix = 1
+        while parts[windowsPart] != nil { suffix += 1;windowsPart = (directory.isEmpty ? "" : directory+"/")+"windows\(suffix).xml" }
+        let relationship = XMLElement(name:"Relationship");relationship.setAttr("Id",uniqueRelationshipID(relRoot))
+        relationship.setAttr("Type",visioRel+"windows");relationship.setAttr("Target",(windowsPart as NSString).lastPathComponent);relRoot.addChild(relationship)
+        guard let typesData = parts["[Content_Types].xml"],let types = try? VisioXML.document(typesData),let typeRoot = types.rootElement() else { throw DiagramError.invalid("The Visio content type index is missing.") }
+        let override = XMLElement(name:"Override");override.setAttr("PartName","/"+windowsPart);override.setAttr("ContentType","application/vnd.ms-visio.windows+xml");typeRoot.addChild(override)
+        parts[windowsPart] = Data("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><Windows ClientWidth=\"1024\" ClientHeight=\"768\" xmlns=\"http://schemas.microsoft.com/office/visio/2012/main\" xmlns:r=\"http://schemas.openxmlformats.org/officeDocument/2006/relationships\" xml:space=\"preserve\"/>".utf8)
+        parts[relPart] = rels.xmlData(options:.nodePreserveAll)
+        parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll)
     }
     private static func ensureType(_ ext:String,_ mime:String,root:XMLElement) { if !root.elementsLocal("Default").contains(where:{$0.attr("Extension") == ext}) { let type = XMLElement(name:"Default"); type.setAttr("Extension",ext); type.setAttr("ContentType",mime); root.addChild(type) } }
     private static func uniqueRelationshipID(_ root:XMLElement) -> String { let taken = Set(root.elementsLocal("Relationship").compactMap{$0.attr("Id")}); var number = 1; while taken.contains("rId\(number)") { number += 1 }; return "rId\(number)" }

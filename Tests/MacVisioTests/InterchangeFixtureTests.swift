@@ -17,6 +17,12 @@ final class InterchangeFixtureTests: XCTestCase {
             if url.pathExtension == "vsdx" {
                 let parts = try VisioPackage.read(url)
                 XCTAssertNil(parts["macvisio/document.json"])
+                // Visio 2019 rejects a drawing package without a windows part.
+                XCTAssertNotNil(parts["visio/windows.xml"])
+                let relationships = try VisioXML.document(parts["visio/_rels/document.xml.rels"]!).rootElement()?.elementsLocal("Relationship") ?? []
+                XCTAssertTrue(relationships.contains { $0.attr("Type") == "http://schemas.microsoft.com/visio/2010/relationships/windows" && $0.attr("Target") == "windows.xml" })
+                let overrides = try VisioXML.document(parts["[Content_Types].xml"]!).rootElement()?.elementsLocal("Override") ?? []
+                XCTAssertTrue(overrides.contains { $0.attr("PartName") == "/visio/windows.xml" && $0.attr("ContentType") == "application/vnd.ms-visio.windows+xml" })
                 XCTAssertFalse(String(decoding: parts["_rels/.rels"]!, as: UTF8.self).contains("urn:macvisio"))
                 let model = try VisioFormat.read(from: url).diagram
                 let expected = try XCTUnwrap(fixture["expected"] as? [String: Any])
