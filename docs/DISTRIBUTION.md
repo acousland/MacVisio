@@ -32,9 +32,13 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
+## Stable 0.23.5
+
+[MacVisio 0.23.5](https://github.com/acousland/MacVisio/releases/tag/v0.23.5) is the latest stable release. It makes MacVisio's VSDX drawings open in Microsoft Visio 2019. It is Developer ID signed, notarised and stapled, and an exact 0.23.4 app upgraded to it through signed Sparkle feeds. The owner approved it with the same controlled-latency performance exception as 0.23.4, pinned to this archive. See [release notes](RELEASE-0.23.5.md) and [candidate evidence](delivery/STABLE-0.23.5.md).
+
 ## Stable 0.23.4
 
-[MacVisio0.23.4](https://github.com/acousland/MacVisio/releases/tag/v0.23.4) is the latest stable release. It is Developer ID signed, notarised and stapled, with verified ZIP/feed signatures. All five public assets match the accepted candidate; an actual published0.23.3 app upgraded through the normal stable feed to its exact executable. Apple Silicon and macOS27.0.1 or later are required.
+[MacVisio0.23.4](https://github.com/acousland/MacVisio/releases/tag/v0.23.4) was the previous stable release. It is Developer ID signed, notarised and stapled, with verified ZIP/feed signatures. All five public assets match the accepted candidate; an actual published0.23.3 app upgraded through the normal stable feed to its exact executable. Apple Silicon and macOS27.0.1 or later are required.
 
 The owner approved this exact archive with a documented controlled-latency exception. The50ms input and33ms frame targets remain unqualified; `publicationAccepted:true` reflects that explicit release decision, not a performance pass. Japanese and VoiceOver testing are excluded by user instruction. See [release notes](RELEASE-0.23.4.md) and [candidate/exception/publication evidence](delivery/M2-STABLE-0.23.4.md).
 

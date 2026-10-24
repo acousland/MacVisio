@@ -38,6 +38,15 @@ APPROVED_STABLE_EXCEPTIONS = {
         'approval': 'Publish stable with performance exception',
         'reason': 'Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed.',
     }],
+    '655874c0a5deb865952c4ffc54e8f445566e898ed8895988aec5f096bedf84cd': [{
+        'version': '0.23.5',
+        'gate': 'performance',
+        'check': 'controlled-latency',
+        'approvedBy': 'repository owner, direct user instruction',
+        'approvedOn': '2026-10-24',
+        'approval': 'Yes to both, publish with performance exception',
+        'reason': 'Controlled 50 ms input and 33 ms frame targets remain unqualified; publish this candidate with that limitation disclosed.',
+    }],
 }
 MACH_MAGIC = {bytes.fromhex(v) for v in ('feedface', 'cefaedfe', 'feedfacf', 'cffaedfe', 'cafebabe', 'bebafeca', 'cafebabf', 'bfbafeca')}
 
