@@ -32,9 +32,13 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
+## Stable 0.24.0
+
+[MacVisio 0.24.0](https://github.com/acousland/MacVisio/releases/tag/v0.24.0) is the latest stable release and completes M0–M2. Every stable gate passed without an exception, including controlled MV-NFR-02 latency, on the exact signed archive; Visio 2019 interchange was verified in both directions. See [release notes](RELEASE-0.24.0.md) and [candidate evidence](delivery/STABLE-0.24.0.md).
+
 ## Stable 0.23.5
 
-[MacVisio 0.23.5](https://github.com/acousland/MacVisio/releases/tag/v0.23.5) is the latest stable release. It makes MacVisio's VSDX drawings open in Microsoft Visio 2019. It is Developer ID signed, notarised and stapled, and an exact 0.23.4 app upgraded to it through signed Sparkle feeds. The owner approved it with the same controlled-latency performance exception as 0.23.4, pinned to this archive. See [release notes](RELEASE-0.23.5.md) and [candidate evidence](delivery/STABLE-0.23.5.md).
+[MacVisio 0.23.5](https://github.com/acousland/MacVisio/releases/tag/v0.23.5) was the previous stable release. It makes MacVisio's VSDX drawings open in Microsoft Visio 2019. It is Developer ID signed, notarised and stapled, and an exact 0.23.4 app upgraded to it through signed Sparkle feeds. The owner approved it with the same controlled-latency performance exception as 0.23.4, pinned to this archive. See [release notes](RELEASE-0.23.5.md) and [candidate evidence](delivery/STABLE-0.23.5.md).
 
 ## Stable 0.23.4
 
