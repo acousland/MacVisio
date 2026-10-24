@@ -8,7 +8,7 @@ enum WelcomePreview {
             RecentDrawing(url:URL(fileURLWithPath:"/Users/you/Documents/System Landscape.vsdx"),title:"System Landscape.vsdx",location:"Documents",isPinned:false),
             RecentDrawing(url:URL(fileURLWithPath:"/Users/you/Documents/Project Overview.vsdx"),title:"Project Overview.vsdx",location:"Documents",isPinned:false)]
         controller.refresh(recents:entries,section:section,canGoBack:false)
-        if compact { controller.window?.setContentSize(CGSize(width:1000,height:680)) }
+        if compact { controller.window?.setContentSize(CGSize(width:480,height:440)) }
         guard let view = controller.window?.contentView else { throw DiagramError.invalid("The start screen could not be created.") }
         view.layoutSubtreeIfNeeded()
         controller.refresh(recents:entries,section:section,canGoBack:false)

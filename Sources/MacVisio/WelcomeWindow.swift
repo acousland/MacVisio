@@ -13,6 +13,23 @@ struct RecentDrawing {
     let isPinned: Bool
 }
 
+enum WelcomeWindowLayout {
+    static let preferredContentSize = NSSize(width: 780, height: 640)
+    static let minimumContentSize = NSSize(width: 480, height: 440)
+
+    static func frame(_ frame: NSRect, fitting visibleFrame: NSRect) -> NSRect {
+        let available = visibleFrame.insetBy(dx: 16, dy: 16)
+        let size = NSSize(width: min(frame.width, available.width), height: min(frame.height, available.height))
+        return NSRect(x: min(max(frame.minX, available.minX), available.maxX - size.width),
+                      y: min(max(frame.minY, available.minY), available.maxY - size.height),
+                      width: size.width, height: size.height)
+    }
+
+    static func templateColumns(for width: CGFloat) -> Int {
+        max(1, min(3, Int((width + 12) / 212)))
+    }
+}
+
 /// The reusable start window shown before a drawing is open.
 final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     private let onNew: (DiagramTemplate) -> Void
@@ -31,7 +48,6 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     private var canGoBack = false
     private var searchText = ""
 
-    private let sidebar = AdaptiveSurfaceView(fill: EditorPalette.panel)
     private var sectionButtons: [WelcomeSection: NSButton] = [:]
     private var backButton: NSButton?
     private var documentActionSection: NSStackView?
@@ -42,7 +58,10 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     private weak var bodyScrollView: NSScrollView?
     private let progressIndicator = NSProgressIndicator()
     private let progressLabel = NSTextField(labelWithString: "")
+    private var progressView: NSStackView?
     private var openingName: String?
+    private var templateColumns = 3
+    private var isUpdatingLayout = false
 
     init(onNew: @escaping (DiagramTemplate) -> Void,
          onOpen: @escaping () -> Void,
@@ -66,13 +85,13 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         self.onRemove = onRemove
 
         let window = NSWindow(
-            contentRect: NSRect(x: 0, y: 0, width: 1100, height: 760),
+            contentRect: NSRect(origin: .zero, size: WelcomeWindowLayout.preferredContentSize),
             styleMask: [.titled, .closable, .miniaturizable, .resizable],
             backing: .buffered,
             defer: false
         )
         window.title = "MacVisio"
-        window.minSize = NSSize(width: 1000, height: 680)
+        window.contentMinSize = WelcomeWindowLayout.minimumContentSize
         window.autorecalculatesKeyViewLoop = true
         window.isReleasedWhenClosed = false
         window.tabbingMode = .disallowed
@@ -83,6 +102,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         configureWindow()
         buildInterface()
         refresh(recents: [], section: .home, canGoBack: false)
+        fitWindowToScreen()
     }
 
     @available(*, unavailable)
@@ -93,7 +113,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         self.recents = recents
         self.section = section
         self.canGoBack = canGoBack
-        updateSidebar()
+        updateNavigation()
         renderSection()
         if enteringTemplates, let first = templateKeyboardButtons(in: bodyStack).first {
             window?.initialFirstResponder = first
@@ -113,8 +133,19 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     }
 
     override func showWindow(_ sender: Any?) {
+        fitWindowToScreen()
         super.showWindow(sender)
+        updateTemplateColumns()
         scrollBodyToTop()
+    }
+
+    private func fitWindowToScreen() {
+        guard let window, let screen = window.screen ?? NSScreen.main else { return }
+        let available = screen.visibleFrame.insetBy(dx: 16, dy: 16)
+        let minimumFrame = window.frameRect(forContentRect: NSRect(origin: .zero, size: WelcomeWindowLayout.minimumContentSize))
+        window.minSize = NSSize(width: min(minimumFrame.width, available.width),
+                                height: min(minimumFrame.height, available.height))
+        window.setFrame(WelcomeWindowLayout.frame(window.frame, fitting: screen.visibleFrame), display: false)
     }
 
     /// Displays a lightweight progress banner while a selected drawing is being opened.
@@ -122,6 +153,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         openingName = name
         progressIndicator.isHidden = name == nil
         progressLabel.isHidden = name == nil
+        progressView?.isHidden = name == nil
         if let name {
             progressLabel.stringValue = "Opening \(name)…"
             progressIndicator.startAnimation(nil)
@@ -131,7 +163,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     }
 
     private func configureWindow() {
-        window?.backgroundColor = EditorPalette.workspace
+        window?.backgroundColor = EditorPalette.panel
         window?.appearance = nil
         window?.delegate = self
         window?.contentView?.setAccessibilityIdentifier("welcomeWindow")
@@ -140,13 +172,13 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     private func buildInterface() {
         guard let content = window?.contentView else { return }
         let root = NSStackView()
-        root.orientation = .horizontal
-        root.alignment = .height
+        root.orientation = .vertical
+        root.alignment = .leading
         root.spacing = 0
         root.distribution = .fill
         root.translatesAutoresizingMaskIntoConstraints = false
 
-        let background = AdaptiveSurfaceView(fill: EditorPalette.workspace)
+        let background = AdaptiveSurfaceView(fill: EditorPalette.panel)
         background.translatesAutoresizingMaskIntoConstraints = false
         content.addSubview(background)
         NSLayoutConstraint.activate([
@@ -158,30 +190,35 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
 
         content.addSubview(root)
 
+        let header = makeHeader()
         let main = makeMainPane()
-        let sidebarView = makeSidebar()
-        root.addArrangedSubview(sidebarView)
+        let footer = makeDocumentActions()
+        root.addArrangedSubview(header)
         root.addArrangedSubview(main)
-        sidebarView.widthAnchor.constraint(equalToConstant: 224).isActive = true
+        root.addArrangedSubview(footer)
 
         NSLayoutConstraint.activate([
             root.leadingAnchor.constraint(equalTo: content.leadingAnchor),
             root.trailingAnchor.constraint(equalTo: content.trailingAnchor),
             root.topAnchor.constraint(equalTo: content.topAnchor),
-            root.bottomAnchor.constraint(equalTo: content.bottomAnchor)
+            root.bottomAnchor.constraint(equalTo: content.bottomAnchor),
+            header.widthAnchor.constraint(equalTo: root.widthAnchor),
+            main.widthAnchor.constraint(equalTo: root.widthAnchor),
+            footer.widthAnchor.constraint(equalTo: root.widthAnchor)
         ])
 
     }
 
-    private func makeSidebar() -> NSView {
-        sidebar.translatesAutoresizingMaskIntoConstraints = false
+    private func makeHeader() -> NSView {
+        let header = NSView()
+        header.translatesAutoresizingMaskIntoConstraints = false
 
         let brandMark = NSImageView()
         brandMark.image = NSImage(systemSymbolName: "square.grid.3x3.fill", accessibilityDescription: "MacVisio")
         brandMark.contentTintColor = EditorPalette.accent
         brandMark.translatesAutoresizingMaskIntoConstraints = false
-        brandMark.widthAnchor.constraint(equalToConstant: 28).isActive = true
-        brandMark.heightAnchor.constraint(equalToConstant: 28).isActive = true
+        brandMark.widthAnchor.constraint(equalToConstant: 26).isActive = true
+        brandMark.heightAnchor.constraint(equalToConstant: 26).isActive = true
 
         let brandName = NSTextField(labelWithString: "MacVisio")
         brandName.font = .systemFont(ofSize: 17, weight: .semibold)
@@ -191,12 +228,52 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         brand.alignment = .centerY
         brand.spacing = 10
 
-        let home = sidebarButton("Home", symbol: "house", section: .home)
-        let new = sidebarButton("New", symbol: "plus.rectangle.on.rectangle", section: .new)
-        let open = sidebarButton("Open", symbol: "folder", section: .open)
+        let browse = NSButton(title: "Open File…", target: self, action: #selector(openAction(_:)))
+        browse.bezelStyle = .rounded
+        browse.keyEquivalent = "o"
+        browse.setAccessibilityLabel("Browse for a drawing")
+        let brandRow = NSStackView(views: [brand, NSView(), browse])
+        brandRow.orientation = .horizontal
+        brandRow.alignment = .centerY
+
+        let home = navigationButton("Home", symbol: "house", section: .home)
+        let new = navigationButton("New", symbol: "plus.rectangle.on.rectangle", section: .new)
+        let open = navigationButton("Open", symbol: "folder", section: .open)
         sectionButtons = [.home: home, .new: new, .open: open]
 
-        let back = AdaptiveSidebarButton(frame: .zero)
+        let nav = NSStackView(views: [home, new, open])
+        nav.orientation = .horizontal
+        nav.alignment = .centerY
+        nav.spacing = 6
+
+        let stack = NSStackView(views: [brandRow, nav])
+        stack.orientation = .vertical
+        stack.alignment = .leading
+        stack.spacing = 18
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        header.addSubview(stack)
+        let separator = NSBox()
+        separator.boxType = .separator
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        header.addSubview(separator)
+        NSLayoutConstraint.activate([
+            stack.leadingAnchor.constraint(equalTo: header.leadingAnchor, constant: 24),
+            stack.trailingAnchor.constraint(equalTo: header.trailingAnchor, constant: -24),
+            stack.topAnchor.constraint(equalTo: header.topAnchor, constant: 22),
+            stack.bottomAnchor.constraint(equalTo: header.bottomAnchor, constant: -14),
+            brandRow.widthAnchor.constraint(equalTo: stack.widthAnchor),
+            separator.leadingAnchor.constraint(equalTo: header.leadingAnchor),
+            separator.trailingAnchor.constraint(equalTo: header.trailingAnchor),
+            separator.bottomAnchor.constraint(equalTo: header.bottomAnchor)
+        ])
+        header.setContentHuggingPriority(.required, for: .vertical)
+        return header
+    }
+
+    private func makeDocumentActions() -> NSView {
+        let footer = NSView()
+        footer.translatesAutoresizingMaskIntoConstraints = false
+        let back = NSButton(frame: .zero)
         back.title = "Back to drawing"
         back.target = self
         back.action = #selector(backAction(_:))
@@ -213,65 +290,44 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         back.keyEquivalent = "\u{1b}"
         backButton = back
 
-        let actions = makeDocumentActionSection()
-        documentActionSection = actions
-
-        let nav = NSStackView(views: [home, new, open])
-        nav.orientation = .vertical
-        nav.alignment = .leading
-        nav.spacing = 5
-
-        let stack = NSStackView(views: [brand, nav, actions, NSView(), back])
-        stack.orientation = .vertical
-        stack.alignment = .leading
-        stack.spacing = 26
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        sidebar.addSubview(stack)
-        NSLayoutConstraint.activate([
-            stack.leadingAnchor.constraint(equalTo: sidebar.leadingAnchor, constant: 22),
-            stack.trailingAnchor.constraint(equalTo: sidebar.trailingAnchor, constant: -18),
-            stack.topAnchor.constraint(equalTo: sidebar.topAnchor, constant: 30),
-            stack.bottomAnchor.constraint(equalTo: sidebar.bottomAnchor, constant: -22),
-            back.widthAnchor.constraint(equalTo: stack.widthAnchor)
-        ])
-        return sidebar
-    }
-
-    private func makeDocumentActionSection() -> NSStackView {
-        let heading = NSTextField(labelWithString: "DRAWING")
-        heading.font = .systemFont(ofSize: 10, weight: .semibold)
-        heading.textColor = .tertiaryLabelColor
-
-        var views: [NSView] = [heading]
-        if onSave != nil { views.append(documentActionButton("Save", symbol: "square.and.arrow.down", action: #selector(saveAction(_:)))) }
-        if onSaveAs != nil { views.append(documentActionButton("Save As…", symbol: "square.and.arrow.down.on.square", action: #selector(saveAsAction(_:)))) }
-        if onClose != nil { views.append(documentActionButton("Close Drawing", symbol: "xmark.rectangle", action: #selector(closeAction(_:)))) }
-
+        var views: [NSView] = [back, NSView()]
+        if onSave != nil { views.append(documentActionButton("Save", action: #selector(saveAction(_:)))) }
+        if onSaveAs != nil { views.append(documentActionButton("Save As…", action: #selector(saveAsAction(_:)))) }
+        if onClose != nil { views.append(documentActionButton("Close Drawing", action: #selector(closeAction(_:)))) }
         let stack = NSStackView(views: views)
-        stack.orientation = .vertical
-        stack.alignment = .leading
-        stack.spacing = 3
-        stack.isHidden = !canGoBack
-        return stack
+        documentActionSection = stack
+        stack.orientation = .horizontal
+        stack.alignment = .centerY
+        stack.spacing = 12
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        footer.addSubview(stack)
+        NSLayoutConstraint.activate([
+            stack.leadingAnchor.constraint(equalTo: footer.leadingAnchor, constant: 24),
+            stack.trailingAnchor.constraint(equalTo: footer.trailingAnchor, constant: -24),
+            stack.topAnchor.constraint(equalTo: footer.topAnchor, constant: 8),
+            stack.bottomAnchor.constraint(equalTo: footer.bottomAnchor, constant: -14)
+        ])
+        footer.isHidden = true
+        footer.setContentHuggingPriority(.required, for: .vertical)
+        return footer
     }
 
-    private func documentActionButton(_ title: String, symbol: String, action: Selector) -> NSButton {
-        let button = sidebarButton(title, symbol: symbol, section: .home)
-        button.target = self
-        button.action = action
-        button.tag = 0
+    private func documentActionButton(_ title: String, action: Selector) -> NSButton {
+        let button = NSButton(title: title, target: self, action: action)
+        button.isBordered = false
+        button.font = .systemFont(ofSize: 12)
         button.identifier = NSUserInterfaceItemIdentifier("welcomeDocumentAction.\(title)")
         return button
     }
 
-    private func sidebarButton(_ title: String, symbol: String, section: WelcomeSection) -> NSButton {
-        let button = AdaptiveSidebarButton(frame: .zero)
+    private func navigationButton(_ title: String, symbol: String, section: WelcomeSection) -> NSButton {
+        let button = AdaptiveNavigationButton(frame: .zero)
         button.title = title
         button.target = self
         button.action = #selector(sectionAction(_:))
         button.image = NSImage(systemSymbolName: symbol, accessibilityDescription: nil)
         button.imagePosition = .imageLeading
-        button.alignment = .left
+        button.alignment = .center
         button.bezelStyle = .regularSquare
         button.isBordered = false
         button.font = .systemFont(ofSize: 14, weight: .medium)
@@ -279,8 +335,8 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         button.setAccessibilityLabel(title)
         button.tag = section.tagValue
         button.identifier = NSUserInterfaceItemIdentifier("welcomeSection.\(title.lowercased())")
-        button.widthAnchor.constraint(equalToConstant: 184).isActive = true
-        button.heightAnchor.constraint(equalToConstant: 38).isActive = true
+        button.widthAnchor.constraint(equalToConstant: 88).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return button
     }
 
@@ -288,10 +344,12 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         let pane = NSView()
         pane.translatesAutoresizingMaskIntoConstraints = false
 
-        titleLabel.font = .systemFont(ofSize: 28, weight: .semibold)
+        titleLabel.font = .systemFont(ofSize: 24, weight: .semibold)
         titleLabel.textColor = .labelColor
-        subtitleLabel.font = .systemFont(ofSize: 14)
+        subtitleLabel.font = .systemFont(ofSize: 13)
         subtitleLabel.textColor = .secondaryLabelColor
+        subtitleLabel.lineBreakMode = .byTruncatingTail
+        subtitleLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         let heading = NSStackView(views: [titleLabel, subtitleLabel])
         heading.orientation = .vertical
@@ -310,7 +368,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
 
         bodyStack.orientation = .vertical
         bodyStack.alignment = .leading
-        bodyStack.spacing = 22
+        bodyStack.spacing = 16
         bodyStack.translatesAutoresizingMaskIntoConstraints = false
 
         let scroll = NSScrollView()
@@ -329,30 +387,35 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         progressIndicator.isHidden = true
         progressLabel.font = .systemFont(ofSize: 12, weight: .medium)
         progressLabel.textColor = .secondaryLabelColor
+        progressLabel.lineBreakMode = .byTruncatingMiddle
+        progressLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         progressLabel.isHidden = true
         let progress = NSStackView(views: [progressIndicator, progressLabel])
         progress.orientation = .horizontal
         progress.alignment = .centerY
         progress.spacing = 8
+        progress.isHidden = true
+        progressView = progress
 
         let column = NSStackView(views: [heading, searchField, scroll, progress])
         column.orientation = .vertical
         column.alignment = .leading
-        column.spacing = 22
+        column.spacing = 16
         column.distribution = .fill
         column.translatesAutoresizingMaskIntoConstraints = false
         pane.addSubview(column)
         NSLayoutConstraint.activate([
-            column.leadingAnchor.constraint(equalTo: pane.leadingAnchor, constant: 38),
-            column.trailingAnchor.constraint(equalTo: pane.trailingAnchor, constant: -38),
-            column.topAnchor.constraint(equalTo: pane.topAnchor, constant: 34),
-            column.bottomAnchor.constraint(equalTo: pane.bottomAnchor, constant: -24),
+            column.leadingAnchor.constraint(equalTo: pane.leadingAnchor, constant: 24),
+            column.trailingAnchor.constraint(equalTo: pane.trailingAnchor, constant: -24),
+            column.topAnchor.constraint(equalTo: pane.topAnchor, constant: 20),
+            column.bottomAnchor.constraint(equalTo: pane.bottomAnchor, constant: -16),
             heading.widthAnchor.constraint(equalTo: column.widthAnchor),
+            subtitleLabel.widthAnchor.constraint(equalTo: heading.widthAnchor),
             heading.heightAnchor.constraint(equalToConstant: titleLabel.fittingSize.height + subtitleLabel.fittingSize.height + 7),
             searchField.widthAnchor.constraint(equalTo: column.widthAnchor),
             searchField.heightAnchor.constraint(equalToConstant: 24),
             scroll.widthAnchor.constraint(equalTo: column.widthAnchor),
-            scroll.heightAnchor.constraint(greaterThanOrEqualToConstant: 300),
+            scroll.heightAnchor.constraint(greaterThanOrEqualToConstant: 80),
             progress.widthAnchor.constraint(equalTo: column.widthAnchor),
             progress.heightAnchor.constraint(equalToConstant: 16),
             bodyStack.widthAnchor.constraint(equalTo: scroll.contentView.widthAnchor)
@@ -360,15 +423,16 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         return pane
     }
 
-    private func updateSidebar() {
+    private func updateNavigation() {
         for (value, button) in sectionButtons {
             let selected = value == section
             button.contentTintColor = selected ? EditorPalette.accent : .secondaryLabelColor
             button.font = .systemFont(ofSize: 14, weight: selected ? .semibold : .medium)
-            (button as? AdaptiveSidebarButton)?.isCurrent = selected
+            (button as? AdaptiveNavigationButton)?.isCurrent = selected
         }
         backButton?.isHidden = !canGoBack
         documentActionSection?.isHidden = !canGoBack
+        documentActionSection?.superview?.isHidden = !canGoBack
     }
 
     private func renderSection() {
@@ -396,9 +460,8 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
 
     private func renderHome() {
         clearBody()
-        appendBody(sectionHeading("Start with a template", detail: "Choose a diagram template."))
         appendBody(templateGrid(limit: 3))
-        appendBody(sectionHeading("Recent", detail: "Pinned drawings stay at the top."))
+        appendBody(sectionHeading("Recent", detail: ""))
         addRecentContent(to: bodyStack)
     }
 
@@ -433,7 +496,24 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
     }
 
     func windowDidResize(_ notification: Notification) {
+        updateTemplateColumns()
         scrollBodyToTop()
+    }
+
+    func windowDidChangeScreen(_ notification: Notification) {
+        fitWindowToScreen()
+        updateTemplateColumns()
+    }
+
+    private func updateTemplateColumns() {
+        guard !isUpdatingLayout, let content = window?.contentView else { return }
+        isUpdatingLayout = true
+        defer { isUpdatingLayout = false }
+        content.layoutSubtreeIfNeeded()
+        let columns = WelcomeWindowLayout.templateColumns(for: bodyScrollView?.contentView.bounds.width ?? 0)
+        guard columns != templateColumns else { return }
+        templateColumns = columns
+        renderSection()
     }
 
     private func clearBody() {
@@ -448,17 +528,26 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         let grid = NSStackView()
         grid.orientation = .vertical
         grid.alignment = .leading
-        grid.spacing = 14
-        for start in stride(from: 0, to: templates.count, by: 3) {
-            let end = min(start + 3, templates.count)
-            let cards = templates[start..<end].map { TemplateCard(template: $0, target: self, action: #selector(templateAction(_:))) }
+        grid.spacing = 12
+        grid.identifier = NSUserInterfaceItemIdentifier("welcomeTemplateGrid")
+        for start in stride(from: 0, to: templates.count, by: templateColumns) {
+            let end = min(start + templateColumns, templates.count)
+            var cards: [NSView] = templates[start..<end].map { TemplateCard(template: $0, compact: limit != nil, target: self, action: #selector(templateAction(_:))) }
+            while cards.count < templateColumns {
+                let spacer = NSView()
+                spacer.translatesAutoresizingMaskIntoConstraints = false
+                cards.append(spacer)
+            }
             let row = NSStackView(views: cards)
             row.orientation = .horizontal
             row.alignment = .top
             row.distribution = .fillEqually
-            row.spacing = 14
+            row.spacing = 12
             grid.addView(row, in: .top)
             row.widthAnchor.constraint(equalTo: grid.widthAnchor).isActive = true
+            for card in cards.dropFirst() {
+                card.widthAnchor.constraint(equalTo: cards[0].widthAnchor).isActive = true
+            }
         }
         return grid
     }
@@ -467,13 +556,17 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         let name = NSTextField(labelWithString: title)
         name.font = .systemFont(ofSize: 17, weight: .semibold)
         name.textColor = .labelColor
+        if detail.isEmpty { return name }
         let note = NSTextField(labelWithString: detail)
         note.font = .systemFont(ofSize: 12)
         note.textColor = .secondaryLabelColor
+        note.lineBreakMode = .byTruncatingTail
+        note.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let stack = NSStackView(views: [name, note])
         stack.orientation = .vertical
         stack.alignment = .leading
         stack.spacing = 4
+        note.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
         return stack
     }
 
@@ -488,10 +581,14 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         let note = NSTextField(labelWithString: "Open a MacVisio drawing or supported Visio file.")
         note.font = .systemFont(ofSize: 12)
         note.textColor = .secondaryLabelColor
+        note.lineBreakMode = .byTruncatingTail
+        note.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let text = NSStackView(views: [title, note])
         text.orientation = .vertical
         text.alignment = .leading
         text.spacing = 5
+        text.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        note.widthAnchor.constraint(equalTo: text.widthAnchor).isActive = true
 
         let browse = NSButton(title: "Browse…", target: self, action: #selector(openAction(_:)))
         browse.bezelStyle = .rounded
@@ -499,9 +596,10 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         browse.keyEquivalent = "o"
         browse.setAccessibilityLabel("Browse for a drawing")
 
-        let row = NSStackView(views: [icon, text, NSView(), browse])
+        let row = NSStackView(views: [icon, text, browse])
         row.orientation = .horizontal
         row.alignment = .centerY
+        row.distribution = .fill
         row.spacing = 16
         row.translatesAutoresizingMaskIntoConstraints = false
         icon.widthAnchor.constraint(equalToConstant: 34).isActive = true
@@ -531,11 +629,13 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         rows.alignment = .leading
         rows.spacing = 2
         for recent in visible {
-            rows.addArrangedSubview(RecentDrawingRow(drawing: recent, target: self,
-                                                     openAction: #selector(recentAction(_:)),
-                                                     pinAction: #selector(pinAction(_:)),
-                                                     locateAction: #selector(locateRecentAction(_:)),
-                                                     removeAction: #selector(removeRecentAction(_:))))
+            let row = RecentDrawingRow(drawing: recent, target: self,
+                                       openAction: #selector(recentAction(_:)),
+                                       pinAction: #selector(pinAction(_:)),
+                                       locateAction: #selector(locateRecentAction(_:)),
+                                       removeAction: #selector(removeRecentAction(_:)))
+            rows.addArrangedSubview(row)
+            row.widthAnchor.constraint(equalTo: rows.widthAnchor).isActive = true
         }
         stack.addView(rows, in: .top)
         rows.widthAnchor.constraint(equalTo: stack.widthAnchor).isActive = true
@@ -548,14 +648,19 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         let title = NSTextField(labelWithString: hasSearch ? "No matching drawings" : "Your recent drawings will appear here")
         title.font = .systemFont(ofSize: 14, weight: .medium)
         title.textColor = .secondaryLabelColor
-        let message = NSTextField(labelWithString: hasSearch ? "Try another name or folder." : "Choose a template to create your first diagram, or browse for an existing file.")
+        title.lineBreakMode = .byTruncatingTail
+        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        let message = NSTextField(wrappingLabelWithString: hasSearch ? "Try another name or folder." : "Choose a template to create your first diagram, or open an existing file.")
         message.font = .systemFont(ofSize: 12)
         message.textColor = .tertiaryLabelColor
         message.maximumNumberOfLines = 2
+        message.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let text = NSStackView(views: [title, message])
         text.orientation = .vertical
         text.alignment = .leading
         text.spacing = 5
+        title.widthAnchor.constraint(equalTo: text.widthAnchor).isActive = true
+        message.widthAnchor.constraint(equalTo: text.widthAnchor).isActive = true
         let row = NSStackView(views: [icon, text])
         row.orientation = .horizontal
         row.alignment = .centerY
@@ -594,7 +699,7 @@ final class WelcomeWindowController: NSWindowController, NSWindowDelegate {
         section = sectionButtons.first(where: { $0.value.tag == sender.tag })?.key ?? .home
         searchText = ""
         searchField.stringValue = ""
-        updateSidebar()
+        updateNavigation()
         renderSection()
     }
 
@@ -755,7 +860,7 @@ private class WelcomeKeyboardButton: NSButton {
     }
 }
 
-private final class AdaptiveSidebarButton: WelcomeKeyboardButton {
+private final class AdaptiveNavigationButton: WelcomeKeyboardButton {
     var isCurrent = false { didSet { updateSurface() } }
 
     override init(frame frameRect: NSRect) {
@@ -787,7 +892,7 @@ private final class AdaptiveSidebarButton: WelcomeKeyboardButton {
 private final class TemplateCard: AdaptiveSurfaceView {
     private let template: DiagramTemplate
 
-    init(template: DiagramTemplate, target: AnyObject?, action: Selector) {
+    init(template: DiagramTemplate, compact: Bool, target: AnyObject?, action: Selector) {
         self.template = template
         super.init(fill: EditorPalette.ribbon, border: EditorPalette.border, radius: 10)
         translatesAutoresizingMaskIntoConstraints = false
@@ -804,17 +909,20 @@ private final class TemplateCard: AdaptiveSurfaceView {
         NSLayoutConstraint.activate([
             icon.centerXAnchor.constraint(equalTo: iconTile.centerXAnchor),
             icon.centerYAnchor.constraint(equalTo: iconTile.centerYAnchor),
-            icon.widthAnchor.constraint(equalToConstant: 28),
-            icon.heightAnchor.constraint(equalToConstant: 28)
+            icon.widthAnchor.constraint(equalToConstant: 22),
+            icon.heightAnchor.constraint(equalToConstant: 22)
         ])
 
-        let title = NSTextField(labelWithString: template.title)
-        title.font = .systemFont(ofSize: 14, weight: .semibold)
+        let title = NSTextField(wrappingLabelWithString: template.title)
+        title.font = .systemFont(ofSize: 13, weight: .semibold)
         title.textColor = .labelColor
+        title.maximumNumberOfLines = 2
+        title.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let subtitle = NSTextField(wrappingLabelWithString: template.subtitle)
         subtitle.font = .systemFont(ofSize: 11)
         subtitle.textColor = .secondaryLabelColor
         subtitle.maximumNumberOfLines = 2
+        subtitle.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let text = NSStackView(views: [title, subtitle])
         text.orientation = .vertical
         text.alignment = .leading
@@ -823,16 +931,17 @@ private final class TemplateCard: AdaptiveSurfaceView {
         let contents = NSStackView(views: [iconTile, text])
         contents.orientation = .vertical
         contents.alignment = .leading
-        contents.spacing = 14
+        contents.spacing = 10
         contents.translatesAutoresizingMaskIntoConstraints = false
         addSubview(contents)
         NSLayoutConstraint.activate([
-            contents.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            contents.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            contents.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            contents.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
-            iconTile.widthAnchor.constraint(equalToConstant: 52),
-            iconTile.heightAnchor.constraint(equalToConstant: 52),
+            contents.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 14),
+            contents.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -14),
+            contents.topAnchor.constraint(equalTo: topAnchor, constant: 14),
+            contents.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor, constant: -14),
+            iconTile.widthAnchor.constraint(equalToConstant: 36),
+            iconTile.heightAnchor.constraint(equalToConstant: 36),
+            text.widthAnchor.constraint(equalTo: contents.widthAnchor),
             title.widthAnchor.constraint(equalTo: contents.widthAnchor),
             subtitle.widthAnchor.constraint(equalTo: contents.widthAnchor)
         ])
@@ -844,13 +953,14 @@ private final class TemplateCard: AdaptiveSurfaceView {
         button.identifier = NSUserInterfaceItemIdentifier("welcomeTemplate.\(template.rawValue)")
         button.setAccessibilityLabel("\(template.title). \(template.subtitle)")
         button.setAccessibilityRole(.button)
+        button.toolTip = "\(template.title) — \(template.subtitle)"
         addSubview(button)
         NSLayoutConstraint.activate([
             button.leadingAnchor.constraint(equalTo: leadingAnchor),
             button.trailingAnchor.constraint(equalTo: trailingAnchor),
             button.topAnchor.constraint(equalTo: topAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
-            heightAnchor.constraint(equalToConstant: 158)
+            heightAnchor.constraint(equalToConstant: compact ? 126 : 146)
         ])
     }
 
@@ -859,6 +969,8 @@ private final class TemplateCard: AdaptiveSurfaceView {
 }
 
 private final class RecentDrawingRow: NSView {
+    private weak var openButton: NSButton?
+
     init(drawing: RecentDrawing, target: AnyObject?, openAction: Selector, pinAction: Selector, locateAction: Selector, removeAction: Selector) {
         super.init(frame: .zero)
         translatesAutoresizingMaskIntoConstraints = false
@@ -871,14 +983,18 @@ private final class RecentDrawingRow: NSView {
         name.font = .systemFont(ofSize: 13, weight: .medium)
         name.textColor = .labelColor
         name.lineBreakMode = .byTruncatingMiddle
+        name.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let location = NSTextField(labelWithString: drawing.location)
         location.font = .systemFont(ofSize: 11)
         location.textColor = .secondaryLabelColor
         location.lineBreakMode = .byTruncatingMiddle
+        location.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         let labels = NSStackView(views: [name, location])
         labels.orientation = .vertical
         labels.alignment = .leading
         labels.spacing = 4
+        labels.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        toolTip = drawing.url.path
 
         let path = drawing.url.path
         let pin = NSButton(title: "", target: target, action: pinAction)
@@ -894,6 +1010,7 @@ private final class RecentDrawingRow: NSView {
         open.controlSize = .small
         open.identifier = NSUserInterfaceItemIdentifier("welcomeRecent.\(path)")
         open.setAccessibilityLabel("Open \(drawing.title)")
+        openButton = open
 
         let more = NSPopUpButton(frame: .zero, pullsDown: true)
         more.addItem(withTitle: "More")
@@ -905,9 +1022,10 @@ private final class RecentDrawingRow: NSView {
         more.identifier = NSUserInterfaceItemIdentifier("welcomeRecentActions.\(path)")
         more.setAccessibilityLabel("Actions for \(drawing.title)")
         more.toolTip = "Locate a moved drawing or remove its history entry. Files are never deleted."
-        let row = NSStackView(views: [icon, labels, NSView(), pin, open, more])
+        let row = NSStackView(views: [icon, labels, pin, open, more])
         row.orientation = .horizontal
         row.alignment = .centerY
+        row.distribution = .fill
         row.spacing = 12
         row.translatesAutoresizingMaskIntoConstraints = false
         addSubview(row)
@@ -918,7 +1036,8 @@ private final class RecentDrawingRow: NSView {
             row.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
             icon.widthAnchor.constraint(equalToConstant: 20),
             icon.heightAnchor.constraint(equalToConstant: 22),
-            labels.widthAnchor.constraint(greaterThanOrEqualToConstant: 260),
+            name.widthAnchor.constraint(equalTo: labels.widthAnchor),
+            location.widthAnchor.constraint(equalTo: labels.widthAnchor),
             pin.widthAnchor.constraint(equalToConstant: 28),
             pin.heightAnchor.constraint(equalToConstant: 28),
             open.widthAnchor.constraint(equalToConstant: 58),
@@ -931,6 +1050,12 @@ private final class RecentDrawingRow: NSView {
 
     @available(*, unavailable)
     required init?(coder: NSCoder) { fatalError("init(coder:) is not supported") }
+
+    // Clicking anywhere on the row other than its pin, Open or More controls opens the drawing.
+    override func mouseUp(with event: NSEvent) {
+        guard bounds.contains(convert(event.locationInWindow, from: nil)) else { return }
+        openButton?.performClick(nil)
+    }
 }
 
 /// A short scroll document starts at the top of its viewport.

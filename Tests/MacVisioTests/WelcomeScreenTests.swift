@@ -13,11 +13,11 @@ final class WelcomeScreenTests: XCTestCase {
             controller.refresh(recents: [drawing], section: .home, canGoBack: false)
             controller.showWindow(nil)
             let window = try XCTUnwrap(controller.window)
-            window.setFrame(NSRect(origin: window.frame.origin, size: NSSize(width: 1000, height: 680)), display: true)
+            window.setContentSize(WelcomeWindowLayout.minimumContentSize)
             window.contentView?.layoutSubtreeIfNeeded()
 
-            XCTAssertEqual(window.minSize.width, 1000)
-            XCTAssertEqual(window.minSize.height, 680)
+            XCTAssertEqual(window.contentMinSize.width, 480)
+            XCTAssertEqual(window.contentMinSize.height, 440)
             XCTAssertGreaterThan(window.contentView?.bounds.width ?? 0, 0)
             XCTAssertGreaterThan(window.contentView?.bounds.height ?? 0, 0)
             assertBodyAtTop(in: window)
@@ -38,6 +38,58 @@ final class WelcomeScreenTests: XCTestCase {
             XCTAssertTrue(labels(in: window).contains("Browse files"))
             XCTAssertNotNil(button(identifier: "welcomeRecent.\(drawing.url.path)", in: window))
             assertBodyAtTop(in: window)
+        }
+    }
+
+    func testWindowFrameFitsSmallScreensAndOffsetDisplays() {
+        let oversized = NSRect(x: 100, y: 200, width: 1600, height: 1000)
+        for screen in [NSRect(x: 0, y: 30, width: 800, height: 570),
+                       NSRect(x: -1024, y: 100, width: 1024, height: 700)] {
+            let frame = WelcomeWindowLayout.frame(oversized, fitting: screen)
+            XCTAssertTrue(screen.insetBy(dx: 16, dy: 16).contains(frame))
+        }
+        XCTAssertEqual(WelcomeWindowLayout.templateColumns(for: 732), 3)
+        XCTAssertEqual(WelcomeWindowLayout.templateColumns(for: 432), 2)
+        XCTAssertEqual(WelcomeWindowLayout.templateColumns(for: 320), 1)
+    }
+
+    func testLongRecentPathsAndAllSectionsStayWithinCompactWindow() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let name = String(repeating: "A very long project name ", count: 12) + ".vsdx"
+            let folder = String(repeating: "Projects / Planning / ", count: 12)
+            let drawing = RecentDrawing(url: URL(fileURLWithPath: "/tmp/" + name), title: name,
+                                        location: folder, isPinned: true)
+            let controller = makeController()
+            defer { controller.close() }
+            controller.showWindow(nil)
+            let window = try XCTUnwrap(controller.window)
+            for width: CGFloat in [780, 480, 780] {
+                window.setContentSize(NSSize(width: width, height: 440))
+                for section: WelcomeSection in [.home, .new, .open] {
+                    controller.refresh(recents: [drawing], section: section, canGoBack: true)
+                    window.contentView?.layoutSubtreeIfNeeded()
+                    let content = try XCTUnwrap(window.contentView)
+                    XCTAssertEqual(content.bounds.width, width, accuracy: 1, "Long labels must not enlarge the window")
+                    let scroll = try XCTUnwrap(descendants(of: content).compactMap { $0 as? NSScrollView }.first)
+                    let body = try XCTUnwrap(scroll.documentView)
+                    for view in descendants(of: body) where view is NSTextField || view is NSButton {
+                        let rect = view.convert(view.bounds, to: body)
+                        // AppKit text fields extend two points beyond their alignment rect.
+                        XCTAssertGreaterThanOrEqual(rect.minX, -2)
+                        XCTAssertLessThanOrEqual(rect.maxX, body.bounds.width + 2)
+                    }
+                    if section != .open {
+                        let grid = try XCTUnwrap(descendants(of: body).first { $0.identifier?.rawValue == "welcomeTemplateGrid" } as? NSStackView)
+                        let firstRow = try XCTUnwrap(grid.arrangedSubviews.first as? NSStackView)
+                        XCTAssertEqual(firstRow.arrangedSubviews.count, width == 780 ? 3 : 2)
+                    }
+                    assertBodyAtTop(in: window)
+                }
+            }
+            controller.refresh(recents: [], section: .home, canGoBack: false)
+            window.contentView?.layoutSubtreeIfNeeded()
+            XCTAssertEqual(window.contentView?.bounds.width ?? 0, 780, accuracy: 1)
         }
     }
 
@@ -66,6 +118,28 @@ final class WelcomeScreenTests: XCTestCase {
             try sendAction(from: XCTUnwrap(button(identifier: "welcomePin.\(drawing.url.path)", in: window)))
             XCTAssertEqual(openedURL, drawing.url)
             XCTAssertEqual(pinnedURL, drawing.url)
+        }
+    }
+
+    func testClickingRecentRowOpensItsDrawing() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let drawing = recentDrawing(isPinned: false)
+            var openedURL: URL?
+            let controller = makeController(onRecent: { openedURL = $0 })
+            defer { controller.close() }
+            controller.showWindow(nil)
+            let window = try XCTUnwrap(controller.window)
+            controller.refresh(recents: [drawing], section: .home, canGoBack: false)
+            window.contentView?.layoutSubtreeIfNeeded()
+            let open = try XCTUnwrap(button(identifier: "welcomeRecent.\(drawing.url.path)", in: window))
+            let row = try XCTUnwrap(sequence(first: open.superview, next: { $0?.superview }).compactMap { $0 }
+                .first { String(describing: type(of: $0)) == "RecentDrawingRow" })
+            let point = row.convert(NSPoint(x: 30, y: row.bounds.midY), to: nil)
+            let event = try XCTUnwrap(NSEvent.mouseEvent(with: .leftMouseUp, location: point, modifierFlags: [], timestamp: 0,
+                                                         windowNumber: window.windowNumber, context: nil, eventNumber: 0, clickCount: 1, pressure: 0))
+            row.mouseUp(with: event)
+            XCTAssertEqual(openedURL, drawing.url)
         }
     }
 
