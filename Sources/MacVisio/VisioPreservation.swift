@@ -288,7 +288,7 @@ enum VisioPreservation {
                 } else { shapes.addChild(element) }
             }
             if element !== generated && (previous == nil || reroute) {
-                let geometryCells: Set<String> = ["PinX","PinY","Width","Height","LocPinX","LocPinY","Angle","BeginX","BeginY","EndX","EndY","ShapeRouteStyle"]
+                let geometryCells: Set<String> = ["PinX","PinY","Width","Height","LocPinX","LocPinY","Angle","BeginX","BeginY","EndX","EndY","BegTrigger","EndTrigger","ShapeRouteStyle"]
                 for cell in element.elementsLocal("Cell") where geometryCells.contains(cell.attr("N") ?? "") { cell.detach() }
                 for cell in generated.elementsLocal("Cell") where geometryCells.contains(cell.attr("N") ?? "") { element.addChild(cell.copy() as! XMLNode) }
                 for section in element.elementsLocal("Section") where section.attr("N") == "Geometry" { section.detach() }
@@ -324,6 +324,34 @@ enum VisioPreservation {
         }
         binding.inheritedShapes = inheritance.filter{newNodeSet.contains($0.key) || newEdgeSet.contains($0.key)}.mapValues{$0}
         for id in required where binding.inheritedShapes?[id] != nil { binding.inheritedShapes?[id]?.implicit = false }
+        upgradeLegacyGlue(root:root)
+    }
+
+    /// Connectors MacVisio wrote before 0.24.0 have Connect records but lack the trigger and glue formulas
+    /// Visio 2019 needs to recognise glue. When a page is rewritten, such connectors get Visio's own glue
+    /// formulas aimed exactly at the recorded Connect target. Connectors that already have a trigger, as
+    /// every glued Visio-authored connector does, are left untouched.
+    static func upgradeLegacyGlue(root:XMLElement) {
+        guard let connects = root.firstLocal("Connects") else { return }
+        var shapes:[String:XMLElement] = [:]
+        for shape in root.firstLocal("Shapes")?.allShapes ?? [] { if let id = shape.attr("ID"),shapes[id] == nil { shapes[id] = shape } }
+        for connect in connects.elementsLocal("Connect") {
+            guard let from = connect.attr("FromSheet"),let shape = shapes[from],let to = connect.attr("ToSheet"),
+                  let endpoint = connect.attr("FromCell"),endpoint == "BeginX" || endpoint == "EndX" else { continue }
+            let begin = endpoint == "BeginX",trigger = begin ? "BegTrigger" : "EndTrigger"
+            let cells = shape.elementsLocal("Cell")
+            guard !cells.contains(where:{$0.attr("N") == trigger}) else { continue }
+            let target = connect.attr("ToCell") ?? "PinX",follow:String
+            if target == "PinX" {
+                follow = "_WALKGLUE(\(trigger),\(begin ? "EndTrigger" : "BegTrigger"),WalkPreference)"
+            } else if target.hasPrefix("Connections."),let x = target.range(of:"X",options:.backwards) {
+                follow = "PAR(PNT(Sheet.\(to)!\(target),Sheet.\(to)!\(target.replacingCharacters(in:x,with:"Y"))))"
+            } else { continue }
+            for name in begin ? ["BeginX","BeginY"] : ["EndX","EndY"] { cells.first{$0.attr("N") == name}?.setAttr("F",follow) }
+            let cell = XMLElement(name:"Cell");cell.setAttr("N",trigger);cell.setAttr("V","2");cell.setAttr("F","_XFTRIGGER(Sheet.\(to)!EventXFMod)")
+            // Shape cells precede its sections; keep the trigger with the other cells.
+            if let last = cells.last { shape.insertChild(cell,at:last.index + 1) } else { shape.insertChild(cell,at:0) }
+        }
     }
 
     private static func preserveOpaqueInstance(_ original:XMLElement,in element:XMLElement) {
