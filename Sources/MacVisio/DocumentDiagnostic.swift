@@ -13,18 +13,23 @@ struct DocumentDiagnostic: Codable, Equatable, Identifiable {
         case page(UUID)
         case shape(page: UUID, shape: UUID)
         case connector(page: UUID, connector: UUID)
+        case definition(sheet: UUID)
 
         var pageID: UUID? {
             switch self {
-            case .document: return nil
+            case .document, .definition: return nil
             case .page(let id), .shape(let id, _), .connector(let id, _): return id
             }
         }
         var objectID: UUID? {
             switch self {
-            case .document, .page: return nil
+            case .document, .page, .definition: return nil
             case .shape(_, let id), .connector(_, let id): return id
             }
+        }
+        var definitionSheetID: UUID? {
+            if case .definition(let sheet) = self { return sheet }
+            return nil
         }
     }
     struct Source: Codable, Hashable {
@@ -33,6 +38,9 @@ struct DocumentDiagnostic: Codable, Equatable, Identifiable {
         var visioID: String?
         /// The exact authored address, not an address parsed from a message.
         var cell: String?
+        /// Structured source address for definition sheets, including named or
+        /// indexed rows. Display strings are never used to reconstruct it.
+        var definitionCell: DefinitionCellAddress?
         /// Distinguishes source features sharing a target, e.g. master or solution.
         var feature: String?
     }
@@ -66,8 +74,10 @@ struct DocumentDiagnostic: Codable, Equatable, Identifiable {
         return requestedActions.filter { action in
             guard seen.insert(action).inserted else { return false }
             switch action {
-            case .revealTarget: return target.pageID != nil
-            case .inspectCell: return target.pageID != nil && source.cell?.isEmpty == false
+            case .revealTarget: return target.pageID != nil || target.definitionSheetID != nil
+            case .inspectCell:
+                if target.definitionSheetID != nil { return source.definitionCell != nil }
+                return target.pageID != nil && source.cell?.isEmpty == false
             case .viewDetails, .reviewPolicy, .saveCopy: return true
             }
         }
@@ -95,5 +105,16 @@ struct DocumentDiagnostic: Codable, Equatable, Identifiable {
                            cell: cell, feature: feature),
             displayState: displayState, message: message,
             requestedActions: cell == nil ? [.viewDetails, .revealTarget] : [.viewDetails, .revealTarget, .inspectCell])
+    }
+
+    static func connectorCalculationFailure(
+        _ message: String, code: String, page: UUID, connector: UUID,
+        binding: VisioPageBinding?, sourceShapeID: String?, cell: String?, feature: String
+    ) -> DocumentDiagnostic {
+        var issue = calculationFailure(message, code: code, page: page, shape: connector,
+            binding: binding, sourceShapeID: sourceShapeID, cell: cell, feature: feature)
+        issue.target = .connector(page: page, connector: connector)
+        issue.source.visioID = binding?.edgeIDs[connector] ?? sourceShapeID
+        return issue
     }
 }

@@ -81,7 +81,13 @@ struct DiagramEdge: Codable, Equatable, Identifiable {
     var id = UUID()
     var source: UUID
     var target: UUID
-    var label: String = ""
+    var label: String = "" {
+        didSet {
+            if label != oldValue,var detail = details,let runs = detail.textRuns,runs.map(\.text).joined() == oldValue {
+                detail.textRuns = runs.isEmpty && !label.isEmpty ? nil : ShapeRichText.replacingText(oldValue,with:label,runs:runs);details = detail
+            }
+        }
+    }
     var color: String = "#697D99"
     var width: Double = 1.8
     var style: EdgeStyle = .orthogonal
@@ -96,6 +102,24 @@ struct DiagramEdge: Codable, Equatable, Identifiable {
     var sourceShapeID: String?
     var sourcePort:String?
     var targetPort:String?
+    // Optional so drawings written before connector sheets remain decodable.
+    var details: ShapeDetails?
+    var formatting: ShapeDetails {
+        get { details ?? ShapeDetails() }
+        set { details = newValue }
+    }
+    /// Adapt the shared text serializer without changing connector identity or route.
+    /// Character/paragraph source rows stay in `details`; geometry belongs to the edge.
+    var textNode: DiagramNode {
+        var node = DiagramNode(kind:.text,text:label)
+        node.id = id;node.parentID = parentID;node.details = details
+        let first = formatting.textRuns?.first
+        node.fontSize = first?.character.size ?? formatting.sheet["Char.Size"].flatMap{Double($0.value).map{$0*72}} ?? 12
+        node.textColor = first?.character.color ?? color;node.bold = first?.character.bold ?? false
+        node.width = max(1,abs(formatting.sheet["Width"].flatMap{Double($0.value)} ?? 1)*72)
+        node.height = max(1,abs(formatting.sheet["Height"].flatMap{Double($0.value)} ?? 1)*72)
+        return node
+    }
 }
 
 struct DiagramPage: Codable, Equatable, Identifiable {
@@ -138,11 +162,13 @@ struct DiagramPage: Codable, Equatable, Identifiable {
         }; return true
     }
     func isVisible(_ edge:DiagramEdge,printing:Bool = false) -> Bool {
-        if (layers ?? []).contains(where:{$0.name == edge.layer && (!$0.visible || printing && !$0.printable)}) { return false }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+        if (layers ?? []).contains(where:{names.contains($0.name) && (!$0.visible || printing && !$0.printable)}) { return false }
         return edge.parentID.flatMap{id in nodes.first{$0.id == id}}.map{isVisible($0,printing:printing)} ?? true
     }
     func isLocked(_ edge:DiagramEdge) -> Bool {
-        if (layers ?? []).contains(where:{$0.name == edge.layer && $0.locked}) { return true }
+        let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+        if (layers ?? []).contains(where:{names.contains($0.name) && $0.locked}) { return true }
         return edge.parentID.flatMap{id in nodes.first{$0.id == id}}.map{isLocked($0)} ?? false
     }
     func descendants(of id: UUID) -> Set<UUID> {
@@ -163,6 +189,7 @@ struct Diagram: Codable, Equatable {
     var activePageID: UUID
     var visioArchive: VisioDocumentArchive?
     var legacySource: LegacyVisioSource?
+    var definitions: DefinitionRegistry?
     init() { activePageID = pages[0].id }
     var activePageIndex: Int { pages.firstIndex { $0.id == activePageID } ?? 0 }
     var page: DiagramPage {
@@ -178,7 +205,10 @@ struct Diagram: Codable, Equatable {
         while let id = next,seen.count<=pages.count,seen.insert(id).inserted,let background = byID[id] {
             backgrounds.append(background);next = background.backgroundPageID
         }
-        if backgrounds.contains(where:{$0.nodes.contains{$0.formatting.textFields?.isEmpty == false}}) {
+        if backgrounds.contains(where:{background in
+            background.nodes.contains{$0.formatting.textFields?.isEmpty == false}
+                || background.edges.contains{$0.formatting.textFields?.isEmpty == false}
+        }) {
             let evaluated = TextFieldEngine.recalculate(self,foreground:foreground).diagram
             backgrounds = backgrounds.map{background in evaluated.pages.first{$0.id == background.id} ?? background}
         }
@@ -186,8 +216,34 @@ struct Diagram: Codable, Equatable {
     }
     func validated() throws -> Diagram {
         guard version == 1, !pages.isEmpty, pages.count <= 1000 else { throw DiagramError.invalid("Unsupported version or invalid page count.") }
+        if definitions == nil, visioArchive != nil { return try DefinitionRegistry.hydrate(self).validated() }
+        try definitions?.validate()
+        if let registry = definitions, let archive = visioArchive, archive.definitionRows != nil { try DefinitionSourceRow.validateArchive(archive,registry:registry) }
+        if let registry = definitions, let archive = visioArchive, registry.editableSheets.contains(where: { $0.sections == nil }) {
+            var hydrated = registry
+            var sectionsBySheet: [UUID: [DefinitionSection]] = [:]
+            _ = try DefinitionRowEditing.elements(registry, parts: archive.parts) { sheet, element, _ in
+                guard sheet.sections == nil else { return }
+                var sections = DefinitionRegistry.sheet(element, scope: sheet.id, publicID: sheet.publicID).sections ?? []
+                for i in sections.indices { sections[i].id = DefinitionRegistry.stableID(sheet.id, "section:" + sections[i].address.key) }
+                sectionsBySheet[sheet.id] = sections
+            }
+            hydrated.forEachEditableSheet { if let sections = sectionsBySheet[$0.id] { $0.sections = sections } }
+            var indexed = self; indexed.definitions = hydrated
+            if let prior = archive.definitionRows {
+                let existing = Set(prior.map(\.rowID))
+                indexed.visioArchive?.definitionRows = prior + DefinitionSourceRow.index(hydrated).filter { !existing.contains($0.rowID) }
+            }
+            return try indexed.validated()
+        }
+        if let definitions, let archive = visioArchive, archive.definitionRows == nil {
+            var indexed = self
+            indexed.visioArchive?.definitionRows = DefinitionSourceRow.index(definitions)
+            return try indexed.validated()
+        }
         if visioArchive != nil,pages.contains(where:{$0.drawingScale == nil}),let hydrated = try DrawingScale.hydrate(self) { return try hydrated.validated() }
         if let archive = visioArchive,archive.connectorHierarchyVersion != 1 { return try DiagramCoordinates.hydrateArchivedConnectors(self).validated() }
+        if let hydrated = try VisioFormat.hydrateMissingConnectorDetails(self) { return try hydrated.validated() }
         var ids = Set<UUID>()
         let byPageID = pages.reduce(into:[UUID:DiagramPage]()){if $0[$1.id] == nil { $0[$1.id] = $1 }}
         for page in pages {
@@ -211,30 +267,13 @@ struct Diagram: Codable, Equatable {
                       n.width > 0, n.height > 0, n.width <= 1e9, n.height <= 1e9,n.width*page.paperScale <= 20000,n.height*page.paperScale <= 20000,
                       abs(n.x) < 1e9, abs(n.y) < 1e9,abs(n.x*page.paperScale) < 100000,abs(n.y*page.paperScale) < 100000, (1...500).contains(n.fontSize),
                       (0...100).contains(n.strokeWidth) else { throw DiagramError.invalid("Invalid shape geometry.") }
-                if let details = n.details {
-                    if let geometry = details.geometry { guard geometry.count <= 1000,Set(geometry.map(\.index)).count == geometry.count,geometry.allSatisfy(\.valid),geometry.reduce(0,{$0+$1.rows.count}) <= 100000 else { throw DiagramError.invalid("Invalid ShapeSheet geometry.") } }
-                    if let fields = details.textFields { guard fields.count <= 1000,Set(fields.map(\.index)).count == fields.count,fields.allSatisfy(\.valid),(details.textRuns ?? []).allSatisfy({$0.fieldIndex.map{index in fields.contains{$0.index == index}} ?? true}) else { throw DiagramError.invalid("Invalid text fields.") } }
-                    if let runs = details.textRuns { guard runs.count <= 100000,runs.map(\.text).joined() == n.text,runs.allSatisfy({$0.character.valid && $0.paragraph.valid}) else { throw DiagramError.invalid("Invalid rich text runs.") } }
-                    let ports = details.connectionPoints
-                    guard details.controls.count <= 1000,Set(details.controls.map{$0.name.lowercased()}).count == details.controls.count,Set(details.controls.map(\.index)).count == details.controls.count,details.controls.allSatisfy(\.valid) else { throw DiagramError.invalid("Invalid control handle definitions.") }
-                    guard ports.count <= 1000,Set(ports.map{$0.id.lowercased()}).count == ports.count,Set(ports.map(\.index)).count == ports.count,
-                          ports.allSatisfy({port in port.index <= Int32.max-100 && (port.name.map{!$0.isEmpty && $0.utf8.count<=256 && !$0.contains("!") && !$0.contains(".") && port.index<1000} ?? true) && [Double(port.x.value),Double(port.y.value)].allSatisfy{$0.map{$0.isFinite && abs($0)<100000} ?? false} && [port.directionX,port.directionY].allSatisfy{$0.isFinite && abs($0)<100000} && (0...2).contains(port.type) && port.x.formula.utf8.count <= 16384 && port.y.formula.utf8.count <= 16384}) else { throw DiagramError.invalid("Invalid connection points.") }
-                    if let id = details.sourceShapeID { guard UInt32(id) != nil else { throw DiagramError.invalid("Invalid source shape identifier.") } }
-                    guard details.paths.reduce(0, { $0 + $1.commands.count }) <= 100000,
-                          details.paths.flatMap(\.commands).allSatisfy({ $0.isValid(xScale:n.width*page.paperScale,yScale:n.height*page.paperScale) }),
-                          details.paths.allSatisfy({$0.commands.isEmpty || $0.commands.first?.kind == "M"}),
-                          details.sheet.count <= 10000,details.sheet.values.allSatisfy({$0.formula.utf8.count <= 16384}),
-                          (details.image?.data.count ?? 0) <= VisioPackage.partLimit else { throw DiagramError.invalid("Invalid custom geometry or oversized image.") }
-                    if let box = details.textBox {
-                        let physical = [box.centerX*n.width*page.paperScale,box.centerY*n.height*page.paperScale,box.width*n.width*page.paperScale,box.height*n.height*page.paperScale,box.rotation,box.left*page.paperScale,box.right*page.paperScale,box.top*page.paperScale,box.bottom*page.paperScale]
-                        guard physical.allSatisfy({$0.isFinite && abs($0)<100000}),box.width > 0,box.height > 0 else { throw DiagramError.invalid("Invalid text block geometry.") }
-                    }
-                }
+                if let details = n.details { try Self.validateDetails(details,on:n,paperScale:page.paperScale) }
             }
             guard Set(page.edges.map(\.id)).count == page.edges.count,nodeIDs.isDisjoint(with:page.edges.map(\.id)) else { throw DiagramError.invalid("Duplicate connector identifiers.") }
             for edge in page.edges {
                 for (id,port) in [(edge.source,edge.sourcePort),(edge.target,edge.targetPort)] { if let port { guard page.nodes.first(where:{$0.id == id})?.formatting.connectionPoints.contains(where:{$0.id == port}) == true else { throw DiagramError.invalid("A connector references a missing connection point.") } } }
                 if let id = edge.sourceShapeID { guard UInt32(id) != nil else { throw DiagramError.invalid("Invalid source connector identifier.") } }
+                if let details = edge.details { try Self.validateDetails(details,on:edge.textNode,paperScale:page.paperScale) }
                 if let parent = edge.parentID { guard page.nodes.contains(where:{$0.id == parent && $0.formatting.isGroup}) else { throw DiagramError.invalid("A connector has an invalid group parent.") } }
                 let validSource = nodeIDs.contains(edge.source) || edge.sourcePosition != nil
                 let validTarget = nodeIDs.contains(edge.target) || edge.targetPosition != nil
@@ -280,6 +319,26 @@ struct Diagram: Codable, Equatable {
         }
         return self
     }
+    private static func validateDetails(_ details:ShapeDetails,on n:DiagramNode,paperScale:Double) throws {
+        if let geometry = details.geometry { guard geometry.count <= 1000,Set(geometry.map(\.index)).count == geometry.count,geometry.allSatisfy(\.valid),geometry.reduce(0,{$0+$1.rows.count}) <= 100000 else { throw DiagramError.invalid("Invalid ShapeSheet geometry.") } }
+        if let fields = details.textFields { guard fields.count <= 1000,Set(fields.map(\.index)).count == fields.count,fields.allSatisfy(\.valid),(details.textRuns ?? []).allSatisfy({$0.fieldIndex.map{index in fields.contains{$0.index == index}} ?? true}) else { throw DiagramError.invalid("Invalid text fields.") } }
+        if let runs = details.textRuns { guard runs.count <= 100000,runs.map(\.text).joined() == n.text,runs.allSatisfy({$0.character.valid && $0.paragraph.valid}) else { throw DiagramError.invalid("Invalid rich text runs.") } }
+        let ports = details.connectionPoints
+        guard details.controls.count <= 1000,Set(details.controls.map{$0.name.lowercased()}).count == details.controls.count,Set(details.controls.map(\.index)).count == details.controls.count,details.controls.allSatisfy(\.valid) else { throw DiagramError.invalid("Invalid control handle definitions.") }
+        guard ports.count <= 1000,Set(ports.map{$0.id.lowercased()}).count == ports.count,Set(ports.map(\.index)).count == ports.count,
+              ports.allSatisfy({port in port.index <= Int32.max-100 && (port.name.map{!$0.isEmpty && $0.utf8.count<=256 && !$0.contains("!") && !$0.contains(".") && port.index<1000} ?? true) && [Double(port.x.value),Double(port.y.value)].allSatisfy{$0.map{$0.isFinite && abs($0)<100000} ?? false} && [port.directionX,port.directionY].allSatisfy{$0.isFinite && abs($0)<100000} && (0...2).contains(port.type) && port.x.formula.utf8.count <= 16384 && port.y.formula.utf8.count <= 16384}) else { throw DiagramError.invalid("Invalid connection points.") }
+        if let id = details.sourceShapeID { guard UInt32(id) != nil else { throw DiagramError.invalid("Invalid source shape identifier.") } }
+        guard details.paths.reduce(0, { $0 + $1.commands.count }) <= 100000,
+              details.paths.flatMap(\.commands).allSatisfy({ $0.isValid(xScale:n.width*paperScale,yScale:n.height*paperScale) }),
+              details.paths.allSatisfy({$0.commands.isEmpty || $0.commands.first?.kind == "M"}),
+              details.sheet.count <= 10000,details.sheet.values.allSatisfy({$0.formula.utf8.count <= 16384}),
+              (details.image?.data.count ?? 0) <= VisioPackage.partLimit else { throw DiagramError.invalid("Invalid custom geometry or oversized image.") }
+        if let box = details.textBox {
+            let physical = [box.centerX*n.width*paperScale,box.centerY*n.height*paperScale,box.width*n.width*paperScale,box.height*n.height*paperScale,box.rotation,box.left*paperScale,box.right*paperScale,box.top*paperScale,box.bottom*paperScale]
+            guard physical.allSatisfy({$0.isFinite && abs($0)<100000}),box.width > 0,box.height > 0 else { throw DiagramError.invalid("Invalid text block geometry.") }
+        }
+    }
+
 }
 
 enum DiagramError: LocalizedError {

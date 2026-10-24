@@ -184,6 +184,27 @@ final class DocumentSaveImpactTests: XCTestCase {
         XCTAssertEqual(assessment.risks.first { $0.feature == .solution }?.target, .document)
     }
 
+    func testInheritedFormulaCacheRefreshDoesNotBecomeMasterOverrideButAuthoredEditsDo() {
+        var original = fixture(shapeAttributes: "Master=\"9\"", shapeXML: "<Cell N=\"LocPinX\" V=\"1\" F=\"Width/2\"/>")
+        original.page.nodes[0].formatting.sheet["LocPinX"] = ShapeSheetCell(value: "1", formula: "Width/2")
+        var cache = original
+        cache.page.nodes[0].formatting.sheet["LocPinX"]?.value = "1.5"
+        XCTAssertFalse(DocumentSaveImpact.assess(snapshot: cache, baseline: .init(snapshot: original),
+            diagnostics: [], format: .visio).risks.contains { $0.feature == .masterRelation })
+        var formula = cache
+        formula.page.nodes[0].formatting.sheet["LocPinX"]?.formula = "Width/3"
+        var unit = cache
+        unit.page.nodes[0].formatting.sheet["LocPinX"]?.unit = "MM"
+        var literal = cache
+        literal.page.nodes[0].formatting.sheet["LocPinX"]?.formula = ""
+        var parent = cache
+        parent.page.nodes[0].parentID = original.page.nodes[1].id
+        for edited in [formula, unit, literal, parent] {
+            XCTAssertTrue(DocumentSaveImpact.assess(snapshot: edited, baseline: .init(snapshot: original),
+                diagnostics: [], format: .visio).risks.contains { $0.feature == .masterRelation })
+        }
+    }
+
     func testFailedFormulaMustBeCurrentAndItsObjectAffected() {
         let original = fixture()
         let node = original.page.nodes[0]

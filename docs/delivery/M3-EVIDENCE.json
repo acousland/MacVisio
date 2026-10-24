@@ -1,0 +1,529 @@
+{
+  "schema_version": 1,
+  "kind": "partial_local_engineering_checkpoint",
+  "milestone": "M3",
+  "compatibility_accepted": false,
+  "reference_run": false,
+  "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+  "environment": {
+    "swift": "Apple Swift6.4 swiftlang-6.4.0.34.1",
+    "target": "arm64-apple-macosx27.0.0",
+    "build_configuration": "debug",
+    "scratch_path": "build/m3-swift",
+    "swift_jobs": 2
+  },
+  "checks": [
+    {
+      "id": "m3-public-fixture",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter M3PublicFixtureTests",
+      "outcome": "passed",
+      "executed": 3,
+      "failures": 0,
+      "skips": 0,
+      "scope": [
+        "no-edit authored public parts byte equality",
+        "isolated instance text edit with public-only reopen and unchanged master/style/theme/connector/opaque content",
+        "1000mm at1:50 yields20mm in actual A4 PDF render; nonprinting guide excluded"
+      ],
+      "limitations": [
+        "calibrated physical printer not run",
+        "Visio not installed",
+        "no new M3 first-class domain implementation accepted"
+      ]
+    },
+    {
+      "id": "M0-integrated-regressions",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|PerformanceEvidenceTests'",
+      "outcome": "passed",
+      "executed": 15,
+      "failures": 0,
+      "skips": 0
+    },
+    {
+      "id": "python-evidence-tooling",
+      "command": "python3 -m unittest discover -s scripts/tests -v",
+      "outcome": "passed",
+      "executed": 58,
+      "failures": 0,
+      "scope": "M0 inventory/corpus/reference tooling and9 M3 oracle mutation tests; fabricated test records are not real reference evidence"
+    },
+    {
+      "id": "public-validation-copies",
+      "outcome": "passed",
+      "fixtures": 2,
+      "scope": "M0 tool prepared fresh public-only copies; actual M0 runner validated their hashes and absence of native payloads; no guest execution"
+    },
+    {
+      "id": "catalog-and-backlog-consistency",
+      "outcome": "passed",
+      "scope": "unique/scoped child and requirement/inventory IDs, all parents/L tasks split, local paths, dependency acyclicity and matching backlog child arrays; no semantic acceptance"
+    },
+    {
+      "id": "final-M0-integrated-regressions",
+      "outcome": "passed",
+      "python_tests": 64,
+      "swift_tests": 19,
+      "failures": 0,
+      "skips": 0,
+      "swift_command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|BenchmarkProfileTests|PerformanceEvidenceTests'",
+      "python_command": "python3 -m unittest discover -s scripts/tests -v",
+      "scope": "M3 public preservation/physical PDF plus actual M0 instrumentation/benchmark adapter and Python tooling; no full M3 milestone run"
+    },
+    {
+      "id": "oracle-encoding-guard",
+      "outcome": "passed",
+      "executed": 9,
+      "failures": 0,
+      "scope": "A reproduced UTF16 DTD bypass failed before the parser-callback fix; valid UTF16 XML remains structurally comparable. Nine oracle tests pass after fix. This validates the evidence tool, not Visio compatibility."
+    },
+    {
+      "id": "corrected-public-geometry-input",
+      "outcome": "passed",
+      "swift_tests": 3,
+      "python_oracle_tests": 9,
+      "failures": 0,
+      "independent_tool": "vsd2xhtml0.1.11",
+      "independent_public_path_width_mm": 19.999995277777774,
+      "reference_acceptance": false,
+      "supersedes": "Earlier physical fixture had Width/Height but no Geometry; native fallback made its old PDF test insufficient as public-geometry evidence. Exact prior source/hash and reproduced omission retained in M3-PUBLIC-PROBE.json.",
+      "first_strengthened_test_disposition": "The first strengthened test incorrectly expected5 vector commands from5 public rows. The decoder correctly adds a sixth closingZ command. The assertion now checks five authored geometry rows plus an M-start/Z-close path, while retaining the actual PDF dimension measurement. This deterministic test-assumption correction is not an intermittency disposition."
+    },
+    {
+      "id": "oracle-registration-exclusions",
+      "code_commit": "6b93289",
+      "command": "python3 -m unittest discover -s scripts/tests -p test_m3_public_evidence.py -v",
+      "outcome": "passed",
+      "executed": 12,
+      "failures": 0,
+      "before_fix": {
+        "executed": 11,
+        "failed_mutation_subtests": 6
+      },
+      "scope": "Reproduced public relationships and unknown MIME/namespace registrations being hidden by broad native metadata exclusions. Only the recognized internal root/header relation and known native type registrations are excluded; public extension spelling including uppercase .JSON keeps its type registration visible. Existing genuine native exclusion and public-loss tests still pass.",
+      "compatibility_acceptance": false
+    },
+    {
+      "id": "accepted-M1-integration",
+      "code_commit": "1282de7",
+      "M1_source_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "integration_commit": "5e2ae00",
+      "outcome": "passed",
+      "swift_command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3PublicFixtureTests|PerformanceEvidenceTests'",
+      "swift_tests": 15,
+      "swift_failures": 0,
+      "swift_skips": 0,
+      "python_command": "python3 -m unittest discover -s scripts/tests -v",
+      "python_tests": 74,
+      "python_failures": 0,
+      "scope": "Accepted M1 product source unchanged; existing M3 authored preservation/text-edit/physical-output fixtures and actual instrumentation pass. Source inventory generator follows relocated developer command owners, preserving171 IDs/evidence states. M2 not yet integrated; no M3 milestone acceptance.",
+      "retained_failure": "Initial74-test Python run errored in one inventory-regeneration check because29 command anchors moved out of main.swift. Generator/source provenance adapted; all74 then passed."
+    },
+    {
+      "id": "M2-integrated-swift",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 748,
+      "failures": 0,
+      "skips": 13,
+      "log_path": "build/m3-evidence/M2-integrated-native.log",
+      "log_sha256": "8e6b9a8243c633e3549b64b64ed8b68873817940c185d0cd9e8325819058a6e2",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M2-integrated-python",
+      "command": "python3 -m unittest discover -s scripts/tests -v",
+      "outcome": "passed",
+      "executed": 105,
+      "failures": 0,
+      "skips": 0,
+      "log_path": "build/m3-evidence/M2-integrated-python.log",
+      "log_sha256": "e77e2aa60010b45f05a45b0c70ed439acc992b22b14fbe9dc5ed272645121525",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M3-foundation-paragraph-affected",
+      "command": "swift test --scratch-path build/m3-swift -j 2 --filter 'M3Definition|M3Paragraph|M3PublicFixture|Master|Undo'",
+      "outcome": "passed",
+      "executed": 97,
+      "failures": 0,
+      "skips": 2,
+      "log_path": "build/m3-evidence/definition-edit-focused-1.log",
+      "log_sha256": "17a01ed55f4fc5f90bd9eb78566d410812decb89e0707943d1347406168c641d",
+      "scope": "Integration/affected engineering checks only; subsequent definition-edit save-lifecycle changes require their own checks. Skipped external prerequisite tests are not counted as passed."
+    },
+    {
+      "id": "M3-domain-full-regressions",
+      "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+      "outcome": "passed",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "executed": 775,
+      "skips": 13,
+      "failures": 0,
+      "log_path": "build/m3-evidence/M3-domain-full-native-2.log",
+      "log_sha256": "763bdcf4f3f266b90b2d72775cf0206779254648be8422909a030cea558c50dd",
+      "scope": "Initial domain/cell-edit/save/undo and paragraph slice plus full integrated suite; M3 tasks/reference remain unaccepted"
+    },
+    {
+      "id": "M3-production-python",
+      "outcome": "passed",
+      "executed": 105,
+      "failures": 0,
+      "log_path": "build/m3-evidence/M3-production-python.log",
+      "log_sha256": "b1dea00942c93ae044ca79ec0d9ae0243e027b1b80b8545ce9422481c8b736ee"
+    },
+    {
+      "id": "M3-current-catalog-consistency",
+      "outcome": "passed",
+      "parents": 28,
+      "children": 204,
+      "accepted_children": 0,
+      "report_path": "build/m3-evidence/M3-catalog-consistency.json",
+      "report_sha256": "25036d0a0c88983641db07bff59299f2dc86ccab5129eecaa72a7076b20a18c8"
+    },
+    {
+      "id": "m3-lifecycle-connector-pointer",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 851,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+      "record": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-output-library",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 868,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+      "record": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-geometry-stencil-print",
+      "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 942,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-set-raster",
+      "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "passed",
+      "executed": 979,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-membership-numeric-pins-last-passing-full",
+      "code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+      "outcome": "passed",
+      "executed": 1065,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/pinned-libraries-full-swift-1.log",
+        "sha256": "288f2c00febb71fe18e9cde694c64c3d8afcf605cdeb2027023798d5e9c1eb75",
+        "bytes": 309525
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Last passing complete baseline; not current4b9cf62 full qualification."
+    },
+    {
+      "id": "m3-membership-retained-owner-focused",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "passed",
+      "executed": 84,
+      "skips": 0,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-focused-1.log",
+        "sha256": "549235bf15bf76da9b7517bf2edaa5b0eca167051ed5d03ecebdcdceb0118be8",
+        "bytes": 25703
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Retained-owner/new-ordinary focused proof only."
+    },
+    {
+      "id": "m3-membership-retained-owner-complete",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "failed",
+      "executed": 1070,
+      "skips": 13,
+      "failures": 17,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+        "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+        "bytes": 316195
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Known activation assertions retained; no exclusions or pass claim."
+    },
+    {
+      "id": "m3-membership-native-benchmark-rerun",
+      "code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+      "outcome": "failed",
+      "executed": 5,
+      "skips": 0,
+      "failures": 17,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+        "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+        "bytes": 7960
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Isolated rerun repeats17 assertions."
+    },
+    {
+      "id": "m3-modulus-focused",
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "outcome": "passed",
+      "executed": 67,
+      "skips": 4,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/modulus-focused-1.log",
+        "sha256": "0babde94c0033e6adb6497540ec141062faa25e4c7bf4e1a6f794d29656bbeef",
+        "bytes": 24255
+      },
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "Focused numeric/shared-host/field run;14 new MODULUS cases pass; complete suite pending."
+    },
+    {
+      "id": "m3-membership-numeric-pins-current-full",
+      "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "outcome": "pending",
+      "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "scope": "No complete passing run for current source; JPEG/TIFF excluded."
+    },
+    {
+      "id": "m3-raster-formats",
+      "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "outcome": "focused_passed_full_pending",
+      "executed": 79,
+      "skips": 0,
+      "failures": 0,
+      "record": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json"
+    },
+    {
+      "id": "m3-native-ready",
+      "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "outcome": "passed",
+      "executed": 1104,
+      "skips": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "record": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "build/m3-evidence/discovery/public-fixture-swift.log",
+      "sha256": "d76bef3d962addd5bbf84eb299ce5408eb51a7557f86ab198049b2170e2eda25"
+    },
+    {
+      "path": "build/m3-evidence/discovery/python-suite.log",
+      "sha256": "3aec40d040cc03b91b975d0f7540d34d9730bff65f4eae84e4061550e7c2c0ae"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-swift.log",
+      "sha256": "e6fbeaad2c0077dec38889a15a731b534557d500c47ff8ff0aed3a276a2cd220"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-python.log",
+      "sha256": "a04a2345ebc36ff3a03e5bcd568f3097649b5c0619c4c01323ee1212e6b4ea22"
+    },
+    {
+      "path": "build/m3-evidence/catalog-validation.log",
+      "sha256": "9c432a2ca3482a39f1f32570ded58fb3546ce59a037a877ca8ed94675a40d82a"
+    },
+    {
+      "path": "build/m3-evidence/M0-integrated-python-final.log",
+      "sha256": "c9f4ce29be387192f77bd635234a5e4476326b2605fc13d0d9c4b04698b3f55d"
+    },
+    {
+      "path": "build/m3-evidence/M0-final-swift.log",
+      "sha256": "2c3b486c3c22941df174c8b4bd0f9f2947cda2f80e1712d38dc53dc3739b9b95"
+    },
+    {
+      "path": "build/m3-evidence/M0-final-python.log",
+      "sha256": "8b86d2fbf0217c40c122047a0cf5501004823929b27b8b80bf72170c434977a3"
+    },
+    {
+      "path": "build/m3-evidence/oracle-encoding-before.log",
+      "sha256": "902539bd21ec4b233aa77dd82a35db89cce949a925f657c7e5d94adac6e64483"
+    },
+    {
+      "path": "build/m3-evidence/oracle-encoding-after.log",
+      "sha256": "73be85244a6ca07c56d43b81303c579154dde37cea06fbb788103041b0115bc5"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-swift.log",
+      "sha256": "aae8a02c52d0c0b93eeae7a11c82bb5732c912e3c94a051ea807212c46337ad8"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-swift-final.log",
+      "sha256": "2061d53956adb1e374d8e4a1ce019fb70b27523e33952b92c03cfcbc33659893"
+    },
+    {
+      "path": "build/m3-evidence/public-geometry-python.log",
+      "sha256": "92bd15a779b3c2bf85c5cc0016031fd2bd93a3462c3c20438dfc17831d9b788e"
+    },
+    {
+      "path": "docs/delivery/M3-PUBLIC-PROBE.json",
+      "sha256": "3bf189a7e80704b262ef26c9f7f7e35efc69ffee3bed1f9882c29d99a4987f50"
+    },
+    {
+      "path": "build/m3-evidence/oracle-registration-before.log",
+      "sha256": "4812edcc4fd8a54ab73af3ce0d021658e77bfce364acf1b1bd1f0aaedc470700"
+    },
+    {
+      "path": "build/m3-evidence/oracle-registration-after.log",
+      "sha256": "0c2f195a75ecf5cf5d3794d6fb40dd29bb884e6b55ccb1dc7e8b61ca1ab11543"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-focused.log",
+      "sha256": "89347619321a5471bdfd1978a359844d6f8c0405c20ab8f233a584445b0cbc23"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-python.log",
+      "sha256": "db5dcf0cea938a2ffc2830a7ec4d03310319e0f6cfe446f6f8c544860227725c"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-ledger.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9"
+    },
+    {
+      "path": "build/m3-evidence/M1-integrated-python-final.log",
+      "sha256": "dffa8ca577e68d541a603b5999cac2f9849591c93e5d20352e87c749788e923a"
+    },
+    {
+      "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+      "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+      "bytes": 17602
+    },
+    {
+      "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+      "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+      "bytes": 10620
+    },
+    {
+      "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+      "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+      "bytes": 43716
+    },
+    {
+      "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+      "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+      "bytes": 39948
+    },
+    {
+      "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+      "bytes": 126318
+    },
+    {
+      "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+      "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+      "bytes": 75446
+    },
+    {
+      "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+      "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+      "bytes": 57258
+    }
+  ],
+  "five_compatibility_dimensions": {
+    "preservation": "unverified",
+    "rendering": "unverified",
+    "editing": "unverified",
+    "behavior": "unverified",
+    "interchange": "unverified"
+  },
+  "unresolved_intermittency": "M1 accepted local engineering disposition is integrated with its deterministic snapshot/gesture regressions and repeated full-suite evidence. M3 focused results do not independently establish absence of races or release/reference acceptance. Current complete e891d6f qualification retains17 activation assertions in3 existing BenchmarkProfile cases, repeated in an isolated5-case run. Temporary reverted diagnostics observe inactive/keyless test windows and UserNotificationCenter frontmost. Cause and desktop clearance remain unproven;4b9cf62 MODULUS has passing focused evidence, not a passing current full run.",
+  "final_M0_integration_code_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+  "accepted_M2_integration": {
+    "source_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+    "product_code_commit": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+    "integration_commit": "d2d736f",
+    "handoff_sha256": "cf43ccfa4a6477156ec4d6b028ef8be6406e8ee9da36b1a64f77b07825b6c244",
+    "retained_hashes_verified": 393,
+    "mismatches": 0,
+    "verification": "build/m3-evidence/M2-accepted-handoff-review.json"
+  },
+  "current_execution_state": "in_progress_complete_local_regressions_pass_remaining_production_contracts_open",
+  "historical_discovery_code_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+  "implementation_checkpoint": "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+  "shared_host_checkpoint": {
+    "path": "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
+    "sha256": "d956582f915f27655655b7a304c681d442db1ce8a4a33d2b36a53f7b03b2f3fd",
+    "scope": "Partial local engineering; full816 Swift tests with13 prerequisite skips and105 Python pass. All three native activation benchmarks rerun successfully; zero M3 children/milestone accepted."
+  },
+  "lifecycle_checkpoint": {
+    "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+    "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+    "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
+    "bytes": 17602
+  },
+  "output_library_checkpoint": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620,
+    "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+  },
+  "geometry_stencil_print_checkpoint": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716,
+    "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+    "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+  },
+  "set_raster_checkpoint": {
+    "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+    "bytes": 39948,
+    "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+  },
+  "integration_allowed": false,
+  "release_published": false,
+  "membership_numeric_pins_checkpoint": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318,
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+  },
+  "raster_formats_checkpoint": {
+    "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+    "bytes": 75446,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+  },
+  "native_regression_checkpoint": {
+    "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+    "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+    "bytes": 57258,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
+  }
+}

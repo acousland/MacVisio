@@ -81,7 +81,7 @@ final class CanvasView: NSView {
         previewStateID = document.stateID
         interactionPreview = document.diagram
     }
-    private func commitGesturePreview() {
+    private func commitGesturePreview() -> String? {
         let current = previewStateID == document.stateID
         let next = current ? interactionPreview : nil
         let control = current ? controlDrag : nil
@@ -93,8 +93,63 @@ final class CanvasView: NSView {
         if let (id, name) = control, let baseline, let point {
             document.adjustControlInEditor(baseline: baseline, node: id, control: name, to: point)
         } else if let next {
+            if let reason = gestureBlockReason(next) { return reason }
             document.replaceInEditor(with: next, action: resizeHandle == nil ? "Move Shapes" : "Resize Shape")
         }
+        return nil
+    }
+    /// Pointer previews stay presentation-only. Validate the complete proposed
+    /// transform at release, including protected descendants and group edges,
+    /// before calculation or undo registration can change committed state.
+    private func gestureBlockReason(_ next: Diagram) -> String? {
+        guard let before = beforeDrag, let runtime = editor?.retainedScene.foreground.runtime,
+            runtime.pageID == before.page.id, next.page.id == before.page.id
+        else { return "The drawing changed. Start the gesture again." }
+        let ids = Set(originalRects.keys)
+        let roots = ids.filter { id in
+            var parent = runtime.parentByID[id]
+            for _ in 0..<64 {
+                guard let current = parent else { return true }
+                if ids.contains(current) { return false }
+                parent = runtime.parentByID[current]
+            }
+            return false
+        }.sorted { runtime.nodeIndexByID[$0, default: 0] < runtime.nodeIndexByID[$1, default: 0] }
+        func proposed(_ id: UUID) -> DiagramNode? {
+            guard let index = runtime.nodeIndexByID[id], next.page.nodes.indices.contains(index),
+                next.page.nodes[index].id == id else { return nil }
+            return next.page.nodes[index]
+        }
+        for id in roots {
+            guard let old = runtime.nodesByID[id], let new = proposed(id) else {
+                return "The selected shape changed. Start the gesture again."
+            }
+            let keys = [("X", old.x != new.x), ("Y", old.y != new.y),
+                        ("Width", old.width != new.width), ("Height", old.height != new.height)]
+                .filter { $0.1 }.map { $0.0 }
+            guard !keys.isEmpty else { continue }
+            let affected = runtime.descendants(of: id).sorted {
+                runtime.nodeIndexByID[$0, default: 0] < runtime.nodeIndexByID[$1, default: 0]
+            }
+            for member in affected {
+                guard let previous = runtime.nodesByID[member], let changed = proposed(member) else {
+                    return "A group member changed. Start the gesture again."
+                }
+                let prefix = member == id ? "" : "A group member prevents this transform: "
+                for key in keys {
+                    if let reason = NativeEditProtection.blockReason(for: key, node: previous, in: before.page) {
+                        return prefix + reason
+                    }
+                }
+                if let reason = NativeEditProtection.blockReason(changing: previous, to: changed, in: before.page) {
+                    return prefix + reason
+                }
+                if (runtime.edgesByParent[member] ?? []).contains(where: { runtime.isLocked(edgeID: $0) }) {
+                    return "A group connector or its layer is locked."
+                }
+            }
+        }
+        return nil
     }
     private var cachedGridTile: (key: [Double], image: CGImage)?
     /// A 10x10 block of grid dots, centred in step-sized cells, rendered at the current device scale.
@@ -969,7 +1024,7 @@ final class CanvasView: NSView {
             editor?.updateStatus()
         }
         applyPendingDrag()
-        if beforeDrag != nil { commitGesturePreview() }
+        let protectionFailure = beforeDrag != nil ? commitGesturePreview() : nil
         lastDragDamage = nil
         dragStart = nil
         beforeDrag = nil
@@ -983,11 +1038,12 @@ final class CanvasView: NSView {
         controlDragError = nil
         updateControlToolTips()
         editor?.selectionChanged()
+        if let protectionFailure { explainCanvasAction(protectionFailure) }
         needsDisplay = true
     }
     func finishPageInteraction() {
         finishEditing(commit: true)
-        if beforeDrag != nil { commitGesturePreview() }
+        let protectionFailure = beforeDrag != nil ? commitGesturePreview() : nil
         dragStart = nil
         beforeDrag = nil
         resizeHandle = nil
@@ -1002,6 +1058,7 @@ final class CanvasView: NSView {
         if let error = controlDragError { editor?.root.showMessage(error.localizedDescription) }
         controlDragError = nil
         updateControlToolTips()
+        if let protectionFailure { explainCanvasAction(protectionFailure) }
     }
     override func keyDown(with event: NSEvent) {
         let evidence = PerformanceEvidence.begin(.event)
@@ -1198,8 +1255,7 @@ final class CanvasView: NSView {
     }
     @objc func copy(_ sender: Any?) { editor?.copySelection() }
     @objc func cut(_ sender: Any?) {
-        editor?.copySelection()
-        editor?.deleteSelection(nil)
+        editor?.cutSelection(sender)
     }
     @objc func paste(_ sender: Any?) { editor?.pasteSelection() }
     override func selectAll(_ sender: Any?) { select(Set(page.nodes.filter { !$0.locked }.map(\.id))) }

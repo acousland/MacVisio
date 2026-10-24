@@ -4,7 +4,7 @@
   "planning_date": "2026-10-16",
   "product": "MacVisio",
   "baseline": "Microsoft Visio Professional 2019, exact reference build to be frozen",
-  "status": "M0 local tooling integrated; M1 accepted engineering integrated; M2 implementation in progress and unaccepted; release/reference gates remain open",
+  "status": "Accepted local M1 and M2 engineering integrated with M0 local contracts; M3 implementation starting. Independent G2/reference and numerical release gates remain separate.",
   "source_files": [
     "PRODUCT-SPEC.md",
     "product-requirements.json",
@@ -118,7 +118,8 @@
         "Screen/export/print agree under explicit layer/output policy and defined physical dimensions.",
         "All remaining catalog/version gaps stay visible; no private metadata is needed for a claimed public capability."
       ],
-      "status": "Proposed"
+      "status": "In progress; local engineering and G2 unaccepted",
+      "delivery_note": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted. Source4b9cf62 membership/numeric/pins continuation retains a1065-test passing baseline, later focused proof/MODULUS passes and pending current full qualification after retained activation failures. All204 children and G2 remain unaccepted; see delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json."
     },
     {
       "id": "M4",
@@ -2397,7 +2398,7 @@
           "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "Completed — local engineering checkpoint; publication unaccepted",
+      "status": "Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-QUALIFICATION.md"
@@ -2611,7 +2612,7 @@
           "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "Completed — local engineering checkpoint; publication unaccepted",
+      "status": "Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-QUALIFICATION.md"
@@ -2817,7 +2818,7 @@
           "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "Completed — local engineering checkpoint; publication unaccepted",
+      "status": "Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-QUALIFICATION.md"
@@ -3006,7 +3007,7 @@
           "qualification": "docs/delivery/M2-TASK-EVIDENCE.json"
         }
       ],
-      "status": "Completed — local engineering checkpoint; publication unaccepted",
+      "status": "Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open",
       "execution_evidence": [
         "docs/delivery/M2-NATIVE-ACCEPTANCE.md",
         "docs/delivery/M2-QUALIFICATION.md"
@@ -3026,7 +3027,7 @@
       "owner_role": "Core/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -3058,7 +3059,7 @@
           "deliverable": "Add explicit masters/styles/sheets, connector shape semantics and independent group/container/list/lane membership.",
           "acceptance_criteria": "No container or semantic membership is encoded solely as group parentage.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-LIB-02",
@@ -3082,7 +3083,17 @@
             "AR-08",
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T01-C001",
+              "WP-14-T01-C002",
+              "WP-14-T01-C003",
+              "WP-14-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T02",
@@ -3090,7 +3101,7 @@
           "deliverable": "Handle inherited/deleted/renamed rows, master groups and instance-scoped references.",
           "acceptance_criteria": "Editing a master updates inherited values and preserves explicit local overrides.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-14-T01"
           ],
@@ -3113,7 +3124,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T02-C001",
+              "WP-14-T02-C002",
+              "WP-14-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T03",
@@ -3121,7 +3141,7 @@
           "deliverable": "Map ports/data/fields/resources with preview and retain old native metadata recovery.",
           "acceptance_criteria": "Ambiguous replacement is reported before commit; pasting remaps scoped IDs correctly.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-14-T02"
           ],
@@ -3144,7 +3164,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T03-C001",
+              "WP-14-T03-C002",
+              "WP-14-T03-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-14-T04",
@@ -3152,7 +3181,7 @@
           "deliverable": "Round-trip instance edits and master updates without broad unrelated rewrites.",
           "acceptance_criteria": "No hidden dependence on private metadata or cached flattening is accepted.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-14-T03"
           ],
@@ -3177,10 +3206,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-14-T04-C001",
+              "WP-14-T04-C002",
+              "WP-14-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-15",
@@ -3189,7 +3227,7 @@
       "owner_role": "Calculation/Compatibility",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-02",
         "WP-07",
@@ -3223,7 +3261,7 @@
           "deliverable": "Create child tasks by function/context/section and prioritize real-document impact plus semantic dependencies.",
           "acceptance_criteria": "No umbrella function-library task is considered complete while catalog children remain.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [],
           "requirement_ids": [
             "MV-SHS-02",
@@ -3247,7 +3285,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T01-C001",
+              "WP-15-T01-C002",
+              "WP-15-T01-C003",
+              "WP-15-T01-C004",
+              "WP-15-T01-C005"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          },
+          "delivery_note": "Bounded source functions/cells/contexts mapped to canonical M0 inventory; exact-build catalog, additional reference entries and qualification remain pending."
         },
         {
           "id": "WP-15-T02",
@@ -3255,7 +3305,7 @@
           "deliverable": "Close name escaping, redirection, inheritance, coercion, errors and contextual evaluation gaps.",
           "acceptance_criteria": "Per-item positive/invalid/rename/cross-object fixtures agree with the reference.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T01"
           ],
@@ -3281,7 +3331,19 @@
           "architecture_findings": [
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T02-C001",
+              "WP-15-T02-C002",
+              "WP-15-T02-C003",
+              "WP-15-T02-C004",
+              "WP-15-T02-C005",
+              "WP-15-T02-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-15-T03",
@@ -3289,7 +3351,7 @@
           "deliverable": "Deliver numeric/string/date/color/geometry/text/lookup families through the shared engine.",
           "acceptance_criteria": "Each child includes pure/context/gesture/undo/public-interchange evidence.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T02"
           ],
@@ -3316,7 +3378,103 @@
             "AR-02",
             "AR-10"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T03-C001",
+              "WP-15-T03-C002",
+              "WP-15-T03-C003",
+              "WP-15-T03-C004",
+              "WP-15-T03-C005",
+              "WP-15-T03-C006",
+              "WP-15-T03-C007",
+              "WP-15-T03-C008",
+              "WP-15-T03-C009",
+              "WP-15-T03-C010",
+              "WP-15-T03-C011",
+              "WP-15-T03-C012",
+              "WP-15-T03-C013",
+              "WP-15-T03-C014",
+              "WP-15-T03-C015",
+              "WP-15-T03-C016",
+              "WP-15-T03-C017",
+              "WP-15-T03-C018",
+              "WP-15-T03-C019",
+              "WP-15-T03-C020",
+              "WP-15-T03-C021",
+              "WP-15-T03-C022",
+              "WP-15-T03-C023",
+              "WP-15-T03-C024",
+              "WP-15-T03-C025",
+              "WP-15-T03-C026",
+              "WP-15-T03-C027",
+              "WP-15-T03-C028",
+              "WP-15-T03-C029",
+              "WP-15-T03-C030",
+              "WP-15-T03-C031",
+              "WP-15-T03-C032",
+              "WP-15-T03-C033",
+              "WP-15-T03-C034",
+              "WP-15-T03-C035",
+              "WP-15-T03-C036",
+              "WP-15-T03-C037",
+              "WP-15-T03-C038",
+              "WP-15-T03-C039",
+              "WP-15-T03-C040",
+              "WP-15-T03-C041",
+              "WP-15-T03-C042",
+              "WP-15-T03-C043",
+              "WP-15-T03-C044",
+              "WP-15-T03-C045",
+              "WP-15-T03-C046",
+              "WP-15-T03-C047",
+              "WP-15-T03-C048",
+              "WP-15-T03-C049",
+              "WP-15-T03-C050",
+              "WP-15-T03-C051",
+              "WP-15-T03-C052",
+              "WP-15-T03-C053",
+              "WP-15-T03-C054",
+              "WP-15-T03-C055",
+              "WP-15-T03-C056",
+              "WP-15-T03-C057",
+              "WP-15-T03-C058",
+              "WP-15-T03-C059",
+              "WP-15-T03-C060",
+              "WP-15-T03-C061",
+              "WP-15-T03-C062",
+              "WP-15-T03-C063",
+              "WP-15-T03-C064",
+              "WP-15-T03-C065",
+              "WP-15-T03-C066",
+              "WP-15-T03-C067",
+              "WP-15-T03-C068",
+              "WP-15-T03-C069",
+              "WP-15-T03-C070",
+              "WP-15-T03-C071",
+              "WP-15-T03-C072",
+              "WP-15-T03-C073",
+              "WP-15-T03-C074",
+              "WP-15-T03-C075",
+              "WP-15-T03-C076",
+              "WP-15-T03-C077",
+              "WP-15-T03-C078",
+              "WP-15-T03-C079",
+              "WP-15-T03-C080",
+              "WP-15-T03-C081",
+              "WP-15-T03-C082",
+              "WP-15-T03-C083",
+              "WP-15-T03-C084",
+              "WP-15-T03-C085",
+              "WP-15-T03-C086",
+              "WP-15-T03-C087",
+              "WP-15-T03-C088",
+              "WP-15-T03-C089",
+              "WP-15-T03-C090"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-15-T04",
@@ -3324,7 +3482,7 @@
           "deliverable": "Support section/row lifecycle, formula/value views, error navigation and semantic coverage.",
           "acceptance_criteria": "Parser/occurrence counts cannot substitute for accepted context/version coverage.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-15-T03"
           ],
@@ -3348,10 +3506,32 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-15-T04-C001",
+              "WP-15-T04-C002",
+              "WP-15-T04-C003",
+              "WP-15-T04-C004",
+              "WP-15-T04-C005",
+              "WP-15-T04-C006",
+              "WP-15-T04-C007",
+              "WP-15-T04-C008",
+              "WP-15-T04-C009",
+              "WP-15-T04-C010",
+              "WP-15-T04-C011",
+              "WP-15-T04-C012",
+              "WP-15-T04-C013",
+              "WP-15-T04-C014",
+              "WP-15-T04-C015",
+              "WP-15-T04-C016"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed",
+      "status": "In progress",
       "reference_children": {
         "count": 137,
         "source": "docs/evidence/reference/visio-2019-inventory.json",
@@ -3366,7 +3546,7 @@
       "owner_role": "Text/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3401,7 +3581,7 @@
           "deliverable": "Complete tabs/bullets/indents/spacing/character properties and connector text editing.",
           "acceptance_criteria": "Mixed Unicode/paragraph fixtures retain selected versus untouched formatting.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-TXT-01",
@@ -3423,7 +3603,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T01-C001",
+              "WP-16-T01-C002",
+              "WP-16-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T02",
@@ -3431,7 +3620,7 @@
           "deliverable": "Handle margins/orientation/group/scale and text-driven sizing under audited execution policy.",
           "acceptance_criteria": "Geometry updates converge without caret loss or unrelated recalculation.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-16-T01"
           ],
@@ -3457,7 +3646,16 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T02-C001",
+              "WP-16-T02-C002",
+              "WP-16-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T03",
@@ -3465,7 +3663,7 @@
           "deliverable": "Implement inventoried document/page/background/data/date/dimension fields and format pictures.",
           "acceptance_criteria": "Locale changes preserve stored meaning and foreground background context resolves correctly.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-16-T02"
           ],
@@ -3491,7 +3689,17 @@
           "architecture_findings": [
             "AR-02"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T03-C001",
+              "WP-16-T03-C002",
+              "WP-16-T03-C003",
+              "WP-16-T03-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-16-T04",
@@ -3499,7 +3707,7 @@
           "deliverable": "Use named reference fonts/substitution policy and record remaining approved differences.",
           "acceptance_criteria": "No missing/changed text is hidden by a global pixel similarity score.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-16-T03"
           ],
@@ -3526,10 +3734,19 @@
             "AR-06",
             "AR-11"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-16-T04-C001",
+              "WP-16-T04-C002",
+              "WP-16-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "In progress"
     },
     {
       "id": "WP-17",
@@ -3538,7 +3755,7 @@
       "owner_role": "Geometry/Rendering",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-07",
         "WP-08",
@@ -3572,7 +3789,7 @@
           "deliverable": "Implement remaining rows, curves, signed/singular/nested transforms and coordinate/unit constraints.",
           "acceptance_criteria": "Degenerate and deep-group cases have semantic and rendered reference evidence.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [],
           "requirement_ids": [
             "MV-EDT-03",
@@ -3596,7 +3813,16 @@
           "architecture_findings": [
             "AR-03"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T01-C001",
+              "WP-17-T01-C002",
+              "WP-17-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T02",
@@ -3604,7 +3830,7 @@
           "deliverable": "Deliver union/combine/fragment/intersect/subtract/trim and full protection handling per inventory.",
           "acceptance_criteria": "Curves/holes/fill rules/protected edits preserve intended results and undo.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-17-T01"
           ],
@@ -3628,7 +3854,20 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T02-C001",
+              "WP-17-T02-C002",
+              "WP-17-T02-C003",
+              "WP-17-T02-C004",
+              "WP-17-T02-C005",
+              "WP-17-T02-C006",
+              "WP-17-T02-C007"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T03",
@@ -3636,7 +3875,7 @@
           "deliverable": "Implement palette allocation, variants/quick styles, gradients/patterns/shadows and crop/clipping.",
           "acceptance_criteria": "Theme inheritance differs from explicit overrides and public source relationships remain intact.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-17-T02"
           ],
@@ -3660,7 +3899,19 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T03-C001",
+              "WP-17-T03-C002",
+              "WP-17-T03-C003",
+              "WP-17-T03-C004",
+              "WP-17-T03-C005",
+              "WP-17-T03-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-17-T04",
@@ -3668,7 +3919,7 @@
           "deliverable": "Exercise control handles plus text/geometry/theme after move/resize/edit/save.",
           "acceptance_criteria": "Reference rendering/behavior passes with native metadata stripped from validation copies.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-17-T03"
           ],
@@ -3695,10 +3946,19 @@
             "AR-06",
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-17-T04-C001",
+              "WP-17-T04-C002",
+              "WP-17-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Pending"
     },
     {
       "id": "WP-18",
@@ -3707,7 +3967,7 @@
       "owner_role": "Connections/Layout",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-06",
         "WP-07",
@@ -3746,7 +4006,7 @@
           "deliverable": "Add direction/type/dynamic attachment and protection/document/layer rules.",
           "acceptance_criteria": "Reference valid/invalid endpoints and group/scale transforms match.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-CON-01",
@@ -3773,7 +4033,17 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T01-C001",
+              "WP-18-T01-C002",
+              "WP-18-T01-C003",
+              "WP-18-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T02",
@@ -3781,7 +4051,7 @@
           "deliverable": "Implement curved routes, handles, manual bend constraints, arrows, labels, rounding and line jumps.",
           "acceptance_criteria": "Crossings change appearance without changing connectivity; untouched routes stay stable.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-18-T01"
           ],
@@ -3812,7 +4082,17 @@
           "architecture_findings": [
             "AR-04"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T02-C001",
+              "WP-18-T02-C002",
+              "WP-18-T02-C003",
+              "WP-18-T02-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T03",
@@ -3820,7 +4100,7 @@
           "deliverable": "Support auto-connect/split/heal and inventoried hierarchical/tree/flowchart layouts with preview.",
           "acceptance_criteria": "Pinned/manual constraints are honored and repeated inputs yield identical output.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-18-T02"
           ],
@@ -3849,7 +4129,19 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T03-C001",
+              "WP-18-T03-C002",
+              "WP-18-T03-C003",
+              "WP-18-T03-C004",
+              "WP-18-T03-C005",
+              "WP-18-T03-C006"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-18-T04",
@@ -3857,7 +4149,7 @@
           "deliverable": "Use uncached connector-heavy fixtures and real event routing.",
           "acceptance_criteria": "Budget fallbacks are visible and functional/performance regressions are gated.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-18-T03"
           ],
@@ -3889,10 +4181,19 @@
             "AR-04",
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-18-T04-C001",
+              "WP-18-T04-C002",
+              "WP-18-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Pending"
     },
     {
       "id": "WP-19",
@@ -3901,7 +4202,7 @@
       "owner_role": "Native/Publication",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-08",
         "WP-09",
@@ -3937,7 +4238,7 @@
           "deliverable": "Add ordering/dependency handling, dynamic fields and full multi-layer/active/snap/glue semantics.",
           "acceptance_criteria": "Page deletion/rename/reorder preserves links or explains dependency changes.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-PAG-01",
@@ -3960,7 +4261,17 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T01-C001",
+              "WP-19-T01-C002",
+              "WP-19-T01-C003",
+              "WP-19-T01-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T02",
@@ -3968,7 +4279,7 @@
           "deliverable": "Implement auto-size, margins, ranges/all-pages/tiling and explicit printer versus drawing scale.",
           "acceptance_criteria": "One metre at 1:50 prints 20 mm at 100% in the calibrated pipeline.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-19-T01"
           ],
@@ -3993,7 +4304,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T02-C001",
+              "WP-19-T02-C002",
+              "WP-19-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T03",
@@ -4001,7 +4321,7 @@
           "deliverable": "Finish raster formats/resolution/transparency/bounds and multipage vector/PDF/SVG behavior.",
           "acceptance_criteria": "Canvas/export agree while nonprinting layers and editing decorations follow explicit output policies.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-19-T02"
           ],
@@ -4031,7 +4351,16 @@
           ],
           "architecture_contracts": [
             "AC-07"
-          ]
+          ],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T03-C001",
+              "WP-19-T03-C002",
+              "WP-19-T03-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-19-T04",
@@ -4039,7 +4368,7 @@
           "deliverable": "Record same-font reference exports, measured dimensions and per-region difference dispositions.",
           "acceptance_criteria": "Defined tolerances pass or named material exceptions block the advertised claim.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-19-T03"
           ],
@@ -4066,10 +4395,18 @@
           "architecture_findings": [
             "AR-06"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-19-T04-C001",
+              "WP-19-T04-C002"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed"
+      "status": "Pending"
     },
     {
       "id": "WP-20",
@@ -4078,7 +4415,7 @@
       "owner_role": "Libraries/Interchange",
       "priority": "P1",
       "risk": "High",
-      "readiness": "Refinement required",
+      "readiness": "Accepted M2 engineering dbce6c2 (product 0839994) integrated as d2d736f. Handoff permits integration; all 393 retained artifact hashes verified. Integrated baseline: 748 Swift tests (13 skipped), 105 Python tests, zero failures. Bounded M3 domain/inheritance and paragraph work is in progress; M3/G2 remains unaccepted.",
       "start_dependencies": [
         "WP-09",
         "WP-14",
@@ -4114,7 +4451,7 @@
           "deliverable": "Add missing pin/search/preview/rename/reorder/delete and custom-library edit workflows.",
           "acceptance_criteria": "Large libraries remain responsive and identities do not merge on display-name similarity.",
           "complexity": "M",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [],
           "requirement_ids": [
             "MV-LIB-01",
@@ -4136,7 +4473,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T01-C001",
+              "WP-20-T01-C002",
+              "WP-20-T01-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T02",
@@ -4144,7 +4490,7 @@
           "deliverable": "Carry geometry, formulas, text, media, ports, data, defaults and solution references.",
           "acceptance_criteria": "Selection-to-master and template-to-new-drawing work in a fresh empty host.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "In progress",
           "depends_on": [
             "WP-20-T01"
           ],
@@ -4168,7 +4514,16 @@
             "WP-03"
           ],
           "architecture_findings": [],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T02-C001",
+              "WP-20-T02-C002",
+              "WP-20-T02-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T03",
@@ -4176,7 +4531,7 @@
           "deliverable": "Close relationship/content-type/schema coverage and unrelated-rewrite gaps.",
           "acceptance_criteria": "No-edit payload preservation and expected-only semantic patching pass repeated saves.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-20-T02"
           ],
@@ -4204,7 +4559,17 @@
           ],
           "architecture_contracts": [
             "AC-08"
-          ]
+          ],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T03-C001",
+              "WP-20-T03-C002",
+              "WP-20-T03-C003",
+              "WP-20-T03-C004"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         },
         {
           "id": "WP-20-T04",
@@ -4212,7 +4577,7 @@
           "deliverable": "Run create/open/edit/save/close/reopen in both applications on the declared slice.",
           "acceptance_criteria": "No repair, missing behavior or private-metadata-only result is accepted as compatible.",
           "complexity": "L",
-          "status": "Proposed",
+          "status": "Pending",
           "depends_on": [
             "WP-20-T03"
           ],
@@ -4238,10 +4603,19 @@
           "architecture_findings": [
             "AR-08"
           ],
-          "architecture_contracts": []
+          "architecture_contracts": [],
+          "decomposition": {
+            "catalog": "delivery/M3-CATALOG.json",
+            "child_ids": [
+              "WP-20-T04-C001",
+              "WP-20-T04-C002",
+              "WP-20-T04-C003"
+            ],
+            "state": "bounded_source_decomposition_reference_remainders_retained"
+          }
         }
       ],
-      "status": "Proposed",
+      "status": "Pending",
       "reference_children": {
         "count": 6,
         "source": "docs/evidence/reference/visio-2019-inventory.json",
@@ -9327,6 +9701,117 @@
       }
     ]
   },
+  "delivery_refinements": [
+    {
+      "milestone": "M3",
+      "state": "in_progress",
+      "catalog": "delivery/M3-CATALOG.json",
+      "domain_contracts": "delivery/M3-DOMAIN-CONTRACTS.md",
+      "child_count": 204,
+      "accepted_child_count": 0,
+      "completed_task_ids": [],
+      "local_evidence_scope": "Source 100bdf7 passes the complete 1104-test Swift suite with 13 prerequisite skips and zero failures after confirmed desktop readiness, including native event routing with no exclusions. Actual packages, raster files and native save PDFs are independently verified. All 204 M3 children remain unaccepted.",
+      "actual_M0_inventory_commit": "78c6c56b71efba5d135ba239ab5fd468dc0430fa",
+      "M0_inventory_integration_commit": "6ba6901",
+      "pending": [
+        "all M3 production feature children",
+        "complete exact-build inventories and bidirectional Visio/render/physical-printer qualification"
+      ],
+      "M0_harness_integration_commit": "3536d308330b8ca5c0fd4ef2d866b827a48bf003",
+      "M0_final_local_handoff_commit": "02dea53",
+      "M0_final_integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+      "independent_public_graphics_probe": "delivery/M3-PUBLIC-PROBE.json",
+      "physical_seed_correction": "Explicit public Geometry replaces the initial dimensions-only seed; native fallback was insufficient evidence. No acceptance promotion.",
+      "blocked_task_ids": [],
+      "dependency_block": {
+        "M2_observed_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+        "M2_state": "complete",
+        "M2_integration_allowed": true,
+        "M1_prerequisite": "Satisfied: accepted M1 checkpoint 0ea6b33 integrated as 5e2ae00; 15 M3 public fixture/instrumentation checks and 74 Python checks pass.",
+        "human_prerequisite_cleared": "Mac unlocked; independently confirmed by M1 native qualification turn",
+        "M1_observed_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "M1_code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+        "M1_acceptance_passed": true,
+        "M1_downstream_acceptance_ready": true,
+        "M2_integration_commit": "d2d736f",
+        "cleared": true
+      },
+      "M1_accepted_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "M1_integration_commit": "5e2ae00",
+      "active_task_ids": [
+        "WP-14-T01",
+        "WP-14-T02",
+        "WP-14-T03",
+        "WP-15-T02",
+        "WP-15-T03",
+        "WP-15-T04",
+        "WP-16-T01",
+        "WP-16-T03",
+        "WP-17-T02",
+        "WP-18-T01",
+        "WP-19-T01",
+        "WP-19-T02",
+        "WP-19-T03",
+        "WP-20-T01",
+        "WP-20-T02"
+      ],
+      "M2_accepted_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+      "M2_integration_commit": "d2d736f",
+      "initial_implementation_checkpoint": "delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+      "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+      "active_work": "Review bounded ordered List membership, explicit print tiling and further numeric proposals, then continue remaining local M3 contracts. Combine overlap semantics need stronger evidence. Reference/physical qualification and release remain open.",
+      "shared_host_checkpoint": "delivery/M3-SHARED-HOST-CHECKPOINT.json",
+      "lifecycle_checkpoint": {
+        "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+        "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+        "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+        "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
+        "bytes": 17602
+      },
+      "output_library_checkpoint": {
+        "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+        "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+        "bytes": 10620,
+        "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+        "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+      },
+      "geometry_stencil_print_checkpoint": {
+        "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+        "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+        "bytes": 43716,
+        "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+        "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+      },
+      "set_raster_checkpoint": {
+        "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+        "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+        "bytes": 39948,
+        "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+        "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+      },
+      "membership_numeric_pins_checkpoint": {
+        "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+        "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+        "bytes": 126318,
+        "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+        "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+      },
+      "raster_formats_checkpoint": {
+        "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+        "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+        "bytes": 75446,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+      },
+      "native_regression_checkpoint": {
+        "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+        "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+        "bytes": 57258,
+        "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+        "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
+      }
+    }
+  ],
   "m0_execution": {
     "date": "2026-10-25",
     "state": "accepted",

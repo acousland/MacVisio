@@ -111,6 +111,7 @@ struct DocumentChangeSet: Equatable {
     var deletedPageIDs: Set<UUID> = []
     var pageOrderChanged = false
     var documentPropertiesChanged = false
+    var definitionsChanged = false
     var sourceResourcesChanged = false
     var activePageChanged = false
 
@@ -141,6 +142,8 @@ struct DocumentChangeSet: Equatable {
         }
         result.pageOrderChanged = old.pages.map(\.id) != new.pages.map(\.id)
         result.documentPropertiesChanged = old.title != new.title || old.version != new.version
+            || old.definitions != new.definitions
+        result.definitionsChanged = old.definitions != new.definitions
         result.sourceResourcesChanged =
             old.visioArchive != new.visioArchive || old.legacySource != new.legacySource
         result.activePageChanged = old.activePageID != new.activePageID

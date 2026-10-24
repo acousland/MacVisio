@@ -44,9 +44,14 @@ enum DrawingContentChecks {
         var records: [DocumentDiagnostic] = []
         for entry in FontSubstitution.inventory(in: diagram, using: catalog) where entry.resolution.isSubstituted {
             for use in entry.uses {
+                let target: DocumentDiagnostic.Target
+                switch use.owner {
+                case .shape(let id): target = .shape(page: use.pageID, shape: id)
+                case .connector(let id): target = .connector(page: use.pageID, connector: id)
+                }
                 records.append(DocumentDiagnostic(
                     code: "font.substituted", origin: .font, severity: .warning, dimension: .rendering,
-                    target: .shape(page: use.pageID, shape: use.nodeID),
+                    target: target,
                     source: .init(cell: "Character.Font", feature: "font:\(entry.resolution.requestedName):\(use.runIndex.map(String.init) ?? "base")"),
                     displayState: .evaluated,
                     message: "Requested font “\(entry.resolution.requestedName)” renders with “\(entry.resolution.renderingName)”. The requested name is preserved.",

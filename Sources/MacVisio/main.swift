@@ -19,6 +19,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let openJobOwner = LifecycleJobOwner()
     private let libraryJobOwner = LifecycleJobOwner()
     private var libraryRequestID = UUID()
+    private var stencilEditors:[StencilPackageEditorController] = []
     lazy var workflow = DocumentWorkflow(delegate:self,recordsSystemRecents:!CommandLine.arguments.contains("--open-check") && !CommandLine.arguments.contains("--launch-check") && !CommandLine.arguments.contains("--measure-drag-pan"))
     // This delegate owns startup templates and file-opening behavior. Letting
     // AppKit also create an untitled document produces a second blank window.
@@ -115,9 +116,24 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         guard panel.runModal() == .OK,let url = panel.url else { return }
         loadVisioLibrary(url)
     }
+    @objc func manageCustomStencil(_ sender:Any?) {
+        let panel = NSOpenPanel();panel.allowedContentTypes = [UTType(filenameExtension:"vssx") ?? .data]
+        panel.allowsMultipleSelection = false;panel.message = "Open a Visio stencil to edit a copy and save it as a new file."
+        guard panel.runModal() == .OK,let url = panel.url else { return }
+        _ = openStencilPackageEditor(url)
+    }
+    @discardableResult func openStencilPackageEditor(_ url:URL) -> StencilPackageEditorController {
+        if let existing = stencilEditors.first(where:{$0.sourceURL.standardizedFileURL == url.standardizedFileURL}) {
+            existing.showWindow(nil);return existing
+        }
+        let controller = StencilPackageEditorController(sourceURL:url)
+        controller.onClose = { [weak self] closed in self?.stencilEditors.removeAll{$0 === closed} }
+        stencilEditors.append(controller);controller.showWindow(nil);return controller
+    }
     private func loadVisioLibrary(_ directory:URL) {
         let requestID = UUID();libraryRequestID = requestID
         let owner = libraryJobOwner
+        let pinnedLibraries = LibraryPins.shared.snapshot.libraryURLs
         let jobID = UUID()
         let progress = LifecycleProgressController(title:"Scanning library",detail:directory.lastPathComponent)
         do {
@@ -126,7 +142,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
                 self?.libraryRequestID == candidate.snapshotID && owner.isActive
             },progress:{ progress.update($0) },work:{ context in
                 context.progress("Scanning \(directory.lastPathComponent)")
-                let entries = try VisioLibrary.entries(in:directory)
+                let entries = try VisioLibrary.includingPinned(pinnedLibraries,in:VisioLibrary.entries(in:directory))
                 guard !entries.isEmpty else { throw DiagramError.invalid("This folder has no supported Visio stencils or templates.") }
                 return entries
             },completion:{ [weak self] result in
@@ -256,6 +272,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender:NSApplication) -> Bool { false }
     func applicationShouldTerminate(_ sender:NSApplication) -> NSApplication.TerminateReply {
+        for controller in stencilEditors where !controller.confirmCanCloseForTermination() { return .terminateCancel }
         workflow.isTerminating = true
         openJobOwner.cancelAll();libraryJobOwner.cancelAll()
         for document in NSDocumentController.shared.documents { (document as? MacVisioDocument)?.commitTextEditing() }
@@ -299,7 +316,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         file.addItem(.separator()); item(file,"Close",#selector(NSWindow.performClose(_:)),"w"); item(file,"Save…",#selector(NSDocument.save(_:)),"s"); item(file,"Save As…",#selector(NSDocument.saveAs(_:)),"s",modifiers:[.command,.shift]); item(file,"Revert to Saved…",#selector(NSDocument.revertToSaved(_:)))
         item(file,"Close All Drawings",#selector(DocumentWorkflow.closeAllDrawings(_:)),"w",modifiers:[.command,.option],target:workflow)
         item(file,"Visio Libraries…",#selector(openVisioLibrary(_:)),target:self);item(file,"Choose Visio Library Folder…",#selector(chooseVisioLibraryFolder(_:)),target:self)
-        file.addItem(.separator()); item(file,"Export PDF…",#selector(EditorWindowController.exportPDF(_:))); item(file,"Export All Pages to PDF…",#selector(EditorWindowController.exportAllPagesPDF(_:))); item(file,"Export PNG…",#selector(EditorWindowController.exportPNG(_:))); item(file,"Export SVG…",#selector(EditorWindowController.exportSVG(_:))); item(file,"Export VSDX Drawing…",#selector(EditorWindowController.exportVSDX(_:))); item(file,"Export Binary VSD (Experimental)…",#selector(EditorWindowController.exportVSD(_:)));item(file,"Export Visio Template…",#selector(EditorWindowController.exportTemplate(_:)))
+        item(file,"Manage Custom Stencil…",#selector(manageCustomStencil(_:)),target:self)
+        file.addItem(.separator()); item(file,"Export PDF…",#selector(EditorWindowController.exportPDF(_:))); item(file,"Export All Pages to PDF…",#selector(EditorWindowController.exportAllPagesPDF(_:))); item(file,"Export PNG…",#selector(EditorWindowController.exportPNG(_:))); item(file,"Export JPEG…",#selector(EditorWindowController.exportJPEG(_:))); item(file,"Export TIFF…",#selector(EditorWindowController.exportTIFF(_:))); item(file,"Export SVG…",#selector(EditorWindowController.exportSVG(_:))); item(file,"Export VSDX Drawing…",#selector(EditorWindowController.exportVSDX(_:))); item(file,"Export Binary VSD (Experimental)…",#selector(EditorWindowController.exportVSD(_:)));item(file,"Export Visio Template…",#selector(EditorWindowController.exportTemplate(_:)))
         file.addItem(.separator()); item(file,"Print…",#selector(EditorWindowController.printDiagram(_:)),"p")
         let edit = menu("Edit")
         item(edit,"Undo",Selector(("undo:")),"z"); item(edit,"Redo",Selector(("redo:")),"z",modifiers:[.command,.shift]); edit.addItem(.separator())
@@ -328,7 +346,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         shape.addItem(.separator()); item(shape,"Group",#selector(EditorWindowController.groupSelection(_:)),"g"); item(shape,"Ungroup",#selector(EditorWindowController.ungroupSelection(_:)),"g",modifiers:[.command,.shift]); item(shape,"Rotate Left",#selector(EditorWindowController.rotateLeft(_:))); item(shape,"Rotate Right",#selector(EditorWindowController.rotateRight(_:))); item(shape,"Flip Horizontal",#selector(EditorWindowController.flipHorizontal(_:))); item(shape,"Flip Vertical",#selector(EditorWindowController.flipVertical(_:)))
         shape.addItem(.separator()); item(shape,"Shape Data…",#selector(EditorWindowController.editShapeData(_:))); item(shape,"Hyperlinks…",#selector(EditorWindowController.editHyperlinks(_:))); item(shape,"Follow Hyperlink",#selector(EditorWindowController.followHyperlink(_:)))
         item(shape,"ShapeSheet…",#selector(EditorWindowController.showShapeSheet(_:)))
+        item(shape,"Definition Sheets…",#selector(EditorWindowController.showDefinitionSheets(_:)))
+        item(shape,"Memberships…",#selector(EditorWindowController.showMemberships(_:)))
         item(shape,"Geometry…",#selector(EditorWindowController.editGeometry(_:)))
+        item(shape,"Union Shapes",#selector(EditorWindowController.unionSelection(_:)))
+        item(shape,"Intersect Shapes",#selector(EditorWindowController.intersectSelection(_:)))
+        item(shape,"Subtract Shapes…",#selector(EditorWindowController.subtractSelection(_:)))
         item(shape,"Control Handles…",#selector(EditorWindowController.editControls(_:)))
         item(shape,"Control Cells…",#selector(EditorWindowController.editControlCells(_:)))
         item(shape,"Connection Points…",#selector(EditorWindowController.editConnectionPoints(_:)))

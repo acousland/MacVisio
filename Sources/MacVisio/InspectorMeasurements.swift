@@ -33,6 +33,8 @@ enum InspectorLengthUnit: String, CaseIterable {
 /// target formulas stay authoritative; unresolved protection fails closed.
 enum NativeEditProtection {
     static func blockReason(for key: String, node: DiagramNode, in page: DiagramPage) -> String? {
+        if ["X", "Y", "Width", "Height", "Rotation", "FlipX", "FlipY"].contains(key),
+           let reason = DiagramMemberships.transformBlockReason(node, in: page) { return reason }
         if page.isLocked(node) { return "The shape, its group or its layer is locked." }
         let protections: [String]
         let target: String?
@@ -44,6 +46,7 @@ enum NativeEditProtection {
         case "Rotation": protections = ["LockRotate"]; target = "Angle"
         case "Text": protections = ["LockTextEdit"]; target = nil
         case "Connection": protections = ["LockGlue"]; target = nil
+        case "Delete": protections = ["LockDelete"]; target = nil
         default: protections = ["LockFormat"]; target = nil
         }
         var current: DiagramNode? = node, seen = Set<UUID>()
@@ -111,6 +114,7 @@ enum NativeEditProtection {
         let changed: [(String, Bool)] = [
             ("X", old.x != new.x), ("Y", old.y != new.y), ("Width", old.width != new.width),
             ("Height", old.height != new.height), ("Rotation", old.rotation != new.rotation),
+            ("FlipX", old.formatting.flipX != new.formatting.flipX), ("FlipY", old.formatting.flipY != new.formatting.flipY),
             ("Text", old.text != new.text), ("Font", old.formatting.fontName != new.formatting.fontName),
             ("Font size", old.fontSize != new.fontSize), ("Fill", old.fill != new.fill),
             ("Line", old.stroke != new.stroke || old.strokeWidth != new.strokeWidth),

@@ -23,6 +23,7 @@ struct ShapeCharacterStyle: Codable, Equatable {
     var valid: Bool { size.isFinite && (1...500).contains(size) && fontName.utf8.count <= 1024 && cells.count <= 256 && cells.values.allSatisfy{$0.formula.utf8.count <= 16384} && (sourceIndex.map{$0 >= 0 && $0 <= Int32.max} ?? true) }
 }
 struct ShapeParagraphStyle: Codable, Equatable {
+    static let editableLengthCells = ["SpBefore", "SpAfter", "SpLine", "IndLeft", "IndFirst", "IndRight"]
     var alignment: TextAlignment = .center
     var sourceIndex: Int?
     var cells: [String:ShapeSheetCell] = [:]
@@ -36,9 +37,47 @@ struct ShapeParagraphStyle: Codable, Equatable {
         if let value = number("SpAfter") { result.paragraphSpacing = max(0,value*72*scale) }
         if let value = number("SpLine") { let height = (value > 0 ? value*72 : value == 0 ? fontSize : -value*fontSize)*scale;result.minimumLineHeight = height;result.maximumLineHeight = height }
         if let value = number("IndLeft") { result.headIndent = value*72*scale;result.firstLineHeadIndent = result.headIndent }
-        if let value = number("IndFirst") { result.firstLineHeadIndent = value*72*scale }
+        if let value = number("IndFirst") { result.firstLineHeadIndent = result.headIndent + value*72*scale }
         if let value = number("IndRight") { result.tailIndent = -value*72*scale }
         result.lineBreakMode = .byWordWrapping;return result
+    }
+    /// Extract only properties represented by the native renderer. Compare with
+    /// the original rendered style so an unrelated edit keeps source formulas,
+    /// units and absent defaults rather than materializing every native value.
+    func applying(_ style: NSParagraphStyle, fontSize: Double, scale: Double = 1) -> ShapeParagraphStyle {
+        guard scale.isFinite, scale > 0 else { return self }
+        let original = native(fontSize: fontSize, scale: scale)
+        var result = self
+        result.alignment = style.alignment == .left ? .left : style.alignment == .right ? .right : .center
+        func differs(_ value: CGFloat, from previous: CGFloat) -> Bool {
+            value.isFinite && abs(value - previous) > max(1e-9, abs(previous) * 1e-12)
+        }
+        func setLength(_ name: String, points: CGFloat) {
+            let value = Double(points) / (72 * scale)
+            guard value.isFinite, abs(value) < 100000 else { return }
+            guard !["SpBefore", "SpAfter", "SpLine"].contains(name) || value >= 0 else { return }
+            let key = result.cells.keys.first { $0.caseInsensitiveCompare(name) == .orderedSame } ?? name
+            result.cells[key] = ShapeSheetCell(value: CompositeGeometry.number(value), unit: result.cells[key]?.unit ?? "")
+        }
+        for (name, value, previous) in [
+            ("SpBefore", style.paragraphSpacingBefore, original.paragraphSpacingBefore),
+            ("SpAfter", style.paragraphSpacing, original.paragraphSpacing),
+            ("IndLeft", style.headIndent, original.headIndent),
+            ("IndFirst", style.firstLineHeadIndent - style.headIndent, original.firstLineHeadIndent - original.headIndent),
+            ("IndRight", -style.tailIndent, -original.tailIndent),
+        ] where differs(value, from: previous) {
+            setLength(name, points: value)
+        }
+        // A fixed native line height has an exact existing SpLine mapping.
+        // Natural/minimum-only heights, additive line spacing, tabs and bullets
+        // need separate semantics; preserve their source cells in this slice.
+        if style.minimumLineHeight > 0,
+           style.minimumLineHeight == style.maximumLineHeight,
+           differs(style.minimumLineHeight, from: original.minimumLineHeight)
+            || differs(style.maximumLineHeight, from: original.maximumLineHeight) {
+            setLength("SpLine", points: style.minimumLineHeight)
+        }
+        return result
     }
     var valid: Bool { cells.count <= 256 && cells.values.allSatisfy{$0.formula.utf8.count <= 16384} && (sourceIndex.map{$0 >= 0 && $0 <= Int32.max} ?? true) }
 }
@@ -121,7 +160,10 @@ enum ShapeRichText {
             character.strikethrough = (attributes[.strikethroughStyle] as? Int ?? 0) != 0
             let pIndex = (attributes[paragraphKey] as? Int) ?? index
             var paragraph = previous.indices.contains(pIndex) ? previous[pIndex].paragraph : ShapeParagraphStyle(alignment:node.formatting.alignment)
-            if let style = attributes[.paragraphStyle] as? NSParagraphStyle { paragraph.alignment = style.alignment == .left ? .left : style.alignment == .right ? .right : .center }
+            if let style = attributes[.paragraphStyle] as? NSParagraphStyle {
+                let originalSize = previous.indices.contains(index) ? previous[index].character.size : node.fontSize
+                paragraph = paragraph.applying(style, fontSize: originalSize, scale: scale)
+            }
             var run = ShapeTextRun(text:(attributed.string as NSString).substring(with:range),character:character,paragraph:paragraph)
             if let field = attributes[fieldKey] as? Int,previous.indices.contains(index),previous[index].fieldIndex == field,node.formatting.textFields?.contains(where:{$0.index == field}) == true {
                 let token = tokens[index] ?? previous[index].fieldToken ?? UUID();tokens[index] = token;origins[token] = index;run.fieldIndex = field;run.fieldToken = token
@@ -294,7 +336,7 @@ enum ShapeRichText {
         let (styles,_,assigned) = indices(runs(for:node).map(\.character),source:{$0.sourceIndex})
         return styles.enumerated().map{(assigned[$0.offset],$0.element.fontName)}
     }
-    static func svg(_ node:DiagramNode,rect:CGRect) -> String {
+    static func svg(_ node:DiagramNode,rect:CGRect,clipRect:CGRect? = nil) -> String {
         guard !node.text.isEmpty else { return "" }
         let storage = NSTextStorage(attributedString:attributed(node)),manager = NSLayoutManager(),container = NSTextContainer(containerSize:CGSize(width:max(1,rect.width),height:100000))
         container.lineFragmentPadding = 0;manager.addTextContainer(container);storage.addLayoutManager(manager);manager.ensureLayout(for:container)
@@ -314,8 +356,8 @@ enum ShapeRichText {
                 spans += "<tspan x=\"\(rect.minX+line.minX+position.x)\" y=\"\(dy+line.minY+position.y)\" font-family=\"\(xml(font.familyName ?? font.fontName))\" font-size=\"\(font.pointSize)\" font-weight=\"\(traits.contains(.boldFontMask) ? 700 : 400)\" font-style=\"\(traits.contains(.italicFontMask) ? "italic" : "normal")\" fill=\"\(String(color.hexString.prefix(7)))\" fill-opacity=\"\(color.alphaComponent)\" text-decoration=\"\(decoration.isEmpty ? "none" : decoration.joined(separator:" "))\">\(xml(text))</tspan>"
             }
         }
-        let clip = "text-"+node.id.uuidString
-        return "<defs><clipPath id=\"\(clip)\"><rect x=\"\(rect.minX)\" y=\"\(rect.minY)\" width=\"\(rect.width)\" height=\"\(rect.height)\"/></clipPath></defs><text xml:space=\"preserve\" clip-path=\"url(#\(clip))\">\(spans)</text>"
+        let clip = "text-"+node.id.uuidString,clipBounds = clipRect ?? rect
+        return "<defs><clipPath id=\"\(clip)\"><rect x=\"\(clipBounds.minX)\" y=\"\(clipBounds.minY)\" width=\"\(clipBounds.width)\" height=\"\(clipBounds.height)\"/></clipPath></defs><text xml:space=\"preserve\" clip-path=\"url(#\(clip))\">\(spans)</text>"
     }
     static func patch(_ node:DiagramNode,element:XMLElement,previous:DiagramNode? = nil,fresh:Bool = false) {
         let runs = runs(for:node)
@@ -351,7 +393,18 @@ enum ShapeRichText {
             let font = style.fontName == "System" ? "Arial" : style.fontName
             VisioXML.set(row,"Font",font,formula:"FONT(\"\(font)\")")
         }
-        for (i,style) in paragraphs.enumerated() { cached(row("Paragraph",pi[i],style.sourceIndex,style.cells),"HorzAlign",style.alignment == .left ? 0 : style.alignment == .right ? 2 : 1) }
+        for (i,style) in paragraphs.enumerated() {
+            let target = row("Paragraph",pi[i],style.sourceIndex,style.cells)
+            for (name,cell) in style.cells where ShapeParagraphStyle.editableLengthCells.contains(where: { $0.caseInsensitiveCompare(name) == .orderedSame }) {
+                let existing = target.elementsLocal("Cell").first { $0.attr("N")?.caseInsensitiveCompare(name) == .orderedSame }
+                guard existing?.attr("V") != cell.value || (existing?.attr("F") ?? "") != cell.formula || (existing?.attr("U") ?? "") != cell.unit else { continue }
+                let entry = existing ?? VisioXML.set(target,name,cell.value)
+                entry.setAttr("V",cell.value)
+                entry.setAttr("F",cell.formula.isEmpty ? nil : cell.formula)
+                entry.setAttr("U",cell.unit.isEmpty ? nil : cell.unit)
+            }
+            cached(target,"HorzAlign",style.alignment == .left ? 0 : style.alignment == .right ? 2 : 1)
+        }
         for text in element.elementsLocal("Text") { text.detach() }
         let text = XMLElement(name:"Text");element.addChild(text)
         for (i,run) in runs.enumerated() {

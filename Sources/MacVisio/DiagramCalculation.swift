@@ -62,11 +62,16 @@ enum DiagramCalculation {
         var work = CalculationWork()
         let session = session ?? CalculationSession()
         var passChanges = changes
-        func adding(_ changedNodes: [UUID: Set<UUID>], to input: DocumentChangeSet?) -> DocumentChangeSet? {
+        func adding(_ changedNodes: [UUID: Set<UUID>], edges: [UUID: Set<UUID>] = [:], to input: DocumentChangeSet?) -> DocumentChangeSet? {
             guard var result = input else { return nil }
             for (id, nodes) in changedNodes where !nodes.isEmpty {
                 var page = result.pages[id] ?? PageChangeSet(pageID: id)
                 page.changedNodeIDs.formUnion(nodes)
+                result.pages[id] = page
+            }
+            for (id, edges) in edges where !edges.isEmpty {
+                var page = result.pages[id] ?? PageChangeSet(pageID: id)
+                page.changedEdgeIDs.formUnion(edges)
                 result.pages[id] = page
             }
             return result
@@ -86,7 +91,7 @@ enum DiagramCalculation {
                 skipUnchangedPagesComparedTo: comparison,
                 retainedIssuesByPage: retainedIssues,
                 retainedDiagnosticsByPage: geometryDiagnosticsByPage,
-                incrementalNodes: true, session: session, changes: passChanges, cancellation: cancellation
+                incrementalNodes: true, session: session, changes: passChanges, cancellation: cancellation, now: now
             )
             if geometry.cancelled { return nil }
             geometryIssuesByPage = geometry.issuesByPage
@@ -103,14 +108,15 @@ enum DiagramCalculation {
                 retainedDiagnosticsByPage: fieldDiagnosticsByPage,
                 session: session,
                 changes: fieldComparison == nil
-                    ? nil : adding(geometry.changedNodeIDsByPage, to: passChanges), cancellation: cancellation
+                    ? nil : adding(geometry.changedNodeIDsByPage, edges: geometry.changedEdgeIDsByPage, to: passChanges), cancellation: cancellation
             )
             if fields.cancelled { return nil }
             fieldIssuesByPage = fields.issuesByPage
             fieldDiagnosticsByPage = fields.diagnosticsByPage
             work.add(fields.work)
             issues = Set(geometry.issues + fields.issues)
-            if geometry.changedNodeIDsByPage.isEmpty && fields.changedNodeIDsByPage.isEmpty {
+            if geometry.changedNodeIDsByPage.isEmpty && fields.changedNodeIDsByPage.isEmpty
+                && geometry.changedEdgeIDsByPage.isEmpty && fields.changedEdgeIDsByPage.isEmpty {
                 return Result(
                     diagram: fields.diagram, issues: issues.sorted(),
                     geometryIssuesByPage: geometryIssuesByPage,
@@ -124,6 +130,13 @@ enum DiagramCalculation {
                 for (id, nodes) in changes where !nodes.isEmpty {
                     var page = produced.pages[id] ?? PageChangeSet(pageID: id)
                     page.changedNodeIDs.formUnion(nodes)
+                    produced.pages[id] = page
+                }
+            }
+            for changes in [geometry.changedEdgeIDsByPage, fields.changedEdgeIDsByPage] {
+                for (id, edges) in changes where !edges.isEmpty {
+                    var page = produced.pages[id] ?? PageChangeSet(pageID: id)
+                    page.changedEdgeIDs.formUnion(edges)
                     produced.pages[id] = page
                 }
             }

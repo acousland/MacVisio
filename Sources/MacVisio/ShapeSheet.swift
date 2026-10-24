@@ -151,12 +151,12 @@ enum ShapeSheet {
                 case "SQRT":try arity(1);result = sqrt(values[0])
                 case "SIN":try arity(1);result = sin(values[0]); case "COS":try arity(1);result = cos(values[0]); case "TAN":try arity(1);result = tan(values[0])
                 case "ASIN":try arity(1);result = asin(values[0]); case "ACOS":try arity(1);result = acos(values[0]); case "ATAN":try arity(1);result = atan(values[0])
-                case "ATAN2":try arity(2);result = atan2(values[0],values[1])
+                case "ATAN2":try arity(2);result = try arcTangent2(values[0],values[1])
                 case "LN":try arity(1);result = log(values[0]); case "EXP":try arity(1);result = exp(values[0])
                 case "INT":try arity(1);result = floor(values[0]); case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
                     result = try sign(values[0],fuzz:values.count == 2 ? values[1] : 1e-9)
-                case "ROUND":try arity(2);let digits = values[1].rounded(.towardZero);let scale = pow(10,digits);result = digits <= -9 || digits > 15 ? values[0] : (values[0]*scale).rounded()/scale
+                case "ROUND":try arity(2);result = try decimalRounded(values[0],digits:values[1])
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let multiple = values.count == 2 ? values[1] : (values[0] < 0 ? -1 : 1)
@@ -169,7 +169,7 @@ enum ShapeSheet {
                     try arity(3)
                     guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
                     result = try colorPalette.index(for:values)
-                case "MODULUS":try arity(2);guard values[1] != 0 else { throw DiagramError.invalid("MODULUS divisor cannot be zero.") };result = values[0]-values[1]*floor(values[0]/values[1])
+                case "MODULUS":try arity(2);result = try modulus(values[0],divisor:values[1])
                 case "DEG":try arity(1);result = values[0]*180 / .pi
                 case "RAD":try arity(1);result = values[0] * .pi/180
                 case "POW":try arity(2);result = pow(values[0],values[1])
@@ -180,6 +180,19 @@ enum ShapeSheet {
             }
             guard result.isFinite else { throw DiagramError.invalid("ShapeSheet calculation produced a non-finite value.") }; return result
         }; return try eval(expression)
+    }
+    /// MS-VSDX ATan2 returns a default-angle value in (-pi, pi]. The
+    /// platform atan2 also accepts signed zero and includes -pi, so its axis
+    /// and rounded endpoint results need canonicalization for this contract.
+    static func arcTangent2(_ y:Double,_ x:Double) throws -> Double {
+        guard y.isFinite,x.isFinite else { throw DiagramError.invalid("ATAN2 requires finite numeric vector components.") }
+        if y == 0,x == 0 { return 0 }
+        // Call atan2 directly; forming y/x first can overflow or underflow
+        // even when the angle of the finite vector is representable.
+        let angle = atan2(y,x)
+        guard angle.isFinite else { throw DiagramError.invalid("ATAN2 produced a non-finite angle.") }
+        if angle <= -Double.pi { return Double.pi }
+        return angle
     }
     static func bitwise(_ name:String,_ operands:[Double]) throws -> Double {
         let function = name.uppercased()
@@ -196,12 +209,54 @@ enum ShapeSheet {
         }
         return Double(result)
     }
+    /// MODULUS uses a range-qualified vFloat divisor, without narrowing the
+    /// original Double value. Remainder arithmetic avoids quotient overflow
+    /// and cancellation in number - divisor * floor(number / divisor).
+    static func modulus(_ number:Double,divisor:Double) throws -> Double {
+        guard number.isFinite,divisor.isFinite else { throw DiagramError.invalid("MODULUS requires finite numeric operands.") }
+        guard divisor != 0 else { throw DiagramError.invalid("MODULUS divisor cannot be zero.") }
+        let magnitude = abs(divisor)
+        guard magnitude >= Double(Float.leastNonzeroMagnitude),magnitude <= Double(Float.greatestFiniteMagnitude) else {
+            throw DiagramError.invalid("MODULUS divisor is outside the finite single-precision range.")
+        }
+        let remainder = number.truncatingRemainder(dividingBy:divisor)
+        if remainder == 0 { return 0 }
+        let result = remainder.sign == divisor.sign ? remainder : remainder+divisor
+        // Opposite-sign correction can round a tiny remainder onto the divisor
+        // boundary. Do not fabricate zero or a neighboring interior value.
+        guard result.isFinite,result != 0,result.sign == divisor.sign,abs(result) < magnitude else {
+            throw DiagramError.invalid("MODULUS result cannot be represented within the divisor magnitude.")
+        }
+        return result
+    }
+    /// ROUND's precision is a vSignedInt: truncate towards zero, then range-check.
+    /// Its documented identity range is separate from floating-point scaling.
+    static func decimalRounded(_ number:Double,digits:Double) throws -> Double {
+        guard number.isFinite,digits.isFinite else { throw DiagramError.invalid("ROUND requires finite numeric operands.") }
+        let places = digits.rounded(.towardZero)
+        guard (-32768...32767).contains(places) else { throw DiagramError.invalid("ROUND precision is outside the signed 16-bit range.") }
+        if places <= -9 || places > 15 { return number }
+        // An integral Double already has no decimal places to discard. Avoid
+        // overflowing an otherwise unnecessary scale multiplication.
+        if places >= 0,number.rounded(.towardZero) == number { return number }
+        let scale = pow(10,places),scaled = number*scale,whole = scaled.rounded()
+        guard scaled.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        // Scaling can make an already representable value integral. Returning
+        // it directly avoids a lossy or overflowing reverse scale.
+        if scaled == whole { return number }
+        let result = whole/scale
+        guard result.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        return result
+    }
     static func rounded(_ number:Double,toMultiple multiple:Double,awayFromZero:Bool) throws -> Double {
         guard number.isFinite,multiple.isFinite else { throw DiagramError.invalid("Rounding requires finite values.") }
         if number == 0 || multiple == 0 { return 0 }
         guard number.sign == multiple.sign else { throw DiagramError.invalid("Rounding values must have the same sign.") }
         let quotient = number/multiple
         guard quotient.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }
+        // Nonzero same-sign operands have a positive mathematical quotient.
+        // If Double division underflows to zero, CEILING still takes one step.
+        if quotient == 0,awayFromZero { return multiple }
         let count = awayFromZero ? ceil(quotient) : quotient.rounded(.towardZero)
         let result = count*multiple
         guard result.isFinite else { throw DiagramError.invalid("Rounded ShapeSheet value is outside the supported range.") }

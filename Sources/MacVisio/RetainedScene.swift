@@ -52,24 +52,77 @@ final class PreparedNodeDrawing {
 }
 
 final class PreparedEdgeLabel {
-    let text: String
-    let color: String
+    private struct Input: Codable, Equatable {
+        let text: String
+        let color: String
+        let runs: [ShapeTextRun]?
+        init(_ edge: DiagramEdge) {
+            text = edge.label; color = edge.color
+            let details = edge.formatting
+            let styled = details.textRuns != nil || details.fontName != "System"
+                || details.italic || details.underline || details.alignment != .center
+                || details.sheet["Char.Size"] != nil
+            runs = styled ? ShapeRichText.runs(for: edge.textNode) : nil
+        }
+    }
+    private let input: Input
+    private let richNode: DiagramNode?
+    let attributed: NSAttributedString
     let attributes: [NSAttributedString.Key: Any]
     let size: CGSize
-    var cost: Int { 256 + text.utf8.count * 8 }
-    init(text: String, color: String, measuredSize: CGSize? = nil) {
-        self.text = text
-        self.color = color
+    let paintBounds: CGRect
+    let cost: Int
+    var text: String { input.text }
+    var color: String { input.color }
+    var isRich: Bool { richNode != nil }
+
+    func matches(_ edge: DiagramEdge) -> Bool { input == Input(edge) }
+
+    init(_ edge: DiagramEdge, previous: PreparedEdgeLabel? = nil) {
+        let input = Input(edge); self.input = input
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: NSFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: NSColor(hex: color),
+            .font: NSFont.systemFont(ofSize: 12, weight: .medium), .foregroundColor: NSColor(hex: edge.color),
         ]
         self.attributes = attributes
-        size =
-            measuredSize
-            ?? PerformanceEvidence.measure(.textLayout) {
+        let attributed: NSAttributedString
+        if let runs = input.runs {
+            var node = DiagramNode(kind: .text, text: input.text)
+            node.id = edge.id; node.formatting.textRuns = runs
+            richNode = node; attributed = ShapeRichText.attributed(node)
+        } else {
+            richNode = nil; attributed = NSAttributedString(string: input.text, attributes: attributes)
+        }
+        self.attributed = attributed
+        // A plain label's stroke color does not change its measured extent.
+        if let previous, previous.input.text == input.text, previous.input.runs == input.runs {
+            size = previous.size
+        } else {
+            size = PerformanceEvidence.measure(.textLayout) {
                 PerformanceEvidence.count(.textMeasurements)
-                return (text as NSString).size(withAttributes: attributes)
+                if input.runs == nil { return (input.text as NSString).size(withAttributes: attributes) }
+                let bounds = attributed.boundingRect(with: CGSize(width: 100000, height: 100000),
+                    options: [.usesLineFragmentOrigin, .usesFontLeading])
+                return CGSize(width: max(1, ceil(bounds.width)), height: max(1, ceil(bounds.height)))
             }
+        }
+        paintBounds = input.runs == nil ? CGRect(origin:.zero,size:size)
+            : PublicationBounds.textBounds(attributed,in:CGRect(origin:.zero,size:size))
+        let encoded = (try? JSONEncoder().encode(input).count) ?? Int.max
+        let payload = encoded.multipliedReportingOverflow(by: 4)
+        let textCost = attributed.length.multipliedReportingOverflow(by: 32)
+        let sum = payload.partialValue.addingReportingOverflow(textCost.partialValue)
+        let total = sum.partialValue.addingReportingOverflow(512)
+        cost = payload.overflow || textCost.overflow || sum.overflow || total.overflow ? Int.max : total.partialValue
+    }
+
+    func draw(in rect: CGRect) {
+        if isRich { attributed.draw(with: rect, options: [.usesLineFragmentOrigin, .usesFontLeading]) }
+        else { (text as NSString).draw(at: rect.origin, withAttributes: attributes) }
+    }
+
+    func svg(in rect: CGRect) -> String {
+        guard let richNode else { return "" }
+        return ShapeRichText.svg(richNode, rect: rect, clipRect: paintBounds.offsetBy(dx:rect.minX,dy:rect.minY))
     }
 }
 
@@ -325,7 +378,11 @@ final class RetainedRenderPage {
                     route.count > 2
                     ? CGPoint(x: (route[1].x + route[2].x) / 2, y: (route[1].y + route[2].y) / 2)
                     : CGPoint(x: (first.x + last.x) / 2, y: (first.y + last.y) / 2)
-                let size = preparedLabel(edge)!.size
+                let label = preparedLabel(edge)!,size = label.size
+                let ink = label.paintBounds.offsetBy(dx:midpoint.x*page.paperScale-size.width/2,
+                                                    dy:midpoint.y*page.paperScale-size.height/2)
+                rect = rect.union(CGRect(x:ink.minX/page.paperScale,y:ink.minY/page.paperScale,
+                                         width:ink.width/page.paperScale,height:ink.height/page.paperScale))
                 rect = rect.union(
                     CGRect(
                         x: midpoint.x - (size.width / 2 + 5) / page.paperScale,
@@ -345,10 +402,8 @@ final class RetainedRenderPage {
         let colored = DiagramDrawing.layerColored(edge, in: page)
         let key = RenderObjectID(pageID: page.id, nodeID: edge.id)
         let cached = Self.sharedLabels.value(for: key)
-        if let cached, cached.text == colored.label, cached.color == colored.color { return cached }
-        let prepared = PreparedEdgeLabel(
-            text: colored.label, color: colored.color,
-            measuredSize: cached?.text == colored.label ? cached?.size : nil)
+        if let cached, cached.matches(colored) { return cached }
+        let prepared = PreparedEdgeLabel(colored, previous: cached)
         Self.sharedLabels.insert(prepared, for: key, cost: prepared.cost)
         return prepared
     }

@@ -70,7 +70,8 @@ final class EditorCommandSearchTests: XCTestCase {
             let commands = EditorSearchCommand.all
             for selector in [#selector(EditorWindowController.insertSubprocess(_:)), #selector(EditorWindowController.chooseOffPageTarget(_:)),
                              #selector(EditorWindowController.previewDrawingGrid(_:)), #selector(EditorWindowController.toggleShapeLibrary(_:)),
-                             #selector(EditorWindowController.checkDrawingContent(_:)), #selector(EditorWindowController.exportRedactedSupportReport(_:))] {
+                             #selector(EditorWindowController.checkDrawingContent(_:)), #selector(EditorWindowController.exportRedactedSupportReport(_:)),
+                             #selector(EditorWindowController.exportJPEG(_:)), #selector(EditorWindowController.exportTIFF(_:))] {
                 XCTAssertTrue(commands.contains { $0.action == selector })
             }
             let offPage = try XCTUnwrap(commands.first { $0.action == #selector(EditorWindowController.chooseOffPageTarget(_:)) })

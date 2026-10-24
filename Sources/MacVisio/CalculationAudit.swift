@@ -134,18 +134,22 @@ enum CalculationAudit {
 
     private static func inspect(_ input:URL) throws -> FileAudit {
         let pages:[DiagramPage],bindings:[VisioPageBinding],paletteArchive:VisioDocumentArchive?
+        let contextDocument: Diagram
         if ["vssx","vss"].contains(input.pathExtension.lowercased()) {
             let stencil = try VisioStencil.readForCalculationAudit(from:input)
             pages = stencil.items.map(\.fragment);bindings = [];paletteArchive = stencil.paletteArchive
+            var drawing = Diagram(); drawing.pages = pages; drawing.visioArchive = paletteArchive
+            contextDocument = try DefinitionRegistry.hydrate(drawing)
         } else {
             let doc = MacVisioDocument()
             try doc.read(from:input,ofType:input.pathExtension.lowercased() == "vsd" || input.pathExtension.lowercased() == "vst" ? MacVisioDocument.legacyType : MacVisioDocument.visioType)
             pages = doc.diagram.pages;bindings = doc.diagram.visioArchive?.pages ?? [];paletteArchive = doc.diagram.visioArchive
+            contextDocument = doc.diagram
         }
         var total = Totals(),packageInventory = PackageInventory();packageInventory.inspect(paletteArchive?.parts ?? [:])
         let colorPalette = ShapeSheetColorPalette(documentArchive:paletteArchive)
         for page in pages {
-            let context = ShapeSheetContext(page:page,binding:bindings.first{$0.pageID == page.id},colorPalette:colorPalette)
+            let context = ShapeSheetContext(page:page,binding:bindings.first{$0.pageID == page.id},colorPalette:colorPalette,document:contextDocument)
             for node in page.nodes {
                 var cells:[String:ShapeSheetCell] = node.formatting.sheet
                 for point in node.formatting.connectionPoints { cells[point.xCell] = point.x;cells[point.yCell] = point.y }

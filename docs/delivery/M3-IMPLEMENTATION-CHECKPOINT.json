@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "state": "partial_engineering_checkpoint",
+  "code_commit": "eac0066bc5bb824632ff6e25154165e66bb88070",
+  "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+  "integration_commit": "d2d736f",
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "public_reference_run": false,
+  "implemented_scope": [
+    "Scoped native/public master/style/document sheets with validated cell and row identities; source-backed migration and source provenance",
+    "Master/style cell edit proposals projected through shared public reader, with stable page/object/layer IDs and retained local overrides",
+    "Owned editor worker/cancellation; definition semantic dirty/undo accounting; exact first-save registry install; older-save/newer-edit and save/undo/public-only reopen regressions",
+    "Selected paragraph spacing, fixed line height and indents through zoom, shared-row preservation and native undo/redo/cancel; relative IndFirst conversion"
+  ],
+  "tests": {
+    "full_swift": {
+      "executed": 775,
+      "skipped": 13,
+      "failures": 0
+    },
+    "python": {
+      "executed": 105,
+      "failures": 0
+    },
+    "new_M3_tests": 27,
+    "skipped_meaning": "12 installer-asset tests and one independent-reader-build test remain skipped; no skipped check is passed evidence.",
+    "skip_records": [
+      {
+        "test": "MacVisioTests.ControlHandleTests testInstallerParallelogramControlsImportDragAndPublicSave",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.DrawingScaleTests testActualEngineeringLibrariesReadScaledPaperDimensions",
+        "reason": "Installer assets are not available."
+      },
+      {
+        "test": "MacVisioTests.ISTHEMEDTests testInstallerISTHEMEDFormulaUsesExplicitZeroIndexBranch",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.MasterInheritanceTests testPublicMasterOverrideAndExpandedBinaryOutputParseIndependently",
+        "reason": "Build the app with its independent reader first."
+      },
+      {
+        "test": "MacVisioTests.RGBShapeSheetTests testInstallerRGBFormulaUsesItsActualVSDXColorEntry",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.ShapeSheetTests testInstallerCEILINGAndFLOORFormulasEvaluateFromBLDCORStencil",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.ShapeSheetTests testInstallerSIGNFuzzFormulaEvaluatesFromHVACCStencil",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.StencilLibraryTests testActualInstallerFlowchartStencilImportsAndInsertsPorts",
+        "reason": "Extract the user-supplied ISO libraries for installer interoperability checks."
+      },
+      {
+        "test": "MacVisioTests.StencilLibraryTests testActualInstallerTemplateOpensPublicPages",
+        "reason": "Extract the user-supplied ISO libraries for installer interoperability checks."
+      },
+      {
+        "test": "MacVisioTests.TextContextTests testImplicitInternalUnitsAndREFErrors",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.TextContextTests testInstallerAnalyticsTextControlVisibilityChangesWithText",
+        "reason": "Installer assets are absent"
+      },
+      {
+        "test": "MacVisioTests.TextFieldTests testActualMediaMasterDimensionFieldsUpdateAfterResize",
+        "reason": "Installer assets unavailable"
+      },
+      {
+        "test": "MacVisioTests.ThemeGuardTests testInstallerThemeGuardColorFormulaEvaluatesFromBLDCORStencil",
+        "reason": "Installer assets are absent"
+      }
+    ]
+  },
+  "regression_dispositions": [
+    {
+      "observation": "Initial affected run: four failures (one unexpected exception).",
+      "fix": "Preserve layer IDs in public projection; reconcile inherited formula caches with public save baseline; update older async test to expect first-save registry adoption."
+    },
+    {
+      "observation": "Second affected run and focused source probe exposed raw imported cache restoration during undo.",
+      "fix": "Recognize exact cached public snapshots alongside evaluated inheritance projections; retain actual local-master save review."
+    },
+    {
+      "observation": "First full run: compact metadata exceeded its existing payload budget; repeated native metadata was unstable; two older expectations omitted new registry or relative IndFirst semantics.",
+      "fix": "Style-only uses retain source bindings rather than duplicate large ordinary cells; deterministic initial source scope; expectations assert generated style registry and documented relative indent. Existing size and byte-stability limits are unchanged."
+    }
+  ],
+  "logs": [
+    {
+      "id": "accepted-M2-review",
+      "path": "build/m3-evidence/M2-accepted-handoff-review.json",
+      "sha256": "2050bcc8d351f1bff968be5c097613fa1aadbcbe5a57a478ad1d305edca3ad62",
+      "outcome": "passed",
+      "executed": null,
+      "skipped": null
+    },
+    {
+      "id": "accepted-M2-native",
+      "path": "build/m3-evidence/M2-integrated-native.log",
+      "sha256": "8e6b9a8243c633e3549b64b64ed8b68873817940c185d0cd9e8325819058a6e2",
+      "outcome": "passed",
+      "executed": 748,
+      "skipped": 13
+    },
+    {
+      "id": "accepted-M2-python",
+      "path": "build/m3-evidence/M2-integrated-python.log",
+      "sha256": "e77e2aa60010b45f05a45b0c70ed439acc992b22b14fbe9dc5ed272645121525",
+      "outcome": "passed",
+      "executed": 105,
+      "skipped": 0
+    },
+    {
+      "id": "initial-affected-native",
+      "path": "build/m3-evidence/M3-definition-paragraph-qualified.log",
+      "sha256": "dfe35e882e5f794714dd91c64c7703e338636ee9e1a693e960e55639047b4006",
+      "outcome": "failed",
+      "executed": 108,
+      "skipped": 2
+    },
+    {
+      "id": "second-affected-native",
+      "path": "build/m3-evidence/M3-definition-paragraph-qualified-2.log",
+      "sha256": "749eff2477354657a9c7b890f7203fb29a895627eb03da7e4a46291c7d009cee",
+      "outcome": "failed",
+      "executed": 108,
+      "skipped": 2
+    },
+    {
+      "id": "save-impact-cache-probe",
+      "path": "build/m3-evidence/M3-save-impact-probe.log",
+      "sha256": "689895bcd0709546809cce03339301f0d47dc8ccd4d49d88a47753f7b56eb561",
+      "outcome": "failed",
+      "executed": 1,
+      "skipped": 0
+    },
+    {
+      "id": "corrected-definition-save",
+      "path": "build/m3-evidence/M3-definition-save-qualified-3.log",
+      "sha256": "ff85c370389b405d2628256b9920043075d9602ec43469d2f9c584d1a8f422b3",
+      "outcome": "passed",
+      "executed": 7,
+      "skipped": 0
+    },
+    {
+      "id": "first-full-native",
+      "path": "build/m3-evidence/M3-domain-full-native.log",
+      "sha256": "d61d201663c89283defbe91b32c485ba8fc144126e0f41a9be071de09fce6cbb",
+      "outcome": "failed",
+      "executed": 775,
+      "skipped": 13
+    },
+    {
+      "id": "corrected-full-native",
+      "path": "build/m3-evidence/M3-domain-full-native-2.log",
+      "sha256": "763bdcf4f3f266b90b2d72775cf0206779254648be8422909a030cea558c50dd",
+      "outcome": "passed",
+      "executed": 775,
+      "skipped": 13
+    },
+    {
+      "id": "production-python",
+      "path": "build/m3-evidence/M3-production-python.log",
+      "sha256": "b1dea00942c93ae044ca79ec0d9ae0243e027b1b80b8545ce9422481c8b736ee",
+      "outcome": "passed",
+      "executed": 105,
+      "skipped": 0
+    },
+    {
+      "id": "catalog-consistency",
+      "path": "build/m3-evidence/M3-catalog-consistency.json",
+      "sha256": "25036d0a0c88983641db07bff59299f2dc86ccab5129eecaa72a7076b20a18c8",
+      "outcome": "passed",
+      "executed": null,
+      "skipped": null
+    },
+    {
+      "id": "ledger-validation",
+      "path": "build/m3-evidence/M3-ledger-validation.log",
+      "sha256": "1fa701fd632425eed04751c0bc984a46b41cc52a38d94183b1a2ed35367c0cb9",
+      "outcome": "passed",
+      "executed": null,
+      "skipped": null
+    }
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/DefinitionEditing.swift",
+      "sha256": "a2371c0fc9985e15db5a95b0598508381b2bb008cd3e1cbbe5b380395e726a87"
+    },
+    {
+      "path": "Sources/MacVisio/DiagramDefinitions.swift",
+      "sha256": "72f8ddf60f350b6bdad4a4af22663b7551006e0d2a570d1071fd4d4bb2cca31a"
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "6e0f0db72dac50b84bbf0fc62aba96157bb6d9a9e49ad231f31f6577d7ef4a17"
+    },
+    {
+      "path": "Sources/MacVisio/DocumentChanges.swift",
+      "sha256": "78c729ee21e9f45a29dac6699a33cce52d9dae4d08349b0362d113cea06b33e5"
+    },
+    {
+      "path": "Sources/MacVisio/DocumentSaveImpact.swift",
+      "sha256": "8cf16fb0af5082d99a029cec9e972c376dcdb7902a3bf187c9d1ce7466134c7c"
+    },
+    {
+      "path": "Sources/MacVisio/Model.swift",
+      "sha256": "636bb29aca5500e9c3a147bd116dbdb771b38b8a2f000995afbc5801ce93e845"
+    },
+    {
+      "path": "Sources/MacVisio/RichText.swift",
+      "sha256": "087291b79df49b1d9b726652a3b20c067b2093fb40d491e673ed202d4a564e4f"
+    },
+    {
+      "path": "Sources/MacVisio/UndoPayloadBudget.swift",
+      "sha256": "338020bf2c7dfb5a1a23170b9657263126f530b1256c2b18511fb279087a0779"
+    },
+    {
+      "path": "Sources/MacVisio/VisioFormat.swift",
+      "sha256": "da6a130cadf1f659cd8213ad758b348465877314626bb1ac0ec864027a2a83fb"
+    },
+    {
+      "path": "Sources/MacVisio/VisioPackage.swift",
+      "sha256": "4850e27ea3d9aa260fbabfd5775d40b3e33ee163f4120273c1cec93654e1fd23"
+    },
+    {
+      "path": "Sources/MacVisio/VisioPreservation.swift",
+      "sha256": "5b789b8b882729ff9b500e2ab08f00ee4a0ee81f15120c28b65c1e0214a572c2"
+    },
+    {
+      "path": "Tests/MacVisioTests/AsyncCalculationContractTests.swift",
+      "sha256": "618492c25ee0ba0925e7dbb1672141fe5d7be7e24c53a9831ae0ac32e6c5c2ef"
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionEditingTests.swift",
+      "sha256": "3509a4ee6046ea73f86ea472b0d3f95a40ee024081c626316be20a5caf95232e"
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionIdentityTests.swift",
+      "sha256": "8b0b50237d0f0072da545d44ae7b83649e96fe2b066514fb5656ecd2fe20bf6c"
+    },
+    {
+      "path": "Tests/MacVisioTests/M3DefinitionRegistryValidationTests.swift",
+      "sha256": "c1a7246d445db814fa8f128502ed343e82693cd7aef97435d58cb9261da1f15a"
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ParagraphEditingTests.swift",
+      "sha256": "c00c365de541b098293eea487e758df0290d561e964b97333a88591a7fe2c0e1"
+    },
+    {
+      "path": "Tests/MacVisioTests/TextContextTests.swift",
+      "sha256": "310712b8cd34aeba8256134f0aca5eba16699ba0eb6ed29a057b554f0062882d"
+    },
+    {
+      "path": "Tests/MacVisioTests/VisioFormatTests.swift",
+      "sha256": "0e3b4c365646fe5f57e04d7d69a791286db6fd6e30979d42ad2ba2e53064e353"
+    }
+  ],
+  "remaining": [
+    "Definition editing UI and typed definition diagnostic/navigation/report support",
+    "Shared document/master/style/connector calculation hosts; document-sheet edits are not qualified as a native workflow",
+    "Complete row/section lifecycle, replacements, dependencies and structural membership",
+    "Remaining paragraph properties, connector rich text and all other WP14–20 children",
+    "Exact-build Visio, five-dimension bidirectional/font/physical-printer and release performance qualification"
+  ],
+  "limits": [
+    "No child/parent/package/milestone acceptance promotion. Shared seed fixtures are narrow local engineering evidence.",
+    "Definition-wide projection reparses bounded public content; no incremental/performance claim.",
+    "M2 exact-artifact performance exception applies only to its released stable archive."
+  ]
+}

@@ -23,7 +23,7 @@ extension EditorWindowController {
 struct EditorSearchCommand {
     enum Requirement {
         case none, idle, selectedShapes(Int), editableShapes(Int), oneEditableShape
-        case editableObject, group, ungroup, multiplePages
+        case editableObject, group, ungroup, multiplePages, definitionSheets, memberships
     }
     let title: String
     let keywords: String
@@ -48,6 +48,9 @@ struct EditorSearchCommand {
         .init(title: "Delete Selection", keywords: "remove shape connector", action: #selector(EditorWindowController.deleteSelection(_:)), requirement: .editableObject),
         .init(title: "Group Shapes", keywords: "combine selection", action: #selector(EditorWindowController.groupSelection(_:)), requirement: .group),
         .init(title: "Ungroup Shapes", keywords: "separate group", action: #selector(EditorWindowController.ungroupSelection(_:)), requirement: .ungroup),
+        .init(title: "Union Shapes", keywords: "boolean geometry combine outline", action: #selector(EditorWindowController.unionSelection(_:)), requirement: .editableShapes(2)),
+        .init(title: "Intersect Shapes", keywords: "boolean common overlap geometry", action: #selector(EditorWindowController.intersectSelection(_:)), requirement: .editableShapes(2)),
+        .init(title: "Subtract Shapes…", keywords: "boolean cut difference base geometry", action: #selector(EditorWindowController.subtractSelection(_:)), requirement: .editableShapes(2)),
         .init(title: "Rotate Left", keywords: "turn anticlockwise", action: #selector(EditorWindowController.rotateLeft(_:)), requirement: .editableShapes(1)),
         .init(title: "Rotate Right", keywords: "turn clockwise", action: #selector(EditorWindowController.rotateRight(_:)), requirement: .editableShapes(1)),
         .init(title: "Flip Horizontal", keywords: "mirror", action: #selector(EditorWindowController.flipHorizontal(_:)), requirement: .editableShapes(1)),
@@ -61,6 +64,8 @@ struct EditorSearchCommand {
         .init(title: "Send to Back", keywords: "arrange order", action: #selector(EditorWindowController.sendToBack(_:)), requirement: .editableShapes(1)),
         .init(title: "Lock / Unlock Shapes", keywords: "protect selection", action: #selector(EditorWindowController.toggleLock(_:)), requirement: .selectedShapes(1)),
         .init(title: "Shape Data…", keywords: "properties values fields", action: #selector(EditorWindowController.editShapeData(_:)), requirement: .oneEditableShape),
+        .init(title: "Definition Sheets…", keywords: "document master style sheets cells formula cached value unit", action: #selector(EditorWindowController.showDefinitionSheets(_:)), requirement: .definitionSheets),
+        .init(title: "Memberships…", keywords: "container list lane member relationships independent group", action: #selector(EditorWindowController.showMemberships(_:)), requirement: .memberships),
         .init(title: "Connection Points…", keywords: "ports glue", action: #selector(EditorWindowController.editConnectionPoints(_:)), requirement: .oneEditableShape),
         .init(title: "Insert Text Field…", keywords: "formula label", action: #selector(EditorWindowController.insertField(_:)), requirement: .oneEditableShape),
         .init(title: "Add Page", keywords: "new drawing sheet", action: #selector(EditorWindowController.addPage(_:)), requirement: .idle),
@@ -78,7 +83,10 @@ struct EditorSearchCommand {
         .init(title: "Export Redacted Support Report…", keywords: "diagnostics troubleshooting privacy", action: #selector(EditorWindowController.exportRedactedSupportReport(_:))),
         .init(title: "Export PDF…", keywords: "publish save document", action: #selector(EditorWindowController.exportPDF(_:))),
         .init(title: "Export SVG…", keywords: "publish save vector", action: #selector(EditorWindowController.exportSVG(_:))),
-        .init(title: "Export PNG…", keywords: "publish save image", action: #selector(EditorWindowController.exportPNG(_:)))
+        .init(title: "Export PNG…", keywords: "publish save image", action: #selector(EditorWindowController.exportPNG(_:))),
+        .init(title: "Export JPEG…", keywords: "publish save image jpg raster", action: #selector(EditorWindowController.exportJPEG(_:))),
+        .init(title: "Export TIFF…", keywords: "publish save image tif raster alpha", action: #selector(EditorWindowController.exportTIFF(_:))),
+        .init(title: "Print…", keywords: "printer document pages range paper scale", action: #selector(EditorWindowController.printDiagram(_:)), requirement: .idle)
     ]
 
     static func matching(_ text: String) -> [EditorSearchCommand] {
@@ -101,6 +109,10 @@ struct EditorSearchCommand {
         }
         switch requirement {
         case .none, .idle: break
+        case .definitionSheets:
+            if let reason = editor.definitionSheetUnavailableReason { return reason }
+        case .memberships:
+            if let reason = editor.membershipUnavailableReason { return reason }
         case .selectedShapes(let count): if let reason = shapes(count, editable: false) { return reason }
         case .editableShapes(let count): if let reason = shapes(count, editable: true) { return reason }
         case .oneEditableShape:
@@ -142,6 +154,9 @@ struct EditorSearchCommand {
             }
         }
         let item = NSMenuItem(title: title, action: action, keyEquivalent: "")
+        if action == #selector(EditorWindowController.unionSelection(_:)),let reason = editor.unionUnavailableReason { return reason }
+        if action == #selector(EditorWindowController.intersectSelection(_:)), let reason = editor.intersectUnavailableReason { return reason }
+        if action == #selector(EditorWindowController.subtractSelection(_:)), let reason = editor.subtractUnavailableReason { return reason }
         if !editor.validateMenuItem(item) { return "This command is unavailable for the current selection." }
         return nil
     }
@@ -156,6 +171,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
         var nodes: Set<UUID>
         var edge: UUID?
         var calculating: Bool
+        var printing: Bool
         var parentComposition: Bool
         var inlineEditing: Bool
         var filterGeneration: UInt64
@@ -255,6 +271,7 @@ final class EditorCommandSearchController: NSWindowController, NSWindowDelegate,
         let key = AvailabilityKey(stateID: drawing.stateID, revision: drawing.revision, pageID: drawing.diagram.activePageID,
                                   nodes: editor.canvas.selectedNodes, edge: editor.canvas.selectedEdge,
                                   calculating: drawing.isCalculating,
+                                  printing: editor.isPrinting,
                                   parentComposition: (editor.window?.firstResponder as? NSTextView)?.hasMarkedText() == true,
                                   inlineEditing: editor.canvas.isEditingText, filterGeneration: filterGeneration)
         guard key != availabilityKey else { return false }

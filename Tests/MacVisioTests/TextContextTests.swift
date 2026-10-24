@@ -94,7 +94,7 @@ final class TextContextTests:XCTestCase {
     func testParagraphSpacingAndIndentationAffectNativeTextMeasurement() throws {
         let d = model("One\nTwo"),n = d.page.nodes[0],plain = try ShapeTextFunctions.metrics(n,page:d.page)
         var spaced = n,p = ShapeParagraphStyle(alignment:.left);p.cells = ["SpBefore":cell("0.1"),"SpAfter":cell("0.2"),"SpLine":cell("-2"),"IndLeft":cell("0.25"),"IndFirst":cell("0.1"),"IndRight":cell("0.3")];spaced.formatting.textRuns = [ShapeTextRun(text:n.text,character:ShapeCharacterStyle(node:n),paragraph:p)]
-        let style = p.native(fontSize:14);XCTAssertEqual(style.paragraphSpacingBefore,7.2,accuracy:1e-12);XCTAssertEqual(style.paragraphSpacing,14.4,accuracy:1e-12);XCTAssertEqual(style.minimumLineHeight,28);XCTAssertEqual(style.headIndent,18);XCTAssertEqual(style.firstLineHeadIndent,7.2,accuracy:1e-12);XCTAssertEqual(style.tailIndent,-21.6,accuracy:1e-12);XCTAssertGreaterThan(try ShapeTextFunctions.metrics(spaced,page:d.page).height,plain.height)
+        let style = p.native(fontSize:14);XCTAssertEqual(style.paragraphSpacingBefore,7.2,accuracy:1e-12);XCTAssertEqual(style.paragraphSpacing,14.4,accuracy:1e-12);XCTAssertEqual(style.minimumLineHeight,28);XCTAssertEqual(style.headIndent,18);XCTAssertEqual(style.firstLineHeadIndent,25.2,accuracy:1e-12);XCTAssertEqual(style.tailIndent,-21.6,accuracy:1e-12);XCTAssertGreaterThan(try ShapeTextFunctions.metrics(spaced,page:d.page).height,plain.height)
         p.cells["SpLine"] = cell("0.5");XCTAssertEqual(p.native(fontSize:14).maximumLineHeight,36);p.cells["SpLine"] = cell("0");XCTAssertEqual(p.native(fontSize:14).maximumLineHeight,14)
     }
     func testImplicitInternalUnitsAndREFErrors() throws {

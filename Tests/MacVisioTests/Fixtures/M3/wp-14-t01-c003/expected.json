@@ -1,0 +1,29 @@
+{
+  "fixture": "independently authored public XML; no native metadata",
+  "group": "10",
+  "member": "11",
+  "container": "20",
+  "additional_container": "40",
+  "list": "30",
+  "connector": "50",
+  "read_only_categories": [
+    2,
+    3,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+  ],
+  "expected_edit": {
+    "add_member": "11",
+    "to_container": "40",
+    "changed_cells": [
+      "Sheet.11!Relationships",
+      "Sheet.40!Relationships"
+    ]
+  },
+  "reference_visio": "pending; not accepted"
+}

@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "kind": "independent_public_graphics_probe",
+  "tool": "vsd2xhtml0.1.11",
+  "tool_sha256": "b59fda804a25371f232f7b63664ac6140a33428958e3afcfdc4564589abd6898",
+  "reference_application": false,
+  "compatibility_accepted": false,
+  "fixtures": [
+    {
+      "fixture": "Tests/MacVisioTests/Fixtures/M3/m3-intelligent.vsdx",
+      "input_sha256": "59d32c7e9cfd24fe8041e3a1829c1f293aa4d3365e3afd5e9a91ac03e6cdf5a1",
+      "output": "build/m3-evidence/libvisio-intelligent.xhtml",
+      "output_sha256": "970942d5d955255e316b1ac4ffac9abed9a59050d82a89b58014e0ea840fbf2e",
+      "svg_pages": 2,
+      "checks": [
+        {
+          "id": "public-intelligent-graphics-text-presence",
+          "outcome": "passed",
+          "expected_label_fragments": [
+            "Café",
+            "東京",
+            "Local override",
+            "Public background",
+            "Link"
+          ],
+          "observed_text": "Public background Café 東京 🙂 bold\n\nSe\n\ncond paragraph Local override Link \n\n東京 Public background",
+          "scope": "presence only; wrapping, full run formatting and same-font output not accepted"
+        }
+      ]
+    },
+    {
+      "fixture": "Tests/MacVisioTests/Fixtures/M3/m3-physical.vsdx",
+      "input_sha256": "3a3c1616db49677f759f51fe033c78b210b6f64b95a6bbffd42dee789747c2cd",
+      "output": "build/m3-evidence/libvisio-physical.xhtml",
+      "output_sha256": "940b90689729f4cc34cc26f7714325fd5de64257ee91e5418e2a5da638aa400b",
+      "svg_pages": 1,
+      "checks": [
+        {
+          "id": "independent-public-geometry-width",
+          "outcome": "passed",
+          "expected_mm": 20,
+          "observed_mm": 19.999995277777774,
+          "tolerance_mm": 0.0001
+        }
+      ]
+    }
+  ],
+  "discovery": {
+    "prior_fixture_commit": "f0182cb",
+    "prior_input_sha256": "81d57b4748671012c10ddb3487c2b98ff89c1edfb655443c26e76313063f1cfc",
+    "prior_output_sha256": "55d43cccbaa45aa3ffc174aba24000cbef57170df3b544b3963c1e1c0a0f686b",
+    "prior_public_svg_paths": 0,
+    "outcome": "fixture flaw reproduced: source dimensions existed but no public rectangle geometry; native fallback had hidden this omission",
+    "correction": "Authored explicit closed public rectangle geometry and fill/line cells, strengthened Swift test to require public geometry, reran PDF and independent reader."
+  },
+  "limits": [
+    "No actual Visio execution or formula/glue/behavior evaluation",
+    "Common-reader SVG is a saved-graphics observation, not same-font/render/print/reference qualification",
+    "Earlier physical-seed native tests used a fallback; this corrected public-geometry input supersedes that seed. Historical source/log hashes remain retained."
+  ]
+}

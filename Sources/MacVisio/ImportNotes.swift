@@ -21,8 +21,21 @@ extension EditorWindowController {
     /// Rechecks membership in this document's current records and retained model.
     /// Merely possessing an object UUID from another document cannot navigate it.
     @discardableResult func navigateDocumentDiagnostic(_ diagnostic: DocumentDiagnostic) -> Bool {
-        guard diagramDocument.currentDiagnostics.contains(diagnostic),
-            let pageID = diagnostic.target.pageID,
+        guard diagramDocument.currentDiagnostics.contains(diagnostic) else { return false }
+        if let sheetID = diagnostic.target.definitionSheetID {
+            guard let registry = diagramDocument.diagram.definitions else { return false }
+            let sheets = [registry.documentSheet].compactMap { $0 }
+                + (registry.masters + registry.styles).flatMap(\.sheets)
+            guard let sheet = sheets.first(where: { $0.id == sheetID }),
+                  diagnostic.source.definitionCell.map({ sheet.cell($0) != nil }) ?? true,
+                  definitionSheetUnavailableReason == nil
+            else { return false }
+            showDefinitionSheet(sheetID: sheetID, address: diagnostic.source.definitionCell)
+            let controller = definitionSheetController
+            return controller.window?.isVisible == true && controller.selectedSheetID == sheetID
+                && (diagnostic.source.definitionCell.map { controller.selectedAddress == $0 } ?? true)
+        }
+        guard let pageID = diagnostic.target.pageID,
             let page = diagramDocument.diagram.pages.first(where: { $0.id == pageID })
         else { return false }
         if let object = diagnostic.target.objectID,
@@ -45,7 +58,7 @@ extension EditorWindowController {
         case .page:
             canvas.select([])
             bounds = CGRect(x: 0, y: 0, width: page.width, height: page.height)
-        case .document: return false
+        case .document, .definition: return false
         }
         if let bounds {
             let zoom = canvas.coordinateZoom
@@ -174,7 +187,8 @@ final class DocumentIssuesController: NSWindowController, NSTableViewDataSource,
             "Dimension: \(issue.dimension.rawValue) · Display: \(issue.displayState.rawValue)",
             issue.source.cell.map { "Authored cell: \($0)" }, issue.source.part.map { "Source part: \($0)" },
             issue.source.visioID.map { "Source Visio ID: \($0)" },
-            issue.target.pageID == nil ? "Document-wide record; no object target was supplied." : nil,
+            issue.target.definitionSheetID.map { "Definition sheet: \($0.uuidString)" },
+            issue.target == .document ? "Document-wide record; no object target was supplied." : nil,
         ].compactMap { $0 }.joined(separator: "\n")
         reveal.isEnabled = issue.actions.contains(.revealTarget)
     }

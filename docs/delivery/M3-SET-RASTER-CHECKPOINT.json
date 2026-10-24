@@ -1,0 +1,748 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T09:16:53.392799+00:00",
+  "state": "partial_engineering_checkpoint",
+  "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+  "code_commits": [
+    "0f967c00e46105e9b79ec60dbc553e371d17adc6",
+    "44bc3ca24933ca577dd3d295219244fd28d9dcdc"
+  ],
+  "source_hash_binding": "Source/test hashes bind to git objects at code_commit, not a later working tree.",
+  "prior_checkpoint": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716
+  },
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Intersect and Subtract operate on exactly two filled sibling shapes. Geometry sections are united within each operand before the operation; curves, holes and transformations survive public-only VSDX reopen. Empty/degenerate results refuse without mutation. Existing Union source/behavior/protection/reference/identity and geometry budgets remain authoritative.",
+    "Subtraction requires an explicit base choice because canvas selection is unordered. Distinct native menu items retain UUID identities even with duplicate labels. Owner/state/revision/page/raw-selection/IME/cancel/close gates lead into the existing owned asynchronous calculation and one-step undo transaction.",
+    "All Boolean results use the first operand in document order for appearance, become topmost within their containing Shapes owner and remain selected. These are explicit local policies, not first-selected/reference parity.",
+    "PNG Page preserves physical paper clipping and prior pixel dimensions. Content includes printable foreground and assigned backgrounds, including off-page artwork. Selection expands selected groups and group-owned edges without editability filtering; only selected foreground determines the crop, while assigned backgrounds remain painted within it.",
+    "Cropped PNG measures conservative physical paint bounds from prepared paths/strokes/images/text, complete frozen connector routes, arrows and labels. It aligns outward to the raster grid with one full pixel guard per side; exact pixel dimensions avoid floating-point floor loss. Two bounded main passes feed immutable worker assembly.",
+    "Native export settles text/page interaction before snapshot capture, refuses pending composition/calculation, and binds selection drafts to raw UUID sets as well as immutable owner/state/revision/page identity. Submitted jobs retain normal captured-snapshot semantics. Unsupported images refuse cropped modes while Page retains the prior placeholder."
+  ],
+  "qualification": {
+    "set_operations_focused": {
+      "executed": 58,
+      "skipped": 0,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/set-operations-focused-2.log",
+        "sha256": "9e6dbb4983c62945a7d87e323250f66fabba21b7c32d63f41a7a775d444f45e3",
+        "bytes": 18071
+      }
+    },
+    "set_operations_full": {
+      "executed": 964,
+      "skipped": 13,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/set-operations-full-swift-1.log",
+        "sha256": "0e4172828497d71da99a9db1047eb1f10491484affe43cefa12328469479b57e",
+        "bytes": 281222
+      }
+    },
+    "raster_bounds_focused": {
+      "executed": 48,
+      "skipped": 0,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-bounds-focused-1.log",
+        "sha256": "17f691c7fb162d47c85e256edfdc7daa9dd614dac29f9432b3bae837ba6d402f",
+        "bytes": 22046
+      }
+    },
+    "full_swift": {
+      "executed": 979,
+      "skipped": 13,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-bounds-full-swift-1.log",
+        "sha256": "3330d75d08ec08de114daea387603212974e8f79f808f0bb50a4d8cb3772ee79",
+        "bytes": 285358
+      }
+    },
+    "full_command": "swift test --scratch-path build/m3-swift -j 2",
+    "excluded_native_tests": [],
+    "new_tests_since_af764fa": 37,
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-bounds-python-1.log",
+        "sha256": "ac542416159fb300c0b8dd3ebc4a36b07c1d1a4904ed7082acdfd8fe4cbfc847",
+        "bytes": 206
+      }
+    },
+    "ledger": {
+      "requirements": 154,
+      "bounded_inventory_entries": 180,
+      "compatibility_accepted": false,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/raster-bounds-ledger-1.log",
+        "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+        "bytes": 107
+      }
+    },
+    "visual_png_inspection": {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-diagnostic/focused-1-visual-review.json",
+      "sha256": "fdc8590a127c8e95197984667a98ce55820c182747dbed10cbf8224ead3ce441",
+      "bytes": 5946
+    }
+  },
+  "regression_dispositions": [
+    {
+      "log": "set-operations-focused-1.log",
+      "observation": "Initial 58-test run had one fixture failure: explicit survivor ID 90 caused fresh implicit operands to receive 91/92, so the fixture tombstone 00091 aliased a selected operand. The production source proof correctly refused Del. The fixture now uses explicit operand IDs 1/2, proves tombstone 91 is unused, checks binding/native/public IDs from the same save and retains an intentional selected-ID alias refusal. No production safeguard was relaxed."
+    },
+    {
+      "logs": [
+        "set-operations-focused-2.log",
+        "set-operations-full-swift-1.log",
+        "raster-bounds-focused-1.log",
+        "raster-bounds-full-swift-1.log"
+      ],
+      "observation": "Corrected/final frozen source passes focused and full runs without native exclusions. All failed/corrected logs and generated native/public packages, native print PDFs and PNGs remain retained."
+    }
+  ],
+  "limitations": [
+    "All 204 M3 children and the milestone remain unaccepted. No integration, push, publication, merge or release permission is granted.",
+    "Boolean operations retain the bounded safe operand policy. Text/data/fields/images/control/ports/inherited masters/styles/authored behavior/glue or incoming semantic references are refused. Combine, Fragment, Trim and exact-build appearance/order/selection semantics remain open. A single Core Graphics call is not interruptible.",
+    "PNG crop bounds are conservative publication geometry, not pixel-tight ink bounds or exact-build visual parity. One object/scene setup can exceed a main-pass time target. Existing 100-million-pixel, 100000-dimension and 128 MiB retained-record caps remain; they are not a total-RSS bound.",
+    "Selection includes group-owned edges, not every connector between ordinary selected nodes. Unselected endpoint/obstacle nodes participate in routing but are not painted. Selection drafts refuse changed raw selection even without a document revision; later edits after submission do not replace the captured export snapshot.",
+    "Independent container/list relationships, automatic pinned-library loading and remaining M3 production contracts are still open at this source commit. Exact-build licensed Visio/COM, bidirectional no-repair open/edit/save, same-font regional and calibrated physical-printer acceptance remain absent. Prerequisite skips are not passes; the M2 release performance exception does not qualify M3."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/BooleanGeometry.swift",
+      "sha256": "6f5be0990e34e2e2f8e601dd08fff7c0935eb293b200e3656bd5a8ff731e2bfd",
+      "bytes": 46409
+    },
+    {
+      "path": "Sources/MacVisio/BooleanGeometryEditor.swift",
+      "sha256": "b539dc5111dedcef7b9a8620c223d2e26752367c1751a1b49310e227856f9504",
+      "bytes": 6091
+    },
+    {
+      "path": "Sources/MacVisio/BooleanOperandChooser.swift",
+      "sha256": "8e21992f821fb25e7bf576ac680d18540bf6c99cb19d5fdaf767870b21b0b6f2",
+      "bytes": 10093
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "b10033e724bf46621b94185ddc3ecd916e6cad7f0a1e3335122ad11ca3e4de8d",
+      "bytes": 106986
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "6abad89a173f00d2b570674679f90e5742fd589536f9a01584d4bc1506205c01",
+      "bytes": 25939
+    },
+    {
+      "path": "Sources/MacVisio/ExportJobs.swift",
+      "sha256": "6dc5513624d173e4dd11aee3666a641e8df11423d3bf77369b1c2657f6118d7e",
+      "bytes": 28983
+    },
+    {
+      "path": "Sources/MacVisio/ExportOptionsView.swift",
+      "sha256": "599c501e9871ba81ed08740ac4bd3facd7cb9399ea900126ed77dff3c27b1cd0",
+      "bytes": 11957
+    },
+    {
+      "path": "Sources/MacVisio/PublicationBounds.swift",
+      "sha256": "c08c015468e16f1afbfe0591551ef71f64cbab13eb1b29d71b7e24cc476ff8ac",
+      "bytes": 7854
+    },
+    {
+      "path": "Sources/MacVisio/RasterExportPlan.swift",
+      "sha256": "89afad26df96729c6240f1deaacac4c951a6cf256d66980892147e943e647226",
+      "bytes": 4109
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "d85bb83e25705d8643d4bdc1449d6ebf6698344c72502c5fa5788e437eec4ebf",
+      "bytes": 35515
+    },
+    {
+      "path": "Tests/MacVisioTests/M3BooleanSetOperationsTests.swift",
+      "sha256": "f168643c3c14df5cee2630cf3920457f22bbdcffa3008997dccfc345f872fbe1",
+      "bytes": 33838
+    },
+    {
+      "path": "Tests/MacVisioTests/M3RasterBoundsTests.swift",
+      "sha256": "f2aa1d8a3c552a277be02b0c8cc6461426a3745d7aa37f48da76cd36e4b9cebe",
+      "bytes": 24962
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-focused-1.log",
+      "sha256": "9d899d0a5f8c7e3ddf5a8902834b04070546c0a642aabb511ab80e0b98209fbf",
+      "bytes": 32317
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-focused-2.log",
+      "sha256": "9e6dbb4983c62945a7d87e323250f66fabba21b7c32d63f41a7a775d444f45e3",
+      "bytes": 18071
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-full-swift-1.log",
+      "sha256": "0e4172828497d71da99a9db1047eb1f10491484affe43cefa12328469479b57e",
+      "bytes": 281222
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-python-1.log",
+      "sha256": "957a203098c09790c2adbf9f314acb5ffc60a8b6aa0660fb1f53e26ec5a083c5",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-focused-1.log",
+      "sha256": "17f691c7fb162d47c85e256edfdc7daa9dd614dac29f9432b3bae837ba6d402f",
+      "bytes": 22046
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-full-swift-1.log",
+      "sha256": "3330d75d08ec08de114daea387603212974e8f79f808f0bb50a4d8cb3772ee79",
+      "bytes": 285358
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-python-1.log",
+      "sha256": "ac542416159fb300c0b8dd3ebc4a36b07c1d1a4904ed7082acdfd8fe4cbfc847",
+      "bytes": 206
+    }
+  ],
+  "retained_publication_and_package_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-intersect-curves-native.vsdx",
+      "sha256": "0d1eb1005059f66521e820498e55c3c37c2104853164940f2e211fed152b4057",
+      "bytes": 6402
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-intersect-curves-public.vsdx",
+      "sha256": "c2a9c63482284c24d04bfde0824579280102ba62d7bc7626a55245b1302b2dfb",
+      "bytes": 3631
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-subtract-hole-native.vsdx",
+      "sha256": "ddf657f2a33dbf8e5c70ea2283a1d4b994155741713c2505378876ea912ca822",
+      "bytes": 6555
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-subtract-hole-public.vsdx",
+      "sha256": "170f915ff5494084c51e3a73aa9bd483e06ab4ef7603a729d84bcec65f97c779",
+      "bytes": 3668
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "279265118fd22c31bf6e7bba55434e6c13c6d69e8ffef1024c99a4f0ae115e8d",
+      "bytes": 6913
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "aefb1b39e81dd21cbc7d2fea36e12fa72c898ce9b673b441a60cbc6c4c31c6ff",
+      "bytes": 3798
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-intersect-curves-native.vsdx",
+      "sha256": "a75826a93074d5f0298aa8c82cce9026f61d310d184577884f50f5378eee6c54",
+      "bytes": 6392
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-intersect-curves-public.vsdx",
+      "sha256": "e109131b61ab6cd202cb66da6b11a6843ba1cafaa1db1eeefed02ad8c814cb01",
+      "bytes": 3626
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-subtract-hole-native.vsdx",
+      "sha256": "49ba22ab44cea31cc13f5f7f43b39fae334e9a4696344b0a07fcc15c55ddd26c",
+      "bytes": 6549
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-subtract-hole-public.vsdx",
+      "sha256": "1d53e33adbbe9a40a64e39e7620cc1772bb52f3b567381ac31a3d311cc4cff03",
+      "bytes": 3668
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-union-curves-holes-native.vsdx",
+      "sha256": "77e8e5bc54bf4074e336e1a4642d84ca6b12a317a92e3555242864192b2a7032",
+      "bytes": 6916
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/focused-2/m3-union-curves-holes-public.vsdx",
+      "sha256": "dfdc9af35cdcd7f2fb18edb04b6bcbfcf85f438fefdd7e235162f85f8f0fcb1b",
+      "bytes": 3796
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "e68f449c58351d81de4fbc9ee4437da70bad62db5ae36899d945089a783b02e7",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "513474b2fc8c58ab7e82165aaff902f02894cdfb71f00037b385ab5bfddedf4d",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "7afd0effba0c256ea2d0faad88bc9d34505d3ebfcf5426d407ee11b170908dad",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "819a4ebd0e7bbb71e4a0415dfc5ebb2af998ae484036a9a2ae732fc97452ee29",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "186a3186ad623a819c0056736a1956d5b513bbd4672d05cfb51ac887cf861284",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "ed897fc2dab8eaed5250ab25fd961d5ad3e2d402a28691382839771cc49446d0",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "333fe64619bbd4e6c78d602158c33886e210e7aecfa566c9fb11975aaa138eed",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "7e4faec0e705e679b25f180bc8e5cc383c3729dd087dea28503ff73a7e3255ae",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "5c950d98bb7e3bc0eee27512d35da49af757d4225fe28ad9a6b90fd8255839df",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "1ea7257de5f9f07666e0b4300ae5f01a3f742a1688e872629bc5e83adb2b1283",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "a9ca61e4c20d1219d6bc971dda269930d6343f74a7d0ba74245ee2d6a5c7afb7",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "85bdd0164ab54b7e9040e1f48d64f0671c495c78ee0afc63c325e63d0d26e620",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "14feaeb044e6ecf3caa341028414528c88ee8b372bd4e766d4802af23e8fd9a8",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "b25d9670077d6410366a50d39473df6c829b235956d4f718c622bc9d580fd7bf",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "e0ee782a2c184ee25b884569409fa8d107856e454cdd575ec9d183b3cb22cade",
+      "bytes": 6393
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "44d6121254df1527e08cfe731776e3a2a9ca45fa153c311edb3c92bd9a9f304f",
+      "bytes": 3623
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "f8abb8955ab1832c3761458b339624c119dbea6cff8bf3526ae01f7f48c2b252",
+      "bytes": 6548
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "c4fb7998b163f58b890a0e4478ca34b2225ed474d83652d7c69709484d5a49da",
+      "bytes": 3667
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "1ae32c7f8d4a818316b4be52ea850f36d6300c177fb5e4a10ba0d0ca6c0916a1",
+      "bytes": 6915
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/set-operations-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "eca104c8eb36d50c70f2e6f9d9151fa07b467377399e92a322bea0633fc17888",
+      "bytes": 3796
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "8232fb46f64f130ec2a706f974081335d88c654acba2d5e399ecb794993f5029",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "513505c804e02d419a5116a653ac16b8dd96eed422bb033e48af609c925973ce",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "5f7b7d8ea5b2df34bd08d63094cdc8c5822cca29297bc580987101185ee6be71",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "3e8f19028f6eb6ed4cafbebe73d5f75fb8909daad870080e45fc502a2fc65e8a",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "1a4444c38096ff0a83bd22394985ae3aa575da1f5a84b8740d6d30e4329854fc",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "a35fd3defc2e960d772bd391a23b96d5799abfaeb0bfec1be862d55979481320",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "01cb4e46daa61ad41b1ef09021f7ec862491dc6742885f4ee7964473605ac438",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "39c7d10714fcd68a64f362d510d42e4d00a11a6f8ba34f0480c1e6c9ca5c1e1b",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "f0ebb0ea062e44d239b0ffe9589877f5e9456f3cf3c2c9d7aa00a8d549bba96d",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "a58d862453a7f61ab2be9236a7ac9e1f217877539175fe88830dcc892357e0fc",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "ac062fc0a350b96234cc3be8348cf88c1041f5f0f1d6e694795db4db30c87473",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "bb3ae9c666910d3f6bc0776b30009758303067e8551fddf69cd248954000c606",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/focused-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "16fc241ef351daad22de9687c3b43fe4ead355131605f41eb40aabdbe93fcc06",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "1a6ba7650c77871391ddb04104f476a64993b1db829221aef3d12bc768c4f5ec",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "dbc1fb1e17723419e9f38dee73806a149a706892efe028fabc19f4e13deaf465",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "97289925055251938bbc514a6fd34a1d19200bc9f9d8436742e7c2d19a9fafcd",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "243e54f6f958a0819362b493350b4dc7d904b7ce3d670c78c6034c8f53de0754",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "7b37770d2307774163bc43d86402ef08d4dcc41eeb5fb09d6c80a72733ce7429",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "489a8638e74a0aeaa686fb2ba701d7f90651debf32a7465f2500746ce6a1e0b3",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "0511fa5532a9188f1bf0bdf7d681f0d47e3cfff153a634c426a8450433a2a788",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "2f882800df9447831f04ce8c672e43b13ec9f9310e126087cf363e1ea3dfbb1e",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "e0051f307cbc6ecde5baa467002689133c6ec972569b9eabca9fe449b00ec827",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "c1a9c57df7ace87f826e4cc84da4dc409d483ce21155c2a13bcc2df721390fd9",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "b861e108d0490118b4c3f9ba12e2e3b04fed02a0880663e0c6cae0e624882da7",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "172bce1450cdaf125a6f85192bd4ab59ee2ec230b6fb7b421e3b4a938387081b",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "7b68cfb5deef1e8cf80040fddf7cdfe41d170e12816546cd0b6b2cbf52e7cba8",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "98973bb285863ad84238c32f56992fd8ccc2436561ef0c1d3426277167e2a8e0",
+      "bytes": 6386
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "a79b174a67bd07040580efa064090eadc18b5fb6f220c8411f86841c96e759c7",
+      "bytes": 3624
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "f952c07a475efc9f31c4671798e2117b08ffa8094b9846642d43939e58605583",
+      "bytes": 6546
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "b6b3c39997f133f4d7ca9ba0153990c2ceb94a74364cab418633c1c95f3d449e",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "395e91fcaf717ebf4ee0a8e98ec9f5477f2065f6906b18dcced5e4cc7c43e7c5",
+      "bytes": 6905
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "02727d886de402cc06536837cb6c5734bea6c9771b5d9b9f322dbcfcd2bff087",
+      "bytes": 3794
+    }
+  ],
+  "diagnostic_publication_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-diagnostic/focused-1-artifacts.json",
+      "sha256": "d4b6857a94ab750a7b2d533895bbe475c1ca04bf71664a72040e16e4b5754922",
+      "bytes": 5141
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-diagnostic/focused-1-contact-sheet.png",
+      "sha256": "b3b29afc414f2c96cdcc71078576aa7b719f18056ab873e2e3a3f2bbeb2479cf",
+      "bytes": 62288
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/raster-bounds-diagnostic/focused-1-visual-review.json",
+      "sha256": "fdc8590a127c8e95197984667a98ce55820c182747dbed10cbf8224ead3ce441",
+      "bytes": 5946
+    }
+  ],
+  "qualified_artifact_dataset": "build/m3-evidence/2026-10-19/raster-bounds-artifacts/full-1",
+  "record_validation_log": "build/m3-evidence/2026-10-19/set-raster-record-validation.log",
+  "record_checks": {
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/set-raster-python-records-1.log",
+        "sha256": "9bfe52e6813a6bca9fa9b89b4e637f4d42136aeab225f9cf4caf18d7051f8aa8",
+        "bytes": 206
+      }
+    },
+    "ledger": {
+      "path": "build/m3-evidence/2026-10-19/set-raster-ledger-records-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    }
+  }
+}

@@ -10,6 +10,7 @@ enum LayerPropertiesEditing {
             let name = text(row,0)
             let old = previous.first(where:{$0.name == name}) ?? (rows.count == previous.count && previous.indices.contains(index) ? previous[index] : nil)
             var layer = old ?? DiagramLayer(name:name)
+            layer.name = name
             layer.visible = yes(text(row,1),true);layer.locked = yes(text(row,2),false);layer.printable = yes(text(row,3),true);layer.snap = yes(text(row,4),true);layer.glue = yes(text(row,5),true)
             let color = text(row,6)
             if color.isEmpty || color.caseInsensitiveCompare("none") == .orderedSame { layer.color = nil }
@@ -27,6 +28,24 @@ enum LayerPropertiesEditing {
         }
         guard Set(updated.map(\.name)).count == updated.count else { throw DiagramError.invalid("Layer names must be unique.") }
         return updated
+    }
+    static func replacing(_ previous:[DiagramLayer],with updated:[DiagramLayer],on input:DiagramPage) -> DiagramPage {
+        var page = input;page.layers = updated
+        let names = Set(updated.map(\.name))
+        let renamed = Dictionary(uniqueKeysWithValues:previous.compactMap { old in updated.first(where:{$0.id == old.id}).map{(old.name,$0.name)} })
+        for i in page.nodes.indices {
+            page.nodes[i].layer = renamed[page.nodes[i].layer] ?? page.nodes[i].layer
+            if !names.contains(page.nodes[i].layer) { page.nodes[i].layer = "Default" }
+            page.nodes[i].formatting.layerNames = page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
+        }
+        for i in page.edges.indices {
+            if let name = page.edges[i].layer { page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) }
+            if var detail = page.edges[i].details {
+                detail.layerNames = detail.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
+                page.edges[i].details = detail
+            }
+        }
+        return page
     }
 }
 
@@ -208,9 +227,23 @@ extension EditorWindowController {
         canvas.finishEditing(commit:true)
         do { var next = diagramDocument.diagram;let binding = next.visioArchive?.pages.first{$0.pageID == next.page.id};let id = try DiagramOperations.group(canvas.selectedNodes,in:&next.page,binding:binding); diagramDocument.replaceInEditor(with:try next.validated(),action:"Group Shapes"); canvas.select([id]) } catch { presentError(error) }
     }
-    @objc func ungroupSelection(_ sender:Any?) {
-        canvas.finishEditing(commit:true); var next = diagramDocument.diagram
-        let ids = DiagramOperations.ungroup(canvas.selectedNodes,in:&next.page); diagramDocument.replaceInEditor(with:next,action:"Ungroup Shapes"); canvas.select(ids)
+    @objc func ungroupSelection(_ sender: Any?) {
+        canvas.finishEditing(commit: true)
+        let before = diagramDocument.diagram
+        var next = before
+        let ids = DiagramOperations.ungroup(canvas.selectedNodes, in: &next.page)
+        let removed = Set(before.page.nodes.map(\.id)).subtracting(next.page.nodes.map(\.id))
+        let proposed = next
+        if !DiagramMemberships.needsSourceProof(in: before, pageID: before.page.id) {
+            diagramDocument.replaceInEditor(with: proposed, action: "Ungroup Shapes")
+            canvas.select(ids)
+            return
+        }
+        diagramDocument.replaceInEditor(with: proposed, action: "Ungroup Shapes", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try DiagramMemberships.validateRemoval(removed, in: before, pageID: before.page.id, cancellation: cancellation)
+            return (proposed, CalculationWork())
+        })
+        canvas.select(ids)
     }
     @objc func flipHorizontal(_ sender:Any?) { modifySelection("Flip Horizontal") { $0.formatting.flipX.toggle() } }
     @objc func flipVertical(_ sender:Any?) { modifySelection("Flip Vertical") { $0.formatting.flipY.toggle() } }
@@ -252,15 +285,8 @@ extension EditorWindowController {
         guard grid.run(title:"Drawing Layers",message:"Snap lets other shapes align to shapes on the layer. Glue lets connectors attach to shapes on the layer. A color overrides a shape's colors when it belongs to exactly one layer; blank disables it. Enter six-digit RGB hex. Transparency is 0% opaque to 100% clear.") else { return }
         let updated:[DiagramLayer]
         do { updated = try LayerPropertiesEditing.apply(grid.rows,previous:layers) } catch { presentError(error); return }
-        var next = diagramDocument.diagram; next.page.layers = updated
-        let names = Set(updated.map(\.name))
-        let renamed = Dictionary(uniqueKeysWithValues:layers.compactMap { old in updated.first(where:{$0.id == old.id}).map{(old.name,$0.name)} })
-        for i in next.page.nodes.indices {
-            next.page.nodes[i].layer = renamed[next.page.nodes[i].layer] ?? next.page.nodes[i].layer
-            if !names.contains(next.page.nodes[i].layer) { next.page.nodes[i].layer = "Default" }
-            next.page.nodes[i].formatting.layerNames = next.page.nodes[i].formatting.layerNames.map{renamed[$0] ?? $0}.filter{names.contains($0)}
-        }
-        for i in next.page.edges.indices { if let name = next.page.edges[i].layer { next.page.edges[i].layer = renamed[name] ?? (names.contains(name) ? name : nil) } }
+        var next = diagramDocument.diagram
+        next.page = LayerPropertiesEditing.replacing(layers,with:updated,on:next.page)
         diagramDocument.replaceInEditor(with:next,action:"Layer Properties")
     }
     @objc func insertImage(_ sender:Any?) {
@@ -306,7 +332,7 @@ extension EditorWindowController {
         if selected.formatting.sheet["LocPinX"] == nil { cells["LocPinX"]?.formula = "Width*0.5" };if selected.formatting.sheet["LocPinY"] == nil { cells["LocPinY"]?.formula = "Height*0.5" }
         let editable = cells.filter { ShapeSheetEngine.geometryKeys.contains($0.key) || ShapeSheetEngine.textKeys.contains($0.key) || $0.key.hasPrefix("User.") || $0.key.hasPrefix("Prop.") }
         let grid = PropertyGrid(columns:["Cell","Cached value","Formula","Unit"],rows:editable.keys.sorted().map{[$0,editable[$0]!.value,editable[$0]!.formula,editable[$0]!.unit]},width:900)
-        guard grid.run(title:"ShapeSheet — Sheet.\(next.page.nodes[index].formatting.sourceShapeID ?? "")",message:"Lengths use inches and angles use radians internally. STR stores text; DATE stores dates. Formulas can reference text, properties, controls, geometry and other shapes. Unsupported formulas retain their cached value.") else { return }
+        guard grid.run(title:"ShapeSheet — Sheet.\(next.page.nodes[index].formatting.sourceShapeID ?? "")",message:"Lengths use inches and angles use radians internally. STR stores text; DATE stores dates. Formulas can reference text, properties, controls, geometry and other shapes. Unsupported formulas retain their cached value. Relationships is managed by Memberships and is read-only here.") else { return }
         let names = grid.rows.map{$0[0].trimmingCharacters(in:.whitespacesAndNewlines)}
         guard Set(names.map{$0.lowercased()}).count == names.count else { presentError(DiagramError.invalid("Cell names must be unique."));return }
         do {

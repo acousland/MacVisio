@@ -4,16 +4,23 @@ import Foundation
 /// Resolves typed dependencies against one immutable page snapshot. Public cell
 /// names, dependency cycles and limits are shared by geometry and control edits.
 final class ShapeSheetContext {
+    enum ValueMode: Equatable { case scalarGeometry, typedFields }
     private enum ThemeState { case noTheme, active(VisioTheme), unavailable(String), unknown }
     private enum ThemeColorSelector { case named(String), oneBasedIndex(Int), quickStyleReference(ShapeSheet.Expression) }
     private enum ThemeLineComponent:Equatable { case effect, connector }
     private enum ThemeLineSelector { case weight(forceConnector:Bool), cap }
     private enum ThemeLineState { case noTheme, active(VisioTheme,ThemeLineComponent), unavailable(String), unknown }
     private enum FormulaHost { case shape(UUID,String?), page(String?) }
-    private(set) var work = CalculationWork(contexts: 1)
+    private var measuredWork = CalculationWork(contexts: 1)
+    var work: CalculationWork {
+        var result = measuredWork
+        if let foregroundContext { result.add(foregroundContext.work) }
+        return result
+    }
     let page:DiagramPage
     private let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
+    private let publicIDsByObject: [UUID: String]
     private var cache:[String:SheetValue] = [:],visiting = Set<String>(),steps = 0
     // Exact spellings are safe aliases inside this immutable page snapshot.
     // Resolve them before repeating control and case-insensitive cell scans.
@@ -24,27 +31,64 @@ final class ShapeSheetContext {
     private var defaultsCache:[UUID:[String:Double]] = [:]
     private let colorPalette:ShapeSheetColorPalette
     private let cancellation:LifecycleJobCancellation?
-    init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette(),nodesByID:[UUID:DiagramNode]? = nil,identifiers:[String:UUID]? = nil,cancellation:LifecycleJobCancellation? = nil) {
-        self.page = page;nodes = nodesByID ?? Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
+    private let document: Diagram?
+    private let foreground: DiagramPage?
+    private let now: Date
+    private let mode: ValueMode
+    private var definitionSheets: [UUID: DefinitionSheet]?
+    private var definitionScopes: [UUID: [String: UUID]] = [:]
+    private var definitionCells: [UUID: [String: DefinitionCell]] = [:]
+    private var foregroundContext: ShapeSheetContext?
+    private var failuresByDefinitionCell: [String: DocumentDiagnostic] = [:]
+    var definitionDiagnostics: [DocumentDiagnostic] {
+        let local = failuresByDefinitionCell.keys.sorted().compactMap { failuresByDefinitionCell[$0] }
+        return local + (foregroundContext?.definitionDiagnostics ?? [])
+    }
+    init(page:DiagramPage,binding:VisioPageBinding? = nil,colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette(),nodesByID:[UUID:DiagramNode]? = nil,identifiers:[String:UUID]? = nil,cancellation:LifecycleJobCancellation? = nil,
+         document: Diagram? = nil, foreground: DiagramPage? = nil, now: Date = Date(), mode: ValueMode = .scalarGeometry,
+         publicIDsByObject: [UUID: String]? = nil) {
+        self.page = page
+        var objects = nodesByID ?? Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
+        if nodesByID == nil {
+            for edge in page.edges { objects[edge.id] = ConnectorSheetHost.node(edge,in:page,nodesByID:objects) }
+        }
+        nodes = objects
         self.colorPalette = colorPalette
         self.cancellation = cancellation
+        self.document = document; self.foreground = foreground; self.now = now; self.mode = mode
+        if let publicIDsByObject { self.publicIDsByObject = publicIDsByObject }
+        else if let identifiers { self.publicIDsByObject = Dictionary(identifiers.map { ($0.value, $0.key) }, uniquingKeysWith: { first,_ in first }) }
+        else { self.publicIDsByObject = CalculationDependencyIndex.publicIDs(page:page,binding:binding) }
         if let identifiers { self.identifiers = identifiers }
-        else { for (i,n) in page.nodes.enumerated() { let id = binding?.nodeIDs[n.id] ?? n.formatting.sourceShapeID ?? String(i+1);if self.identifiers[id] == nil { self.identifiers[id] = n.id } } }
+        else {
+            for id in page.nodes.map(\.id) + page.edges.map(\.id) {
+                if let key = self.publicIDsByObject[id], self.identifiers[key] == nil { self.identifiers[key] = id }
+            }
+        }
     }
     func target(_ reference:String,from id:UUID) throws -> (UUID,String) {
         guard let mark = reference.firstIndex(of:"!") else { return (id,reference) }
         let owner = String(reference[..<mark]),key = String(reference[reference.index(after:mark)...])
+        if owner.caseInsensitiveCompare("ThePage") == .orderedSame { return (page.id, key) }
+        if owner.caseInsensitiveCompare("TheDoc") == .orderedSame, let sheet = document?.definitions?.documentSheet { return (sheet.id, key) }
         if owner.caseInsensitiveCompare("ParentShape") == .orderedSame,let parent = nodes[id]?.parentID { return (parent,key) }
+        if owner.caseInsensitiveCompare("ParentShape") == .orderedSame, let parent = definitionSheet(id)?.parentID { return (parent,key) }
+        if owner.uppercased().hasPrefix("SHEET."), definitionSheet(id) != nil {
+            let keyID = String(owner.dropFirst(6))
+            guard let target = definitionScopes[id]?[keyID] ?? UInt32(keyID).flatMap({ definitionScopes[id]?[String($0)] }) else {
+                throw DiagramError.invalid("Unknown definition sheet reference: \(reference).")
+            }
+            return (target, key)
+        }
         guard owner.uppercased().hasPrefix("SHEET."),let target = identifiers[String(owner.dropFirst(6))] ?? UInt32(owner.dropFirst(6)).flatMap({identifiers[String($0)]}) else { throw DiagramError.invalid("Unknown ShapeSheet reference: \(reference).") };return (target,key)
     }
     func number(_ id:UUID,_ reference:String) throws -> Double { try value(id,reference).numeric() }
     func value(_ id:UUID,_ reference:String) throws -> SheetValue {
         try cancellation?.check()
-        work.cellRequests += 1
-        if reference.uppercased().hasPrefix("THEPAGE!") {
-            return try pageValue(String(reference.dropFirst(8)),from:id)
-        }
+        measuredWork.cellRequests += 1
         let (id,key) = try target(reference,from:id)
+        if id == page.id { return try pageValue(key, from: page.id) }
+        if nodes[id] == nil, let sheet = definitionSheet(id) { return try definitionValue(sheet, key) }
         steps += 1;guard steps < 100000,visiting.count < 64 else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
         if let value = referenceCache[id]?[key] { return value }
         guard let node = nodes[id] else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
@@ -53,37 +97,98 @@ final class ShapeSheetContext {
         else { canonical = sheetKey(key,on:node) ?? key }
         let token = id.uuidString+"!"+canonical.lowercased()
         if let value = cache[token] { referenceCache[id,default:[:]][key] = value;return value };guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(canonical).") };defer { visiting.remove(token) }
-        work.evaluatedCells += 1
+        measuredWork.evaluatedCells += 1
         PerformanceEvidence.count(.evaluatedCells)
         let result:SheetValue
         if canonical.caseInsensitiveCompare("TheText") == .orderedSame { result = .string(node.text) }
         else {
             let property = canonical.lowercased().hasPrefix("prop.") ? node.formatting.data.first{$0.key.caseInsensitiveCompare(String(canonical.dropFirst(5))) == .orderedSame} : nil
-            let cell = node.formatting.sheet[canonical] ?? ConnectionGeometry.cell(canonical,on:node) ?? GeometrySheet.cell(canonical,on:node) ?? ControlGeometry.cell(canonical,on:node)
+            let cell = node.formatting.sheet[canonical] ?? fieldCell(canonical,on:node) ?? ConnectionGeometry.cell(canonical,on:node) ?? GeometrySheet.cell(canonical,on:node) ?? ControlGeometry.cell(canonical,on:node)
             if let formula = cell?.formula,!formula.isEmpty,!["INH","NO FORMULA"].contains(formula.uppercased()) { result = try evaluate(formula,on:id,hostCell:canonical) }
             else if let property {
-                let stored = cell?.value ?? property.value
+                let stored = mode == .typedFields ? property.value : cell?.value ?? property.value
                 if property.type == 3 { result = .boolean(stored == "1" || stored.uppercased() == "TRUE") }
                 else if property.type == 5,let date = FieldFormatting.date(stored) { result = .date(date) }
-                else if [2,6,7].contains(property.type),let number = Double(stored),number.isFinite { result = .number(number) }
+                else if [2,6,7].contains(property.type),let number = Double(stored),number.isFinite { result = numericValue(number, unit: cell?.unit ?? "") }
                 else { result = .string(stored) }
             } else if let cell {
-                if cell.unit.uppercased() == "STR" || ["PROMPT","TIP"].contains(canonical.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
-                else if cell.unit.uppercased() == "DATE",let date = FieldFormatting.date(cell.value) { result = .date(date) }
-                else if let color = literalColor(cell,key:canonical) { result = .color(color) }
-                else if let number = Double(cell.value),number.isFinite { result = .number(number) }
-                else { result = .string(cell.value) }
-            } else if canonical.caseInsensitiveCompare("TxtWidth") == .orderedSame { result = .number(try number(id,"Width")*(node.formatting.textBox?.width ?? 1)) }
-            else if canonical.caseInsensitiveCompare("TxtHeight") == .orderedSame { result = .number(try number(id,"Height")*(node.formatting.textBox?.height ?? 1)) }
-            else if canonical.caseInsensitiveCompare("TxtLocPinX") == .orderedSame { result = .number(try number(id,"TxtWidth")/2) }
-            else if canonical.caseInsensitiveCompare("TxtLocPinY") == .orderedSame { result = .number(try number(id,"TxtHeight")/2) }
-            else if let number = defaults(for:node).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = .number(number) }
+                result = literalValue(cell, key: canonical)
+            } else if canonical.caseInsensitiveCompare("TxtWidth") == .orderedSame { result = numericValue(try number(id,"Width")*(node.formatting.textBox?.width ?? 1), unit: implicitUnit(canonical)) }
+            else if canonical.caseInsensitiveCompare("TxtHeight") == .orderedSame { result = numericValue(try number(id,"Height")*(node.formatting.textBox?.height ?? 1), unit: implicitUnit(canonical)) }
+            else if canonical.caseInsensitiveCompare("TxtLocPinX") == .orderedSame { result = numericValue(try number(id,"TxtWidth")/2, unit: implicitUnit(canonical)) }
+            else if canonical.caseInsensitiveCompare("TxtLocPinY") == .orderedSame { result = numericValue(try number(id,"TxtHeight")/2, unit: implicitUnit(canonical)) }
+            else if let number = defaults(for:node).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = numericValue(number, unit: implicitUnit(canonical)) }
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
         };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;referenceCache[id,default:[:]][key] = result;return result
     }
+    private func numericValue(_ number: Double, unit: String) -> SheetValue {
+        mode == .typedFields && SheetValue.factor(unit) != nil ? .quantity(number,unit) : .number(number)
+    }
+    private func implicitUnit(_ key: String) -> String {
+        if ["Angle","TxtAngle"].contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame }) { return "RAD" }
+        if (ShapeSheetEngine.geometryKeys + ShapeSheetEngine.textKeys + ["PageWidth","PageHeight"]).contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame && $0 != "VerticalAlign" }) {
+            return page.drawingScale?.drawingUnit ?? "IN"
+        }
+        return ""
+    }
+    private func literalValue(_ cell: ShapeSheetCell, key: String) -> SheetValue {
+        let unit = cell.unit.uppercased()
+        if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { return .string(cell.value) }
+        if unit == "BOOL" { return .boolean(cell.value == "1" || cell.value.uppercased() == "TRUE") }
+        if unit == "DATE", let date = FieldFormatting.date(cell.value) { return .date(date) }
+        if let color = literalColor(cell,key:key) { return .color(color) }
+        if let number = Double(cell.value), number.isFinite { return numericValue(number,unit: unit.isEmpty ? implicitUnit(key) : unit) }
+        return .string(cell.value)
+    }
+    private func fieldCell(_ key: String, on node: DiagramNode) -> ShapeSheetCell? {
+        guard key.lowercased().hasPrefix("fields.value["), key.hasSuffix("]"),
+              let number = UInt32(key.dropFirst(13).dropLast()), number > 0 else { return nil }
+        return node.formatting.textFields?.first { $0.index == Int(number)-1 }?.cells["Value"]
+    }
+    private func definitionSheet(_ id: UUID) -> DefinitionSheet? {
+        if let sheet = document?.definitions?.documentSheet, sheet.id == id { return sheet }
+        if nodes[id] != nil || id == page.id { return nil }
+        if definitionSheets == nil {
+            var sheets: [UUID: DefinitionSheet] = [:]
+            for definition in (document?.definitions?.masters ?? []) + (document?.definitions?.styles ?? []) {
+                let scope = Dictionary(definition.sheets.map { ($0.publicID,$0.id) }, uniquingKeysWith: { first,_ in first })
+                for sheet in definition.sheets { sheets[sheet.id] = sheet; definitionScopes[sheet.id] = scope }
+            }
+            definitionSheets = sheets
+        }
+        return definitionSheets?[id]
+    }
+    private func definitionValue(_ sheet: DefinitionSheet, _ reference: String) throws -> SheetValue {
+        steps += 1
+        guard steps < 100000, visiting.count < 64 else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
+        if definitionCells[sheet.id] == nil { definitionCells[sheet.id] = try DefinitionSheetReferences.cells(sheet) }
+        guard let cell = definitionCells[sheet.id]?[reference.lowercased()] else { throw DiagramError.invalid("Unknown definition cell: \(reference).") }
+        let token = sheet.id.uuidString + "!" + cell.address.key
+        if let value = cache[token] { return value }
+        guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at \(reference).") }
+        defer { visiting.remove(token) }
+        measuredWork.evaluatedCells += 1; PerformanceEvidence.count(.evaluatedCells)
+        do {
+            let result = try evaluate(cell.value,on:sheet.id,hostCell:reference)
+            guard result.valid else { throw DiagramError.invalid("Invalid definition cell value.") }
+            cache[token] = result
+            return result
+        } catch {
+            let registry = document?.definitions
+            let owner = ((registry?.masters ?? []) + (registry?.styles ?? [])).first { $0.sheets.contains { $0.id == sheet.id } }
+            failuresByDefinitionCell[token] = DocumentDiagnostic(code: "calculation.definition.cell",
+                origin: .calculation, severity: .warning, dimension: .behavior,
+                target: .definition(sheet: sheet.id),
+                source: .init(part: owner?.part ?? registry?.documentPart, visioID: sheet.publicID,
+                    cell: reference, definitionCell: cell.address, feature: "definition-sheet"),
+                displayState: .cached, message: error.localizedDescription,
+                requestedActions: [.viewDetails, .revealTarget, .inspectCell])
+            throw error
+        }
+    }
     private func defaults(for node:DiagramNode) -> [String:Double] {
         if let values = defaultsCache[node.id] { return values }
-        let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes,onDefaultPinFormulaEvaluation:{self.work.defaultPinFormulaEvaluations += 1})
+        let values = ShapeSheetEngine.defaults(node,page:page,nodesByID:nodes,onDefaultPinFormulaEvaluation:{self.measuredWork.defaultPinFormulaEvaluations += 1})
         defaultsCache[node.id] = values
         return values
     }
@@ -103,34 +208,37 @@ final class ShapeSheetContext {
         return keys[reference.lowercased()]
     }
     private func pageValue(_ reference:String,from host:UUID) throws -> SheetValue {
+        if let foreground, foreground.id != page.id {
+            if foregroundContext == nil {
+                foregroundContext = ShapeSheetContext(page: foreground,
+                    binding: document?.visioArchive?.pages.first { $0.pageID == foreground.id },
+                    colorPalette: colorPalette, cancellation: cancellation, document: document, now: now, mode: mode)
+            }
+            return try foregroundContext!.value(foreground.id, reference)
+        }
         steps += 1
         guard steps < 100000,visiting.count < 64 else { throw DiagramError.invalid("ShapeSheet dependency limit exceeded.") }
+        let page = foreground ?? self.page
         let storedKey = page.sheet?.keys.first{$0.caseInsensitiveCompare(reference) == .orderedSame}
         let key = storedKey ?? reference
         let token = page.id.uuidString+"!"+key.lowercased()
         if let value = cache[token] { return value }
         guard visiting.insert(token).inserted else { throw DiagramError.invalid("Circular ShapeSheet dependency at ThePage!\(key).") }
         defer { visiting.remove(token) }
-        work.evaluatedCells += 1
+        measuredWork.evaluatedCells += 1
         PerformanceEvidence.count(.evaluatedCells)
 
         let cell = storedKey.flatMap{page.sheet?[$0]}
         let formula = cell?.formula.trimmingCharacters(in:.whitespacesAndNewlines) ?? ""
         let result:SheetValue
         if !formula.isEmpty && !["INH","NO FORMULA"].contains(formula.uppercased()) {
-            result = try evaluate(expression(formula),on:host,host:.page(key))
+            result = try evaluate(expression(formula),on:self.page.id,host:.page(key))
         } else if let cell {
-            let unit = cell.unit.uppercased()
-            if unit == "STR" || ["PROMPT","TIP"].contains(key.split(separator:".").last.map(String.init)?.uppercased() ?? "") { result = .string(cell.value) }
-            else if unit == "BOOL" { result = .boolean(cell.value == "1" || cell.value.uppercased() == "TRUE") }
-            else if unit == "DATE",let date = FieldFormatting.date(cell.value) { result = .date(date) }
-            else if let color = literalColor(cell,key:key) { result = .color(color) }
-            else if let number = Double(cell.value),number.isFinite { result = .number(number) }
-            else { result = .string(cell.value) }
+            result = literalValue(cell,key:key)
         } else {
             let values = ["pagewidth":page.width/72,"pageheight":page.height/72,"pagescale":page.drawingScale?.page ?? 1,"drawingscale":page.drawingScale?.drawing ?? 1]
             guard let number = values[key.lowercased()] else { throw DiagramError.invalid("Unknown page cell: ThePage!\(reference).") }
-            result = .number(number)
+            result = numericValue(number,unit:["pagewidth","pageheight"].contains(key.lowercased()) ? page.drawingScale?.drawingUnit ?? "IN" : "")
         }
         guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet page value.") }
         cache[token] = result
@@ -138,6 +246,11 @@ final class ShapeSheetContext {
     }
     func evaluate(_ formula:String,on id:UUID) throws -> SheetValue {
         try evaluate(expression(formula),on:id,host:.shape(id,nil))
+    }
+    func evaluate(_ cell: ShapeSheetCell, on id: UUID, hostCell: String? = nil) throws -> SheetValue {
+        let formula = cell.formula.trimmingCharacters(in:.whitespacesAndNewlines)
+        if formula.isEmpty || ["INH","NO FORMULA"].contains(formula.uppercased()) { return literalValue(cell,key:hostCell ?? "") }
+        return try evaluate(formula,on:id,hostCell:hostCell)
     }
     func evaluate(_ expression:ShapeSheet.Expression,on id:UUID) throws -> SheetValue {
         try evaluate(expression,on:id,host:.shape(id,nil))
@@ -153,8 +266,8 @@ final class ShapeSheetContext {
     }
     private func evaluate(_ expression:ShapeSheet.Expression,on id:UUID,host:FormulaHost) throws -> SheetValue {
         try cancellation?.check()
-        work.formulaEvaluations += 1
-        return try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,_ in throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")},scalar:true,specialCall:{name,args,eval in
+        measuredWork.formulaEvaluations += 1
+        return try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,values in try self.contextFunction(name,values:values,id:id)},scalar:mode == .scalarGeometry,specialCall:{name,args,eval in
             if name == "THEMEVAL" {
                 guard args.count <= 2 else { throw DiagramError.invalid("THEMEVAL accepts at most two arguments.") }
                 let colorSelector:ThemeColorSelector?
@@ -234,11 +347,47 @@ final class ShapeSheetContext {
                 var box = node.formatting.textBox ?? ShapeTextBox()
                 if source.formatting.sheet["LeftMargin"] != nil { box.left = try self.number(owner,"LeftMargin")*72 };if source.formatting.sheet["RightMargin"] != nil { box.right = try self.number(owner,"RightMargin")*72 };if source.formatting.sheet["TopMargin"] != nil { box.top = try self.number(owner,"TopMargin")*72 };if source.formatting.sheet["BottomMargin"] != nil { box.bottom = try self.number(owner,"BottomMargin")*72 };node.formatting.textBox = box
             }
-            self.work.textMeasurements += 1
+            self.measuredWork.textMeasurements += 1
             let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil
             let metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum,cancellation:self.cancellation)
             return .number(name == "TEXTWIDTH" ? metrics.width : metrics.height)
         },colorPalette:colorPalette)
+    }
+    private func contextFunction(_ name: String, values: [SheetValue], id: UUID) throws -> SheetValue {
+        func arity(_ count: Int) throws {
+            guard values.count == count else { throw DiagramError.invalid("\(name) expects \(count) arguments.") }
+        }
+        let context = foreground ?? page
+        let pages = document?.pages ?? [page]
+        switch name {
+        case "PAGENAME":
+            guard values.count <= 1 else { throw DiagramError.invalid("Invalid PAGENAME arguments.") }
+            return .string(context.name)
+        case "PAGENUMBER":
+            try arity(0)
+            return .number(context.isBackground == true ? 0 : Double((pages.filter { $0.isBackground != true }.firstIndex { $0.id == context.id } ?? -1)+1))
+        case "PAGECOUNT": try arity(0); return .number(Double(pages.filter { $0.isBackground != true }.count))
+        case "BKGPAGENAME":
+            guard values.count <= 1 else { throw DiagramError.invalid("Invalid BKGPAGENAME arguments.") }
+            return .string(pages.first { $0.id == context.backgroundPageID }?.name ?? "")
+        case "ID":
+            try arity(0)
+            guard let key = publicIDsByObject[id] ?? definitionSheet(id)?.publicID,
+                  let value = Double(key), value.isFinite else { throw DiagramError.invalid("Invalid shape ID; this owner has no numeric public identifier.") }
+            return .number(value)
+        case "NOW": try arity(0); return .date(now)
+        case "TODAY": try arity(0); return .date(Calendar(identifier:.gregorian).startOfDay(for:now))
+        case "DATE":
+            try arity(3)
+            let numbers = try values.map { try $0.numeric() }
+            guard numbers.allSatisfy({ $0.isFinite && abs($0) < 10000 }),
+                  let date = Calendar(identifier:.gregorian).date(from:DateComponents(year:Int(numbers[0]),month:Int(numbers[1]),day:Int(numbers[2]))) else {
+                throw DiagramError.invalid("Invalid date.")
+            }
+            return .date(date)
+        case "FORMAT": try arity(2); return .string(try FieldFormatting.format(values[0],picture:values[1].text,unit:values[0].unit ?? ""))
+        default: throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")
+        }
     }
     private func colorThemeState(for host:FormulaHost) -> ThemeState {
         let cells:[String:ShapeSheetCell]?

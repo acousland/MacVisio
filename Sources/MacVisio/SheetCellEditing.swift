@@ -2,6 +2,7 @@ import Foundation
 
 enum SheetCellEditing {
     static func set(_ key:String,value:String,formula:String,unit:String,on node:inout DiagramNode) throws {
+        if let reason = DiagramMemberships.managedCellReason(key) { throw DiagramError.invalid(reason) }
         guard ShapeSheetEngine.geometryKeys.contains(key) || ShapeSheetEngine.textKeys.contains(key) || key.lowercased().hasPrefix("user.") || key.lowercased().hasPrefix("prop."),unit.utf8.count <= 64 else { throw DiagramError.invalid("Use a supported transform/text cell, User.* or Prop.*.") }
         let property = key.lowercased().hasPrefix("prop.") ? node.formatting.data.firstIndex{$0.key.caseInsensitiveCompare(String(key.dropFirst(5))) == .orderedSame} : nil
         let textProperty = property.map{![2,3,5,6,7].contains(node.formatting.data[$0].type)} ?? false
@@ -20,6 +21,7 @@ enum SheetCellEditing {
 
 extension EditorWindowController {
     func setShapeSheetCell(_ key:String,value:String,formula:String,unit:String? = nil,for id:UUID) throws {
+        if let reason = DiagramMemberships.managedCellReason(key) { throw DiagramError.invalid(reason) }
         canvas.finishPageInteraction();let old = diagramDocument.diagram;var next = old
         guard let i = next.page.nodes.firstIndex(where:{$0.id == id}),!next.page.isLocked(next.page.nodes[i]) else { throw DiagramError.invalid("Select an unlocked shape to edit ShapeSheet cells.") }
         try SheetCellEditing.set(key,value:value,formula:formula,unit:unit ?? next.page.nodes[i].formatting.sheet[key]?.unit ?? "",on:&next.page.nodes[i])

@@ -127,7 +127,7 @@ enum ControlEditing {
             let context = ShapeSheetContext(
                 page: next.page, binding: next.visioArchive?.pages.first { $0.pageID == next.page.id },
                 colorPalette: colorPalette, nodesByID: controlNodes, identifiers: dependency.identifiers,
-                cancellation: cancellation)
+                cancellation: cancellation, document: next, publicIDsByObject: dependency.publicIDsByObject)
             defer { writeWork.add(context.work) }
             return try context.number(next.page.nodes[i].id, key)
         }
@@ -135,7 +135,7 @@ enum ControlEditing {
             let context = ShapeSheetContext(
                 page: next.page, binding: next.visioArchive?.pages.first { $0.pageID == next.page.id },
                 colorPalette: colorPalette, nodesByID: controlNodes, identifiers: dependency.identifiers,
-                cancellation: cancellation)
+                cancellation: cancellation, document: next, publicIDsByObject: dependency.publicIDsByObject)
             defer { writeWork.add(context.work) }
             return try context.evaluate(expression, on: next.page.nodes[i].id).numeric()
         }

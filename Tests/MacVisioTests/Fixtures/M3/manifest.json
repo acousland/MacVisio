@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 1,
+  "syntheticOnly": true,
+  "scope": "M3 authored public content; reference/render/behavior acceptance pending",
+  "fixtures": [
+    {
+      "file": "m3-intelligent.vsdx",
+      "case": "m3-intelligent",
+      "format": "vsdx",
+      "sha256": "59d32c7e9cfd24fe8041e3a1829c1f293aa4d3365e3afd5e9a91ac03e6cdf5a1",
+      "bytes": 5987,
+      "containsNativeMetadata": false,
+      "expected": {
+        "pages": [
+          {
+            "index": 1,
+            "name": "Foreground",
+            "background": false,
+            "width": 8,
+            "height": 10,
+            "shapes": [
+              {
+                "id": "10",
+                "parentID": null,
+                "text": "Café 東京 🙂 bold\nSecond paragraph",
+                "masterID": "7",
+                "formulas": {
+                  "Width": "GUARD(2 in)",
+                  "User.Span": "Width"
+                },
+                "data": {
+                  "Prop.Owner": "Synthetic"
+                },
+                "cells": {
+                  "PinX": 2,
+                  "PinY": 6,
+                  "Width": 2,
+                  "Height": 1
+                }
+              },
+              {
+                "id": "20",
+                "parentID": null,
+                "text": "Local override",
+                "masterID": "8",
+                "formulas": {
+                  "Width": "Sheet.10!Width+1 in"
+                },
+                "cells": {
+                  "PinX": 6,
+                  "PinY": 6,
+                  "Width": 3,
+                  "Height": 1
+                }
+              },
+              {
+                "id": "30",
+                "parentID": null,
+                "text": "Link 東京",
+                "formulas": {
+                  "User.Weight": "Sheet.10!Width+Sheet.20!Width"
+                },
+                "cells": {
+                  "BeginX": 3,
+                  "BeginY": 6,
+                  "EndX": 4.5,
+                  "EndY": 6
+                }
+              }
+            ],
+            "connects": [
+              {
+                "fromShape": "30",
+                "fromCell": "BeginX",
+                "toShape": "10",
+                "toCell": "Connections.Out.X"
+              },
+              {
+                "fromShape": "30",
+                "fromCell": "EndX",
+                "toShape": "20",
+                "toCell": "PinX"
+              }
+            ]
+          },
+          {
+            "index": 2,
+            "name": "Background",
+            "background": true,
+            "width": 8,
+            "height": 10,
+            "shapes": [
+              {
+                "id": "1",
+                "parentID": null,
+                "text": "Public background",
+                "cells": {
+                  "PinX": 4,
+                  "PinY": 1,
+                  "Width": 2,
+                  "Height": 0.5
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "file": "m3-physical.vsdx",
+      "case": "m3-physical",
+      "format": "vsdx",
+      "sha256": "3a3c1616db49677f759f51fe033c78b210b6f64b95a6bbffd42dee789747c2cd",
+      "bytes": 3632,
+      "containsNativeMetadata": false,
+      "expectedPhysical": {
+        "printerScalePercent": 100,
+        "objectWidthMM": 20,
+        "pageWidthMM": 210,
+        "pageHeightMM": 297,
+        "printedToleranceMM": 0.2,
+        "calibratedPrinterEvidence": "pending"
+      },
+      "expected": {
+        "pages": [
+          {
+            "index": 1,
+            "name": "PhysicalScale",
+            "background": false,
+            "width": 413.38582677165357,
+            "height": 584.6456692913387,
+            "shapes": [
+              {
+                "id": "1",
+                "parentID": null,
+                "text": "",
+                "cells": {
+                  "Width": 39.37007874015748,
+                  "Height": 9.84251968503937
+                }
+              },
+              {
+                "id": "2",
+                "parentID": null,
+                "text": "Nonprinting guide",
+                "cells": {
+                  "Width": 39.37007874015748,
+                  "Height": 9.84251968503937
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

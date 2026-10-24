@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T06:29:48.169605+00:00",
+  "state": "partial_engineering_checkpoint",
+  "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+  "source_hash_binding": "Source/test hashes bind to git objects at code_commit, not a later working tree.",
+  "prior_checkpoint": {
+    "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+    "bytes": 17602
+  },
+  "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Native PNG save-panel settings for 36–1200 dpi and transparent/opaque paper. Physical paper points remain independent of raster sampling; pixel dimensions and DPI metadata are written explicitly, with dimension and 100-million-pixel checks before allocation. Assigned background artwork remains visible.",
+    "Native PDF current/all-foreground/custom-page controls with ordered unique identity-bound selection, duplicate-name disambiguation, Move Up/Down, mixed media boxes and preserved physical geometry.",
+    "Export drafts bind owner, state, revision and active page. Actual page activation can preserve drawing revision; switching pages invalidates the displayed draft instead of exporting a different raster page.",
+    "Offline bounded preferences pin libraries by source path and VSSX masters by source file plus public master ID, independently of display names and ephemeral preview/card UUIDs. Pins survive preference reload without editing the drawing.",
+    "Library browser pin/unpin and pinned-only controls include pinned files across scanned folders. Canonical path deduplication, regular-file/symlink validation and cancellation remain in the existing owned worker. Same-named libraries expose source paths in tooltip/accessibility metadata.",
+    "Shapes pane master context menus pin/unpin and a Pinned masters category filters loaded masters. Metadata includes filename, public ID, NameU and source path; search covers these fields. Category identities survive imported libraries named like built-in filters, and preview cards are reused."
+  ],
+  "qualification": {
+    "full_swift": {
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "executed": 868,
+      "skipped": 13,
+      "failures": 0,
+      "excluded_native_tests": [],
+      "log": "build/m3-evidence/2026-10-19/output-library-full-swift-2.log"
+    },
+    "focused": {
+      "executed": 49,
+      "skipped": 2,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/output-library-focused-5.log"
+    },
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/output-library-python-1.log"
+    },
+    "ledger": {
+      "requirements": 154,
+      "bounded_inventory_entries": 180,
+      "compatibility_accepted": false,
+      "log": "build/m3-evidence/2026-10-19/output-library-ledger-1.log"
+    },
+    "new_tests_since_df44f6b": 17,
+    "test_files": {
+      "M3OutputOptionsTests": 10,
+      "M3LibraryPinsTests": 7
+    }
+  },
+  "regression_dispositions": [
+    {
+      "logs": [
+        "output-library-focused-1.log"
+      ],
+      "observation": "Initial native action names collided with inherited NSResponder moveUp/moveDown methods. Renamed the PDF selection actions; subsequent compilation passes."
+    },
+    {
+      "logs": [
+        "output-library-focused-2.log"
+      ],
+      "observation": "Actual duplicate-title native popup behavior replaced the Pinned masters filter with an imported same-name family; explicit distinct menu items and represented identities fix the collision. Cross-folder test comparison also exposed /var versus /private path spelling; worker canonical identities now deduplicate aliases and tests compare canonical URLs."
+    },
+    {
+      "logs": [
+        "output-library-focused-3.log",
+        "output-library-full-swift-1.log"
+      ],
+      "observation": "Intermediate source passed42 focused tests (2 skips) and the complete866 suite (13 skips). Read-only review subsequently found active-page changes preserve revision, so a dedicated real activation regression and active-page draft binding were added. These runs are historical, not final source qualification."
+    },
+    {
+      "logs": [
+        "output-library-focused-4.log",
+        "output-library-focused-5.log",
+        "output-library-full-swift-2.log"
+      ],
+      "observation": "Final review added same-named library source metadata, actual activation invalidation and checkpoints around canonical-path loops. Final49 focused and full868-test suites pass without native exclusions."
+    }
+  ],
+  "limitations": [
+    "All204 M3 children and the milestone remain unaccepted. This is partial local engineering, with no integration or publication permission.",
+    "Raster settings currently apply to PNG page bounds. Selection/content bounds and additional registered formats/settings remain open. PDF page choices do not implement print ranges, tiling or calibrated printer qualification; SVG and the complete output policy contract remain open.",
+    "Pins are bounded offline preferences. The master filter shows already-loaded source masters; favorites are not automatically imported at launch. Missing/unreadable pinned library files are skipped by scanning and have no unavailable-item unpin UI in this slice. Legacy binary stencil metadata remains explicitly incomplete.",
+    "Custom imported VSSX identity-preserving create/rename/edit/reorder/delete, cross-library dependency closure/master replacement, and large-library timing/resource qualification remain open.",
+    "Remaining relationship/host/function/appearance/Boolean/layout/package production contracts and independent public workflows still require implementation and qualification.",
+    "Exact-build licensed Visio/COM, bidirectional no-repair/save/edit qualification, same-font regional comparisons and calibrated physical-printer evidence remain absent. The13 prerequisite skips are not passed evidence. M2 v0.23.4 performance exception does not qualify M3."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "279ed7d9c0c822988c91b21d600b0ec820f2c16ff4a1d6c10e3de75bb4109578",
+      "bytes": 102088
+    },
+    {
+      "path": "Sources/MacVisio/EditorUI.swift",
+      "sha256": "7ccaa8c6d3b1772086d65de02aee876002bbeca8f92831992a7812f4a8a65e8d",
+      "bytes": 50611
+    },
+    {
+      "path": "Sources/MacVisio/ExportJobs.swift",
+      "sha256": "e8884b405fc03291acad4404612a5de43e8a56baedab2011e2279377d32a4130",
+      "bytes": 20390
+    },
+    {
+      "path": "Sources/MacVisio/ExportOptionsView.swift",
+      "sha256": "ff6adad014440cc3be4c628b02e45863bbc21cf989f9a5a7f8f03af0a54d4027",
+      "bytes": 9602
+    },
+    {
+      "path": "Sources/MacVisio/LibraryPins.swift",
+      "sha256": "902a14805d44f8c02f76b5869faa68740dad69e2e5f4fec63ac4ee3d8ea328b9",
+      "bytes": 3294
+    },
+    {
+      "path": "Sources/MacVisio/VisioLibrary.swift",
+      "sha256": "8e25ce3d194f3bb08d7699aa7b98d3c0f61f442c776e549e057bb1a03979d2a0",
+      "bytes": 8015
+    },
+    {
+      "path": "Sources/MacVisio/VisioStencil.swift",
+      "sha256": "35fa1637e2fff75bccc5d120f0b79d59d02cb01231c4bcf54f9ce9e3a037c457",
+      "bytes": 12701
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "895315a4cce71fed6a434a5ffc066cfe0360944a46efc6ce1351348824c43b8c",
+      "bytes": 34000
+    },
+    {
+      "path": "Tests/MacVisioTests/M3LibraryPinsTests.swift",
+      "sha256": "16f66a80356404dd5bce0cf61f7af93ea5e36c92306b80f5a7f1329fc1ccbb10",
+      "bytes": 11402
+    },
+    {
+      "path": "Tests/MacVisioTests/M3OutputOptionsTests.swift",
+      "sha256": "bd42731e84a9152c8646c80461bc23e8d946f28ef2fc82dd594ffe55bd99321b",
+      "bytes": 19752
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-focused-1.log",
+      "sha256": "fbf43aaf747331a9f86947818f7959beb47a77fdddd23f6dae86d7a5b983bdf9",
+      "bytes": 22195
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-focused-2.log",
+      "sha256": "bccf8b314aad31a3515dfa42a214488b4d9221a2d9ea97e4954a58f4497d03c7",
+      "bytes": 29337
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-focused-3.log",
+      "sha256": "6ccf7f9028b6990d02db562ae4d650e5e448b96dc863299d2bc348b240dc1dd2",
+      "bytes": 14134
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-focused-4.log",
+      "sha256": "6ada20238e830691ed7121f8569544d2594f53d7c24044523abb41015163cdd5",
+      "bytes": 16215
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-focused-5.log",
+      "sha256": "b453c9e3e8853277a82a13b3ab37158879e09be13c137aa974e43d63e3df50b3",
+      "bytes": 16278
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-full-swift-1.log",
+      "sha256": "d55e0d133ba97f634d0ce486d4760aab50ad966c825e76c4817e5a28cd962215",
+      "bytes": 252873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-full-swift-2.log",
+      "sha256": "50914a161ead51c8843e6d53655b807295b3b23f597ea6f67627cb23a44864c6",
+      "bytes": 253390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/output-library-python-1.log",
+      "sha256": "3d23029cfe38bfdb98486d2e77bfa60ddf7c8d66cd3d937a9437431ca611cb77",
+      "bytes": 206
+    }
+  ],
+  "public_fixture_sources": [
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/m3-physical.vsdx",
+      "sha256": "3a3c1616db49677f759f51fe033c78b210b6f64b95a6bbffd42dee789747c2cd",
+      "bytes": 3632
+    }
+  ],
+  "record_checks": {
+    "validation_log": "build/m3-evidence/2026-10-19/output-library-record-validation.log",
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/output-library-python-records-2.log",
+        "sha256": "1b5ae020d6ff55afacc2396647065709917fbaa60b2b9ced998724db7e6f4229",
+        "bytes": 206
+      }
+    },
+    "ledger": {
+      "path": "build/m3-evidence/2026-10-19/output-library-ledger-records-2.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    }
+  }
+}

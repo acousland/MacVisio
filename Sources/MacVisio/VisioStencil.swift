@@ -6,6 +6,12 @@ struct StencilDefinition: Identifiable {
     var name: String
     var family: String
     var fragment: DiagramPage
+    var source: StencilSource? = nil
+    var searchMetadata: String { [name,family,source?.universalName ?? "",source?.masterID ?? "",source?.url.lastPathComponent ?? ""].joined(separator:" ") }
+    var metadataDescription: String {
+        guard let source else { return name + " · " + family }
+        return [name,"\(family) · Master \(source.masterID)",source.universalName,source.url.path].filter{!$0.isEmpty}.joined(separator:"\n")
+    }
 }
 enum VisioStencil {
     static func read(from url:URL) throws -> (items:[StencilDefinition],warnings:[String]) {
@@ -79,14 +85,22 @@ enum VisioStencil {
         // Calculate supported RGB formulas while the stencil's ColorEntry table is
         // still available, before its master fragments are detached from the package.
         let calculated = cacheRGBValues(imported.diagram)
-        return (try definitions(calculated.pages,family:url.deletingPathExtension().lastPathComponent),imported.warnings,imported.diagram.visioArchive)
+        var items = try definitions(calculated.pages,family:url.deletingPathExtension().lastPathComponent)
+        guard items.count == masterElements.count else { throw DiagramError.invalid("The stencil master metadata does not match its public pages.") }
+        let sourceURL = url.standardizedFileURL.resolvingSymlinksInPath()
+        for i in items.indices {
+            try job?.checkpoint()
+            guard let id = masterElements[i].attr("ID"),UInt32(id) != nil else { throw DiagramError.invalid("The stencil contains an invalid public master identity.") }
+            items[i].source = StencilSource(url:sourceURL,masterID:id,universalName:masterElements[i].attr("NameU") ?? masterElements[i].attr("Name") ?? "")
+        }
+        return (items,imported.warnings,imported.diagram.visioArchive)
     }
     private static func cacheRGBValues(_ input:Diagram) -> Diagram {
         var diagram = input
         let palette = ShapeSheetColorPalette(documentArchive:input.visioArchive)
         for pageIndex in diagram.pages.indices {
             let binding = diagram.visioArchive?.pages.first{$0.pageID == diagram.pages[pageIndex].id}
-            let context = ShapeSheetContext(page:diagram.pages[pageIndex],binding:binding,colorPalette:palette)
+            let context = ShapeSheetContext(page:diagram.pages[pageIndex],binding:binding,colorPalette:palette,document:diagram)
             for nodeIndex in diagram.pages[pageIndex].nodes.indices {
                 let node = diagram.pages[pageIndex].nodes[nodeIndex]
                 for key in node.formatting.sheet.keys {

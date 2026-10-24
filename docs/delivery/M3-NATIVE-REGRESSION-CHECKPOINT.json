@@ -1,0 +1,1068 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T10:23:53.076209+00:00",
+  "state": "partial_engineering_checkpoint_complete_local_regressions_pass",
+  "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+  "source_hash_binding": "Source/test hashes bind to git objects at code_commit. The actual tested HEAD d69c6f1 has identical Sources/Tests/Package.swift. Prior checkpoints remain immutable historical observations.",
+  "prior_checkpoints": [
+    {
+      "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+      "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+      "bytes": 126318
+    },
+    {
+      "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+      "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+      "bytes": 75446
+    }
+  ],
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": "No product source change in this checkpoint. Complete local regression qualification now covers the committed membership, numeric, pins and raster changes recorded in the prior checkpoints.",
+  "qualification": {
+    "native_benchmark": {
+      "executed": 5,
+      "skipped": 0,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/native-ready-benchmark-1.log",
+        "sha256": "cda346b20f74f276dd0a3ae16b43ba2573653dd5a04c729edf1dff49150cbf3e",
+        "bytes": 2837
+      }
+    },
+    "full_swift": {
+      "executed": 1104,
+      "skipped": 13,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/native-ready-full-swift-1.log",
+        "sha256": "f39e7e44f31275ee13f3fac39114b05400cdb3d52ce0ec5ddf00774dcbe956d0",
+        "bytes": 319889
+      }
+    },
+    "full_command": "swift test --scratch-path build/m3-swift -j 2",
+    "excluded_native_tests": [],
+    "python_and_ledger_after_records": {
+      "state": "passed",
+      "python": {
+        "executed": 105,
+        "failures": 0,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/native-ready-python-records-1.log",
+          "sha256": "0c641731d899f718a328293dd8224db356a97511a15a81e4a7f79d673857d535",
+          "bytes": 18240
+        }
+      },
+      "ledger": {
+        "requirements": 154,
+        "bounded_inventory_entries": 180,
+        "compatibility_accepted": false,
+        "artifact": {
+          "path": "build/m3-evidence/2026-10-19/native-ready-ledger-records-1.log",
+          "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+          "bytes": 107
+        }
+      }
+    },
+    "independent_membership": {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/membership-packages.json",
+      "sha256": "8d572881f593fda88cd7eaf31171d52947b65aef2957635fcf91d2a1828d0a50",
+      "bytes": 12857
+    },
+    "independent_modulus": {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/modulus-packages.json",
+      "sha256": "b7f92556c248c62dcb9f1958ad2a0bf7ce252872988535f7dfd7e95053609f63",
+      "bytes": 4444
+    },
+    "independent_raster": {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster/independent-image-review.json",
+      "sha256": "a091308c36bbdf91b32cdcf254fab50cb8a18b2208c4daf75a4951006ce85ae4",
+      "bytes": 23397
+    },
+    "raster_prior_visual_byte_identity": {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster-visual-binding.json",
+      "sha256": "4a33dbde028787671c969c9608dff2fd17711bf4a3179bfb7597d1a585ef6eee",
+      "bytes": 9386
+    },
+    "independent_print_pdfs": {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/print-pdfs.json",
+      "sha256": "510896a102c65acc51c1322ef3c5d7312d70ee497debadb6953d4a3a3fb5aa71",
+      "bytes": 3944
+    }
+  },
+  "activation_disposition": {
+    "prior_failed_full": {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-full-swift-1.log",
+      "sha256": "c3270a668695840937fd648c85d08a8d5e710b75293db7e1b60c0d52f080cea2",
+      "bytes": 316195
+    },
+    "prior_failed_benchmark": {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-rerun-1.log",
+      "sha256": "c7ec7cb0465101b0ed2bd383207966f5c4f8c6a8cadd585857d2d0228299bd8d",
+      "bytes": 7960
+    },
+    "prior_reverted_instrumentation": {
+      "path": "build/m3-evidence/2026-10-19/membership-proof-benchmark-diagnostic-1.log",
+      "sha256": "2b689da223cf49c88cfdc7a75296088e39b1bc72b1aba4944f47bf3af3e120cf",
+      "bytes": 2569
+    },
+    "unchanged_benchmark_source_and_tests": [
+      "Sources/MacVisio/BenchmarkProfile.swift",
+      "Tests/MacVisioTests/BenchmarkProfileTests.swift"
+    ],
+    "human_readiness": "User explicitly confirmed Done — desktop ready after the observed UserNotificationCenter state. No elapsed-time assumption or desktop security-setting change was used.",
+    "observed_result": "The same benchmark source/tests now pass all five cases, then pass in the complete 1104-test suite. Prior 17 assertion failures remain retained. No exclusions, relaxed assertions, substituted event routing or M2 exception were used.",
+    "inference_limit": "The diagnostic observed foreground/inactive-window state, and runs passed after readiness; this does not independently establish the sole cause of every earlier failure."
+  },
+  "actual_output_review": [
+    "Five membership native/public save pairs: ten ZIPs and hashes, lexical public IDs and Relationships F/V/U independently match the actual manifests. Native UUIDs and public IDs remain separate.",
+    "Six MODULUS native/public save pairs: twelve ZIPs and hashes, public formula/unit/error-cache definitions and computed field text independently verified.",
+    "Thirty-one raster files: independent format/frame/pixels/alpha/density checks, direct JPEG APP0/APP1 TIFF-IFD parsing and physical marker measurements. All 31 bytes match the earlier visually inspected outputs exactly.",
+    "Eight prepared/native print PDFs: hashes, page sizes/order/rotation verified; four actual NSPrintOperation save PDFs measure 20 or 10 mm markers within 0.001 mm through independent content-stream extraction. This is not calibrated device acceptance."
+  ],
+  "limitations": [
+    "All 204 M3 children remain unaccepted: 38 in progress, 160 pending and 6 proposed. Passing local regressions do not complete the milestone or grant integration, push, main merge, publication or release permission.",
+    "Remaining local M3 production contracts include broader relationships/inheritance, numeric signatures/coercions, geometry operations, text/appearance/connectors/layout, page/print/library/package behavior. Current tests cover their declared bounded slices only.",
+    "Licensed exact-build Visio/COM, bidirectional no-repair intelligent public handoff, same-font regional evidence and calibrated physical printing remain open. Thirteen prerequisite skips are not passes. M2 release exceptions are not adopted for M3.",
+    "Combine public overlap semantics remain a read-only contract finding. Ordered List membership, explicit print tiling and further numeric work are temporary proposals excluded from this tested code commit."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/BenchmarkProfile.swift",
+      "sha256": "ac3ea067dd12674a86adefa4be14ee8b498abc89508df85b486a20a17f12f31b",
+      "bytes": 14041
+    },
+    {
+      "path": "Sources/MacVisio/CalculationDependencies.swift",
+      "sha256": "88de228ffae4d3232b6d3ab358335f18d0d644b29f5b3de019e50c65ef94ecf1",
+      "bytes": 26234
+    },
+    {
+      "path": "Sources/MacVisio/CanvasView.swift",
+      "sha256": "8b2f15e72afeb43a7b1ddd853a010aff2a8bc2d269d5c4799420d1b5dcf5699a",
+      "bytes": 53435
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionEditing.swift",
+      "sha256": "4d20c03ff850201170e800df4834378a0f84ce12ebb7a7312722487570481d2b",
+      "bytes": 21686
+    },
+    {
+      "path": "Sources/MacVisio/DefinitionSheetEditor.swift",
+      "sha256": "51a910f8d4aefb864c70bfb6e912f7228c9d67c9507c2f5de3fa2c41582bab89",
+      "bytes": 30892
+    },
+    {
+      "path": "Sources/MacVisio/DiagramMemberships.swift",
+      "sha256": "dd1fc6dfe3e8eef938ec45ec8f020cfc18590c9708a76098857d945ae20d85c9",
+      "bytes": 49866
+    },
+    {
+      "path": "Sources/MacVisio/DiagramOperations.swift",
+      "sha256": "b2bd784ce243a81d9d5255357cfdd3bcec95a7f9e44b8c787f65299397ec782a",
+      "bytes": 17096
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "3694bc414d9cfaf7da55778de6b532c4c3e150eb684ab76b8d41f68d6f1a35d0",
+      "bytes": 110406
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "3d0527b346ec22a1a7db690486ad8a6772c1d43112aabf31f808a6c3e71fe41d",
+      "bytes": 26550
+    },
+    {
+      "path": "Sources/MacVisio/EditorFeatures.swift",
+      "sha256": "254bb3f6639e4629cd17bfa06393f481f7af2e8f58f85d61c3d04747de5adc91",
+      "bytes": 29187
+    },
+    {
+      "path": "Sources/MacVisio/EditorUI.swift",
+      "sha256": "9af3a8e263ea3a2ff048550031742a743308b4f57f177b9a25d708e23398f0d3",
+      "bytes": 51327
+    },
+    {
+      "path": "Sources/MacVisio/ExportJobs.swift",
+      "sha256": "6c8e78c4048c58c182e2f95bfdf742222a61f85bdb94269035441ea0654ddeae",
+      "bytes": 32413
+    },
+    {
+      "path": "Sources/MacVisio/ExportOptionsView.swift",
+      "sha256": "096617eaf90984f1dfe72e05283edeebabaff6cd3b61ca7da7b3e4c86fb3ca2a",
+      "bytes": 13563
+    },
+    {
+      "path": "Sources/MacVisio/InspectorMeasurements.swift",
+      "sha256": "05b5b6c0480564c7523b6cf3c76c14d5773aa94f09d044be2aa77ecf78cbce5e",
+      "bytes": 8149
+    },
+    {
+      "path": "Sources/MacVisio/LibraryPins.swift",
+      "sha256": "f39175eb2d4e1892432abd80166ebbc8ff21ba1c910e42bd38abd8ee3b8c0f15",
+      "bytes": 3717
+    },
+    {
+      "path": "Sources/MacVisio/MembershipEditor.swift",
+      "sha256": "ceda8c03d7e5fc229484de7c55aa8fb96513083bdcd2e24cd0e080704652c8a7",
+      "bytes": 29408
+    },
+    {
+      "path": "Sources/MacVisio/PinnedLibraryControls.swift",
+      "sha256": "741c5d1959fd145217362a29da1e88115b8afb02af042356c88935765e4eb8fa",
+      "bytes": 7745
+    },
+    {
+      "path": "Sources/MacVisio/PinnedLibraryLoading.swift",
+      "sha256": "80789fb89edd12db36f921545bcdaaa693c9caaa162e1ecc731e1a88155b4dd1",
+      "bytes": 22495
+    },
+    {
+      "path": "Sources/MacVisio/RasterExportPlan.swift",
+      "sha256": "d2470c908e9bde6cac0f4fa11a40ef7944cd7238705b4077f13d6f9bd6d84936",
+      "bytes": 4118
+    },
+    {
+      "path": "Sources/MacVisio/ShapeSheet.swift",
+      "sha256": "0e5701a0b18c2f35afc426bd812d322350ce26500377ce5f16ed3e6f580df54a",
+      "bytes": 24665
+    },
+    {
+      "path": "Sources/MacVisio/SheetCellEditing.swift",
+      "sha256": "e1d581e2d50effe77146aa7854c00811a88337ebdb55daed09c3dcdae98f5802",
+      "bytes": 2907
+    },
+    {
+      "path": "Sources/MacVisio/TypedShapeSheet.swift",
+      "sha256": "d08cd67bf691e8e8217c2ba9e34c002090ece342b4bb00d2af5bfa640236ff72",
+      "bytes": 21955
+    },
+    {
+      "path": "Sources/MacVisio/VisioLibrary.swift",
+      "sha256": "74b65cb416a692f6cdebdf15ee4bbe3bc053137f9fe9e50a2cdc483d2151ac05",
+      "bytes": 8337
+    },
+    {
+      "path": "Sources/MacVisio/VisioPreservation.swift",
+      "sha256": "9550303e3af2f4273fc7ffbfbbbbb2ad7be4f6c41af86bf6642a45b7648fd5a0",
+      "bytes": 70238
+    },
+    {
+      "path": "Sources/MacVisio/VisioRibbonView.swift",
+      "sha256": "b4d05216323c30099468cd9ebfcf710a9e49bd4c76d9e2ca5ee924fffab2ea6d",
+      "bytes": 37347
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "ed08abe53ca43422dcad013c25a9080be3d37ac5e35b3b0f85eb1bf73f36e2e6",
+      "bytes": 35762
+    },
+    {
+      "path": "Tests/MacVisioTests/BenchmarkProfileTests.swift",
+      "sha256": "94962d6b1d159a3c84b8dd375234a9ff94cfa019257355048dedcb55b9d80489",
+      "bytes": 7055
+    },
+    {
+      "path": "Tests/MacVisioTests/EditorCommandSearchTests.swift",
+      "sha256": "83e12f0d1109bd4ee8a9af716af9f2fdce264616a6e6b38adb1b9707009ffcf2",
+      "bytes": 11910
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected-add40-page.xml",
+      "sha256": "a4d05a144145a73d5a616f277a2438c466f1daf97968ac3e9313270c55c176a1",
+      "bytes": 3357
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/expected.json",
+      "sha256": "2170adbc0f27457aeabdd16b07f022e373feb84292a69603973399087ffeafcf",
+      "bytes": 509
+    },
+    {
+      "path": "Tests/MacVisioTests/Fixtures/M3/wp-14-t01-c003/source.vsdx",
+      "sha256": "95a82df0187414b6fa9db689803e3e43e9d3465cba740f74a45aea965fa1cc22",
+      "bytes": 2728
+    },
+    {
+      "path": "Tests/MacVisioTests/M3MembershipEditorTests.swift",
+      "sha256": "19e075f6d1f2ab7589d216b9d1c5853b214c15a7d16c4e8d126c8330a545020b",
+      "bytes": 34801
+    },
+    {
+      "path": "Tests/MacVisioTests/M3MembershipTests.swift",
+      "sha256": "7e4e3ae0401871d0c6f23f5ca6f2c6a3afd67c7a4956a460f248a6c76306bb31",
+      "bytes": 57247
+    },
+    {
+      "path": "Tests/MacVisioTests/M3ModulusTests.swift",
+      "sha256": "f25e3c5e36551e7ab9c1712ebacb354fecc6269b05483ab3b619269521a94fe0",
+      "bytes": 19495
+    },
+    {
+      "path": "Tests/MacVisioTests/M3NumericBoundaryTests.swift",
+      "sha256": "9b9c2de88ea75c6ab8e50b52d87fc56c5f4519415cb9cf7f372e2b1f546b02be",
+      "bytes": 15097
+    },
+    {
+      "path": "Tests/MacVisioTests/M3OutputOptionsTests.swift",
+      "sha256": "9ab6073db7ad075f081cdaf2a0ad26119ef0a1664163b2e1bd828b5d1873c667",
+      "bytes": 19769
+    },
+    {
+      "path": "Tests/MacVisioTests/M3PinnedLibraryLoadingTests.swift",
+      "sha256": "e064e125f554cd8ccac67eeca897140a4127cc30879c9fa268bbfe01f8109a12",
+      "bytes": 30783
+    },
+    {
+      "path": "Tests/MacVisioTests/M3RasterFormatTests.swift",
+      "sha256": "81f7d01224845efeb98b8b0fadb4c7fdabb4a6715695a87c239d9f7173200b16",
+      "bytes": 34665
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-benchmark-1.log",
+      "sha256": "cda346b20f74f276dd0a3ae16b43ba2573653dd5a04c729edf1dff49150cbf3e",
+      "bytes": 2837
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-full-swift-1.log",
+      "sha256": "f39e7e44f31275ee13f3fac39114b05400cdb3d52ce0ec5ddf00774dcbe956d0",
+      "bytes": 319889
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-python-records-1.log",
+      "sha256": "0c641731d899f718a328293dd8224db356a97511a15a81e4a7f79d673857d535",
+      "bytes": 18240
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-ledger-records-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    }
+  ],
+  "retained_output_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "2c7013a1cf47539f3e75a2ddb3a6a3fb30eab71442061e1237a05c00979cec37",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "5e486b8a66553b3bdfab1b31238061fc8c99fec36981ed849f1e315e1d9ca2b3",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/manifest.json",
+      "sha256": "efe742cf4ead6bd9d077eef41cb28bf5e55d89bc95c57af17478d7e77e62748b",
+      "bytes": 6018
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/native.vsdx",
+      "sha256": "6221f168c262e8f1d8acd83bd988ccb7483d209b6d5959f7867037abf14bb832",
+      "bytes": 5280
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipEditorTests/testNativeOneEdgeApplyUndoRedoAndActualPublicSaveReopen/public.vsdx",
+      "sha256": "c26a83d6a73fc6da8fc4b79befd3fee3dd8b8892323cf94361a727fdbf9508ad",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/manifest.json",
+      "sha256": "0526c4a79236d477faa1b714178c07aa77dda2171b77a217d00942eb2c1db7d4",
+      "bytes": 6005
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/native.vsdx",
+      "sha256": "3d0307745cc39379bae0d7e173fec77a1c0d78005550280d62064d2d3a8bf71c",
+      "bytes": 5286
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testActualPublicSaveStripPrivateReopenPreservesIndependentMembership/public.vsdx",
+      "sha256": "4bcfbe6b4b54e321b5a4b4284bb197c305ed565e553761bd2aac6473356f0881",
+      "bytes": 2776
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/manifest.json",
+      "sha256": "7b789865e099774c738d8f5ac37a064fccc8ca8d115a9fb5171662eaf1015ea4",
+      "bytes": 6024
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/native.vsdx",
+      "sha256": "6ec14e8febb35c298797a16ed30d03f58ffa5f80e615108c606012dea7abbad3",
+      "bytes": 5291
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testConnectorMembershipRetainsPrimaryPublicIdentityAndOrdinaryFormulaOnReopen/public.vsdx",
+      "sha256": "87bc27acc68674bbd828c2e6418baa4eada271422e1daf3ee101ae8d2f465e8c",
+      "bytes": 2779
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/manifest.json",
+      "sha256": "9c20a67698e10bf56a115d41a7fa04fb36b9bbcd82a53129ec5a75a754b16290",
+      "bytes": 5873
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/native.vsdx",
+      "sha256": "6e9ea0a8f2e0ec5a140b8fa0c4b6d66a6f0695e4fd7db941a8222dd0ed88acc0",
+      "bytes": 5278
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testLastMemberDetachAuthorsZeroRatherThanAnEmptyClauseAndReopensPublicly/public.vsdx",
+      "sha256": "9dfb3c5c7da263a79d03a872d735aace7661d8cea3e5ad6f02e0f921e3772d39",
+      "bytes": 2774
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/manifest.json",
+      "sha256": "299cb04f9cc3e856608fd62505573ab34a0c7d48a18edf08c19cb6b578bc4992",
+      "bytes": 3277
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/native.vsdx",
+      "sha256": "d087355a18a7573993d73262dbb62db57da7c8260adb463007e60d8a9bc95450",
+      "bytes": 7017
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3MembershipTests/testMixedExplicitAndImplicitIDsFreezeExistingIncomingFormulaAddressThroughPublicReopen/public.vsdx",
+      "sha256": "96616c96bb030757b9bc8a1a73b0e0b1f53aa4490b94d5ed9a3d4654510948e2",
+      "bytes": 4087
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/manifest.json",
+      "sha256": "69de5a77fb09b0f8a0f3f3de9b47673d4c0727f0941de28257669b9d8f1a1cef",
+      "bytes": 1162
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/native.vsdx",
+      "sha256": "43cf485fc11cb979192957d84174a638abc251cb33b168f8533376c2a651d8ee",
+      "bytes": 6144
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testComputedQuantitiesAndTypedFieldFormattingKeepTheFirstUnit/computed-field/public.vsdx",
+      "sha256": "1de7a7921d6645101f2f14b9f9d8115e63343510b9582963d4e62c4179d6a9ca",
+      "bytes": 3596
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/manifest.json",
+      "sha256": "907c4f4238ee27e5c71b0eea3dfaf958c091d867721b96a255517bd4e2ca94ea",
+      "bytes": 1171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/native.vsdx",
+      "sha256": "b971ca8f3edfef3ece50b52f04ba851318e05f4624392435a3c9c01ec5e9bffa",
+      "bytes": 3570
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-above-range/public.vsdx",
+      "sha256": "b971ca8f3edfef3ece50b52f04ba851318e05f4624392435a3c9c01ec5e9bffa",
+      "bytes": 3570
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/manifest.json",
+      "sha256": "d525ffecbb4afb0aaa4d04305888002feef35eab7b32ef4f0fe3530392090f48",
+      "bytes": 1172
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/native.vsdx",
+      "sha256": "379a3daeb92f40225fa3ca56d9468bd813e5b5f42c31a3606a37669e5c56d29e",
+      "bytes": 3571
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/divisor-below-range/public.vsdx",
+      "sha256": "379a3daeb92f40225fa3ca56d9468bd813e5b5f42c31a3606a37669e5c56d29e",
+      "bytes": 3571
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/manifest.json",
+      "sha256": "c7d5fdac68cbb7916c3d60227e670d455dfb1ebd229873d2c13183e62abeff21",
+      "bytes": 1174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/native.vsdx",
+      "sha256": "b8ec435a97b28ed1b99b610205ed947f5910b105e87ca693736eb1ea184c96e5",
+      "bytes": 3575
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/nonfinite-operand/public.vsdx",
+      "sha256": "b8ec435a97b28ed1b99b610205ed947f5910b105e87ca693736eb1ea184c96e5",
+      "bytes": 3575
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/manifest.json",
+      "sha256": "3b93c665b665c2758005030111e4fd1797e20229db8d29e04c033f8a8e46cd58",
+      "bytes": 1181
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/native.vsdx",
+      "sha256": "bf6a4f0567d9bf526665d81c641ffd3b27566045bb8b3f12813742fde34109d7",
+      "bytes": 3573
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/unrepresentable-correction/public.vsdx",
+      "sha256": "bf6a4f0567d9bf526665d81c641ffd3b27566045bb8b3f12813742fde34109d7",
+      "bytes": 3573
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/manifest.json",
+      "sha256": "5ccbd26e4f2eef5704a4e5490cc3745049da5758b75d0bbb2b6c09b1c60ee330",
+      "bytes": 1161
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/native.vsdx",
+      "sha256": "ade8054ed86f781d9aa4f404eb637b15acec97558025d364d1089aa350b4a16e",
+      "bytes": 3566
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3ModulusTests/testInvalidModulusKeepsGeometryAndTypedFieldCachesAndSourceDefinitions/zero-divisor/public.vsdx",
+      "sha256": "ade8054ed86f781d9aa4f404eb637b15acec97558025d364d1089aa350b4a16e",
+      "bytes": 3566
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/manifest.json",
+      "sha256": "dea82cd547f65ad039c602d06291b404bdc292447ec7f77ce9ffb626263c5c72",
+      "bytes": 824
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PinnedLibraryLoadingTests/testNativeUnavailableControlsPreserveSelectedPinIdentityAndRemoveExactKey/pinned-libraries.png",
+      "sha256": "89731364d58bba16380e051ec7757faae90c73e30311d6fa9f3ca87639b01af9",
+      "bytes": 114304
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "1db18d1cf0906d9bff8285a05bf703daa2b8c2b248755679a62ed0286e45c9d1",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "b08cf4308ac5a4632a4db29eb241b8d73ee5481394b287ead82a292540f1bfc2",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "c035c60ea924c7952c86aa70e52e3a2f134d3ddece333db19aa063ab9f702a3b",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "ae433f6ebbedd4ecadabfbf5dcac92a61bd9f0ccb9aac8bb06376e5b01408b01",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "eebbe6c1f75f67ad8979ecaf8eb56f9e9171b97efd68fae03f68fbbf66da35b5",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "a0fd63f53c1e7ec664de17e50ef186de609f0c658309c70f93a012ea0634a8eb",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "d6697d30e9cf8e4226a337cfc0551b4b1a684076984d971876e6bca269d76ffc",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "00d7a56e786bba51cbccdfa74afb2341b7295251906beeb39205de1711ffc9e2",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "401496c3339ed7a6595d1e5ed0b21cb5fb28b71b839e961684adc17813e13360",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "c268cde422de8514eb488f2c86a33ee51b1a1745b2f01b50fdca8b484120319d",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "38ecaf02cf9355207cdcc528f955bb756666656a257d36aabe9f2ffb51393ccf",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "182f4ff95a360a1dd7b6d6f49593d87d07414a3477e73aebbf6f1a61c47466e8",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/content-72.0-transparent.png",
+      "sha256": "30cdc30813c3273d918652971572d031b3362a576568724330a14d3c66edb6c5",
+      "bytes": 343
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testContentIncludesNegativeOriginOffPageArtworkWithExactlyOnePixelGuard/page-72.0-transparent.png",
+      "sha256": "54167dc3bda7daf2b53d1aa4a0d04c2ad9e1ec2a537a964129bf50320dbb01c4",
+      "bytes": 836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-opaque.png",
+      "sha256": "6a10ba1ba1f8a8d95f9b2fec3a042aad538d1f863eaad2799f103e8ffb9daa4e",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testCroppedTransparencyChangesOnlyPaperFill/content-72.0-transparent.png",
+      "sha256": "93de776c71cb16b53043dcb6c81ac54deb83354713435b91607210cd62422b85",
+      "bytes": 334
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/content-72.0-transparent.png",
+      "sha256": "ce8b3c83dea1671f4c52176f2e7f7006aaf206a0e8c89bd6eac85a140e3563d2",
+      "bytes": 461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testDifferentScaleBackgroundUsesSceneOffsetAndDoesNotExpandSelectionBounds/selection-72.0-transparent.png",
+      "sha256": "16aa80646dc09437ce6c753310d0156a7ead3cc93e22ada416410fe2de32fb9f",
+      "bytes": 325
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/page-72.0-transparent.png",
+      "sha256": "a98d620014cd6004f70932416728111858fbc5f5981774633c4662a872e4c27e",
+      "bytes": 2807
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testEdgeOnlySelectionKeepsOriginalRoutingArrowheadsAndLabelWithoutEndpoints/selection-72.0-transparent.png",
+      "sha256": "62c43241e14c23551937e50c1400dbf699ce9a65f8a871619b0e51faa26dc118",
+      "bytes": 2249
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testGroupSelectionExpandsLockedDescendantsAndGroupOwnedEdges/selection-72.0-transparent.png",
+      "sha256": "d289bcedac5688090806d23cfe10621e29c89fed25af5ba0a20afa6f58d25f13",
+      "bytes": 2174
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/content-300.0-transparent.png",
+      "sha256": "8e63743aa8ede4fe027c685a06661a491c2237f10a900df32eab4f55684db389",
+      "bytes": 1246
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testPageModeKeepsLegacyPixelsAndCroppedModeKeepsPhysicalDPI/page-300.0-transparent.png",
+      "sha256": "383da4079eb794e9f96c778ab9001e84c07b400786774223288db6b935e6d0ba",
+      "bytes": 9898
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/content-72.0-transparent.png",
+      "sha256": "e3e71fc86cf04f9d7bae64ac12b46cc7e1fd198cce0ec14d1ac0ec554a373426",
+      "bytes": 2959
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testRotatedCustomOutsetPathsRetainPaintAndExcludeScreenPadding/page-72.0-transparent.png",
+      "sha256": "903a416164d5f0a3be1c7e85dfac91004e4bcdc1664e706ca3a9066cb76d1e59",
+      "bytes": 4265
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/content-72.0-transparent.png",
+      "sha256": "352e6697a6e1330f3db567acc505618f24f2352ca13be08f60a3848e7c9212d4",
+      "bytes": 8781
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testRotatedTextBlockAndRichTextDecorationAreNotClipped/page-72.0-transparent.png",
+      "sha256": "3cd482742db4db37b4db739c66600b2b4a4e71a2a133e8547d8f47baf28ff126",
+      "bytes": 13936
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterBoundsTests/testUnsupportedImageCropRefusesWhilePageModeKeepsExistingPlaceholder/page-72.0-transparent.png",
+      "sha256": "fd7c48001430a8f5c0d89c3a2f1ac304ad89fad78d52ccd361588bbe1494b6cf",
+      "bytes": 3390
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg",
+      "sha256": "1ab12e52332d445a6506196f03c3118e416b36eabd125a6689a9c5b1db3ed333",
+      "bytes": 2287
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.jpg.json",
+      "sha256": "b7fe1dc3ae7a6fc0aa955e801913ce5913fac055a6d080c4c898ebbd14425551",
+      "bytes": 375
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff",
+      "sha256": "a48b5016af7e18dd54b2d9e0d2b68a635284c29889fcb7aff76b690e8adffd7d",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testActualJPEGAndTIFFFilesHaveExpectedTypeMagicAndSingleFrame/page-72.0-white-default.tiff.json",
+      "sha256": "ab175604b09ac93e7b836a5d17db5541aaaa3072e8baaa54ad26163a6ca169b3",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg",
+      "sha256": "a654551af51ded9ff150fce70259e4b31a89f7c194d48224bf640d3cbe410eee",
+      "bytes": 5061
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-1.0.jpg.json",
+      "sha256": "7521c63cace22437c3d29dfe538378ace10c56435943d4261ed63607cf40a84d",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png",
+      "sha256": "ef0e6ea2edb39fbccc45cd8125d1dff1fa04ba15e025645442bd3f975188c63f",
+      "bytes": 2424
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.png.json",
+      "sha256": "e6874a6ce64351ad1dc44d0b9a87ed171bd5b8cddf4470be1e41a8f2ae1316f9",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff",
+      "sha256": "0dc3841d2b7ddceb3f3c19e21165bb49503ed38e3f40e6612cc6c278eac760b6",
+      "bytes": 27250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testEdgeOnlySelectionRetainsArrowAndLabelWithOriginalRoute/selection-72.0-white-default.tiff.json",
+      "sha256": "83d399ae742f788000e239b78d17a8c092930368fb9711fed313143262ad123f",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg",
+      "sha256": "edda48e906bede6f8f42a78d2786b1334da8d7e3320e7c5395b9f51c99015910",
+      "bytes": 2978
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGFlattensPartlyTransparentArtworkOnFixedOpaqueWhite/page-72.0-white-1.0.jpg.json",
+      "sha256": "6b0dca5d9f26d453f1377643d9015fe6f0bb05266966391f01bcf07cdc9a2316",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg",
+      "sha256": "4e323d8cf97a4ab5a5020e23286a7cbf5d51bcb458a4c98e0075c1dbbaf614a0",
+      "bytes": 3874
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.6.jpg.json",
+      "sha256": "1f52479aa10e99e6e396e21009130dc446c4de73eb3f4c7efa68174534346d0d",
+      "bytes": 369
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg",
+      "sha256": "8486fd7ca5a3b11f70c24b7e13239402c019ae40d87af42cbf0769a091e55334",
+      "bytes": 5529
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-0.85.jpg.json",
+      "sha256": "cb93907e62df87d9e27915a3f063a4633c30637ade533cca311adebec3c4e1ff",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg",
+      "sha256": "81e88652f99f4a858170e53ac60ac66d51f7ad8826240a2656bbd1b8a65cf452",
+      "bytes": 13292
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-1.0.jpg.json",
+      "sha256": "c97949390e03c1a5640096f315baee539435bd8d7f95451bc7402ed0b38345bb",
+      "bytes": 370
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png",
+      "sha256": "b91191eee1f44fda78cca4ec9fef6bcc1668380043f68cbe346d30ac24ef7723",
+      "bytes": 1747
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testJPEGQualityPresetsProduceActualDistinctEncodedFiles/page-72.0-white-default.png.json",
+      "sha256": "47c32b74d4db1a87e6d9b9cb603813f404161545839fa33ae837ce79273c6aa0",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg",
+      "sha256": "77e993d773be70626d19744e2e74671bb1924ab3fdcd1679f0529db92182d7de",
+      "bytes": 2693
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-1.0.jpg.json",
+      "sha256": "f5b98ceb5c4eda0d2e1fee24d32a8fe8275532d313e971a04523f7a93b91c999",
+      "bytes": 443
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff",
+      "sha256": "744e4139eabb0979f6b99f189125ad9e09df3bf3fe03d7e40c312581a3edec12",
+      "bytes": 8186
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testLockedGroupSelectionAndScaledBackgroundKeepExistingPaintPolicy/selection-72.0-white-default.tiff.json",
+      "sha256": "f66fe69d7882d2c315dceda4141593852ca42a1fc199431bf26b648dfb004791",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg",
+      "sha256": "e3e5aca3375b350633863956568ba9399ff824726d71a3cbaef7764af9163343",
+      "bytes": 4965
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-1.0.jpg.json",
+      "sha256": "c794b6738771bb48c7229b5519447c3645e0d9c4edcf6451a5b1b8dee5cebdda",
+      "bytes": 447
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png",
+      "sha256": "953d282e839cd90f9a65e266c4b326006a1747f8d0dfa05f8c72c2a25de47a26",
+      "bytes": 1227
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.png.json",
+      "sha256": "eabc05cf6ee759abbd7f42fd08b3eb64fda4c71b28d9418d3f86c1af792e1a58",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff",
+      "sha256": "4869221c709940a1b3825223e2e48f5b4eae059af837fa8a10669550c8472c60",
+      "bytes": 114986
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/content-72.0-white-default.tiff.json",
+      "sha256": "365907217aa92ea36886b510c51b602aff5afb15309ce43bc3ff01eec447a54d",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg",
+      "sha256": "8842cd2e1c8669480e62adb5b406f5613214803c42aec31366b1c3ece98c49da",
+      "bytes": 2882
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-1.0.jpg.json",
+      "sha256": "f233e491519c3df83207617c2632f06d3aba42480e70ea97e6f01b3bf0c82c7b",
+      "bytes": 371
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png",
+      "sha256": "81f029bd71d0ff0524c799e89af3224e07b3f7ef93614ece689030f4a4a90863",
+      "bytes": 1324
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.png.json",
+      "sha256": "d711db9fb7563ec3de1c84dba272d1b45de088779bbe0855b187cf891bb1fc4b",
+      "bytes": 373
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff",
+      "sha256": "4b811aefafcd83691c65d6a16b1dd398f6b90caa4d95d30aee52d86467b05599",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/page-72.0-white-default.tiff.json",
+      "sha256": "2fb47326d9fb6a3f79b69a85469b31306122edf11ca2091541591dbcf4ee5814",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg",
+      "sha256": "773824d764d558a44324a56240fb492e5f81ea2b749719c1e17f75fe11a54c8f",
+      "bytes": 2953
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-1.0.jpg.json",
+      "sha256": "2d5f4b78d14443b0c0b107875cbad78c993e410130b8c012567e58e4c487abde",
+      "bytes": 445
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png",
+      "sha256": "b221ae7bb0a57d1a09cb0878d8779901b1da7ae42c902d33c3b59296d735e553",
+      "bytes": 346
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.png.json",
+      "sha256": "d5d8cd9938d481307e8f54f57e1b9e4bb9dd8328d7bb6a575dc323954271bbb9",
+      "bytes": 446
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff",
+      "sha256": "393216bb50df31318411fb382945728bdbc5c2bf2434e1944a0aef5777658b85",
+      "bytes": 10666
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPageContentAndSelectionReusePNGGeometryIncludingNegativeOrigin/selection-72.0-white-default.tiff.json",
+      "sha256": "0440e59c419a768d63486f8efa355f889bce9500b3c2e5d1ce9ad2b95345430e",
+      "bytes": 450
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-1.0.jpg",
+      "sha256": "617718012c7dbb7837feb48d3e5081e04315491023293c664f7b47d7c16128b4",
+      "bytes": 12922
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-1.0.jpg.json",
+      "sha256": "33b8ac19f962f5f5f9d498beded9b0d99f607b3bb2635271325b31d102b8e8e1",
+      "bytes": 379
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff",
+      "sha256": "235a490236e2a988c7ade53535fa54c20bfd017d0791e078a6a94355514330e4",
+      "bytes": 721498
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPhysicalDPIMetadataAndOneInchMarkerSurviveActualEncoding/page-300.5-white-default.tiff.json",
+      "sha256": "ca927c8c69cb5d794ca56d4b923a0d125ff395b24b99ac1287dc757211dfbeb2",
+      "bytes": 384
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg",
+      "sha256": "952abe275beb44f8e08ec7df196f8ecae847da79ffd8bfcfd459dfe26684e54f",
+      "bytes": 3054
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-1.0.jpg.json",
+      "sha256": "7c685ab5075e39bbe5464aa0913e44a3f11d49071414e765bf4e0eefcb04928a",
+      "bytes": 496
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff",
+      "sha256": "8e0fbd9117907aed70770d37d62aa7677fee42f04c09ed6cc4c332be08154c2a",
+      "bytes": 60982
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testPublicOneMetreAtOneToFiftyFixtureRemainsTwentyMillimetres/content-300.0-white-default.tiff.json",
+      "sha256": "543ec2361df59b8970b9cd7db0eb91bd30e5055d4929a1223a42776160dc9e4b",
+      "bytes": 501
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg",
+      "sha256": "9a6b5b543d2e975f1442d717db27c19b6dc39914483c9b094ae6b25ed3908361",
+      "bytes": 20441
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-1.0.jpg.json",
+      "sha256": "5ae00493b844933a462ab40ffc05a7541350533f8a557b1a458ead9a355fd84a",
+      "bytes": 448
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png",
+      "sha256": "4ecb30e5fb2d0a3dc23ad0a192fbb78db7d4ca4398d727452f32d14f1eb93604",
+      "bytes": 9189
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.png.json",
+      "sha256": "f8a4cc9c8a9b46a541debbe1547bf6b5b6bafd7a30cf813b29d97993d9e8a8c4",
+      "bytes": 449
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff",
+      "sha256": "576ee206305bddb0fb5f1b02729f11bad74fcb8d1f2d5707297fbedc2610d967",
+      "bytes": 115274
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testRotatedTextCustomPathCropUsesIdenticalConservativeBounds/content-72.0-white-default.tiff.json",
+      "sha256": "313f19817205d0c93f0f1777bc8516b9f8f609d6fb9c10b529c887a8bee9be9a",
+      "bytes": 453
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff",
+      "sha256": "6be9a2d340c7bb15c50a8e3bc30171d1ec138c74cc9ea0adc118eb21698ca4f4",
+      "bytes": 36166
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFContentAlphaPreservesOutwardPixelGuardAtFractionalDPI/content-144.5-alpha-default.tiff.json",
+      "sha256": "55a8a33ebe2bec65edfce9a8fe3a9644aabfe77e481f801868de7fb997abda22",
+      "bytes": 518
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff",
+      "sha256": "839316bc54606744911156ab7dcc2eed4f92e701d71bd6250ab56383c265b3d9",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-alpha-default.tiff.json",
+      "sha256": "811fed612414c5f1d2f50c14b32daf0ecb579f8ebf146e3b229772fa34ad0606",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff",
+      "sha256": "914570c1d59b8ddb876186825b265c009f2a6d01abc9b35d103824d155c82cf4",
+      "bytes": 120250
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/M3RasterFormatTests/testTIFFPreservesSupportedAlphaAndCanExplicitlyFillWhite/page-72.0-white-default.tiff.json",
+      "sha256": "497479c9184bda97e38ed42ea59305d62944b3ff471e281212ca686bcba2d840",
+      "bytes": 377
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-intersect-curves-native.vsdx",
+      "sha256": "3e41cf7951e026532732be7efd254c28124ee6b6b7e2fc077d6b1997ab5e0c06",
+      "bytes": 6394
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-intersect-curves-public.vsdx",
+      "sha256": "387a8e321b24e081c777b040d05ce83da2228643f053595207c57593a1301922",
+      "bytes": 3632
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-subtract-hole-native.vsdx",
+      "sha256": "f5a06c2b850691fb0bd8a0bc1fa1499ea966aaaadbb9b091068bfd17584e9443",
+      "bytes": 6545
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-subtract-hole-public.vsdx",
+      "sha256": "92e8e2403c1afbaacc5dc002da72504be1c2ca2e2ce70d73e5a7b06d33a5c764",
+      "bytes": 3668
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "369aeaba2e9300ab7736059b418bcb8977291cad7ee934c3176d6a7edcb62037",
+      "bytes": 6907
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "27c7ea1ec2c5237c9f8d517fe73000aab57881020cfa5e219700a7345566a65e",
+      "bytes": 3790
+    }
+  ],
+  "diagnostic_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/membership-packages.json",
+      "sha256": "8d572881f593fda88cd7eaf31171d52947b65aef2957635fcf91d2a1828d0a50",
+      "bytes": 12857
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/modulus-packages.json",
+      "sha256": "b7f92556c248c62dcb9f1958ad2a0bf7ce252872988535f7dfd7e95053609f63",
+      "bytes": 4444
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/print-pdfs.json",
+      "sha256": "510896a102c65acc51c1322ef3c5d7312d70ee497debadb6953d4a3a3fb5aa71",
+      "bytes": 3944
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster/contact-1.png",
+      "sha256": "c9e0163c5a827704cece11b55f55631d1ab3e87cc8f62b48e3b2f8bfb1301bfe",
+      "bytes": 191554
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster/contact-2.png",
+      "sha256": "10ee6c5a9f2cc6cc14086fd1b4d9a897f9a6eaf587471470490330a3ee712c26",
+      "bytes": 4829
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster/independent-image-review.json",
+      "sha256": "a091308c36bbdf91b32cdcf254fab50cb8a18b2208c4daf75a4951006ce85ae4",
+      "bytes": 23397
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/raster-visual-binding.json",
+      "sha256": "4a33dbde028787671c969c9608dff2fd17711bf4a3179bfb7597d1a585ef6eee",
+      "bytes": 9386
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/review-membership.py",
+      "sha256": "cd433d935ba50d1109f49d42a212784bfd7d8ff2080df1b81d6bbfbf413e1ecd",
+      "bytes": 2726
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/review-modulus-and-print.py",
+      "sha256": "09d0e1a57cef2dabf7734b8df7a5312faa4198af30cee6099272fafd2b0cbd22",
+      "bytes": 4434
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/native-ready-diagnostic/full-1/review-raster.py",
+      "sha256": "775c856ca04081acc8fa53ac3aa8129dc0d66f56b662b7cf09bd329a3c69f013",
+      "bytes": 6394
+    }
+  ],
+  "record_validation_log": "build/m3-evidence/2026-10-19/native-ready-record-validation.log"
+}

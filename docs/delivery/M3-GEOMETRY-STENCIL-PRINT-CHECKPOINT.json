@@ -1,0 +1,801 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "date": "2026-10-19",
+  "updated_utc": "2026-10-19T07:34:48.522879+00:00",
+  "state": "partial_engineering_checkpoint",
+  "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+  "source_hash_binding": "Source/test hashes bind to git objects at code_commit, not a later working tree.",
+  "prior_checkpoint": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620
+  },
+  "upstream_M2": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+  "milestone_accepted": false,
+  "accepted_children": 0,
+  "reference_run": false,
+  "integration_allowed": false,
+  "release_published": false,
+  "implemented_scope": [
+    "Bounded editable curved/holed Union with native async transaction/undo, source/reference refusals, raw tombstone reservations, topmost save/reopen stacking and actual pixel checks. Text/data/master/glue operands refused; first document-order appearance and selected-result policies remain local, not exact-build parity.",
+    "Owned immutable PDF preparation and foreground-page range/all printing on one common paper size. Explicit requested scale is applied once in PDF playback, then native scale1; page/margin clipping and unsupported effective options refuse before spooling. Native save-to-PDF checks are local; tiling/device media/calibrated printer qualification remain open.",
+    "Source-preserving VSSX Save As draft with rename, same-package duplication, order, safe deletion and exact existing literal values; stable public IDs/NameU/GUIDs/resources, native undo/cancel/stale/close ownership. Deletion proof is deliberately closed and conservative. Formula/visual editing, cross-library closure and reference qualification remain open.",
+    "Native File menu retains/reuses custom stencil windows and coordinates dirty/busy Close/Quit without losing drafts; closed controllers clear undo callbacks, package snapshots and retained seams.",
+    "Command search dispatches Union and Print, tracks print preparation/publication availability independently of drawing revision and refuses reentrant Print while the native publication phase is active.",
+    "Union known No Style Enable*Props defaults are accepted only as literal 1 with empty formula/unit; authored variants, unknown cells/namespace owners/parts/relationships and incoming semantic references remain refused.",
+    "Native print evidence retains actual prepared/native PDFs plus settings/hash manifests. Tests measure the 1m at1:50 marker at20mm/100% and10mm/50% with local raster tolerance0.3mm; this does not meet or claim calibrated physical-printer tolerance0.2mm."
+  ],
+  "qualification": {
+    "full_swift": {
+      "executed": 942,
+      "skipped": 13,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/geometry-stencil-print-full-swift-1.log",
+      "command": "swift test --scratch-path build/m3-swift -j 2",
+      "excluded_native_tests": []
+    },
+    "focused": {
+      "executed": 110,
+      "skipped": 0,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-9.log"
+    },
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "log": "build/m3-evidence/2026-10-19/geometry-stencil-print-python-1.log"
+    },
+    "ledger": {
+      "requirements": 154,
+      "bounded_inventory_entries": 180,
+      "compatibility_accepted": false,
+      "log": "build/m3-evidence/2026-10-19/geometry-stencil-print-ledger-1.log"
+    },
+    "new_tests_since_232f7eb": 74,
+    "test_files": {
+      "M3BooleanGeometryTests": 24,
+      "M3PrintingTests": 20,
+      "M3CustomStencilTests": 15,
+      "M3CustomStencilEditorTests": 12,
+      "M3CommandRoutingTests": 3
+    },
+    "independent_pdf_geometry": {
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/printing-diagnostic/full-1-independent-pdf-geometry.json",
+        "sha256": "7f326903e8e145c1cb8de99e43753a9cdec9b8081cad8250b674a85f9a5640d8",
+        "bytes": 1437
+      },
+      "tool": "pdfplumber",
+      "measured_marker_width_mm_at_100_percent": 19.999995277777778,
+      "measured_marker_width_mm_at_50_percent": 9.999997638888889,
+      "content_stream_tolerance_mm": 0.001,
+      "calibrated_physical_printer": false
+    }
+  },
+  "regression_dispositions": [
+    {
+      "logs": [
+        "geometry-stencil-print-focused-1.log",
+        "geometry-stencil-print-focused-2.log",
+        "geometry-stencil-print-focused-3.log",
+        "geometry-stencil-print-focused-4.log"
+      ],
+      "observation": "Initial combined compilation found CoreGraphics consumer argument spelling, NSWindowController.owner collision, PageOrder case spelling and a stray relationship-ID type comparison. Corrected before behavioral qualification."
+    },
+    {
+      "logs": [
+        "geometry-stencil-print-focused-5.log"
+      ],
+      "observation": "Initial100-test behavioral run exposed imported No Style defaults blocking Union, a source-backed public-order assumption, NSPrintInfo orientation and validation normalization, clipped test labels and print geometry failures. Failed run retained."
+    },
+    {
+      "logs": [
+        "geometry-stencil-print-focused-6.log"
+      ],
+      "observation": "106-test run narrowed failures to8assertions. Source-backed Union used different native/public stacking; topmost insertion plus real overlap pixels now qualify native/public/undo agreement. PDF inspection confirmed custom pagination save output ignored requested0.5scale; explicit PDF playback scaling with unit native scaling fixes actual geometry."
+    },
+    {
+      "logs": [
+        "geometry-stencil-print-focused-7.log"
+      ],
+      "observation": "108-test run had one remaining half-scale Y-coordinate assertion. The retained PDF red rectangle is37,141,28.34645,15 in bottom-left physical coordinates. Bitmap rows start at the top, so top44 equals14pt margin+60pt source offset*0.5; corrected the assertion to check both conventions. Scaling/width/left-margin claims were preserved."
+    },
+    {
+      "logs": [
+        "geometry-stencil-print-focused-8.log",
+        "geometry-stencil-print-focused-8-hang-sample.txt",
+        "geometry-stencil-print-numeric-probe-1.log",
+        "geometry-stencil-print-numeric-probe-2.log",
+        "geometry-stencil-print-numeric-probe-3.log"
+      ],
+      "observation": "A new resource-limit test constructed an unexpected native operation after AppKit normalized extreme scale/paper to1/A4. Its cancel-disposition fallback opened an AppKit error alert; root sampled and terminated only the owned xctest. Refusal helpers now never run unexpected operations and only clear their identical native current pointer. The resource fixture uses a0.01pt selected page with explicit scale10000 against ordinary A4; its100pt selected extent fits while an unselected page would create200Mpt view coordinates. Both numeric probes pass on final source; failed/corrected observations retained."
+    },
+    {
+      "logs": [
+        "geometry-stencil-print-focused-9.log",
+        "geometry-stencil-print-full-swift-1.log"
+      ],
+      "observation": "Final frozen source passes focused and full suites without native exclusions; all failed/corrected logs and available artifacts are retained. See exact counts above."
+    }
+  ],
+  "qualified_artifact_dataset": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1",
+  "diagnostic_publication_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-7-all-pages-native-page-1.png",
+      "sha256": "f9daec8d5d859e29f5fb0b45a992f8faad7bcad2c0a154f2f1d916fb1e97c073",
+      "bytes": 6056
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-7-all-pages-native-page-2.png",
+      "sha256": "ec686cd442ac7903a9a5937ee3ecf53e8473b16b75a3b224fddd9809490bb8c6",
+      "bytes": 6919
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-7-half-scale-native.png",
+      "sha256": "f1697cf8175aabc733426679081621af569c0a67ac45a437611a27bc692198cc",
+      "bytes": 3677
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-all-pages-page-1.png",
+      "sha256": "f9daec8d5d859e29f5fb0b45a992f8faad7bcad2c0a154f2f1d916fb1e97c073",
+      "bytes": 6056
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-all-pages-page-2.png",
+      "sha256": "ec686cd442ac7903a9a5937ee3ecf53e8473b16b75a3b224fddd9809490bb8c6",
+      "bytes": 6919
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-half-scale-page-1.png",
+      "sha256": "f1697cf8175aabc733426679081621af569c0a67ac45a437611a27bc692198cc",
+      "bytes": 3677
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-landscape-page-1.png",
+      "sha256": "0e733fac6ceaad5d0a69c84990c89da468a51a4677d39a3ba4fff7332047b31d",
+      "bytes": 6603
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-landscape-page-2.png",
+      "sha256": "696ed9db1f5857c2a1966d5c544bc627d965dba5c27b1fd18e248f42b7df9e42",
+      "bytes": 7469
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-native-contact-sheet.png",
+      "sha256": "5d978306b1ece94ab15db359ac004526b5eee320dadc6e05446e9675f243e3c5",
+      "bytes": 22126
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-range-page-1.png",
+      "sha256": "ec686cd442ac7903a9a5937ee3ecf53e8473b16b75a3b224fddd9809490bb8c6",
+      "bytes": 6919
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/focused-9-visual-review.json",
+      "sha256": "c1d53a2dfe79d8972a6d369ecb9650cf19d8999539d0fe90b068d2993c5b997d",
+      "bytes": 2376
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/full-1-independent-pdf-geometry.json",
+      "sha256": "7f326903e8e145c1cb8de99e43753a9cdec9b8081cad8250b674a85f9a5640d8",
+      "bytes": 1437
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/half-native.png",
+      "sha256": "711f934945096f0a8aaf67dad165bc0df6696f82d5af56731935cb34e69de807",
+      "bytes": 4402
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/printing-diagnostic/second-prepared.png",
+      "sha256": "ec686cd442ac7903a9a5937ee3ecf53e8473b16b75a3b224fddd9809490bb8c6",
+      "bytes": 6919
+    }
+  ],
+  "limitations": [
+    "All 204 M3 children and the milestone remain unaccepted. No integration, push, publication, merge or release permission is granted by this checkpoint.",
+    "Union only: filled individual siblings, at most 32 shapes, 2048 input commands and 8192 incremental output commands. Text/data/fields/images/control/ports/inherited master/style/unsupported authored behavior and connected operands are refused. Other Boolean operations and exact-build text/order/selection policy qualification remain open.",
+    "Custom stencil management is Save As only, bounded to 1000 masters, 20000 shapes and 100000 cells. Existing literal values only, no formula recalculation or visual master editing. Deletion refuses opaque or unsupported dependency carriers; retained orphan parts are not garbage-collected. Cross-library graft/replacement and full dependency closure remain open. Some valid percent-encoded content-type override spellings may be conservatively refused.",
+    "Printing uses one common paper, no tiling or per-page trays, and a separate native print panel without preview. Printer imageable bounds, physical calibration and driver-specific normalization remain unqualified. Cancellation cannot interrupt a single Core Graphics call.128MiB record and128MiB assembled-output caps are separate buffer caps; total RSS is not bounded by these values; native PDF playback on main is not a batched paint guarantee.",
+    "Remaining relationship/host/function/text/appearance/layout/output/library/package production contracts need implementation and qualification; this checkpoint completes no umbrella task.",
+    "Exact-build licensed Visio/COM and bidirectional no-repair/open/edit/save evidence, same-font regional comparisons and calibrated physical-printer runs remain absent. All five compatibility dimensions remain unverified. Prerequisite skips are not passed evidence. The M2 v0.23.4 performance exception does not qualify M3."
+  ],
+  "source_and_test_artifacts": [
+    {
+      "path": "Sources/MacVisio/BooleanGeometry.swift",
+      "sha256": "62eb557040598b19b909c48e0613787e913340593fe9e5c0eb92e026f8e5e497",
+      "bytes": 41906
+    },
+    {
+      "path": "Sources/MacVisio/BooleanGeometryEditor.swift",
+      "sha256": "73378a5755a25f18283dd83929a3628ad028700645067692934ce6e259d192ac",
+      "bytes": 1814
+    },
+    {
+      "path": "Sources/MacVisio/Document.swift",
+      "sha256": "7bc86bc1ff6a3bbc98f06f0fd1329388d979efd82b3ea5f76b09afb69ba8d0da",
+      "bytes": 105701
+    },
+    {
+      "path": "Sources/MacVisio/EditorCommandSearch.swift",
+      "sha256": "0ce186441367cbe5eb438998dfd2f6c4fe4fd244ecc1a791064827ca26190851",
+      "bytes": 25275
+    },
+    {
+      "path": "Sources/MacVisio/ExportJobs.swift",
+      "sha256": "0c9d59f22cf11cd88a290a8164af9a46d012a98beab9bf83d9bea22d81388d8d",
+      "bytes": 24641
+    },
+    {
+      "path": "Sources/MacVisio/Printing.swift",
+      "sha256": "975b9f72ea66a388f6c28c04664269ece2e753086c8f012d706e733b1505a538",
+      "bytes": 21322
+    },
+    {
+      "path": "Sources/MacVisio/StencilPackageEditing.swift",
+      "sha256": "46b1d7ca8ecd44360a53958ae9c039c2a025a050672850b5c6aaa715c4c6f866",
+      "bytes": 48338
+    },
+    {
+      "path": "Sources/MacVisio/StencilPackageEditor.swift",
+      "sha256": "b62cb0e04130c9a95a5782e4f821dd770ce1902d679985a353dbb00cd179ae66",
+      "bytes": 28008
+    },
+    {
+      "path": "Sources/MacVisio/StencilPackageJobs.swift",
+      "sha256": "e84cb9e6583eebd102b660070afac527d18af1dfba5c580e444f8ece1a153a86",
+      "bytes": 4300
+    },
+    {
+      "path": "Sources/MacVisio/main.swift",
+      "sha256": "20c7d129164eb77ca78c6903b9108069717405f99a67d77f2ca57283c55ec5b1",
+      "bytes": 35322
+    },
+    {
+      "path": "Tests/MacVisioTests/M3BooleanGeometryTests.swift",
+      "sha256": "b158d7a4d2d79c4ee03f79a90a800a8cdbf945dfd4b3df2b9de5043793957cd8",
+      "bytes": 40187
+    },
+    {
+      "path": "Tests/MacVisioTests/M3CommandRoutingTests.swift",
+      "sha256": "e0f69ca599f79ec0e6cfa7c86ce241b5adc46c79e67609085a7e478850106d81",
+      "bytes": 4806
+    },
+    {
+      "path": "Tests/MacVisioTests/M3CustomStencilEditorTests.swift",
+      "sha256": "478e27b4aff059d073bc34bb1dd11e70ffac4948466441a6daeb4d03a2617453",
+      "bytes": 20473
+    },
+    {
+      "path": "Tests/MacVisioTests/M3CustomStencilTests.swift",
+      "sha256": "1b78e9046bfe1e4fbff1b13fd494b6e829628854c10b3e55aa2986a9f4b59761",
+      "bytes": 34191
+    },
+    {
+      "path": "Tests/MacVisioTests/M3PrintingTests.swift",
+      "sha256": "87529103fa587c928e2c17266f36d4177e3c7bc27e426c50a19be113e8f294a7",
+      "bytes": 43126
+    }
+  ],
+  "retained_runs": [
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-1.log",
+      "sha256": "123d63a2eb24a0f6333dc490cda5ba76d810655e1f3a8c3debe6aa1ad5e87cc7",
+      "bytes": 19482
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-2.log",
+      "sha256": "e76376f984944234fd7a4b707eb8239da2ab829a1427c49817c47eccda4f747d",
+      "bytes": 41509
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-3.log",
+      "sha256": "2ffcb244f35044012b9e048d0a49f4627059164d54fa97a82594bf7dd293ae46",
+      "bytes": 21527
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-4.log",
+      "sha256": "c4158abe3e06fba657f410c5cda79c9aee704d7252be27a64dd5653560522787",
+      "bytes": 19433
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-5.log",
+      "sha256": "ea953171ef849838dd9a5d3e0c9c89a9945dc6f48f3f3b16e241acaa194e4096",
+      "bytes": 54016
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-6.log",
+      "sha256": "de521e0e9d18e4b32e2e1e8033ed5e0467d61774bbb93df83e15a44b5a7b2324",
+      "bytes": 48623
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-7.log",
+      "sha256": "d0389cfd70e7c2c727c3987c05b3572762c449afca9e330075e36d924a4b5410",
+      "bytes": 35230
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-8-hang-sample.txt",
+      "sha256": "87ad36ed9447ee4e1b766db8ff6922c8bf460c31ac49d32dce8d48ade024de97",
+      "bytes": 259508
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-8-sample-command.log",
+      "sha256": "e3261df3ab477ab5b3fff582c56aa240924a794efd056320badb054a2a39ec40",
+      "bytes": 253
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-8.log",
+      "sha256": "fd0bf39a95c818a34d34381b1b371d9e781a664c1e5279c51bc44a400cfef47a",
+      "bytes": 29205
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-focused-9.log",
+      "sha256": "7eda55c95bfa9307687d55a397f5788637bb03d0f5ed509204b30fe35a586f0f",
+      "bytes": 33410
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-full-swift-1.log",
+      "sha256": "3ee60273d2e1e32a9c306899cf56cdb9d413015c9c5a7e20162c07e339450926",
+      "bytes": 274878
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-ledger-1.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-ledger-records-2.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-numeric-probe-1.log",
+      "sha256": "df7ae95c58d68bf6e70403771777408628c379b053ad615a53016aa1a04aab2d",
+      "bytes": 2461
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-numeric-probe-2.log",
+      "sha256": "8106a625c49ac55f51890dc6b0f8fb193f0a2878bf68ac1a41d3ad08bdb2b7ca",
+      "bytes": 2538
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-numeric-probe-3.log",
+      "sha256": "f7db085c272ac975424fd2252d53d0e6c06b1fd049ad6f4fb08dbf0cdd5e1589",
+      "bytes": 2043
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-python-1.log",
+      "sha256": "1b7979c5171abbae81526a384073e735110cb4948c8fe066865fb0180eadc00b",
+      "bytes": 206
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-python-records-2.log",
+      "sha256": "fa02379182e755bdc6cd2d3e001d48a44a1c9b9023042bd0b201c92989db6026",
+      "bytes": 206
+    }
+  ],
+  "retained_publication_and_package_artifacts": [
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "83e3f67646c6b49dd14a9de839d04147e3feeb691aeebaecf247b583950453e0",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "0601dc7709dce651ff676b22e09d6faa1dbf624cbe5be77a14271213ab038063",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "c1b3a808f58b3aa95f795096aad2aca134719967a2945740f5aa80c2d062d5a5",
+      "bytes": 1860
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "9af8fde6021ce5089812535133fe229b8bfb8e0387e931260d727a8248296d67",
+      "bytes": 9998
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "eb92cb410d92b3a3d012491c99d522ecf86b37b972e4b8870c6fb2df0a87bc32",
+      "bytes": 9950
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "35b8c77ec78f8d2eca742b5b3ca89bab5f6c112e3d5187fbc301d3ed39c962fd",
+      "bytes": 1712
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "d823ac189562fd87e2f1823dcf0d0703e189cb92343488b55a1baf2edeb063b2",
+      "bytes": 8172
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "a1a0f0c6f1c278df2d391a92298d6bfe40a16c769205078e47385a37c2e41dbd",
+      "bytes": 9950
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "3d7f634e55715402720a76fea8f1d98d4fbfea8d70009ec15eb88aacdf8456ec",
+      "bytes": 1834
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "8656b821d648df2daf40e91d3fce887ec7ec69461377a999c16755d5f693b817",
+      "bytes": 9992
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "19fdb496d163e73eb5eb3ee8aed5660f2bda2f9ec0a171260672c7b9a1dcda59",
+      "bytes": 9950
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "4c9afa6c9c12ea59876b7e91cf079c36bcfaab5a4a55a5989d7ec55b99cab01b",
+      "bytes": 1694
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "75043871d4b421d92b03dfdecf28235a208e66ef9833aadb3bb0e8f7d0aa509a",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "e9ed31d505d959ae67c3eacfbfcb53286d7ff31a870a18b1b7c632293f4c4f2e",
+      "bytes": 9950
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/m3-union-curves-holes-native.vsdx",
+      "sha256": "665b489b520eb9ffca0a12712e5b8baf32bc70af18b6615559692e00f86cc711",
+      "bytes": 6909
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-6/m3-union-curves-holes-public.vsdx",
+      "sha256": "166e9b431863e7edcb08f21cf4cd3f89fd6ea4c349cc5e49cc8108d2d62f0708",
+      "bytes": 3794
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "015f326f7fa9859351bf6d8c1db103dc1d4547bbf7e32567774dba605af65914",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "536a9654abd3b584111c7f21f4dbf5bb78b6407571f90a9458c81b2d435b2bfe",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "a60b073b30c7be28240598c0075e3b723580da85b84da388aebe04bc2cd2f61a",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "f473ae49835cfb29b11279afb86c7131842f68cf8d428ad3da86b2e2490c6cc7",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "6bb2033b525bb7348b7318a7c1fa2e383633d6763e4e925b3552d5c736447bea",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "6922d8a40cfcff052749827087ba5830cd0b32211e4b80704eada0fa036cb312",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "788899e31bfcc38985343304994d57e087097628dae354aec5b90e733e99651b",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "6a8de478f60b9a0e4b6f3aec3d927af35f24b062826f8b8c5f9930f2995ad045",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "05d6d165ac0d7f7db7910939c74a0c76e5506ef4431db056674c80dacc401a3f",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "f7bc0a9576e71cf1452e2d11773490e814d3610e8c8d90b01c6ef6f9b8b0e189",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "abc3e65245d60f69faa42d9bb078b59f167ab631b5c7776f5e7e788ca035a49a",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "666f94543f94113e610f420ef3207134e11e57cb3018547845ce07e1de04ed9d",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "7f024266ca8a80c08b0829fa897992a966bc486372d2105609f9f2ef8c70fda4",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "268bba17b3e6c5bdf5ceab5d7b88ffd830e416b1c9eeeddd8e52539956f07efa",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/m3-union-curves-holes-native.vsdx",
+      "sha256": "95db6061910c03fb5c86c1ead20c42bd4feece5e0bec60135df41427600eb9fb",
+      "bytes": 6902
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-7/m3-union-curves-holes-public.vsdx",
+      "sha256": "eae9b9f3fbb747f0517f03f9f2cac8acc4297219e123076a327bff9c5dccc0ba",
+      "bytes": 3791
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "00672e86c86fa2533e8d511292730d385f1c4afc19efcbffe4d7f15871aa33b0",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "f873a3a1c8b461c709d52f41e771f9e963a27e516954e0f1eefb9cec868749b7",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "bce2c3557b2bd5272ed23ee1726d8abd52abfe33635d0a611cb6a5f5b3c7ac07",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "e817fdf5aca1c5ea37c5d7fc7bf73157c6a114f05d5571dcd1e11db050647f54",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "4b5c553453de4fdbe54cb72f02d7db4ed27cf04940063021abf0753ffd4b21a7",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "b96e692d5c2e0810040098fad3a4c31be1454f57bb5ab9a4761203e98caf00cc",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "79e37b78c4a21296f5c230b9835e4a1f369cbfe373b35a245a1b5a8aeaa62f01",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "f61a8dfc60c4fc9242b6e8d3043102d979f141fa83eb53c3adf2135ccf14c0e0",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "655931ffd0399784d9e45b9fef84629f0a8a4f2d4811839181bfa2987373ddf9",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "d9fef91575deca0003fca52de52efdc3e540afe5477a2ff05b2f1b59efeda95e",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "eb47fbd90449f12a75b45d61152e4ec11b59b741b0cb2bab01558e5620814a70",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "821d81da28ed36ebe1e0000ad05db50ef1e120cf83adcee67a33f71bc47b76f3",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "73622ddadbcae4a2217ac2343be1e9f656b98b6e1aa3c42388cca2809ff4bf76",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "f347d49957dcf6465e073559b6beb435968656350785cf696c8d9c26c65bd249",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/m3-union-curves-holes-native.vsdx",
+      "sha256": "3dec995fb17599bfcbc75781ef6683eef325b7a351bbc5211c29a6eb6a4c5d5b",
+      "bytes": 6909
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-8/m3-union-curves-holes-public.vsdx",
+      "sha256": "9feb4448c5ca911e6d53fed0dde27881a997bc51c4631409b3112dabbfa7dd42",
+      "bytes": 3791
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "c1b12817838cc7c9cdb0f7e76cca597161ae68bf8d58b0cd1bd75b22a7b46151",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "6d0f7cff6a86d54dc7484a0c2f35af9cb11c2b2bf2465d6584afdcb5cacc69af",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "e935e4b8a897a9641521899b526366b5375798727c58826c2aa77f65f071ec64",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "e943dc1b1f91f065d18c5c5a0bc9f16b23112c10d97534f0dc7b658d35b34005",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "9a69286cd6a3ec6b24269f4b2843ee3c665658c7fe3ee7e1a793540953d67813",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "fc0f6e93bbcbf2d543cfbadfdc858cb2a86616c284361f2da856368941177e1f",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "f74a8eb538b151fd94717e3d3b98f326b07f14ab910bd81e29520184db521a7c",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "8d9cbf2a663e4d4a68ae8b45eb8b92253acbe7186df70f37f2245993eda96613",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "0a607026ba1abc2a92757e5a5830e7b15817e61b76c8195034beb764b1bb6b4e",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "9e116099a028d9fa7bcd8773b74caed7b769e601158126935d6bafc8bd781f2f",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "f6a7ebca229c360b6c56b3ed92a22ab5c73abc659425dd75d84cfe6f67ce24ed",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "c375db00d44a2f05ff07d8dde654ee8f7625aaed45a1e1fb5e54f12d7726875e",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "3017663a428278662af757a3dc5130fc8379f95edccf4199fc7d41cdf6d06f19",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "e3277f422e9824135587bad7e5b2733fd923d0dd2b157318f9b272a069600d3a",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/m3-union-curves-holes-native.vsdx",
+      "sha256": "65e625298c2812a9d2bdc4cbb2a95451466fe54e5f64428943827513c7b8a2ea",
+      "bytes": 6914
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/focused-9/m3-union-curves-holes-public.vsdx",
+      "sha256": "941ba8363f4b44f08ed0016cd790410d54d102decadb302e3789f16d39419ea0",
+      "bytes": 3799
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/edited.vssx",
+      "sha256": "900c31d858180350f8c94bfedf0e4513c41e6e1c953ef8aab17d2c155dfd5fd7",
+      "bytes": 3661
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3CustomStencilEditorTests/testNativeRenameUndoRedoAndSaveAsWritePublicIdentityWithoutChangingSource/source.vssx",
+      "sha256": "c5ab99669f3cb71e53655a88969533533281b30a1a406dc527d1717283b80e78",
+      "bytes": 3636
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/manifest.json",
+      "sha256": "0c769b4230e87a9d4ca89138d4e9c3a8b119366522d8d19ade4c453f755ed940",
+      "bytes": 1862
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/native.pdf",
+      "sha256": "3b392b448b6f8661a96acc7f0076b4f0ef07ac0f5c10147076608c164304a1df",
+      "bytes": 11175
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeAllPagePDFPreservesOrderBackgroundAndTwentyMillimetreMarkerAt100Percent/prepared.pdf",
+      "sha256": "5aa3a3d8cd68988870d30fa8d6411b66ab2cd7a5cd5dbeb9e23121a424706aa1",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/manifest.json",
+      "sha256": "b00ee9cf13ade5a31e0baaea86eecd93e685b99b35fb351616366ebe33c8bc41",
+      "bytes": 1713
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/native.pdf",
+      "sha256": "093d6a354b4e3a7cd7c20afcf1deb5abf5504eea53515224a45e502dfca26daf",
+      "bytes": 8176
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeExplicitScaleAndRequestedMarginsProduceHalfSizedPhysicalMarker/prepared.pdf",
+      "sha256": "31ea48c6f75d4634dc7849cba78eecb959c33e536708f2b17370411d985f7b32",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/manifest.json",
+      "sha256": "572fbd07439abfa20d049211b4c4d2bc20e4449a63c3ceeed586915132660b1c",
+      "bytes": 1836
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/native.pdf",
+      "sha256": "e14b0a028445e09c6fd2ade2226a5b267b418ce2bc6d38c962775f3789a7ce04",
+      "bytes": 11171
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeLandscapeCommonPaperKeepsPhysicalGeometry/prepared.pdf",
+      "sha256": "ee28cef863f6883813bf23c9d5402f2ab0ef2b235d714c30067db7ff6aab01a3",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/manifest.json",
+      "sha256": "2b47be913cd1c9790476480de4edc964e41cd9169ae221605593506161301542",
+      "bytes": 1695
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/native.pdf",
+      "sha256": "0c39f6b049e94017c9e4682118b3acf67819cc7d848eafd0a33cc776aab991df",
+      "bytes": 8168
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/M3PrintingTests/testNativeRangePrintsOnlySelectedForegroundPageAtNaturalSize/prepared.pdf",
+      "sha256": "4d1e29d55606f358fc7353d9c6438ae56b1b29d5592071aa8cc7eb979ec70fd2",
+      "bytes": 11128
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/m3-union-curves-holes-native.vsdx",
+      "sha256": "307251e2a5cbbddd6b8119b2940dc1b272a36a9c7eca88cdf4cb2c969e2f7c74",
+      "bytes": 6916
+    },
+    {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-artifacts/full-1/m3-union-curves-holes-public.vsdx",
+      "sha256": "868f42440fb74ca2dde87912dfb648f67e8f9c32009434e3cfc7fe6ec83106b4",
+      "bytes": 3802
+    }
+  ],
+  "reference_sources": [
+    "https://learn.microsoft.com/en-us/office/vba/api/visio.selection.union",
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/master-element-masters_type-complextypevisio-xml",
+    "https://learn.microsoft.com/en-us/office/client-developer/visio/relationships-cell-shape-layout-section"
+  ],
+  "record_checks": {
+    "python": {
+      "executed": 105,
+      "failures": 0,
+      "artifact": {
+        "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-python-records-3.log",
+        "sha256": "6ae20cae604560f63abf7ad74ba924ac0c277b27dcf29f03096283807efdd0e3",
+        "bytes": 206
+      }
+    },
+    "ledger": {
+      "path": "build/m3-evidence/2026-10-19/geometry-stencil-print-ledger-records-3.log",
+      "sha256": "48b94777dd68e35f96499350a66104e8e53ad3e59609f89f75b4e9f2fa92de49",
+      "bytes": 107
+    },
+    "validation_log": "build/m3-evidence/2026-10-19/geometry-stencil-print-record-validation.log"
+  }
+}

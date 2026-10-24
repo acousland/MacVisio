@@ -138,6 +138,25 @@ enum TypedShapeSheet {
                         guard let numberDimension = values[0].dimension,numberDimension == fuzzDimension else { throw DiagramError.invalid("SIGN values use incompatible units.") }
                     }
                     result = .number(try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9))
+                case "ASIN","ACOS","ATAN":
+                    try arity(1)
+                    // These functions return PtgAngDft, whose canonical value
+                    // is radians with DA metadata. Reuse the scalar numerical
+                    // path and its domain/non-finite failure behavior.
+                    let angle = try ShapeSheet.evaluate(.call(name,[.number(try values[0].numeric())]),resolve:{_ in throw DiagramError.invalid("Unexpected inverse-trigonometric reference.")})
+                    result = scalar ? .number(angle) : .quantity(angle,"DA")
+                case "ATAN2":
+                    try arity(2)
+                    let angle = try ShapeSheet.arcTangent2(try values[0].numeric(),values[1].numeric())
+                    // PtgAngDft uses radians internally with the DA unit. Keep
+                    // this metadata in typed hosts; geometry still uses a scalar.
+                    result = scalar ? .number(angle) : .quantity(angle,"DA")
+                case "MODULUS":
+                    try arity(2)
+                    let remainder = try ShapeSheet.modulus(try values[0].numeric(),divisor:values[1].numeric())
+                    // Unit numbers are evaluated in their canonical internal
+                    // values; the first operand's unit remains result metadata.
+                    result = !scalar ? values[0].unit.map{.quantity(remainder,$0)} ?? .number(remainder) : .number(remainder)
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let first = try values[0].numeric()
@@ -146,13 +165,15 @@ enum TypedShapeSheet {
                         result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
                     } else if let unit = values[0].unit {
                         guard let factor = SheetValue.factor(unit) else { throw DiagramError.invalid("Rounding uses an unsupported unit.") }
-                        let displayNumber = first*factor
+                        // Invert the parser's literal-unit scale directly. A
+                        // reciprocal multiply can push 26mm just below 26.
+                        let displayNumber = first/(1/factor)
                         let displayMultiple:Double
                         if values.count == 2 {
                             let multiple = try values[1].numeric()
                             if let multipleUnit = values[1].unit {
                                 guard values[0].dimension == values[1].dimension,SheetValue.factor(multipleUnit) != nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
-                                displayMultiple = multiple*factor
+                                displayMultiple = multiple/(1/factor)
                             } else { displayMultiple = multiple }
                         } else { displayMultiple = displayNumber < 0 ? -1 : 1 }
                         result = .quantity(try ShapeSheet.rounded(displayNumber,toMultiple:displayMultiple,awayFromZero:name == "CEILING")/factor,unit)
@@ -203,12 +224,18 @@ enum TypedShapeSheet {
                     let second = try colorValue(values[1],palette:colorPalette).hsl.luminosity
                     result = .number(Double(first-second))
                 default:
-                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","ASIN","ACOS","ATAN","ATAN2","LN","EXP","INT","SIGN","ROUND","MODULUS","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
+                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
                         let unit = values.first?.unit
                         let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
                         let factor = preserve ? SheetValue.factor(unit!)! : 1
-                        let arguments = try values.enumerated().map{ShapeSheet.Expression.number(try $0.element.numeric()*($0.offset == 0 ? factor : 1))}
+                        let arguments = try values.enumerated().map { offset,value -> ShapeSheet.Expression in
+                            let number = try value.numeric()
+                            // ROUND shares CEILING/FLOOR's display-unit rule.
+                            // Other existing numeric functions keep their path.
+                            let operand = offset == 0 ? (name == "ROUND" ? number/(1/factor) : number*factor) : number
+                            return .number(operand)
+                        }
                         let n = try ShapeSheet.evaluate(.call(name,arguments),resolve:{_ in throw DiagramError.invalid("Unexpected numeric reference") })/factor
                         if !scalar,["MIN","MAX","SUM"].contains(name),let unit = values.first(where:{$0.unit != nil})?.unit {
                             let dimensions = Set(values.compactMap(\.dimension));guard dimensions.count == 1,try values.allSatisfy({if $0.unit != nil { return true };return try $0.numeric() == 0}) else { throw DiagramError.invalid("Incompatible dimensional aggregate.") };result = .quantity(n,unit)

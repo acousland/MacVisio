@@ -22,8 +22,18 @@ enum VisioFormat {
     private static let nativePart = "macvisio/document.json"
 
     static func read(from url: URL,trace:((String)->Void)? = nil) throws -> VisioImportResult {
+        try read(archive: PackageReader(url: url), title: url.deletingPathExtension().lastPathComponent, trace: trace)
+    }
+
+    /// Used by definition projection: the public package remains the semantic
+    /// input even when a hash-valid native cache is present.
+    static func readPublic(parts: [String: Data], title: String) throws -> VisioImportResult {
+        try read(archive: PackageReader(parts: parts), title: title, allowNativeMetadata: false)
+    }
+
+    private static func read(archive: PackageReader, title: String, allowNativeMetadata: Bool = true,
+                             trace: ((String) -> Void)? = nil) throws -> VisioImportResult {
         try LifecycleJobContext.current?.checkpoint()
-        let archive = try PackageReader(url: url)
         trace?("package")
         _ = try archive.xml("[Content_Types].xml", expectedRoot: "Types")
         let rootRelationships = try relationships(in: archive, source: "")
@@ -44,7 +54,7 @@ enum VisioFormat {
 
         // Only accept the private representation if every public part still matches.
         // Editing the drawing in Visio therefore cannot make our JSON hide new content.
-        if archive.names.contains(nativePart) {
+        if allowNativeMetadata && archive.names.contains(nativePart) {
             do {
                 let storedMetadata = try NativeMetadataStorage.load(archive.data(nativePart), parts: archive.parts)
                 trace?("metadataStorage")
@@ -119,6 +129,9 @@ enum VisioFormat {
                             }
                         }
                         var cacheWarnings:[String] = []
+                        if envelope.connectorDetailsVersion != 1,diagram.pages.contains(where:{!$0.edges.isEmpty}) {
+                            cacheWarnings.append("Older native metadata omitted connector sheets and rich text; public connector details were hydrated while retaining native identities.")
+                        }
                         if envelope.controlsVersion != 1,archive.parts.contains(where:{$0.key.hasSuffix(".xml") && String(data:$0.value,encoding:.utf8)?.range(of:"<(?:[A-Za-z_][A-Za-z0-9_.-]*:)?Section\\b[^>]*\\bN\\s*=\\s*[\"']Controls?[\"']",options:.regularExpression) != nil}) {
                             try hydrateControls(&diagram,bindings:&bindings,parts:archive.parts)
                             cacheWarnings.append("Older native metadata omitted control handles; public definitions were hydrated while retaining native identities.")
@@ -239,7 +252,7 @@ enum VisioFormat {
         if documentRelationships.values.contains(where: { $0.external }) { warnings.insert("External relationships are ignored.") }
 
         var diagram = Diagram()
-        diagram.title = url.deletingPathExtension().lastPathComponent
+        diagram.title = title
         diagram.pages = []
         var bindings: [VisioPageBinding] = []
         for (pageIndex, pageElement) in pageElements.enumerated() {
@@ -308,7 +321,7 @@ enum VisioFormat {
             var inheritedShapes:[UUID:VisioInheritedShape] = [:]
             var inheritanceByShape:[String:VisioInheritedShape] = [:]
             var instanceContexts:[MasterInstance] = []
-            var connectorElements: [(XElement, [String: XCell], XElement?, DiagramNode?)] = []
+            var connectorElements: [(XElement, [String: XCell], XElement?, DiagramNode?, MasterInstance?)] = []
             var edgeIdentifiers: [UUID:String] = [:]
             let pageRelations = try relationships(in:archive,source:pagePart)
             let layerRows = pageElement.child("PageSheet")?.children(named:"Section").first(where:{$0.attributes["N"] == "Layer"})?.children(named:"Row") ?? []
@@ -365,7 +378,7 @@ enum VisioFormat {
                 let cells = inheritedCells(shape, master: master?.shape, styles: resolvedStyles)
                 let hasEndpoints = cells["BeginX"] != nil && cells["EndX"] != nil
                 if number(cells["OneD"]) == 1 || hasEndpoints {
-                    connectorElements.append((shape, cells, master?.shape, parent)); continue
+                    connectorElements.append((shape, cells, master?.shape, parent, instance)); continue
                 }
                 var kind = recognize(shape, master: master, warnings: &warnings)
                 if shape.attributes["Type"] == "Foreign" || shape.child("ForeignData") != nil {
@@ -579,7 +592,7 @@ enum VisioFormat {
                     page.nodes[i].formatting = detail
                 }
             }
-            for (shape,cells,master,parent) in connectorElements {
+            for (shape,cells,master,parent,instance) in connectorElements {
                 let shapeID = shape.attributes["ID"] ?? ""
                 let endpoint = ends[shapeID] ?? (nil,nil)
                 func point(_ x:String,_ y:String) -> DiagramPoint? {
@@ -607,6 +620,27 @@ enum VisioFormat {
                 edge.arrow = (number(cells["EndArrow"]) ?? 0) != 0
                 edge.startArrow = (number(cells["BeginArrow"]) ?? 0) != 0
                 edge.dash = number(cells["LinePattern"]).flatMap{Int(exactly:$0)} ?? 1
+                edge.details = try connectorDetails(shape,cells:cells,master:master,document:document,styles:styles,palette:palette,layerNames:layerNames,edge:edge,warnings:&warnings)
+                if let instance,let master {
+                    var detail = edge.formatting
+                    for (name,cell) in detail.sheet where !cell.formula.isEmpty {
+                        let own = sheetCell(name,in:shape)
+                        if (own == nil || own?.value == "Inh" || own?.formula == "Inh"),sheetCell(name,in:master)?.formula == cell.formula {
+                            detail.sheet[name]?.formula = remapMasterFormula(cell.formula,identifiers:instance.identifiers)
+                        }
+                    }
+                    if var fields = detail.textFields {
+                        let localRows = shape.children(named:"Section").first{$0.attributes["N"] == "Field"}?.children(named:"Row") ?? []
+                        for f in fields.indices {
+                            let local = localRows.first{$0.attributes["IX"] == String(fields[f].index)}
+                            for key in fields[f].cells.keys where local?.cells[key] == nil || local?.cells[key]?.value == "Inh" || local?.cells[key]?.formula == "Inh" {
+                                let formula = fields[f].cells[key]!.formula
+                                fields[f].cells[key]?.formula = remapMasterFormula(formula,identifiers:instance.identifiers)
+                            }
+                        };detail.textFields = fields
+                    }
+                    edge.formatting = detail
+                }
                 let rows = shape.children(named:"Section").filter{$0.attributes["N"] == "Geometry"}.flatMap{$0.children(named:"Row")}
                 edge.style = rows.count > 2 || number(cells["ShapeRouteStyle"]) == 1 ? .orthogonal : .straight
                 let w = max(0.001,abs(number(cells["Width"]) ?? 1)),h = max(0.001,abs(number(cells["Height"]) ?? 1))
@@ -738,7 +772,10 @@ enum VisioFormat {
                 let coordinates = DiagramCoordinates.connector(edge,in:page)
                 let from = ConnectionGeometry.destination(edge.sourcePort,on:page.nodes.first{$0.id == edge.source}),to = ConnectionGeometry.destination(edge.targetPort,on:page.nodes.first{$0.id == edge.target})
                 let element = try VisioXML.element(connectorXML(coordinates.edge,id:id,page:coordinates.page,sourceID:fromID,targetID:toID,sourceCells:(from.x,from.y),targetCells:(to.x,to.y)))
-                if let layer = edge.layer,let index = (page.layers ?? []).firstIndex(where:{$0.name == layer}) { VisioXML.set(element,"LayerMember",String(index)) }
+                let names = Set(edge.formatting.layerNames + [edge.layer].compactMap{$0})
+                let memberships = (page.layers ?? []).enumerated().filter{names.contains($0.element.name)}.map{String($0.offset)}
+                if !memberships.isEmpty { VisioXML.set(element,"LayerMember",memberships.joined(separator:";")) }
+                else { element.elementsLocal("Cell").first{$0.attr("N") == "LayerMember"}?.detach() }
                 if let parentID = edge.parentID,let parent = elements[parentID] { let children = parent.firstLocal("Shapes") ?? XMLElement(name:"Shapes");if children.parent == nil { parent.addChild(children) };children.addChild(element) }
                 else { shapes.addChild(element) }
                 if let fromID = fromID { connectionsXML += "<Connect FromSheet=\"\(id)\" FromCell=\"BeginX\" FromPart=\"9\" ToSheet=\"\(fromID)\" ToCell=\"\(xml(from.x))\" ToPart=\"\(from.part)\"/>" }
@@ -754,10 +791,15 @@ enum VisioFormat {
         put("[Content_Types].xml", header + "<Types xmlns=\"http://schemas.openxmlformats.org/package/2006/content-types\"><Default Extension=\"rels\" ContentType=\"application/vnd.openxmlformats-package.relationships+xml\"/><Default Extension=\"xml\" ContentType=\"application/xml\"/><Default Extension=\"json\" ContentType=\"application/json\"/><Override PartName=\"/visio/document.xml\" ContentType=\"application/vnd.ms-visio.drawing.main+xml\"/><Override PartName=\"/visio/pages/pages.xml\" ContentType=\"application/vnd.ms-visio.pages+xml\"/><Override PartName=\"/docProps/core.xml\" ContentType=\"application/vnd.openxmlformats-package.core-properties+xml\"/>\(pageContentTypes)\(extraTypes.elementsLocal("Default").map(\.xmlString).joined())</Types>")
         try VisioPreservation.ensureFonts(diagram,parts:&parts,bindings:freshBindings)
         try VisioPreservation.ensureWindowsPart(parts:&parts)
+        var source = VisioDocumentArchive(parts:parts,pagesPart:"visio/pages/pages.xml",pages:freshBindings,connectorHierarchyVersion:1,
+            lineageID: DefinitionRegistry.stableID(diagram.pages[0].id, "new-public-document"))
+        diagram.visioArchive = source
+        diagram = try DefinitionRegistry.hydrate(diagram)
         parts[nativePart] = try nativeMetadata(diagram,parts:&parts,bindings:freshBindings)
         guard parts.values.allSatisfy({ $0.count <= PackageReader.partLimit }), parts.values.reduce(0, { $0 + $1.count }) <= PackageReader.totalLimit else { throw DiagramError.invalid("This drawing exceeds the VSDX export size limit.") }
         try VisioPackage.write(parts, to: url)
-        return VisioDocumentArchive(parts:parts,pagesPart:"visio/pages/pages.xml",pages:freshBindings,connectorHierarchyVersion:1)
+        source.parts = parts
+        return source
     }
 
     struct NativeBinding: Codable {
@@ -786,6 +828,88 @@ enum VisioFormat {
         var textFieldsVersion:Int? = nil
         var geometryVersion:Int? = nil
         var controlsVersion:Int? = nil
+        var connectorDetailsVersion:Int? = nil
+    }
+    private struct ConnectorMetadataHeader:Decodable {
+        struct Payload:Decodable {
+            struct Page:Decodable {
+                struct Edge:Decodable {
+                    var id:UUID;var hasDetails:Bool
+                    enum CodingKeys:String,CodingKey { case id,details }
+                    init(from decoder:Decoder) throws {
+                        let c = try decoder.container(keyedBy:CodingKeys.self)
+                        id = try c.decode(UUID.self,forKey:.id);hasDetails = c.contains(.details) ? !(try c.decodeNil(forKey:.details)) : false
+                    }
+                }
+                var edges:[Edge]
+            }
+            var pages:[Page]
+        }
+        var connectorDetailsVersion:Int?;var publicHashes:[String:String];var diagram:Payload
+    }
+    private final class ConnectorMetadataGate:NSObject {
+        let defaultIDs:Set<UUID>
+        init(_ ids:Set<UUID>) { defaultIDs = ids }
+    }
+    // Archive stores are immutable and shared by snapshots. Avoid repeatedly
+    // decoding an entire native cache merely to validate a default connector.
+    private static let connectorMetadataGates:NSCache<NSUUID,ConnectorMetadataGate> = {
+        let cache = NSCache<NSUUID,ConnectorMetadataGate>();cache.countLimit = 16;cache.totalCostLimit = 100000;return cache
+    }()
+    private static func currentDefaultConnectorIDs(_ archive:VisioDocumentArchive) -> Set<UUID> {
+        let key = archive.sourceResourceID as NSUUID
+        if let gate = connectorMetadataGates.object(forKey:key) { return gate.defaultIDs }
+        var defaults = Set<UUID>()
+        if let data = archive.parts[nativePart],let stored = try? NativeMetadataStorage.load(data,parts:archive.parts),
+           let header = try? JSONDecoder().decode(ConnectorMetadataHeader.self,from:stored.data),header.connectorDetailsVersion == 1,
+           !header.publicHashes.isEmpty,header.publicHashes.allSatisfy({name,value in archive.parts[name].map{hash($0) == value} == true}),
+           Set(archive.parts.keys.filter{$0 != nativePart && !stored.storageParts.contains($0)}) == Set(header.publicHashes.keys) {
+            defaults = Set(header.diagram.pages.flatMap(\.edges).filter{!$0.hasDetails}.map(\.id))
+        }
+        connectorMetadataGates.setObject(ConnectorMetadataGate(defaults),forKey:key,cost:max(1,defaults.count));return defaults
+    }
+    /// Upgrade source-backed native drawings as well as old public-package caches.
+    /// Only the previously unmodelled payload is imported: cached IDs, labels,
+    /// endpoints, and parent transforms remain the native drawing's own values.
+    static func hydrateMissingConnectorDetails(_ diagram:Diagram) throws -> Diagram? {
+        guard var archive = diagram.visioArchive else { return nil }
+        let boundPages = Dictionary(archive.pages.map{($0.pageID,$0)},uniquingKeysWith:{first,_ in first})
+        guard diagram.pages.contains(where:{page in page.edges.contains{$0.details == nil && boundPages[page.id]?.edgeIDs[$0.id] != nil}}) || archive.pages.contains(where:{$0.original.edges.contains{$0.details == nil}}) else { return nil }
+        let defaultIDs = currentDefaultConnectorIDs(archive)
+        let missing = diagram.pages.contains { page in
+            guard let binding = boundPages[page.id] else { return false }
+            return page.edges.contains{binding.edgeIDs[$0.id] != nil && $0.details == nil && !defaultIDs.contains($0.id)}
+        } || archive.pages.contains{$0.original.edges.contains{$0.details == nil && !defaultIDs.contains($0.id)}}
+        guard missing else { return nil }
+        let imported = try readPublic(parts:archive.parts,title:diagram.title).diagram
+        guard let publicArchive = imported.visioArchive else { return nil }
+        var result = diagram,changed = false
+        func details(_ publicEdge:DiagramEdge,for native:DiagramEdge) -> ShapeDetails {
+            var detail = publicEdge.formatting
+            if let runs = detail.textRuns,publicEdge.label != native.label {
+                detail.textRuns = ShapeRichText.replacingText(publicEdge.label,with:native.label,runs:runs)
+            }
+            return detail
+        }
+        for b in archive.pages.indices {
+            guard let publicBinding = publicArchive.pages.first(where:{$0.visioID == archive.pages[b].visioID}),
+                  let page = imported.pages.first(where:{$0.id == publicBinding.pageID}) else { continue }
+            let byID = Dictionary(page.edges.map{($0.id,$0)},uniquingKeysWith:{first,_ in first})
+            let bySource = Dictionary(publicBinding.edgeIDs.compactMap{key,value in byID[key].map{(value,$0)}},uniquingKeysWith:{first,_ in first})
+            if let p = result.pages.firstIndex(where:{$0.id == archive.pages[b].pageID}) {
+                for e in result.pages[p].edges.indices where result.pages[p].edges[e].details == nil && !defaultIDs.contains(result.pages[p].edges[e].id) {
+                    let edge = result.pages[p].edges[e]
+                    guard let source = archive.pages[b].edgeIDs[edge.id],let publicEdge = bySource[source] else { continue }
+                    result.pages[p].edges[e].details = details(publicEdge,for:edge);changed = true
+                }
+            }
+            for e in archive.pages[b].original.edges.indices where archive.pages[b].original.edges[e].details == nil && !defaultIDs.contains(archive.pages[b].original.edges[e].id) {
+                let edge = archive.pages[b].original.edges[e]
+                guard let source = archive.pages[b].edgeIDs[edge.id],let publicEdge = bySource[source] else { continue }
+                archive.pages[b].original.edges[e].details = details(publicEdge,for:edge);changed = true
+            }
+        }
+        guard changed else { return nil };result.visioArchive = archive;return result
     }
     private static func hydrateControls(_ diagram:inout Diagram,bindings:inout [VisioPageBinding],parts:[String:Data]) throws {
         var publicParts = parts;publicParts.removeValue(forKey:nativePart)
@@ -820,6 +944,34 @@ enum VisioFormat {
                 let shapes = root.firstLocal("Shapes")?.allShapes ?? []
                 let shapesByID = Dictionary(shapes.compactMap { shape in shape.attr("ID").map { ($0, shape) } }, uniquingKeysWith: { first, _ in first })
                 for i in page.nodes.indices { if let runs = page.nodes[i].formatting.textRuns,let id = binding.nodeIDs[page.nodes[i].id],let text = shapesByID[id]?.firstLocal("Text") { page.nodes[i].formatting.textRuns = ShapeRichText.synchronizeSources(runs,text:text) } }
+                for i in page.edges.indices {
+                    guard var detail = page.edges[i].details,let id = binding.edgeIDs[page.edges[i].id],let shape = shapesByID[id] else { continue }
+                    if let runs = detail.textRuns,let text = shape.firstLocal("Text") { detail.textRuns = ShapeRichText.synchronizeSources(runs,text:text) }
+                    // Keep sheet aliases coherent with the cells actually written,
+                    // including typed property edits and route/line cache updates.
+                    for cell in shape.elementsLocal("Cell") { if let name = cell.attr("N"),detail.sheet[name] != nil { detail.sheet[name] = ShapeSheetCell(value:cell.attr("V") ?? "",formula:cell.attr("F") ?? "",unit:cell.attr("U") ?? "") } }
+                    for section in shape.elementsLocal("Section") where ["User","Property"].contains(section.attr("N") ?? "") {
+                        let prefix = section.attr("N") == "User" ? "User." : "Prop."
+                        for row in section.elementsLocal("Row") {
+                            guard let name = row.attr("N") else { continue }
+                            if row.attr("Del") == "1" {
+                                detail.sheet = detail.sheet.filter{$0.key != prefix+name && !$0.key.hasPrefix(prefix+name+".")};continue
+                            }
+                            for cell in row.elementsLocal("Cell") { if let key = cell.attr("N") {
+                                let address = prefix+name+(key == "Value" ? "" : "."+key)
+                                detail.sheet[address] = ShapeSheetCell(value:cell.attr("V") ?? "",formula:cell.attr("F") ?? "",unit:cell.attr("U") ?? "")
+                            } }
+                            if prefix == "Prop.",let d = detail.data.firstIndex(where:{$0.key == name}) {
+                                detail.data[d].value = VisioXML.value(row,"Value") ?? detail.data[d].value
+                                detail.data[d].label = VisioXML.value(row,"Label") ?? detail.data[d].label
+                                detail.data[d].type = VisioXML.value(row,"Type").flatMap(Int.init) ?? detail.data[d].type
+                                detail.data[d].format = VisioXML.value(row,"Format") ?? detail.data[d].format
+                                detail.data[d].prompt = VisioXML.value(row,"Prompt") ?? detail.data[d].prompt
+                            }
+                        }
+                    }
+                    page.edges[i].details = detail
+                }
             }
         }
         for i in content.pages.indices { synchronize(&content.pages[i]) }
@@ -864,14 +1016,14 @@ enum VisioFormat {
                     bindings:nil,compactBindings:compactBindings,pagesPart:diagram.visioArchive?.pagesPart,
                     legacyParts:segments,masterExpansionVersion:1,connectorHierarchyVersion:1,
                     connectionPointsVersion:1,coordinateTransformVersion:1,textRunsVersion:1,
-                    textFieldsVersion:1,geometryVersion:4,controlsVersion:1))
+                    textFieldsVersion:1,geometryVersion:4,controlsVersion:1,connectorDetailsVersion:1))
                 if compact.count > VisioPackage.partLimit { return compact }
             }
             return try encoder.encode(NativeEnvelope(format:2,publicHashes:publicHashes,diagram:content,
                 bindings:synchronizedBindings,pagesPart:diagram.visioArchive?.pagesPart,legacyParts:segments,
                 masterExpansionVersion:1,connectorHierarchyVersion:1,connectionPointsVersion:1,
                 coordinateTransformVersion:1,textRunsVersion:1,textFieldsVersion:1,geometryVersion:4,
-                controlsVersion:1))
+                controlsVersion:1,connectorDetailsVersion:1))
         }
         var payload = try encodedEnvelope()
         if payload.count > VisioPackage.partLimit {
@@ -918,7 +1070,11 @@ enum VisioFormat {
     private static func sheetCell(_ key:String,in shape:XElement) -> XCell? {
         if key.hasPrefix("User.") || key.hasPrefix("Prop.") {
             let section = key.hasPrefix("User.") ? "User" : "Property",name = String(key.dropFirst(5))
-            return shape.children(named:"Section").first{$0.attributes["N"] == section}?.children(named:"Row").first{$0.attributes["N"] == name}?.cells["Value"]
+            let rows = shape.children(named:"Section").first{$0.attributes["N"] == section}?.children(named:"Row") ?? []
+            if let row = rows.first(where:{$0.attributes["N"] == name}) { return row.cells["Value"] }
+            guard let separator = name.lastIndex(of:".") else { return nil }
+            let rowName = String(name[..<separator]),cellName = String(name[name.index(after:separator)...])
+            return rows.first{$0.attributes["N"] == rowName}?.cells[cellName]
         }
         if key == "Char.Size" { return shape.children(named:"Section").first{$0.attributes["N"] == "Character"}?.children(named:"Row").first?.cells["Size"] }
         return shape.cells[key]
@@ -1166,6 +1322,55 @@ enum VisioFormat {
         return cells
     }
 
+    private static func connectorDetails(_ shape:XElement,cells:[String:XCell],master:XElement?,document:XElement,styles:[String:XElement],palette:[String:String],layerNames:[String:String],edge:DiagramEdge,warnings:inout Set<String>) throws -> ShapeDetails {
+        var detail = ShapeDetails();detail.sourceShapeID = edge.sourceShapeID
+        detail.sheet = cells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)}
+        for section in ["User","Property"] {
+            let prefix = section == "User" ? "User." : "Prop."
+            for row in inheritedRows(shape,master:master,section:section) {
+                guard let name = row.attributes["N"] else { continue }
+                for (key,cell) in row.cells {
+                    let address = prefix+name+(key == "Value" ? "" : "."+key)
+                    detail.sheet[address] = ShapeSheetCell(value:cell.value,formula:cell.formula,unit:cell.unit)
+                }
+            }
+        }
+        let character = inheritedSectionCells(shape,master:master,styles:styles,section:"Character",styleKey:"TextStyle")
+        if let size = character["Size"] { detail.sheet["Char.Size"] = ShapeSheetCell(value:size.value,formula:size.formula,unit:size.unit) }
+        detail.fontName = fontName(character["Font"]?.value ?? "0",in:document)
+        let bits = Int(exactly:number(character["Style"]) ?? 0) ?? 0
+        detail.italic = bits & 2 != 0;detail.underline = bits & 4 != 0
+        let paragraph = inheritedSectionCells(shape,master:master,styles:styles,section:"Paragraph",styleKey:"TextStyle")
+        detail.alignment = number(paragraph["HorzAlign"]) == 0 ? .left : number(paragraph["HorzAlign"]) == 2 ? .right : .center
+        detail.layerNames = (cells["LayerMember"]?.value ?? "").split(separator:";").compactMap{layerNames[String($0)]}
+        detail.data = inheritedRows(shape,master:master,section:"Property").enumerated().map{i,row in
+            let c = row.cells;return ShapeDataProperty(key:row.attributes["N"] ?? "Row_\(i)",label:c["Label"]?.value ?? row.attributes["N"] ?? "Property",value:c["Value"]?.value ?? "",type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,format:c["Format"]?.value ?? "",prompt:c["Prompt"]?.value ?? "")
+        }
+        detail.hyperlinks = inheritedRows(shape,master:master,section:"Hyperlink").map{row in
+            let c = row.cells;return ShapeHyperlink(address:c["Address"]?.value ?? "",subAddress:c["SubAddress"]?.value ?? "",description:c["Description"]?.value ?? "",sourceRowName:row.attributes["N"])
+        }
+        let text = shape.child("Text") ?? master?.child("Text"),fieldRows = inheritedRows(shape,master:master,section:"Field")
+        if !fieldRows.isEmpty || text?.runs.contains(where:{$0.field != nil}) == true {
+            var fields:[ShapeTextField] = []
+            for row in fieldRows {
+                guard let index = Int(row.attributes["IX"] ?? row.attributes["MacVisio.RowIndex"] ?? ""),index >= 0,index <= UInt32.max,!fields.contains(where:{$0.index == index}) else { throw DiagramError.invalid("Invalid connector field row index.") }
+                fields.append(ShapeTextField(index:index,cells:row.cells.mapValues{ShapeSheetCell(value:$0.value,formula:$0.formula,unit:$0.unit)},cached:text?.runs.first{$0.field == index}?.text))
+            }
+            for run in text?.runs ?? [] { if let index = run.field,!fields.contains(where:{$0.index == index}) {
+                fields.append(ShapeTextField(index:index,cells:[:],cached:run.text));warnings.insert("An unresolved connector text field retains its cached display.")
+            } };detail.textFields = fields
+        }
+        if let text,!edge.label.isEmpty || detail.textFields?.isEmpty == false {
+            var node = edge.textNode;node.details = detail
+            node.fontSize = min(500,max(1,try finiteNumber(character,"Size",default:12/72)*72))
+            node.textColor = color(character["Color"],palette:palette,fallback:"#000000");node.bold = bits & 1 != 0
+            detail.textRuns = try richText(text,shape:shape,master:master,document:document,styles:styles,palette:palette,node:node,warnings:&warnings)
+            if let first = detail.textRuns?.first {
+                detail.fontName = first.character.fontName;detail.italic = first.character.italic;detail.underline = first.character.underline;detail.alignment = first.paragraph.alignment
+            }
+        }
+        return detail
+    }
     private static func richText(_ text:XElement,shape:XElement,master:XElement?,document:XElement,styles:[String:XElement],palette:[String:String],node:DiagramNode,warnings:inout Set<String>) throws -> [ShapeTextRun] {
         func cells(_ section:String,_ index:Int) -> [String:XCell] {
             func row(_ element:XElement?,_ ix:Int) -> [String:XCell] { element?.children(named:"Section").first{$0.attributes["N"] == section}?.children(named:"Row").first{($0.attributes["IX"] ?? "0") == String(ix) && $0.attributes["Del"] != "1"}?.cells ?? [:] }
@@ -1629,7 +1834,27 @@ enum VisioFormat {
         contents += "<Section N=\"Character\"><Row IX=\"0\">" + stringCell("Font", "Arial") + cell("Size", 12 / 72) + stringCell("Color", String(edge.color.prefix(7))) + "</Row></Section><Section N=\"Paragraph\"><Row IX=\"0\">" + cell("HorzAlign", 1) + "</Row></Section>"
         contents += geometrySection(rows: points.enumerated().map { ($0.offset == 0 ? "MoveTo" : "LineTo", ["X": $0.element.x - originX, "Y": $0.element.y - originY]) }, noFill: true)
         contents += "<Text>\(xml(edge.label))</Text>"
-        return "<Shape ID=\"\(id)\" NameU=\"MacVisio.Connector.\(id)\" Type=\"Shape\" LineStyle=\"0\" FillStyle=\"0\" TextStyle=\"0\">\(contents)</Shape>"
+        let result = "<Shape ID=\"\(id)\" NameU=\"MacVisio.Connector.\(id)\" Type=\"Shape\" LineStyle=\"0\" FillStyle=\"0\" TextStyle=\"0\">\(contents)</Shape>"
+        guard edge.details != nil,let element = try? VisioXML.element(result) else { return result }
+        VisioPreservation.patchData(edge.formatting.data,element:element)
+        VisioPreservation.patchHyperlinks(edge.formatting.hyperlinks,element:element)
+        // A fresh route owns its geometry. Supported line formulas retain their
+        // public authored cells as well as their calculated presentation.
+        let managed:Set<String> = ["ObjType","PinX","PinY","Width","Height","LocPinX","LocPinY","Angle","BeginX","BeginY","EndX","EndY","ShapeRouteStyle","LineWeight","LineColor","LinePattern","BeginArrow","EndArrow","FillPattern"]
+        VisioPreservation.patchSheet(edge.formatting.sheet.filter { key, cell in
+            if !managed.contains(key) { return true }
+            let formula = cell.formula.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
+            return ConnectorSheetCalculation.lineKeys.contains(key) && !formula.isEmpty && !["INH", "NO FORMULA"].contains(formula)
+        },old:[:],element:element)
+        if edge.formatting.textRuns != nil { ShapeRichText.patch(edge.textNode,element:element,fresh:true) }
+        else {
+            let character = VisioXML.row(element,"Character")
+            VisioXML.set(character,"Font",edge.formatting.fontName == "System" ? "Arial" : edge.formatting.fontName)
+            VisioXML.set(character,"Style",(edge.formatting.italic ? 2 : 0)+(edge.formatting.underline ? 4 : 0))
+            VisioXML.set(VisioXML.row(element,"Paragraph"),"HorzAlign",edge.formatting.alignment == .left ? 0 : edge.formatting.alignment == .right ? 2 : 1)
+        }
+        if let fields = edge.formatting.textFields { TextFieldEngine.patch(fields,element:element) }
+        return element.xmlString
     }
 
     /// stdout is read in chunks with a hard cap; no archive entry is ever extracted.
@@ -1660,6 +1885,14 @@ enum VisioFormat {
         let parts: [String: Data]
         var names: Set<String> { Set(parts.keys) }
         init(url: URL) throws { parts = try VisioPackage.read(url) }
+        init(parts: [String: Data]) throws {
+            guard parts.count <= 10000, parts.values.allSatisfy({ $0.count <= Self.partLimit }),
+                  parts.values.reduce(0, { $0 + $1.count }) <= Self.totalLimit else {
+                throw DiagramError.invalid("The public definition package exceeds its resource limits.")
+            }
+            for name in parts.keys { try VisioPackage.validatePath(name) }
+            self.parts = parts
+        }
         func data(_ name: String) throws -> Data {
             guard let data = parts[name] else { throw DiagramError.invalid("The Visio package is missing \(name).") }
             return data

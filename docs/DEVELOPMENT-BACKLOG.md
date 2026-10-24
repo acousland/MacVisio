@@ -12,7 +12,7 @@ The earlier feature snapshot describes local implementation presence. The later 
 
 Sources: [specification](PRODUCT-SPEC.md), [requirements](product-requirements.json), [feature snapshot](FEATURE-STATUS.md), [architecture review](ARCHITECTURAL-REVIEW.md), [existing plan](PLAN.md), [compatibility](COMPATIBILITY.md) and [Windows reference notes](WINDOWS-VALIDATION.md). The [machine-readable backlog](development-backlog.json) contains the same package/task/dependency/coverage data.
 
-M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 still needs its accepted M2 checkpoint and applicable M0 inputs.
+M1 engineering candidate `5560ddf` is locally accepted on `codex/m1-editing-foundation`: all 25 task contributions pass, including actual automatic app-bundle crash/relaunch recovery. The [accepted engineering handoff](delivery/M1-ENGINEERING-HANDOFF.md), [qualification record](delivery/M1-QUALIFICATION.md) and [task ledger](delivery/M1-TASK-EVIDENCE.json) retain evidence and limits. M2 may integrate the accepted M1 commits. Controlled input/frame, Visio/reference and other release gates remain mandatory and open; M3 has integrated accepted M2 checkpoint `dbce6c2` as `d2d736f` and is implementing bounded production children; independent reference inputs remain pending.
 
 The architecture review is integrated through the finding-to-task ledger and eight acceptance contracts in [section 10](#10-integrated-architecture-review). All 11 findings remain open against the reviewed baseline; current local contributions have separate scope and evidence below. The existing 39 packages and 161 tasks are retained. Route-cache invalidation, nearby snapping, active-gesture save policy, text-layout instrumentation and formatter/tooling boundaries are made explicit within their existing tasks.
 
@@ -373,7 +373,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-10"></a>
 ### WP-10 — Finish document UX, search and basic authoring
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Native/Product UX · **Risk:** Medium · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Refine against current native UI changes before implementation.
 
@@ -406,7 +406,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-11"></a>
 ### WP-11 — Complete accessible input and rich-text journeys
 
-**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P1 · **Owner:** Accessibility/Text UI · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Needs accessibility/interaction design; advanced text semantics continue in WP-16.
 
@@ -439,7 +439,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-12"></a>
 ### WP-12 — Enforce secure, trusted product distribution
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Release/Security · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Ready to refine release manifests and security cases.
 
@@ -472,7 +472,7 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-13"></a>
 ### WP-13 — Expose compatibility and calculation issues
 
-**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Completed — local engineering checkpoint; publication unaccepted
+**Milestone:** M2 · **Priority:** P0 · **Owner:** Native/Compatibility · **Risk:** High · **Status:** Completed — local engineering; stable v0.23.4 published with exact-artifact performance exception; broader G1/reference gates open
 
 **Readiness:** Ready after diagnostic identity contracts.
 
@@ -505,9 +505,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-14"></a>
 ### WP-14 — Make masters, connector sheets and relationships first-class
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Core/Interchange · **Risk:** High · **Status:** In progress
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Editable master/style/connector-sheet identities distinct from container/list/graph relationships.
 
@@ -529,9 +529,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-15"></a>
 ### WP-15 — Complete ShapeSheet semantic slices
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Calculation/Compatibility · **Risk:** High · **Status:** In progress
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** An inventory-driven function/cell/context implementation with usable complete editing.
 
@@ -553,9 +553,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-16"></a>
 ### WP-16 — Complete advanced text, fields and presentation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Text/Rendering · **Risk:** High · **Status:** In progress
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Reference-qualified rich text, text blocks, fields, measurement and font behavior across all owners.
 
@@ -577,9 +577,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-17"></a>
 ### WP-17 — Complete geometry, protections, themes and effects
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Geometry/Rendering · **Risk:** High · **Status:** Pending
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Complete inventoried geometry/control/appearance behavior with editable public definitions.
 
@@ -601,9 +601,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-18"></a>
 ### WP-18 — Complete connector behavior and automatic layout
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Connections/Layout · **Risk:** High · **Status:** Pending
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Editable connector sheets, glue, routes, jumps and deterministic constrained layout.
 
@@ -625,9 +625,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-19"></a>
 ### WP-19 — Complete pages, layers, scale, export and printing
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Native/Publication · **Risk:** High · **Status:** Pending
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** Consistent screen/physical publication with page/background/layer semantics.
 
@@ -649,9 +649,9 @@ Owner roles are proposed accountabilities, not named assignees or a headcount pl
 <a id="wp-20"></a>
 ### WP-20 — Complete stencil/template authoring and VSDX preservation
 
-**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Proposed
+**Milestone:** M3 · **Priority:** P1 · **Owner:** Libraries/Interchange · **Risk:** High · **Status:** Pending
 
-**Readiness:** Refinement required.
+**Readiness:** Accepted M2 `dbce6c2` integrated as `d2d736f`; bounded production work proceeds on actual M1/M2 contracts. Reference qualification remains pending.
 
 **Outcome:** A reusable intelligent-shape library workflow and independently editable public VSDX/VSSX/VSTX.
 
@@ -1512,4 +1512,138 @@ Retain the review's `build/architecture-review-*` artifacts as local evidence; c
 
 M2 scope decision (16 October 2026): Japanese-language input/candidate-picker testing is not required, per explicit user instruction. Generic native composition, selected-run, RTL, combining-character and emoji coverage remains.
 
-M2 scope decision (16 October 2026): VoiceOver operation testing was explicitly removed by the user. Semantic accessibility and keyboard checks remain; neither VoiceOver nor Japanese testing is represented as passed. The local M2 engineering checkpoint is complete; stable publication, broad platform, controlled performance and exact-build Visio gates remain separate. See [final qualification](delivery/M2-QUALIFICATION.md).
+M2 scope decision (16 October 2026): VoiceOver operation testing was explicitly removed by the user. Semantic accessibility and keyboard checks remain; neither VoiceOver nor Japanese testing is represented as passed. The local M2 engineering checkpoint is complete; stable v0.23.4 is published with its exact-artifact owner-approved performance exception. Broad platform, controlled performance and exact-build Visio gates remain open. See [final qualification](delivery/M2-QUALIFICATION.md).
+
+<!-- M3-DELIVERY-REFINEMENT -->
+## 11. M3 delivery refinement — 16 October 2026
+
+Current M3 state: **Accepted M2 integrated; implementation in progress**. All 28
+parents, including all 22 L tasks, retain 204 bounded children in
+[M3-CATALOG.json](delivery/M3-CATALOG.json). Exact requirement/M0 inventory links
+and unresolved reference remainders remain visible. No M3 child, parent, package
+or G2 gate is accepted by the decomposition or integrated baseline.
+
+| Parent task | Current status | Bounded children |
+| --- | --- | ---: |
+| WP-14-T01 | In progress | 4 |
+| WP-14-T02 | In progress | 3 |
+| WP-14-T03 | In progress | 3 |
+| WP-14-T04 | Pending | 3 |
+| WP-15-T01 | Pending | 5 |
+| WP-15-T02 | In progress | 6 |
+| WP-15-T03 | In progress | 90 |
+| WP-15-T04 | In progress | 16 |
+| WP-16-T01 | In progress | 3 |
+| WP-16-T02 | Pending | 3 |
+| WP-16-T03 | In progress | 4 |
+| WP-16-T04 | Pending | 3 |
+| WP-17-T01 | Pending | 3 |
+| WP-17-T02 | In progress | 7 |
+| WP-17-T03 | Pending | 6 |
+| WP-17-T04 | Pending | 3 |
+| WP-18-T01 | In progress | 4 |
+| WP-18-T02 | Pending | 4 |
+| WP-18-T03 | Pending | 6 |
+| WP-18-T04 | Pending | 3 |
+| WP-19-T01 | In progress | 4 |
+| WP-19-T02 | In progress | 3 |
+| WP-19-T03 | In progress | 3 |
+| WP-19-T04 | Pending | 2 |
+| WP-20-T01 | In progress | 3 |
+| WP-20-T02 | In progress | 3 |
+| WP-20-T03 | Pending | 4 |
+| WP-20-T04 | Pending | 3 |
+
+Accepted M2 engineering `dbce6c2` (product `0839994`) is integrated as `d2d736f`.
+Its handoff permits downstream integration; all 393 retained artifact hashes match.
+The integrated baseline passes 748 Swift tests (13 prerequisite skips) and 105
+Python tests, with zero failures. M2's recorded Japanese/VoiceOver scope decisions
+remain explicit; its exact-artifact release performance exception is not inherited
+by M3. Domain identity/inheritance and selected paragraph spacing/indent slices
+have started; they require their own edit/undo/save/public-content qualification.
+All remaining M3 production and independent reference obligations remain open.
+
+The actual M0 inventory commit `78c6c56` is integrated as `6ba6901`; its 154
+requirement/evidence ledger and bounded inventory retain every original snapshot
+state and unverified evidence dimension. Committed M0 instrumentation, benchmark
+corpus and public harness safeguards through `02dea53` are also integrated.
+M0 local execution statuses and its explicit unaccepted G0/reference state are
+retained alongside this M3 refinement.
+M3 production implementation uses the accepted integrated M1/M2 contracts. The observed missing Visio installation independently blocks G2;
+it does not remove any implementation obligation.
+
+The two [authored public fixtures](../Tests/MacVisioTests/Fixtures/M3/README.md)
+and [preservation oracle](../scripts/m3-public-evidence.py) have narrow local
+checks: no-edit package bytes, an isolated instance text edit, and the one-metre
+object at 1:50 measuring 20 mm in an A4 PDF render with a nonprinting guide
+excluded. They do not implement first-class master/style/connector sheets,
+accept a semantic function catalog, or establish Visio/render/physical-printer
+qualification. Full child-level native edit/undo/save/public exchange and all
+five evidence dimensions remain required. No private metadata may carry a
+claimed public capability.
+
+A subsequent [independent graphics probe](delivery/M3-PUBLIC-PROBE.json) found
+that the initial physical seed lacked explicit public Geometry. It is corrected,
+and the strengthened native test plus an independent SVG path measure pass.
+Earlier native fallback results remain historical and do not prove public
+geometry. This probe changes no child/package/milestone acceptance state.
+
+M1 and M2 engineering are accepted and integrated. M3 implementation is active;
+no provisional peer source was used. Licensed exact-build Visio is still
+required for independent G2 acceptance.
+
+
+Initial M3 production checkpoint `eac0066` passes all 775 Swift tests
+(13 existing prerequisite skips) and 105 Python checks. The
+[implementation record](delivery/M3-IMPLEMENTATION-CHECKPOINT.json) retains exact source/test hashes,
+failed/corrected observations and log hashes. Scoped master/style cell editing,
+source rebasing/undo and selected paragraph lengths are a bounded subset.
+That initial checkpoint left definition UI and shared document/connector
+calculation open; its historical counts were 3 in progress, 195 pending and
+6 proposed. The 19 October continuation below records the current slice.
+
+
+19 October 2026: shared document/page/scoped definition and connector scalar/
+field calculation, connector source retention, and the Definition Sheets browser
+are in progress. The browser applies one exact existing cell through the owned
+worker, with undo, cancellation, marked-text and stale-source checks. Typed
+producer diagnostics retain the definition sheet UUID and structured cell address.
+Row/section lifecycle, attached endpoint/routing behavior, complete host/function
+coverage and independent reference qualification remain open.
+
+Current catalog: 17 children in progress, 181 pending implementation, 6 proposed,
+zero accepted. The shared resolver exposes nine existing date/page/field candidates
+to the canonical source scanner. Its regenerated inventory appends those entries
+(180 total), retaining all 171 prior IDs, evidence and decisions. These source
+candidates remain unverified in every compatibility dimension.
+
+Shared-host source `9908078` has 813 available Swift tests passing (13 external
+prerequisite skips), with three native activation benchmarks explicitly excluded
+pending the system security prompt. All 105 Python checks pass. The
+[dated checkpoint](delivery/M3-SHARED-HOST-CHECKPOINT.json) retains the actual failing/corrected runs,
+source/test/log hashes and limits. This does not close any child contract.
+
+Later on 19 October, the user confirmed the system security prompt was dismissed.
+All three native activation/event-routing benchmarks then passed. The complete
+`swift test --scratch-path build/m3-swift -j 2` run passed **816 tests, with13
+unchanged prerequisite skips and zero failures**; no native benchmark was excluded.
+This supersedes the earlier partial run and activation blocker while retaining
+those failed observations. Source remains `9908078`; no reference/performance
+exception or M3 milestone acceptance is inferred. Named row/section lifecycle,
+relationships and remaining feature/reference obligations remain the next work.
+
+19 October lifecycle continuation: source `df44f6b` adds scoped definition User/Property row and local-section editing, source-preserving save/undo, connector paste/layer/background fixes and native pointer protection. The full suite passes851 Swift tests (13 prerequisite skips), with no native test exclusions;105 Python checks pass. All204 children remain unaccepted:25 are in progress,173 pending and6 proposed. Full output/library/geometry/relationship and exact-Visio obligations remain open. See [lifecycle checkpoint](delivery/M3-LIFECYCLE-CHECKPOINT.json).
+
+19 October output/library continuation: source `232f7eb` adds native PNG resolution/transparency, ordered identity-bound PDF page choices and persistent offline library/master pins with source metadata. The final full run passes **868 Swift tests,13 prerequisite skips,zero failures**, with no native exclusions;105 Python checks pass.17 tests were added since the lifecycle checkpoint. There are28 in-progress children,170 pending,6 proposed and zero accepted. Selection/content bounds, full print/format policy, automatic favorite loading, unavailable-pin controls, custom stencil management, remaining production features and independent reference/physical qualification remain open. See [output/library checkpoint](delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json).
+
+19 October geometry/stencil/print continuation: source `af764fa` adds bounded editable curved/holed Union with consistent native/public stacking, source-preserving custom VSSX Save As drafts and native foreground page-range/all-page printing from an immutable PDF. The full suite passes **942 Swift tests, 13 prerequisite skips and zero failures**, with no native exclusions; 105 Python checks pass. Actual native print-to-PDF files measure 20 mm at 100% and 10 mm at 50% in both raster assertions and independent content-stream extraction. Calibrated physical-printer tolerance remains unqualified. There are 31 in-progress children, 167 pending, 6 proposed and zero accepted. Other Boolean operations, text/master/glue policies, formula/visual/cross-library stencil management, tiling/device qualification and remaining M3 production/reference obligations remain open. No release was published. See the [geometry/stencil/print checkpoint](delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json).
+
+19 October set/raster continuation: source `44bc3ca` adds bounded curved/holed Intersect and explicit-base Subtract through native owned transactions and one-step undo, plus PNG Page/Content/Selection bounds with physical DPI, full-scene connector routes and a one-pixel guard. The full suite passes **979 Swift tests, 13 prerequisite skips and zero failures**, with no native exclusions; 105 Python checks pass. The 37 new tests cover public-only reopen, source/identity safety, chooser ownership, actual PNG pixels, cancellation, stale drafts and destination preservation. All 16 retained PNGs were visually inspected. There are 33 in-progress children, 165 pending, 6 proposed and zero accepted. Other Boolean operations, broader operand policies, independent structural relationships, automatic pinned-library loading and remaining production/reference obligations remain open. No release was published. See the [set/raster checkpoint](delivery/M3-SET-RASTER-CHECKPOINT.json).
+
+19 October membership/numeric/pins continuation: source `4b9cf62` adds independent container membership and guarded Cut, retained-owner proof that permits new ordinary unbound objects, bounded ROUND/CEILING/FLOOR/MODULUS fixes, and explicit local pinned VSSX loading. The last passing full baseline is `afe81f5`: **1,065 Swift tests, 13 prerequisite skips and zero failures**, plus 105 Python checks. Later ownership changes pass 84 focused tests; their full run retains 17 assertion failures in three existing native benchmark activation cases. An isolated rerun repeats those failures. A temporary diagnostic observes UserNotificationCenter in the foreground while the test app is inactive and has no key window. Desktop readiness remains pending; no sole cause is proven.
+
+MODULUS passes 67 focused tests (four existing prerequisite skips), including all 14 new cases. Six actual native/public save pairs were independently verified. Fifteen actual membership pairs from the earlier passing baseline and both ownership datasets are retained. The transparent native pin-control capture and its dark composite have distinct diagnostic roles. **Full qualification of the current candidate remains pending.** All 204 children remain unaccepted: 38 in progress, 160 pending and six proposed. Integration and release remain false. JPEG/TIFF is excluded from this checkpoint and recorded separately. See the [membership/numeric/pins checkpoint](delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json).
+
+19 October JPEG/TIFF continuation: source `100bdf7` adds native File/search commands, JPEG white/quality choices and TIFF transparency through existing DPI and Page/Content/Selection bounds. **79 focused output/print/search tests pass**, including 20 new format tests; 31 actual images pass independent hashes/decoding/raw EXIF density checks and visual inspection. Both formats preserve fractional physical DPI in EXIF/TIFF resolution metadata; JPEG JFIF remains aspect-only. A first-run JFIF assumption failure and corrective producer experiments are retained. Current-source full native qualification is still pending system-prompt dismissal; earlier focused work is not promoted to a full pass. All 204 children remain unaccepted (38 in progress, 160 pending, 6 proposed). No M3 release was published. See the [raster-format checkpoint](delivery/M3-RASTER-FORMATS-CHECKPOINT.json).
+
+19 October native regression continuation: after the user confirmed desktop readiness, source `100bdf7` passes **1,104 Swift tests, 13 prerequisite skips and zero failures**, including all native benchmark cases with no exclusions. Benchmark source/tests are unchanged from the retained activation failures. Five membership pairs, six MODULUS pairs, 31 raster files and eight print PDFs pass independent saved-byte/metadata/geometry checks; the raster bytes match the previously inspected images exactly. Prior failed runs and pending checkpoints remain historical evidence. All 204 children remain unaccepted (38 in progress, 160 pending, six proposed); remaining implementation, reference and physical qualification continue. No M3 release was published. See the [native regression checkpoint](delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json).

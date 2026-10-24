@@ -4,7 +4,7 @@ import Foundation
 enum ShapeSheetEngine {
     static let geometryKeys = ["Width","Height","PinX","PinY","LocPinX","LocPinY","Angle","LineWeight","Char.Size"]
     static let textKeys = ["TxtWidth","TxtHeight","TxtPinX","TxtPinY","TxtLocPinX","TxtLocPinY","TxtAngle","LeftMargin","RightMargin","TopMargin","BottomMargin","VerticalAlign"]
-    struct Calculation { var diagram:Diagram; var issues:[String]; var issuesByPage:[UUID:[String]] = [:]; var work = CalculationWork(); var changedNodeIDsByPage: [UUID: Set<UUID>] = [:]; var cancelled = false; var diagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:] }
+    struct Calculation { var diagram:Diagram; var issues:[String]; var issuesByPage:[UUID:[String]] = [:]; var work = CalculationWork(); var changedNodeIDsByPage: [UUID: Set<UUID>] = [:]; var changedEdgeIDsByPage: [UUID: Set<UUID>] = [:]; var cancelled = false; var diagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:] }
     static func defaults(_ node:DiagramNode,page:DiagramPage,onDefaultPinFormulaEvaluation:(()->Void)? = nil) -> [String:Double] {
         defaults(node,page:page,nodesByID:nil,onDefaultPinFormulaEvaluation:onDefaultPinFormulaEvaluation)
     }
@@ -29,14 +29,29 @@ enum ShapeSheetEngine {
         var values = ["Width":node.sheetWidth/72,"Height":node.sheetHeight/72,"PinX":local.center.x/72-dx*cos(a)+dy*sin(a),"PinY":(height-local.center.y)/72-dx*sin(a)-dy*cos(a),"LocPinX":lx,"LocPinY":ly,"Angle":a,"LineWeight":node.strokeWidth/72,"Char.Size":node.fontSize/72]
         values.merge(["TxtWidth":tw,"TxtHeight":th,"TxtPinX":tx-(tw/2-tlx)*cos(ta)+(th/2-tly)*sin(ta),"TxtPinY":ty-(tw/2-tlx)*sin(ta)-(th/2-tly)*cos(ta),"TxtLocPinX":tlx,"TxtLocPinY":tly,"TxtAngle":ta,"LeftMargin":(box?.left ?? 0)/72,"RightMargin":(box?.right ?? 0)/72,"TopMargin":(box?.top ?? 0)/72,"BottomMargin":(box?.bottom ?? 0)/72,"VerticalAlign":Double(box?.verticalAlignment ?? 1)]){_,new in new};return values
     }
-    static func recalculate(_ input:Diagram,previous:Diagram? = nil,skipUnchangedPagesComparedTo comparison:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:],retainedDiagnosticsByPage:[UUID:[DocumentDiagnostic]] = [:],incrementalNodes:Bool = false,session:CalculationSession? = nil,changes:DocumentChangeSet? = nil,cancellation:LifecycleJobCancellation? = nil) -> Calculation {
+    static func recalculate(_ input:Diagram,previous:Diagram? = nil,skipUnchangedPagesComparedTo comparison:Diagram? = nil,retainedIssuesByPage:[UUID:[String]] = [:],retainedDiagnosticsByPage:[UUID:[DocumentDiagnostic]] = [:],incrementalNodes:Bool = false,session:CalculationSession? = nil,changes:DocumentChangeSet? = nil,cancellation:LifecycleJobCancellation? = nil,now:Date = Date()) -> Calculation {
         var diagram = input,issues = Set<String>(),issuesByPage:[UUID:[String]] = [:]
         var work = CalculationWork()
         var diagnosticsByPage: [UUID: [DocumentDiagnostic]] = [:]
         var changedNodeIDsByPage: [UUID: Set<UUID>] = [:]
+        var changedEdgeIDsByPage: [UUID: Set<UUID>] = [:]
         var nodeIndicesByPage: [UUID: [UUID: Int]] = [:]
         let session = session ?? CalculationSession()
         let colorPalette = ShapeSheetColorPalette(documentArchive:diagram.visioArchive)
+        // DefinitionEditing already projects and evaluates public inheritance.
+        // Its geometry/style differences are computed results, not new literal
+        // canvas edits; preparing them against the previous caches would erase F.
+        let definitionProjection = previous.map { $0.definitions != input.definitions } ?? false
+        func documentContext(_ diagram: Diagram) -> [DiagramPage] {
+            diagram.pages.map { page in var value = page; value.nodes = []; value.edges = []; return value }
+        }
+        let contextChanged = changes.map {
+            $0.documentPropertiesChanged || $0.documentStructureChanged || $0.sourceResourcesChanged
+                || $0.pages.values.contains { $0.pagePropertiesChanged }
+        } ?? comparison.map {
+            $0.definitions != input.definitions || $0.title != input.title
+                || documentContext($0) != documentContext(input)
+        } ?? false
         var comparisonPageIndices:[UUID:Int]? = nil
         if let comparison,changes.map({ !$0.sourceResourcesChanged }) ?? (comparison.visioArchive == input.visioArchive) {
             var indices:[UUID:Int] = [:]
@@ -50,12 +65,14 @@ enum ShapeSheetEngine {
             let pageID = diagram.pages[pageIndex].id
             let binding = diagram.visioArchive?.pages.first(where:{$0.pageID == pageID})
             let indexedBefore = session.indexedNodes, comparedBefore = session.comparedSources
+            let indexedConnectorsBefore = session.indexedConnectors
             let pageChanges = changes?.pages[pageID]
             let trusted = changes != nil && changes?.sourceResourcesChanged == false && changes?.insertedPageIDs.contains(pageID) == false
             let dependency = incrementalNodes ? session.index(for: diagram.pages[pageIndex], binding: binding, changes: pageChanges, trustChanges: trusted) : nil
             work.dependencyNodesIndexed += session.indexedNodes - indexedBefore
             work.dependencySourcesCompared += session.comparedSources - comparedBefore
-            if dependency?.volatileNodes.isEmpty != false, let comparison,let comparisonPageIndices,
+            work.dependencyConnectorsIndexed += session.indexedConnectors - indexedConnectorsBefore
+            if !contextChanged, dependency?.volatileNodes.isEmpty != false, let comparison,let comparisonPageIndices,
                let comparisonPageIndex = comparisonPageIndices[pageID],
                (trusted ? pageChanges == nil : diagram.pages[pageIndex] == comparison.pages[comparisonPageIndex]) {
                 let retained = retainedIssuesByPage[pageID] ?? []
@@ -66,15 +83,18 @@ enum ShapeSheetEngine {
             }
             var page = diagram.pages[pageIndex]
             var affected: Set<UUID>?
-            if let dependency, let comparison, let comparisonPageIndices,
+            if !contextChanged, let dependency, let comparison, let comparisonPageIndices,
                let oldIndex = comparisonPageIndices[pageID],
                retainedIssuesByPage[pageID, default: []].isEmpty,
                !dependency.requiresFullPage {
                 if trusted, let pageChanges, !pageChanges.pagePropertiesChanged, !pageChanges.hierarchyChanged,
-                   !pageChanges.nodeOrderChanged, pageChanges.deletedNodeIDs.isEmpty, pageChanges.insertedNodeIDs.isEmpty {
-                    affected = dependency.affected(by: pageChanges.changedNodeIDs)
+                   !pageChanges.nodeOrderChanged, !pageChanges.edgeOrderChanged,
+                   pageChanges.deletedNodeIDs.isEmpty, pageChanges.insertedNodeIDs.isEmpty,
+                   pageChanges.deletedEdgeIDs.isEmpty, pageChanges.insertedEdgeIDs.isEmpty {
+                    affected = dependency.affected(by: pageChanges.changedNodeIDs.union(pageChanges.changedEdgeIDs))
                 } else {
                     work.inputComparisonNodes += page.nodes.count + comparison.pages[oldIndex].nodes.count
+                    work.inputComparisonConnectors += page.edges.count + comparison.pages[oldIndex].edges.count
                     if let changed = CalculationInvalidation.changedNodes(in: page, comparedTo: comparison.pages[oldIndex]) {
                         affected = dependency.affected(by: changed)
                     }
@@ -88,13 +108,21 @@ enum ShapeSheetEngine {
                 work.inputComparisonNodes += page.nodes.count
                 candidates = page.nodes.indices.filter { !page.nodes[$0].formatting.sheet.isEmpty || !page.nodes[$0].formatting.connectionPoints.isEmpty || !page.nodes[$0].formatting.controls.isEmpty || page.nodes[$0].formatting.geometry != nil }
             }
-            guard !candidates.isEmpty else { issuesByPage[pageID] = []; continue }
+            let connectorCandidates: [Int]
+            if let dependency {
+                let selected = affected.map { dependency.connectorSheetIDs.intersection($0) } ?? dependency.connectorSheetIDs
+                connectorCandidates = selected.compactMap { dependency.edgeIndices[$0] }.sorted()
+            } else {
+                work.inputComparisonConnectors += page.edges.count
+                connectorCandidates = page.edges.indices.filter { !page.edges[$0].formatting.sheet.isEmpty }
+            }
+            guard !candidates.isEmpty || !connectorCandidates.isEmpty else { issuesByPage[pageID] = []; continue }
             work.geometryPages += 1
             if incrementalNodes && affected == nil { work.conservativePages += 1 }
             var pageIssues = Set<String>()
             var pageDiagnostics: [DocumentDiagnostic] = []
             let old = previous?.pages.first(where:{$0.id == page.id})
-            let preparedBefore = session.preparedHostNodes
+            let preparedBefore = session.preparedHostNodes, connectorsBefore = session.preparedHostConnectors
             let oldNodesByID = old.map { oldPage in
                 if trusted, let retained = session.retainedNodes(pageID: oldPage.id) { return retained }
                 work.hostNodesPrepared += oldPage.nodes.count
@@ -102,8 +130,10 @@ enum ShapeSheetEngine {
             }
             var pageNodesByID = session.nodes(for: page, changes: pageChanges, trustChanges: trusted)
             work.hostNodesPrepared += session.preparedHostNodes - preparedBefore
+            work.hostConnectorsPrepared += session.preparedHostConnectors - connectorsBefore
             for i in candidates {
                 if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
+                if definitionProjection { continue }
                 if let prior = oldNodesByID?[page.nodes[i].id],let oldPage = old,let oldNodesByID {
                     if prior.width != page.nodes[i].width || prior.height != page.nodes[i].height { page.nodes[i].formatting.controls = ControlGeometry.resized(page.nodes[i].formatting.controls,from:prior,to:page.nodes[i]) }
                     let before = defaults(prior,page:oldPage,nodesByID:oldNodesByID,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1}),after = defaults(page.nodes[i],page:page,nodesByID:pageNodesByID,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1})
@@ -114,7 +144,10 @@ enum ShapeSheetEngine {
                         }
                     }
                     for property in page.nodes[i].formatting.data where prior.formatting.data.first(where:{$0.key == property.key})?.value != property.value {
-                        page.nodes[i].formatting.sheet["Prop."+property.key] = ShapeSheetCell(value:property.value)
+                        let key = "Prop." + property.key
+                        if page.nodes[i].formatting.sheet[key] == prior.formatting.sheet[key] {
+                            page.nodes[i].formatting.sheet[key] = ShapeSheetCell(value:property.value,unit:page.nodes[i].formatting.sheet[key]?.unit ?? "")
+                        }
                     }
                 } else if previous != nil {
                     let values = defaults(page.nodes[i],page:page,nodesByID:pageNodesByID,onDefaultPinFormulaEvaluation:{work.defaultPinFormulaEvaluations += 1})
@@ -122,13 +155,23 @@ enum ShapeSheetEngine {
                 }
                 pageNodesByID[page.nodes[i].id] = page.nodes[i]
             }
+            let oldEdges = trusted && dependency != nil ? nil : old.map { Dictionary(uniqueKeysWithValues: $0.edges.map { ($0.id, $0) }) }
+            for i in connectorCandidates {
+                let id = page.edges[i].id
+                let prior: DiagramEdge?
+                if trusted, let index = dependency?.edgeIndices[id], let old,
+                   old.edges.indices.contains(index), old.edges[index].id == id { prior = old.edges[index] }
+                else { prior = oldEdges?[id] }
+                if !definitionProjection { page.edges[i] = ConnectorSheetCalculation.prepare(page.edges[i], previous: prior) }
+                pageNodesByID[page.edges[i].id] = ConnectorSheetHost.node(page.edges[i], in: page, nodesByID: pageNodesByID)
+                work.hostConnectorsPrepared += 1
+            }
             let source = page
             let nodeIndices = dependency?.nodeIndices ?? Dictionary(uniqueKeysWithValues:source.nodes.enumerated().map{($0.element.id,$0.offset)})
             let sourceNodesByID = pageNodesByID
             nodeIndicesByPage[pageID] = nodeIndices
-            var sheetIDs = dependency?.identifiers ?? [:]
-            if dependency == nil { for (i,node) in source.nodes.enumerated() { let id = binding?.nodeIDs[node.id] ?? node.formatting.sourceShapeID ?? String(i+1); if sheetIDs[id] == nil { sheetIDs[id] = node.id } } }
-            let context = ShapeSheetContext(page:source,binding:binding,colorPalette:colorPalette,nodesByID:sourceNodesByID,identifiers:sheetIDs,cancellation:cancellation)
+            let sheetIDs = dependency?.identifiers ?? CalculationDependencyIndex.publicIdentifierMap(page:source,binding:binding)
+            let context = ShapeSheetContext(page:source,binding:binding,colorPalette:colorPalette,nodesByID:sourceNodesByID,identifiers:sheetIDs,cancellation:cancellation,document:input,now:now,publicIDsByObject:dependency?.publicIDsByObject)
             var steps = 0
             func resolve(_ nodeID:UUID,_ key:String,_ depth:Int = 0) throws -> Double {
                 try context.number(nodeID,key)
@@ -248,6 +291,24 @@ enum ShapeSheetEngine {
                 if node != input.pages[pageIndex].nodes[i] { changedNodeIDsByPage[pageID, default: []].insert(node.id) }
                 page.nodes[i] = node
             }
+            for i in connectorCandidates {
+                if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
+                work.connectorSheets += 1
+                PerformanceEvidence.count(.visitedObjects)
+                let calculated = ConnectorSheetCalculation.evaluate(source.edges[i], context: context, palette: colorPalette)
+                for failure in calculated.failures {
+                    pageIssues.insert(failure.message)
+                    pageDiagnostics.append(.connectorCalculationFailure(failure.message,
+                        code: "calculation.connector.cell", page: pageID, connector: calculated.edge.id,
+                        binding: binding, sourceShapeID: calculated.edge.sourceShapeID,
+                        cell: failure.cell, feature: "connector-sheet"))
+                }
+                if calculated.edge != input.pages[pageIndex].edges[i] {
+                    changedEdgeIDsByPage[pageID, default: []].insert(calculated.edge.id)
+                }
+                page.edges[i] = calculated.edge
+            }
+            pageDiagnostics.append(contentsOf: context.definitionDiagnostics)
             work.add(context.work)
             diagram.pages[pageIndex] = page
             let pageIssueList = pageIssues.sorted()
@@ -258,7 +319,7 @@ enum ShapeSheetEngine {
         if cancellation?.isCancelled == true { return Calculation(diagram:input,issues:[],work:work,cancelled:true) }
         let synchronized = ShapeRichText.synchronizeCalculation(diagram,previous:input,affectedNodeIDsByPage:changedNodeIDsByPage,nodeIndicesByPage:nodeIndicesByPage)
         work.richTextNodes += changedNodeIDsByPage.values.reduce(0) { $0 + $1.count }
-        return Calculation(diagram:synchronized,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage,diagnosticsByPage:diagnosticsByPage)
+        return Calculation(diagram:synchronized,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage,changedEdgeIDsByPage:changedEdgeIDsByPage,diagnosticsByPage:diagnosticsByPage)
     }
     static func format(_ value:Double) -> String { String(format:"%.12g",locale:Locale(identifier:"en_US_POSIX"),value) }
 }

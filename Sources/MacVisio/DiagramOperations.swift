@@ -27,7 +27,12 @@ enum DiagramOperations {
                 let index = page.edges.firstIndex(where: { $0.id == fragment.edges[i].id })
             {
                 fragment.edges[i].sourceShapeID =
-                    binding?.edgeIDs[fragment.edges[i].id] ?? String(page.nodes.count + index + 1)
+                    binding?.edgeIDs[fragment.edges[i].id] ?? fragment.edges[i].details?.sourceShapeID
+                    ?? String(page.nodes.count + index + 1)
+            }
+            if var detail = fragment.edges[i].details {
+                detail.sourceShapeID = fragment.edges[i].sourceShapeID
+                fragment.edges[i].details = detail
             }
             if fragment.edges[i].parentID.map(ids.contains) != true { fragment.edges[i].parentID = nil }
             let route = DiagramGeometry.route(fragment.edges[i], in: page)
@@ -46,6 +51,7 @@ enum DiagramOperations {
         _ fragment: DiagramPage, into page: inout DiagramPage, at origin: CGPoint? = nil,
         reservedIDs: [String] = []
     ) throws -> Set<UUID> {
+        try DiagramMemberships.validatePaste(fragment)
         let fragment = DrawingScale.convert(fragment, to: page.paperScale, targetMeasured: page.isMeasured)
         guard !fragment.nodes.isEmpty || !fragment.edges.isEmpty else { return [] }
         var check = Diagram()
@@ -83,10 +89,11 @@ enum DiagramOperations {
             newIDs[n.id] = id
             sheetMap[n.formatting.sourceShapeID ?? String(index + 1)] = id
         }
-        for edge in fragment.edges {
+        for (index, edge) in fragment.edges.enumerated() {
             let id = try allocator.allocate()
             newEdgeIDs[edge.id] = id
-            if let source = edge.sourceShapeID { sheetMap[source] = id }
+            sheetMap[edge.sourceShapeID ?? edge.details?.sourceShapeID
+                ?? String(fragment.nodes.count + index + 1)] = id
         }
         for var n in fragment.nodes {
             let old = n.id
@@ -96,48 +103,7 @@ enum DiagramOperations {
             n.y += dy
             n.locked = false
             n.formatting.sourceShapeID = newIDs[old]
-            for key in n.formatting.sheet.keys {
-                let formula = VisioIDAllocator.remap(n.formatting.sheet[key]!.formula, using: sheetMap)
-                n.formatting.sheet[key]?.formula = formula
-            }
-            if var fields = n.formatting.textFields {
-                for i in fields.indices {
-                    for key in fields[i].cells.keys {
-                        let formula = fields[i].cells[key]!.formula
-                        fields[i].cells[key]?.formula = VisioIDAllocator.remap(formula, using: sheetMap)
-                    }
-                }
-                n.formatting.textFields = fields
-            }
-            if var geometry = n.formatting.geometry {
-                for s in geometry.indices {
-                    for key in geometry[s].cells.keys {
-                        let formula = geometry[s].cells[key]!.formula
-                        geometry[s].cells[key]?.formula = VisioIDAllocator.remap(formula, using: sheetMap)
-                    }
-                    for r in geometry[s].rows.indices {
-                        for key in geometry[s].rows[r].cells.keys {
-                            let formula = geometry[s].rows[r].cells[key]!.formula
-                            geometry[s].rows[r].cells[key]?.formula = VisioIDAllocator.remap(
-                                formula, using: sheetMap)
-                        }
-                    }
-                }
-                n.formatting.geometry = geometry
-            }
-            for i in n.formatting.connectionPoints.indices {
-                let x = VisioIDAllocator.remap(n.formatting.connectionPoints[i].x.formula, using: sheetMap)
-                let y = VisioIDAllocator.remap(n.formatting.connectionPoints[i].y.formula, using: sheetMap)
-                n.formatting.connectionPoints[i].x.formula = x
-                n.formatting.connectionPoints[i].y.formula = y
-            }
-            for i in n.formatting.controls.indices {
-                for key in n.formatting.controls[i].cells.keys {
-                    let formula = n.formatting.controls[i].cells[key]!.formula
-                    n.formatting.controls[i].cells[key]?.formula = VisioIDAllocator.remap(
-                        formula, using: sheetMap)
-                }
-            }
+            n.details = remapping(n.formatting, using: sheetMap)
             page.nodes.append(n)
         }
         func translate(_ point: DiagramPoint?) -> DiagramPoint? {
@@ -145,6 +111,10 @@ enum DiagramOperations {
         }
         for var edge in fragment.edges {
             edge.sourceShapeID = newEdgeIDs[edge.id]
+            if var detail = edge.details {
+                detail.sourceShapeID = edge.sourceShapeID
+                edge.details = remapping(detail, using: sheetMap)
+            }
             edge.id = UUID()
             edge.source = map[edge.source] ?? UUID()
             edge.target = map[edge.target] ?? UUID()
@@ -162,6 +132,40 @@ enum DiagramOperations {
             page.layers?.append(copy)
         }
         return roots(Set(map.values), in: page)
+    }
+    /// Copy authored references in every retained sheet/text payload. Cached
+    /// values, units, row identities and quoted strings remain source data.
+    private static func remapping(_ input: ShapeDetails, using map: [String: String]) -> ShapeDetails {
+        func cell(_ input: ShapeSheetCell) -> ShapeSheetCell {
+            var result = input
+            result.formula = VisioIDAllocator.remap(input.formula, using: map)
+            return result
+        }
+        var result = input
+        result.sheet = input.sheet.mapValues(cell)
+        result.textFields = input.textFields?.map { field in
+            var field = field; field.cells = field.cells.mapValues(cell); return field
+        }
+        result.textRuns = input.textRuns?.map { run in
+            var run = run
+            run.character.cells = run.character.cells.mapValues(cell)
+            run.paragraph.cells = run.paragraph.cells.mapValues(cell)
+            return run
+        }
+        result.geometry = input.geometry?.map { section in
+            var section = section; section.cells = section.cells.mapValues(cell)
+            section.rows = section.rows.map { row in
+                var row = row; row.cells = row.cells.mapValues(cell); return row
+            }
+            return section
+        }
+        result.connectionPoints = input.connectionPoints.map { point in
+            var point = point; point.x = cell(point.x); point.y = cell(point.y); return point
+        }
+        result.controls = input.controls.map { control in
+            var control = control; control.cells = control.cells.mapValues(cell); return control
+        }
+        return result
     }
     static func expandedSelection(_ selected: Set<UUID>, in page: DiagramPage) -> Set<UUID> {
         selected.reduce(into: Set<UUID>()) { ids, id in ids.formUnion(page.descendants(of: id)) }

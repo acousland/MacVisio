@@ -173,6 +173,42 @@ final class DocumentDiagnosticIntegrationTests: XCTestCase {
         }
     }
 
+    func testDefinitionNavigationOpensExactScopedCellAndRejectsStaleOrForeignRecords() throws {
+        try onMain {
+            _ = NSApplication.shared
+            let url = try XCTUnwrap(Bundle.module.url(forResource: "m3-intelligent", withExtension: "vsdx", subdirectory: "Fixtures/M3"))
+            let document = MacVisioDocument(), other = MacVisioDocument()
+            defer { document.close(); other.close() }
+            document.diagram = try VisioFormat.read(from: url).diagram
+            other.diagram = document.diagram
+            document.makeWindowControllers()
+            let editor = try XCTUnwrap(document.windowControllers.first as? EditorWindowController)
+            let master = try XCTUnwrap(document.diagram.definitions?.masters.first { $0.publicID == "8" })
+            let sheet = master.sheets[0], address = DefinitionCellAddress(cell: "Height")
+            let before = document.diagram, state = document.stateID
+            let issue = DocumentDiagnostic(code: "fixture.definition", origin: .calculation,
+                severity: .warning, dimension: .behavior, target: .definition(sheet: sheet.id),
+                source: .init(part: master.part, visioID: sheet.publicID, cell: "Height", definitionCell: address),
+                displayState: .cached, message: "Same display name", requestedActions: [.inspectCell, .revealTarget])
+            XCTAssertTrue(document.setSupplementalDiagnostics([issue], inputKey: document.diagnosticInputKey))
+            XCTAssertTrue(other.setSupplementalDiagnostics([issue], inputKey: other.diagnosticInputKey))
+            let owned = try XCTUnwrap(document.currentDiagnostics.first { $0.code == issue.code })
+            XCTAssertTrue(editor.navigateDocumentDiagnostic(owned))
+            let browser = editor.definitionSheetController
+            defer { browser.close() }
+            XCTAssertEqual(browser.selectedOwnerID, master.id)
+            XCTAssertEqual(browser.selectedSheetID, sheet.id)
+            XCTAssertEqual(browser.selectedAddress, address)
+            XCTAssertFalse(editor.navigateDocumentDiagnostic(try XCTUnwrap(other.currentDiagnostics.first { $0.code == issue.code })))
+            var removed = owned
+            removed.source.definitionCell = DefinitionCellAddress(cell: "Nonexistent")
+            XCTAssertTrue(document.setSupplementalDiagnostics([removed], inputKey: document.diagnosticInputKey))
+            XCTAssertFalse(editor.navigateDocumentDiagnostic(try XCTUnwrap(document.currentDiagnostics.first { $0.code == issue.code })))
+            XCTAssertTrue(document.diagram == before)
+            XCTAssertEqual(document.stateID, state)
+        }
+    }
+
     private func onMain<T>(_ body: () throws -> T) rethrows -> T {
         if Thread.isMainThread { return try body() }
         return try DispatchQueue.main.sync(execute: body)

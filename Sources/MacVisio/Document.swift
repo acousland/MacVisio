@@ -13,6 +13,7 @@ final class MacVisioDocument: NSDocument {
     private var savedStateID: UUID?
     private var recoveryStateID: UUID?
     private var latestPreservationArchive: VisioDocumentArchive?
+    private var latestPreservationDefinitions: DefinitionRegistry?
     private var preservationNilSourcePageIDs = Set<UUID>()
     let lifecycleOwnerID = UUID()
     private var documentIsClosed = false
@@ -152,9 +153,10 @@ final class MacVisioDocument: NSDocument {
         calculationSession = CalculationSession()
     }
     private func publishCalculationDiagnostics() {
+        var seen = Set<DocumentDiagnostic.ID>()
         acceptedCalculationDiagnostics = diagram.pages.flatMap { page in
             (geometryDiagnosticsByPage[page.id] ?? []) + (fieldDiagnosticsByPage[page.id] ?? [])
-        }.map { record in
+        }.filter { seen.insert($0.id).inserted }.map { record in
             var record = record
             record.inputKey = diagnosticInputKey
             return record
@@ -180,6 +182,12 @@ final class MacVisioDocument: NSDocument {
     var isCalculating: Bool { pendingCalculation != nil }
     private(set) var lastCalculationJobError: Error?
     func cancelPendingCalculation() { pendingCalculation?.cancel() }
+    /// Native auxiliary editors cancel only the exact calculation they submitted.
+    var pendingCalculationID: UUID? { precondition(Thread.isMainThread); return pendingCalculation?.id }
+    func cancelPendingCalculation(ifID id: UUID) {
+        precondition(Thread.isMainThread)
+        if pendingCalculation?.id == id { pendingCalculation?.cancel() }
+    }
     private var fieldIssuesByPage: [UUID: [String]] = [:]
     private var calculationSession = CalculationSession()
     private(set) var lastCalculationWork = CalculationWork()
@@ -195,6 +203,7 @@ final class MacVisioDocument: NSDocument {
     private struct SaveArtifact {
         let id: UUID
         let archive: VisioDocumentArchive
+        let definitions: DefinitionRegistry?
         let sourceDiagnostics: [DocumentDiagnostic]?
     }
     private struct QueuedSave {
@@ -304,13 +313,15 @@ final class MacVisioDocument: NSDocument {
             if let saveID {
                 var sourceSnapshot = snapshot
                 sourceSnapshot.visioArchive = archive
+                sourceSnapshot = try DefinitionRegistry.hydrate(sourceSnapshot)
                 // NSDocument normally owns background encoding. A synchronous
                 // fallback must not introduce a full source scan on main.
                 let sourceDiagnostics =
                     Thread.isMainThread ? nil : ImportedSourceDiagnostics.scan(sourceSnapshot)
                 saveSnapshotLock.lock()
                 serializedSaveArtifact = SaveArtifact(
-                    id: saveID, archive: archive, sourceDiagnostics: sourceDiagnostics)
+                    id: saveID, archive: archive, definitions: sourceSnapshot.definitions,
+                    sourceDiagnostics: sourceDiagnostics)
                 saveSnapshotLock.unlock()
             }
             return data
@@ -430,6 +441,7 @@ final class MacVisioDocument: NSDocument {
         savedStateID = stateID
         recoveryStateID = stateID
         latestPreservationArchive = diagram.visioArchive
+        latestPreservationDefinitions = diagram.definitions
         preservationNilSourcePageIDs = []
         calculationSession = CalculationSession()
         calculationIssues = []
@@ -764,7 +776,10 @@ final class MacVisioDocument: NSDocument {
             }
             saveSnapshotLock.unlock()
             var savedBaseline = snapshot.diagram
-            if let artifact { savedBaseline.visioArchive = artifact.archive }
+            if let artifact {
+                savedBaseline.visioArchive = artifact.archive
+                if savedBaseline.definitions == nil { savedBaseline.definitions = artifact.definitions }
+            }
             saveImpactBaseline = .init(snapshot: savedBaseline)
             savedStateID = snapshot.stateID
             recoveryStateID = snapshot.stateID
@@ -800,10 +815,14 @@ final class MacVisioDocument: NSDocument {
             preservationNilSourcePageIDs = savedPages
         }
         latestPreservationArchive = archive
+        latestPreservationDefinitions = artifact.definitions
         let identity = stateID
         let priorRevision = revision
         let priorRuntimeRevision = runtimeRevision
         diagram.visioArchive = archive
+        if diagram.definitions == nil && snapshot.definitions == nil {
+            diagram.definitions = artifact.definitions
+        }
         calculationSession = CalculationSession()
         stateID = identity
         revision = priorRevision
@@ -1053,13 +1072,48 @@ final class MacVisioDocument: NSDocument {
             editor.canvas.select(selection.nodeIDs, edge: selection.edgeID)
         }
     }
+    /// Public definition projection owns the accepted editor worker and snapshot.
+    func editDefinitionCell(sheetID: UUID, address: DefinitionCellAddress, value: ShapeSheetCell?) {
+        let snapshot = diagram
+        replaceInEditor(with: snapshot, action: "Edit Definition", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try cancellation.check()
+            let next = try DefinitionEditing.settingCell(in: snapshot, sheetID: sheetID, address: address, value: value)
+            try cancellation.check()
+            return (next, CalculationWork())
+        })
+    }
+
+    func editDefinitionRow(sheetID: UUID, edit: DefinitionRowEdit) {
+        let snapshot = diagram
+        replaceInEditor(with: snapshot, action: "Edit Definition Row", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try cancellation.check()
+            let next = try DefinitionEditing.editingRow(in: snapshot, sheetID: sheetID, edit: edit)
+            try cancellation.check()
+            return (next, CalculationWork())
+        })
+    }
+
     /// Native large edits own a worker snapshot. A document sheet prevents a
     /// second command from being based on an unfinished result; other windows
     /// and autosave continue to use their committed state.
     func replaceInEditor(
-        with next: Diagram, action: String, forceAsync: Bool = false,
+        with next: Diagram, action: String, forceAsync: Bool = false, presentFailureAlert: Bool = true,
+        acceptsEditorInput: (() -> Bool)? = nil,
+        beforeEditorPublication: (() throws -> Void)? = nil,
         preparation: ((LifecycleJobCancellation) throws -> (diagram: Diagram, work: CalculationWork))? = nil
     ) {
+        func editorInputAccepted() -> Bool {
+            guard let acceptsEditorInput else { return true }
+            precondition(Thread.isMainThread)
+            return acceptsEditorInput()
+        }
+        guard editorInputAccepted() else { lastCalculationJobError = LifecycleJobError.staleInput; return }
+        // This publication seam is deliberately worker-only. Synchronous
+        // callers keep their existing calculation and publication contract.
+        guard beforeEditorPublication == nil || forceAsync else {
+            lastCalculationJobError = DiagramError.invalid("A clipboard publication requires an owned calculation.")
+            return
+        }
         guard pendingCalculation == nil else {
             for controller in windowControllers {
                 (controller as? EditorWindowController)?.root.showMessage(
@@ -1078,6 +1132,7 @@ final class MacVisioDocument: NSDocument {
                 lastCalculationJobError = nil
                 do {
                     let prepared = try preparation(LifecycleJobCancellation())
+                    guard editorInputAccepted() else { throw LifecycleJobError.staleInput }
                     let priorRevision = revision
                     replace(with: prepared.diagram, action: action)
                     var work = prepared.work
@@ -1095,6 +1150,7 @@ final class MacVisioDocument: NSDocument {
             return
         }
         let previous = diagram
+        let previousMembershipSession = calculationSession.fork()
         let previousIssues = calculationIssues
         let previousGeometry = geometryIssuesByPage
         let previousFields = fieldIssuesByPage
@@ -1123,7 +1179,7 @@ final class MacVisioDocument: NSDocument {
                         return false
                     }
                     return candidate.ownerID == self.lifecycleOwnerID && candidate.snapshotID == self.stateID
-                        && candidate.revision == self.revision
+                        && candidate.revision == self.revision && editorInputAccepted()
                 }, progress: { progress.update($0) },
                 work: { context in
                     context.progress(
@@ -1142,6 +1198,7 @@ final class MacVisioDocument: NSDocument {
                         previousFieldDiagnosticsByPage: previousFieldDiagnostics,
                         refreshDiagnostics: refreshDiagnostics, session: session, changes: changes,
                         cancellation: context.cancellation)
+                    try DiagramMemberships.validateTransforms(from: previous, to: output.accepted(ifCurrent: input).diagram, beforeSession: previousMembershipSession, afterSession: session, cancellation: context.cancellation)
                     return prepared.map { output.includingPreparationWork($0.work) } ?? output
                 },
                 completion: { [weak self] outcome in
@@ -1159,6 +1216,7 @@ final class MacVisioDocument: NSDocument {
                     switch outcome {
                     case .success(let output):
                         do {
+                            guard editorInputAccepted() else { throw LifecycleJobError.staleInput }
                             let current = LifecycleJobInput(
                                 ownerID: self.lifecycleOwnerID, snapshotID: self.stateID,
                                 revision: self.revision)
@@ -1172,6 +1230,8 @@ final class MacVisioDocument: NSDocument {
                             {
                                 accepted.activePageID = self.diagram.activePageID
                             }
+                            guard editorInputAccepted() else { throw LifecycleJobError.staleInput }
+                            try beforeEditorPublication?()
                             self.calculationSession = session
                             self.lastCalculationWork = result.work
                             self.applyCalculated(
@@ -1183,7 +1243,7 @@ final class MacVisioDocument: NSDocument {
                         } catch {
                             completionError = error
                             self.lastCalculationJobError = error
-                            self.restorePendingEditorSelections(selections, input: input)
+                            if editorInputAccepted() { self.restorePendingEditorSelections(selections, input: input) }
                             for controller in self.windowControllers {
                                 (controller as? EditorWindowController)?.refresh()
                             }
@@ -1191,11 +1251,14 @@ final class MacVisioDocument: NSDocument {
                     case .failure(let error):
                         completionError = error
                         self.lastCalculationJobError = error
-                        self.restorePendingEditorSelections(selections, input: input)
+                        if editorInputAccepted() { self.restorePendingEditorSelections(selections, input: input) }
                         for controller in self.windowControllers {
                             (controller as? EditorWindowController)?.refresh()
                         }
-                        if !hasTextContinuation,
+                        if !presentFailureAlert {
+                            for controller in self.windowControllers { (controller as? EditorWindowController)?.root.showMessage(error.localizedDescription) }
+                        }
+                        if presentFailureAlert, !hasTextContinuation,
                             (error as? LifecycleJobError) != .cancelled
                                 && (error as? LifecycleJobError) != .staleInput
                         {
@@ -1213,20 +1276,21 @@ final class MacVisioDocument: NSDocument {
             // A submission failure returns before the command posts its
             // provisional selection, so restore on the following main turn.
             DispatchQueue.main.async { [weak self] in
-                self?.restorePendingEditorSelections(selections, input: input)
+                if editorInputAccepted() { self?.restorePendingEditorSelections(selections, input: input) }
             }
-            if !finalizingTextForSave && !finalizingTextForClose { presentError(error) }
+            if presentFailureAlert && !finalizingTextForSave && !finalizingTextForClose { presentError(error) }
         }
     }
 
     func replace(with next: Diagram, action: String) {
         guard next != diagram else { return }
         let refreshDiagnostics = acceptedCalculationDiagnostics.contains { $0.inputKey != diagnosticInputKey }
-        if refreshDiagnostics { calculationSession = CalculationSession() }
         let changes = DocumentChangeSet.between(diagram, next)
+        let membershipGuard = DiagramMemberships.needsTransformGuard(from: diagram, proposed: next, changes: changes, session: calculationSession)
+        let workingSession = refreshDiagnostics ? CalculationSession() : membershipGuard ? calculationSession.fork() : calculationSession
         var synchronizationVisits = 0
         let synchronized = ShapeRichText.synchronize(
-            next, previous: diagram, changes: changes, session: calculationSession
+            next, previous: diagram, changes: changes, session: workingSession
         ) { synchronizationVisits += $0 }
         let calculation = DiagramCalculation.recalculate(
             synchronized, previous: diagram,
@@ -1235,7 +1299,16 @@ final class MacVisioDocument: NSDocument {
             previousGeometryDiagnosticsByPage: geometryDiagnosticsByPage,
             previousFieldDiagnosticsByPage: fieldDiagnosticsByPage,
             refreshDiagnostics: refreshDiagnostics,
-            session: calculationSession, changes: changes)
+            session: workingSession, changes: changes)
+        if membershipGuard {
+            do { try DiagramMemberships.validateTransforms(from: diagram, to: calculation.diagram, beforeSession: calculationSession, afterSession: workingSession) }
+            catch {
+                lastCalculationJobError = error
+                for controller in windowControllers { (controller as? EditorWindowController)?.root.showMessage(error.localizedDescription) }
+                return
+            }
+        }
+        calculationSession = workingSession
         lastCalculationWork = calculation.work
         lastCalculationWork.richTextNodes += synchronizationVisits
         PerformanceEvidence.count(.inputComparisonNodes, by: lastCalculationWork.inputComparisonNodes)
@@ -1268,6 +1341,7 @@ final class MacVisioDocument: NSDocument {
                 calculationSession = CalculationSession()
             }
             next.visioArchive = current
+            if next.definitions == nil { next.definitions = latestPreservationDefinitions }
         }
         let previousIssues = calculationIssues
         let previousGeometryIssuesByPage = geometryIssuesByPage
@@ -1354,6 +1428,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     var root: EditorRootView!
     private(set) var retainedScene: RetainedRenderScene!
     var stencils: [StencilDefinition] = []
+    private var pendingPrintHandle: LifecycleJobHandle?
+    private var printSessionIsActive = false
+    private(set) var lastPrintError: Error?
+    var printSessionRunner: ((DiagramPrintSession) throws -> Bool)?
+    var isPreparingPrint: Bool { pendingPrintHandle != nil }
+    var isPrinting: Bool { isPreparingPrint || printSessionIsActive }
     private var fittedInitialPage = false
     private var editorIsDetached = false
     var selection: [DiagramNode] {
@@ -1407,7 +1487,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         guard !editorIsDetached else { return }
         editorIsDetached = true
         if lifecycleJobs.isActive { canvas.finishEditing(commit: true) }
+        detachBooleanOperandChooser()
+        detachPinnedLibraries()
         lifecycleJobs.close()
+        pendingPrintHandle = nil
+        printSessionIsActive = false
+        printSessionRunner = nil
         root?.detachEditor()
         canvas.detachEditor()
         retainedScene = nil
@@ -1431,6 +1516,7 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                 self.window?.makeFirstResponder(self.canvas)
             }
         }
+        if window?.isVisible == true { startPinnedLibraries() }
     }
     func windowDidBecomeKey(_ notification: Notification) {
         guard !editorIsDetached, lifecycleJobs.isActive else { return }
@@ -1481,8 +1567,12 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
                         ? "\(canvas.selectedNodes.count) selected"
                         : "\(page.nodes.count) shapes · \(page.edges.count) connectors"
         let materialIssues = diagramDocument.currentDiagnostics.filter(\.isMaterial).count
-        root.status.stringValue =
-            "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
+        if let error = lastPrintError,(error as? LifecycleJobError) != .cancelled {
+            root.status.stringValue = "Printing: "+error.localizedDescription
+        } else {
+            root.status.stringValue =
+                "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
+        }
         root.zoomLabel.stringValue = "\(Int((canvas.zoom*100).rounded()))%"
         root.ribbon.refreshSelection()
     }
@@ -1647,7 +1737,8 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     }
     @objc func deleteSelection(_ sender: Any?) {
         canvas.finishEditing(commit: true)
-        var next = diagramDocument.diagram
+        let before = diagramDocument.diagram
+        var next = before
         let ids = editableSelectionIDs
         let lockedEdges = Set(next.page.edges.filter { next.page.isLocked($0) }.map(\.id))
         next.page.nodes.removeAll { ids.contains($0.id) }
@@ -1655,30 +1746,34 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
             ids.contains($0.source) || ids.contains($0.target) || $0.parentID.map(ids.contains) == true
                 || ($0.id == canvas.selectedEdge && !lockedEdges.contains($0.id))
         }
-        diagramDocument.replaceInEditor(with: next, action: "Delete")
+        let removed = Set(before.page.nodes.map(\.id) + before.page.edges.map(\.id))
+            .subtracting(next.page.nodes.map(\.id) + next.page.edges.map(\.id))
+        let proposed = next
+        if !DiagramMemberships.needsSourceProof(in: before, pageID: before.page.id) {
+            diagramDocument.replaceInEditor(with: proposed, action: "Delete")
+            canvas.select([])
+            return
+        }
+        diagramDocument.replaceInEditor(with: proposed, action: "Delete", forceAsync: true, presentFailureAlert: false, preparation: { cancellation in
+            try DiagramMemberships.validateRemoval(removed, in: before, pageID: before.page.id, cancellation: cancellation)
+            return (proposed, CalculationWork())
+        })
         canvas.select([])
     }
     @objc func duplicateSelection(_ sender: Any?) {
-        let diagram = diagramDocument.diagram
-        let fragment = DiagramOperations.fragment(
-            editableSelectionIDs, edges: Set([canvas.selectedEdge].compactMap { $0 }), from: diagram.page,
-            binding: diagram.visioArchive?.pages.first { $0.pageID == diagram.page.id })
-        pasteFragment(fragment)
+        let expanded = DiagramOperations.expandedSelection(editableSelectionIDs, in: diagramDocument.diagram.page)
+        prepareMembershipFragment(expanded, edges: Set([canvas.selectedEdge].compactMap { $0 })) { [weak self] fragment in
+            self?.pasteFragment(fragment)
+        }
     }
     func copySelection() {
-        let ids = canvas.selectedNodes
-        let expanded = DiagramOperations.expandedSelection(ids, in: diagramDocument.diagram.page)
-        let diagram = diagramDocument.diagram
-        let fragment = DiagramOperations.fragment(
-            expanded, edges: Set([canvas.selectedEdge].compactMap { $0 }), from: diagram.page,
-            binding: diagram.visioArchive?.pages.first { $0.pageID == diagram.page.id })
-        guard !fragment.nodes.isEmpty || !fragment.edges.isEmpty,
-            let data = try? JSONEncoder().encode(fragment)
-        else { return }
-        let board = NSPasteboard.general
-        board.clearContents()
-        board.setData(data, forType: CanvasView.fragmentPasteboardType)
-        board.setString(fragment.nodes.map(\.text).joined(separator: "\n"), forType: .string)
+        let expanded = DiagramOperations.expandedSelection(canvas.selectedNodes, in: diagramDocument.diagram.page)
+        prepareMembershipFragment(expanded, edges: Set([canvas.selectedEdge].compactMap { $0 })) { fragment in
+            guard !fragment.nodes.isEmpty || !fragment.edges.isEmpty, let data = try? JSONEncoder().encode(fragment) else { return }
+            let board = NSPasteboard.general; board.clearContents()
+            board.setData(data, forType: CanvasView.fragmentPasteboardType)
+            board.setString(fragment.nodes.map(\.text).joined(separator: "\n"), forType: .string)
+        }
     }
     func pasteSelection() {
         canvas.finishEditing(commit: true)
@@ -1877,12 +1972,21 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
     @objc func exportPDF(_ sender: Any?) { exportFile(ext: "pdf") }
     @objc func exportAllPagesPDF(_ sender: Any?) { exportFile(ext: "pdf", allPages: true) }
     @objc func exportPNG(_ sender: Any?) { exportFile(ext: "png") }
+    @objc func exportJPEG(_ sender: Any?) { exportFile(ext: "jpg") }
+    @objc func exportTIFF(_ sender: Any?) { exportFile(ext: "tiff") }
     @objc func exportSVG(_ sender: Any?) { exportFile(ext: "svg") }
     @objc func exportVSDX(_ sender: Any?) { exportFile(ext: "vsdx") }
     @objc func exportVSD(_ sender: Any?) { exportFile(ext: "vsd") }
     @objc func exportTemplate(_ sender: Any?) { exportFile(ext: "vstx") }
     func exportFile(ext: String, allPages: Bool = false) {
-        canvas.finishEditing(commit: true)
+        guard lifecycleJobs.isActive else { return }
+        guard (window?.firstResponder as? NSTextView)?.hasMarkedText() != true else {
+            root.showMessage("Finish text composition before exporting."); return
+        }
+        diagramDocument.commitTextEditing(); canvas.finishPageInteraction()
+        guard !diagramDocument.isCalculating else {
+            root.showMessage("Wait for calculation to finish or cancel it before exporting."); return
+        }
         let panel = NSSavePanel()
         panel.allowedContentTypes = [UTType(filenameExtension: ext) ?? .data]
         panel.nameFieldStringValue = "\(diagramDocument.diagram.title).\(ext)"
@@ -1892,25 +1996,52 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
         if allPages {
             panel.message =
-                "Export foreground pages with their assigned backgrounds. Background pages are not separate PDF pages."
+                "Choose pages and export order below. Each page includes its assigned background artwork."
         }
+        let panelOwner = lifecycleJobs
+        let panelInput = LifecycleJobInput(
+            ownerID: panelOwner.id, snapshotID: diagramDocument.stateID, revision: diagramDocument.revision)
+        let panelSelection = RasterExportSelection(
+            input: panelInput, pageID: diagramDocument.diagram.activePageID,
+            nodeIDs: canvas.selectedNodes, edgeIDs: Set([canvas.selectedEdge].compactMap { $0 }))
+        let optionsView: ExportOptionsView?
+        if let format = OwnedExportFormat(rawValue: ext), format.isRaster || format == .pdf {
+            optionsView = ExportOptionsView(snapshot: diagramDocument.diagram, format: format,
+                                            allPages: allPages, input: panelInput, selection: panelSelection)
+            panel.accessoryView = optionsView
+        } else { optionsView = nil }
         guard let window = window else { return }
         panel.beginSheetModal(for: window) { [weak self] response in
             guard response == .OK, let self = self, let url = panel.url else { return }
-            let snapshot = self.diagramDocument.diagram
             let owner = self.lifecycleJobs
-            let input = LifecycleJobInput(
-                ownerID: owner.id, snapshotID: self.diagramDocument.stateID,
-                revision: self.diagramDocument.revision)
             let progress = LifecycleProgressController(
                 title: "Exporting drawing", detail: url.lastPathComponent)
             do {
                 guard let format = OwnedExportFormat(rawValue: ext) else {
                     throw DiagramError.invalid("This export format is unavailable.")
                 }
+                guard owner.isActive else { throw LifecycleJobError.staleInput }
+                if optionsView != nil {
+                    guard (panel.firstResponder as? NSTextView)?.hasMarkedText() != true,
+                          panel.makeFirstResponder(nil) else {
+                        throw DiagramError.invalid("Finish entering export options before exporting.")
+                    }
+                }
+                let snapshot = self.diagramDocument.diagram
+                let input = LifecycleJobInput(
+                    ownerID: owner.id, snapshotID: self.diagramDocument.stateID,
+                    revision: self.diagramDocument.revision)
+                let currentSelection = RasterExportSelection(
+                    input: input, pageID: snapshot.activePageID,
+                    nodeIDs: self.canvas.selectedNodes,
+                    edgeIDs: Set([self.canvas.selectedEdge].compactMap { $0 }))
+                let options = try optionsView?.options(
+                    for: input, activePageID: snapshot.activePageID,
+                    selection: currentSelection) ?? OwnedExportOptions()
+                _ = try options.pageIDs(in: snapshot, format: format, allPages: allPages)
                 let handle = try OwnedExportJobs.submit(
                     snapshot: snapshot, input: input, sourceURL: self.diagramDocument.fileURL,
-                    destination: url, format: format, allPages: allPages, owner: owner,
+                    destination: url, format: format, allPages: allPages, options: options, owner: owner,
                     progress: { progress.update($0) },
                     completion: { [weak self] result in
                         progress.finish()
@@ -1933,16 +2064,63 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         }
     }
     @objc func printDiagram(_ sender: Any?) {
-        canvas.finishEditing(commit: true)
-        let view = ExportPageView(scene: diagramDocument.diagram.scene())
-        let info = NSPrintInfo.shared.copy() as! NSPrintInfo
-        info.horizontalPagination = .fit
-        info.verticalPagination = .fit
-        info.isHorizontallyCentered = true
-        info.isVerticallyCentered = true
-        NSPrintOperation(view: view, printInfo: info).run()
+        guard lifecycleJobs.isActive else { return }
+        guard !isPrinting else { root.showMessage("A print operation is already in progress for this drawing."); return }
+        guard (window?.firstResponder as? NSTextView)?.hasMarkedText() != true else {
+            root.showMessage("Finish text composition before printing.");return
+        }
+        diagramDocument.commitTextEditing();canvas.finishPageInteraction()
+        guard !diagramDocument.isCalculating else { root.showMessage("Wait for calculation to finish or cancel it before printing.");return }
+        let snapshot = diagramDocument.diagram, owner = lifecycleJobs
+        let input = LifecycleJobInput(ownerID:owner.id,snapshotID:diagramDocument.stateID,revision:diagramDocument.revision)
+        let progress = LifecycleProgressController(title:"Preparing drawing for print",detail:snapshot.title)
+        lastPrintError = nil
+        updateStatus()
+        do {
+            let handle = try OwnedPrintJobs.submit(snapshot:snapshot,input:input,owner:owner,
+                progress:{ progress.update($0) },completion:{ [weak self] outcome in
+                    progress.finish()
+                    guard let self else { return }
+                    self.pendingPrintHandle = nil
+                    guard owner.isActive else { return }
+                    do {
+                        self.printSessionIsActive = true
+                        defer { self.printSessionIsActive = false }
+                        let prepared = try outcome.get()
+                        guard self.diagramDocument.stateID == input.snapshotID,self.diagramDocument.revision == input.revision else {
+                            throw LifecycleJobError.staleInput
+                        }
+                        let session = try DiagramPrintSession(prepared:prepared,title:snapshot.title)
+                        if let runner = self.printSessionRunner { _ = try runner(session) }
+                        else {
+                            _ = try session.run(isOwnerActive:{ [weak self] in
+                                guard owner.isActive,let self else { return false }
+                                return self.diagramDocument.stateID == input.snapshotID && self.diagramDocument.revision == input.revision
+                            })
+                        }
+                    } catch {
+                        self.lastPrintError = error
+                        if (error as? LifecycleJobError) == .staleInput {
+                            self.root.showMessage("The drawing changed before printing. Start Print again to use the current drawing.")
+                        } else if (error as? LifecycleJobError) != .cancelled { self.root.showMessage(error.localizedDescription) }
+                    }
+                })
+            pendingPrintHandle = handle;progress.onCancel = { handle.cancel() }
+            progress.show(attachedTo:window)
+        } catch { lastPrintError = error;root.showMessage(error.localizedDescription) }
     }
     func validateMenuItem(_ menuItem: NSMenuItem) -> Bool {
+        if menuItem.action == #selector(unionSelection(_:)) { return unionUnavailableReason == nil }
+        if menuItem.action == #selector(intersectSelection(_:)) { return intersectUnavailableReason == nil }
+        if menuItem.action == #selector(subtractSelection(_:)) { return subtractUnavailableReason == nil }
+        if menuItem.action == #selector(printDiagram(_:)) {
+            guard lifecycleJobs.isActive else { return false }
+            return !isPrinting && !diagramDocument.isCalculating && diagramDocument.diagram.pages.contains{$0.isBackground != true}
+        }
+        if menuItem.action == #selector(showMemberships(_:)) { return membershipUnavailableReason == nil }
+        if menuItem.action == #selector(showDefinitionSheets(_:)) {
+            return definitionSheetUnavailableReason == nil
+        }
         if menuItem.action == #selector(editGeometry(_:)) {
             return selection.count == 1 && selection[0].formatting.geometry != nil
                 && !diagramDocument.diagram.page.isLocked(selection[0])

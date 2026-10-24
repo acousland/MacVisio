@@ -1,0 +1,266 @@
+{
+  "schema_version": 1,
+  "milestone": "M3",
+  "thread_id": "01a141d9-6ba2-7672-8b9e-6ce1d041e84d",
+  "worktree": "/Users/acousland/.codex/worktrees/8b73/MacVisio",
+  "branch": "codex/m3-intelligent-vsdx",
+  "state": "in_progress",
+  "handoff_kind": "interim_engineering",
+  "candidate_code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+  "milestone_acceptance": {
+    "local_engineering": "in_progress: Source 100bdf7 passes the complete 1104-test Swift suite with 13 prerequisite skips and zero failures after confirmed desktop readiness, including native event routing with no exclusions. Actual packages, raster files and native save PDFs are independently verified. All 204 M3 children remain unaccepted.",
+    "G2_reference": "blocked: licensed exact-build Visio/COM unavailable",
+    "accepted": false
+  },
+  "integrated_upstream": {
+    "M0": {
+      "source_commits": [
+        "78c6c56",
+        "3c22d00",
+        "f8e3aac",
+        "f9ba1d1",
+        "81f6140",
+        "b5375f3",
+        "fc69ccb",
+        "02dea53"
+      ],
+      "integration_commit": "7dcd8635bf32b9dc2ff4b59f06b22832e6ffbafc",
+      "accepted_scope": "Final locally validated M0 tooling/inventory/instrumentation/corpus/harness contracts; M0/G0 and exact-build reference acceptance remain false",
+      "handoff": "docs/delivery/M0-HANDOFF.json"
+    },
+    "M1": {
+      "source_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+      "code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+      "integration_commit": "5e2ae00",
+      "accepted_scope": "All 25 local WP05–09 engineering tasks. Actual automatic app recovery, source/runtime/calculation/render/job contracts accepted; release/reference/numerical performance gates remain separate.",
+      "handoff": "docs/delivery/M1-HANDOFF.json",
+      "verification": "Integrated product Sources/Package.swift exactly match accepted M1. M3 fixture/instrumentation15 tests and Python74 tests pass; inventory command anchors adapted without losing IDs/evidence."
+    },
+    "M2": {
+      "source_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+      "code_candidate": "0839994456aa82f3533456c75f9f10da1ebcd2bb",
+      "integration_commit": "d2d736f",
+      "handoff": "docs/delivery/M2-HANDOFF.json",
+      "handoff_sha256": "cf43ccfa4a6477156ec4d6b028ef8be6406e8ee9da36b1a64f77b07825b6c244",
+      "accepted_scope": "Complete local WP10–13 engineering with recorded user scope decisions; M2 release performance exception is bound to its exact artifact and is not adopted for M3.",
+      "verification": "393 retained hashes match; 748 Swift tests (13 skipped), 105 Python tests, zero failures."
+    }
+  },
+  "own_delivery_commits": [
+    "eb84c98",
+    "f0182cb",
+    "4790d71",
+    "1cf64ed",
+    "a9a95ae",
+    "6f00f37",
+    "2e36e65",
+    "3119858",
+    "6b93289",
+    "1282de7",
+    "eac0066bc5bb824632ff6e25154165e66bb88070",
+    "9908078264b029f5b901d1aea71ec850f5a7580c",
+    "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+    "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "af764fad3112d46466dcb999d743377ccafe92b8",
+    "0f967c00e46105e9b79ec60dbc553e371d17adc6",
+    "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "f2155ddddb600ed24a01bee188d322acb39dfa2c",
+    "e2e2cfed8e0ee5a47ea9b9bdfb04cf91e76550a1",
+    "f4854ef7d1ab47cb29290a722f63ddaf78465e7d",
+    "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+    "e891d6f20509db4a72084258b793241d38c2e5a5",
+    "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "100bdf7f778655ab049009200d84b866a30480b7"
+  ],
+  "completed_task_ids": [],
+  "implemented_unaccepted_task_ids": [],
+  "active_task_ids": [
+    "WP-14-T01",
+    "WP-14-T02",
+    "WP-14-T03",
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T03",
+    "WP-17-T02",
+    "WP-18-T01",
+    "WP-19-T01",
+    "WP-19-T02",
+    "WP-19-T03",
+    "WP-20-T01",
+    "WP-20-T02"
+  ],
+  "pending_task_ids": [
+    "WP-14-T01",
+    "WP-14-T02",
+    "WP-14-T03",
+    "WP-14-T04",
+    "WP-15-T01",
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T02",
+    "WP-16-T03",
+    "WP-16-T04",
+    "WP-17-T01",
+    "WP-17-T02",
+    "WP-17-T03",
+    "WP-17-T04",
+    "WP-18-T01",
+    "WP-18-T02",
+    "WP-18-T03",
+    "WP-18-T04",
+    "WP-19-T01",
+    "WP-19-T02",
+    "WP-19-T03",
+    "WP-19-T04",
+    "WP-20-T01",
+    "WP-20-T02",
+    "WP-20-T03",
+    "WP-20-T04"
+  ],
+  "blocked_task_ids": [],
+  "dependent_feature_implementation_started": true,
+  "decomposition": {
+    "catalog": "docs/delivery/M3-CATALOG.json",
+    "parent_tasks": 28,
+    "large_parent_tasks": 22,
+    "children": 204,
+    "accepted_children": 0,
+    "meaning": "bounded review/ownership, not implementation or compatibility evidence"
+  },
+  "evidence_paths": [
+    "docs/delivery/M3-EVIDENCE.json",
+    "docs/delivery/M3-CATALOG.md",
+    "docs/delivery/M3-DOMAIN-CONTRACTS.md",
+    "Tests/MacVisioTests/Fixtures/M3/manifest.json",
+    "docs/delivery/M3-PUBLIC-PROBE.json",
+    "docs/delivery/M3-IMPLEMENTATION-CHECKPOINT.json",
+    "docs/delivery/M3-SHARED-HOST-CHECKPOINT.json",
+    "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json"
+  ],
+  "remaining_prerequisites": [
+    "all WP14–20 production feature children and affected/native/public milestone regressions",
+    "complete exact-build applicability inventory and independent bidirectional five-dimension reference evidence",
+    "same-font per-region visual evidence and calibrated physical-print evidence"
+  ],
+  "next_action": "Review bounded ordered List membership, explicit print tiling and further numeric proposals, then continue remaining local M3 contracts. Combine overlap semantics need stronger evidence. Reference/physical qualification and release remain open.",
+  "fixture_correction": "Physical seed now explicitly carries public Geometry; prior native fallback observation is retained as insufficient evidence. Corrected input passes3 Swift/9 oracle tests and independent public SVG width20mm within0.0001mm.",
+  "head_note": "candidate_code_commit binds committed source with focused evidence and pending complete qualification; the last passing full baseline is separate. Shared M3-status.json records the eventual delivery-record commit.",
+  "partial_task_ids": [
+    "WP-14-T01",
+    "WP-14-T02",
+    "WP-14-T03",
+    "WP-15-T01",
+    "WP-15-T02",
+    "WP-15-T03",
+    "WP-15-T04",
+    "WP-16-T01",
+    "WP-16-T03",
+    "WP-17-T02",
+    "WP-18-T01",
+    "WP-19-T01",
+    "WP-19-T02",
+    "WP-19-T03",
+    "WP-20-T01",
+    "WP-20-T02"
+  ],
+  "integration_allowed": false,
+  "dependency_observation": {
+    "M1_thread_id": "01a141d9-20e5-7900-90ee-18d576dbb21a",
+    "M1_latest_prompt": "M1 accepted local engineering after actual automatic app crash/relaunch recovery; all25 local tasks qualified.",
+    "M2_thread_id": "01a141d9-478f-7cb0-b568-04467a3badac",
+    "M2_commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+    "M2_state": "complete",
+    "M2_integration_allowed": true,
+    "source": "Accepted committed M2 handoff, all retained evidence hashes, clean peer checkout, and integrated regression suite; no provisional peer source.",
+    "human_prerequisite_cleared": true,
+    "M1_cursor": "3ad56b0b-943e-4f16-ba24-30e5e392fc65:228",
+    "M2_cursor": "65710e9f-cc75-403b-b92c-30635bee732c:125",
+    "M1_commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+    "M1_code_candidate": "5560ddf44255f56c0559485f9c9dfe904b3b3dc5",
+    "M1_state": "ready",
+    "M1_acceptance_passed": true,
+    "M1_downstream_acceptance_ready": true,
+    "handoff_sources": [
+      {
+        "milestone": "M1",
+        "commit": "0ea6b33ad086abf59b8538bce50ec57ded7dcd68",
+        "path": "docs/delivery/M1-HANDOFF.json",
+        "sha256": "4cae6b8a6482beb3adb0234ea822324aac431f4f0997e33ec796f1e6334cf5ce"
+      },
+      {
+        "milestone": "M2",
+        "commit": "dbce6c2f9409bb01eef27606b6f1d1d69de7979a",
+        "path": "docs/delivery/M2-HANDOFF.json",
+        "sha256": "cf43ccfa4a6477156ec4d6b028ef8be6406e8ee9da36b1a64f77b07825b6c244"
+      }
+    ]
+  },
+  "lifecycle_checkpoint": {
+    "path": "docs/delivery/M3-LIFECYCLE-CHECKPOINT.json",
+    "sha256": "d9bbe0068f16df3761692acede25c9b5e461401c0b8b020245ef6408e23c24c8",
+    "code_commit": "df44f6b67a89bcce8eaf94cad9df8619c7e88ce5",
+    "scope": "Scoped definition row/section lifecycle, connector copy/layers/background and native pointer protections; partial local engineering",
+    "bytes": 17602
+  },
+  "output_library_checkpoint": {
+    "path": "docs/delivery/M3-OUTPUT-LIBRARY-CHECKPOINT.json",
+    "sha256": "0e1d5dc91f89b1befb631073c7207e10a0a2bc5f5062893d39fab6b11dd9855e",
+    "bytes": 10620,
+    "code_commit": "232f7eb7eb0c95bcfd8630e3d9d2fdf3a28c165b",
+    "scope": "Explicit identity-bound PNG/PDF settings and persistent offline library/master pin metadata; partial local engineering"
+  },
+  "geometry_stencil_print_checkpoint": {
+    "path": "docs/delivery/M3-GEOMETRY-STENCIL-PRINT-CHECKPOINT.json",
+    "sha256": "4a794cdfb92811314ef1c9e50a9291aaafff096dd9133565319fbb97770c086e",
+    "bytes": 43716,
+    "code_commit": "af764fad3112d46466dcb999d743377ccafe92b8",
+    "scope": "Bounded editable Union, source-preserving custom stencil drafts and owned native multipage printing; partial local engineering"
+  },
+  "set_raster_checkpoint": {
+    "path": "docs/delivery/M3-SET-RASTER-CHECKPOINT.json",
+    "sha256": "bd50904b6b4be39cb1f1359605d9d6d5ee6233ce94c44b7dd6c49a2c165eaf1b",
+    "bytes": 39948,
+    "code_commit": "44bc3ca24933ca577dd3d295219244fd28d9dcdc",
+    "scope": "Bounded two-shape editable Intersect and explicit-base Subtract; native owned chooser/undo; PNG Page/Content/Selection bounds with physical DPI and guarded publication geometry. Partial local engineering only."
+  },
+  "release_published": false,
+  "membership_numeric_pins_checkpoint": {
+    "path": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json",
+    "sha256": "769011cc64cf49de642a52dd42462e14fd91b06215054900a2efa00744831ed8",
+    "bytes": 126318,
+    "code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "scope": "Independent membership/guarded Cut and retained-owner proof, bounded ROUND/CEILING/FLOOR/MODULUS, explicit local pinned VSSX loading. Passing baseline1065; current full qualification pending after known activation failures. Partial engineering only."
+  },
+  "current_full_qualification": {
+    "state": "pending",
+    "last_passing_code_commit": "afe81f55b03b560a100e349af9d840f28b1e1c5d",
+    "last_complete_outcome": "failed",
+    "last_complete_code_commit": "e891d6f20509db4a72084258b793241d38c2e5a5",
+    "latest_code_commit": "4b9cf62be8cfaf2a90f1b3a0bc182899c64ec838",
+    "record": "docs/delivery/M3-MEMBERSHIP-NUMERIC-PINS-CHECKPOINT.json"
+  },
+  "raster_formats_checkpoint": {
+    "path": "docs/delivery/M3-RASTER-FORMATS-CHECKPOINT.json",
+    "sha256": "cbf576ac4e28e273057c71797bb75deaeaac9e64d6600ecc77bd177b2ee3fa57",
+    "bytes": 75446,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Native JPEG/TIFF export with EXIF/TIFF fractional physical density, shared raster bounds and owned publication safeguards. Focused checks pass; full native qualification pending."
+  },
+  "native_regression_checkpoint": {
+    "path": "docs/delivery/M3-NATIVE-REGRESSION-CHECKPOINT.json",
+    "sha256": "99ec8b75c9040d6576f5a2b15fd8f5d9d9e65b30533d498edf7ec805339b4f5e",
+    "bytes": 57258,
+    "code_commit": "100bdf7f778655ab049009200d84b866a30480b7",
+    "scope": "Complete current-source local regression qualification: 1104 Swift tests, 13 prerequisite skips, zero failures; no native exclusions. Full milestone/reference acceptance remains open."
+  }
+}
