@@ -51,7 +51,9 @@ def assess(manifest, report, tolerance=1e-7):
             for key in ("index", "name", "background", "width", "height"):
                 same(file, phase, path + "/" + key, old[key], new.get(key))
             if "connects" in old:
-                same(file, phase, path + "/connects", old["connects"], as_list(new.get("connects")))
+                # Visio lists connections in its own order; compare them as sets of glue records.
+                key = lambda c: (str(c.get("fromShape")), str(c.get("fromCell")), str(c.get("toShape")), str(c.get("toCell")))
+                same(file, phase, path + "/connects", sorted(map(key, old["connects"])), sorted(map(key, as_list(new.get("connects")) or [])))
             expected_shapes = old.get("shapes", [])
             actual_shapes = as_list(new.get("shapes", []))
             if not isinstance(actual_shapes, list):

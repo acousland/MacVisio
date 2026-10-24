@@ -36,6 +36,7 @@ enum InterchangeFixtures {
                 // Binary serialization currently carries saved graphics rather than all public semantics.
                 let pages: [[String: Any]] = ext == "vsdx" ? expected : expected.map { page in
                     var page = page
+                    page["connects"] = nil
                     page["shapes"] = (page["shapes"] as! [[String: Any]]).map { shape in
                         ["id": shape["id"]!, "parentID": shape["parentID"]!, "text": shape["text"]!]
                     }
@@ -78,9 +79,14 @@ enum InterchangeFixtures {
                 }
             }
             collect(root.rootElement()?.firstLocal("Shapes"), parent: nil)
+            // Glue as authored; an independent Visio must report the same connections after opening.
+            let connects: [[String: String]] = (root.rootElement()?.firstLocal("Connects")?.elementsLocal("Connect") ?? []).map {
+                ["fromShape": $0.attr("FromSheet") ?? "", "fromCell": $0.attr("FromCell") ?? "",
+                 "toShape": $0.attr("ToSheet") ?? "", "toCell": $0.attr("ToCell") ?? ""]
+            }
             return ["index": offset + 1, "name": page.attr("Name") ?? "", "background": page.attr("Background") == "1",
                 "width": VisioXML.number(page.firstLocal("PageSheet"), "PageWidth"),
-                "height": VisioXML.number(page.firstLocal("PageSheet"), "PageHeight"), "shapes": shapes]
+                "height": VisioXML.number(page.firstLocal("PageSheet"), "PageHeight"), "shapes": shapes, "connects": connects]
         }
     }
 

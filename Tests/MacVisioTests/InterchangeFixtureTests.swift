@@ -23,6 +23,10 @@ final class InterchangeFixtureTests: XCTestCase {
                 XCTAssertTrue(relationships.contains { $0.attr("Type") == "http://schemas.microsoft.com/visio/2010/relationships/windows" && $0.attr("Target") == "windows.xml" })
                 let overrides = try VisioXML.document(parts["[Content_Types].xml"]!).rootElement()?.elementsLocal("Override") ?? []
                 XCTAssertTrue(overrides.contains { $0.attr("PartName") == "/visio/windows.xml" && $0.attr("ContentType") == "application/vnd.ms-visio.windows+xml" })
+                // Visio registers glue only from trigger and glue formulas; every authored Connect needs them.
+                let pageXML = String(decoding: parts["visio/pages/page1.xml"] ?? Data(), as: UTF8.self)
+                let connects = pageXML.components(separatedBy: "<Connect ").count - 1
+                XCTAssertEqual(pageXML.components(separatedBy: "F=\"_XFTRIGGER(Sheet.").count - 1, connects)
                 XCTAssertFalse(String(decoding: parts["_rels/.rels"]!, as: UTF8.self).contains("urn:macvisio"))
                 let model = try VisioFormat.read(from: url).diagram
                 let expected = try XCTUnwrap(fixture["expected"] as? [String: Any])

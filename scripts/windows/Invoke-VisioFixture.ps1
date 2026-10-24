@@ -101,7 +101,7 @@ function Get-DocumentSnapshot {
         if ($null -ne $expectedPage -and $null -ne $expectedPage.PSObject.Properties['connects']) {
             for ($connectionIndex = 1; $connectionIndex -le $page.Connects.Count; $connectionIndex++) {
                 $connection = $page.Connects.Item($connectionIndex)
-                $connects.Add([ordered]@{ fromShape = ([string]$connection.FromSheet.ID).Trim(); fromCell = [string]$connection.FromCell.NameU; toShape = ([string]$connection.ToSheet.ID).Trim(); toCell = [string]$connection.ToCell.NameU })
+                $connects.Add([ordered]@{ fromShape = ([string]$connection.FromSheet.ID).Trim(); fromCell = [string]$connection.FromCell.Name; toShape = ([string]$connection.ToSheet.ID).Trim(); toCell = [string]$connection.ToCell.Name })
             }
         }
         $pages.Add([ordered]@{

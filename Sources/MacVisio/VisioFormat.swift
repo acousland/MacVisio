@@ -1610,7 +1610,21 @@ enum VisioFormat {
         let originX = points.map(\.x).min()!, originY = points.map(\.y).min()!
         let w = max(0.001, points.map(\.x).max()! - originX), h = max(0.001, points.map(\.y).max()! - originY)
         var contents = cell("ObjType", 2) + cell("PinX", originX + w / 2) + cell("PinY", originY + h / 2) + cell("Width", w) + cell("Height", h) + cell("LocPinX", w / 2) + cell("LocPinY", h / 2) + cell("Angle", 0)
-        contents += cell("BeginX", begin.x, formula:sourceID.map { "PAR(PNT(Sheet.\($0)!\(sourceCells.0),Sheet.\($0)!\(sourceCells.1)))" }) + cell("BeginY", begin.y) + cell("EndX", end.x, formula:targetID.map { "PAR(PNT(Sheet.\($0)!\(targetCells.0),Sheet.\($0)!\(targetCells.1)))" }) + cell("EndY", end.y)
+        // Visio registers glue only through these formulas: whole-shape (dynamic) glue walks with
+        // _WALKGLUE, point glue follows the connection point, and both need a trigger on the target's
+        // EventXFMod. Without the triggers Visio treats the endpoints as unglued and drops the Connects.
+        func endpoint(_ sheet: Int?, cells: (String, String), trigger: String, other: String) -> (x: String?, y: String?, trigger: String?) {
+            guard let sheet else { return (nil, nil, nil) }
+            let follow = cells == ("PinX", "PinY") ? "_WALKGLUE(\(trigger),\(other),WalkPreference)"
+                : "PAR(PNT(Sheet.\(sheet)!\(cells.0),Sheet.\(sheet)!\(cells.1)))"
+            return (follow, follow, "_XFTRIGGER(Sheet.\(sheet)!EventXFMod)")
+        }
+        let start = endpoint(sourceID, cells: sourceCells, trigger: "BegTrigger", other: "EndTrigger")
+        let finish = endpoint(targetID, cells: targetCells, trigger: "EndTrigger", other: "BegTrigger")
+        contents += cell("BeginX", begin.x, formula: start.x) + cell("BeginY", begin.y, formula: start.y)
+            + cell("EndX", end.x, formula: finish.x) + cell("EndY", end.y, formula: finish.y)
+        if let trigger = start.trigger { contents += cell("BegTrigger", 2, formula: trigger) }
+        if let trigger = finish.trigger { contents += cell("EndTrigger", 2, formula: trigger) }
         contents += cell("LineWeight", edge.width / 72) + stringCell("LineColor", String(edge.color.prefix(7))) + cell("LinePattern", Double(edge.dash ?? 1)) + cell("FillPattern", 0) + cell("BeginArrow", edge.startArrow == true ? 4 : 0) + cell("BeginArrowSize", 2) + cell("EndArrow", edge.arrow ? 4 : 0) + cell("EndArrowSize", 2) + cell("ShapeRouteStyle", edge.style == .orthogonal ? 1 : 2)
         contents += "<Section N=\"Character\"><Row IX=\"0\">" + stringCell("Font", "Arial") + cell("Size", 12 / 72) + stringCell("Color", String(edge.color.prefix(7))) + "</Row></Section><Section N=\"Paragraph\"><Row IX=\"0\">" + cell("HorzAlign", 1) + "</Row></Section>"
         contents += geometrySection(rows: points.enumerated().map { ($0.offset == 0 ? "MoveTo" : "LineTo", ["X": $0.element.x - originX, "Y": $0.element.y - originY]) }, noFill: true)

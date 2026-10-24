@@ -35,6 +35,23 @@ enum DeveloperCommands {
                 exit(1)
             }
         }
+        if let index = arguments.firstIndex(of: "--dump-model"), arguments.indices.contains(index + 2) {
+            // Writes the model MacVisio reads from a VSDX/VSD, for reimport comparisons. Never saves the input.
+            do {
+                let input = URL(fileURLWithPath: arguments[index + 1]), output = URL(fileURLWithPath: arguments[index + 2])
+                guard input.resolvingSymlinksInPath().standardizedFileURL != output.resolvingSymlinksInPath().standardizedFileURL else {
+                    throw DiagramError.invalid("The model output must differ from the drawing.")
+                }
+                let diagram = input.pathExtension.lowercased() == "vsd"
+                    ? try LegacyVisioFormat.read(from: input).diagram : try VisioFormat.read(from: input).diagram
+                let encoder = JSONEncoder(); encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+                try encoder.encode(diagram).write(to: output, options: .atomic)
+                exit(0)
+            } catch {
+                fputs("Model dump failed: \(error.localizedDescription)\n", stderr)
+                exit(1)
+            }
+        }
         if let index = arguments.firstIndex(of: "--inspect-geometry"), arguments.indices.contains(index + 2) {
             do {
                 try GeometryAudit.inspect(
@@ -426,7 +443,7 @@ enum DeveloperCommands {
     /// available to the normal bootstrap.
     static func usageError(arguments: [String]) -> String? {
         let operands: [String: Int] = [
-            "--prepare-interchange-fixtures": 1, "--inspect-calculation": 2, "--inspect-geometry": 2,
+            "--prepare-interchange-fixtures": 1, "--dump-model": 2, "--inspect-calculation": 2, "--inspect-geometry": 2,
             "--generate-curve-example": 1, "--generate-curve-library-example": 2,
             "--generate-text-context-example": 1, "--generate-control-example": 1,
             "--generate-geometry-example": 1, "--generate-field-example": 1,
