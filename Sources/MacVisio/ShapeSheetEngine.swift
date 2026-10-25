@@ -116,10 +116,23 @@ enum ShapeSheetEngine {
                 work.inputComparisonConnectors += page.edges.count
                 connectorCandidates = page.edges.indices.filter { !page.edges[$0].formatting.sheet.isEmpty }
             }
-            guard !candidates.isEmpty || !connectorCandidates.isEmpty else { issuesByPage[pageID] = []; continue }
+            // Page User and Prop formulas are recalculated before the shapes that read them.
+            var pageSheetIssues: [String] = []
+            if let sheet = page.sheet, sheet.contains(where: { Self.isRecalculatedPageCell($0.key, $0.value) }) {
+                let pageContext = ShapeSheetContext(page: page, binding: binding, colorPalette: colorPalette, cancellation: cancellation, document: input, now: now)
+                for key in sheet.keys.sorted() where Self.isRecalculatedPageCell(key, sheet[key]!) {
+                    do {
+                        let cached = ShapeSheetContext.cached(try pageContext.pageCellValue(key))
+                        if sheet[key]!.value != cached { page.sheet?[key]?.value = cached }
+                    } catch { pageSheetIssues.append("ThePage!\(key): \(error.localizedDescription)") }
+                }
+                work.add(pageContext.work)
+                if page.sheet != sheet { diagram.pages[pageIndex].sheet = page.sheet }
+            }
+            guard !candidates.isEmpty || !connectorCandidates.isEmpty else { issuesByPage[pageID] = pageSheetIssues; issues.formUnion(pageSheetIssues); continue }
             work.geometryPages += 1
             if incrementalNodes && affected == nil { work.conservativePages += 1 }
-            var pageIssues = Set<String>()
+            var pageIssues = Set<String>(pageSheetIssues)
             var pageDiagnostics: [DocumentDiagnostic] = []
             let old = previous?.pages.first(where:{$0.id == page.id})
             let preparedBefore = session.preparedHostNodes, connectorsBefore = session.preparedHostConnectors
@@ -320,6 +333,9 @@ enum ShapeSheetEngine {
         let synchronized = ShapeRichText.synchronizeCalculation(diagram,previous:input,affectedNodeIDsByPage:changedNodeIDsByPage,nodeIndicesByPage:nodeIndicesByPage)
         work.richTextNodes += changedNodeIDsByPage.values.reduce(0) { $0 + $1.count }
         return Calculation(diagram:synchronized,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage,changedEdgeIDsByPage:changedEdgeIDsByPage,diagnosticsByPage:diagnosticsByPage)
+    }
+    static func isRecalculatedPageCell(_ key: String, _ cell: ShapeSheetCell) -> Bool {
+        (key.hasPrefix("User.") || key.hasPrefix("Prop.")) && !cell.formula.isEmpty && !["Inh", "No Formula"].contains(cell.formula)
     }
     static func format(_ value:Double) -> String { String(format:"%.12g",locale:Locale(identifier:"en_US_POSIX"),value) }
 }

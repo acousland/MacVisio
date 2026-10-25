@@ -56,6 +56,8 @@ final class ShapeSheetTests:XCTestCase {
         }
     }
     func testCeilingAndFloorRoundToSameSignMultiples() throws {
+        // Visio 2019 ignores surplus arguments to functions with optional parameters (VEC-*-many).
+        XCTAssertEqual(try value("CEILING(1,2,3)"), 2); XCTAssertEqual(try value("FLOOR(1,2,3)"), 0); XCTAssertEqual(try value("SIGN(1,0,3)"), 1)
         func value(_ formula:String) throws -> Double { try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference") } }
         XCTAssertEqual(try value("CEILING(3.7)"),4)
         XCTAssertEqual(try value("CEILING(-3.7)"),-4)
@@ -67,7 +69,7 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try value("FLOOR(-3.7,-0.5)"),-3.5,accuracy:1e-12)
         XCTAssertEqual(try value("CEILING(0,-0.25)"),0)
         XCTAssertEqual(try value("FLOOR(3.7,0)"),0)
-        for formula in ["CEILING(3.7,-0.25)","FLOOR(-3.7,0.5)","CEILING(1,2,3)","CEILING(1e308,1e-308)"] { XCTAssertThrowsError(try value(formula),formula) }
+        for formula in ["CEILING(3.7,-0.25)","FLOOR(-3.7,0.5)","CEILING(1e308,1e-308)"] { XCTAssertThrowsError(try value(formula),formula) }
     }
     func testSignUsesOptionalFuzzAndDefaultsToOneNanounit() throws {
         func value(_ formula:String) throws -> Double { try ShapeSheet.evaluate(formula){_ in throw DiagramError.invalid("Unexpected reference") } }
@@ -86,7 +88,7 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try value("SIGN(1e-11,0)"),1)
         XCTAssertEqual(try value("SIGN(-1e-11,0)"),-1)
         XCTAssertEqual(try value("SIGN(0,0)"),0)
-        for formula in ["SIGN()","SIGN(1,0,3)","SIGN(1,-0.1)"] { XCTAssertThrowsError(try value(formula),formula) }
+        for formula in ["SIGN()","SIGN(1,-0.1)"] { XCTAssertThrowsError(try value(formula),formula) }
     }
     func testTypedSignReturnsUnitlessValueAndComparesCompatibleMeasures() throws {
         func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }

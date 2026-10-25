@@ -1,29 +1,32 @@
 {
-  "schemaVersion": 1,
-  "purpose": "Reference cases whose Visio result depends on the reference machine rather than the drawing. Each stays visible in the comparison as 'disposed' with its reason; none counts as agreement.",
-  "cases": {
-    "TEXTWIDTH-1": "Visio's default style uses Calibri, which macOS does not include; MacVisio substitutes Arial. With a font both have (ARIAL-*, METRIC-*), widths agree within 0.0001 in.",
-    "TEXTWIDTH-2": "Calibri substitution, as TEXTWIDTH-1.",
-    "DOCPROPS-13": "DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones.",
-    "MATHX-33": "FONTTOID returns the index in the running Visio's installed-font table, which no drawing records.",
-    "GEOM-36": "RECTSECT with a negative width is degenerate; Visio's result for it is not derivable from the documented contract.",
-    "ACTIONS-1": "CALLTHIS runs VBA in Visio. MacVisio never executes document code (open blocker: unmodified VBA/COM/add-ins), so the formula keeps its cached value.",
-    "ACTIONS-11": "RUNADDON runs add-in code; see ACTIONS-1.",
-    "ACTIONS-12": "RUNADDONWARGS runs add-in code; see ACTIONS-1.",
-    "ACTIONS-13": "RUNMACRO runs VBA; see ACTIONS-1.",
-    "COERCE-7": "Visio holds 25.4 mm as 0.9999999999999999 in memory but saves it as 1, so the saved drawing (which MacVisio reads, and Visio itself reopens) gives BITXOR(1,1) = 0."
-  },
-  "prefixes": {
-    "FIELDCODE-date-4": "East Asian calendar pictures (Japanese era, Republic of China and Korean dates) are out of scope with Japanese input (SD-2026-10-24-02); Visio 2019 itself shows the obsolete 平成 era for 2026.",
-    "FIELDCODE-num-4": "East Asian calendar pictures, as above.",
-    "FIELDCODE-date-5": "East Asian calendar pictures, as above.",
-    "FIELDCODE-num-5": "East Asian calendar pictures, as above.",
-    "FIELDCODE-date-6": "East Asian calendar pictures, as above.",
-    "FIELDCODE-num-6": "East Asian calendar pictures, as above.",
-    "FIELDCODE-date-7": "East Asian calendar pictures, as above.",
-    "FIELDCODE-num-7": "East Asian calendar pictures, as above.",
-    "FIELDCODE-date-8": "East Asian calendar pictures, as above.",
-    "FIELDCODE-num-8": "East Asian calendar pictures, as above."
-  },
-  "open": {}
+ "schemaVersion": 1,
+ "purpose": "Reference cases whose Visio result depends on the reference machine rather than the drawing. Each stays visible in the comparison as 'disposed' with its reason; none counts as agreement.",
+ "cases": {
+  "TEXTWIDTH-1": "Visio's default style uses Calibri, which macOS does not include; MacVisio substitutes Arial. With a font both have (ARIAL-*, METRIC-*), widths agree within 0.0001 in.",
+  "TEXTWIDTH-2": "Calibri substitution, as TEXTWIDTH-1.",
+  "DOCPROPS-13": "DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones.",
+  "MATHX-33": "FONTTOID returns the index in the running Visio's installed-font table, which no drawing records.",
+  "GEOM-36": "RECTSECT with a negative width is degenerate; Visio's result for it is not derivable from the documented contract.",
+  "ACTIONS-1": "CALLTHIS runs VBA in Visio. MacVisio never executes document code (open blocker: unmodified VBA/COM/add-ins), so the formula keeps its cached value.",
+  "ACTIONS-11": "RUNADDON runs add-in code; see ACTIONS-1.",
+  "ACTIONS-12": "RUNADDONWARGS runs add-in code; see ACTIONS-1.",
+  "ACTIONS-13": "RUNMACRO runs VBA; see ACTIONS-1.",
+  "COERCE-7": "Visio holds 25.4 mm as 0.9999999999999999 in memory but saves it as 1, so the saved drawing (which MacVisio reads, and Visio itself reopens) gives BITXOR(1,1) = 0.",
+  "VEC-NOW-none": "NOW() is the evaluation instant in each host's local time zone; the two probes run at different times on different machines. Its date-serial and local-time rules are covered by DATE/DATETIME cases.",
+  "VEC-THEMEVAL-many": "Open: THEMEVAL with a numeric first argument (Visio returns the theme's background color) is not implemented; tracked under WP-15-T03-C084.",
+  "STRCOERCE-9": "Open: Visio binds the unit in 1/3 in to the quotient (one third of an inch); MacVisio reads it as a reciprocal length and rejects it. Tracked under WP-15-T02-C001."
+ },
+ "prefixes": {
+  "FIELDCODE-date-4": "East Asian calendar pictures (Japanese era, Republic of China and Korean dates) are out of scope with Japanese input (SD-2026-10-24-02); Visio 2019 itself shows the obsolete 平成 era for 2026.",
+  "FIELDCODE-num-4": "East Asian calendar pictures, as above.",
+  "FIELDCODE-date-5": "East Asian calendar pictures, as above.",
+  "FIELDCODE-num-5": "East Asian calendar pictures, as above.",
+  "FIELDCODE-date-6": "East Asian calendar pictures, as above.",
+  "FIELDCODE-num-6": "East Asian calendar pictures, as above.",
+  "FIELDCODE-date-7": "East Asian calendar pictures, as above.",
+  "FIELDCODE-num-7": "East Asian calendar pictures, as above.",
+  "FIELDCODE-date-8": "East Asian calendar pictures, as above.",
+  "FIELDCODE-num-8": "East Asian calendar pictures, as above."
+ },
+ "open": {}
 }

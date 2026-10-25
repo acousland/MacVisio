@@ -20,5 +20,11 @@ if not args.skip_visio:
                            arguments={"Cases": args.cases.name}, timeout=1800)
     if code: sys.exit(f"Visio probe failed with exit code {code}; see {args.output}/console.txt")
 subprocess.run([str(args.app), "--probe-formulas", str(args.output / "context.vsdx"), str(args.cases), str(args.output / "macvisio-results.json")], check=True)
-sys.exit(subprocess.run([sys.executable, str(ROOT / "scripts/compare-formula-probe.py"), "--visio", str(args.output / "visio-results.json"),
-                         "--macvisio", str(args.output / "macvisio-results.json"), "--report", str(args.output / "comparison.json")]).returncode)
+formulas = subprocess.run([sys.executable, str(ROOT / "scripts/compare-formula-probe.py"), "--visio", str(args.output / "visio-results.json"),
+                           "--macvisio", str(args.output / "macvisio-results.json"), "--report", str(args.output / "comparison.json")]).returncode
+# The host matrix: the same formulas through MacVisio's document calculation in each consuming cell.
+subprocess.run([str(args.app), "--probe-hosts", str(args.output / "context.vsdx"), str(args.cases), str(args.output / "macvisio-hosts.json")], check=True)
+hosts = subprocess.run([sys.executable, str(ROOT / "scripts/compare-host-probe.py"), "--visio", str(args.output / "visio-results.json"),
+                        "--macvisio", str(args.output / "macvisio-hosts.json"), "--dispositions", str(args.cases.parent / "host-dispositions.json"),
+                        "--report", str(args.output / "host-comparison.json")]).returncode
+sys.exit(formulas or hosts)

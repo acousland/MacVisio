@@ -58,6 +58,63 @@ enum FormulaProbe {
         return (records, displays)
     }
 
+    struct HostCase: Decodable { let id: String; let host: String; let formula: String }
+
+    /// The host matrix: each case's formula is put in a shape User cell, a page User cell, a Geometry
+    /// row, a control handle or a text field of the probe drawing through a document edit, and the value
+    /// is read back after MacVisio's own document calculation, as the editor would show it.
+    static func runHosts(drawing: URL, cases: URL, output: URL) throws {
+        struct Spec: Decodable { let hostCases: [HostCase]? }
+        let spec = try JSONDecoder().decode(Spec.self, from: Data(contentsOf: cases))
+        let previousLocale = VisioPictureFormat.locale
+        VisioPictureFormat.locale = Locale(identifier: "en_GB")
+        defer { VisioPictureFormat.locale = previousLocale }
+        let document = MacVisioDocument()
+        try document.read(from: drawing, ofType: MacVisioDocument.visioType)
+        let base = document.diagram, baseIssues = Set(document.calculationIssues)
+        guard let nodeIndex = base.pages[0].nodes.firstIndex(where: { $0.formatting.controls.contains { $0.name == "Probe" } }) else {
+            throw DiagramError.invalid("The probe drawing has no host-matrix shape.")
+        }
+        var records: [[String: Any]] = []
+        for item in spec.hostCases ?? [] {
+            document.replace(with: base, action: "Reset probe")
+            var next = base, node = next.pages[0].nodes[nodeIndex]
+            var record: [String: Any] = ["id": item.id, "host": item.host, "formula": item.formula]
+            do {
+                switch item.host {
+                case "shape": node.formatting.sheet["User.Probe", default: ShapeSheetCell(value: "")].formula = item.formula
+                case "page": next.pages[0].sheet?["User.Probe", default: ShapeSheetCell(value: "")].formula = item.formula
+                case "geometry":
+                    guard var cell = GeometrySheet.cell("Geometry1.X2", on: node) else { throw DiagramError.invalid("No Geometry1.X2.") }
+                    cell.formula = item.formula; try GeometrySheet.set("Geometry1.X2", cell, on: &node)
+                case "control":
+                    guard let c = node.formatting.controls.firstIndex(where: { $0.name == "Probe" }) else { throw DiagramError.invalid("No control.") }
+                    node.formatting.controls[c].cells["X", default: ShapeSheetCell(value: "")].formula = item.formula
+                case "field":
+                    guard var fields = node.formatting.textFields, !fields.isEmpty else { throw DiagramError.invalid("No field.") }
+                    fields[0].cells["Value", default: ShapeSheetCell(value: "")].formula = item.formula; node.formatting.textFields = fields
+                default: throw DiagramError.invalid("Unknown host \(item.host).")
+                }
+                next.pages[0].nodes[nodeIndex] = node
+                document.replace(with: next, action: "Probe \(item.host)")
+                let result = document.diagram.pages[0], calculated = result.nodes[nodeIndex]
+                switch item.host {
+                case "shape": record["value"] = calculated.formatting.sheet["User.Probe"]?.value
+                case "page": record["value"] = result.sheet?["User.Probe"]?.value
+                case "geometry": record["value"] = GeometrySheet.cell("Geometry1.X2", on: calculated)?.value
+                case "control": record["value"] = calculated.formatting.controls.first { $0.name == "Probe" }?.cells["X"]?.value
+                default: record["value"] = calculated.text
+                }
+                let issues = Set(document.calculationIssues).subtracting(baseIssues).sorted()
+                if !issues.isEmpty { record["issues"] = issues }
+                if let error = document.lastCalculationJobError { record["error"] = error.localizedDescription }
+            } catch { record["error"] = error.localizedDescription }
+            records.append(record)
+        }
+        let report: [String: Any] = ["schemaVersion": 1, "drawing": drawing.lastPathComponent, "hostCases": records]
+        try JSONSerialization.data(withJSONObject: report, options: [.prettyPrinted, .sortedKeys]).write(to: output, options: .atomic)
+    }
+
     static func run(drawing: URL, cases: URL, hostID: String = "2", output: URL) throws {
         let spec = try JSONDecoder().decode(Spec.self, from: Data(contentsOf: cases))
         let diagram = try VisioFormat.readPublic(parts: VisioPackage.read(drawing), title: drawing.lastPathComponent).diagram

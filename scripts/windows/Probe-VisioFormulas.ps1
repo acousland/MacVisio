@@ -17,6 +17,7 @@ function Get-ErrorRecord([System.Exception]$Exception) {
 
 $spec = Get-Content -LiteralPath $Cases -Raw -Encoding UTF8 | ConvertFrom-Json
 $records = New-Object 'System.Collections.Generic.List[object]'
+$hostRecords = $null
 $fieldRecords = New-Object 'System.Collections.Generic.List[object]'
 $application = $null; $document = $null; $fatal = $null; $version = $null
 try {
@@ -51,7 +52,43 @@ try {
     }
     $host_ = $shapes[[string]$spec.host]
     $null = $host_.AddNamedRow(242, 'Probe', 0)
+    # Host matrix shape: a User cell, a named control handle and one text field; plus a page User cell.
+    $matrixShape = $null
+    if ($spec.hostShape) {
+        $r = $spec.hostShape.rect
+        $matrixShape = $page.DrawRectangle([double]$r[0], [double]$r[1], [double]$r[2], [double]$r[3])
+        if (-not $matrixShape.SectionExists(242, 0)) { $null = $matrixShape.AddSection(242) }
+        $null = $matrixShape.AddNamedRow(242, 'Probe', 0)
+        if (-not $matrixShape.SectionExists(9, 0)) { $null = $matrixShape.AddSection(9) }
+        $null = $matrixShape.AddNamedRow(9, 'Probe', 0)
+        $matrixShape.Text = ''
+        $null = $matrixShape.Characters.AddCustomFieldU('0', 0)
+        $pageSheet = $page.PageSheet
+        if (-not $pageSheet.SectionExists(242, 0)) { $null = $pageSheet.AddSection(242) }
+        $null = $pageSheet.AddNamedRow(242, 'Probe', 0)
+    }
     $document.SaveAsEx((Join-Path $OutputDirectory 'context.vsdx'), 2 + 4)
+    $hostRecords = New-Object 'System.Collections.Generic.List[object]'
+    foreach ($case in @($spec.hostCases)) {
+        if ($null -eq $case -or $null -eq $matrixShape) { continue }
+        $record = [ordered]@{ id = [string]$case.id; host = [string]$case.host; formula = [string]$case.formula; accepted = $false; error = $null; cellError = $null
+                              resultIU = $null; resultStr = $null; units = $null; text = $null }
+        $target = switch ([string]$case.host) {
+            'shape' { $matrixShape.CellsU('User.Probe') }
+            'page' { $page.PageSheet.CellsU('User.Probe') }
+            'geometry' { $matrixShape.CellsU('Geometry1.X2') }
+            'control' { $matrixShape.CellsU('Controls.Probe.X') }
+            'field' { $matrixShape.CellsU('Fields.Value') }
+        }
+        try { $target.FormulaForceU = [string]$case.formula; $record.accepted = $true }
+        catch { $record.error = Get-ErrorRecord $_.Exception; $hostRecords.Add([pscustomobject]$record); continue }
+        try { $record.cellError = [int]$target.Error } catch { }
+        try { $record.units = [int]$target.Units } catch { }
+        try { $record.resultIU = [double]$target.ResultIU } catch { }
+        try { $record.resultStr = [string]$target.ResultStrU(0) } catch { }
+        if ([string]$case.host -eq 'field') { try { $record.text = [string]$matrixShape.Characters.Text } catch { } }
+        $hostRecords.Add([pscustomobject]$record)
+    }
     $cell = $host_.CellsU('User.Probe')
     foreach ($case in $spec.cases) {
         $record = [ordered]@{ id = [string]$case.id; formula = [string]$case.formula; accepted = $false; error = $null; cellError = $null
@@ -84,7 +121,8 @@ finally {
     if ($null -ne $document) { try { $document.Saved = $true; $document.Close() } catch { } }
     if ($null -ne $application) { try { $application.Quit() } catch { } }
 }
-$report = [ordered]@{ visioVersion = $version; host = [string]$spec.host; cases = $records.ToArray(); fields = $fieldRecords.ToArray(); fatalError = $fatal }
+$hostArray = if ($null -ne $hostRecords) { $hostRecords.ToArray() } else { @() }
+$report = [ordered]@{ visioVersion = $version; host = [string]$spec.host; cases = $records.ToArray(); fields = $fieldRecords.ToArray(); hostCases = $hostArray; fatalError = $fatal }
 $report | ConvertTo-Json -Depth 6 | Set-Content -LiteralPath (Join-Path $OutputDirectory 'visio-results.json') -Encoding UTF8
 if ($null -ne $fatal) { exit 1 }
 exit 0

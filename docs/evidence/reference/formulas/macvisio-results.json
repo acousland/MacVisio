@@ -801,7 +801,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "4",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "GUARD(\"s\")",
@@ -920,7 +920,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "2",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "error" : "Unsupported ShapeSheet function: IF.",
@@ -1788,7 +1788,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "2",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "SHAPETEXT(Sheet.1!TheText)",
@@ -2019,7 +2019,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.311111111111",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.1!TheText)",
@@ -2028,7 +2028,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1.01874457465",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.1!TheText,0.5 in)",
@@ -2037,7 +2037,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.537217881944",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "THEMEGUARD(5)",
@@ -2653,7 +2653,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "2",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "Sheet.1!PinX",
@@ -2662,7 +2662,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "2",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "Sheet.1!User.Num*2",
@@ -2712,7 +2712,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "User.Local+1",
@@ -2759,7 +2759,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "Sheet.1!TxtWidth",
@@ -2768,7 +2768,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "2",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "Sheet.1!User.Str&\"d\"",
@@ -9412,7 +9412,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1.7692328559",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTHEIGHT(Sheet.3!TheText,1 in)",
@@ -9421,7 +9421,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.511111111111",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTHEIGHT(Sheet.3!TheText,4 in)",
@@ -9430,7 +9430,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.311111111111",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.3!TheText,1 in)",
@@ -9439,7 +9439,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.981797960069",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.4!TheText)",
@@ -9448,7 +9448,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.694729275174",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTHEIGHT(Sheet.4!TheText,4 in)",
@@ -9457,7 +9457,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.711111111111",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "SHAPETEXT(Sheet.4!TheText)",
@@ -9854,10 +9854,10 @@
     {
       "formula" : "DOCLASTPRINT()",
       "id" : "DOCPROPS-13",
-      "internal" : 46320.492488425924,
+      "internal" : 46320.825624999998,
       "kind" : "date",
       "ok" : true,
-      "text" : "2026-10-25T00:49:11Z"
+      "text" : "2026-10-25T08:48:54Z"
     },
     {
       "formula" : "HASCATEGORY(\"Probe\")",
@@ -10785,7 +10785,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.129638671875",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.6!TheText)",
@@ -10794,7 +10794,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.25927734375",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.7!TheText)",
@@ -10803,7 +10803,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.5185546875",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.8!TheText)",
@@ -10812,7 +10812,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.879638671875",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.9!TheText)",
@@ -10821,7 +10821,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1.75927734375",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.10!TheText)",
@@ -10830,7 +10830,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.61083984375",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.11!TheText)",
@@ -10839,7 +10839,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.416585286458",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.12!TheText)",
@@ -10848,7 +10848,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "0.25927734375",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "formula" : "TEXTWIDTH(Sheet.13!TheText)",
@@ -10857,7 +10857,7 @@
       "kind" : "quantity",
       "ok" : true,
       "text" : "1.65812174479",
-      "unit" : "MM"
+      "unit" : "DL"
     },
     {
       "color" : "#010000",
@@ -11218,11 +11218,11 @@
     {
       "formula" : "CEILING(Sheet.1!Width,1 cm)",
       "id" : "ROUNDING-16",
-      "internal" : 2.0150040300080598,
+      "internal" : 2.3622047244094486,
       "kind" : "quantity",
       "ok" : true,
-      "text" : "2.01500403001",
-      "unit" : "MM"
+      "text" : "2.36220472441",
+      "unit" : "DL"
     },
     {
       "formula" : "SIGN(0.005,1 mm)",
@@ -11241,6 +11241,3128 @@
       "ok" : true,
       "text" : "1",
       "unit" : "MM"
+    },
+    {
+      "error" : "ABS expects 1 arguments.",
+      "formula" : "ABS()",
+      "id" : "VEC-ABS-none",
+      "ok" : false
+    },
+    {
+      "error" : "ABS expects 1 arguments.",
+      "formula" : "ABS(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ABS-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ABS(\"x\")",
+      "id" : "VEC-ABS-text",
+      "ok" : false
+    },
+    {
+      "formula" : "ABS(2 in)",
+      "id" : "VEC-ABS-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ABS(1\/0)",
+      "id" : "VEC-ABS-error",
+      "ok" : false
+    },
+    {
+      "error" : "ACOS expects 1 arguments.",
+      "formula" : "ACOS()",
+      "id" : "VEC-ACOS-none",
+      "ok" : false
+    },
+    {
+      "error" : "ACOS expects 1 arguments.",
+      "formula" : "ACOS(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ACOS-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ACOS(\"x\")",
+      "id" : "VEC-ACOS-text",
+      "ok" : false
+    },
+    {
+      "error" : "ShapeSheet calculation produced a non-finite value.",
+      "formula" : "ACOS(2 in)",
+      "id" : "VEC-ACOS-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ACOS(1\/0)",
+      "id" : "VEC-ACOS-error",
+      "ok" : false
+    },
+    {
+      "error" : "AND needs an argument.",
+      "formula" : "AND()",
+      "id" : "VEC-AND-none",
+      "ok" : false
+    },
+    {
+      "formula" : "AND(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-AND-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "AND(\"x\")",
+      "id" : "VEC-AND-text",
+      "ok" : false
+    },
+    {
+      "formula" : "AND(2 in)",
+      "id" : "VEC-AND-length",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "AND(1\/0)",
+      "id" : "VEC-AND-error",
+      "ok" : false
+    },
+    {
+      "error" : "ANG360 expects 1 arguments.",
+      "formula" : "ANG360()",
+      "id" : "VEC-ANG360-none",
+      "ok" : false
+    },
+    {
+      "error" : "ANG360 expects 1 arguments.",
+      "formula" : "ANG360(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ANG360-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ANG360(\"x\")",
+      "id" : "VEC-ANG360-text",
+      "ok" : false
+    },
+    {
+      "formula" : "ANG360(2 in)",
+      "id" : "VEC-ANG360-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "DEG"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ANG360(1\/0)",
+      "id" : "VEC-ANG360-error",
+      "ok" : false
+    },
+    {
+      "error" : "ASIN expects 1 arguments.",
+      "formula" : "ASIN()",
+      "id" : "VEC-ASIN-none",
+      "ok" : false
+    },
+    {
+      "error" : "ASIN expects 1 arguments.",
+      "formula" : "ASIN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ASIN-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ASIN(\"x\")",
+      "id" : "VEC-ASIN-text",
+      "ok" : false
+    },
+    {
+      "error" : "ShapeSheet calculation produced a non-finite value.",
+      "formula" : "ASIN(2 in)",
+      "id" : "VEC-ASIN-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ASIN(1\/0)",
+      "id" : "VEC-ASIN-error",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN expects 1 arguments.",
+      "formula" : "ATAN()",
+      "id" : "VEC-ATAN-none",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN expects 1 arguments.",
+      "formula" : "ATAN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ATAN-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ATAN(\"x\")",
+      "id" : "VEC-ATAN-text",
+      "ok" : false
+    },
+    {
+      "formula" : "ATAN(2 in)",
+      "id" : "VEC-ATAN-length",
+      "internal" : 1.1071487177940906,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "1.10714871779",
+      "unit" : "DA"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ATAN(1\/0)",
+      "id" : "VEC-ATAN-error",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN2 expects 2 arguments.",
+      "formula" : "ATAN2()",
+      "id" : "VEC-ATAN2-none",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN2 expects 2 arguments.",
+      "formula" : "ATAN2(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ATAN2-many",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN2 expects 2 arguments.",
+      "formula" : "ATAN2(\"x\")",
+      "id" : "VEC-ATAN2-text",
+      "ok" : false
+    },
+    {
+      "error" : "ATAN2 expects 2 arguments.",
+      "formula" : "ATAN2(2 in)",
+      "id" : "VEC-ATAN2-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ATAN2(1\/0)",
+      "id" : "VEC-ATAN2-error",
+      "ok" : false
+    },
+    {
+      "error" : "BITAND expects 2 arguments.",
+      "formula" : "BITAND()",
+      "id" : "VEC-BITAND-none",
+      "ok" : false
+    },
+    {
+      "error" : "BITAND expects 2 arguments.",
+      "formula" : "BITAND(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BITAND-many",
+      "ok" : false
+    },
+    {
+      "error" : "BITAND expects 2 arguments.",
+      "formula" : "BITAND(\"x\")",
+      "id" : "VEC-BITAND-text",
+      "ok" : false
+    },
+    {
+      "error" : "BITAND expects 2 arguments.",
+      "formula" : "BITAND(2 in)",
+      "id" : "VEC-BITAND-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "BITAND(1\/0)",
+      "id" : "VEC-BITAND-error",
+      "ok" : false
+    },
+    {
+      "error" : "BITOR expects 2 arguments.",
+      "formula" : "BITOR()",
+      "id" : "VEC-BITOR-none",
+      "ok" : false
+    },
+    {
+      "error" : "BITOR expects 2 arguments.",
+      "formula" : "BITOR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BITOR-many",
+      "ok" : false
+    },
+    {
+      "error" : "BITOR expects 2 arguments.",
+      "formula" : "BITOR(\"x\")",
+      "id" : "VEC-BITOR-text",
+      "ok" : false
+    },
+    {
+      "error" : "BITOR expects 2 arguments.",
+      "formula" : "BITOR(2 in)",
+      "id" : "VEC-BITOR-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "BITOR(1\/0)",
+      "id" : "VEC-BITOR-error",
+      "ok" : false
+    },
+    {
+      "error" : "BITXOR expects 2 arguments.",
+      "formula" : "BITXOR()",
+      "id" : "VEC-BITXOR-none",
+      "ok" : false
+    },
+    {
+      "error" : "BITXOR expects 2 arguments.",
+      "formula" : "BITXOR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BITXOR-many",
+      "ok" : false
+    },
+    {
+      "error" : "BITXOR expects 2 arguments.",
+      "formula" : "BITXOR(\"x\")",
+      "id" : "VEC-BITXOR-text",
+      "ok" : false
+    },
+    {
+      "error" : "BITXOR expects 2 arguments.",
+      "formula" : "BITXOR(2 in)",
+      "id" : "VEC-BITXOR-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "BITXOR(1\/0)",
+      "id" : "VEC-BITXOR-error",
+      "ok" : false
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "id" : "VEC-BKGPAGENAME-none",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "<no background>"
+    },
+    {
+      "formula" : "BKGPAGENAME(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BKGPAGENAME-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "BKGPAGENAME(\"x\")",
+      "id" : "VEC-BKGPAGENAME-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "BKGPAGENAME(2 in)",
+      "id" : "VEC-BKGPAGENAME-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "<no background>"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "BKGPAGENAME(1\/0)",
+      "id" : "VEC-BKGPAGENAME-error",
+      "ok" : false
+    },
+    {
+      "error" : "BLUE expects 1 arguments.",
+      "formula" : "BLUE()",
+      "id" : "VEC-BLUE-none",
+      "ok" : false
+    },
+    {
+      "error" : "BLUE expects 1 arguments.",
+      "formula" : "BLUE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BLUE-many",
+      "ok" : false
+    },
+    {
+      "formula" : "BLUE(\"x\")",
+      "id" : "VEC-BLUE-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "BLUE(2 in)",
+      "id" : "VEC-BLUE-length",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "BLUE(1\/0)",
+      "id" : "VEC-BLUE-error",
+      "ok" : false
+    },
+    {
+      "error" : "BOUND expects a value, type and one or more range triples.",
+      "formula" : "BOUND()",
+      "id" : "VEC-BOUND-none",
+      "ok" : false
+    },
+    {
+      "error" : "BOUND expects a value, type and one or more range triples.",
+      "formula" : "BOUND(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-BOUND-many",
+      "ok" : false
+    },
+    {
+      "error" : "BOUND expects a value, type and one or more range triples.",
+      "formula" : "BOUND(\"x\")",
+      "id" : "VEC-BOUND-text",
+      "ok" : false
+    },
+    {
+      "error" : "BOUND expects a value, type and one or more range triples.",
+      "formula" : "BOUND(2 in)",
+      "id" : "VEC-BOUND-length",
+      "ok" : false
+    },
+    {
+      "error" : "BOUND expects a value, type and one or more range triples.",
+      "formula" : "BOUND(1\/0)",
+      "id" : "VEC-BOUND-error",
+      "ok" : false
+    },
+    {
+      "error" : "CEILING expects one or two arguments.",
+      "formula" : "CEILING()",
+      "id" : "VEC-CEILING-none",
+      "ok" : false
+    },
+    {
+      "formula" : "CEILING(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-CEILING-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "CEILING(\"x\")",
+      "id" : "VEC-CEILING-text",
+      "ok" : false
+    },
+    {
+      "formula" : "CEILING(2 in)",
+      "id" : "VEC-CEILING-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "CEILING(1\/0)",
+      "id" : "VEC-CEILING-error",
+      "ok" : false
+    },
+    {
+      "error" : "CHAR expects 1 arguments.",
+      "formula" : "CHAR()",
+      "id" : "VEC-CHAR-none",
+      "ok" : false
+    },
+    {
+      "error" : "CHAR expects 1 arguments.",
+      "formula" : "CHAR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-CHAR-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "CHAR(\"x\")",
+      "id" : "VEC-CHAR-text",
+      "ok" : false
+    },
+    {
+      "formula" : "CHAR(2 in)",
+      "id" : "VEC-CHAR-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "\u0002"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "CHAR(1\/0)",
+      "id" : "VEC-CHAR-error",
+      "ok" : false
+    },
+    {
+      "error" : "CONCATENATE is not available in Visio 2019 (#NAME?).",
+      "formula" : "CONCATENATE()",
+      "id" : "VEC-CONCATENATE-none",
+      "ok" : false
+    },
+    {
+      "error" : "CONCATENATE is not available in Visio 2019 (#NAME?).",
+      "formula" : "CONCATENATE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-CONCATENATE-many",
+      "ok" : false
+    },
+    {
+      "error" : "CONCATENATE is not available in Visio 2019 (#NAME?).",
+      "formula" : "CONCATENATE(\"x\")",
+      "id" : "VEC-CONCATENATE-text",
+      "ok" : false
+    },
+    {
+      "error" : "CONCATENATE is not available in Visio 2019 (#NAME?).",
+      "formula" : "CONCATENATE(2 in)",
+      "id" : "VEC-CONCATENATE-length",
+      "ok" : false
+    },
+    {
+      "error" : "CONCATENATE is not available in Visio 2019 (#NAME?).",
+      "formula" : "CONCATENATE(1\/0)",
+      "id" : "VEC-CONCATENATE-error",
+      "ok" : false
+    },
+    {
+      "error" : "COS expects 1 arguments.",
+      "formula" : "COS()",
+      "id" : "VEC-COS-none",
+      "ok" : false
+    },
+    {
+      "error" : "COS expects 1 arguments.",
+      "formula" : "COS(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-COS-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "COS(\"x\")",
+      "id" : "VEC-COS-text",
+      "ok" : false
+    },
+    {
+      "formula" : "COS(2 in)",
+      "id" : "VEC-COS-length",
+      "internal" : -0.41614683654714241,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "-0.416146836547"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "COS(1\/0)",
+      "id" : "VEC-COS-error",
+      "ok" : false
+    },
+    {
+      "error" : "DATE expects 3 arguments.",
+      "formula" : "DATE()",
+      "id" : "VEC-DATE-none",
+      "ok" : false
+    },
+    {
+      "error" : "DATE expects 3 arguments.",
+      "formula" : "DATE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-DATE-many",
+      "ok" : false
+    },
+    {
+      "error" : "DATE expects 3 arguments.",
+      "formula" : "DATE(\"x\")",
+      "id" : "VEC-DATE-text",
+      "ok" : false
+    },
+    {
+      "error" : "DATE expects 3 arguments.",
+      "formula" : "DATE(2 in)",
+      "id" : "VEC-DATE-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "DATE(1\/0)",
+      "id" : "VEC-DATE-error",
+      "ok" : false
+    },
+    {
+      "error" : "DEG expects 1 arguments.",
+      "formula" : "DEG()",
+      "id" : "VEC-DEG-none",
+      "ok" : false
+    },
+    {
+      "error" : "DEG expects 1 arguments.",
+      "formula" : "DEG(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-DEG-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "DEG(\"x\")",
+      "id" : "VEC-DEG-text",
+      "ok" : false
+    },
+    {
+      "formula" : "DEG(2 in)",
+      "id" : "VEC-DEG-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "DEG"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "DEG(1\/0)",
+      "id" : "VEC-DEG-error",
+      "ok" : false
+    },
+    {
+      "error" : "EXP is not available in Visio 2019 (#NAME?).",
+      "formula" : "EXP()",
+      "id" : "VEC-EXP-none",
+      "ok" : false
+    },
+    {
+      "error" : "EXP is not available in Visio 2019 (#NAME?).",
+      "formula" : "EXP(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-EXP-many",
+      "ok" : false
+    },
+    {
+      "error" : "EXP is not available in Visio 2019 (#NAME?).",
+      "formula" : "EXP(\"x\")",
+      "id" : "VEC-EXP-text",
+      "ok" : false
+    },
+    {
+      "error" : "EXP is not available in Visio 2019 (#NAME?).",
+      "formula" : "EXP(2 in)",
+      "id" : "VEC-EXP-length",
+      "ok" : false
+    },
+    {
+      "error" : "EXP is not available in Visio 2019 (#NAME?).",
+      "formula" : "EXP(1\/0)",
+      "id" : "VEC-EXP-error",
+      "ok" : false
+    },
+    {
+      "error" : "FIELDPICTURE expects 1 arguments.",
+      "formula" : "FIELDPICTURE()",
+      "id" : "VEC-FIELDPICTURE-none",
+      "ok" : false
+    },
+    {
+      "error" : "FIELDPICTURE expects 1 arguments.",
+      "formula" : "FIELDPICTURE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-FIELDPICTURE-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "FIELDPICTURE(\"x\")",
+      "id" : "VEC-FIELDPICTURE-text",
+      "ok" : false
+    },
+    {
+      "formula" : "FIELDPICTURE(2 in)",
+      "id" : "VEC-FIELDPICTURE-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "esc(2)"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "FIELDPICTURE(1\/0)",
+      "id" : "VEC-FIELDPICTURE-error",
+      "ok" : false
+    },
+    {
+      "error" : "FIND expects two to four arguments.",
+      "formula" : "FIND()",
+      "id" : "VEC-FIND-none",
+      "ok" : false
+    },
+    {
+      "formula" : "FIND(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-FIND-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "FIND expects two to four arguments.",
+      "formula" : "FIND(\"x\")",
+      "id" : "VEC-FIND-text",
+      "ok" : false
+    },
+    {
+      "error" : "FIND expects two to four arguments.",
+      "formula" : "FIND(2 in)",
+      "id" : "VEC-FIND-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "FIND(1\/0)",
+      "id" : "VEC-FIND-error",
+      "ok" : false
+    },
+    {
+      "error" : "FLOOR expects one or two arguments.",
+      "formula" : "FLOOR()",
+      "id" : "VEC-FLOOR-none",
+      "ok" : false
+    },
+    {
+      "formula" : "FLOOR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-FLOOR-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "FLOOR(\"x\")",
+      "id" : "VEC-FLOOR-text",
+      "ok" : false
+    },
+    {
+      "formula" : "FLOOR(2 in)",
+      "id" : "VEC-FLOOR-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "FLOOR(1\/0)",
+      "id" : "VEC-FLOOR-error",
+      "ok" : false
+    },
+    {
+      "error" : "FORMAT expects 2 arguments.",
+      "formula" : "FORMAT()",
+      "id" : "VEC-FORMAT-none",
+      "ok" : false
+    },
+    {
+      "error" : "FORMAT expects 2 arguments.",
+      "formula" : "FORMAT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-FORMAT-many",
+      "ok" : false
+    },
+    {
+      "error" : "FORMAT expects 2 arguments.",
+      "formula" : "FORMAT(\"x\")",
+      "id" : "VEC-FORMAT-text",
+      "ok" : false
+    },
+    {
+      "error" : "FORMAT expects 2 arguments.",
+      "formula" : "FORMAT(2 in)",
+      "id" : "VEC-FORMAT-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "FORMAT(1\/0)",
+      "id" : "VEC-FORMAT-error",
+      "ok" : false
+    },
+    {
+      "error" : "GETREF requires a cell reference.",
+      "formula" : "GETREF()",
+      "id" : "VEC-GETREF-none",
+      "ok" : false
+    },
+    {
+      "error" : "GETREF requires a cell reference.",
+      "formula" : "GETREF(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-GETREF-many",
+      "ok" : false
+    },
+    {
+      "error" : "GETREF requires a cell reference.",
+      "formula" : "GETREF(\"x\")",
+      "id" : "VEC-GETREF-text",
+      "ok" : false
+    },
+    {
+      "error" : "GETREF requires a cell reference.",
+      "formula" : "GETREF(2 in)",
+      "id" : "VEC-GETREF-length",
+      "ok" : false
+    },
+    {
+      "error" : "GETREF requires a cell reference.",
+      "formula" : "GETREF(1\/0)",
+      "id" : "VEC-GETREF-error",
+      "ok" : false
+    },
+    {
+      "error" : "GREEN expects 1 arguments.",
+      "formula" : "GREEN()",
+      "id" : "VEC-GREEN-none",
+      "ok" : false
+    },
+    {
+      "error" : "GREEN expects 1 arguments.",
+      "formula" : "GREEN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-GREEN-many",
+      "ok" : false
+    },
+    {
+      "formula" : "GREEN(\"x\")",
+      "id" : "VEC-GREEN-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "GREEN(2 in)",
+      "id" : "VEC-GREEN-length",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "GREEN(1\/0)",
+      "id" : "VEC-GREEN-error",
+      "ok" : false
+    },
+    {
+      "error" : "GUARD expects 1 arguments.",
+      "formula" : "GUARD()",
+      "id" : "VEC-GUARD-none",
+      "ok" : false
+    },
+    {
+      "error" : "GUARD expects 1 arguments.",
+      "formula" : "GUARD(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-GUARD-many",
+      "ok" : false
+    },
+    {
+      "formula" : "GUARD(\"x\")",
+      "id" : "VEC-GUARD-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "GUARD(2 in)",
+      "id" : "VEC-GUARD-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "GUARD(1\/0)",
+      "id" : "VEC-GUARD-error",
+      "ok" : false
+    },
+    {
+      "error" : "HSL expects 3 arguments.",
+      "formula" : "HSL()",
+      "id" : "VEC-HSL-none",
+      "ok" : false
+    },
+    {
+      "error" : "HSL expects 3 arguments.",
+      "formula" : "HSL(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-HSL-many",
+      "ok" : false
+    },
+    {
+      "error" : "HSL expects 3 arguments.",
+      "formula" : "HSL(\"x\")",
+      "id" : "VEC-HSL-text",
+      "ok" : false
+    },
+    {
+      "error" : "HSL expects 3 arguments.",
+      "formula" : "HSL(2 in)",
+      "id" : "VEC-HSL-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "HSL(1\/0)",
+      "id" : "VEC-HSL-error",
+      "ok" : false
+    },
+    {
+      "error" : "HUE expects 1 arguments.",
+      "formula" : "HUE()",
+      "id" : "VEC-HUE-none",
+      "ok" : false
+    },
+    {
+      "error" : "HUE expects 1 arguments.",
+      "formula" : "HUE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-HUE-many",
+      "ok" : false
+    },
+    {
+      "formula" : "HUE(\"x\")",
+      "id" : "VEC-HUE-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "HUE(2 in)",
+      "id" : "VEC-HUE-length",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "HUE(1\/0)",
+      "id" : "VEC-HUE-error",
+      "ok" : false
+    },
+    {
+      "formula" : "ID()",
+      "id" : "VEC-ID-none",
+      "internal" : 2,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "2"
+    },
+    {
+      "error" : "ID expects 0 arguments.",
+      "formula" : "ID(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ID-many",
+      "ok" : false
+    },
+    {
+      "error" : "ID expects 0 arguments.",
+      "formula" : "ID(\"x\")",
+      "id" : "VEC-ID-text",
+      "ok" : false
+    },
+    {
+      "error" : "ID expects 0 arguments.",
+      "formula" : "ID(2 in)",
+      "id" : "VEC-ID-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ID(1\/0)",
+      "id" : "VEC-ID-error",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IF.",
+      "formula" : "IF()",
+      "id" : "VEC-IF-none",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IF.",
+      "formula" : "IF(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-IF-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IF.",
+      "formula" : "IF(\"x\")",
+      "id" : "VEC-IF-text",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IF.",
+      "formula" : "IF(2 in)",
+      "id" : "VEC-IF-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "IF(1\/0)",
+      "id" : "VEC-IF-error",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IFERROR.",
+      "formula" : "IFERROR()",
+      "id" : "VEC-IFERROR-none",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IFERROR.",
+      "formula" : "IFERROR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-IFERROR-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IFERROR.",
+      "formula" : "IFERROR(\"x\")",
+      "id" : "VEC-IFERROR-text",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: IFERROR.",
+      "formula" : "IFERROR(2 in)",
+      "id" : "VEC-IFERROR-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "IFERROR(1\/0)",
+      "id" : "VEC-IFERROR-error",
+      "ok" : false
+    },
+    {
+      "error" : "INDEX expects two to four arguments.",
+      "formula" : "INDEX()",
+      "id" : "VEC-INDEX-none",
+      "ok" : false
+    },
+    {
+      "formula" : "INDEX(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-INDEX-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "error" : "INDEX expects two to four arguments.",
+      "formula" : "INDEX(\"x\")",
+      "id" : "VEC-INDEX-text",
+      "ok" : false
+    },
+    {
+      "error" : "INDEX expects two to four arguments.",
+      "formula" : "INDEX(2 in)",
+      "id" : "VEC-INDEX-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "INDEX(1\/0)",
+      "id" : "VEC-INDEX-error",
+      "ok" : false
+    },
+    {
+      "error" : "INT expects 1 arguments.",
+      "formula" : "INT()",
+      "id" : "VEC-INT-none",
+      "ok" : false
+    },
+    {
+      "error" : "INT expects 1 arguments.",
+      "formula" : "INT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-INT-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "INT(\"x\")",
+      "id" : "VEC-INT-text",
+      "ok" : false
+    },
+    {
+      "formula" : "INT(2 in)",
+      "id" : "VEC-INT-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "INT(1\/0)",
+      "id" : "VEC-INT-error",
+      "ok" : false
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "id" : "VEC-ISTHEMED-none",
+      "internal" : 0,
+      "kind" : "boolean",
+      "ok" : true,
+      "text" : "FALSE"
+    },
+    {
+      "error" : "ISTHEMED expects no arguments.",
+      "formula" : "ISTHEMED(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ISTHEMED-many",
+      "ok" : false
+    },
+    {
+      "error" : "ISTHEMED expects no arguments.",
+      "formula" : "ISTHEMED(\"x\")",
+      "id" : "VEC-ISTHEMED-text",
+      "ok" : false
+    },
+    {
+      "error" : "ISTHEMED expects no arguments.",
+      "formula" : "ISTHEMED(2 in)",
+      "id" : "VEC-ISTHEMED-length",
+      "ok" : false
+    },
+    {
+      "error" : "ISTHEMED expects no arguments.",
+      "formula" : "ISTHEMED(1\/0)",
+      "id" : "VEC-ISTHEMED-error",
+      "ok" : false
+    },
+    {
+      "error" : "LEFT expects one or two arguments.",
+      "formula" : "LEFT()",
+      "id" : "VEC-LEFT-none",
+      "ok" : false
+    },
+    {
+      "formula" : "LEFT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LEFT-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "LEFT(\"x\")",
+      "id" : "VEC-LEFT-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "LEFT(2 in)",
+      "id" : "VEC-LEFT-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LEFT(1\/0)",
+      "id" : "VEC-LEFT-error",
+      "ok" : false
+    },
+    {
+      "error" : "LEN expects 1 arguments.",
+      "formula" : "LEN()",
+      "id" : "VEC-LEN-none",
+      "ok" : false
+    },
+    {
+      "error" : "LEN expects 1 arguments.",
+      "formula" : "LEN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LEN-many",
+      "ok" : false
+    },
+    {
+      "formula" : "LEN(\"x\")",
+      "id" : "VEC-LEN-text",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "LEN(2 in)",
+      "id" : "VEC-LEN-length",
+      "internal" : 2,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "2"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LEN(1\/0)",
+      "id" : "VEC-LEN-error",
+      "ok" : false
+    },
+    {
+      "error" : "LN expects 1 arguments.",
+      "formula" : "LN()",
+      "id" : "VEC-LN-none",
+      "ok" : false
+    },
+    {
+      "error" : "LN expects 1 arguments.",
+      "formula" : "LN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LN-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "LN(\"x\")",
+      "id" : "VEC-LN-text",
+      "ok" : false
+    },
+    {
+      "formula" : "LN(2 in)",
+      "id" : "VEC-LN-length",
+      "internal" : 0.69314718055994529,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0.69314718056",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LN(1\/0)",
+      "id" : "VEC-LN-error",
+      "ok" : false
+    },
+    {
+      "error" : "LOG10 expects 1 arguments.",
+      "formula" : "LOG10()",
+      "id" : "VEC-LOG10-none",
+      "ok" : false
+    },
+    {
+      "error" : "LOG10 expects 1 arguments.",
+      "formula" : "LOG10(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LOG10-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "LOG10(\"x\")",
+      "id" : "VEC-LOG10-text",
+      "ok" : false
+    },
+    {
+      "formula" : "LOG10(2 in)",
+      "id" : "VEC-LOG10-length",
+      "internal" : 0.3010299956639812,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0.301029995664",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LOG10(1\/0)",
+      "id" : "VEC-LOG10-error",
+      "ok" : false
+    },
+    {
+      "error" : "LOWER expects 1 arguments.",
+      "formula" : "LOWER()",
+      "id" : "VEC-LOWER-none",
+      "ok" : false
+    },
+    {
+      "error" : "LOWER expects 1 arguments.",
+      "formula" : "LOWER(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LOWER-many",
+      "ok" : false
+    },
+    {
+      "formula" : "LOWER(\"x\")",
+      "id" : "VEC-LOWER-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "LOWER(2 in)",
+      "id" : "VEC-LOWER-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2\""
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LOWER(1\/0)",
+      "id" : "VEC-LOWER-error",
+      "ok" : false
+    },
+    {
+      "error" : "LUM expects 1 arguments.",
+      "formula" : "LUM()",
+      "id" : "VEC-LUM-none",
+      "ok" : false
+    },
+    {
+      "error" : "LUM expects 1 arguments.",
+      "formula" : "LUM(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LUM-many",
+      "ok" : false
+    },
+    {
+      "formula" : "LUM(\"x\")",
+      "id" : "VEC-LUM-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "LUM(2 in)",
+      "id" : "VEC-LUM-length",
+      "internal" : 120,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "120"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LUM(1\/0)",
+      "id" : "VEC-LUM-error",
+      "ok" : false
+    },
+    {
+      "error" : "LUMDIFF expects 2 arguments.",
+      "formula" : "LUMDIFF()",
+      "id" : "VEC-LUMDIFF-none",
+      "ok" : false
+    },
+    {
+      "error" : "LUMDIFF expects 2 arguments.",
+      "formula" : "LUMDIFF(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-LUMDIFF-many",
+      "ok" : false
+    },
+    {
+      "error" : "LUMDIFF expects 2 arguments.",
+      "formula" : "LUMDIFF(\"x\")",
+      "id" : "VEC-LUMDIFF-text",
+      "ok" : false
+    },
+    {
+      "error" : "LUMDIFF expects 2 arguments.",
+      "formula" : "LUMDIFF(2 in)",
+      "id" : "VEC-LUMDIFF-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "LUMDIFF(1\/0)",
+      "id" : "VEC-LUMDIFF-error",
+      "ok" : false
+    },
+    {
+      "error" : "MAX needs an argument.",
+      "formula" : "MAX()",
+      "id" : "VEC-MAX-none",
+      "ok" : false
+    },
+    {
+      "formula" : "MAX(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-MAX-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "MAX(\"x\")",
+      "id" : "VEC-MAX-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "MAX(2 in)",
+      "id" : "VEC-MAX-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "MAX(1\/0)",
+      "id" : "VEC-MAX-error",
+      "ok" : false
+    },
+    {
+      "error" : "MID expects 3 arguments.",
+      "formula" : "MID()",
+      "id" : "VEC-MID-none",
+      "ok" : false
+    },
+    {
+      "error" : "MID expects 3 arguments.",
+      "formula" : "MID(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-MID-many",
+      "ok" : false
+    },
+    {
+      "error" : "MID expects 3 arguments.",
+      "formula" : "MID(\"x\")",
+      "id" : "VEC-MID-text",
+      "ok" : false
+    },
+    {
+      "error" : "MID expects 3 arguments.",
+      "formula" : "MID(2 in)",
+      "id" : "VEC-MID-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "MID(1\/0)",
+      "id" : "VEC-MID-error",
+      "ok" : false
+    },
+    {
+      "error" : "MIN needs an argument.",
+      "formula" : "MIN()",
+      "id" : "VEC-MIN-none",
+      "ok" : false
+    },
+    {
+      "formula" : "MIN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-MIN-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "MIN(\"x\")",
+      "id" : "VEC-MIN-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "MIN(2 in)",
+      "id" : "VEC-MIN-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "MIN(1\/0)",
+      "id" : "VEC-MIN-error",
+      "ok" : false
+    },
+    {
+      "error" : "MODULUS expects 2 arguments.",
+      "formula" : "MODULUS()",
+      "id" : "VEC-MODULUS-none",
+      "ok" : false
+    },
+    {
+      "error" : "MODULUS expects 2 arguments.",
+      "formula" : "MODULUS(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-MODULUS-many",
+      "ok" : false
+    },
+    {
+      "error" : "MODULUS expects 2 arguments.",
+      "formula" : "MODULUS(\"x\")",
+      "id" : "VEC-MODULUS-text",
+      "ok" : false
+    },
+    {
+      "error" : "MODULUS expects 2 arguments.",
+      "formula" : "MODULUS(2 in)",
+      "id" : "VEC-MODULUS-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "MODULUS(1\/0)",
+      "id" : "VEC-MODULUS-error",
+      "ok" : false
+    },
+    {
+      "error" : "NOT expects 1 arguments.",
+      "formula" : "NOT()",
+      "id" : "VEC-NOT-none",
+      "ok" : false
+    },
+    {
+      "error" : "NOT expects 1 arguments.",
+      "formula" : "NOT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-NOT-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "NOT(\"x\")",
+      "id" : "VEC-NOT-text",
+      "ok" : false
+    },
+    {
+      "formula" : "NOT(2 in)",
+      "id" : "VEC-NOT-length",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "NOT(1\/0)",
+      "id" : "VEC-NOT-error",
+      "ok" : false
+    },
+    {
+      "formula" : "NOW()",
+      "id" : "VEC-NOW-none",
+      "internal" : 46320.829570778122,
+      "kind" : "date",
+      "ok" : true,
+      "text" : "2026-10-25T08:54:34Z"
+    },
+    {
+      "error" : "NOW expects 0 arguments.",
+      "formula" : "NOW(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-NOW-many",
+      "ok" : false
+    },
+    {
+      "error" : "NOW expects 0 arguments.",
+      "formula" : "NOW(\"x\")",
+      "id" : "VEC-NOW-text",
+      "ok" : false
+    },
+    {
+      "error" : "NOW expects 0 arguments.",
+      "formula" : "NOW(2 in)",
+      "id" : "VEC-NOW-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "NOW(1\/0)",
+      "id" : "VEC-NOW-error",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: NURBS.",
+      "formula" : "NURBS()",
+      "id" : "VEC-NURBS-none",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: NURBS.",
+      "formula" : "NURBS(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-NURBS-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: NURBS.",
+      "formula" : "NURBS(\"x\")",
+      "id" : "VEC-NURBS-text",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: NURBS.",
+      "formula" : "NURBS(2 in)",
+      "id" : "VEC-NURBS-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "NURBS(1\/0)",
+      "id" : "VEC-NURBS-error",
+      "ok" : false
+    },
+    {
+      "error" : "OR needs an argument.",
+      "formula" : "OR()",
+      "id" : "VEC-OR-none",
+      "ok" : false
+    },
+    {
+      "formula" : "OR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-OR-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "OR(\"x\")",
+      "id" : "VEC-OR-text",
+      "ok" : false
+    },
+    {
+      "formula" : "OR(2 in)",
+      "id" : "VEC-OR-length",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "OR(1\/0)",
+      "id" : "VEC-OR-error",
+      "ok" : false
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "id" : "VEC-PAGECOUNT-none",
+      "internal" : 2,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "2"
+    },
+    {
+      "error" : "PAGECOUNT expects 0 arguments.",
+      "formula" : "PAGECOUNT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-PAGECOUNT-many",
+      "ok" : false
+    },
+    {
+      "error" : "PAGECOUNT expects 0 arguments.",
+      "formula" : "PAGECOUNT(\"x\")",
+      "id" : "VEC-PAGECOUNT-text",
+      "ok" : false
+    },
+    {
+      "error" : "PAGECOUNT expects 0 arguments.",
+      "formula" : "PAGECOUNT(2 in)",
+      "id" : "VEC-PAGECOUNT-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "PAGECOUNT(1\/0)",
+      "id" : "VEC-PAGECOUNT-error",
+      "ok" : false
+    },
+    {
+      "formula" : "PAGENAME()",
+      "id" : "VEC-PAGENAME-none",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "Probe Page"
+    },
+    {
+      "formula" : "PAGENAME(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-PAGENAME-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "PAGENAME(\"x\")",
+      "id" : "VEC-PAGENAME-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "PAGENAME(2 in)",
+      "id" : "VEC-PAGENAME-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "Probe Page"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "PAGENAME(1\/0)",
+      "id" : "VEC-PAGENAME-error",
+      "ok" : false
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "id" : "VEC-PAGENUMBER-none",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "PAGENUMBER(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-PAGENUMBER-many",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "PAGENUMBER(\"x\")",
+      "id" : "VEC-PAGENUMBER-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "PAGENUMBER(2 in)",
+      "id" : "VEC-PAGENUMBER-length",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "PAGENUMBER(1\/0)",
+      "id" : "VEC-PAGENUMBER-error",
+      "ok" : false
+    },
+    {
+      "formula" : "PI()",
+      "id" : "VEC-PI-none",
+      "internal" : 3.1415926535897931,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "3.14159265359"
+    },
+    {
+      "error" : "PI expects 0 arguments.",
+      "formula" : "PI(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-PI-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "PI(\"x\")",
+      "id" : "VEC-PI-text",
+      "ok" : false
+    },
+    {
+      "error" : "PI expects 0 arguments.",
+      "formula" : "PI(2 in)",
+      "id" : "VEC-PI-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "PI(1\/0)",
+      "id" : "VEC-PI-error",
+      "ok" : false
+    },
+    {
+      "error" : "POLYLINE expects x and y types followed by point pairs.",
+      "formula" : "POLYLINE()",
+      "id" : "VEC-POLYLINE-none",
+      "ok" : false
+    },
+    {
+      "error" : "POLYLINE expects x and y types followed by point pairs.",
+      "formula" : "POLYLINE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-POLYLINE-many",
+      "ok" : false
+    },
+    {
+      "error" : "POLYLINE expects x and y types followed by point pairs.",
+      "formula" : "POLYLINE(\"x\")",
+      "id" : "VEC-POLYLINE-text",
+      "ok" : false
+    },
+    {
+      "error" : "POLYLINE expects x and y types followed by point pairs.",
+      "formula" : "POLYLINE(2 in)",
+      "id" : "VEC-POLYLINE-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "POLYLINE(1\/0)",
+      "id" : "VEC-POLYLINE-error",
+      "ok" : false
+    },
+    {
+      "error" : "POW expects 2 arguments.",
+      "formula" : "POW()",
+      "id" : "VEC-POW-none",
+      "ok" : false
+    },
+    {
+      "error" : "POW expects 2 arguments.",
+      "formula" : "POW(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-POW-many",
+      "ok" : false
+    },
+    {
+      "error" : "POW expects 2 arguments.",
+      "formula" : "POW(\"x\")",
+      "id" : "VEC-POW-text",
+      "ok" : false
+    },
+    {
+      "error" : "POW expects 2 arguments.",
+      "formula" : "POW(2 in)",
+      "id" : "VEC-POW-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "POW(1\/0)",
+      "id" : "VEC-POW-error",
+      "ok" : false
+    },
+    {
+      "error" : "RAD expects 1 arguments.",
+      "formula" : "RAD()",
+      "id" : "VEC-RAD-none",
+      "ok" : false
+    },
+    {
+      "error" : "RAD expects 1 arguments.",
+      "formula" : "RAD(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-RAD-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "RAD(\"x\")",
+      "id" : "VEC-RAD-text",
+      "ok" : false
+    },
+    {
+      "formula" : "RAD(2 in)",
+      "id" : "VEC-RAD-length",
+      "internal" : 0.034906585039886591,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0.0349065850399",
+      "unit" : "RAD"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "RAD(1\/0)",
+      "id" : "VEC-RAD-error",
+      "ok" : false
+    },
+    {
+      "error" : "RED expects 1 arguments.",
+      "formula" : "RED()",
+      "id" : "VEC-RED-none",
+      "ok" : false
+    },
+    {
+      "error" : "RED expects 1 arguments.",
+      "formula" : "RED(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-RED-many",
+      "ok" : false
+    },
+    {
+      "formula" : "RED(\"x\")",
+      "id" : "VEC-RED-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "RED(2 in)",
+      "id" : "VEC-RED-length",
+      "internal" : 255,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "255"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "RED(1\/0)",
+      "id" : "VEC-RED-error",
+      "ok" : false
+    },
+    {
+      "error" : "ShapeSheet #REF! error.",
+      "formula" : "REF()",
+      "id" : "VEC-REF-none",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: REF.",
+      "formula" : "REF(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-REF-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: REF.",
+      "formula" : "REF(\"x\")",
+      "id" : "VEC-REF-text",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: REF.",
+      "formula" : "REF(2 in)",
+      "id" : "VEC-REF-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "REF(1\/0)",
+      "id" : "VEC-REF-error",
+      "ok" : false
+    },
+    {
+      "error" : "REPLACE expects 4 arguments.",
+      "formula" : "REPLACE()",
+      "id" : "VEC-REPLACE-none",
+      "ok" : false
+    },
+    {
+      "error" : "REPLACE expects 4 arguments.",
+      "formula" : "REPLACE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-REPLACE-many",
+      "ok" : false
+    },
+    {
+      "error" : "REPLACE expects 4 arguments.",
+      "formula" : "REPLACE(\"x\")",
+      "id" : "VEC-REPLACE-text",
+      "ok" : false
+    },
+    {
+      "error" : "REPLACE expects 4 arguments.",
+      "formula" : "REPLACE(2 in)",
+      "id" : "VEC-REPLACE-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "REPLACE(1\/0)",
+      "id" : "VEC-REPLACE-error",
+      "ok" : false
+    },
+    {
+      "error" : "REPT expects 2 arguments.",
+      "formula" : "REPT()",
+      "id" : "VEC-REPT-none",
+      "ok" : false
+    },
+    {
+      "error" : "REPT expects 2 arguments.",
+      "formula" : "REPT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-REPT-many",
+      "ok" : false
+    },
+    {
+      "error" : "REPT expects 2 arguments.",
+      "formula" : "REPT(\"x\")",
+      "id" : "VEC-REPT-text",
+      "ok" : false
+    },
+    {
+      "error" : "REPT expects 2 arguments.",
+      "formula" : "REPT(2 in)",
+      "id" : "VEC-REPT-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "REPT(1\/0)",
+      "id" : "VEC-REPT-error",
+      "ok" : false
+    },
+    {
+      "error" : "RGB expects 3 arguments.",
+      "formula" : "RGB()",
+      "id" : "VEC-RGB-none",
+      "ok" : false
+    },
+    {
+      "error" : "RGB expects 3 arguments.",
+      "formula" : "RGB(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-RGB-many",
+      "ok" : false
+    },
+    {
+      "error" : "RGB expects 3 arguments.",
+      "formula" : "RGB(\"x\")",
+      "id" : "VEC-RGB-text",
+      "ok" : false
+    },
+    {
+      "error" : "RGB expects 3 arguments.",
+      "formula" : "RGB(2 in)",
+      "id" : "VEC-RGB-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "RGB(1\/0)",
+      "id" : "VEC-RGB-error",
+      "ok" : false
+    },
+    {
+      "error" : "RIGHT expects one or two arguments.",
+      "formula" : "RIGHT()",
+      "id" : "VEC-RIGHT-none",
+      "ok" : false
+    },
+    {
+      "formula" : "RIGHT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-RIGHT-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "formula" : "RIGHT(\"x\")",
+      "id" : "VEC-RIGHT-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "RIGHT(2 in)",
+      "id" : "VEC-RIGHT-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "\""
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "RIGHT(1\/0)",
+      "id" : "VEC-RIGHT-error",
+      "ok" : false
+    },
+    {
+      "error" : "ROUND expects 2 arguments.",
+      "formula" : "ROUND()",
+      "id" : "VEC-ROUND-none",
+      "ok" : false
+    },
+    {
+      "error" : "ROUND expects 2 arguments.",
+      "formula" : "ROUND(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-ROUND-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "ROUND(\"x\")",
+      "id" : "VEC-ROUND-text",
+      "ok" : false
+    },
+    {
+      "error" : "ROUND expects 2 arguments.",
+      "formula" : "ROUND(2 in)",
+      "id" : "VEC-ROUND-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "ROUND(1\/0)",
+      "id" : "VEC-ROUND-error",
+      "ok" : false
+    },
+    {
+      "error" : "SAT expects 1 arguments.",
+      "formula" : "SAT()",
+      "id" : "VEC-SAT-none",
+      "ok" : false
+    },
+    {
+      "error" : "SAT expects 1 arguments.",
+      "formula" : "SAT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SAT-many",
+      "ok" : false
+    },
+    {
+      "formula" : "SAT(\"x\")",
+      "id" : "VEC-SAT-text",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "formula" : "SAT(2 in)",
+      "id" : "VEC-SAT-length",
+      "internal" : 240,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "240"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SAT(1\/0)",
+      "id" : "VEC-SAT-error",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: SETATREF.",
+      "formula" : "SETATREF()",
+      "id" : "VEC-SETATREF-none",
+      "ok" : false
+    },
+    {
+      "error" : "SETATREF requires a cell reference (#VALUE!).",
+      "formula" : "SETATREF(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SETATREF-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unknown ShapeSheet cell: x.",
+      "formula" : "SETATREF(\"x\")",
+      "id" : "VEC-SETATREF-text",
+      "ok" : false
+    },
+    {
+      "error" : "SETATREF requires a cell reference (#VALUE!).",
+      "formula" : "SETATREF(2 in)",
+      "id" : "VEC-SETATREF-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SETATREF(1\/0)",
+      "id" : "VEC-SETATREF-error",
+      "ok" : false
+    },
+    {
+      "error" : "SETATREFEVAL expects 1 arguments.",
+      "formula" : "SETATREFEVAL()",
+      "id" : "VEC-SETATREFEVAL-none",
+      "ok" : false
+    },
+    {
+      "error" : "SETATREFEVAL expects 1 arguments.",
+      "formula" : "SETATREFEVAL(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SETATREFEVAL-many",
+      "ok" : false
+    },
+    {
+      "formula" : "SETATREFEVAL(\"x\")",
+      "id" : "VEC-SETATREFEVAL-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "SETATREFEVAL(2 in)",
+      "id" : "VEC-SETATREFEVAL-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SETATREFEVAL(1\/0)",
+      "id" : "VEC-SETATREFEVAL-error",
+      "ok" : false
+    },
+    {
+      "formula" : "SETATREFEXPR()",
+      "id" : "VEC-SETATREFEXPR-none",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "SETATREFEXPR expects 1 arguments.",
+      "formula" : "SETATREFEXPR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SETATREFEXPR-many",
+      "ok" : false
+    },
+    {
+      "formula" : "SETATREFEXPR(\"x\")",
+      "id" : "VEC-SETATREFEXPR-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "SETATREFEXPR(2 in)",
+      "id" : "VEC-SETATREFEXPR-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SETATREFEXPR(1\/0)",
+      "id" : "VEC-SETATREFEXPR-error",
+      "ok" : false
+    },
+    {
+      "error" : "SHAPETEXT requires a TheText reference and an optional parameter.",
+      "formula" : "SHAPETEXT()",
+      "id" : "VEC-SHAPETEXT-none",
+      "ok" : false
+    },
+    {
+      "formula" : "SHAPETEXT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SHAPETEXT-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "SHAPETEXT(\"x\")",
+      "id" : "VEC-SHAPETEXT-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "formula" : "SHAPETEXT(2 in)",
+      "id" : "VEC-SHAPETEXT-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : ""
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SHAPETEXT(1\/0)",
+      "id" : "VEC-SHAPETEXT-error",
+      "ok" : false
+    },
+    {
+      "error" : "SIGN expects one or two arguments.",
+      "formula" : "SIGN()",
+      "id" : "VEC-SIGN-none",
+      "ok" : false
+    },
+    {
+      "formula" : "SIGN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SIGN-many",
+      "internal" : 0,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "SIGN(\"x\")",
+      "id" : "VEC-SIGN-text",
+      "ok" : false
+    },
+    {
+      "formula" : "SIGN(2 in)",
+      "id" : "VEC-SIGN-length",
+      "internal" : 1,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "1",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SIGN(1\/0)",
+      "id" : "VEC-SIGN-error",
+      "ok" : false
+    },
+    {
+      "error" : "SIN expects 1 arguments.",
+      "formula" : "SIN()",
+      "id" : "VEC-SIN-none",
+      "ok" : false
+    },
+    {
+      "error" : "SIN expects 1 arguments.",
+      "formula" : "SIN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SIN-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "SIN(\"x\")",
+      "id" : "VEC-SIN-text",
+      "ok" : false
+    },
+    {
+      "formula" : "SIN(2 in)",
+      "id" : "VEC-SIN-length",
+      "internal" : 0.90929742682568171,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "0.909297426826"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SIN(1\/0)",
+      "id" : "VEC-SIN-error",
+      "ok" : false
+    },
+    {
+      "error" : "SQRT expects 1 arguments.",
+      "formula" : "SQRT()",
+      "id" : "VEC-SQRT-none",
+      "ok" : false
+    },
+    {
+      "error" : "SQRT expects 1 arguments.",
+      "formula" : "SQRT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SQRT-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "SQRT(\"x\")",
+      "id" : "VEC-SQRT-text",
+      "ok" : false
+    },
+    {
+      "error" : "SQRT of a dimensioned value has no dimension (#DIM!).",
+      "formula" : "SQRT(2 in)",
+      "id" : "VEC-SQRT-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SQRT(1\/0)",
+      "id" : "VEC-SQRT-error",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAME expects two or three arguments.",
+      "formula" : "STRSAME()",
+      "id" : "VEC-STRSAME-none",
+      "ok" : false
+    },
+    {
+      "formula" : "STRSAME(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-STRSAME-many",
+      "internal" : 1,
+      "kind" : "boolean",
+      "ok" : true,
+      "text" : "TRUE"
+    },
+    {
+      "error" : "STRSAME expects two or three arguments.",
+      "formula" : "STRSAME(\"x\")",
+      "id" : "VEC-STRSAME-text",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAME expects two or three arguments.",
+      "formula" : "STRSAME(2 in)",
+      "id" : "VEC-STRSAME-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "STRSAME(1\/0)",
+      "id" : "VEC-STRSAME-error",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAMEEX expects 4 arguments.",
+      "formula" : "STRSAMEEX()",
+      "id" : "VEC-STRSAMEEX-none",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAMEEX expects 4 arguments.",
+      "formula" : "STRSAMEEX(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-STRSAMEEX-many",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAMEEX expects 4 arguments.",
+      "formula" : "STRSAMEEX(\"x\")",
+      "id" : "VEC-STRSAMEEX-text",
+      "ok" : false
+    },
+    {
+      "error" : "STRSAMEEX expects 4 arguments.",
+      "formula" : "STRSAMEEX(2 in)",
+      "id" : "VEC-STRSAMEEX-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "STRSAMEEX(1\/0)",
+      "id" : "VEC-STRSAMEEX-error",
+      "ok" : false
+    },
+    {
+      "error" : "SUBSTITUTE expects three to five arguments.",
+      "formula" : "SUBSTITUTE()",
+      "id" : "VEC-SUBSTITUTE-none",
+      "ok" : false
+    },
+    {
+      "formula" : "SUBSTITUTE(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SUBSTITUTE-many",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "SUBSTITUTE expects three to five arguments.",
+      "formula" : "SUBSTITUTE(\"x\")",
+      "id" : "VEC-SUBSTITUTE-text",
+      "ok" : false
+    },
+    {
+      "error" : "SUBSTITUTE expects three to five arguments.",
+      "formula" : "SUBSTITUTE(2 in)",
+      "id" : "VEC-SUBSTITUTE-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SUBSTITUTE(1\/0)",
+      "id" : "VEC-SUBSTITUTE-error",
+      "ok" : false
+    },
+    {
+      "error" : "SUM needs an argument.",
+      "formula" : "SUM()",
+      "id" : "VEC-SUM-none",
+      "ok" : false
+    },
+    {
+      "formula" : "SUM(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-SUM-many",
+      "internal" : 9,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "9"
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "SUM(\"x\")",
+      "id" : "VEC-SUM-text",
+      "ok" : false
+    },
+    {
+      "formula" : "SUM(2 in)",
+      "id" : "VEC-SUM-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "SUM(1\/0)",
+      "id" : "VEC-SUM-error",
+      "ok" : false
+    },
+    {
+      "error" : "TAN expects 1 arguments.",
+      "formula" : "TAN()",
+      "id" : "VEC-TAN-none",
+      "ok" : false
+    },
+    {
+      "error" : "TAN expects 1 arguments.",
+      "formula" : "TAN(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TAN-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "TAN(\"x\")",
+      "id" : "VEC-TAN-text",
+      "ok" : false
+    },
+    {
+      "formula" : "TAN(2 in)",
+      "id" : "VEC-TAN-length",
+      "internal" : -2.1850398632615189,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "-2.18503986326"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "TAN(1\/0)",
+      "id" : "VEC-TAN-error",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTHEIGHT expects a TheText reference and a maximum width.",
+      "formula" : "TEXTHEIGHT()",
+      "id" : "VEC-TEXTHEIGHT-none",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTHEIGHT expects a TheText reference and a maximum width.",
+      "formula" : "TEXTHEIGHT(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TEXTHEIGHT-many",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTHEIGHT expects a TheText reference and a maximum width.",
+      "formula" : "TEXTHEIGHT(\"x\")",
+      "id" : "VEC-TEXTHEIGHT-text",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTHEIGHT expects a TheText reference and a maximum width.",
+      "formula" : "TEXTHEIGHT(2 in)",
+      "id" : "VEC-TEXTHEIGHT-length",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTHEIGHT expects a TheText reference and a maximum width.",
+      "formula" : "TEXTHEIGHT(1\/0)",
+      "id" : "VEC-TEXTHEIGHT-error",
+      "ok" : false
+    },
+    {
+      "error" : "TEXTWIDTH requires a TheText reference and an optional parameter.",
+      "formula" : "TEXTWIDTH()",
+      "id" : "VEC-TEXTWIDTH-none",
+      "ok" : false
+    },
+    {
+      "formula" : "TEXTWIDTH(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TEXTWIDTH-many",
+      "internal" : 0,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0",
+      "unit" : "DL"
+    },
+    {
+      "formula" : "TEXTWIDTH(\"x\")",
+      "id" : "VEC-TEXTWIDTH-text",
+      "internal" : 0,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0",
+      "unit" : "DL"
+    },
+    {
+      "formula" : "TEXTWIDTH(2 in)",
+      "id" : "VEC-TEXTWIDTH-length",
+      "internal" : 0,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0",
+      "unit" : "DL"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "TEXTWIDTH(1\/0)",
+      "id" : "VEC-TEXTWIDTH-error",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEGUARD expects 1 arguments.",
+      "formula" : "THEMEGUARD()",
+      "id" : "VEC-THEMEGUARD-none",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEGUARD expects 1 arguments.",
+      "formula" : "THEMEGUARD(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-THEMEGUARD-many",
+      "ok" : false
+    },
+    {
+      "formula" : "THEMEGUARD(\"x\")",
+      "id" : "VEC-THEMEGUARD-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "THEMEGUARD(2 in)",
+      "id" : "VEC-THEMEGUARD-length",
+      "internal" : 2,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "2",
+      "unit" : "IN"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "THEMEGUARD(1\/0)",
+      "id" : "VEC-THEMEGUARD-error",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEPROP expects one argument.",
+      "formula" : "THEMEPROP()",
+      "id" : "VEC-THEMEPROP-none",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEPROP expects one argument.",
+      "formula" : "THEMEPROP(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-THEMEPROP-many",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEPROP does not support x.",
+      "formula" : "THEMEPROP(\"x\")",
+      "id" : "VEC-THEMEPROP-text",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEPROP expects Embellishment or MultiFormat as a string.",
+      "formula" : "THEMEPROP(2 in)",
+      "id" : "VEC-THEMEPROP-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "THEMEPROP(1\/0)",
+      "id" : "VEC-THEMEPROP-error",
+      "ok" : false
+    },
+    {
+      "error" : "THEMEVAL() has no theme value for this cell (#N\/A).",
+      "formula" : "THEMEVAL()",
+      "id" : "VEC-THEMEVAL-none",
+      "ok" : false
+    },
+    {
+      "formula" : "THEMEVAL(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-THEMEVAL-many",
+      "internal" : 1,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "1"
+    },
+    {
+      "error" : "THEMEVAL x needs an applied theme (#VALUE!).",
+      "formula" : "THEMEVAL(\"x\")",
+      "id" : "VEC-THEMEVAL-text",
+      "ok" : false
+    },
+    {
+      "color" : "#C05046",
+      "formula" : "THEMEVAL(2 in)",
+      "id" : "VEC-THEMEVAL-length",
+      "kind" : "color",
+      "ok" : true,
+      "text" : "#C05046"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "THEMEVAL(1\/0)",
+      "id" : "VEC-THEMEVAL-error",
+      "ok" : false
+    },
+    {
+      "error" : "TODAY is not available in Visio 2019 (#NAME?).",
+      "formula" : "TODAY()",
+      "id" : "VEC-TODAY-none",
+      "ok" : false
+    },
+    {
+      "error" : "TODAY is not available in Visio 2019 (#NAME?).",
+      "formula" : "TODAY(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TODAY-many",
+      "ok" : false
+    },
+    {
+      "error" : "TODAY is not available in Visio 2019 (#NAME?).",
+      "formula" : "TODAY(\"x\")",
+      "id" : "VEC-TODAY-text",
+      "ok" : false
+    },
+    {
+      "error" : "TODAY is not available in Visio 2019 (#NAME?).",
+      "formula" : "TODAY(2 in)",
+      "id" : "VEC-TODAY-length",
+      "ok" : false
+    },
+    {
+      "error" : "TODAY is not available in Visio 2019 (#NAME?).",
+      "formula" : "TODAY(1\/0)",
+      "id" : "VEC-TODAY-error",
+      "ok" : false
+    },
+    {
+      "error" : "TRIM expects 1 arguments.",
+      "formula" : "TRIM()",
+      "id" : "VEC-TRIM-none",
+      "ok" : false
+    },
+    {
+      "error" : "TRIM expects 1 arguments.",
+      "formula" : "TRIM(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TRIM-many",
+      "ok" : false
+    },
+    {
+      "formula" : "TRIM(\"x\")",
+      "id" : "VEC-TRIM-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "x"
+    },
+    {
+      "formula" : "TRIM(2 in)",
+      "id" : "VEC-TRIM-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2\""
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "TRIM(1\/0)",
+      "id" : "VEC-TRIM-error",
+      "ok" : false
+    },
+    {
+      "error" : "TRUNC expects 2 arguments.",
+      "formula" : "TRUNC()",
+      "id" : "VEC-TRUNC-none",
+      "ok" : false
+    },
+    {
+      "error" : "TRUNC expects 2 arguments.",
+      "formula" : "TRUNC(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-TRUNC-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "TRUNC(\"x\")",
+      "id" : "VEC-TRUNC-text",
+      "ok" : false
+    },
+    {
+      "error" : "TRUNC expects 2 arguments.",
+      "formula" : "TRUNC(2 in)",
+      "id" : "VEC-TRUNC-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "TRUNC(1\/0)",
+      "id" : "VEC-TRUNC-error",
+      "ok" : false
+    },
+    {
+      "error" : "UNICHAR expects 1 arguments.",
+      "formula" : "UNICHAR()",
+      "id" : "VEC-UNICHAR-none",
+      "ok" : false
+    },
+    {
+      "error" : "UNICHAR expects 1 arguments.",
+      "formula" : "UNICHAR(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-UNICHAR-many",
+      "ok" : false
+    },
+    {
+      "error" : "A numeric value was required.",
+      "formula" : "UNICHAR(\"x\")",
+      "id" : "VEC-UNICHAR-text",
+      "ok" : false
+    },
+    {
+      "formula" : "UNICHAR(2 in)",
+      "id" : "VEC-UNICHAR-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "\u0002"
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "UNICHAR(1\/0)",
+      "id" : "VEC-UNICHAR-error",
+      "ok" : false
+    },
+    {
+      "error" : "UPPER expects 1 arguments.",
+      "formula" : "UPPER()",
+      "id" : "VEC-UPPER-none",
+      "ok" : false
+    },
+    {
+      "error" : "UPPER expects 1 arguments.",
+      "formula" : "UPPER(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-UPPER-many",
+      "ok" : false
+    },
+    {
+      "formula" : "UPPER(\"x\")",
+      "id" : "VEC-UPPER-text",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "X"
+    },
+    {
+      "formula" : "UPPER(2 in)",
+      "id" : "VEC-UPPER-length",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2\""
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "UPPER(1\/0)",
+      "id" : "VEC-UPPER-error",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: _ELLIPSE_THETA.",
+      "formula" : "_ELLIPSE_THETA()",
+      "id" : "VEC-_ELLIPSE_THETA-none",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: _ELLIPSE_THETA.",
+      "formula" : "_ELLIPSE_THETA(1,1,1,1,1,1,1,1,1)",
+      "id" : "VEC-_ELLIPSE_THETA-many",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: _ELLIPSE_THETA.",
+      "formula" : "_ELLIPSE_THETA(\"x\")",
+      "id" : "VEC-_ELLIPSE_THETA-text",
+      "ok" : false
+    },
+    {
+      "error" : "Unsupported ShapeSheet function: _ELLIPSE_THETA.",
+      "formula" : "_ELLIPSE_THETA(2 in)",
+      "id" : "VEC-_ELLIPSE_THETA-length",
+      "ok" : false
+    },
+    {
+      "error" : "Division by zero.",
+      "formula" : "_ELLIPSE_THETA(1\/0)",
+      "id" : "VEC-_ELLIPSE_THETA-error",
+      "ok" : false
+    },
+    {
+      "formula" : "UPPER(25.4 mm)",
+      "id" : "STRCOERCE-1",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "25.4MM"
+    },
+    {
+      "formula" : "UPPER(2.5 cm)",
+      "id" : "STRCOERCE-2",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2.5CM"
+    },
+    {
+      "formula" : "UPPER(3 ft)",
+      "id" : "STRCOERCE-3",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "3'"
+    },
+    {
+      "formula" : "UPPER(10 pt)",
+      "id" : "STRCOERCE-4",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "10PT"
+    },
+    {
+      "formula" : "UPPER(30 deg)",
+      "id" : "STRCOERCE-5",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "30DEG"
+    },
+    {
+      "formula" : "UPPER(1.5 in)",
+      "id" : "STRCOERCE-6",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1.5\""
+    },
+    {
+      "formula" : "UPPER(1 m)",
+      "id" : "STRCOERCE-7",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1M"
+    },
+    {
+      "formula" : "UPPER(2 in+1 in)",
+      "id" : "STRCOERCE-8",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "3\""
+    },
+    {
+      "error" : "Reciprocal field units are not yet implemented.",
+      "formula" : "UPPER(1\/3 in)",
+      "id" : "STRCOERCE-9",
+      "ok" : false
+    },
+    {
+      "formula" : "UPPER(TRUE)",
+      "id" : "STRCOERCE-10",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "TRUE"
+    },
+    {
+      "formula" : "UPPER(1\/3)",
+      "id" : "STRCOERCE-11",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "0.33333333333333"
+    },
+    {
+      "formula" : "UPPER(DATE(2026,1,1))",
+      "id" : "STRCOERCE-12",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "01\/01\/2026"
+    },
+    {
+      "formula" : "UPPER(RGB(1,2,3))",
+      "id" : "STRCOERCE-13",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "RGB(1, 2, 3)"
+    },
+    {
+      "formula" : "UPPER(0.5 rad)",
+      "id" : "STRCOERCE-14",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "0.5RAD"
+    },
+    {
+      "formula" : "UPPER(-2 in)",
+      "id" : "STRCOERCE-15",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "-2\""
+    },
+    {
+      "formula" : "UPPER(1000000 in)",
+      "id" : "STRCOERCE-16",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1000000\""
+    },
+    {
+      "formula" : "UPPER(0.000001 in)",
+      "id" : "STRCOERCE-17",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1E-6\""
+    },
+    {
+      "formula" : "UPPER(Sheet.1!User.Len)",
+      "id" : "STRCOERCE-18",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "25.4MM"
+    },
+    {
+      "formula" : "UPPER(Sheet.1!User.Ang)",
+      "id" : "STRCOERCE-19",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "30DEG"
+    },
+    {
+      "formula" : "UPPER(2 yd)",
+      "id" : "STRCOERCE-20",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2YD"
+    },
+    {
+      "formula" : "UPPER(1 km)",
+      "id" : "STRCOERCE-21",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1KM"
+    },
+    {
+      "formula" : "UPPER(1 mi)",
+      "id" : "STRCOERCE-22",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1MI"
+    },
+    {
+      "formula" : "UPPER(3 ed)",
+      "id" : "STRCOERCE-23",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "3ED."
+    },
+    {
+      "formula" : "UPPER(2 eh)",
+      "id" : "STRCOERCE-24",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2EH."
+    },
+    {
+      "formula" : "UPPER(12345.678 mm)",
+      "id" : "STRCOERCE-25",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "12345.678MM"
+    },
+    {
+      "formula" : "SUBSTITUTE(25.4 mm,\"q\",\"q\")",
+      "id" : "STRCOERCE-26",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "25.4MM"
+    },
+    {
+      "formula" : "SUBSTITUTE(1 em,\"q\",\"q\")",
+      "id" : "STRCOERCE-27",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1EM."
+    },
+    {
+      "formula" : "SUBSTITUTE(1 de,\"q\",\"q\")",
+      "id" : "STRCOERCE-28",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1ED."
+    },
+    {
+      "formula" : "SUBSTITUTE(1 da,\"q\",\"q\")",
+      "id" : "STRCOERCE-29",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "57.295779513082DEG"
+    },
+    {
+      "formula" : "SUBSTITUTE(123456789012345678 in,\"q\",\"q\")",
+      "id" : "STRCOERCE-30",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "1.2345678901235E17\""
+    },
+    {
+      "formula" : "SUBSTITUTE(0.1+0.2,\"q\",\"q\")",
+      "id" : "STRCOERCE-31",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "0.3"
+    },
+    {
+      "formula" : "LEN(25.4 mm)",
+      "id" : "STRCOERCE-32",
+      "internal" : 6,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "6"
+    },
+    {
+      "formula" : "LEFT(2.5 cm,3)",
+      "id" : "STRCOERCE-33",
+      "kind" : "string",
+      "ok" : true,
+      "text" : "2.5"
+    },
+    {
+      "formula" : "LN(25.4 mm)",
+      "id" : "STRCOERCE-34",
+      "internal" : -1.1102230246251565e-16,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "-1.11022302463E-16",
+      "unit" : "MM"
+    },
+    {
+      "formula" : "LOG10(100 mm)",
+      "id" : "STRCOERCE-35",
+      "internal" : 0.59516628338006194,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "0.59516628338",
+      "unit" : "MM"
+    },
+    {
+      "formula" : "LN(30 deg)",
+      "id" : "STRCOERCE-36",
+      "internal" : -0.6470295833786549,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "-0.647029583379",
+      "unit" : "DEG"
+    },
+    {
+      "formula" : "LOG10(2 cm)",
+      "id" : "STRCOERCE-37",
+      "internal" : -0.1038037209559569,
+      "kind" : "quantity",
+      "ok" : true,
+      "text" : "-0.103803720956",
+      "unit" : "CM"
+    },
+    {
+      "formula" : "MAX(\"x\",5)",
+      "id" : "STRCOERCE-38",
+      "internal" : 5,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "5"
+    },
+    {
+      "formula" : "MIN(\"x\",5)",
+      "id" : "STRCOERCE-39",
+      "internal" : 5,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "5"
+    },
+    {
+      "formula" : "MAX(\"x\",-5)",
+      "id" : "STRCOERCE-40",
+      "internal" : -5,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "-5"
+    },
+    {
+      "formula" : "MAX(\"3\")",
+      "id" : "STRCOERCE-41",
+      "internal" : 3,
+      "kind" : "number",
+      "ok" : true,
+      "text" : "3"
     },
     {
       "formula" : "SETF(GETREF(Sheet.2!User.Local),9)",

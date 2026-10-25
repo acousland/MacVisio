@@ -48,6 +48,29 @@ struct ShapeSheetColor:Equatable {
 enum SheetValue:Equatable {
     case number(Double),quantity(Double,String),string(String),boolean(Bool),date(Date),color(ShapeSheetColor),point(Double,Double)
     var text:String { switch self { case .number(let value),.quantity(let value,_):return ShapeSheetEngine.format(value);case .string(let value):return value;case .boolean(let value):return value ? "TRUE" : "FALSE";case .date(let value):return ISO8601DateFormatter().string(from:value);case .color(let value):return value.hex;case .point(let x,let y):return String(format:"PNT(%.4f,%.4f)",x,y) } }
+    /// The text Visio's string functions see for a value (reference STRCOERCE): a number to 14 significant
+    /// digits, a quantity in its own unit followed by its mark (" for inches, ' for feet, MM, DEG, ED. ...).
+    var coercedText:String {
+        func general(_ value:Double) -> String {
+            var text = String(format:"%.14G",locale:Locale(identifier:"en_US_POSIX"),value)
+            if let e = text.firstIndex(of:"E") {
+                var exponent = String(text[text.index(after:e)...]);let negative = exponent.hasPrefix("-")
+                exponent = String(exponent.drop{ $0 == "+" || $0 == "-" }.drop{ $0 == "0" })
+                text = String(text[..<e])+"E"+(negative ? "-" : "")+(exponent.isEmpty ? "0" : exponent)
+            }
+            return text
+        }
+        switch self {
+        case .number(let value):return general(value)
+        case .quantity(let value,let unit):
+            var shown = unit.uppercased();if ["INCH","INCHES","DL","DP","DT"].contains(shown) { shown = "IN" };if shown == "DA" { shown = "DEG" };if shown == "DE" { shown = "ED" }
+            let number = general(value*(Self.factor(shown) ?? 1))
+            switch shown { case "IN":return number+"\"";case "FT":return number+"'";case "ED","EH","EM","ES","EW":return number+shown+".";default:return number+shown }
+        case .color(let color):return "RGB(\(color.red), \(color.green), \(color.blue))"
+        case .date(let date):let f = DateFormatter();f.locale = Locale(identifier:"en_GB");f.dateFormat = "dd/MM/yyyy";return f.string(from:date)
+        default:return text
+        }
+    }
     var unit:String? { if case .quantity(_,let unit) = self { return unit };return nil }
     var dimension:String? { unit.map{["DEG","RAD","DA"].contains($0.uppercased()) ? "angle" : ["DE","ED","EH","EM","ES","EW"].contains($0.uppercased()) ? "duration" : "length"} }
     static func factor(_ unit:String) -> Double? { ["IN":1,"INCH":1,"INCHES":1,"PT":72,"MM":25.4,"CM":2.54,"M":0.0254,"FT":1/12,"YD":1/36,"DEG":180 / .pi,"RAD":1,"DL":1,"DP":1,"DT":1,"DA":1,"DE":1,
@@ -113,8 +136,8 @@ enum TypedShapeSheet {
                     case "^":guard scalar || x.unit == nil else { throw DiagramError.invalid("Compound field units are not yet implemented.") };result = .number(pow(p,q))
                     case "<",">","<=",">=":guard scalar || x.dimension == nil || y.dimension == nil || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional comparison.") };result = .boolean(op == "<" ? p<q : op == ">" ? p>q : op == "<=" ? p<=q : p>=q);default:throw DiagramError.invalid("Unsupported ShapeSheet operator.") }
                 }
-            case .call(let name,let arguments):
-                let name = name.uppercased()
+            case .call(let name,let given):
+                let name = name.uppercased(),arguments = ShapeSheet.withoutSurplusArguments(name,given)
                 try ShapeSheet.requireReferenceFunction(name)
                 if name == "INDEX" {
                     let values = try arguments.enumerated().map { offset, argument -> SheetValue in
@@ -139,6 +162,10 @@ enum TypedShapeSheet {
                         return .boolean(name == "ISERROR" || name == "ISERR" && kind != .na || name == "ISERRNA" && kind == .na || name == "ISERRVALUE" && kind == .value)
                     }
                 }
+                // GETREF takes a cell reference; Visio rejects any other argument (VEC-GETREF-*).
+                if name == "GETREF" { guard arguments.count == 1,case .reference = arguments[0] else { throw DiagramError.invalid("GETREF requires a cell reference.") } }
+                // SETATREF of a literal is #VALUE! (VEC-SETATREF-length).
+                if name == "SETATREF",let first = arguments.first { switch first { case .number,.measure: throw DiagramError.invalid("SETATREF requires a cell reference (#VALUE!)."); default: break } }
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1).numeric() != 0 { return .number(0) };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
                 if name == "SETATREFEXPR",arguments.isEmpty { return .number(0) }
                 if name == "REF",arguments.isEmpty { throw DiagramError.invalid("ShapeSheet #REF! error.") }
@@ -165,11 +192,11 @@ enum TypedShapeSheet {
                     if options == 0 { result = .boolean(first == second) }
                     else { result = .boolean(first.count == second.count && zip(first,second).allSatisfy { asciiFold($0.0) == asciiFold($0.1) }) }
                 // Visio maps case one character at a time, so ß stays ß (UPPER-2).
-                case "UPPER":try arity(1);result = .string(String(values[0].text.map { character -> String in let upper = String(character).uppercased();return upper.count == 1 ? upper : String(character) }.joined()))
-                case "LOWER":try arity(1);result = .string(String(values[0].text.map { character -> String in let lower = String(character).lowercased();return lower.count == 1 ? lower : String(character) }.joined()))
+                case "UPPER":try arity(1);result = .string(String(values[0].coercedText.map { character -> String in let upper = String(character).uppercased();return upper.count == 1 ? upper : String(character) }.joined()))
+                case "LOWER":try arity(1);result = .string(String(values[0].coercedText.map { character -> String in let lower = String(character).lowercased();return lower.count == 1 ? lower : String(character) }.joined()))
                 case "LEN","LEFT","RIGHT","MID","FIND","REPLACE","SUBSTITUTE","REPT","INDEX","CHAR","UNICHAR":result = try ShapeStringFunctions.evaluate(name,values)
-                case "TRIM":try arity(1);result = .string(values[0].text.split(whereSeparator:{$0.isWhitespace}).joined(separator:" "))
-                case "CONCATENATE":result = .string(values.map(\.text).joined())
+                case "TRIM":try arity(1);result = .string(values[0].coercedText.split(whereSeparator:{$0.isWhitespace}).joined(separator:" "))
+                case "CONCATENATE":result = .string(values.map(\.coercedText).joined())
                 case "FIELDPICTURE":try arity(1);let n = try values[0].numeric();guard n.isFinite,n >= 0,n < 65536 else { throw DiagramError.invalid("Invalid field format code.") };result = .string(VisioPictureFormat.fieldPicture(Int(n)))
                 case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
@@ -266,10 +293,16 @@ enum TypedShapeSheet {
                 default:
                     let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","LOG10","TRUNC","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
+                        // MIN and MAX skip text that is not a number; with nothing left they are 0 (STRCOERCE, VEC-MAX-text).
+                        var values = values
+                        if ["MIN","MAX"].contains(name) { guard !values.isEmpty else { throw DiagramError.invalid("\(name) needs an argument.") };values = values.filter { (try? $0.numeric()) != nil };if values.isEmpty { values = [.number(0)] } }
                         let unit = values.first?.unit
-                        let preserve = ["ROUND","INT","ABS"].contains(name) && unit != nil
-                        let factor = preserve ? SheetValue.factor(unit!)! : 1
+                        // LN and LOG10 also keep their argument's unit: LN(2 in) is 0.6931 in (VEC-LN-length).
+                        let preserve = ["ROUND","INT","ABS","LN","LOG10"].contains(name) && unit != nil
+                        // LN and LOG10 work on the internal value (LN(25.4 mm) is 0 mm).
+                        let factor = preserve && !["LN","LOG10"].contains(name) ? SheetValue.factor(unit!)! : 1
                         let arguments = try values.enumerated().map { offset,value -> ShapeSheet.Expression in
+                            // MIN and MAX read text that is not a number as 0 (VEC-MAX-text).
                             let number = try value.numeric()
                             // ROUND shares CEILING/FLOOR's display-unit rule.
                             // Other existing numeric functions keep their path.
@@ -279,7 +312,7 @@ enum TypedShapeSheet {
                         let n = try ShapeSheet.evaluate(.call(name,arguments),resolve:{_ in throw DiagramError.invalid("Unexpected numeric reference") })/factor
                         // MIN and MAX keep the unit of the operand they select; SUM keeps the first unit
                         // (COERCE-17/18/19). Mixed dimensions are not an error in Visio.
-                        if !scalar,["MIN","MAX"].contains(name),let selected = try values.first(where:{try $0.numeric() == n}) { result = selected.unit.map{.quantity(n,$0)} ?? .number(n) }
+                        if !scalar,["MIN","MAX"].contains(name),let selected = values.first(where:{(try? $0.numeric()) == n}) { result = selected.unit.map{.quantity(n,$0)} ?? .number(n) }
                         else if !scalar,name == "SUM",let unit = values.first(where:{$0.unit != nil})?.unit { result = .quantity(n,unit) }
                         else { result = preserve ? .quantity(n,unit!) : .number(n) }
                     }

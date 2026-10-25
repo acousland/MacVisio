@@ -114,7 +114,7 @@ final class M3NumericBoundaryTests: XCTestCase {
             for value in try values(formula) { XCTAssertEqual(value,0,formula) }
         }
         for formula in ["CEILING(2,-1)","FLOOR(-2,1)","CEILING(1e308,1e-308)","FLOOR(1e308,1e-308)",
-                        "CEILING(1.7e308,1e308)","CEILING()","FLOOR(1,2,3)","ROUND(1)","ROUND(1,2,3)","CEILING(1,)"] { rejects(formula) }
+                        "CEILING(1.7e308,1e308)","CEILING()","ROUND(1)","ROUND(1,2,3)","CEILING(1,)"] { rejects(formula) }
         for value in try values("IFERROR(CEILING(1e308,1e-308),23)") { XCTAssertEqual(value,23) }
     }
 

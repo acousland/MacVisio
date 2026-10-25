@@ -1,0 +1,2892 @@
+{
+  "drawing" : "context.vsdx",
+  "hostCases" : [
+    {
+      "formula" : "ABS(-3.5)",
+      "host" : "shape",
+      "id" : "HOST-ABS-shape",
+      "value" : "3.5"
+    },
+    {
+      "formula" : "ABS(-3.5)",
+      "host" : "page",
+      "id" : "HOST-ABS-page",
+      "value" : "3.5"
+    },
+    {
+      "formula" : "ABS(-3.5)",
+      "host" : "geometry",
+      "id" : "HOST-ABS-geometry",
+      "value" : "3.5"
+    },
+    {
+      "formula" : "ABS(-3.5)",
+      "host" : "control",
+      "id" : "HOST-ABS-control",
+      "value" : "3.5"
+    },
+    {
+      "formula" : "ABS(-3.5)",
+      "host" : "field",
+      "id" : "HOST-ABS-field",
+      "value" : "3.5"
+    },
+    {
+      "formula" : "ACOS(0.5)",
+      "host" : "shape",
+      "id" : "HOST-ACOS-shape",
+      "value" : "1.0471975511965976"
+    },
+    {
+      "formula" : "ACOS(0.5)",
+      "host" : "page",
+      "id" : "HOST-ACOS-page",
+      "value" : "1.0471975511965976"
+    },
+    {
+      "formula" : "ACOS(0.5)",
+      "host" : "geometry",
+      "id" : "HOST-ACOS-geometry",
+      "value" : "1.0471975511965976"
+    },
+    {
+      "formula" : "ACOS(0.5)",
+      "host" : "control",
+      "id" : "HOST-ACOS-control",
+      "value" : "1.0471975511965976"
+    },
+    {
+      "formula" : "ACOS(0.5)",
+      "host" : "field",
+      "id" : "HOST-ACOS-field",
+      "value" : "60"
+    },
+    {
+      "formula" : "AND(1,1)",
+      "host" : "shape",
+      "id" : "HOST-AND-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "AND(1,1)",
+      "host" : "page",
+      "id" : "HOST-AND-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "AND(1,1)",
+      "host" : "geometry",
+      "id" : "HOST-AND-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "AND(1,1)",
+      "host" : "control",
+      "id" : "HOST-AND-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "AND(1,1)",
+      "host" : "field",
+      "id" : "HOST-AND-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "ANG360(-30 deg)",
+      "host" : "shape",
+      "id" : "HOST-ANG360-shape",
+      "value" : "5.759586531581287"
+    },
+    {
+      "formula" : "ANG360(-30 deg)",
+      "host" : "page",
+      "id" : "HOST-ANG360-page",
+      "value" : "5.759586531581287"
+    },
+    {
+      "formula" : "ANG360(-30 deg)",
+      "host" : "geometry",
+      "id" : "HOST-ANG360-geometry",
+      "value" : "5.759586531581287"
+    },
+    {
+      "formula" : "ANG360(-30 deg)",
+      "host" : "control",
+      "id" : "HOST-ANG360-control",
+      "value" : "5.759586531581287"
+    },
+    {
+      "formula" : "ANG360(-30 deg)",
+      "host" : "field",
+      "id" : "HOST-ANG360-field",
+      "value" : "330"
+    },
+    {
+      "formula" : "ASIN(0.5)",
+      "host" : "shape",
+      "id" : "HOST-ASIN-shape",
+      "value" : "0.5235987755982988"
+    },
+    {
+      "formula" : "ASIN(0.5)",
+      "host" : "page",
+      "id" : "HOST-ASIN-page",
+      "value" : "0.5235987755982988"
+    },
+    {
+      "formula" : "ASIN(0.5)",
+      "host" : "geometry",
+      "id" : "HOST-ASIN-geometry",
+      "value" : "0.5235987755982988"
+    },
+    {
+      "formula" : "ASIN(0.5)",
+      "host" : "control",
+      "id" : "HOST-ASIN-control",
+      "value" : "0.5235987755982988"
+    },
+    {
+      "formula" : "ASIN(0.5)",
+      "host" : "field",
+      "id" : "HOST-ASIN-field",
+      "value" : "30"
+    },
+    {
+      "formula" : "ATAN(1)",
+      "host" : "shape",
+      "id" : "HOST-ATAN-shape",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN(1)",
+      "host" : "page",
+      "id" : "HOST-ATAN-page",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN(1)",
+      "host" : "geometry",
+      "id" : "HOST-ATAN-geometry",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN(1)",
+      "host" : "control",
+      "id" : "HOST-ATAN-control",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN(1)",
+      "host" : "field",
+      "id" : "HOST-ATAN-field",
+      "value" : "45"
+    },
+    {
+      "formula" : "ATAN2(1,1)",
+      "host" : "shape",
+      "id" : "HOST-ATAN2-shape",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN2(1,1)",
+      "host" : "page",
+      "id" : "HOST-ATAN2-page",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN2(1,1)",
+      "host" : "geometry",
+      "id" : "HOST-ATAN2-geometry",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN2(1,1)",
+      "host" : "control",
+      "id" : "HOST-ATAN2-control",
+      "value" : "0.7853981633974483"
+    },
+    {
+      "formula" : "ATAN2(1,1)",
+      "host" : "field",
+      "id" : "HOST-ATAN2-field",
+      "value" : "45"
+    },
+    {
+      "formula" : "BITAND(12,10)",
+      "host" : "shape",
+      "id" : "HOST-BITAND-shape",
+      "value" : "8"
+    },
+    {
+      "formula" : "BITAND(12,10)",
+      "host" : "page",
+      "id" : "HOST-BITAND-page",
+      "value" : "8"
+    },
+    {
+      "formula" : "BITAND(12,10)",
+      "host" : "geometry",
+      "id" : "HOST-BITAND-geometry",
+      "value" : "8"
+    },
+    {
+      "formula" : "BITAND(12,10)",
+      "host" : "control",
+      "id" : "HOST-BITAND-control",
+      "value" : "8"
+    },
+    {
+      "formula" : "BITAND(12,10)",
+      "host" : "field",
+      "id" : "HOST-BITAND-field",
+      "value" : "8"
+    },
+    {
+      "formula" : "BITOR(12,10)",
+      "host" : "shape",
+      "id" : "HOST-BITOR-shape",
+      "value" : "14"
+    },
+    {
+      "formula" : "BITOR(12,10)",
+      "host" : "page",
+      "id" : "HOST-BITOR-page",
+      "value" : "14"
+    },
+    {
+      "formula" : "BITOR(12,10)",
+      "host" : "geometry",
+      "id" : "HOST-BITOR-geometry",
+      "value" : "14"
+    },
+    {
+      "formula" : "BITOR(12,10)",
+      "host" : "control",
+      "id" : "HOST-BITOR-control",
+      "value" : "14"
+    },
+    {
+      "formula" : "BITOR(12,10)",
+      "host" : "field",
+      "id" : "HOST-BITOR-field",
+      "value" : "14"
+    },
+    {
+      "formula" : "BITXOR(12,10)",
+      "host" : "shape",
+      "id" : "HOST-BITXOR-shape",
+      "value" : "6"
+    },
+    {
+      "formula" : "BITXOR(12,10)",
+      "host" : "page",
+      "id" : "HOST-BITXOR-page",
+      "value" : "6"
+    },
+    {
+      "formula" : "BITXOR(12,10)",
+      "host" : "geometry",
+      "id" : "HOST-BITXOR-geometry",
+      "value" : "6"
+    },
+    {
+      "formula" : "BITXOR(12,10)",
+      "host" : "control",
+      "id" : "HOST-BITXOR-control",
+      "value" : "6"
+    },
+    {
+      "formula" : "BITXOR(12,10)",
+      "host" : "field",
+      "id" : "HOST-BITXOR-field",
+      "value" : "6"
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "host" : "shape",
+      "id" : "HOST-BKGPAGENAME-shape",
+      "value" : "<no background>"
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "host" : "page",
+      "id" : "HOST-BKGPAGENAME-page",
+      "value" : "<no background>"
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "host" : "geometry",
+      "id" : "HOST-BKGPAGENAME-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "host" : "control",
+      "id" : "HOST-BKGPAGENAME-control",
+      "value" : "<no background>"
+    },
+    {
+      "formula" : "BKGPAGENAME()",
+      "host" : "field",
+      "id" : "HOST-BKGPAGENAME-field",
+      "value" : "<no background>"
+    },
+    {
+      "formula" : "BLUE(RGB(1,2,3))",
+      "host" : "shape",
+      "id" : "HOST-BLUE-shape",
+      "issues" : [
+        "RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BLUE(RGB(1,2,3))",
+      "host" : "page",
+      "id" : "HOST-BLUE-page",
+      "issues" : [
+        "ThePage!User.Probe: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BLUE(RGB(1,2,3))",
+      "host" : "geometry",
+      "id" : "HOST-BLUE-geometry",
+      "issues" : [
+        "Geometry1.X2: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "BLUE(RGB(1,2,3))",
+      "host" : "control",
+      "id" : "HOST-BLUE-control",
+      "issues" : [
+        "Controls.Probe.X: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BLUE(RGB(1,2,3))",
+      "host" : "field",
+      "id" : "HOST-BLUE-field",
+      "value" : "3"
+    },
+    {
+      "formula" : "BOUND(5,0,0,10)",
+      "host" : "shape",
+      "id" : "HOST-BOUND-shape",
+      "issues" : [
+        "BOUND expects a value, type and one or more range triples."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BOUND(5,0,0,10)",
+      "host" : "page",
+      "id" : "HOST-BOUND-page",
+      "issues" : [
+        "ThePage!User.Probe: BOUND expects a value, type and one or more range triples."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BOUND(5,0,0,10)",
+      "host" : "geometry",
+      "id" : "HOST-BOUND-geometry",
+      "issues" : [
+        "Geometry1.X2: BOUND expects a value, type and one or more range triples."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "BOUND(5,0,0,10)",
+      "host" : "control",
+      "id" : "HOST-BOUND-control",
+      "issues" : [
+        "Controls.Probe.X: BOUND expects a value, type and one or more range triples."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "BOUND(5,0,0,10)",
+      "host" : "field",
+      "id" : "HOST-BOUND-field",
+      "issues" : [
+        "Text field 1: BOUND expects a value, type and one or more range triples."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "CEILING(2.1)",
+      "host" : "shape",
+      "id" : "HOST-CEILING-shape",
+      "value" : "3"
+    },
+    {
+      "formula" : "CEILING(2.1)",
+      "host" : "page",
+      "id" : "HOST-CEILING-page",
+      "value" : "3"
+    },
+    {
+      "formula" : "CEILING(2.1)",
+      "host" : "geometry",
+      "id" : "HOST-CEILING-geometry",
+      "value" : "3"
+    },
+    {
+      "formula" : "CEILING(2.1)",
+      "host" : "control",
+      "id" : "HOST-CEILING-control",
+      "value" : "3"
+    },
+    {
+      "formula" : "CEILING(2.1)",
+      "host" : "field",
+      "id" : "HOST-CEILING-field",
+      "value" : "3"
+    },
+    {
+      "formula" : "CHAR(65)",
+      "host" : "shape",
+      "id" : "HOST-CHAR-shape",
+      "value" : "A"
+    },
+    {
+      "formula" : "CHAR(65)",
+      "host" : "page",
+      "id" : "HOST-CHAR-page",
+      "value" : "A"
+    },
+    {
+      "formula" : "CHAR(65)",
+      "host" : "geometry",
+      "id" : "HOST-CHAR-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "CHAR(65)",
+      "host" : "control",
+      "id" : "HOST-CHAR-control",
+      "value" : "A"
+    },
+    {
+      "formula" : "CHAR(65)",
+      "host" : "field",
+      "id" : "HOST-CHAR-field",
+      "value" : "A"
+    },
+    {
+      "formula" : "CONCATENATE(\"a\",\"b\")",
+      "host" : "shape",
+      "id" : "HOST-CONCATENATE-shape",
+      "issues" : [
+        "CONCATENATE is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "CONCATENATE(\"a\",\"b\")",
+      "host" : "page",
+      "id" : "HOST-CONCATENATE-page",
+      "issues" : [
+        "ThePage!User.Probe: CONCATENATE is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "CONCATENATE(\"a\",\"b\")",
+      "host" : "geometry",
+      "id" : "HOST-CONCATENATE-geometry",
+      "issues" : [
+        "Geometry1.X2: CONCATENATE is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "CONCATENATE(\"a\",\"b\")",
+      "host" : "control",
+      "id" : "HOST-CONCATENATE-control",
+      "issues" : [
+        "Controls.Probe.X: CONCATENATE is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "CONCATENATE(\"a\",\"b\")",
+      "host" : "field",
+      "id" : "HOST-CONCATENATE-field",
+      "issues" : [
+        "Text field 1: CONCATENATE is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "COS(0)",
+      "host" : "shape",
+      "id" : "HOST-COS-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "COS(0)",
+      "host" : "page",
+      "id" : "HOST-COS-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "COS(0)",
+      "host" : "geometry",
+      "id" : "HOST-COS-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "COS(0)",
+      "host" : "control",
+      "id" : "HOST-COS-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "COS(0)",
+      "host" : "field",
+      "id" : "HOST-COS-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "DATE(2026,10,25)",
+      "host" : "shape",
+      "id" : "HOST-DATE-shape",
+      "value" : "2026-10-24T13:00:00Z"
+    },
+    {
+      "formula" : "DATE(2026,10,25)",
+      "host" : "page",
+      "id" : "HOST-DATE-page",
+      "value" : "2026-10-24T13:00:00Z"
+    },
+    {
+      "formula" : "DATE(2026,10,25)",
+      "host" : "geometry",
+      "id" : "HOST-DATE-geometry",
+      "issues" : [
+        "Calculated geometry exceeded the drawing bounds; its previous path was retained."
+      ],
+      "value" : "46320"
+    },
+    {
+      "formula" : "DATE(2026,10,25)",
+      "host" : "control",
+      "id" : "HOST-DATE-control",
+      "value" : "2026-10-24T13:00:00Z"
+    },
+    {
+      "formula" : "DATE(2026,10,25)",
+      "host" : "field",
+      "id" : "HOST-DATE-field",
+      "value" : "25\/10\/2026 00:00:00"
+    },
+    {
+      "formula" : "DEG(PI())",
+      "host" : "shape",
+      "id" : "HOST-DEG-shape",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "DEG(PI())",
+      "host" : "page",
+      "id" : "HOST-DEG-page",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "DEG(PI())",
+      "host" : "geometry",
+      "id" : "HOST-DEG-geometry",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "DEG(PI())",
+      "host" : "control",
+      "id" : "HOST-DEG-control",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "DEG(PI())",
+      "host" : "field",
+      "id" : "HOST-DEG-field",
+      "value" : "180"
+    },
+    {
+      "formula" : "EXP(0)",
+      "host" : "shape",
+      "id" : "HOST-EXP-shape",
+      "issues" : [
+        "EXP is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "EXP(0)",
+      "host" : "page",
+      "id" : "HOST-EXP-page",
+      "issues" : [
+        "ThePage!User.Probe: EXP is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "EXP(0)",
+      "host" : "geometry",
+      "id" : "HOST-EXP-geometry",
+      "issues" : [
+        "Geometry1.X2: EXP is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "EXP(0)",
+      "host" : "control",
+      "id" : "HOST-EXP-control",
+      "issues" : [
+        "Controls.Probe.X: EXP is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "EXP(0)",
+      "host" : "field",
+      "id" : "HOST-EXP-field",
+      "issues" : [
+        "Text field 1: EXP is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "FIELDPICTURE(0)",
+      "host" : "shape",
+      "id" : "HOST-FIELDPICTURE-shape",
+      "value" : "esc(0)"
+    },
+    {
+      "formula" : "FIELDPICTURE(0)",
+      "host" : "page",
+      "id" : "HOST-FIELDPICTURE-page",
+      "value" : "esc(0)"
+    },
+    {
+      "formula" : "FIELDPICTURE(0)",
+      "host" : "geometry",
+      "id" : "HOST-FIELDPICTURE-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "FIELDPICTURE(0)",
+      "host" : "control",
+      "id" : "HOST-FIELDPICTURE-control",
+      "value" : "esc(0)"
+    },
+    {
+      "formula" : "FIELDPICTURE(0)",
+      "host" : "field",
+      "id" : "HOST-FIELDPICTURE-field",
+      "value" : "esc(0)"
+    },
+    {
+      "formula" : "FIND(\"lo\",\"Hello\")",
+      "host" : "shape",
+      "id" : "HOST-FIND-shape",
+      "value" : "4"
+    },
+    {
+      "formula" : "FIND(\"lo\",\"Hello\")",
+      "host" : "page",
+      "id" : "HOST-FIND-page",
+      "value" : "4"
+    },
+    {
+      "formula" : "FIND(\"lo\",\"Hello\")",
+      "host" : "geometry",
+      "id" : "HOST-FIND-geometry",
+      "value" : "4"
+    },
+    {
+      "formula" : "FIND(\"lo\",\"Hello\")",
+      "host" : "control",
+      "id" : "HOST-FIND-control",
+      "value" : "4"
+    },
+    {
+      "formula" : "FIND(\"lo\",\"Hello\")",
+      "host" : "field",
+      "id" : "HOST-FIND-field",
+      "value" : "4"
+    },
+    {
+      "formula" : "FLOOR(2.9)",
+      "host" : "shape",
+      "id" : "HOST-FLOOR-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "FLOOR(2.9)",
+      "host" : "page",
+      "id" : "HOST-FLOOR-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "FLOOR(2.9)",
+      "host" : "geometry",
+      "id" : "HOST-FLOOR-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "FLOOR(2.9)",
+      "host" : "control",
+      "id" : "HOST-FLOOR-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "FLOOR(2.9)",
+      "host" : "field",
+      "id" : "HOST-FLOOR-field",
+      "value" : "2"
+    },
+    {
+      "formula" : "FORMAT(3.14159,\"0.00\")",
+      "host" : "shape",
+      "id" : "HOST-FORMAT-shape",
+      "value" : "3.14"
+    },
+    {
+      "formula" : "FORMAT(3.14159,\"0.00\")",
+      "host" : "page",
+      "id" : "HOST-FORMAT-page",
+      "value" : "3.14"
+    },
+    {
+      "formula" : "FORMAT(3.14159,\"0.00\")",
+      "host" : "geometry",
+      "id" : "HOST-FORMAT-geometry",
+      "value" : "3.14"
+    },
+    {
+      "formula" : "FORMAT(3.14159,\"0.00\")",
+      "host" : "control",
+      "id" : "HOST-FORMAT-control",
+      "value" : "3.14"
+    },
+    {
+      "formula" : "FORMAT(3.14159,\"0.00\")",
+      "host" : "field",
+      "id" : "HOST-FORMAT-field",
+      "value" : "3.14"
+    },
+    {
+      "formula" : "GETREF(Sheet.1!Width)",
+      "host" : "shape",
+      "id" : "HOST-GETREF-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "GETREF(Sheet.1!Width)",
+      "host" : "page",
+      "id" : "HOST-GETREF-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "GETREF(Sheet.1!Width)",
+      "host" : "geometry",
+      "id" : "HOST-GETREF-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "GETREF(Sheet.1!Width)",
+      "host" : "control",
+      "id" : "HOST-GETREF-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "GETREF(Sheet.1!Width)",
+      "host" : "field",
+      "id" : "HOST-GETREF-field",
+      "value" : "50.8"
+    },
+    {
+      "formula" : "GREEN(RGB(1,2,3))",
+      "host" : "shape",
+      "id" : "HOST-GREEN-shape",
+      "issues" : [
+        "RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "GREEN(RGB(1,2,3))",
+      "host" : "page",
+      "id" : "HOST-GREEN-page",
+      "issues" : [
+        "ThePage!User.Probe: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "GREEN(RGB(1,2,3))",
+      "host" : "geometry",
+      "id" : "HOST-GREEN-geometry",
+      "issues" : [
+        "Geometry1.X2: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "GREEN(RGB(1,2,3))",
+      "host" : "control",
+      "id" : "HOST-GREEN-control",
+      "issues" : [
+        "Controls.Probe.X: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "GREEN(RGB(1,2,3))",
+      "host" : "field",
+      "id" : "HOST-GREEN-field",
+      "value" : "2"
+    },
+    {
+      "formula" : "GUARD(5)",
+      "host" : "shape",
+      "id" : "HOST-GUARD-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "GUARD(5)",
+      "host" : "page",
+      "id" : "HOST-GUARD-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "GUARD(5)",
+      "host" : "geometry",
+      "id" : "HOST-GUARD-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "GUARD(5)",
+      "host" : "control",
+      "id" : "HOST-GUARD-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "GUARD(5)",
+      "host" : "field",
+      "id" : "HOST-GUARD-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "HSL(0,240,120)",
+      "host" : "shape",
+      "id" : "HOST-HSL-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "HSL(0,240,120)",
+      "host" : "page",
+      "id" : "HOST-HSL-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "HSL(0,240,120)",
+      "host" : "geometry",
+      "id" : "HOST-HSL-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "HSL(0,240,120)",
+      "host" : "control",
+      "id" : "HOST-HSL-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "HSL(0,240,120)",
+      "host" : "field",
+      "id" : "HOST-HSL-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "HUE(RGB(255,0,0))",
+      "host" : "shape",
+      "id" : "HOST-HUE-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "HUE(RGB(255,0,0))",
+      "host" : "page",
+      "id" : "HOST-HUE-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "HUE(RGB(255,0,0))",
+      "host" : "geometry",
+      "id" : "HOST-HUE-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "HUE(RGB(255,0,0))",
+      "host" : "control",
+      "id" : "HOST-HUE-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "HUE(RGB(255,0,0))",
+      "host" : "field",
+      "id" : "HOST-HUE-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "ID()",
+      "host" : "shape",
+      "id" : "HOST-ID-shape",
+      "value" : "14"
+    },
+    {
+      "formula" : "ID()",
+      "host" : "page",
+      "id" : "HOST-ID-page",
+      "issues" : [
+        "ThePage!User.Probe: Invalid shape ID; this owner has no numeric public identifier."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "ID()",
+      "host" : "geometry",
+      "id" : "HOST-ID-geometry",
+      "value" : "14"
+    },
+    {
+      "formula" : "ID()",
+      "host" : "control",
+      "id" : "HOST-ID-control",
+      "value" : "14"
+    },
+    {
+      "formula" : "ID()",
+      "host" : "field",
+      "id" : "HOST-ID-field",
+      "value" : "14"
+    },
+    {
+      "formula" : "IF(1,2,3)",
+      "host" : "shape",
+      "id" : "HOST-IF-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "IF(1,2,3)",
+      "host" : "page",
+      "id" : "HOST-IF-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "IF(1,2,3)",
+      "host" : "geometry",
+      "id" : "HOST-IF-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "IF(1,2,3)",
+      "host" : "control",
+      "id" : "HOST-IF-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "IF(1,2,3)",
+      "host" : "field",
+      "id" : "HOST-IF-field",
+      "value" : "2"
+    },
+    {
+      "formula" : "IFERROR(1\/0,7)",
+      "host" : "shape",
+      "id" : "HOST-IFERROR-shape",
+      "value" : "7"
+    },
+    {
+      "formula" : "IFERROR(1\/0,7)",
+      "host" : "page",
+      "id" : "HOST-IFERROR-page",
+      "value" : "7"
+    },
+    {
+      "formula" : "IFERROR(1\/0,7)",
+      "host" : "geometry",
+      "id" : "HOST-IFERROR-geometry",
+      "value" : "7"
+    },
+    {
+      "formula" : "IFERROR(1\/0,7)",
+      "host" : "control",
+      "id" : "HOST-IFERROR-control",
+      "value" : "7"
+    },
+    {
+      "formula" : "IFERROR(1\/0,7)",
+      "host" : "field",
+      "id" : "HOST-IFERROR-field",
+      "value" : "7"
+    },
+    {
+      "formula" : "INDEX(1,\"a;b;c\")",
+      "host" : "shape",
+      "id" : "HOST-INDEX-shape",
+      "value" : "b"
+    },
+    {
+      "formula" : "INDEX(1,\"a;b;c\")",
+      "host" : "page",
+      "id" : "HOST-INDEX-page",
+      "value" : "b"
+    },
+    {
+      "formula" : "INDEX(1,\"a;b;c\")",
+      "host" : "geometry",
+      "id" : "HOST-INDEX-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "INDEX(1,\"a;b;c\")",
+      "host" : "control",
+      "id" : "HOST-INDEX-control",
+      "value" : "b"
+    },
+    {
+      "formula" : "INDEX(1,\"a;b;c\")",
+      "host" : "field",
+      "id" : "HOST-INDEX-field",
+      "value" : "b"
+    },
+    {
+      "formula" : "INT(2.7)",
+      "host" : "shape",
+      "id" : "HOST-INT-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "INT(2.7)",
+      "host" : "page",
+      "id" : "HOST-INT-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "INT(2.7)",
+      "host" : "geometry",
+      "id" : "HOST-INT-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "INT(2.7)",
+      "host" : "control",
+      "id" : "HOST-INT-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "INT(2.7)",
+      "host" : "field",
+      "id" : "HOST-INT-field",
+      "value" : "2"
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "host" : "shape",
+      "id" : "HOST-ISTHEMED-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "host" : "page",
+      "id" : "HOST-ISTHEMED-page",
+      "issues" : [
+        "ThePage!User.Probe: Unknown page cell: ThePage!ColorSchemeIndex."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "host" : "geometry",
+      "id" : "HOST-ISTHEMED-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "host" : "control",
+      "id" : "HOST-ISTHEMED-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "ISTHEMED()",
+      "host" : "field",
+      "id" : "HOST-ISTHEMED-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "LEFT(\"Hello\",2)",
+      "host" : "shape",
+      "id" : "HOST-LEFT-shape",
+      "value" : "He"
+    },
+    {
+      "formula" : "LEFT(\"Hello\",2)",
+      "host" : "page",
+      "id" : "HOST-LEFT-page",
+      "value" : "He"
+    },
+    {
+      "formula" : "LEFT(\"Hello\",2)",
+      "host" : "geometry",
+      "id" : "HOST-LEFT-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "LEFT(\"Hello\",2)",
+      "host" : "control",
+      "id" : "HOST-LEFT-control",
+      "value" : "He"
+    },
+    {
+      "formula" : "LEFT(\"Hello\",2)",
+      "host" : "field",
+      "id" : "HOST-LEFT-field",
+      "value" : "He"
+    },
+    {
+      "formula" : "LEN(\"Hello\")",
+      "host" : "shape",
+      "id" : "HOST-LEN-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "LEN(\"Hello\")",
+      "host" : "page",
+      "id" : "HOST-LEN-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "LEN(\"Hello\")",
+      "host" : "geometry",
+      "id" : "HOST-LEN-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "LEN(\"Hello\")",
+      "host" : "control",
+      "id" : "HOST-LEN-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "LEN(\"Hello\")",
+      "host" : "field",
+      "id" : "HOST-LEN-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "LN(1)",
+      "host" : "shape",
+      "id" : "HOST-LN-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "LN(1)",
+      "host" : "page",
+      "id" : "HOST-LN-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "LN(1)",
+      "host" : "geometry",
+      "id" : "HOST-LN-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "LN(1)",
+      "host" : "control",
+      "id" : "HOST-LN-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "LN(1)",
+      "host" : "field",
+      "id" : "HOST-LN-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "LOG10(1000)",
+      "host" : "shape",
+      "id" : "HOST-LOG10-shape",
+      "value" : "3"
+    },
+    {
+      "formula" : "LOG10(1000)",
+      "host" : "page",
+      "id" : "HOST-LOG10-page",
+      "value" : "3"
+    },
+    {
+      "formula" : "LOG10(1000)",
+      "host" : "geometry",
+      "id" : "HOST-LOG10-geometry",
+      "value" : "3"
+    },
+    {
+      "formula" : "LOG10(1000)",
+      "host" : "control",
+      "id" : "HOST-LOG10-control",
+      "value" : "3"
+    },
+    {
+      "formula" : "LOG10(1000)",
+      "host" : "field",
+      "id" : "HOST-LOG10-field",
+      "value" : "3"
+    },
+    {
+      "formula" : "LOWER(\"HeLLo\")",
+      "host" : "shape",
+      "id" : "HOST-LOWER-shape",
+      "value" : "hello"
+    },
+    {
+      "formula" : "LOWER(\"HeLLo\")",
+      "host" : "page",
+      "id" : "HOST-LOWER-page",
+      "value" : "hello"
+    },
+    {
+      "formula" : "LOWER(\"HeLLo\")",
+      "host" : "geometry",
+      "id" : "HOST-LOWER-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "LOWER(\"HeLLo\")",
+      "host" : "control",
+      "id" : "HOST-LOWER-control",
+      "value" : "hello"
+    },
+    {
+      "formula" : "LOWER(\"HeLLo\")",
+      "host" : "field",
+      "id" : "HOST-LOWER-field",
+      "value" : "hello"
+    },
+    {
+      "formula" : "LUM(RGB(255,0,0))",
+      "host" : "shape",
+      "id" : "HOST-LUM-shape",
+      "value" : "120"
+    },
+    {
+      "formula" : "LUM(RGB(255,0,0))",
+      "host" : "page",
+      "id" : "HOST-LUM-page",
+      "value" : "120"
+    },
+    {
+      "formula" : "LUM(RGB(255,0,0))",
+      "host" : "geometry",
+      "id" : "HOST-LUM-geometry",
+      "value" : "120"
+    },
+    {
+      "formula" : "LUM(RGB(255,0,0))",
+      "host" : "control",
+      "id" : "HOST-LUM-control",
+      "value" : "120"
+    },
+    {
+      "formula" : "LUM(RGB(255,0,0))",
+      "host" : "field",
+      "id" : "HOST-LUM-field",
+      "value" : "120"
+    },
+    {
+      "formula" : "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+      "host" : "shape",
+      "id" : "HOST-LUMDIFF-shape",
+      "value" : "240"
+    },
+    {
+      "formula" : "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+      "host" : "page",
+      "id" : "HOST-LUMDIFF-page",
+      "value" : "240"
+    },
+    {
+      "formula" : "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+      "host" : "geometry",
+      "id" : "HOST-LUMDIFF-geometry",
+      "value" : "240"
+    },
+    {
+      "formula" : "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+      "host" : "control",
+      "id" : "HOST-LUMDIFF-control",
+      "value" : "240"
+    },
+    {
+      "formula" : "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+      "host" : "field",
+      "id" : "HOST-LUMDIFF-field",
+      "value" : "240"
+    },
+    {
+      "formula" : "MAX(1,5,3)",
+      "host" : "shape",
+      "id" : "HOST-MAX-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "MAX(1,5,3)",
+      "host" : "page",
+      "id" : "HOST-MAX-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "MAX(1,5,3)",
+      "host" : "geometry",
+      "id" : "HOST-MAX-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "MAX(1,5,3)",
+      "host" : "control",
+      "id" : "HOST-MAX-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "MAX(1,5,3)",
+      "host" : "field",
+      "id" : "HOST-MAX-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "MID(\"Hello\",2,3)",
+      "host" : "shape",
+      "id" : "HOST-MID-shape",
+      "value" : "ell"
+    },
+    {
+      "formula" : "MID(\"Hello\",2,3)",
+      "host" : "page",
+      "id" : "HOST-MID-page",
+      "value" : "ell"
+    },
+    {
+      "formula" : "MID(\"Hello\",2,3)",
+      "host" : "geometry",
+      "id" : "HOST-MID-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "MID(\"Hello\",2,3)",
+      "host" : "control",
+      "id" : "HOST-MID-control",
+      "value" : "ell"
+    },
+    {
+      "formula" : "MID(\"Hello\",2,3)",
+      "host" : "field",
+      "id" : "HOST-MID-field",
+      "value" : "ell"
+    },
+    {
+      "formula" : "MIN(1,5,3)",
+      "host" : "shape",
+      "id" : "HOST-MIN-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "MIN(1,5,3)",
+      "host" : "page",
+      "id" : "HOST-MIN-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "MIN(1,5,3)",
+      "host" : "geometry",
+      "id" : "HOST-MIN-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "MIN(1,5,3)",
+      "host" : "control",
+      "id" : "HOST-MIN-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "MIN(1,5,3)",
+      "host" : "field",
+      "id" : "HOST-MIN-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "MODULUS(7,3)",
+      "host" : "shape",
+      "id" : "HOST-MODULUS-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "MODULUS(7,3)",
+      "host" : "page",
+      "id" : "HOST-MODULUS-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "MODULUS(7,3)",
+      "host" : "geometry",
+      "id" : "HOST-MODULUS-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "MODULUS(7,3)",
+      "host" : "control",
+      "id" : "HOST-MODULUS-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "MODULUS(7,3)",
+      "host" : "field",
+      "id" : "HOST-MODULUS-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "NOT(1)",
+      "host" : "shape",
+      "id" : "HOST-NOT-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOT(1)",
+      "host" : "page",
+      "id" : "HOST-NOT-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOT(1)",
+      "host" : "geometry",
+      "id" : "HOST-NOT-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOT(1)",
+      "host" : "control",
+      "id" : "HOST-NOT-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOT(1)",
+      "host" : "field",
+      "id" : "HOST-NOT-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOW()-NOW()",
+      "host" : "shape",
+      "id" : "HOST-NOW-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOW()-NOW()",
+      "host" : "page",
+      "id" : "HOST-NOW-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOW()-NOW()",
+      "host" : "geometry",
+      "id" : "HOST-NOW-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOW()-NOW()",
+      "host" : "control",
+      "id" : "HOST-NOW-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "NOW()-NOW()",
+      "host" : "field",
+      "id" : "HOST-NOW-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+      "host" : "shape",
+      "id" : "HOST-NURBS-shape",
+      "issues" : [
+        "Unsupported ShapeSheet function: NURBS."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+      "host" : "page",
+      "id" : "HOST-NURBS-page",
+      "issues" : [
+        "ThePage!User.Probe: Unsupported ShapeSheet function: NURBS."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+      "host" : "geometry",
+      "id" : "HOST-NURBS-geometry",
+      "issues" : [
+        "Geometry1.X2: Unsupported ShapeSheet function: NURBS."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+      "host" : "control",
+      "id" : "HOST-NURBS-control",
+      "issues" : [
+        "Controls.Probe.X: Unsupported ShapeSheet function: NURBS."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+      "host" : "field",
+      "id" : "HOST-NURBS-field",
+      "issues" : [
+        "Text field 1: Unsupported ShapeSheet function: NURBS."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "OR(0,0)",
+      "host" : "shape",
+      "id" : "HOST-OR-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "OR(0,0)",
+      "host" : "page",
+      "id" : "HOST-OR-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "OR(0,0)",
+      "host" : "geometry",
+      "id" : "HOST-OR-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "OR(0,0)",
+      "host" : "control",
+      "id" : "HOST-OR-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "OR(0,0)",
+      "host" : "field",
+      "id" : "HOST-OR-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "host" : "shape",
+      "id" : "HOST-PAGECOUNT-shape",
+      "value" : "2"
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "host" : "page",
+      "id" : "HOST-PAGECOUNT-page",
+      "value" : "2"
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "host" : "geometry",
+      "id" : "HOST-PAGECOUNT-geometry",
+      "value" : "2"
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "host" : "control",
+      "id" : "HOST-PAGECOUNT-control",
+      "value" : "2"
+    },
+    {
+      "formula" : "PAGECOUNT()",
+      "host" : "field",
+      "id" : "HOST-PAGECOUNT-field",
+      "value" : "2"
+    },
+    {
+      "formula" : "PAGENAME()",
+      "host" : "shape",
+      "id" : "HOST-PAGENAME-shape",
+      "value" : "Probe Page"
+    },
+    {
+      "formula" : "PAGENAME()",
+      "host" : "page",
+      "id" : "HOST-PAGENAME-page",
+      "value" : "Probe Page"
+    },
+    {
+      "formula" : "PAGENAME()",
+      "host" : "geometry",
+      "id" : "HOST-PAGENAME-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "PAGENAME()",
+      "host" : "control",
+      "id" : "HOST-PAGENAME-control",
+      "value" : "Probe Page"
+    },
+    {
+      "formula" : "PAGENAME()",
+      "host" : "field",
+      "id" : "HOST-PAGENAME-field",
+      "value" : "Probe Page"
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "host" : "shape",
+      "id" : "HOST-PAGENUMBER-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "host" : "page",
+      "id" : "HOST-PAGENUMBER-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "host" : "geometry",
+      "id" : "HOST-PAGENUMBER-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "host" : "control",
+      "id" : "HOST-PAGENUMBER-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "PAGENUMBER()",
+      "host" : "field",
+      "id" : "HOST-PAGENUMBER-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "PI()",
+      "host" : "shape",
+      "id" : "HOST-PI-shape",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "PI()",
+      "host" : "page",
+      "id" : "HOST-PI-page",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "PI()",
+      "host" : "geometry",
+      "id" : "HOST-PI-geometry",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "PI()",
+      "host" : "control",
+      "id" : "HOST-PI-control",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "PI()",
+      "host" : "field",
+      "id" : "HOST-PI-field",
+      "value" : "3.1416"
+    },
+    {
+      "formula" : "POLYLINE(0,0,0,0,1,1,1,0)",
+      "host" : "shape",
+      "id" : "HOST-POLYLINE-shape",
+      "value" : "POLYLINE(0, 0, 0.0000,0.0000, 1.0000,1.0000, 1.0000,0.0000)"
+    },
+    {
+      "formula" : "POLYLINE(0,0,0,0,1,1,1,0)",
+      "host" : "page",
+      "id" : "HOST-POLYLINE-page",
+      "value" : "POLYLINE(0, 0, 0.0000,0.0000, 1.0000,1.0000, 1.0000,0.0000)"
+    },
+    {
+      "formula" : "POLYLINE(0,0,0,0,1,1,1,0)",
+      "host" : "geometry",
+      "id" : "HOST-POLYLINE-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "POLYLINE(0,0,0,0,1,1,1,0)",
+      "host" : "control",
+      "id" : "HOST-POLYLINE-control",
+      "value" : "POLYLINE(0, 0, 0.0000,0.0000, 1.0000,1.0000, 1.0000,0.0000)"
+    },
+    {
+      "formula" : "POLYLINE(0,0,0,0,1,1,1,0)",
+      "host" : "field",
+      "id" : "HOST-POLYLINE-field",
+      "value" : "POLYLINE(0, 0, 0.0000,0.0000, 1.0000,1.0000, 1.0000,0.0000)"
+    },
+    {
+      "formula" : "POW(2,10)",
+      "host" : "shape",
+      "id" : "HOST-POW-shape",
+      "value" : "1024"
+    },
+    {
+      "formula" : "POW(2,10)",
+      "host" : "page",
+      "id" : "HOST-POW-page",
+      "value" : "1024"
+    },
+    {
+      "formula" : "POW(2,10)",
+      "host" : "geometry",
+      "id" : "HOST-POW-geometry",
+      "value" : "1024"
+    },
+    {
+      "formula" : "POW(2,10)",
+      "host" : "control",
+      "id" : "HOST-POW-control",
+      "value" : "1024"
+    },
+    {
+      "formula" : "POW(2,10)",
+      "host" : "field",
+      "id" : "HOST-POW-field",
+      "value" : "1024"
+    },
+    {
+      "formula" : "RAD(180)",
+      "host" : "shape",
+      "id" : "HOST-RAD-shape",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "RAD(180)",
+      "host" : "page",
+      "id" : "HOST-RAD-page",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "RAD(180)",
+      "host" : "geometry",
+      "id" : "HOST-RAD-geometry",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "RAD(180)",
+      "host" : "control",
+      "id" : "HOST-RAD-control",
+      "value" : "3.141592653589793"
+    },
+    {
+      "formula" : "RAD(180)",
+      "host" : "field",
+      "id" : "HOST-RAD-field",
+      "value" : "3.1416"
+    },
+    {
+      "formula" : "RED(RGB(1,2,3))",
+      "host" : "shape",
+      "id" : "HOST-RED-shape",
+      "issues" : [
+        "RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "RED(RGB(1,2,3))",
+      "host" : "page",
+      "id" : "HOST-RED-page",
+      "issues" : [
+        "ThePage!User.Probe: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "RED(RGB(1,2,3))",
+      "host" : "geometry",
+      "id" : "HOST-RED-geometry",
+      "issues" : [
+        "Geometry1.X2: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "RED(RGB(1,2,3))",
+      "host" : "control",
+      "id" : "HOST-RED-control",
+      "issues" : [
+        "Controls.Probe.X: RGB color is absent from the supplied Visio color table."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "RED(RGB(1,2,3))",
+      "host" : "field",
+      "id" : "HOST-RED-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "REF()",
+      "host" : "shape",
+      "id" : "HOST-REF-shape",
+      "issues" : [
+        "ShapeSheet #REF! error."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "REF()",
+      "host" : "page",
+      "id" : "HOST-REF-page",
+      "issues" : [
+        "ThePage!User.Probe: ShapeSheet #REF! error."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "REF()",
+      "host" : "geometry",
+      "id" : "HOST-REF-geometry",
+      "issues" : [
+        "Geometry1.X2: ShapeSheet #REF! error."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "REF()",
+      "host" : "control",
+      "id" : "HOST-REF-control",
+      "issues" : [
+        "Controls.Probe.X: ShapeSheet #REF! error."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "REF()",
+      "host" : "field",
+      "id" : "HOST-REF-field",
+      "issues" : [
+        "Text field 1: ShapeSheet #REF! error."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "REPLACE(\"Hello\",2,3,\"ipp\")",
+      "host" : "shape",
+      "id" : "HOST-REPLACE-shape",
+      "value" : "Hippo"
+    },
+    {
+      "formula" : "REPLACE(\"Hello\",2,3,\"ipp\")",
+      "host" : "page",
+      "id" : "HOST-REPLACE-page",
+      "value" : "Hippo"
+    },
+    {
+      "formula" : "REPLACE(\"Hello\",2,3,\"ipp\")",
+      "host" : "geometry",
+      "id" : "HOST-REPLACE-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "REPLACE(\"Hello\",2,3,\"ipp\")",
+      "host" : "control",
+      "id" : "HOST-REPLACE-control",
+      "value" : "Hippo"
+    },
+    {
+      "formula" : "REPLACE(\"Hello\",2,3,\"ipp\")",
+      "host" : "field",
+      "id" : "HOST-REPLACE-field",
+      "value" : "Hippo"
+    },
+    {
+      "formula" : "REPT(\"ab\",3)",
+      "host" : "shape",
+      "id" : "HOST-REPT-shape",
+      "value" : "ababab"
+    },
+    {
+      "formula" : "REPT(\"ab\",3)",
+      "host" : "page",
+      "id" : "HOST-REPT-page",
+      "value" : "ababab"
+    },
+    {
+      "formula" : "REPT(\"ab\",3)",
+      "host" : "geometry",
+      "id" : "HOST-REPT-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "REPT(\"ab\",3)",
+      "host" : "control",
+      "id" : "HOST-REPT-control",
+      "value" : "ababab"
+    },
+    {
+      "formula" : "REPT(\"ab\",3)",
+      "host" : "field",
+      "id" : "HOST-REPT-field",
+      "value" : "ababab"
+    },
+    {
+      "formula" : "RGB(10,20,30)",
+      "host" : "shape",
+      "id" : "HOST-RGB-shape",
+      "value" : "25"
+    },
+    {
+      "formula" : "RGB(10,20,30)",
+      "host" : "page",
+      "id" : "HOST-RGB-page",
+      "value" : "25"
+    },
+    {
+      "formula" : "RGB(10,20,30)",
+      "host" : "geometry",
+      "id" : "HOST-RGB-geometry",
+      "value" : "25"
+    },
+    {
+      "formula" : "RGB(10,20,30)",
+      "host" : "control",
+      "id" : "HOST-RGB-control",
+      "value" : "25"
+    },
+    {
+      "formula" : "RGB(10,20,30)",
+      "host" : "field",
+      "id" : "HOST-RGB-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "RIGHT(\"Hello\",2)",
+      "host" : "shape",
+      "id" : "HOST-RIGHT-shape",
+      "value" : "lo"
+    },
+    {
+      "formula" : "RIGHT(\"Hello\",2)",
+      "host" : "page",
+      "id" : "HOST-RIGHT-page",
+      "value" : "lo"
+    },
+    {
+      "formula" : "RIGHT(\"Hello\",2)",
+      "host" : "geometry",
+      "id" : "HOST-RIGHT-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "RIGHT(\"Hello\",2)",
+      "host" : "control",
+      "id" : "HOST-RIGHT-control",
+      "value" : "lo"
+    },
+    {
+      "formula" : "RIGHT(\"Hello\",2)",
+      "host" : "field",
+      "id" : "HOST-RIGHT-field",
+      "value" : "lo"
+    },
+    {
+      "formula" : "ROUND(2.345,2)",
+      "host" : "shape",
+      "id" : "HOST-ROUND-shape",
+      "value" : "2.35"
+    },
+    {
+      "formula" : "ROUND(2.345,2)",
+      "host" : "page",
+      "id" : "HOST-ROUND-page",
+      "value" : "2.35"
+    },
+    {
+      "formula" : "ROUND(2.345,2)",
+      "host" : "geometry",
+      "id" : "HOST-ROUND-geometry",
+      "value" : "2.35"
+    },
+    {
+      "formula" : "ROUND(2.345,2)",
+      "host" : "control",
+      "id" : "HOST-ROUND-control",
+      "value" : "2.35"
+    },
+    {
+      "formula" : "ROUND(2.345,2)",
+      "host" : "field",
+      "id" : "HOST-ROUND-field",
+      "value" : "2.35"
+    },
+    {
+      "formula" : "SAT(RGB(255,0,0))",
+      "host" : "shape",
+      "id" : "HOST-SAT-shape",
+      "value" : "240"
+    },
+    {
+      "formula" : "SAT(RGB(255,0,0))",
+      "host" : "page",
+      "id" : "HOST-SAT-page",
+      "value" : "240"
+    },
+    {
+      "formula" : "SAT(RGB(255,0,0))",
+      "host" : "geometry",
+      "id" : "HOST-SAT-geometry",
+      "value" : "240"
+    },
+    {
+      "formula" : "SAT(RGB(255,0,0))",
+      "host" : "control",
+      "id" : "HOST-SAT-control",
+      "value" : "240"
+    },
+    {
+      "formula" : "SAT(RGB(255,0,0))",
+      "host" : "field",
+      "id" : "HOST-SAT-field",
+      "value" : "240"
+    },
+    {
+      "formula" : "SETATREF(Sheet.2!User.Local)",
+      "host" : "shape",
+      "id" : "HOST-SETATREF-shape",
+      "value" : "7"
+    },
+    {
+      "formula" : "SETATREF(Sheet.2!User.Local)",
+      "host" : "page",
+      "id" : "HOST-SETATREF-page",
+      "value" : "7"
+    },
+    {
+      "formula" : "SETATREF(Sheet.2!User.Local)",
+      "host" : "geometry",
+      "id" : "HOST-SETATREF-geometry",
+      "value" : "7"
+    },
+    {
+      "formula" : "SETATREF(Sheet.2!User.Local)",
+      "host" : "control",
+      "id" : "HOST-SETATREF-control",
+      "value" : "7"
+    },
+    {
+      "formula" : "SETATREF(Sheet.2!User.Local)",
+      "host" : "field",
+      "id" : "HOST-SETATREF-field",
+      "value" : "7"
+    },
+    {
+      "formula" : "SETATREFEVAL(5)",
+      "host" : "shape",
+      "id" : "HOST-SETATREFEVAL-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEVAL(5)",
+      "host" : "page",
+      "id" : "HOST-SETATREFEVAL-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEVAL(5)",
+      "host" : "geometry",
+      "id" : "HOST-SETATREFEVAL-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEVAL(5)",
+      "host" : "control",
+      "id" : "HOST-SETATREFEVAL-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEVAL(5)",
+      "host" : "field",
+      "id" : "HOST-SETATREFEVAL-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEXPR(5)",
+      "host" : "shape",
+      "id" : "HOST-SETATREFEXPR-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEXPR(5)",
+      "host" : "page",
+      "id" : "HOST-SETATREFEXPR-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEXPR(5)",
+      "host" : "geometry",
+      "id" : "HOST-SETATREFEXPR-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEXPR(5)",
+      "host" : "control",
+      "id" : "HOST-SETATREFEXPR-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "SETATREFEXPR(5)",
+      "host" : "field",
+      "id" : "HOST-SETATREFEXPR-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "SHAPETEXT(Sheet.1!TheText)",
+      "host" : "shape",
+      "id" : "HOST-SHAPETEXT-shape",
+      "value" : "Hello World"
+    },
+    {
+      "formula" : "SHAPETEXT(Sheet.1!TheText)",
+      "host" : "page",
+      "id" : "HOST-SHAPETEXT-page",
+      "value" : "Hello World"
+    },
+    {
+      "formula" : "SHAPETEXT(Sheet.1!TheText)",
+      "host" : "geometry",
+      "id" : "HOST-SHAPETEXT-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "SHAPETEXT(Sheet.1!TheText)",
+      "host" : "control",
+      "id" : "HOST-SHAPETEXT-control",
+      "value" : "Hello World"
+    },
+    {
+      "formula" : "SHAPETEXT(Sheet.1!TheText)",
+      "host" : "field",
+      "id" : "HOST-SHAPETEXT-field",
+      "value" : "Hello World"
+    },
+    {
+      "formula" : "SIGN(-3)",
+      "host" : "shape",
+      "id" : "HOST-SIGN-shape",
+      "value" : "-1"
+    },
+    {
+      "formula" : "SIGN(-3)",
+      "host" : "page",
+      "id" : "HOST-SIGN-page",
+      "value" : "-1"
+    },
+    {
+      "formula" : "SIGN(-3)",
+      "host" : "geometry",
+      "id" : "HOST-SIGN-geometry",
+      "value" : "-1"
+    },
+    {
+      "formula" : "SIGN(-3)",
+      "host" : "control",
+      "id" : "HOST-SIGN-control",
+      "value" : "-1"
+    },
+    {
+      "formula" : "SIGN(-3)",
+      "host" : "field",
+      "id" : "HOST-SIGN-field",
+      "value" : "-1"
+    },
+    {
+      "formula" : "SIN(0)",
+      "host" : "shape",
+      "id" : "HOST-SIN-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "SIN(0)",
+      "host" : "page",
+      "id" : "HOST-SIN-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "SIN(0)",
+      "host" : "geometry",
+      "id" : "HOST-SIN-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "SIN(0)",
+      "host" : "control",
+      "id" : "HOST-SIN-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "SIN(0)",
+      "host" : "field",
+      "id" : "HOST-SIN-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "SQRT(16)",
+      "host" : "shape",
+      "id" : "HOST-SQRT-shape",
+      "value" : "4"
+    },
+    {
+      "formula" : "SQRT(16)",
+      "host" : "page",
+      "id" : "HOST-SQRT-page",
+      "value" : "4"
+    },
+    {
+      "formula" : "SQRT(16)",
+      "host" : "geometry",
+      "id" : "HOST-SQRT-geometry",
+      "value" : "4"
+    },
+    {
+      "formula" : "SQRT(16)",
+      "host" : "control",
+      "id" : "HOST-SQRT-control",
+      "value" : "4"
+    },
+    {
+      "formula" : "SQRT(16)",
+      "host" : "field",
+      "id" : "HOST-SQRT-field",
+      "value" : "4"
+    },
+    {
+      "formula" : "STRSAME(\"abc\",\"ABC\")",
+      "host" : "shape",
+      "id" : "HOST-STRSAME-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "STRSAME(\"abc\",\"ABC\")",
+      "host" : "page",
+      "id" : "HOST-STRSAME-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "STRSAME(\"abc\",\"ABC\")",
+      "host" : "geometry",
+      "id" : "HOST-STRSAME-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "STRSAME(\"abc\",\"ABC\")",
+      "host" : "control",
+      "id" : "HOST-STRSAME-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "STRSAME(\"abc\",\"ABC\")",
+      "host" : "field",
+      "id" : "HOST-STRSAME-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+      "host" : "shape",
+      "id" : "HOST-STRSAMEEX-shape",
+      "value" : "1"
+    },
+    {
+      "formula" : "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+      "host" : "page",
+      "id" : "HOST-STRSAMEEX-page",
+      "value" : "1"
+    },
+    {
+      "formula" : "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+      "host" : "geometry",
+      "id" : "HOST-STRSAMEEX-geometry",
+      "value" : "1"
+    },
+    {
+      "formula" : "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+      "host" : "control",
+      "id" : "HOST-STRSAMEEX-control",
+      "value" : "1"
+    },
+    {
+      "formula" : "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+      "host" : "field",
+      "id" : "HOST-STRSAMEEX-field",
+      "value" : "1"
+    },
+    {
+      "formula" : "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+      "host" : "shape",
+      "id" : "HOST-SUBSTITUTE-shape",
+      "value" : "a+b+c"
+    },
+    {
+      "formula" : "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+      "host" : "page",
+      "id" : "HOST-SUBSTITUTE-page",
+      "value" : "a+b+c"
+    },
+    {
+      "formula" : "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+      "host" : "geometry",
+      "id" : "HOST-SUBSTITUTE-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+      "host" : "control",
+      "id" : "HOST-SUBSTITUTE-control",
+      "value" : "a+b+c"
+    },
+    {
+      "formula" : "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+      "host" : "field",
+      "id" : "HOST-SUBSTITUTE-field",
+      "value" : "a+b+c"
+    },
+    {
+      "formula" : "SUM(1,2,3)",
+      "host" : "shape",
+      "id" : "HOST-SUM-shape",
+      "value" : "6"
+    },
+    {
+      "formula" : "SUM(1,2,3)",
+      "host" : "page",
+      "id" : "HOST-SUM-page",
+      "value" : "6"
+    },
+    {
+      "formula" : "SUM(1,2,3)",
+      "host" : "geometry",
+      "id" : "HOST-SUM-geometry",
+      "value" : "6"
+    },
+    {
+      "formula" : "SUM(1,2,3)",
+      "host" : "control",
+      "id" : "HOST-SUM-control",
+      "value" : "6"
+    },
+    {
+      "formula" : "SUM(1,2,3)",
+      "host" : "field",
+      "id" : "HOST-SUM-field",
+      "value" : "6"
+    },
+    {
+      "formula" : "TAN(0)",
+      "host" : "shape",
+      "id" : "HOST-TAN-shape",
+      "value" : "0"
+    },
+    {
+      "formula" : "TAN(0)",
+      "host" : "page",
+      "id" : "HOST-TAN-page",
+      "value" : "0"
+    },
+    {
+      "formula" : "TAN(0)",
+      "host" : "geometry",
+      "id" : "HOST-TAN-geometry",
+      "value" : "0"
+    },
+    {
+      "formula" : "TAN(0)",
+      "host" : "control",
+      "id" : "HOST-TAN-control",
+      "value" : "0"
+    },
+    {
+      "formula" : "TAN(0)",
+      "host" : "field",
+      "id" : "HOST-TAN-field",
+      "value" : "0"
+    },
+    {
+      "formula" : "TEXTHEIGHT(Sheet.1!TheText)",
+      "host" : "shape",
+      "id" : "HOST-TEXTHEIGHT-shape",
+      "issues" : [
+        "TEXTHEIGHT expects a TheText reference and a maximum width."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TEXTHEIGHT(Sheet.1!TheText)",
+      "host" : "page",
+      "id" : "HOST-TEXTHEIGHT-page",
+      "issues" : [
+        "ThePage!User.Probe: TEXTHEIGHT expects a TheText reference and a maximum width."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TEXTHEIGHT(Sheet.1!TheText)",
+      "host" : "geometry",
+      "id" : "HOST-TEXTHEIGHT-geometry",
+      "issues" : [
+        "Geometry1.X2: TEXTHEIGHT expects a TheText reference and a maximum width."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "TEXTHEIGHT(Sheet.1!TheText)",
+      "host" : "control",
+      "id" : "HOST-TEXTHEIGHT-control",
+      "issues" : [
+        "Controls.Probe.X: TEXTHEIGHT expects a TheText reference and a maximum width."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TEXTHEIGHT(Sheet.1!TheText)",
+      "host" : "field",
+      "id" : "HOST-TEXTHEIGHT-field",
+      "issues" : [
+        "Text field 1: TEXTHEIGHT expects a TheText reference and a maximum width."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TEXTWIDTH(Sheet.1!TheText)",
+      "host" : "shape",
+      "id" : "HOST-TEXTWIDTH-shape",
+      "value" : "1.018744574652778"
+    },
+    {
+      "formula" : "TEXTWIDTH(Sheet.1!TheText)",
+      "host" : "page",
+      "id" : "HOST-TEXTWIDTH-page",
+      "value" : "1.018744574652778"
+    },
+    {
+      "formula" : "TEXTWIDTH(Sheet.1!TheText)",
+      "host" : "geometry",
+      "id" : "HOST-TEXTWIDTH-geometry",
+      "value" : "1.018744574652778"
+    },
+    {
+      "formula" : "TEXTWIDTH(Sheet.1!TheText)",
+      "host" : "control",
+      "id" : "HOST-TEXTWIDTH-control",
+      "value" : "1.018744574652778"
+    },
+    {
+      "formula" : "TEXTWIDTH(Sheet.1!TheText)",
+      "host" : "field",
+      "id" : "HOST-TEXTWIDTH-field",
+      "value" : "25.8761"
+    },
+    {
+      "formula" : "THEMEGUARD(5)",
+      "host" : "shape",
+      "id" : "HOST-THEMEGUARD-shape",
+      "value" : "5"
+    },
+    {
+      "formula" : "THEMEGUARD(5)",
+      "host" : "page",
+      "id" : "HOST-THEMEGUARD-page",
+      "value" : "5"
+    },
+    {
+      "formula" : "THEMEGUARD(5)",
+      "host" : "geometry",
+      "id" : "HOST-THEMEGUARD-geometry",
+      "value" : "5"
+    },
+    {
+      "formula" : "THEMEGUARD(5)",
+      "host" : "control",
+      "id" : "HOST-THEMEGUARD-control",
+      "value" : "5"
+    },
+    {
+      "formula" : "THEMEGUARD(5)",
+      "host" : "field",
+      "id" : "HOST-THEMEGUARD-field",
+      "value" : "5"
+    },
+    {
+      "formula" : "THEMEPROP(1)",
+      "host" : "shape",
+      "id" : "HOST-THEMEPROP-shape",
+      "issues" : [
+        "THEMEPROP expects Embellishment or MultiFormat as a string."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEPROP(1)",
+      "host" : "page",
+      "id" : "HOST-THEMEPROP-page",
+      "issues" : [
+        "ThePage!User.Probe: THEMEPROP expects Embellishment or MultiFormat as a string."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEPROP(1)",
+      "host" : "geometry",
+      "id" : "HOST-THEMEPROP-geometry",
+      "issues" : [
+        "Geometry1.X2: THEMEPROP expects Embellishment or MultiFormat as a string."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "THEMEPROP(1)",
+      "host" : "control",
+      "id" : "HOST-THEMEPROP-control",
+      "issues" : [
+        "Controls.Probe.X: THEMEPROP expects Embellishment or MultiFormat as a string."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEPROP(1)",
+      "host" : "field",
+      "id" : "HOST-THEMEPROP-field",
+      "issues" : [
+        "Text field 1: THEMEPROP expects Embellishment or MultiFormat as a string."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEVAL()",
+      "host" : "shape",
+      "id" : "HOST-THEMEVAL-shape",
+      "issues" : [
+        "THEMEVAL() has no theme value for this cell (#N\/A)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEVAL()",
+      "host" : "page",
+      "id" : "HOST-THEMEVAL-page",
+      "issues" : [
+        "ThePage!User.Probe: THEMEVAL() has no theme value for this cell (#N\/A)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEVAL()",
+      "host" : "geometry",
+      "id" : "HOST-THEMEVAL-geometry",
+      "issues" : [
+        "Geometry1.X2: THEMEVAL() has no theme value for this cell (#N\/A)."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "THEMEVAL()",
+      "host" : "control",
+      "id" : "HOST-THEMEVAL-control",
+      "issues" : [
+        "Controls.Probe.X: THEMEVAL() has no theme value for this cell (#N\/A)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "THEMEVAL()",
+      "host" : "field",
+      "id" : "HOST-THEMEVAL-field",
+      "issues" : [
+        "Text field 1: THEMEVAL() has no theme value for this cell (#N\/A)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TODAY()-TODAY()",
+      "host" : "shape",
+      "id" : "HOST-TODAY-shape",
+      "issues" : [
+        "TODAY is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TODAY()-TODAY()",
+      "host" : "page",
+      "id" : "HOST-TODAY-page",
+      "issues" : [
+        "ThePage!User.Probe: TODAY is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TODAY()-TODAY()",
+      "host" : "geometry",
+      "id" : "HOST-TODAY-geometry",
+      "issues" : [
+        "Geometry1.X2: TODAY is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "TODAY()-TODAY()",
+      "host" : "control",
+      "id" : "HOST-TODAY-control",
+      "issues" : [
+        "Controls.Probe.X: TODAY is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TODAY()-TODAY()",
+      "host" : "field",
+      "id" : "HOST-TODAY-field",
+      "issues" : [
+        "Text field 1: TODAY is not available in Visio 2019 (#NAME?)."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "TRIM(\"  a  b  \")",
+      "host" : "shape",
+      "id" : "HOST-TRIM-shape",
+      "value" : "a b"
+    },
+    {
+      "formula" : "TRIM(\"  a  b  \")",
+      "host" : "page",
+      "id" : "HOST-TRIM-page",
+      "value" : "a b"
+    },
+    {
+      "formula" : "TRIM(\"  a  b  \")",
+      "host" : "geometry",
+      "id" : "HOST-TRIM-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "TRIM(\"  a  b  \")",
+      "host" : "control",
+      "id" : "HOST-TRIM-control",
+      "value" : "a b"
+    },
+    {
+      "formula" : "TRIM(\"  a  b  \")",
+      "host" : "field",
+      "id" : "HOST-TRIM-field",
+      "value" : "a b"
+    },
+    {
+      "formula" : "TRUNC(2.789,2)",
+      "host" : "shape",
+      "id" : "HOST-TRUNC-shape",
+      "value" : "2.78"
+    },
+    {
+      "formula" : "TRUNC(2.789,2)",
+      "host" : "page",
+      "id" : "HOST-TRUNC-page",
+      "value" : "2.78"
+    },
+    {
+      "formula" : "TRUNC(2.789,2)",
+      "host" : "geometry",
+      "id" : "HOST-TRUNC-geometry",
+      "value" : "2.78"
+    },
+    {
+      "formula" : "TRUNC(2.789,2)",
+      "host" : "control",
+      "id" : "HOST-TRUNC-control",
+      "value" : "2.78"
+    },
+    {
+      "formula" : "TRUNC(2.789,2)",
+      "host" : "field",
+      "id" : "HOST-TRUNC-field",
+      "value" : "2.78"
+    },
+    {
+      "formula" : "UNICHAR(65)",
+      "host" : "shape",
+      "id" : "HOST-UNICHAR-shape",
+      "value" : "A"
+    },
+    {
+      "formula" : "UNICHAR(65)",
+      "host" : "page",
+      "id" : "HOST-UNICHAR-page",
+      "value" : "A"
+    },
+    {
+      "formula" : "UNICHAR(65)",
+      "host" : "geometry",
+      "id" : "HOST-UNICHAR-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "UNICHAR(65)",
+      "host" : "control",
+      "id" : "HOST-UNICHAR-control",
+      "value" : "A"
+    },
+    {
+      "formula" : "UNICHAR(65)",
+      "host" : "field",
+      "id" : "HOST-UNICHAR-field",
+      "value" : "A"
+    },
+    {
+      "formula" : "UPPER(\"hello\")",
+      "host" : "shape",
+      "id" : "HOST-UPPER-shape",
+      "value" : "HELLO"
+    },
+    {
+      "formula" : "UPPER(\"hello\")",
+      "host" : "page",
+      "id" : "HOST-UPPER-page",
+      "value" : "HELLO"
+    },
+    {
+      "formula" : "UPPER(\"hello\")",
+      "host" : "geometry",
+      "id" : "HOST-UPPER-geometry",
+      "issues" : [
+        "Geometry1.X2: A numeric value was required."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "UPPER(\"hello\")",
+      "host" : "control",
+      "id" : "HOST-UPPER-control",
+      "value" : "HELLO"
+    },
+    {
+      "formula" : "UPPER(\"hello\")",
+      "host" : "field",
+      "id" : "HOST-UPPER-field",
+      "value" : "HELLO"
+    },
+    {
+      "formula" : "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+      "host" : "shape",
+      "id" : "HOST-_ELLIPSE_THETA-shape",
+      "issues" : [
+        "Unsupported ShapeSheet function: _ELLIPSE_THETA."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+      "host" : "page",
+      "id" : "HOST-_ELLIPSE_THETA-page",
+      "issues" : [
+        "ThePage!User.Probe: Unsupported ShapeSheet function: _ELLIPSE_THETA."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+      "host" : "geometry",
+      "id" : "HOST-_ELLIPSE_THETA-geometry",
+      "issues" : [
+        "Geometry1.X2: Unsupported ShapeSheet function: _ELLIPSE_THETA."
+      ],
+      "value" : "1"
+    },
+    {
+      "formula" : "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+      "host" : "control",
+      "id" : "HOST-_ELLIPSE_THETA-control",
+      "issues" : [
+        "Controls.Probe.X: Unsupported ShapeSheet function: _ELLIPSE_THETA."
+      ],
+      "value" : "0"
+    },
+    {
+      "formula" : "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+      "host" : "field",
+      "id" : "HOST-_ELLIPSE_THETA-field",
+      "issues" : [
+        "Text field 1: Unsupported ShapeSheet function: _ELLIPSE_THETA."
+      ],
+      "value" : "0"
+    }
+  ],
+  "schemaVersion" : 1
+}

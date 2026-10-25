@@ -1,11 +1,10 @@
 {
  "schemaVersion": 1,
  "visioVersion": "16.0",
- "cases": 1902,
+ "cases": 2383,
  "totals": {
-  "agree": 1837,
-  "disposed": 64,
-  "open": 1
+  "agree": 2316,
+  "disposed": 67
  },
  "families": {
   "ABS": {
@@ -370,8 +369,7 @@
    "agree": 6
   },
   "ROUNDING": {
-   "agree": 17,
-   "open": 1
+   "agree": 18
   },
   "SAT": {
    "agree": 3
@@ -405,6 +403,10 @@
   },
   "SQRT": {
    "agree": 4
+  },
+  "STRCOERCE": {
+   "agree": 40,
+   "disposed": 1
   },
   "STRSAME": {
    "agree": 3
@@ -465,6 +467,272 @@
   },
   "UPPER": {
    "agree": 3
+  },
+  "VEC-ABS": {
+   "agree": 5
+  },
+  "VEC-ACOS": {
+   "agree": 5
+  },
+  "VEC-AND": {
+   "agree": 5
+  },
+  "VEC-ANG360": {
+   "agree": 5
+  },
+  "VEC-ASIN": {
+   "agree": 5
+  },
+  "VEC-ATAN": {
+   "agree": 5
+  },
+  "VEC-ATAN2": {
+   "agree": 5
+  },
+  "VEC-BITAND": {
+   "agree": 5
+  },
+  "VEC-BITOR": {
+   "agree": 5
+  },
+  "VEC-BITXOR": {
+   "agree": 5
+  },
+  "VEC-BKGPAGENAME": {
+   "agree": 5
+  },
+  "VEC-BLUE": {
+   "agree": 5
+  },
+  "VEC-BOUND": {
+   "agree": 5
+  },
+  "VEC-CEILING": {
+   "agree": 5
+  },
+  "VEC-CHAR": {
+   "agree": 5
+  },
+  "VEC-CONCATENATE": {
+   "agree": 5
+  },
+  "VEC-COS": {
+   "agree": 5
+  },
+  "VEC-DATE": {
+   "agree": 5
+  },
+  "VEC-DEG": {
+   "agree": 5
+  },
+  "VEC-EXP": {
+   "agree": 5
+  },
+  "VEC-FIELDPICTURE": {
+   "agree": 5
+  },
+  "VEC-FIND": {
+   "agree": 5
+  },
+  "VEC-FLOOR": {
+   "agree": 5
+  },
+  "VEC-FORMAT": {
+   "agree": 5
+  },
+  "VEC-GETREF": {
+   "agree": 5
+  },
+  "VEC-GREEN": {
+   "agree": 5
+  },
+  "VEC-GUARD": {
+   "agree": 5
+  },
+  "VEC-HSL": {
+   "agree": 5
+  },
+  "VEC-HUE": {
+   "agree": 5
+  },
+  "VEC-ID": {
+   "agree": 5
+  },
+  "VEC-IF": {
+   "agree": 5
+  },
+  "VEC-IFERROR": {
+   "agree": 5
+  },
+  "VEC-INDEX": {
+   "agree": 5
+  },
+  "VEC-INT": {
+   "agree": 5
+  },
+  "VEC-ISTHEMED": {
+   "agree": 5
+  },
+  "VEC-LEFT": {
+   "agree": 5
+  },
+  "VEC-LEN": {
+   "agree": 5
+  },
+  "VEC-LN": {
+   "agree": 5
+  },
+  "VEC-LOG10": {
+   "agree": 5
+  },
+  "VEC-LOWER": {
+   "agree": 5
+  },
+  "VEC-LUM": {
+   "agree": 5
+  },
+  "VEC-LUMDIFF": {
+   "agree": 5
+  },
+  "VEC-MAX": {
+   "agree": 5
+  },
+  "VEC-MID": {
+   "agree": 5
+  },
+  "VEC-MIN": {
+   "agree": 5
+  },
+  "VEC-MODULUS": {
+   "agree": 5
+  },
+  "VEC-NOT": {
+   "agree": 5
+  },
+  "VEC-NOW": {
+   "disposed": 1,
+   "agree": 4
+  },
+  "VEC-NURBS": {
+   "agree": 5
+  },
+  "VEC-OR": {
+   "agree": 5
+  },
+  "VEC-PAGECOUNT": {
+   "agree": 5
+  },
+  "VEC-PAGENAME": {
+   "agree": 5
+  },
+  "VEC-PAGENUMBER": {
+   "agree": 5
+  },
+  "VEC-PI": {
+   "agree": 5
+  },
+  "VEC-POLYLINE": {
+   "agree": 5
+  },
+  "VEC-POW": {
+   "agree": 5
+  },
+  "VEC-RAD": {
+   "agree": 5
+  },
+  "VEC-RED": {
+   "agree": 5
+  },
+  "VEC-REF": {
+   "agree": 5
+  },
+  "VEC-REPLACE": {
+   "agree": 5
+  },
+  "VEC-REPT": {
+   "agree": 5
+  },
+  "VEC-RGB": {
+   "agree": 5
+  },
+  "VEC-RIGHT": {
+   "agree": 5
+  },
+  "VEC-ROUND": {
+   "agree": 5
+  },
+  "VEC-SAT": {
+   "agree": 5
+  },
+  "VEC-SETATREF": {
+   "agree": 5
+  },
+  "VEC-SETATREFEVAL": {
+   "agree": 5
+  },
+  "VEC-SETATREFEXPR": {
+   "agree": 5
+  },
+  "VEC-SHAPETEXT": {
+   "agree": 5
+  },
+  "VEC-SIGN": {
+   "agree": 5
+  },
+  "VEC-SIN": {
+   "agree": 5
+  },
+  "VEC-SQRT": {
+   "agree": 5
+  },
+  "VEC-STRSAME": {
+   "agree": 5
+  },
+  "VEC-STRSAMEEX": {
+   "agree": 5
+  },
+  "VEC-SUBSTITUTE": {
+   "agree": 5
+  },
+  "VEC-SUM": {
+   "agree": 5
+  },
+  "VEC-TAN": {
+   "agree": 5
+  },
+  "VEC-TEXTHEIGHT": {
+   "agree": 5
+  },
+  "VEC-TEXTWIDTH": {
+   "agree": 5
+  },
+  "VEC-THEMEGUARD": {
+   "agree": 5
+  },
+  "VEC-THEMEPROP": {
+   "agree": 5
+  },
+  "VEC-THEMEVAL": {
+   "agree": 4,
+   "disposed": 1
+  },
+  "VEC-TODAY": {
+   "agree": 5
+  },
+  "VEC-TRIM": {
+   "agree": 5
+  },
+  "VEC-TRUNC": {
+   "agree": 5
+  },
+  "VEC-UNICHAR": {
+   "agree": 5
+  },
+  "VEC-UPPER": {
+   "agree": 5
+  },
+  "VEC-_ELLIPSE_THETA": {
+   "agree": 5
   },
   "WEEKDAY": {
    "agree": 3
@@ -588,6 +856,7 @@
   "RGB",
   "RIGHT",
   "ROUND",
+  "ROUNDING",
   "SAT",
   "SECOND",
   "SETATREF",
@@ -618,6 +887,92 @@
   "TRUNC",
   "UNICHAR",
   "UPPER",
+  "VEC-ABS",
+  "VEC-ACOS",
+  "VEC-AND",
+  "VEC-ANG360",
+  "VEC-ASIN",
+  "VEC-ATAN",
+  "VEC-ATAN2",
+  "VEC-BITAND",
+  "VEC-BITOR",
+  "VEC-BITXOR",
+  "VEC-BKGPAGENAME",
+  "VEC-BLUE",
+  "VEC-BOUND",
+  "VEC-CEILING",
+  "VEC-CHAR",
+  "VEC-CONCATENATE",
+  "VEC-COS",
+  "VEC-DATE",
+  "VEC-DEG",
+  "VEC-EXP",
+  "VEC-FIELDPICTURE",
+  "VEC-FIND",
+  "VEC-FLOOR",
+  "VEC-FORMAT",
+  "VEC-GETREF",
+  "VEC-GREEN",
+  "VEC-GUARD",
+  "VEC-HSL",
+  "VEC-HUE",
+  "VEC-ID",
+  "VEC-IF",
+  "VEC-IFERROR",
+  "VEC-INDEX",
+  "VEC-INT",
+  "VEC-ISTHEMED",
+  "VEC-LEFT",
+  "VEC-LEN",
+  "VEC-LN",
+  "VEC-LOG10",
+  "VEC-LOWER",
+  "VEC-LUM",
+  "VEC-LUMDIFF",
+  "VEC-MAX",
+  "VEC-MID",
+  "VEC-MIN",
+  "VEC-MODULUS",
+  "VEC-NOT",
+  "VEC-NURBS",
+  "VEC-OR",
+  "VEC-PAGECOUNT",
+  "VEC-PAGENAME",
+  "VEC-PAGENUMBER",
+  "VEC-PI",
+  "VEC-POLYLINE",
+  "VEC-POW",
+  "VEC-RAD",
+  "VEC-RED",
+  "VEC-REF",
+  "VEC-REPLACE",
+  "VEC-REPT",
+  "VEC-RGB",
+  "VEC-RIGHT",
+  "VEC-ROUND",
+  "VEC-SAT",
+  "VEC-SETATREF",
+  "VEC-SETATREFEVAL",
+  "VEC-SETATREFEXPR",
+  "VEC-SHAPETEXT",
+  "VEC-SIGN",
+  "VEC-SIN",
+  "VEC-SQRT",
+  "VEC-STRSAME",
+  "VEC-STRSAMEEX",
+  "VEC-SUBSTITUTE",
+  "VEC-SUM",
+  "VEC-TAN",
+  "VEC-TEXTHEIGHT",
+  "VEC-TEXTWIDTH",
+  "VEC-THEMEGUARD",
+  "VEC-THEMEPROP",
+  "VEC-TODAY",
+  "VEC-TRIM",
+  "VEC-TRUNC",
+  "VEC-UNICHAR",
+  "VEC-UPPER",
+  "VEC-_ELLIPSE_THETA",
   "WEEKDAY",
   "YEAR",
   "_ELLIPSE_THETA"
@@ -639,7 +994,7 @@
    "id": "DOCPROPS-13",
    "formula": "DOCLASTPRINT()",
    "verdict": "disposed",
-   "detail": "Visio 46320.07582175926 ('25/10/2026 01:49:11'); MacVisio 46320.49248842592 ('2026-10-25T00:49:11Z') | DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones."
+   "detail": "Visio 46320.36729166667 ('25/10/2026 08:48:54'); MacVisio 46320.825625 ('2026-10-25T08:48:54Z') | DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones."
   },
   {
    "id": "MATHX-33",
@@ -682,6 +1037,24 @@
    "formula": "BITXOR(Sheet.1!User.Len,1)",
    "verdict": "disposed",
    "detail": "Visio 1 ('1.0000'); MacVisio 0 ('0') | Visio holds 25.4 mm as 0.9999999999999999 in memory but saves it as 1, so the saved drawing (which MacVisio reads, and Visio itself reopens) gives BITXOR(1,1) = 0."
+  },
+  {
+   "id": "VEC-NOW-none",
+   "formula": "NOW()",
+   "verdict": "disposed",
+   "detail": "Visio 46320.36751157408 ('25/10/2026 08:49:13'); MacVisio 46320.82957077812 ('2026-10-25T08:54:34Z') | NOW() is the evaluation instant in each host's local time zone; the two probes run at different times on different machines. Its date-serial and local-time rules are covered by DATE/DATETIME cases."
+  },
+  {
+   "id": "VEC-THEMEVAL-many",
+   "formula": "THEMEVAL(1,1,1,1,1,1,1,1,1)",
+   "verdict": "disposed",
+   "detail": "Visio color #FFFFFF; MacVisio number '1' | Open: THEMEVAL with a numeric first argument (Visio returns the theme's background color) is not implemented; tracked under WP-15-T03-C084."
+  },
+  {
+   "id": "STRCOERCE-9",
+   "formula": "UPPER(1/3 in)",
+   "verdict": "disposed",
+   "detail": "Visio '0.33333333333333\"'; MacVisio error: Reciprocal field units are not yet implemented. | Open: Visio binds the unit in 1/3 in to the quotient (one third of an inch); MacVisio reads it as a reciprocal length and rejects it. Tracked under WP-15-T02-C001."
   },
   {
    "id": "FIELDCODE-date-40",
@@ -1008,14 +1381,7 @@
    "detail": "Visio '下午 01:37'; MacVisio 'P 01:37' | East Asian calendar pictures, as above."
   }
  ],
- "open": [
-  {
-   "id": "ROUNDING-16",
-   "formula": "CEILING(Sheet.1!Width,1 cm)",
-   "verdict": "open",
-   "detail": "Visio 2.3622047244094486 ('60.0000 mm'); MacVisio 2.01500403000806 ('2.01500403001') | Open (WP-15-T02): Visio rounds geometry cells (drawing units) in internal units but explicit unit literals in their display units; MacVisio does not yet distinguish the two on metric pages."
-  }
- ],
+ "open": [],
  "disagreements": [],
  "rows": [
   {
@@ -9194,7 +9560,7 @@
    "id": "DOCPROPS-13",
    "formula": "DOCLASTPRINT()",
    "verdict": "disposed",
-   "detail": "Visio 46320.07582175926 ('25/10/2026 01:49:11'); MacVisio 46320.49248842592 ('2026-10-25T00:49:11Z') | DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones."
+   "detail": "Visio 46320.36729166667 ('25/10/2026 08:48:54'); MacVisio 46320.825625 ('2026-10-25T08:48:54Z') | DOCLASTPRINT converts the stored UTC time to the host's time zone; the reference guest and the Mac are in different zones."
   },
   {
    "id": "DOCPROPS-14",
@@ -10225,8 +10591,8 @@
   {
    "id": "ROUNDING-16",
    "formula": "CEILING(Sheet.1!Width,1 cm)",
-   "verdict": "open",
-   "detail": "Visio 2.3622047244094486 ('60.0000 mm'); MacVisio 2.01500403000806 ('2.01500403001') | Open (WP-15-T02): Visio rounds geometry cells (drawing units) in internal units but explicit unit literals in their display units; MacVisio does not yet distinguish the two on metric pages."
+   "verdict": "agree",
+   "detail": ""
   },
   {
    "id": "ROUNDING-17",
@@ -10237,6 +10603,2892 @@
   {
    "id": "ROUNDING-18",
    "formula": "SIGN(0.05,1 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ABS-none",
+   "formula": "ABS()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ABS-many",
+   "formula": "ABS(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ABS-text",
+   "formula": "ABS(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-ABS-length",
+   "formula": "ABS(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ABS-error",
+   "formula": "ABS(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ACOS-none",
+   "formula": "ACOS()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ACOS-many",
+   "formula": "ACOS(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ACOS-text",
+   "formula": "ACOS(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-ACOS-length",
+   "formula": "ACOS(2 in)",
+   "verdict": "agree",
+   "detail": "#NUM!"
+  },
+  {
+   "id": "VEC-ACOS-error",
+   "formula": "ACOS(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-AND-none",
+   "formula": "AND()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-AND-many",
+   "formula": "AND(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-AND-text",
+   "formula": "AND(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-AND-length",
+   "formula": "AND(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-AND-error",
+   "formula": "AND(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ANG360-none",
+   "formula": "ANG360()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ANG360-many",
+   "formula": "ANG360(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ANG360-text",
+   "formula": "ANG360(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-ANG360-length",
+   "formula": "ANG360(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ANG360-error",
+   "formula": "ANG360(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ASIN-none",
+   "formula": "ASIN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ASIN-many",
+   "formula": "ASIN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ASIN-text",
+   "formula": "ASIN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-ASIN-length",
+   "formula": "ASIN(2 in)",
+   "verdict": "agree",
+   "detail": "#NUM!"
+  },
+  {
+   "id": "VEC-ASIN-error",
+   "formula": "ASIN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ATAN-none",
+   "formula": "ATAN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN-many",
+   "formula": "ATAN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN-text",
+   "formula": "ATAN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-ATAN-length",
+   "formula": "ATAN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ATAN-error",
+   "formula": "ATAN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ATAN2-none",
+   "formula": "ATAN2()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN2-many",
+   "formula": "ATAN2(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN2-text",
+   "formula": "ATAN2(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN2-length",
+   "formula": "ATAN2(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ATAN2-error",
+   "formula": "ATAN2(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITAND-none",
+   "formula": "BITAND()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITAND-many",
+   "formula": "BITAND(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITAND-text",
+   "formula": "BITAND(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITAND-length",
+   "formula": "BITAND(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITAND-error",
+   "formula": "BITAND(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITOR-none",
+   "formula": "BITOR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITOR-many",
+   "formula": "BITOR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITOR-text",
+   "formula": "BITOR(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITOR-length",
+   "formula": "BITOR(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITOR-error",
+   "formula": "BITOR(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITXOR-none",
+   "formula": "BITXOR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITXOR-many",
+   "formula": "BITXOR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITXOR-text",
+   "formula": "BITXOR(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITXOR-length",
+   "formula": "BITXOR(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BITXOR-error",
+   "formula": "BITXOR(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-none",
+   "formula": "BKGPAGENAME()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BKGPAGENAME-many",
+   "formula": "BKGPAGENAME(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BKGPAGENAME-text",
+   "formula": "BKGPAGENAME(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BKGPAGENAME-length",
+   "formula": "BKGPAGENAME(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BKGPAGENAME-error",
+   "formula": "BKGPAGENAME(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-BLUE-none",
+   "formula": "BLUE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BLUE-many",
+   "formula": "BLUE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BLUE-text",
+   "formula": "BLUE(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BLUE-length",
+   "formula": "BLUE(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-BLUE-error",
+   "formula": "BLUE(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-BOUND-none",
+   "formula": "BOUND()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BOUND-many",
+   "formula": "BOUND(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-BOUND-text",
+   "formula": "BOUND(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BOUND-length",
+   "formula": "BOUND(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-BOUND-error",
+   "formula": "BOUND(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CEILING-none",
+   "formula": "CEILING()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CEILING-many",
+   "formula": "CEILING(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-CEILING-text",
+   "formula": "CEILING(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-CEILING-length",
+   "formula": "CEILING(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-CEILING-error",
+   "formula": "CEILING(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-CHAR-none",
+   "formula": "CHAR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CHAR-many",
+   "formula": "CHAR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CHAR-text",
+   "formula": "CHAR(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-CHAR-length",
+   "formula": "CHAR(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-CHAR-error",
+   "formula": "CHAR(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-CONCATENATE-none",
+   "formula": "CONCATENATE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CONCATENATE-many",
+   "formula": "CONCATENATE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CONCATENATE-text",
+   "formula": "CONCATENATE(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CONCATENATE-length",
+   "formula": "CONCATENATE(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-CONCATENATE-error",
+   "formula": "CONCATENATE(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-COS-none",
+   "formula": "COS()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-COS-many",
+   "formula": "COS(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-COS-text",
+   "formula": "COS(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-COS-length",
+   "formula": "COS(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-COS-error",
+   "formula": "COS(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-DATE-none",
+   "formula": "DATE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DATE-many",
+   "formula": "DATE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DATE-text",
+   "formula": "DATE(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DATE-length",
+   "formula": "DATE(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DATE-error",
+   "formula": "DATE(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DEG-none",
+   "formula": "DEG()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DEG-many",
+   "formula": "DEG(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-DEG-text",
+   "formula": "DEG(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-DEG-length",
+   "formula": "DEG(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-DEG-error",
+   "formula": "DEG(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-EXP-none",
+   "formula": "EXP()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-EXP-many",
+   "formula": "EXP(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-EXP-text",
+   "formula": "EXP(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-EXP-length",
+   "formula": "EXP(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-EXP-error",
+   "formula": "EXP(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-none",
+   "formula": "FIELDPICTURE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-many",
+   "formula": "FIELDPICTURE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-text",
+   "formula": "FIELDPICTURE(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-length",
+   "formula": "FIELDPICTURE(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-FIELDPICTURE-error",
+   "formula": "FIELDPICTURE(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-FIND-none",
+   "formula": "FIND()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIND-many",
+   "formula": "FIND(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-FIND-text",
+   "formula": "FIND(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIND-length",
+   "formula": "FIND(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FIND-error",
+   "formula": "FIND(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FLOOR-none",
+   "formula": "FLOOR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FLOOR-many",
+   "formula": "FLOOR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-FLOOR-text",
+   "formula": "FLOOR(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-FLOOR-length",
+   "formula": "FLOOR(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-FLOOR-error",
+   "formula": "FLOOR(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-FORMAT-none",
+   "formula": "FORMAT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FORMAT-many",
+   "formula": "FORMAT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FORMAT-text",
+   "formula": "FORMAT(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FORMAT-length",
+   "formula": "FORMAT(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-FORMAT-error",
+   "formula": "FORMAT(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GETREF-none",
+   "formula": "GETREF()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GETREF-many",
+   "formula": "GETREF(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GETREF-text",
+   "formula": "GETREF(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GETREF-length",
+   "formula": "GETREF(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GETREF-error",
+   "formula": "GETREF(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GREEN-none",
+   "formula": "GREEN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GREEN-many",
+   "formula": "GREEN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GREEN-text",
+   "formula": "GREEN(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-GREEN-length",
+   "formula": "GREEN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-GREEN-error",
+   "formula": "GREEN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-GUARD-none",
+   "formula": "GUARD()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GUARD-many",
+   "formula": "GUARD(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-GUARD-text",
+   "formula": "GUARD(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-GUARD-length",
+   "formula": "GUARD(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-GUARD-error",
+   "formula": "GUARD(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-HSL-none",
+   "formula": "HSL()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HSL-many",
+   "formula": "HSL(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HSL-text",
+   "formula": "HSL(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HSL-length",
+   "formula": "HSL(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HSL-error",
+   "formula": "HSL(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HUE-none",
+   "formula": "HUE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HUE-many",
+   "formula": "HUE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-HUE-text",
+   "formula": "HUE(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-HUE-length",
+   "formula": "HUE(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-HUE-error",
+   "formula": "HUE(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ID-none",
+   "formula": "ID()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ID-many",
+   "formula": "ID(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#REF!"
+  },
+  {
+   "id": "VEC-ID-text",
+   "formula": "ID(\"x\")",
+   "verdict": "agree",
+   "detail": "#REF!"
+  },
+  {
+   "id": "VEC-ID-length",
+   "formula": "ID(2 in)",
+   "verdict": "agree",
+   "detail": "#REF!"
+  },
+  {
+   "id": "VEC-ID-error",
+   "formula": "ID(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-IF-none",
+   "formula": "IF()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IF-many",
+   "formula": "IF(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IF-text",
+   "formula": "IF(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IF-length",
+   "formula": "IF(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IF-error",
+   "formula": "IF(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IFERROR-none",
+   "formula": "IFERROR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IFERROR-many",
+   "formula": "IFERROR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IFERROR-text",
+   "formula": "IFERROR(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IFERROR-length",
+   "formula": "IFERROR(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-IFERROR-error",
+   "formula": "IFERROR(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INDEX-none",
+   "formula": "INDEX()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INDEX-many",
+   "formula": "INDEX(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-INDEX-text",
+   "formula": "INDEX(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INDEX-length",
+   "formula": "INDEX(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INDEX-error",
+   "formula": "INDEX(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INT-none",
+   "formula": "INT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INT-many",
+   "formula": "INT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-INT-text",
+   "formula": "INT(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-INT-length",
+   "formula": "INT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-INT-error",
+   "formula": "INT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ISTHEMED-none",
+   "formula": "ISTHEMED()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-ISTHEMED-many",
+   "formula": "ISTHEMED(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ISTHEMED-text",
+   "formula": "ISTHEMED(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ISTHEMED-length",
+   "formula": "ISTHEMED(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ISTHEMED-error",
+   "formula": "ISTHEMED(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LEFT-none",
+   "formula": "LEFT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LEFT-many",
+   "formula": "LEFT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LEFT-text",
+   "formula": "LEFT(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LEFT-length",
+   "formula": "LEFT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LEFT-error",
+   "formula": "LEFT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LEN-none",
+   "formula": "LEN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LEN-many",
+   "formula": "LEN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LEN-text",
+   "formula": "LEN(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LEN-length",
+   "formula": "LEN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LEN-error",
+   "formula": "LEN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LN-none",
+   "formula": "LN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LN-many",
+   "formula": "LN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LN-text",
+   "formula": "LN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-LN-length",
+   "formula": "LN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LN-error",
+   "formula": "LN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LOG10-none",
+   "formula": "LOG10()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LOG10-many",
+   "formula": "LOG10(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LOG10-text",
+   "formula": "LOG10(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-LOG10-length",
+   "formula": "LOG10(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LOG10-error",
+   "formula": "LOG10(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LOWER-none",
+   "formula": "LOWER()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LOWER-many",
+   "formula": "LOWER(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LOWER-text",
+   "formula": "LOWER(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LOWER-length",
+   "formula": "LOWER(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LOWER-error",
+   "formula": "LOWER(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LUM-none",
+   "formula": "LUM()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUM-many",
+   "formula": "LUM(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUM-text",
+   "formula": "LUM(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LUM-length",
+   "formula": "LUM(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-LUM-error",
+   "formula": "LUM(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-LUMDIFF-none",
+   "formula": "LUMDIFF()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUMDIFF-many",
+   "formula": "LUMDIFF(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUMDIFF-text",
+   "formula": "LUMDIFF(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUMDIFF-length",
+   "formula": "LUMDIFF(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-LUMDIFF-error",
+   "formula": "LUMDIFF(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MAX-none",
+   "formula": "MAX()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MAX-many",
+   "formula": "MAX(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MAX-text",
+   "formula": "MAX(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MAX-length",
+   "formula": "MAX(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MAX-error",
+   "formula": "MAX(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-MID-none",
+   "formula": "MID()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MID-many",
+   "formula": "MID(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MID-text",
+   "formula": "MID(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MID-length",
+   "formula": "MID(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MID-error",
+   "formula": "MID(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MIN-none",
+   "formula": "MIN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MIN-many",
+   "formula": "MIN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MIN-text",
+   "formula": "MIN(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MIN-length",
+   "formula": "MIN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-MIN-error",
+   "formula": "MIN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-MODULUS-none",
+   "formula": "MODULUS()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MODULUS-many",
+   "formula": "MODULUS(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MODULUS-text",
+   "formula": "MODULUS(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MODULUS-length",
+   "formula": "MODULUS(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-MODULUS-error",
+   "formula": "MODULUS(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOT-none",
+   "formula": "NOT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOT-many",
+   "formula": "NOT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOT-text",
+   "formula": "NOT(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-NOT-length",
+   "formula": "NOT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-NOT-error",
+   "formula": "NOT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-NOW-none",
+   "formula": "NOW()",
+   "verdict": "disposed",
+   "detail": "Visio 46320.36751157408 ('25/10/2026 08:49:13'); MacVisio 46320.82957077812 ('2026-10-25T08:54:34Z') | NOW() is the evaluation instant in each host's local time zone; the two probes run at different times on different machines. Its date-serial and local-time rules are covered by DATE/DATETIME cases."
+  },
+  {
+   "id": "VEC-NOW-many",
+   "formula": "NOW(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOW-text",
+   "formula": "NOW(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOW-length",
+   "formula": "NOW(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NOW-error",
+   "formula": "NOW(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NURBS-none",
+   "formula": "NURBS()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NURBS-many",
+   "formula": "NURBS(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-NURBS-text",
+   "formula": "NURBS(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NURBS-length",
+   "formula": "NURBS(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-NURBS-error",
+   "formula": "NURBS(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-OR-none",
+   "formula": "OR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-OR-many",
+   "formula": "OR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-OR-text",
+   "formula": "OR(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-OR-length",
+   "formula": "OR(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-OR-error",
+   "formula": "OR(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-PAGECOUNT-none",
+   "formula": "PAGECOUNT()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGECOUNT-many",
+   "formula": "PAGECOUNT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PAGECOUNT-text",
+   "formula": "PAGECOUNT(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PAGECOUNT-length",
+   "formula": "PAGECOUNT(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PAGECOUNT-error",
+   "formula": "PAGECOUNT(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PAGENAME-none",
+   "formula": "PAGENAME()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENAME-many",
+   "formula": "PAGENAME(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENAME-text",
+   "formula": "PAGENAME(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENAME-length",
+   "formula": "PAGENAME(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENAME-error",
+   "formula": "PAGENAME(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-PAGENUMBER-none",
+   "formula": "PAGENUMBER()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENUMBER-many",
+   "formula": "PAGENUMBER(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENUMBER-text",
+   "formula": "PAGENUMBER(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENUMBER-length",
+   "formula": "PAGENUMBER(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PAGENUMBER-error",
+   "formula": "PAGENUMBER(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-PI-none",
+   "formula": "PI()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-PI-many",
+   "formula": "PI(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PI-text",
+   "formula": "PI(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PI-length",
+   "formula": "PI(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-PI-error",
+   "formula": "PI(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POLYLINE-none",
+   "formula": "POLYLINE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POLYLINE-many",
+   "formula": "POLYLINE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-POLYLINE-text",
+   "formula": "POLYLINE(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POLYLINE-length",
+   "formula": "POLYLINE(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POLYLINE-error",
+   "formula": "POLYLINE(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POW-none",
+   "formula": "POW()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POW-many",
+   "formula": "POW(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POW-text",
+   "formula": "POW(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POW-length",
+   "formula": "POW(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-POW-error",
+   "formula": "POW(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RAD-none",
+   "formula": "RAD()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RAD-many",
+   "formula": "RAD(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RAD-text",
+   "formula": "RAD(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-RAD-length",
+   "formula": "RAD(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RAD-error",
+   "formula": "RAD(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-RED-none",
+   "formula": "RED()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RED-many",
+   "formula": "RED(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RED-text",
+   "formula": "RED(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RED-length",
+   "formula": "RED(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RED-error",
+   "formula": "RED(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-REF-none",
+   "formula": "REF()",
+   "verdict": "agree",
+   "detail": "#REF!"
+  },
+  {
+   "id": "VEC-REF-many",
+   "formula": "REF(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REF-text",
+   "formula": "REF(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REF-length",
+   "formula": "REF(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REF-error",
+   "formula": "REF(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPLACE-none",
+   "formula": "REPLACE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPLACE-many",
+   "formula": "REPLACE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPLACE-text",
+   "formula": "REPLACE(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPLACE-length",
+   "formula": "REPLACE(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPLACE-error",
+   "formula": "REPLACE(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPT-none",
+   "formula": "REPT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPT-many",
+   "formula": "REPT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPT-text",
+   "formula": "REPT(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPT-length",
+   "formula": "REPT(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-REPT-error",
+   "formula": "REPT(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RGB-none",
+   "formula": "RGB()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RGB-many",
+   "formula": "RGB(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RGB-text",
+   "formula": "RGB(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RGB-length",
+   "formula": "RGB(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RGB-error",
+   "formula": "RGB(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RIGHT-none",
+   "formula": "RIGHT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-RIGHT-many",
+   "formula": "RIGHT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RIGHT-text",
+   "formula": "RIGHT(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RIGHT-length",
+   "formula": "RIGHT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-RIGHT-error",
+   "formula": "RIGHT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-ROUND-none",
+   "formula": "ROUND()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ROUND-many",
+   "formula": "ROUND(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ROUND-text",
+   "formula": "ROUND(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ROUND-length",
+   "formula": "ROUND(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-ROUND-error",
+   "formula": "ROUND(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SAT-none",
+   "formula": "SAT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SAT-many",
+   "formula": "SAT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SAT-text",
+   "formula": "SAT(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SAT-length",
+   "formula": "SAT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SAT-error",
+   "formula": "SAT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SETATREF-none",
+   "formula": "SETATREF()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SETATREF-many",
+   "formula": "SETATREF(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#N/A"
+  },
+  {
+   "id": "VEC-SETATREF-text",
+   "formula": "SETATREF(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SETATREF-length",
+   "formula": "SETATREF(2 in)",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SETATREF-error",
+   "formula": "SETATREF(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-none",
+   "formula": "SETATREFEVAL()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-many",
+   "formula": "SETATREFEVAL(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-text",
+   "formula": "SETATREFEVAL(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SETATREFEVAL-length",
+   "formula": "SETATREFEVAL(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SETATREFEVAL-error",
+   "formula": "SETATREFEVAL(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-none",
+   "formula": "SETATREFEXPR()",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SETATREFEXPR-many",
+   "formula": "SETATREFEXPR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "#N/A"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-text",
+   "formula": "SETATREFEXPR(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SETATREFEXPR-length",
+   "formula": "SETATREFEXPR(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SETATREFEXPR-error",
+   "formula": "SETATREFEXPR(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SHAPETEXT-none",
+   "formula": "SHAPETEXT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SHAPETEXT-many",
+   "formula": "SHAPETEXT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SHAPETEXT-text",
+   "formula": "SHAPETEXT(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SHAPETEXT-length",
+   "formula": "SHAPETEXT(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SHAPETEXT-error",
+   "formula": "SHAPETEXT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SIGN-none",
+   "formula": "SIGN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SIGN-many",
+   "formula": "SIGN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SIGN-text",
+   "formula": "SIGN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SIGN-length",
+   "formula": "SIGN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SIGN-error",
+   "formula": "SIGN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SIN-none",
+   "formula": "SIN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SIN-many",
+   "formula": "SIN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SIN-text",
+   "formula": "SIN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SIN-length",
+   "formula": "SIN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SIN-error",
+   "formula": "SIN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-SQRT-none",
+   "formula": "SQRT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SQRT-many",
+   "formula": "SQRT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SQRT-text",
+   "formula": "SQRT(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SQRT-length",
+   "formula": "SQRT(2 in)",
+   "verdict": "agree",
+   "detail": "rejected"
+  },
+  {
+   "id": "VEC-SQRT-error",
+   "formula": "SQRT(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-STRSAME-none",
+   "formula": "STRSAME()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAME-many",
+   "formula": "STRSAME(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-STRSAME-text",
+   "formula": "STRSAME(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAME-length",
+   "formula": "STRSAME(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAME-error",
+   "formula": "STRSAME(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAMEEX-none",
+   "formula": "STRSAMEEX()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAMEEX-many",
+   "formula": "STRSAMEEX(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAMEEX-text",
+   "formula": "STRSAMEEX(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAMEEX-length",
+   "formula": "STRSAMEEX(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-STRSAMEEX-error",
+   "formula": "STRSAMEEX(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-none",
+   "formula": "SUBSTITUTE()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-many",
+   "formula": "SUBSTITUTE(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SUBSTITUTE-text",
+   "formula": "SUBSTITUTE(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-length",
+   "formula": "SUBSTITUTE(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-error",
+   "formula": "SUBSTITUTE(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUM-none",
+   "formula": "SUM()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-SUM-many",
+   "formula": "SUM(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SUM-text",
+   "formula": "SUM(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-SUM-length",
+   "formula": "SUM(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-SUM-error",
+   "formula": "SUM(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-TAN-none",
+   "formula": "TAN()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TAN-many",
+   "formula": "TAN(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TAN-text",
+   "formula": "TAN(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-TAN-length",
+   "formula": "TAN(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TAN-error",
+   "formula": "TAN(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-none",
+   "formula": "TEXTHEIGHT()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-many",
+   "formula": "TEXTHEIGHT(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-text",
+   "formula": "TEXTHEIGHT(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-length",
+   "formula": "TEXTHEIGHT(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-error",
+   "formula": "TEXTHEIGHT(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-none",
+   "formula": "TEXTWIDTH()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-many",
+   "formula": "TEXTWIDTH(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TEXTWIDTH-text",
+   "formula": "TEXTWIDTH(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TEXTWIDTH-length",
+   "formula": "TEXTWIDTH(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TEXTWIDTH-error",
+   "formula": "TEXTWIDTH(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-THEMEGUARD-none",
+   "formula": "THEMEGUARD()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-THEMEGUARD-many",
+   "formula": "THEMEGUARD(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-THEMEGUARD-text",
+   "formula": "THEMEGUARD(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-THEMEGUARD-length",
+   "formula": "THEMEGUARD(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-THEMEGUARD-error",
+   "formula": "THEMEGUARD(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-THEMEPROP-none",
+   "formula": "THEMEPROP()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-THEMEPROP-many",
+   "formula": "THEMEPROP(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-THEMEPROP-text",
+   "formula": "THEMEPROP(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-THEMEPROP-length",
+   "formula": "THEMEPROP(2 in)",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-THEMEPROP-error",
+   "formula": "THEMEPROP(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-THEMEVAL-none",
+   "formula": "THEMEVAL()",
+   "verdict": "agree",
+   "detail": "#N/A"
+  },
+  {
+   "id": "VEC-THEMEVAL-many",
+   "formula": "THEMEVAL(1,1,1,1,1,1,1,1,1)",
+   "verdict": "disposed",
+   "detail": "Visio color #FFFFFF; MacVisio number '1' | Open: THEMEVAL with a numeric first argument (Visio returns the theme's background color) is not implemented; tracked under WP-15-T03-C084."
+  },
+  {
+   "id": "VEC-THEMEVAL-text",
+   "formula": "THEMEVAL(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-THEMEVAL-length",
+   "formula": "THEMEVAL(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-THEMEVAL-error",
+   "formula": "THEMEVAL(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-TODAY-none",
+   "formula": "TODAY()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TODAY-many",
+   "formula": "TODAY(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TODAY-text",
+   "formula": "TODAY(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TODAY-length",
+   "formula": "TODAY(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TODAY-error",
+   "formula": "TODAY(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRIM-none",
+   "formula": "TRIM()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRIM-many",
+   "formula": "TRIM(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRIM-text",
+   "formula": "TRIM(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TRIM-length",
+   "formula": "TRIM(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-TRIM-error",
+   "formula": "TRIM(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-TRUNC-none",
+   "formula": "TRUNC()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRUNC-many",
+   "formula": "TRUNC(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRUNC-text",
+   "formula": "TRUNC(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRUNC-length",
+   "formula": "TRUNC(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-TRUNC-error",
+   "formula": "TRUNC(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-UNICHAR-none",
+   "formula": "UNICHAR()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-UNICHAR-many",
+   "formula": "UNICHAR(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-UNICHAR-text",
+   "formula": "UNICHAR(\"x\")",
+   "verdict": "agree",
+   "detail": "#VALUE!"
+  },
+  {
+   "id": "VEC-UNICHAR-length",
+   "formula": "UNICHAR(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-UNICHAR-error",
+   "formula": "UNICHAR(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-UPPER-none",
+   "formula": "UPPER()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-UPPER-many",
+   "formula": "UPPER(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-UPPER-text",
+   "formula": "UPPER(\"x\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-UPPER-length",
+   "formula": "UPPER(2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "VEC-UPPER-error",
+   "formula": "UPPER(1/0)",
+   "verdict": "agree",
+   "detail": "#DIV/0!"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-none",
+   "formula": "_ELLIPSE_THETA()",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-many",
+   "formula": "_ELLIPSE_THETA(1,1,1,1,1,1,1,1,1)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-text",
+   "formula": "_ELLIPSE_THETA(\"x\")",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-length",
+   "formula": "_ELLIPSE_THETA(2 in)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-error",
+   "formula": "_ELLIPSE_THETA(1/0)",
+   "verdict": "agree",
+   "detail": "formula rejected"
+  },
+  {
+   "id": "STRCOERCE-1",
+   "formula": "UPPER(25.4 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-2",
+   "formula": "UPPER(2.5 cm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-3",
+   "formula": "UPPER(3 ft)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-4",
+   "formula": "UPPER(10 pt)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-5",
+   "formula": "UPPER(30 deg)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-6",
+   "formula": "UPPER(1.5 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-7",
+   "formula": "UPPER(1 m)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-8",
+   "formula": "UPPER(2 in+1 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-9",
+   "formula": "UPPER(1/3 in)",
+   "verdict": "disposed",
+   "detail": "Visio '0.33333333333333\"'; MacVisio error: Reciprocal field units are not yet implemented. | Open: Visio binds the unit in 1/3 in to the quotient (one third of an inch); MacVisio reads it as a reciprocal length and rejects it. Tracked under WP-15-T02-C001."
+  },
+  {
+   "id": "STRCOERCE-10",
+   "formula": "UPPER(TRUE)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-11",
+   "formula": "UPPER(1/3)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-12",
+   "formula": "UPPER(DATE(2026,1,1))",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-13",
+   "formula": "UPPER(RGB(1,2,3))",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-14",
+   "formula": "UPPER(0.5 rad)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-15",
+   "formula": "UPPER(-2 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-16",
+   "formula": "UPPER(1000000 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-17",
+   "formula": "UPPER(0.000001 in)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-18",
+   "formula": "UPPER(Sheet.1!User.Len)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-19",
+   "formula": "UPPER(Sheet.1!User.Ang)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-20",
+   "formula": "UPPER(2 yd)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-21",
+   "formula": "UPPER(1 km)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-22",
+   "formula": "UPPER(1 mi)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-23",
+   "formula": "UPPER(3 ed)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-24",
+   "formula": "UPPER(2 eh)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-25",
+   "formula": "UPPER(12345.678 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-26",
+   "formula": "SUBSTITUTE(25.4 mm,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-27",
+   "formula": "SUBSTITUTE(1 em,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-28",
+   "formula": "SUBSTITUTE(1 de,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-29",
+   "formula": "SUBSTITUTE(1 da,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-30",
+   "formula": "SUBSTITUTE(123456789012345678 in,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-31",
+   "formula": "SUBSTITUTE(0.1+0.2,\"q\",\"q\")",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-32",
+   "formula": "LEN(25.4 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-33",
+   "formula": "LEFT(2.5 cm,3)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-34",
+   "formula": "LN(25.4 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-35",
+   "formula": "LOG10(100 mm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-36",
+   "formula": "LN(30 deg)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-37",
+   "formula": "LOG10(2 cm)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-38",
+   "formula": "MAX(\"x\",5)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-39",
+   "formula": "MIN(\"x\",5)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-40",
+   "formula": "MAX(\"x\",-5)",
+   "verdict": "agree",
+   "detail": ""
+  },
+  {
+   "id": "STRCOERCE-41",
+   "formula": "MAX(\"3\")",
    "verdict": "agree",
    "detail": ""
   },

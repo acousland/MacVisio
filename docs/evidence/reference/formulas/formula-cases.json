@@ -6396,6 +6396,1930 @@
    "formula": "SIGN(0.05,1 mm)"
   },
   {
+   "id": "VEC-ABS-none",
+   "formula": "ABS()"
+  },
+  {
+   "id": "VEC-ABS-many",
+   "formula": "ABS(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ABS-text",
+   "formula": "ABS(\"x\")"
+  },
+  {
+   "id": "VEC-ABS-length",
+   "formula": "ABS(2 in)"
+  },
+  {
+   "id": "VEC-ABS-error",
+   "formula": "ABS(1/0)"
+  },
+  {
+   "id": "VEC-ACOS-none",
+   "formula": "ACOS()"
+  },
+  {
+   "id": "VEC-ACOS-many",
+   "formula": "ACOS(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ACOS-text",
+   "formula": "ACOS(\"x\")"
+  },
+  {
+   "id": "VEC-ACOS-length",
+   "formula": "ACOS(2 in)"
+  },
+  {
+   "id": "VEC-ACOS-error",
+   "formula": "ACOS(1/0)"
+  },
+  {
+   "id": "VEC-AND-none",
+   "formula": "AND()"
+  },
+  {
+   "id": "VEC-AND-many",
+   "formula": "AND(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-AND-text",
+   "formula": "AND(\"x\")"
+  },
+  {
+   "id": "VEC-AND-length",
+   "formula": "AND(2 in)"
+  },
+  {
+   "id": "VEC-AND-error",
+   "formula": "AND(1/0)"
+  },
+  {
+   "id": "VEC-ANG360-none",
+   "formula": "ANG360()"
+  },
+  {
+   "id": "VEC-ANG360-many",
+   "formula": "ANG360(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ANG360-text",
+   "formula": "ANG360(\"x\")"
+  },
+  {
+   "id": "VEC-ANG360-length",
+   "formula": "ANG360(2 in)"
+  },
+  {
+   "id": "VEC-ANG360-error",
+   "formula": "ANG360(1/0)"
+  },
+  {
+   "id": "VEC-ASIN-none",
+   "formula": "ASIN()"
+  },
+  {
+   "id": "VEC-ASIN-many",
+   "formula": "ASIN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ASIN-text",
+   "formula": "ASIN(\"x\")"
+  },
+  {
+   "id": "VEC-ASIN-length",
+   "formula": "ASIN(2 in)"
+  },
+  {
+   "id": "VEC-ASIN-error",
+   "formula": "ASIN(1/0)"
+  },
+  {
+   "id": "VEC-ATAN-none",
+   "formula": "ATAN()"
+  },
+  {
+   "id": "VEC-ATAN-many",
+   "formula": "ATAN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ATAN-text",
+   "formula": "ATAN(\"x\")"
+  },
+  {
+   "id": "VEC-ATAN-length",
+   "formula": "ATAN(2 in)"
+  },
+  {
+   "id": "VEC-ATAN-error",
+   "formula": "ATAN(1/0)"
+  },
+  {
+   "id": "VEC-ATAN2-none",
+   "formula": "ATAN2()"
+  },
+  {
+   "id": "VEC-ATAN2-many",
+   "formula": "ATAN2(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ATAN2-text",
+   "formula": "ATAN2(\"x\")"
+  },
+  {
+   "id": "VEC-ATAN2-length",
+   "formula": "ATAN2(2 in)"
+  },
+  {
+   "id": "VEC-ATAN2-error",
+   "formula": "ATAN2(1/0)"
+  },
+  {
+   "id": "VEC-BITAND-none",
+   "formula": "BITAND()"
+  },
+  {
+   "id": "VEC-BITAND-many",
+   "formula": "BITAND(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BITAND-text",
+   "formula": "BITAND(\"x\")"
+  },
+  {
+   "id": "VEC-BITAND-length",
+   "formula": "BITAND(2 in)"
+  },
+  {
+   "id": "VEC-BITAND-error",
+   "formula": "BITAND(1/0)"
+  },
+  {
+   "id": "VEC-BITOR-none",
+   "formula": "BITOR()"
+  },
+  {
+   "id": "VEC-BITOR-many",
+   "formula": "BITOR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BITOR-text",
+   "formula": "BITOR(\"x\")"
+  },
+  {
+   "id": "VEC-BITOR-length",
+   "formula": "BITOR(2 in)"
+  },
+  {
+   "id": "VEC-BITOR-error",
+   "formula": "BITOR(1/0)"
+  },
+  {
+   "id": "VEC-BITXOR-none",
+   "formula": "BITXOR()"
+  },
+  {
+   "id": "VEC-BITXOR-many",
+   "formula": "BITXOR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BITXOR-text",
+   "formula": "BITXOR(\"x\")"
+  },
+  {
+   "id": "VEC-BITXOR-length",
+   "formula": "BITXOR(2 in)"
+  },
+  {
+   "id": "VEC-BITXOR-error",
+   "formula": "BITXOR(1/0)"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-none",
+   "formula": "BKGPAGENAME()"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-many",
+   "formula": "BKGPAGENAME(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-text",
+   "formula": "BKGPAGENAME(\"x\")"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-length",
+   "formula": "BKGPAGENAME(2 in)"
+  },
+  {
+   "id": "VEC-BKGPAGENAME-error",
+   "formula": "BKGPAGENAME(1/0)"
+  },
+  {
+   "id": "VEC-BLUE-none",
+   "formula": "BLUE()"
+  },
+  {
+   "id": "VEC-BLUE-many",
+   "formula": "BLUE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BLUE-text",
+   "formula": "BLUE(\"x\")"
+  },
+  {
+   "id": "VEC-BLUE-length",
+   "formula": "BLUE(2 in)"
+  },
+  {
+   "id": "VEC-BLUE-error",
+   "formula": "BLUE(1/0)"
+  },
+  {
+   "id": "VEC-BOUND-none",
+   "formula": "BOUND()"
+  },
+  {
+   "id": "VEC-BOUND-many",
+   "formula": "BOUND(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-BOUND-text",
+   "formula": "BOUND(\"x\")"
+  },
+  {
+   "id": "VEC-BOUND-length",
+   "formula": "BOUND(2 in)"
+  },
+  {
+   "id": "VEC-BOUND-error",
+   "formula": "BOUND(1/0)"
+  },
+  {
+   "id": "VEC-CEILING-none",
+   "formula": "CEILING()"
+  },
+  {
+   "id": "VEC-CEILING-many",
+   "formula": "CEILING(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-CEILING-text",
+   "formula": "CEILING(\"x\")"
+  },
+  {
+   "id": "VEC-CEILING-length",
+   "formula": "CEILING(2 in)"
+  },
+  {
+   "id": "VEC-CEILING-error",
+   "formula": "CEILING(1/0)"
+  },
+  {
+   "id": "VEC-CHAR-none",
+   "formula": "CHAR()"
+  },
+  {
+   "id": "VEC-CHAR-many",
+   "formula": "CHAR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-CHAR-text",
+   "formula": "CHAR(\"x\")"
+  },
+  {
+   "id": "VEC-CHAR-length",
+   "formula": "CHAR(2 in)"
+  },
+  {
+   "id": "VEC-CHAR-error",
+   "formula": "CHAR(1/0)"
+  },
+  {
+   "id": "VEC-CONCATENATE-none",
+   "formula": "CONCATENATE()"
+  },
+  {
+   "id": "VEC-CONCATENATE-many",
+   "formula": "CONCATENATE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-CONCATENATE-text",
+   "formula": "CONCATENATE(\"x\")"
+  },
+  {
+   "id": "VEC-CONCATENATE-length",
+   "formula": "CONCATENATE(2 in)"
+  },
+  {
+   "id": "VEC-CONCATENATE-error",
+   "formula": "CONCATENATE(1/0)"
+  },
+  {
+   "id": "VEC-COS-none",
+   "formula": "COS()"
+  },
+  {
+   "id": "VEC-COS-many",
+   "formula": "COS(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-COS-text",
+   "formula": "COS(\"x\")"
+  },
+  {
+   "id": "VEC-COS-length",
+   "formula": "COS(2 in)"
+  },
+  {
+   "id": "VEC-COS-error",
+   "formula": "COS(1/0)"
+  },
+  {
+   "id": "VEC-DATE-none",
+   "formula": "DATE()"
+  },
+  {
+   "id": "VEC-DATE-many",
+   "formula": "DATE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-DATE-text",
+   "formula": "DATE(\"x\")"
+  },
+  {
+   "id": "VEC-DATE-length",
+   "formula": "DATE(2 in)"
+  },
+  {
+   "id": "VEC-DATE-error",
+   "formula": "DATE(1/0)"
+  },
+  {
+   "id": "VEC-DEG-none",
+   "formula": "DEG()"
+  },
+  {
+   "id": "VEC-DEG-many",
+   "formula": "DEG(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-DEG-text",
+   "formula": "DEG(\"x\")"
+  },
+  {
+   "id": "VEC-DEG-length",
+   "formula": "DEG(2 in)"
+  },
+  {
+   "id": "VEC-DEG-error",
+   "formula": "DEG(1/0)"
+  },
+  {
+   "id": "VEC-EXP-none",
+   "formula": "EXP()"
+  },
+  {
+   "id": "VEC-EXP-many",
+   "formula": "EXP(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-EXP-text",
+   "formula": "EXP(\"x\")"
+  },
+  {
+   "id": "VEC-EXP-length",
+   "formula": "EXP(2 in)"
+  },
+  {
+   "id": "VEC-EXP-error",
+   "formula": "EXP(1/0)"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-none",
+   "formula": "FIELDPICTURE()"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-many",
+   "formula": "FIELDPICTURE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-text",
+   "formula": "FIELDPICTURE(\"x\")"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-length",
+   "formula": "FIELDPICTURE(2 in)"
+  },
+  {
+   "id": "VEC-FIELDPICTURE-error",
+   "formula": "FIELDPICTURE(1/0)"
+  },
+  {
+   "id": "VEC-FIND-none",
+   "formula": "FIND()"
+  },
+  {
+   "id": "VEC-FIND-many",
+   "formula": "FIND(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-FIND-text",
+   "formula": "FIND(\"x\")"
+  },
+  {
+   "id": "VEC-FIND-length",
+   "formula": "FIND(2 in)"
+  },
+  {
+   "id": "VEC-FIND-error",
+   "formula": "FIND(1/0)"
+  },
+  {
+   "id": "VEC-FLOOR-none",
+   "formula": "FLOOR()"
+  },
+  {
+   "id": "VEC-FLOOR-many",
+   "formula": "FLOOR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-FLOOR-text",
+   "formula": "FLOOR(\"x\")"
+  },
+  {
+   "id": "VEC-FLOOR-length",
+   "formula": "FLOOR(2 in)"
+  },
+  {
+   "id": "VEC-FLOOR-error",
+   "formula": "FLOOR(1/0)"
+  },
+  {
+   "id": "VEC-FORMAT-none",
+   "formula": "FORMAT()"
+  },
+  {
+   "id": "VEC-FORMAT-many",
+   "formula": "FORMAT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-FORMAT-text",
+   "formula": "FORMAT(\"x\")"
+  },
+  {
+   "id": "VEC-FORMAT-length",
+   "formula": "FORMAT(2 in)"
+  },
+  {
+   "id": "VEC-FORMAT-error",
+   "formula": "FORMAT(1/0)"
+  },
+  {
+   "id": "VEC-GETREF-none",
+   "formula": "GETREF()"
+  },
+  {
+   "id": "VEC-GETREF-many",
+   "formula": "GETREF(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-GETREF-text",
+   "formula": "GETREF(\"x\")"
+  },
+  {
+   "id": "VEC-GETREF-length",
+   "formula": "GETREF(2 in)"
+  },
+  {
+   "id": "VEC-GETREF-error",
+   "formula": "GETREF(1/0)"
+  },
+  {
+   "id": "VEC-GREEN-none",
+   "formula": "GREEN()"
+  },
+  {
+   "id": "VEC-GREEN-many",
+   "formula": "GREEN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-GREEN-text",
+   "formula": "GREEN(\"x\")"
+  },
+  {
+   "id": "VEC-GREEN-length",
+   "formula": "GREEN(2 in)"
+  },
+  {
+   "id": "VEC-GREEN-error",
+   "formula": "GREEN(1/0)"
+  },
+  {
+   "id": "VEC-GUARD-none",
+   "formula": "GUARD()"
+  },
+  {
+   "id": "VEC-GUARD-many",
+   "formula": "GUARD(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-GUARD-text",
+   "formula": "GUARD(\"x\")"
+  },
+  {
+   "id": "VEC-GUARD-length",
+   "formula": "GUARD(2 in)"
+  },
+  {
+   "id": "VEC-GUARD-error",
+   "formula": "GUARD(1/0)"
+  },
+  {
+   "id": "VEC-HSL-none",
+   "formula": "HSL()"
+  },
+  {
+   "id": "VEC-HSL-many",
+   "formula": "HSL(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-HSL-text",
+   "formula": "HSL(\"x\")"
+  },
+  {
+   "id": "VEC-HSL-length",
+   "formula": "HSL(2 in)"
+  },
+  {
+   "id": "VEC-HSL-error",
+   "formula": "HSL(1/0)"
+  },
+  {
+   "id": "VEC-HUE-none",
+   "formula": "HUE()"
+  },
+  {
+   "id": "VEC-HUE-many",
+   "formula": "HUE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-HUE-text",
+   "formula": "HUE(\"x\")"
+  },
+  {
+   "id": "VEC-HUE-length",
+   "formula": "HUE(2 in)"
+  },
+  {
+   "id": "VEC-HUE-error",
+   "formula": "HUE(1/0)"
+  },
+  {
+   "id": "VEC-ID-none",
+   "formula": "ID()"
+  },
+  {
+   "id": "VEC-ID-many",
+   "formula": "ID(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ID-text",
+   "formula": "ID(\"x\")"
+  },
+  {
+   "id": "VEC-ID-length",
+   "formula": "ID(2 in)"
+  },
+  {
+   "id": "VEC-ID-error",
+   "formula": "ID(1/0)"
+  },
+  {
+   "id": "VEC-IF-none",
+   "formula": "IF()"
+  },
+  {
+   "id": "VEC-IF-many",
+   "formula": "IF(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-IF-text",
+   "formula": "IF(\"x\")"
+  },
+  {
+   "id": "VEC-IF-length",
+   "formula": "IF(2 in)"
+  },
+  {
+   "id": "VEC-IF-error",
+   "formula": "IF(1/0)"
+  },
+  {
+   "id": "VEC-IFERROR-none",
+   "formula": "IFERROR()"
+  },
+  {
+   "id": "VEC-IFERROR-many",
+   "formula": "IFERROR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-IFERROR-text",
+   "formula": "IFERROR(\"x\")"
+  },
+  {
+   "id": "VEC-IFERROR-length",
+   "formula": "IFERROR(2 in)"
+  },
+  {
+   "id": "VEC-IFERROR-error",
+   "formula": "IFERROR(1/0)"
+  },
+  {
+   "id": "VEC-INDEX-none",
+   "formula": "INDEX()"
+  },
+  {
+   "id": "VEC-INDEX-many",
+   "formula": "INDEX(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-INDEX-text",
+   "formula": "INDEX(\"x\")"
+  },
+  {
+   "id": "VEC-INDEX-length",
+   "formula": "INDEX(2 in)"
+  },
+  {
+   "id": "VEC-INDEX-error",
+   "formula": "INDEX(1/0)"
+  },
+  {
+   "id": "VEC-INT-none",
+   "formula": "INT()"
+  },
+  {
+   "id": "VEC-INT-many",
+   "formula": "INT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-INT-text",
+   "formula": "INT(\"x\")"
+  },
+  {
+   "id": "VEC-INT-length",
+   "formula": "INT(2 in)"
+  },
+  {
+   "id": "VEC-INT-error",
+   "formula": "INT(1/0)"
+  },
+  {
+   "id": "VEC-ISTHEMED-none",
+   "formula": "ISTHEMED()"
+  },
+  {
+   "id": "VEC-ISTHEMED-many",
+   "formula": "ISTHEMED(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ISTHEMED-text",
+   "formula": "ISTHEMED(\"x\")"
+  },
+  {
+   "id": "VEC-ISTHEMED-length",
+   "formula": "ISTHEMED(2 in)"
+  },
+  {
+   "id": "VEC-ISTHEMED-error",
+   "formula": "ISTHEMED(1/0)"
+  },
+  {
+   "id": "VEC-LEFT-none",
+   "formula": "LEFT()"
+  },
+  {
+   "id": "VEC-LEFT-many",
+   "formula": "LEFT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LEFT-text",
+   "formula": "LEFT(\"x\")"
+  },
+  {
+   "id": "VEC-LEFT-length",
+   "formula": "LEFT(2 in)"
+  },
+  {
+   "id": "VEC-LEFT-error",
+   "formula": "LEFT(1/0)"
+  },
+  {
+   "id": "VEC-LEN-none",
+   "formula": "LEN()"
+  },
+  {
+   "id": "VEC-LEN-many",
+   "formula": "LEN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LEN-text",
+   "formula": "LEN(\"x\")"
+  },
+  {
+   "id": "VEC-LEN-length",
+   "formula": "LEN(2 in)"
+  },
+  {
+   "id": "VEC-LEN-error",
+   "formula": "LEN(1/0)"
+  },
+  {
+   "id": "VEC-LN-none",
+   "formula": "LN()"
+  },
+  {
+   "id": "VEC-LN-many",
+   "formula": "LN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LN-text",
+   "formula": "LN(\"x\")"
+  },
+  {
+   "id": "VEC-LN-length",
+   "formula": "LN(2 in)"
+  },
+  {
+   "id": "VEC-LN-error",
+   "formula": "LN(1/0)"
+  },
+  {
+   "id": "VEC-LOG10-none",
+   "formula": "LOG10()"
+  },
+  {
+   "id": "VEC-LOG10-many",
+   "formula": "LOG10(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LOG10-text",
+   "formula": "LOG10(\"x\")"
+  },
+  {
+   "id": "VEC-LOG10-length",
+   "formula": "LOG10(2 in)"
+  },
+  {
+   "id": "VEC-LOG10-error",
+   "formula": "LOG10(1/0)"
+  },
+  {
+   "id": "VEC-LOWER-none",
+   "formula": "LOWER()"
+  },
+  {
+   "id": "VEC-LOWER-many",
+   "formula": "LOWER(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LOWER-text",
+   "formula": "LOWER(\"x\")"
+  },
+  {
+   "id": "VEC-LOWER-length",
+   "formula": "LOWER(2 in)"
+  },
+  {
+   "id": "VEC-LOWER-error",
+   "formula": "LOWER(1/0)"
+  },
+  {
+   "id": "VEC-LUM-none",
+   "formula": "LUM()"
+  },
+  {
+   "id": "VEC-LUM-many",
+   "formula": "LUM(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LUM-text",
+   "formula": "LUM(\"x\")"
+  },
+  {
+   "id": "VEC-LUM-length",
+   "formula": "LUM(2 in)"
+  },
+  {
+   "id": "VEC-LUM-error",
+   "formula": "LUM(1/0)"
+  },
+  {
+   "id": "VEC-LUMDIFF-none",
+   "formula": "LUMDIFF()"
+  },
+  {
+   "id": "VEC-LUMDIFF-many",
+   "formula": "LUMDIFF(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-LUMDIFF-text",
+   "formula": "LUMDIFF(\"x\")"
+  },
+  {
+   "id": "VEC-LUMDIFF-length",
+   "formula": "LUMDIFF(2 in)"
+  },
+  {
+   "id": "VEC-LUMDIFF-error",
+   "formula": "LUMDIFF(1/0)"
+  },
+  {
+   "id": "VEC-MAX-none",
+   "formula": "MAX()"
+  },
+  {
+   "id": "VEC-MAX-many",
+   "formula": "MAX(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-MAX-text",
+   "formula": "MAX(\"x\")"
+  },
+  {
+   "id": "VEC-MAX-length",
+   "formula": "MAX(2 in)"
+  },
+  {
+   "id": "VEC-MAX-error",
+   "formula": "MAX(1/0)"
+  },
+  {
+   "id": "VEC-MID-none",
+   "formula": "MID()"
+  },
+  {
+   "id": "VEC-MID-many",
+   "formula": "MID(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-MID-text",
+   "formula": "MID(\"x\")"
+  },
+  {
+   "id": "VEC-MID-length",
+   "formula": "MID(2 in)"
+  },
+  {
+   "id": "VEC-MID-error",
+   "formula": "MID(1/0)"
+  },
+  {
+   "id": "VEC-MIN-none",
+   "formula": "MIN()"
+  },
+  {
+   "id": "VEC-MIN-many",
+   "formula": "MIN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-MIN-text",
+   "formula": "MIN(\"x\")"
+  },
+  {
+   "id": "VEC-MIN-length",
+   "formula": "MIN(2 in)"
+  },
+  {
+   "id": "VEC-MIN-error",
+   "formula": "MIN(1/0)"
+  },
+  {
+   "id": "VEC-MODULUS-none",
+   "formula": "MODULUS()"
+  },
+  {
+   "id": "VEC-MODULUS-many",
+   "formula": "MODULUS(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-MODULUS-text",
+   "formula": "MODULUS(\"x\")"
+  },
+  {
+   "id": "VEC-MODULUS-length",
+   "formula": "MODULUS(2 in)"
+  },
+  {
+   "id": "VEC-MODULUS-error",
+   "formula": "MODULUS(1/0)"
+  },
+  {
+   "id": "VEC-NOT-none",
+   "formula": "NOT()"
+  },
+  {
+   "id": "VEC-NOT-many",
+   "formula": "NOT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-NOT-text",
+   "formula": "NOT(\"x\")"
+  },
+  {
+   "id": "VEC-NOT-length",
+   "formula": "NOT(2 in)"
+  },
+  {
+   "id": "VEC-NOT-error",
+   "formula": "NOT(1/0)"
+  },
+  {
+   "id": "VEC-NOW-none",
+   "formula": "NOW()"
+  },
+  {
+   "id": "VEC-NOW-many",
+   "formula": "NOW(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-NOW-text",
+   "formula": "NOW(\"x\")"
+  },
+  {
+   "id": "VEC-NOW-length",
+   "formula": "NOW(2 in)"
+  },
+  {
+   "id": "VEC-NOW-error",
+   "formula": "NOW(1/0)"
+  },
+  {
+   "id": "VEC-NURBS-none",
+   "formula": "NURBS()"
+  },
+  {
+   "id": "VEC-NURBS-many",
+   "formula": "NURBS(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-NURBS-text",
+   "formula": "NURBS(\"x\")"
+  },
+  {
+   "id": "VEC-NURBS-length",
+   "formula": "NURBS(2 in)"
+  },
+  {
+   "id": "VEC-NURBS-error",
+   "formula": "NURBS(1/0)"
+  },
+  {
+   "id": "VEC-OR-none",
+   "formula": "OR()"
+  },
+  {
+   "id": "VEC-OR-many",
+   "formula": "OR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-OR-text",
+   "formula": "OR(\"x\")"
+  },
+  {
+   "id": "VEC-OR-length",
+   "formula": "OR(2 in)"
+  },
+  {
+   "id": "VEC-OR-error",
+   "formula": "OR(1/0)"
+  },
+  {
+   "id": "VEC-PAGECOUNT-none",
+   "formula": "PAGECOUNT()"
+  },
+  {
+   "id": "VEC-PAGECOUNT-many",
+   "formula": "PAGECOUNT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-PAGECOUNT-text",
+   "formula": "PAGECOUNT(\"x\")"
+  },
+  {
+   "id": "VEC-PAGECOUNT-length",
+   "formula": "PAGECOUNT(2 in)"
+  },
+  {
+   "id": "VEC-PAGECOUNT-error",
+   "formula": "PAGECOUNT(1/0)"
+  },
+  {
+   "id": "VEC-PAGENAME-none",
+   "formula": "PAGENAME()"
+  },
+  {
+   "id": "VEC-PAGENAME-many",
+   "formula": "PAGENAME(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-PAGENAME-text",
+   "formula": "PAGENAME(\"x\")"
+  },
+  {
+   "id": "VEC-PAGENAME-length",
+   "formula": "PAGENAME(2 in)"
+  },
+  {
+   "id": "VEC-PAGENAME-error",
+   "formula": "PAGENAME(1/0)"
+  },
+  {
+   "id": "VEC-PAGENUMBER-none",
+   "formula": "PAGENUMBER()"
+  },
+  {
+   "id": "VEC-PAGENUMBER-many",
+   "formula": "PAGENUMBER(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-PAGENUMBER-text",
+   "formula": "PAGENUMBER(\"x\")"
+  },
+  {
+   "id": "VEC-PAGENUMBER-length",
+   "formula": "PAGENUMBER(2 in)"
+  },
+  {
+   "id": "VEC-PAGENUMBER-error",
+   "formula": "PAGENUMBER(1/0)"
+  },
+  {
+   "id": "VEC-PI-none",
+   "formula": "PI()"
+  },
+  {
+   "id": "VEC-PI-many",
+   "formula": "PI(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-PI-text",
+   "formula": "PI(\"x\")"
+  },
+  {
+   "id": "VEC-PI-length",
+   "formula": "PI(2 in)"
+  },
+  {
+   "id": "VEC-PI-error",
+   "formula": "PI(1/0)"
+  },
+  {
+   "id": "VEC-POLYLINE-none",
+   "formula": "POLYLINE()"
+  },
+  {
+   "id": "VEC-POLYLINE-many",
+   "formula": "POLYLINE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-POLYLINE-text",
+   "formula": "POLYLINE(\"x\")"
+  },
+  {
+   "id": "VEC-POLYLINE-length",
+   "formula": "POLYLINE(2 in)"
+  },
+  {
+   "id": "VEC-POLYLINE-error",
+   "formula": "POLYLINE(1/0)"
+  },
+  {
+   "id": "VEC-POW-none",
+   "formula": "POW()"
+  },
+  {
+   "id": "VEC-POW-many",
+   "formula": "POW(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-POW-text",
+   "formula": "POW(\"x\")"
+  },
+  {
+   "id": "VEC-POW-length",
+   "formula": "POW(2 in)"
+  },
+  {
+   "id": "VEC-POW-error",
+   "formula": "POW(1/0)"
+  },
+  {
+   "id": "VEC-RAD-none",
+   "formula": "RAD()"
+  },
+  {
+   "id": "VEC-RAD-many",
+   "formula": "RAD(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-RAD-text",
+   "formula": "RAD(\"x\")"
+  },
+  {
+   "id": "VEC-RAD-length",
+   "formula": "RAD(2 in)"
+  },
+  {
+   "id": "VEC-RAD-error",
+   "formula": "RAD(1/0)"
+  },
+  {
+   "id": "VEC-RED-none",
+   "formula": "RED()"
+  },
+  {
+   "id": "VEC-RED-many",
+   "formula": "RED(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-RED-text",
+   "formula": "RED(\"x\")"
+  },
+  {
+   "id": "VEC-RED-length",
+   "formula": "RED(2 in)"
+  },
+  {
+   "id": "VEC-RED-error",
+   "formula": "RED(1/0)"
+  },
+  {
+   "id": "VEC-REF-none",
+   "formula": "REF()"
+  },
+  {
+   "id": "VEC-REF-many",
+   "formula": "REF(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-REF-text",
+   "formula": "REF(\"x\")"
+  },
+  {
+   "id": "VEC-REF-length",
+   "formula": "REF(2 in)"
+  },
+  {
+   "id": "VEC-REF-error",
+   "formula": "REF(1/0)"
+  },
+  {
+   "id": "VEC-REPLACE-none",
+   "formula": "REPLACE()"
+  },
+  {
+   "id": "VEC-REPLACE-many",
+   "formula": "REPLACE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-REPLACE-text",
+   "formula": "REPLACE(\"x\")"
+  },
+  {
+   "id": "VEC-REPLACE-length",
+   "formula": "REPLACE(2 in)"
+  },
+  {
+   "id": "VEC-REPLACE-error",
+   "formula": "REPLACE(1/0)"
+  },
+  {
+   "id": "VEC-REPT-none",
+   "formula": "REPT()"
+  },
+  {
+   "id": "VEC-REPT-many",
+   "formula": "REPT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-REPT-text",
+   "formula": "REPT(\"x\")"
+  },
+  {
+   "id": "VEC-REPT-length",
+   "formula": "REPT(2 in)"
+  },
+  {
+   "id": "VEC-REPT-error",
+   "formula": "REPT(1/0)"
+  },
+  {
+   "id": "VEC-RGB-none",
+   "formula": "RGB()"
+  },
+  {
+   "id": "VEC-RGB-many",
+   "formula": "RGB(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-RGB-text",
+   "formula": "RGB(\"x\")"
+  },
+  {
+   "id": "VEC-RGB-length",
+   "formula": "RGB(2 in)"
+  },
+  {
+   "id": "VEC-RGB-error",
+   "formula": "RGB(1/0)"
+  },
+  {
+   "id": "VEC-RIGHT-none",
+   "formula": "RIGHT()"
+  },
+  {
+   "id": "VEC-RIGHT-many",
+   "formula": "RIGHT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-RIGHT-text",
+   "formula": "RIGHT(\"x\")"
+  },
+  {
+   "id": "VEC-RIGHT-length",
+   "formula": "RIGHT(2 in)"
+  },
+  {
+   "id": "VEC-RIGHT-error",
+   "formula": "RIGHT(1/0)"
+  },
+  {
+   "id": "VEC-ROUND-none",
+   "formula": "ROUND()"
+  },
+  {
+   "id": "VEC-ROUND-many",
+   "formula": "ROUND(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-ROUND-text",
+   "formula": "ROUND(\"x\")"
+  },
+  {
+   "id": "VEC-ROUND-length",
+   "formula": "ROUND(2 in)"
+  },
+  {
+   "id": "VEC-ROUND-error",
+   "formula": "ROUND(1/0)"
+  },
+  {
+   "id": "VEC-SAT-none",
+   "formula": "SAT()"
+  },
+  {
+   "id": "VEC-SAT-many",
+   "formula": "SAT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SAT-text",
+   "formula": "SAT(\"x\")"
+  },
+  {
+   "id": "VEC-SAT-length",
+   "formula": "SAT(2 in)"
+  },
+  {
+   "id": "VEC-SAT-error",
+   "formula": "SAT(1/0)"
+  },
+  {
+   "id": "VEC-SETATREF-none",
+   "formula": "SETATREF()"
+  },
+  {
+   "id": "VEC-SETATREF-many",
+   "formula": "SETATREF(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SETATREF-text",
+   "formula": "SETATREF(\"x\")"
+  },
+  {
+   "id": "VEC-SETATREF-length",
+   "formula": "SETATREF(2 in)"
+  },
+  {
+   "id": "VEC-SETATREF-error",
+   "formula": "SETATREF(1/0)"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-none",
+   "formula": "SETATREFEVAL()"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-many",
+   "formula": "SETATREFEVAL(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-text",
+   "formula": "SETATREFEVAL(\"x\")"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-length",
+   "formula": "SETATREFEVAL(2 in)"
+  },
+  {
+   "id": "VEC-SETATREFEVAL-error",
+   "formula": "SETATREFEVAL(1/0)"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-none",
+   "formula": "SETATREFEXPR()"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-many",
+   "formula": "SETATREFEXPR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-text",
+   "formula": "SETATREFEXPR(\"x\")"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-length",
+   "formula": "SETATREFEXPR(2 in)"
+  },
+  {
+   "id": "VEC-SETATREFEXPR-error",
+   "formula": "SETATREFEXPR(1/0)"
+  },
+  {
+   "id": "VEC-SHAPETEXT-none",
+   "formula": "SHAPETEXT()"
+  },
+  {
+   "id": "VEC-SHAPETEXT-many",
+   "formula": "SHAPETEXT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SHAPETEXT-text",
+   "formula": "SHAPETEXT(\"x\")"
+  },
+  {
+   "id": "VEC-SHAPETEXT-length",
+   "formula": "SHAPETEXT(2 in)"
+  },
+  {
+   "id": "VEC-SHAPETEXT-error",
+   "formula": "SHAPETEXT(1/0)"
+  },
+  {
+   "id": "VEC-SIGN-none",
+   "formula": "SIGN()"
+  },
+  {
+   "id": "VEC-SIGN-many",
+   "formula": "SIGN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SIGN-text",
+   "formula": "SIGN(\"x\")"
+  },
+  {
+   "id": "VEC-SIGN-length",
+   "formula": "SIGN(2 in)"
+  },
+  {
+   "id": "VEC-SIGN-error",
+   "formula": "SIGN(1/0)"
+  },
+  {
+   "id": "VEC-SIN-none",
+   "formula": "SIN()"
+  },
+  {
+   "id": "VEC-SIN-many",
+   "formula": "SIN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SIN-text",
+   "formula": "SIN(\"x\")"
+  },
+  {
+   "id": "VEC-SIN-length",
+   "formula": "SIN(2 in)"
+  },
+  {
+   "id": "VEC-SIN-error",
+   "formula": "SIN(1/0)"
+  },
+  {
+   "id": "VEC-SQRT-none",
+   "formula": "SQRT()"
+  },
+  {
+   "id": "VEC-SQRT-many",
+   "formula": "SQRT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SQRT-text",
+   "formula": "SQRT(\"x\")"
+  },
+  {
+   "id": "VEC-SQRT-length",
+   "formula": "SQRT(2 in)"
+  },
+  {
+   "id": "VEC-SQRT-error",
+   "formula": "SQRT(1/0)"
+  },
+  {
+   "id": "VEC-STRSAME-none",
+   "formula": "STRSAME()"
+  },
+  {
+   "id": "VEC-STRSAME-many",
+   "formula": "STRSAME(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-STRSAME-text",
+   "formula": "STRSAME(\"x\")"
+  },
+  {
+   "id": "VEC-STRSAME-length",
+   "formula": "STRSAME(2 in)"
+  },
+  {
+   "id": "VEC-STRSAME-error",
+   "formula": "STRSAME(1/0)"
+  },
+  {
+   "id": "VEC-STRSAMEEX-none",
+   "formula": "STRSAMEEX()"
+  },
+  {
+   "id": "VEC-STRSAMEEX-many",
+   "formula": "STRSAMEEX(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-STRSAMEEX-text",
+   "formula": "STRSAMEEX(\"x\")"
+  },
+  {
+   "id": "VEC-STRSAMEEX-length",
+   "formula": "STRSAMEEX(2 in)"
+  },
+  {
+   "id": "VEC-STRSAMEEX-error",
+   "formula": "STRSAMEEX(1/0)"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-none",
+   "formula": "SUBSTITUTE()"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-many",
+   "formula": "SUBSTITUTE(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-text",
+   "formula": "SUBSTITUTE(\"x\")"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-length",
+   "formula": "SUBSTITUTE(2 in)"
+  },
+  {
+   "id": "VEC-SUBSTITUTE-error",
+   "formula": "SUBSTITUTE(1/0)"
+  },
+  {
+   "id": "VEC-SUM-none",
+   "formula": "SUM()"
+  },
+  {
+   "id": "VEC-SUM-many",
+   "formula": "SUM(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-SUM-text",
+   "formula": "SUM(\"x\")"
+  },
+  {
+   "id": "VEC-SUM-length",
+   "formula": "SUM(2 in)"
+  },
+  {
+   "id": "VEC-SUM-error",
+   "formula": "SUM(1/0)"
+  },
+  {
+   "id": "VEC-TAN-none",
+   "formula": "TAN()"
+  },
+  {
+   "id": "VEC-TAN-many",
+   "formula": "TAN(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TAN-text",
+   "formula": "TAN(\"x\")"
+  },
+  {
+   "id": "VEC-TAN-length",
+   "formula": "TAN(2 in)"
+  },
+  {
+   "id": "VEC-TAN-error",
+   "formula": "TAN(1/0)"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-none",
+   "formula": "TEXTHEIGHT()"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-many",
+   "formula": "TEXTHEIGHT(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-text",
+   "formula": "TEXTHEIGHT(\"x\")"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-length",
+   "formula": "TEXTHEIGHT(2 in)"
+  },
+  {
+   "id": "VEC-TEXTHEIGHT-error",
+   "formula": "TEXTHEIGHT(1/0)"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-none",
+   "formula": "TEXTWIDTH()"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-many",
+   "formula": "TEXTWIDTH(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-text",
+   "formula": "TEXTWIDTH(\"x\")"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-length",
+   "formula": "TEXTWIDTH(2 in)"
+  },
+  {
+   "id": "VEC-TEXTWIDTH-error",
+   "formula": "TEXTWIDTH(1/0)"
+  },
+  {
+   "id": "VEC-THEMEGUARD-none",
+   "formula": "THEMEGUARD()"
+  },
+  {
+   "id": "VEC-THEMEGUARD-many",
+   "formula": "THEMEGUARD(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-THEMEGUARD-text",
+   "formula": "THEMEGUARD(\"x\")"
+  },
+  {
+   "id": "VEC-THEMEGUARD-length",
+   "formula": "THEMEGUARD(2 in)"
+  },
+  {
+   "id": "VEC-THEMEGUARD-error",
+   "formula": "THEMEGUARD(1/0)"
+  },
+  {
+   "id": "VEC-THEMEPROP-none",
+   "formula": "THEMEPROP()"
+  },
+  {
+   "id": "VEC-THEMEPROP-many",
+   "formula": "THEMEPROP(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-THEMEPROP-text",
+   "formula": "THEMEPROP(\"x\")"
+  },
+  {
+   "id": "VEC-THEMEPROP-length",
+   "formula": "THEMEPROP(2 in)"
+  },
+  {
+   "id": "VEC-THEMEPROP-error",
+   "formula": "THEMEPROP(1/0)"
+  },
+  {
+   "id": "VEC-THEMEVAL-none",
+   "formula": "THEMEVAL()"
+  },
+  {
+   "id": "VEC-THEMEVAL-many",
+   "formula": "THEMEVAL(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-THEMEVAL-text",
+   "formula": "THEMEVAL(\"x\")"
+  },
+  {
+   "id": "VEC-THEMEVAL-length",
+   "formula": "THEMEVAL(2 in)"
+  },
+  {
+   "id": "VEC-THEMEVAL-error",
+   "formula": "THEMEVAL(1/0)"
+  },
+  {
+   "id": "VEC-TODAY-none",
+   "formula": "TODAY()"
+  },
+  {
+   "id": "VEC-TODAY-many",
+   "formula": "TODAY(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TODAY-text",
+   "formula": "TODAY(\"x\")"
+  },
+  {
+   "id": "VEC-TODAY-length",
+   "formula": "TODAY(2 in)"
+  },
+  {
+   "id": "VEC-TODAY-error",
+   "formula": "TODAY(1/0)"
+  },
+  {
+   "id": "VEC-TRIM-none",
+   "formula": "TRIM()"
+  },
+  {
+   "id": "VEC-TRIM-many",
+   "formula": "TRIM(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TRIM-text",
+   "formula": "TRIM(\"x\")"
+  },
+  {
+   "id": "VEC-TRIM-length",
+   "formula": "TRIM(2 in)"
+  },
+  {
+   "id": "VEC-TRIM-error",
+   "formula": "TRIM(1/0)"
+  },
+  {
+   "id": "VEC-TRUNC-none",
+   "formula": "TRUNC()"
+  },
+  {
+   "id": "VEC-TRUNC-many",
+   "formula": "TRUNC(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-TRUNC-text",
+   "formula": "TRUNC(\"x\")"
+  },
+  {
+   "id": "VEC-TRUNC-length",
+   "formula": "TRUNC(2 in)"
+  },
+  {
+   "id": "VEC-TRUNC-error",
+   "formula": "TRUNC(1/0)"
+  },
+  {
+   "id": "VEC-UNICHAR-none",
+   "formula": "UNICHAR()"
+  },
+  {
+   "id": "VEC-UNICHAR-many",
+   "formula": "UNICHAR(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-UNICHAR-text",
+   "formula": "UNICHAR(\"x\")"
+  },
+  {
+   "id": "VEC-UNICHAR-length",
+   "formula": "UNICHAR(2 in)"
+  },
+  {
+   "id": "VEC-UNICHAR-error",
+   "formula": "UNICHAR(1/0)"
+  },
+  {
+   "id": "VEC-UPPER-none",
+   "formula": "UPPER()"
+  },
+  {
+   "id": "VEC-UPPER-many",
+   "formula": "UPPER(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-UPPER-text",
+   "formula": "UPPER(\"x\")"
+  },
+  {
+   "id": "VEC-UPPER-length",
+   "formula": "UPPER(2 in)"
+  },
+  {
+   "id": "VEC-UPPER-error",
+   "formula": "UPPER(1/0)"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-none",
+   "formula": "_ELLIPSE_THETA()"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-many",
+   "formula": "_ELLIPSE_THETA(1,1,1,1,1,1,1,1,1)"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-text",
+   "formula": "_ELLIPSE_THETA(\"x\")"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-length",
+   "formula": "_ELLIPSE_THETA(2 in)"
+  },
+  {
+   "id": "VEC-_ELLIPSE_THETA-error",
+   "formula": "_ELLIPSE_THETA(1/0)"
+  },
+  {
+   "id": "STRCOERCE-1",
+   "formula": "UPPER(25.4 mm)"
+  },
+  {
+   "id": "STRCOERCE-2",
+   "formula": "UPPER(2.5 cm)"
+  },
+  {
+   "id": "STRCOERCE-3",
+   "formula": "UPPER(3 ft)"
+  },
+  {
+   "id": "STRCOERCE-4",
+   "formula": "UPPER(10 pt)"
+  },
+  {
+   "id": "STRCOERCE-5",
+   "formula": "UPPER(30 deg)"
+  },
+  {
+   "id": "STRCOERCE-6",
+   "formula": "UPPER(1.5 in)"
+  },
+  {
+   "id": "STRCOERCE-7",
+   "formula": "UPPER(1 m)"
+  },
+  {
+   "id": "STRCOERCE-8",
+   "formula": "UPPER(2 in+1 in)"
+  },
+  {
+   "id": "STRCOERCE-9",
+   "formula": "UPPER(1/3 in)"
+  },
+  {
+   "id": "STRCOERCE-10",
+   "formula": "UPPER(TRUE)"
+  },
+  {
+   "id": "STRCOERCE-11",
+   "formula": "UPPER(1/3)"
+  },
+  {
+   "id": "STRCOERCE-12",
+   "formula": "UPPER(DATE(2026,1,1))"
+  },
+  {
+   "id": "STRCOERCE-13",
+   "formula": "UPPER(RGB(1,2,3))"
+  },
+  {
+   "id": "STRCOERCE-14",
+   "formula": "UPPER(0.5 rad)"
+  },
+  {
+   "id": "STRCOERCE-15",
+   "formula": "UPPER(-2 in)"
+  },
+  {
+   "id": "STRCOERCE-16",
+   "formula": "UPPER(1000000 in)"
+  },
+  {
+   "id": "STRCOERCE-17",
+   "formula": "UPPER(0.000001 in)"
+  },
+  {
+   "id": "STRCOERCE-18",
+   "formula": "UPPER(Sheet.1!User.Len)"
+  },
+  {
+   "id": "STRCOERCE-19",
+   "formula": "UPPER(Sheet.1!User.Ang)"
+  },
+  {
+   "id": "STRCOERCE-20",
+   "formula": "UPPER(2 yd)"
+  },
+  {
+   "id": "STRCOERCE-21",
+   "formula": "UPPER(1 km)"
+  },
+  {
+   "id": "STRCOERCE-22",
+   "formula": "UPPER(1 mi)"
+  },
+  {
+   "id": "STRCOERCE-23",
+   "formula": "UPPER(3 ed)"
+  },
+  {
+   "id": "STRCOERCE-24",
+   "formula": "UPPER(2 eh)"
+  },
+  {
+   "id": "STRCOERCE-25",
+   "formula": "UPPER(12345.678 mm)"
+  },
+  {
+   "id": "STRCOERCE-26",
+   "formula": "SUBSTITUTE(25.4 mm,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-27",
+   "formula": "SUBSTITUTE(1 em,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-28",
+   "formula": "SUBSTITUTE(1 de,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-29",
+   "formula": "SUBSTITUTE(1 da,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-30",
+   "formula": "SUBSTITUTE(123456789012345678 in,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-31",
+   "formula": "SUBSTITUTE(0.1+0.2,\"q\",\"q\")"
+  },
+  {
+   "id": "STRCOERCE-32",
+   "formula": "LEN(25.4 mm)"
+  },
+  {
+   "id": "STRCOERCE-33",
+   "formula": "LEFT(2.5 cm,3)"
+  },
+  {
+   "id": "STRCOERCE-34",
+   "formula": "LN(25.4 mm)"
+  },
+  {
+   "id": "STRCOERCE-35",
+   "formula": "LOG10(100 mm)"
+  },
+  {
+   "id": "STRCOERCE-36",
+   "formula": "LN(30 deg)"
+  },
+  {
+   "id": "STRCOERCE-37",
+   "formula": "LOG10(2 cm)"
+  },
+  {
+   "id": "STRCOERCE-38",
+   "formula": "MAX(\"x\",5)"
+  },
+  {
+   "id": "STRCOERCE-39",
+   "formula": "MIN(\"x\",5)"
+  },
+  {
+   "id": "STRCOERCE-40",
+   "formula": "MAX(\"x\",-5)"
+  },
+  {
+   "id": "STRCOERCE-41",
+   "formula": "MAX(\"3\")"
+  },
+  {
    "id": "SETF-1",
    "formula": "SETF(GETREF(Sheet.2!User.Local),9)"
   }
@@ -8220,6 +10144,2657 @@
    "id": "FIELDPIC-pm-20",
    "formula": "DATETIME(46320.25)",
    "format": "\"dddd d MMMM\""
+  }
+ ],
+ "hostShape": {
+  "key": "E",
+  "rect": [
+   6,
+   3,
+   7,
+   4
+  ]
+ },
+ "hostCases": [
+  {
+   "id": "HOST-ABS-shape",
+   "function": "ABS",
+   "formula": "ABS(-3.5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ABS-page",
+   "function": "ABS",
+   "formula": "ABS(-3.5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ABS-geometry",
+   "function": "ABS",
+   "formula": "ABS(-3.5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ABS-control",
+   "function": "ABS",
+   "formula": "ABS(-3.5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ABS-field",
+   "function": "ABS",
+   "formula": "ABS(-3.5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ACOS-shape",
+   "function": "ACOS",
+   "formula": "ACOS(0.5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ACOS-page",
+   "function": "ACOS",
+   "formula": "ACOS(0.5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ACOS-geometry",
+   "function": "ACOS",
+   "formula": "ACOS(0.5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ACOS-control",
+   "function": "ACOS",
+   "formula": "ACOS(0.5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ACOS-field",
+   "function": "ACOS",
+   "formula": "ACOS(0.5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-AND-shape",
+   "function": "AND",
+   "formula": "AND(1,1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-AND-page",
+   "function": "AND",
+   "formula": "AND(1,1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-AND-geometry",
+   "function": "AND",
+   "formula": "AND(1,1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-AND-control",
+   "function": "AND",
+   "formula": "AND(1,1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-AND-field",
+   "function": "AND",
+   "formula": "AND(1,1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ANG360-shape",
+   "function": "ANG360",
+   "formula": "ANG360(-30 deg)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ANG360-page",
+   "function": "ANG360",
+   "formula": "ANG360(-30 deg)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ANG360-geometry",
+   "function": "ANG360",
+   "formula": "ANG360(-30 deg)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ANG360-control",
+   "function": "ANG360",
+   "formula": "ANG360(-30 deg)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ANG360-field",
+   "function": "ANG360",
+   "formula": "ANG360(-30 deg)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ASIN-shape",
+   "function": "ASIN",
+   "formula": "ASIN(0.5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ASIN-page",
+   "function": "ASIN",
+   "formula": "ASIN(0.5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ASIN-geometry",
+   "function": "ASIN",
+   "formula": "ASIN(0.5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ASIN-control",
+   "function": "ASIN",
+   "formula": "ASIN(0.5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ASIN-field",
+   "function": "ASIN",
+   "formula": "ASIN(0.5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ATAN-shape",
+   "function": "ATAN",
+   "formula": "ATAN(1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ATAN-page",
+   "function": "ATAN",
+   "formula": "ATAN(1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ATAN-geometry",
+   "function": "ATAN",
+   "formula": "ATAN(1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ATAN-control",
+   "function": "ATAN",
+   "formula": "ATAN(1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ATAN-field",
+   "function": "ATAN",
+   "formula": "ATAN(1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ATAN2-shape",
+   "function": "ATAN2",
+   "formula": "ATAN2(1,1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ATAN2-page",
+   "function": "ATAN2",
+   "formula": "ATAN2(1,1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ATAN2-geometry",
+   "function": "ATAN2",
+   "formula": "ATAN2(1,1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ATAN2-control",
+   "function": "ATAN2",
+   "formula": "ATAN2(1,1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ATAN2-field",
+   "function": "ATAN2",
+   "formula": "ATAN2(1,1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BITAND-shape",
+   "function": "BITAND",
+   "formula": "BITAND(12,10)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BITAND-page",
+   "function": "BITAND",
+   "formula": "BITAND(12,10)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BITAND-geometry",
+   "function": "BITAND",
+   "formula": "BITAND(12,10)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BITAND-control",
+   "function": "BITAND",
+   "formula": "BITAND(12,10)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BITAND-field",
+   "function": "BITAND",
+   "formula": "BITAND(12,10)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BITOR-shape",
+   "function": "BITOR",
+   "formula": "BITOR(12,10)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BITOR-page",
+   "function": "BITOR",
+   "formula": "BITOR(12,10)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BITOR-geometry",
+   "function": "BITOR",
+   "formula": "BITOR(12,10)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BITOR-control",
+   "function": "BITOR",
+   "formula": "BITOR(12,10)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BITOR-field",
+   "function": "BITOR",
+   "formula": "BITOR(12,10)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BITXOR-shape",
+   "function": "BITXOR",
+   "formula": "BITXOR(12,10)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BITXOR-page",
+   "function": "BITXOR",
+   "formula": "BITXOR(12,10)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BITXOR-geometry",
+   "function": "BITXOR",
+   "formula": "BITXOR(12,10)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BITXOR-control",
+   "function": "BITXOR",
+   "formula": "BITXOR(12,10)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BITXOR-field",
+   "function": "BITXOR",
+   "formula": "BITXOR(12,10)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BKGPAGENAME-shape",
+   "function": "BKGPAGENAME",
+   "formula": "BKGPAGENAME()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BKGPAGENAME-page",
+   "function": "BKGPAGENAME",
+   "formula": "BKGPAGENAME()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BKGPAGENAME-geometry",
+   "function": "BKGPAGENAME",
+   "formula": "BKGPAGENAME()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BKGPAGENAME-control",
+   "function": "BKGPAGENAME",
+   "formula": "BKGPAGENAME()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BKGPAGENAME-field",
+   "function": "BKGPAGENAME",
+   "formula": "BKGPAGENAME()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BLUE-shape",
+   "function": "BLUE",
+   "formula": "BLUE(RGB(1,2,3))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BLUE-page",
+   "function": "BLUE",
+   "formula": "BLUE(RGB(1,2,3))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BLUE-geometry",
+   "function": "BLUE",
+   "formula": "BLUE(RGB(1,2,3))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BLUE-control",
+   "function": "BLUE",
+   "formula": "BLUE(RGB(1,2,3))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BLUE-field",
+   "function": "BLUE",
+   "formula": "BLUE(RGB(1,2,3))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-BOUND-shape",
+   "function": "BOUND",
+   "formula": "BOUND(5,0,0,10)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-BOUND-page",
+   "function": "BOUND",
+   "formula": "BOUND(5,0,0,10)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-BOUND-geometry",
+   "function": "BOUND",
+   "formula": "BOUND(5,0,0,10)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-BOUND-control",
+   "function": "BOUND",
+   "formula": "BOUND(5,0,0,10)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-BOUND-field",
+   "function": "BOUND",
+   "formula": "BOUND(5,0,0,10)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-CEILING-shape",
+   "function": "CEILING",
+   "formula": "CEILING(2.1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-CEILING-page",
+   "function": "CEILING",
+   "formula": "CEILING(2.1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-CEILING-geometry",
+   "function": "CEILING",
+   "formula": "CEILING(2.1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-CEILING-control",
+   "function": "CEILING",
+   "formula": "CEILING(2.1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-CEILING-field",
+   "function": "CEILING",
+   "formula": "CEILING(2.1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-CHAR-shape",
+   "function": "CHAR",
+   "formula": "CHAR(65)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-CHAR-page",
+   "function": "CHAR",
+   "formula": "CHAR(65)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-CHAR-geometry",
+   "function": "CHAR",
+   "formula": "CHAR(65)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-CHAR-control",
+   "function": "CHAR",
+   "formula": "CHAR(65)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-CHAR-field",
+   "function": "CHAR",
+   "formula": "CHAR(65)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-CONCATENATE-shape",
+   "function": "CONCATENATE",
+   "formula": "CONCATENATE(\"a\",\"b\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-CONCATENATE-page",
+   "function": "CONCATENATE",
+   "formula": "CONCATENATE(\"a\",\"b\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-CONCATENATE-geometry",
+   "function": "CONCATENATE",
+   "formula": "CONCATENATE(\"a\",\"b\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-CONCATENATE-control",
+   "function": "CONCATENATE",
+   "formula": "CONCATENATE(\"a\",\"b\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-CONCATENATE-field",
+   "function": "CONCATENATE",
+   "formula": "CONCATENATE(\"a\",\"b\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-COS-shape",
+   "function": "COS",
+   "formula": "COS(0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-COS-page",
+   "function": "COS",
+   "formula": "COS(0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-COS-geometry",
+   "function": "COS",
+   "formula": "COS(0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-COS-control",
+   "function": "COS",
+   "formula": "COS(0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-COS-field",
+   "function": "COS",
+   "formula": "COS(0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-DATE-shape",
+   "function": "DATE",
+   "formula": "DATE(2026,10,25)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-DATE-page",
+   "function": "DATE",
+   "formula": "DATE(2026,10,25)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-DATE-geometry",
+   "function": "DATE",
+   "formula": "DATE(2026,10,25)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-DATE-control",
+   "function": "DATE",
+   "formula": "DATE(2026,10,25)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-DATE-field",
+   "function": "DATE",
+   "formula": "DATE(2026,10,25)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-DEG-shape",
+   "function": "DEG",
+   "formula": "DEG(PI())",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-DEG-page",
+   "function": "DEG",
+   "formula": "DEG(PI())",
+   "host": "page"
+  },
+  {
+   "id": "HOST-DEG-geometry",
+   "function": "DEG",
+   "formula": "DEG(PI())",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-DEG-control",
+   "function": "DEG",
+   "formula": "DEG(PI())",
+   "host": "control"
+  },
+  {
+   "id": "HOST-DEG-field",
+   "function": "DEG",
+   "formula": "DEG(PI())",
+   "host": "field"
+  },
+  {
+   "id": "HOST-EXP-shape",
+   "function": "EXP",
+   "formula": "EXP(0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-EXP-page",
+   "function": "EXP",
+   "formula": "EXP(0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-EXP-geometry",
+   "function": "EXP",
+   "formula": "EXP(0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-EXP-control",
+   "function": "EXP",
+   "formula": "EXP(0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-EXP-field",
+   "function": "EXP",
+   "formula": "EXP(0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-FIELDPICTURE-shape",
+   "function": "FIELDPICTURE",
+   "formula": "FIELDPICTURE(0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-FIELDPICTURE-page",
+   "function": "FIELDPICTURE",
+   "formula": "FIELDPICTURE(0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-FIELDPICTURE-geometry",
+   "function": "FIELDPICTURE",
+   "formula": "FIELDPICTURE(0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-FIELDPICTURE-control",
+   "function": "FIELDPICTURE",
+   "formula": "FIELDPICTURE(0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-FIELDPICTURE-field",
+   "function": "FIELDPICTURE",
+   "formula": "FIELDPICTURE(0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-FIND-shape",
+   "function": "FIND",
+   "formula": "FIND(\"lo\",\"Hello\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-FIND-page",
+   "function": "FIND",
+   "formula": "FIND(\"lo\",\"Hello\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-FIND-geometry",
+   "function": "FIND",
+   "formula": "FIND(\"lo\",\"Hello\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-FIND-control",
+   "function": "FIND",
+   "formula": "FIND(\"lo\",\"Hello\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-FIND-field",
+   "function": "FIND",
+   "formula": "FIND(\"lo\",\"Hello\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-FLOOR-shape",
+   "function": "FLOOR",
+   "formula": "FLOOR(2.9)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-FLOOR-page",
+   "function": "FLOOR",
+   "formula": "FLOOR(2.9)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-FLOOR-geometry",
+   "function": "FLOOR",
+   "formula": "FLOOR(2.9)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-FLOOR-control",
+   "function": "FLOOR",
+   "formula": "FLOOR(2.9)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-FLOOR-field",
+   "function": "FLOOR",
+   "formula": "FLOOR(2.9)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-FORMAT-shape",
+   "function": "FORMAT",
+   "formula": "FORMAT(3.14159,\"0.00\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-FORMAT-page",
+   "function": "FORMAT",
+   "formula": "FORMAT(3.14159,\"0.00\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-FORMAT-geometry",
+   "function": "FORMAT",
+   "formula": "FORMAT(3.14159,\"0.00\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-FORMAT-control",
+   "function": "FORMAT",
+   "formula": "FORMAT(3.14159,\"0.00\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-FORMAT-field",
+   "function": "FORMAT",
+   "formula": "FORMAT(3.14159,\"0.00\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-GETREF-shape",
+   "function": "GETREF",
+   "formula": "GETREF(Sheet.1!Width)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-GETREF-page",
+   "function": "GETREF",
+   "formula": "GETREF(Sheet.1!Width)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-GETREF-geometry",
+   "function": "GETREF",
+   "formula": "GETREF(Sheet.1!Width)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-GETREF-control",
+   "function": "GETREF",
+   "formula": "GETREF(Sheet.1!Width)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-GETREF-field",
+   "function": "GETREF",
+   "formula": "GETREF(Sheet.1!Width)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-GREEN-shape",
+   "function": "GREEN",
+   "formula": "GREEN(RGB(1,2,3))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-GREEN-page",
+   "function": "GREEN",
+   "formula": "GREEN(RGB(1,2,3))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-GREEN-geometry",
+   "function": "GREEN",
+   "formula": "GREEN(RGB(1,2,3))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-GREEN-control",
+   "function": "GREEN",
+   "formula": "GREEN(RGB(1,2,3))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-GREEN-field",
+   "function": "GREEN",
+   "formula": "GREEN(RGB(1,2,3))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-GUARD-shape",
+   "function": "GUARD",
+   "formula": "GUARD(5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-GUARD-page",
+   "function": "GUARD",
+   "formula": "GUARD(5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-GUARD-geometry",
+   "function": "GUARD",
+   "formula": "GUARD(5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-GUARD-control",
+   "function": "GUARD",
+   "formula": "GUARD(5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-GUARD-field",
+   "function": "GUARD",
+   "formula": "GUARD(5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-HSL-shape",
+   "function": "HSL",
+   "formula": "HSL(0,240,120)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-HSL-page",
+   "function": "HSL",
+   "formula": "HSL(0,240,120)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-HSL-geometry",
+   "function": "HSL",
+   "formula": "HSL(0,240,120)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-HSL-control",
+   "function": "HSL",
+   "formula": "HSL(0,240,120)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-HSL-field",
+   "function": "HSL",
+   "formula": "HSL(0,240,120)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-HUE-shape",
+   "function": "HUE",
+   "formula": "HUE(RGB(255,0,0))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-HUE-page",
+   "function": "HUE",
+   "formula": "HUE(RGB(255,0,0))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-HUE-geometry",
+   "function": "HUE",
+   "formula": "HUE(RGB(255,0,0))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-HUE-control",
+   "function": "HUE",
+   "formula": "HUE(RGB(255,0,0))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-HUE-field",
+   "function": "HUE",
+   "formula": "HUE(RGB(255,0,0))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ID-shape",
+   "function": "ID",
+   "formula": "ID()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ID-page",
+   "function": "ID",
+   "formula": "ID()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ID-geometry",
+   "function": "ID",
+   "formula": "ID()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ID-control",
+   "function": "ID",
+   "formula": "ID()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ID-field",
+   "function": "ID",
+   "formula": "ID()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-IF-shape",
+   "function": "IF",
+   "formula": "IF(1,2,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-IF-page",
+   "function": "IF",
+   "formula": "IF(1,2,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-IF-geometry",
+   "function": "IF",
+   "formula": "IF(1,2,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-IF-control",
+   "function": "IF",
+   "formula": "IF(1,2,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-IF-field",
+   "function": "IF",
+   "formula": "IF(1,2,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-IFERROR-shape",
+   "function": "IFERROR",
+   "formula": "IFERROR(1/0,7)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-IFERROR-page",
+   "function": "IFERROR",
+   "formula": "IFERROR(1/0,7)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-IFERROR-geometry",
+   "function": "IFERROR",
+   "formula": "IFERROR(1/0,7)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-IFERROR-control",
+   "function": "IFERROR",
+   "formula": "IFERROR(1/0,7)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-IFERROR-field",
+   "function": "IFERROR",
+   "formula": "IFERROR(1/0,7)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-INDEX-shape",
+   "function": "INDEX",
+   "formula": "INDEX(1,\"a;b;c\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-INDEX-page",
+   "function": "INDEX",
+   "formula": "INDEX(1,\"a;b;c\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-INDEX-geometry",
+   "function": "INDEX",
+   "formula": "INDEX(1,\"a;b;c\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-INDEX-control",
+   "function": "INDEX",
+   "formula": "INDEX(1,\"a;b;c\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-INDEX-field",
+   "function": "INDEX",
+   "formula": "INDEX(1,\"a;b;c\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-INT-shape",
+   "function": "INT",
+   "formula": "INT(2.7)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-INT-page",
+   "function": "INT",
+   "formula": "INT(2.7)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-INT-geometry",
+   "function": "INT",
+   "formula": "INT(2.7)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-INT-control",
+   "function": "INT",
+   "formula": "INT(2.7)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-INT-field",
+   "function": "INT",
+   "formula": "INT(2.7)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ISTHEMED-shape",
+   "function": "ISTHEMED",
+   "formula": "ISTHEMED()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ISTHEMED-page",
+   "function": "ISTHEMED",
+   "formula": "ISTHEMED()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ISTHEMED-geometry",
+   "function": "ISTHEMED",
+   "formula": "ISTHEMED()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ISTHEMED-control",
+   "function": "ISTHEMED",
+   "formula": "ISTHEMED()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ISTHEMED-field",
+   "function": "ISTHEMED",
+   "formula": "ISTHEMED()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LEFT-shape",
+   "function": "LEFT",
+   "formula": "LEFT(\"Hello\",2)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LEFT-page",
+   "function": "LEFT",
+   "formula": "LEFT(\"Hello\",2)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LEFT-geometry",
+   "function": "LEFT",
+   "formula": "LEFT(\"Hello\",2)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LEFT-control",
+   "function": "LEFT",
+   "formula": "LEFT(\"Hello\",2)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LEFT-field",
+   "function": "LEFT",
+   "formula": "LEFT(\"Hello\",2)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LEN-shape",
+   "function": "LEN",
+   "formula": "LEN(\"Hello\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LEN-page",
+   "function": "LEN",
+   "formula": "LEN(\"Hello\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LEN-geometry",
+   "function": "LEN",
+   "formula": "LEN(\"Hello\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LEN-control",
+   "function": "LEN",
+   "formula": "LEN(\"Hello\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LEN-field",
+   "function": "LEN",
+   "formula": "LEN(\"Hello\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LN-shape",
+   "function": "LN",
+   "formula": "LN(1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LN-page",
+   "function": "LN",
+   "formula": "LN(1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LN-geometry",
+   "function": "LN",
+   "formula": "LN(1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LN-control",
+   "function": "LN",
+   "formula": "LN(1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LN-field",
+   "function": "LN",
+   "formula": "LN(1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LOG10-shape",
+   "function": "LOG10",
+   "formula": "LOG10(1000)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LOG10-page",
+   "function": "LOG10",
+   "formula": "LOG10(1000)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LOG10-geometry",
+   "function": "LOG10",
+   "formula": "LOG10(1000)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LOG10-control",
+   "function": "LOG10",
+   "formula": "LOG10(1000)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LOG10-field",
+   "function": "LOG10",
+   "formula": "LOG10(1000)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LOWER-shape",
+   "function": "LOWER",
+   "formula": "LOWER(\"HeLLo\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LOWER-page",
+   "function": "LOWER",
+   "formula": "LOWER(\"HeLLo\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LOWER-geometry",
+   "function": "LOWER",
+   "formula": "LOWER(\"HeLLo\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LOWER-control",
+   "function": "LOWER",
+   "formula": "LOWER(\"HeLLo\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LOWER-field",
+   "function": "LOWER",
+   "formula": "LOWER(\"HeLLo\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LUM-shape",
+   "function": "LUM",
+   "formula": "LUM(RGB(255,0,0))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LUM-page",
+   "function": "LUM",
+   "formula": "LUM(RGB(255,0,0))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LUM-geometry",
+   "function": "LUM",
+   "formula": "LUM(RGB(255,0,0))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LUM-control",
+   "function": "LUM",
+   "formula": "LUM(RGB(255,0,0))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LUM-field",
+   "function": "LUM",
+   "formula": "LUM(RGB(255,0,0))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-LUMDIFF-shape",
+   "function": "LUMDIFF",
+   "formula": "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-LUMDIFF-page",
+   "function": "LUMDIFF",
+   "formula": "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-LUMDIFF-geometry",
+   "function": "LUMDIFF",
+   "formula": "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-LUMDIFF-control",
+   "function": "LUMDIFF",
+   "formula": "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-LUMDIFF-field",
+   "function": "LUMDIFF",
+   "formula": "LUMDIFF(RGB(255,255,255),RGB(0,0,0))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-MAX-shape",
+   "function": "MAX",
+   "formula": "MAX(1,5,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-MAX-page",
+   "function": "MAX",
+   "formula": "MAX(1,5,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-MAX-geometry",
+   "function": "MAX",
+   "formula": "MAX(1,5,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-MAX-control",
+   "function": "MAX",
+   "formula": "MAX(1,5,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-MAX-field",
+   "function": "MAX",
+   "formula": "MAX(1,5,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-MID-shape",
+   "function": "MID",
+   "formula": "MID(\"Hello\",2,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-MID-page",
+   "function": "MID",
+   "formula": "MID(\"Hello\",2,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-MID-geometry",
+   "function": "MID",
+   "formula": "MID(\"Hello\",2,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-MID-control",
+   "function": "MID",
+   "formula": "MID(\"Hello\",2,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-MID-field",
+   "function": "MID",
+   "formula": "MID(\"Hello\",2,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-MIN-shape",
+   "function": "MIN",
+   "formula": "MIN(1,5,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-MIN-page",
+   "function": "MIN",
+   "formula": "MIN(1,5,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-MIN-geometry",
+   "function": "MIN",
+   "formula": "MIN(1,5,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-MIN-control",
+   "function": "MIN",
+   "formula": "MIN(1,5,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-MIN-field",
+   "function": "MIN",
+   "formula": "MIN(1,5,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-MODULUS-shape",
+   "function": "MODULUS",
+   "formula": "MODULUS(7,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-MODULUS-page",
+   "function": "MODULUS",
+   "formula": "MODULUS(7,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-MODULUS-geometry",
+   "function": "MODULUS",
+   "formula": "MODULUS(7,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-MODULUS-control",
+   "function": "MODULUS",
+   "formula": "MODULUS(7,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-MODULUS-field",
+   "function": "MODULUS",
+   "formula": "MODULUS(7,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-NOT-shape",
+   "function": "NOT",
+   "formula": "NOT(1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-NOT-page",
+   "function": "NOT",
+   "formula": "NOT(1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-NOT-geometry",
+   "function": "NOT",
+   "formula": "NOT(1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-NOT-control",
+   "function": "NOT",
+   "formula": "NOT(1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-NOT-field",
+   "function": "NOT",
+   "formula": "NOT(1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-NOW-shape",
+   "function": "NOW",
+   "formula": "NOW()-NOW()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-NOW-page",
+   "function": "NOW",
+   "formula": "NOW()-NOW()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-NOW-geometry",
+   "function": "NOW",
+   "formula": "NOW()-NOW()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-NOW-control",
+   "function": "NOW",
+   "formula": "NOW()-NOW()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-NOW-field",
+   "function": "NOW",
+   "formula": "NOW()-NOW()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-NURBS-shape",
+   "function": "NURBS",
+   "formula": "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-NURBS-page",
+   "function": "NURBS",
+   "formula": "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-NURBS-geometry",
+   "function": "NURBS",
+   "formula": "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-NURBS-control",
+   "function": "NURBS",
+   "formula": "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-NURBS-field",
+   "function": "NURBS",
+   "formula": "NURBS(1,3,0,0,0,0,1,1,1,0.5,1,1,1,1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-OR-shape",
+   "function": "OR",
+   "formula": "OR(0,0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-OR-page",
+   "function": "OR",
+   "formula": "OR(0,0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-OR-geometry",
+   "function": "OR",
+   "formula": "OR(0,0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-OR-control",
+   "function": "OR",
+   "formula": "OR(0,0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-OR-field",
+   "function": "OR",
+   "formula": "OR(0,0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-PAGECOUNT-shape",
+   "function": "PAGECOUNT",
+   "formula": "PAGECOUNT()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-PAGECOUNT-page",
+   "function": "PAGECOUNT",
+   "formula": "PAGECOUNT()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-PAGECOUNT-geometry",
+   "function": "PAGECOUNT",
+   "formula": "PAGECOUNT()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-PAGECOUNT-control",
+   "function": "PAGECOUNT",
+   "formula": "PAGECOUNT()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-PAGECOUNT-field",
+   "function": "PAGECOUNT",
+   "formula": "PAGECOUNT()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-PAGENAME-shape",
+   "function": "PAGENAME",
+   "formula": "PAGENAME()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-PAGENAME-page",
+   "function": "PAGENAME",
+   "formula": "PAGENAME()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-PAGENAME-geometry",
+   "function": "PAGENAME",
+   "formula": "PAGENAME()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-PAGENAME-control",
+   "function": "PAGENAME",
+   "formula": "PAGENAME()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-PAGENAME-field",
+   "function": "PAGENAME",
+   "formula": "PAGENAME()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-PAGENUMBER-shape",
+   "function": "PAGENUMBER",
+   "formula": "PAGENUMBER()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-PAGENUMBER-page",
+   "function": "PAGENUMBER",
+   "formula": "PAGENUMBER()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-PAGENUMBER-geometry",
+   "function": "PAGENUMBER",
+   "formula": "PAGENUMBER()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-PAGENUMBER-control",
+   "function": "PAGENUMBER",
+   "formula": "PAGENUMBER()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-PAGENUMBER-field",
+   "function": "PAGENUMBER",
+   "formula": "PAGENUMBER()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-PI-shape",
+   "function": "PI",
+   "formula": "PI()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-PI-page",
+   "function": "PI",
+   "formula": "PI()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-PI-geometry",
+   "function": "PI",
+   "formula": "PI()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-PI-control",
+   "function": "PI",
+   "formula": "PI()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-PI-field",
+   "function": "PI",
+   "formula": "PI()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-POLYLINE-shape",
+   "function": "POLYLINE",
+   "formula": "POLYLINE(0,0,0,0,1,1,1,0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-POLYLINE-page",
+   "function": "POLYLINE",
+   "formula": "POLYLINE(0,0,0,0,1,1,1,0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-POLYLINE-geometry",
+   "function": "POLYLINE",
+   "formula": "POLYLINE(0,0,0,0,1,1,1,0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-POLYLINE-control",
+   "function": "POLYLINE",
+   "formula": "POLYLINE(0,0,0,0,1,1,1,0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-POLYLINE-field",
+   "function": "POLYLINE",
+   "formula": "POLYLINE(0,0,0,0,1,1,1,0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-POW-shape",
+   "function": "POW",
+   "formula": "POW(2,10)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-POW-page",
+   "function": "POW",
+   "formula": "POW(2,10)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-POW-geometry",
+   "function": "POW",
+   "formula": "POW(2,10)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-POW-control",
+   "function": "POW",
+   "formula": "POW(2,10)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-POW-field",
+   "function": "POW",
+   "formula": "POW(2,10)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-RAD-shape",
+   "function": "RAD",
+   "formula": "RAD(180)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-RAD-page",
+   "function": "RAD",
+   "formula": "RAD(180)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-RAD-geometry",
+   "function": "RAD",
+   "formula": "RAD(180)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-RAD-control",
+   "function": "RAD",
+   "formula": "RAD(180)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-RAD-field",
+   "function": "RAD",
+   "formula": "RAD(180)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-RED-shape",
+   "function": "RED",
+   "formula": "RED(RGB(1,2,3))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-RED-page",
+   "function": "RED",
+   "formula": "RED(RGB(1,2,3))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-RED-geometry",
+   "function": "RED",
+   "formula": "RED(RGB(1,2,3))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-RED-control",
+   "function": "RED",
+   "formula": "RED(RGB(1,2,3))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-RED-field",
+   "function": "RED",
+   "formula": "RED(RGB(1,2,3))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-REF-shape",
+   "function": "REF",
+   "formula": "REF()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-REF-page",
+   "function": "REF",
+   "formula": "REF()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-REF-geometry",
+   "function": "REF",
+   "formula": "REF()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-REF-control",
+   "function": "REF",
+   "formula": "REF()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-REF-field",
+   "function": "REF",
+   "formula": "REF()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-REPLACE-shape",
+   "function": "REPLACE",
+   "formula": "REPLACE(\"Hello\",2,3,\"ipp\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-REPLACE-page",
+   "function": "REPLACE",
+   "formula": "REPLACE(\"Hello\",2,3,\"ipp\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-REPLACE-geometry",
+   "function": "REPLACE",
+   "formula": "REPLACE(\"Hello\",2,3,\"ipp\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-REPLACE-control",
+   "function": "REPLACE",
+   "formula": "REPLACE(\"Hello\",2,3,\"ipp\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-REPLACE-field",
+   "function": "REPLACE",
+   "formula": "REPLACE(\"Hello\",2,3,\"ipp\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-REPT-shape",
+   "function": "REPT",
+   "formula": "REPT(\"ab\",3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-REPT-page",
+   "function": "REPT",
+   "formula": "REPT(\"ab\",3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-REPT-geometry",
+   "function": "REPT",
+   "formula": "REPT(\"ab\",3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-REPT-control",
+   "function": "REPT",
+   "formula": "REPT(\"ab\",3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-REPT-field",
+   "function": "REPT",
+   "formula": "REPT(\"ab\",3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-RGB-shape",
+   "function": "RGB",
+   "formula": "RGB(10,20,30)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-RGB-page",
+   "function": "RGB",
+   "formula": "RGB(10,20,30)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-RGB-geometry",
+   "function": "RGB",
+   "formula": "RGB(10,20,30)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-RGB-control",
+   "function": "RGB",
+   "formula": "RGB(10,20,30)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-RGB-field",
+   "function": "RGB",
+   "formula": "RGB(10,20,30)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-RIGHT-shape",
+   "function": "RIGHT",
+   "formula": "RIGHT(\"Hello\",2)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-RIGHT-page",
+   "function": "RIGHT",
+   "formula": "RIGHT(\"Hello\",2)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-RIGHT-geometry",
+   "function": "RIGHT",
+   "formula": "RIGHT(\"Hello\",2)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-RIGHT-control",
+   "function": "RIGHT",
+   "formula": "RIGHT(\"Hello\",2)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-RIGHT-field",
+   "function": "RIGHT",
+   "formula": "RIGHT(\"Hello\",2)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-ROUND-shape",
+   "function": "ROUND",
+   "formula": "ROUND(2.345,2)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-ROUND-page",
+   "function": "ROUND",
+   "formula": "ROUND(2.345,2)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-ROUND-geometry",
+   "function": "ROUND",
+   "formula": "ROUND(2.345,2)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-ROUND-control",
+   "function": "ROUND",
+   "formula": "ROUND(2.345,2)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-ROUND-field",
+   "function": "ROUND",
+   "formula": "ROUND(2.345,2)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SAT-shape",
+   "function": "SAT",
+   "formula": "SAT(RGB(255,0,0))",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SAT-page",
+   "function": "SAT",
+   "formula": "SAT(RGB(255,0,0))",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SAT-geometry",
+   "function": "SAT",
+   "formula": "SAT(RGB(255,0,0))",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SAT-control",
+   "function": "SAT",
+   "formula": "SAT(RGB(255,0,0))",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SAT-field",
+   "function": "SAT",
+   "formula": "SAT(RGB(255,0,0))",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SETATREF-shape",
+   "function": "SETATREF",
+   "formula": "SETATREF(Sheet.2!User.Local)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SETATREF-page",
+   "function": "SETATREF",
+   "formula": "SETATREF(Sheet.2!User.Local)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SETATREF-geometry",
+   "function": "SETATREF",
+   "formula": "SETATREF(Sheet.2!User.Local)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SETATREF-control",
+   "function": "SETATREF",
+   "formula": "SETATREF(Sheet.2!User.Local)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SETATREF-field",
+   "function": "SETATREF",
+   "formula": "SETATREF(Sheet.2!User.Local)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SETATREFEVAL-shape",
+   "function": "SETATREFEVAL",
+   "formula": "SETATREFEVAL(5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SETATREFEVAL-page",
+   "function": "SETATREFEVAL",
+   "formula": "SETATREFEVAL(5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SETATREFEVAL-geometry",
+   "function": "SETATREFEVAL",
+   "formula": "SETATREFEVAL(5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SETATREFEVAL-control",
+   "function": "SETATREFEVAL",
+   "formula": "SETATREFEVAL(5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SETATREFEVAL-field",
+   "function": "SETATREFEVAL",
+   "formula": "SETATREFEVAL(5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SETATREFEXPR-shape",
+   "function": "SETATREFEXPR",
+   "formula": "SETATREFEXPR(5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SETATREFEXPR-page",
+   "function": "SETATREFEXPR",
+   "formula": "SETATREFEXPR(5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SETATREFEXPR-geometry",
+   "function": "SETATREFEXPR",
+   "formula": "SETATREFEXPR(5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SETATREFEXPR-control",
+   "function": "SETATREFEXPR",
+   "formula": "SETATREFEXPR(5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SETATREFEXPR-field",
+   "function": "SETATREFEXPR",
+   "formula": "SETATREFEXPR(5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SHAPETEXT-shape",
+   "function": "SHAPETEXT",
+   "formula": "SHAPETEXT(Sheet.1!TheText)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SHAPETEXT-page",
+   "function": "SHAPETEXT",
+   "formula": "SHAPETEXT(Sheet.1!TheText)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SHAPETEXT-geometry",
+   "function": "SHAPETEXT",
+   "formula": "SHAPETEXT(Sheet.1!TheText)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SHAPETEXT-control",
+   "function": "SHAPETEXT",
+   "formula": "SHAPETEXT(Sheet.1!TheText)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SHAPETEXT-field",
+   "function": "SHAPETEXT",
+   "formula": "SHAPETEXT(Sheet.1!TheText)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SIGN-shape",
+   "function": "SIGN",
+   "formula": "SIGN(-3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SIGN-page",
+   "function": "SIGN",
+   "formula": "SIGN(-3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SIGN-geometry",
+   "function": "SIGN",
+   "formula": "SIGN(-3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SIGN-control",
+   "function": "SIGN",
+   "formula": "SIGN(-3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SIGN-field",
+   "function": "SIGN",
+   "formula": "SIGN(-3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SIN-shape",
+   "function": "SIN",
+   "formula": "SIN(0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SIN-page",
+   "function": "SIN",
+   "formula": "SIN(0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SIN-geometry",
+   "function": "SIN",
+   "formula": "SIN(0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SIN-control",
+   "function": "SIN",
+   "formula": "SIN(0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SIN-field",
+   "function": "SIN",
+   "formula": "SIN(0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SQRT-shape",
+   "function": "SQRT",
+   "formula": "SQRT(16)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SQRT-page",
+   "function": "SQRT",
+   "formula": "SQRT(16)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SQRT-geometry",
+   "function": "SQRT",
+   "formula": "SQRT(16)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SQRT-control",
+   "function": "SQRT",
+   "formula": "SQRT(16)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SQRT-field",
+   "function": "SQRT",
+   "formula": "SQRT(16)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-STRSAME-shape",
+   "function": "STRSAME",
+   "formula": "STRSAME(\"abc\",\"ABC\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-STRSAME-page",
+   "function": "STRSAME",
+   "formula": "STRSAME(\"abc\",\"ABC\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-STRSAME-geometry",
+   "function": "STRSAME",
+   "formula": "STRSAME(\"abc\",\"ABC\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-STRSAME-control",
+   "function": "STRSAME",
+   "formula": "STRSAME(\"abc\",\"ABC\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-STRSAME-field",
+   "function": "STRSAME",
+   "formula": "STRSAME(\"abc\",\"ABC\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-STRSAMEEX-shape",
+   "function": "STRSAMEEX",
+   "formula": "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-STRSAMEEX-page",
+   "function": "STRSAMEEX",
+   "formula": "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-STRSAMEEX-geometry",
+   "function": "STRSAMEEX",
+   "formula": "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-STRSAMEEX-control",
+   "function": "STRSAMEEX",
+   "formula": "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-STRSAMEEX-field",
+   "function": "STRSAMEEX",
+   "formula": "STRSAMEEX(\"abc\",\"ABC\",0,1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SUBSTITUTE-shape",
+   "function": "SUBSTITUTE",
+   "formula": "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SUBSTITUTE-page",
+   "function": "SUBSTITUTE",
+   "formula": "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SUBSTITUTE-geometry",
+   "function": "SUBSTITUTE",
+   "formula": "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SUBSTITUTE-control",
+   "function": "SUBSTITUTE",
+   "formula": "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SUBSTITUTE-field",
+   "function": "SUBSTITUTE",
+   "formula": "SUBSTITUTE(\"a-b-c\",\"-\",\"+\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-SUM-shape",
+   "function": "SUM",
+   "formula": "SUM(1,2,3)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-SUM-page",
+   "function": "SUM",
+   "formula": "SUM(1,2,3)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-SUM-geometry",
+   "function": "SUM",
+   "formula": "SUM(1,2,3)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-SUM-control",
+   "function": "SUM",
+   "formula": "SUM(1,2,3)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-SUM-field",
+   "function": "SUM",
+   "formula": "SUM(1,2,3)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TAN-shape",
+   "function": "TAN",
+   "formula": "TAN(0)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TAN-page",
+   "function": "TAN",
+   "formula": "TAN(0)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TAN-geometry",
+   "function": "TAN",
+   "formula": "TAN(0)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TAN-control",
+   "function": "TAN",
+   "formula": "TAN(0)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TAN-field",
+   "function": "TAN",
+   "formula": "TAN(0)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TEXTHEIGHT-shape",
+   "function": "TEXTHEIGHT",
+   "formula": "TEXTHEIGHT(Sheet.1!TheText)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TEXTHEIGHT-page",
+   "function": "TEXTHEIGHT",
+   "formula": "TEXTHEIGHT(Sheet.1!TheText)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TEXTHEIGHT-geometry",
+   "function": "TEXTHEIGHT",
+   "formula": "TEXTHEIGHT(Sheet.1!TheText)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TEXTHEIGHT-control",
+   "function": "TEXTHEIGHT",
+   "formula": "TEXTHEIGHT(Sheet.1!TheText)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TEXTHEIGHT-field",
+   "function": "TEXTHEIGHT",
+   "formula": "TEXTHEIGHT(Sheet.1!TheText)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TEXTWIDTH-shape",
+   "function": "TEXTWIDTH",
+   "formula": "TEXTWIDTH(Sheet.1!TheText)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TEXTWIDTH-page",
+   "function": "TEXTWIDTH",
+   "formula": "TEXTWIDTH(Sheet.1!TheText)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TEXTWIDTH-geometry",
+   "function": "TEXTWIDTH",
+   "formula": "TEXTWIDTH(Sheet.1!TheText)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TEXTWIDTH-control",
+   "function": "TEXTWIDTH",
+   "formula": "TEXTWIDTH(Sheet.1!TheText)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TEXTWIDTH-field",
+   "function": "TEXTWIDTH",
+   "formula": "TEXTWIDTH(Sheet.1!TheText)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-THEMEGUARD-shape",
+   "function": "THEMEGUARD",
+   "formula": "THEMEGUARD(5)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-THEMEGUARD-page",
+   "function": "THEMEGUARD",
+   "formula": "THEMEGUARD(5)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-THEMEGUARD-geometry",
+   "function": "THEMEGUARD",
+   "formula": "THEMEGUARD(5)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-THEMEGUARD-control",
+   "function": "THEMEGUARD",
+   "formula": "THEMEGUARD(5)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-THEMEGUARD-field",
+   "function": "THEMEGUARD",
+   "formula": "THEMEGUARD(5)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-THEMEPROP-shape",
+   "function": "THEMEPROP",
+   "formula": "THEMEPROP(1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-THEMEPROP-page",
+   "function": "THEMEPROP",
+   "formula": "THEMEPROP(1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-THEMEPROP-geometry",
+   "function": "THEMEPROP",
+   "formula": "THEMEPROP(1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-THEMEPROP-control",
+   "function": "THEMEPROP",
+   "formula": "THEMEPROP(1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-THEMEPROP-field",
+   "function": "THEMEPROP",
+   "formula": "THEMEPROP(1)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-THEMEVAL-shape",
+   "function": "THEMEVAL",
+   "formula": "THEMEVAL()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-THEMEVAL-page",
+   "function": "THEMEVAL",
+   "formula": "THEMEVAL()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-THEMEVAL-geometry",
+   "function": "THEMEVAL",
+   "formula": "THEMEVAL()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-THEMEVAL-control",
+   "function": "THEMEVAL",
+   "formula": "THEMEVAL()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-THEMEVAL-field",
+   "function": "THEMEVAL",
+   "formula": "THEMEVAL()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TODAY-shape",
+   "function": "TODAY",
+   "formula": "TODAY()-TODAY()",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TODAY-page",
+   "function": "TODAY",
+   "formula": "TODAY()-TODAY()",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TODAY-geometry",
+   "function": "TODAY",
+   "formula": "TODAY()-TODAY()",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TODAY-control",
+   "function": "TODAY",
+   "formula": "TODAY()-TODAY()",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TODAY-field",
+   "function": "TODAY",
+   "formula": "TODAY()-TODAY()",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TRIM-shape",
+   "function": "TRIM",
+   "formula": "TRIM(\"  a  b  \")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TRIM-page",
+   "function": "TRIM",
+   "formula": "TRIM(\"  a  b  \")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TRIM-geometry",
+   "function": "TRIM",
+   "formula": "TRIM(\"  a  b  \")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TRIM-control",
+   "function": "TRIM",
+   "formula": "TRIM(\"  a  b  \")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TRIM-field",
+   "function": "TRIM",
+   "formula": "TRIM(\"  a  b  \")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-TRUNC-shape",
+   "function": "TRUNC",
+   "formula": "TRUNC(2.789,2)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-TRUNC-page",
+   "function": "TRUNC",
+   "formula": "TRUNC(2.789,2)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-TRUNC-geometry",
+   "function": "TRUNC",
+   "formula": "TRUNC(2.789,2)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-TRUNC-control",
+   "function": "TRUNC",
+   "formula": "TRUNC(2.789,2)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-TRUNC-field",
+   "function": "TRUNC",
+   "formula": "TRUNC(2.789,2)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-UNICHAR-shape",
+   "function": "UNICHAR",
+   "formula": "UNICHAR(65)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-UNICHAR-page",
+   "function": "UNICHAR",
+   "formula": "UNICHAR(65)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-UNICHAR-geometry",
+   "function": "UNICHAR",
+   "formula": "UNICHAR(65)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-UNICHAR-control",
+   "function": "UNICHAR",
+   "formula": "UNICHAR(65)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-UNICHAR-field",
+   "function": "UNICHAR",
+   "formula": "UNICHAR(65)",
+   "host": "field"
+  },
+  {
+   "id": "HOST-UPPER-shape",
+   "function": "UPPER",
+   "formula": "UPPER(\"hello\")",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-UPPER-page",
+   "function": "UPPER",
+   "formula": "UPPER(\"hello\")",
+   "host": "page"
+  },
+  {
+   "id": "HOST-UPPER-geometry",
+   "function": "UPPER",
+   "formula": "UPPER(\"hello\")",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-UPPER-control",
+   "function": "UPPER",
+   "formula": "UPPER(\"hello\")",
+   "host": "control"
+  },
+  {
+   "id": "HOST-UPPER-field",
+   "function": "UPPER",
+   "formula": "UPPER(\"hello\")",
+   "host": "field"
+  },
+  {
+   "id": "HOST-_ELLIPSE_THETA-shape",
+   "function": "_ELLIPSE_THETA",
+   "formula": "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+   "host": "shape"
+  },
+  {
+   "id": "HOST-_ELLIPSE_THETA-page",
+   "function": "_ELLIPSE_THETA",
+   "formula": "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+   "host": "page"
+  },
+  {
+   "id": "HOST-_ELLIPSE_THETA-geometry",
+   "function": "_ELLIPSE_THETA",
+   "formula": "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+   "host": "geometry"
+  },
+  {
+   "id": "HOST-_ELLIPSE_THETA-control",
+   "function": "_ELLIPSE_THETA",
+   "formula": "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+   "host": "control"
+  },
+  {
+   "id": "HOST-_ELLIPSE_THETA-field",
+   "function": "_ELLIPSE_THETA",
+   "formula": "_ELLIPSE_THETA(0,1,0.5,0,0,1,0.5,1)",
+   "host": "field"
   }
  ]
 }

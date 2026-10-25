@@ -223,6 +223,8 @@ final class ShapeSheetContext {
         sheetKeyIndices[node.id] = keys
         return keys[reference.lowercased()]
     }
+    /// A page sheet cell (ThePage!reference), evaluated from its formula when it has one.
+    func pageCellValue(_ reference:String) throws -> SheetValue { try pageValue(reference,from:page.id) }
     private func pageValue(_ reference:String,from host:UUID) throws -> SheetValue {
         if let foreground, foreground.id != page.id {
             if foregroundContext == nil {
@@ -358,7 +360,13 @@ final class ShapeSheetContext {
             guard ["SHAPETEXT","TEXTWIDTH","TEXTHEIGHT"].contains(name) else { return nil }
             // Visio 2019 requires TEXTHEIGHT's maximum width (TEXTHEIGHT-1 is rejected).
             guard name != "TEXTHEIGHT" || args.count == 2 else { throw DiagramError.invalid("TEXTHEIGHT expects a TheText reference and a maximum width.") }
-            guard (1...2).contains(args.count),case .reference(let reference) = args[0] else { throw DiagramError.invalid("\(name) requires a TheText reference and an optional parameter.") }
+            guard (1...2).contains(args.count) else { throw DiagramError.invalid("\(name) requires a TheText reference and an optional parameter.") }
+            // Anything but a cell reference measures no text (VEC-SHAPETEXT-text, VEC-TEXTWIDTH-length).
+            guard case .reference(let reference) = args[0] else {
+                guard name != "TEXTHEIGHT" else { throw DiagramError.invalid("TEXTHEIGHT requires a TheText reference.") }
+                _ = try eval(args[0])  // an error argument still propagates (VEC-SHAPETEXT-error)
+                return name == "SHAPETEXT" ? .string("") : .quantity(0,"DL")
+            }
             let (owner,key) = try self.target(reference,from:id);guard key.caseInsensitiveCompare("TheText") == .orderedSame,let source = self.nodes[owner] else { throw DiagramError.invalid("\(name) requires a shape's TheText cell.") }
             if name == "SHAPETEXT" {
                 let number = args.count == 2 ? try eval(args[1]).numeric() : 0;guard let flags = Int(exactly:number) else { throw DiagramError.invalid("Invalid SHAPETEXT flags.") };return .string(try ShapeTextFunctions.text(source,flags:flags))
@@ -393,7 +401,8 @@ final class ShapeSheetContext {
         let pages = document?.pages ?? [page]
         switch name {
         case "PAGENAME":
-            guard values.count <= 1 else { throw DiagramError.invalid("Invalid PAGENAME arguments.") }
+            // Visio shows nothing for surplus or text arguments (VEC-PAGENAME-many, VEC-PAGENAME-text).
+            if values.count > 1 || values.first.map({ if case .string = $0 { return true }; return false }) == true { return .string("") }
             return .string(context.name)
         case "PAGENUMBER":
             // Visio returns 0 whenever an argument is supplied (reference cases PAGENUMBER-2, EXPR-53/54).
@@ -402,7 +411,7 @@ final class ShapeSheetContext {
             return .number(context.isBackground == true ? 0 : Double((pages.filter { $0.isBackground != true }.firstIndex { $0.id == context.id } ?? -1)+1))
         case "PAGECOUNT": try arity(0); return .number(Double(pages.filter { $0.isBackground != true }.count))
         case "BKGPAGENAME":
-            guard values.count <= 1 else { throw DiagramError.invalid("Invalid BKGPAGENAME arguments.") }
+            if values.count > 1 || values.first.map({ if case .string = $0 { return true }; return false }) == true { return .string("") }
             return .string(pages.first { $0.id == context.backgroundPageID }?.name ?? "<no background>")  // BKGPAGENAME-1
         case "ID":
             try arity(0)

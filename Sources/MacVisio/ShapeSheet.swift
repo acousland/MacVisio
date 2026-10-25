@@ -133,8 +133,8 @@ enum ShapeSheet {
                 case "<":result = x < y ? 1 : 0; case ">":result = x > y ? 1 : 0; case "<=":result = x <= y ? 1 : 0; case ">=":result = x >= y ? 1 : 0
                 default:throw DiagramError.invalid("Unsupported ShapeSheet operator.")
                 }
-            case .call(let name,let arguments):
-                let name = name.uppercased()
+            case .call(let name,let given):
+                let name = name.uppercased(),arguments = withoutSurplusArguments(name,given)
                 try requireReferenceFunction(name)
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1) != 0 { return 0 };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
                 if name == "SETATREFEXPR",arguments.isEmpty { return 0 }
@@ -183,7 +183,7 @@ enum ShapeSheet {
                     guard values[0] != 0 || values[1] != 0 else { throw DiagramError.invalid("POW(0,0) is undefined (#NUM!).") }
                     result = pow(values[0],values[1])
                 case "MIN","MAX","SUM":guard !values.isEmpty else { throw DiagramError.invalid("\(name) needs an argument.") };result = name == "MIN" ? values.min()! : name == "MAX" ? values.max()! : values.reduce(0,+)
-                case "AND":result = values.allSatisfy{$0 != 0} ? 1 : 0; case "OR":result = values.contains{$0 != 0} ? 1 : 0; case "NOT":try arity(1);result = values[0] == 0 ? 1 : 0
+                case "AND","OR":guard !values.isEmpty else { throw DiagramError.invalid("\(name) needs an argument.") };result = name == "AND" ? (values.allSatisfy{$0 != 0} ? 1 : 0) : (values.contains{$0 != 0} ? 1 : 0); case "NOT":try arity(1);result = values[0] == 0 ? 1 : 0
                 default: throw DiagramError.invalid("Unsupported ShapeSheet function: \(name). The original formula and cached value are retained.")
                 }
             }
@@ -294,6 +294,14 @@ enum ShapeSheet {
     /// Functions later Visio versions added, which Visio 2019 (16.0.10730) rejects as unknown names
     /// (reference cases CONCATENATE-*, EXP-*, TODAY-1). Formulas using them would fail in Visio 2019.
     static let unavailableInReference: Set<String> = ["CONCATENATE","EXP","TODAY"]
+    /// Visio 2019 ignores arguments beyond these functions' optional parameters (reference VEC-*-many);
+    /// other functions reject surplus arguments.
+    static let surplusArgumentLimits:[String:Int] = ["CEILING":2,"FLOOR":2,"FIND":4,"INDEX":4,"LEFT":2,"RIGHT":2,"SIGN":2,"STRSAME":3,
+        "SUBSTITUTE":5,"THEMEVAL":2,"PAGENUMBER":1,"SHAPETEXT":2,"TEXTWIDTH":2]
+    static func withoutSurplusArguments(_ name:String,_ arguments:[Expression]) -> [Expression] {
+        guard let limit = surplusArgumentLimits[name],arguments.count > limit else { return arguments }
+        return Array(arguments.prefix(limit))
+    }
     static func requireReferenceFunction(_ name:String) throws {
         if unavailableInReference.contains(name) { throw DiagramError.invalid("\(name) is not available in Visio 2019 (#NAME?).") }
     }

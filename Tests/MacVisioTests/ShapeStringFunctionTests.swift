@@ -101,7 +101,7 @@ final class ShapeStringFunctionTests: XCTestCase {
             "REPLACE(\"abc\",0,1,\"x\")",
             "SUBSTITUTE(\"aaa\",\"a\",\"b\",0)",
             "REPT(\"x\",-1)", "CHAR(0)", "CHAR(128)", "UNICHAR(65536)",
-            "INDEX(\"1\",\"a;b\")", "INDEX(1.5,\"a;b\")", "INDEX(0,\"a;b\",\"\")", "INDEX(0,\"a;b\",\";\",1,2)",
+            "INDEX(\"1\",\"a;b\")", "INDEX(1.5,\"a;b\")", "INDEX(0,\"a;b\",\"\")",
             "SEARCH(\"x\",\"abc\")", "CODE(\"A\")", "MID(\"abc\",1)"
         ] {
             XCTAssertThrowsError(try evaluate(formula), formula)

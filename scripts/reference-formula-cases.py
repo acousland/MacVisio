@@ -200,6 +200,40 @@ CASES += fn("COERCE", "RGB(TRUE,0,0)", "RGB(\"1\",0,0)", "RGB(1,2,3 pt)", "RGB(7
 CASES += fn("ROUNDING", "CEILING(26 mm,1 mm)", "FLOOR(26.4 mm,1 mm)", "CEILING(2.5 cm,1)", "FLOOR(2.5 cm,1 cm)", "CEILING(26 mm,2 mm)", "CEILING(1 in,1 rad)",
             "CEILING(13 mm*2,1)", "CEILING(2.5 cm)", "FLOOR(2.5 cm)", "ROUND(25.46 mm,1)", "CEILING(1.2 ft,1 in)", "CEILING(30 deg,1 rad)", "CEILING(0.5,1 mm)", "FLOOR(-2.5 cm,1 cm)",
             "CEILING(Sheet.1!User.Len,1 mm)", "CEILING(Sheet.1!Width,1 cm)", "SIGN(0.005,1 mm)", "SIGN(0.05,1 mm)")
+# Every catalogued function (WP-15-T03) also gets the same invalid vectors: no arguments, too many, a string,
+# a length and an error argument. Action functions with side effects are not evaluated this way.
+CATALOG_FUNCTIONS = ["ABS", "ACOS", "AND", "ANG360", "ASIN", "ATAN", "ATAN2", "BITAND", "BITOR", "BITXOR", "BKGPAGENAME", "BLUE", "BOUND",
+    "CEILING", "CHAR", "CONCATENATE", "COS", "DATE", "DEG", "EXP", "FIELDPICTURE", "FIND", "FLOOR", "FORMAT", "GETREF", "GREEN", "GUARD", "HSL",
+    "HUE", "ID", "IF", "IFERROR", "INDEX", "INT", "ISTHEMED", "LEFT", "LEN", "LN", "LOG10", "LOWER", "LUM", "LUMDIFF", "MAX", "MID", "MIN",
+    "MODULUS", "NOT", "NOW", "NURBS", "OPENTEXTWIN", "OR", "PAGECOUNT", "PAGENAME", "PAGENUMBER", "PI", "POLYLINE", "POW", "RAD", "RED", "REF",
+    "REPLACE", "REPT", "RGB", "RIGHT", "ROUND", "SAT", "SETATREF", "SETATREFEVAL", "SETATREFEXPR", "SETF", "SHAPETEXT", "SIGN", "SIN", "SQRT",
+    "STRSAME", "STRSAMEEX", "SUBSTITUTE", "SUM", "TAN", "TEXTHEIGHT", "TEXTWIDTH", "THEMEGUARD", "THEMEPROP", "THEMEVAL", "TODAY", "TRIM",
+    "TRUNC", "UNICHAR", "UPPER", "_ELLIPSE_THETA"]
+ACTION_FUNCTIONS = {"SETF", "OPENTEXTWIN"}
+for name in CATALOG_FUNCTIONS:
+    if name in ACTION_FUNCTIONS: continue
+    CASES += [(f"VEC-{name}-none", f"{name}()"), (f"VEC-{name}-many", f"{name}(1,1,1,1,1,1,1,1,1)"), (f"VEC-{name}-text", f"{name}(\"x\")"),
+              (f"VEC-{name}-length", f"{name}(2 in)"), (f"VEC-{name}-error", f"{name}(1/0)")]
+
+# String coercion of numbers, quantities, booleans, dates and colors; LN/LOG10 units; MIN/MAX with text.
+CASES += fn("STRCOERCE", "UPPER(25.4 mm)", "UPPER(2.5 cm)", "UPPER(3 ft)", "UPPER(10 pt)", "UPPER(30 deg)", "UPPER(1.5 in)", "UPPER(1 m)", "UPPER(2 in+1 in)",
+            "UPPER(1/3 in)", "UPPER(TRUE)", "UPPER(1/3)", "UPPER(DATE(2026,1,1))", "UPPER(RGB(1,2,3))", "UPPER(0.5 rad)", "UPPER(-2 in)", "UPPER(1000000 in)",
+            "UPPER(0.000001 in)", "UPPER(Sheet.1!User.Len)", "UPPER(Sheet.1!User.Ang)", "UPPER(2 yd)", "UPPER(1 km)", "UPPER(1 mi)", "UPPER(3 ed)", "UPPER(2 eh)",
+            "UPPER(12345.678 mm)", "SUBSTITUTE(25.4 mm,\"q\",\"q\")", "SUBSTITUTE(1 em,\"q\",\"q\")", "SUBSTITUTE(1 de,\"q\",\"q\")", "SUBSTITUTE(1 da,\"q\",\"q\")",
+            "SUBSTITUTE(123456789012345678 in,\"q\",\"q\")", "SUBSTITUTE(0.1+0.2,\"q\",\"q\")", "LEN(25.4 mm)", "LEFT(2.5 cm,3)",
+            "LN(25.4 mm)", "LOG10(100 mm)", "LN(30 deg)", "LOG10(2 cm)", "MAX(\"x\",5)", "MIN(\"x\",5)", "MAX(\"x\",-5)", "MAX(\"3\")")
+
+# Host matrix: each function's first case evaluated through the cells that consume formulas in practice: a
+# shape User cell, a page User cell, a Geometry row cell, a control handle cell and a text field. MacVisio
+# evaluates these through its document calculation (--probe-hosts), not the direct evaluator.
+HOSTS = ["shape", "page", "geometry", "control", "field"]
+HOST_CASES = []
+for name in CATALOG_FUNCTIONS:
+    if name in ACTION_FUNCTIONS: continue
+    first = next((f for i, f in CASES if i == f"{name}-1"), None)
+    if first is None: continue
+    HOST_CASES += [{"id": f"HOST-{name}-{host}", "function": name, "formula": first, "host": host} for host in HOSTS]
+
 # Side effects last: SETF writes Sheet.2!User.Local in Visio.
 CASES += fn("SETF", "SETF(GETREF(Sheet.2!User.Local),9)")
 
@@ -211,7 +245,8 @@ def main():
         seen.add(case_id)
     spec = {"schemaVersion": 1, "document": {"Title": "Probe Title", "Subject": "Probe Subject", "Creator": "Probe Creator", "Manager": "Probe Manager",
             "Company": "Probe Company", "Category": "Probe", "Keywords": "alpha; beta", "Description": "Probe description"}, "page": {"name": "Probe Page", "width": "8.5 in", "height": "11 in", "extraPages": ["Second"]},
-            "shapes": SHAPES, "host": "B", "cases": [{"id": i, "formula": f} for i, f in CASES], "fields": FIELDS}
+            "shapes": SHAPES, "host": "B", "cases": [{"id": i, "formula": f} for i, f in CASES], "fields": FIELDS,
+            "hostShape": {"key": "E", "rect": [6, 3, 7, 4]}, "hostCases": HOST_CASES}
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(spec, indent=1, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"{len(CASES)} cases -> {out}")

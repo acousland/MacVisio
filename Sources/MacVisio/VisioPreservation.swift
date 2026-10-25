@@ -745,6 +745,8 @@ enum VisioPreservation {
         for key in Set(current.keys).union(original.keys) where current[key] != original[key] {
             if ["PageWidth","PageHeight","PageScale","DrawingScale","DrawingScaleType"].contains(where:{$0.caseInsensitiveCompare(key) == .orderedSame}) { continue }
             let cellValue = current[key]
+            // As for shapes: a value recalculated from an unchanged formula is not an edit.
+            if let cellValue,let old = original[key],!cellValue.formula.isEmpty,cellValue.formula == old.formula,cellValue.unit == old.unit { continue }
             if key.hasPrefix("User.") || key.hasPrefix("Prop.") {
                 let sectionName = key.hasPrefix("User.") ? "User" : "Property"
                 let remainder = String(key.dropFirst(sectionName == "User" ? 5 : 5))

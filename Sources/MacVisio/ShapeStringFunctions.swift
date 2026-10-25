@@ -10,10 +10,10 @@ enum ShapeStringFunctions {
         switch name {
         case "LEN":
             try arity(values, 1, name)
-            return .number(Double(values[0].text.utf16.count))
+            return .number(Double(values[0].coercedText.utf16.count))
         case "LEFT", "RIGHT":
             guard (1...2).contains(values.count) else { throw arityError(name, "one or two") }
-            let text = values[0].text
+            let text = values[0].coercedText
             let units = text.utf16.count
             // A negative length returns the whole text in Visio (LEFT-5, RIGHT-4).
             if values.count == 2, let requested = try? values[1].numeric(), requested < 0 { return .string(text) }
@@ -22,7 +22,7 @@ enum ShapeStringFunctions {
             return .string(try substring(text, start: start, length: amount))
         case "MID":
             try arity(values, 3, name)
-            let text = values[0].text
+            let text = values[0].coercedText
             let length = text.utf16.count
             let position = try positivePosition(values[1], name: name)
             let requested = try nonnegativeWhole(values[2], name: name)
@@ -33,8 +33,8 @@ enum ShapeStringFunctions {
             return .string(try substring(text, start: start, length: amount))
         case "FIND":
             guard (2...4).contains(values.count) else { throw arityError(name, "two to four") }
-            let needle = values[0].text
-            let text = values[1].text
+            let needle = values[0].coercedText
+            let text = values[1].coercedText
             let length = text.utf16.count
             let position = values.count >= 3 ? try positivePosition(values[2], name: name) : 1
             guard position <= length else { throw invalid("FIND start_num is outside the text.") }
@@ -52,27 +52,27 @@ enum ShapeStringFunctions {
             return .number(Double(offset + 1))
         case "REPLACE":
             try arity(values, 4, name)
-            let old = values[0].text
+            let old = values[0].coercedText
             let units = old.utf16.count
             let position = try positivePosition(values[1], name: name)
             let requested = try nonnegativeWhole(values[2], name: name)
             // A start beyond the text appends the new text (REPLACE-3).
-            guard position <= units + 1 else { return .string(old + values[3].text) }
+            guard position <= units + 1 else { return .string(old + values[3].coercedText) }
             let start = position - 1
             let remaining = units - start
             let amount = requested >= Double(remaining) ? remaining : (Int(exactly: requested) ?? remaining)
-            let replacement = values[3].text
+            let replacement = values[3].coercedText
             let removedBytes = try substring(old, start: start, length: amount).utf8.count
             let resultBytes = try checkedResultBytes(old.utf8.count - removedBytes, replacement.utf8.count)
             guard resultBytes <= maximumTextBytes else { throw invalid("ShapeSheet text result exceeds the size limit.") }
             return .string(try substring(old, start: 0, length: start) + replacement + substring(old, start: start + amount, length: units - start - amount))
         case "SUBSTITUTE":
             guard (3...5).contains(values.count) else { throw arityError(name, "three to five") }
-            let text = values[0].text
-            let needle = values[1].text
+            let text = values[0].coercedText
+            let needle = values[1].coercedText
             guard !needle.isEmpty else { return .string(text) }  // SUBSTITUTE-4: nothing to replace
             try boundSearchWork(text, needle)
-            let replacement = values[2].text
+            let replacement = values[2].coercedText
             var occurrence: Int?
             if values.count >= 4 {
                 let n = try values[3].numeric()
@@ -86,7 +86,7 @@ enum ShapeStringFunctions {
             return .string(try substitute(text, needle: needle, replacement: replacement, occurrence: occurrence, ignoreCase: ignoreCase))
         case "REPT":
             try arity(values, 2, name)
-            let text = values[0].text
+            let text = values[0].coercedText
             let rawCount = try values[1].numeric()
             guard rawCount.isFinite, rawCount >= 0 else { throw invalid("REPT count is outside the supported range.") }
             // Visio documents truncation toward zero for a fractional repeat count.
@@ -106,9 +106,9 @@ enum ShapeStringFunctions {
                   rawIndex.rounded(.towardZero) == rawIndex else {
                 throw invalid("INDEX requires a finite whole-number index.")
             }
-            let list = values[1].text
+            let list = values[1].coercedText
             guard list.utf8.count <= maximumTextBytes else { throw invalid("ShapeSheet text input exceeds the size limit.") }
-            let delimiter = values.count >= 3 ? values[2].text : ";"
+            let delimiter = values.count >= 3 ? values[2].coercedText : ";"
             guard !delimiter.isEmpty else { throw invalid("INDEX delimiter must not be empty.") }
             try boundSearchWork(list, delimiter)
             // Negative whole-number indexes are simply outside the list.

@@ -55,6 +55,17 @@ enum DeveloperCommands {
                 exit(1)
             }
         }
+        if let index = arguments.firstIndex(of: "--probe-hosts"), arguments.indices.contains(index + 3) {
+            _ = NSApplication.shared
+            do {
+                try FormulaProbe.runHosts(drawing: URL(fileURLWithPath: arguments[index + 1]), cases: URL(fileURLWithPath: arguments[index + 2]),
+                                          output: URL(fileURLWithPath: arguments[index + 3]))
+                exit(0)
+            } catch {
+                fputs("Host probe failed: \(error.localizedDescription)\n", stderr)
+                exit(1)
+            }
+        }
         if let index = arguments.firstIndex(of: "--automation-prototype"), arguments.indices.contains(index + 2) {
             do {
                 let script = try String(contentsOf: URL(fileURLWithPath: arguments[index + 1]), encoding: .utf8)
@@ -477,7 +488,7 @@ enum DeveloperCommands {
     /// available to the normal bootstrap.
     static func usageError(arguments: [String]) -> String? {
         let operands: [String: Int] = [
-            "--prepare-interchange-fixtures": 1, "--dump-model": 2, "--automation-prototype": 2, "--probe-formulas": 3, "--apply-edits": 3, "--inspect-calculation": 2, "--inspect-geometry": 2,
+            "--prepare-interchange-fixtures": 1, "--dump-model": 2, "--automation-prototype": 2, "--probe-formulas": 3, "--probe-hosts": 3, "--apply-edits": 3, "--inspect-calculation": 2, "--inspect-geometry": 2,
             "--generate-curve-example": 1, "--generate-curve-library-example": 2,
             "--generate-text-context-example": 1, "--generate-control-example": 1,
             "--generate-geometry-example": 1, "--generate-field-example": 1,
