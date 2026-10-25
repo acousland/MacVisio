@@ -33,6 +33,36 @@ enum VisioFormat {
 
     private static func read(archive: PackageReader, title: String, allowNativeMetadata: Bool = true,
                              trace: ((String) -> Void)? = nil) throws -> VisioImportResult {
+        let result = try readUnordered(archive: archive, title: title, allowNativeMetadata: allowNativeMetadata, trace: trace)
+        var diagram = result.diagram
+        applySourceOrder(&diagram, archive: archive)
+        var ordered = VisioImportResult(diagram: diagram, warnings: result.warnings)
+        ordered.legacyNative = result.legacyNative; ordered.diagnostics = result.diagnostics
+        return ordered
+    }
+
+    /// Visio's z-order is each page part's shape order. It is derived from the public package on every load
+    /// (drawings opened from MacVisio's saved metadata included) and never stored.
+    private static func applySourceOrder(_ diagram: inout Diagram, archive: PackageReader) {
+        guard var visio = diagram.visioArchive else { return }
+        let pattern = try! NSRegularExpression(pattern: "<Shape\\s[^>]*?\\bID=['\"](\\d+)['\"]")
+        for b in visio.pages.indices {
+            let binding = visio.pages[b]
+            guard let p = diagram.pages.firstIndex(where: { $0.id == binding.pageID }), !diagram.pages[p].edges.isEmpty,
+                  let data = try? archive.data(binding.part), let text = String(data: data, encoding: .utf8) else { continue }
+            var byVisioID: [String: UUID] = [:]
+            for (id, visioID) in binding.nodeIDs { byVisioID[visioID] = id }
+            for (id, visioID) in binding.edgeIDs { byVisioID[visioID] = id }
+            let ns = text as NSString
+            let order = pattern.matches(in: text, range: NSRange(location: 0, length: ns.length)).compactMap { byVisioID[ns.substring(with: $0.range(at: 1))] }
+            diagram.pages[p].sourceOrder = order
+            visio.pages[b].original.sourceOrder = order
+        }
+        diagram.visioArchive = visio
+    }
+
+    private static func readUnordered(archive: PackageReader, title: String, allowNativeMetadata: Bool,
+                             trace: ((String) -> Void)?) throws -> VisioImportResult {
         try LifecycleJobContext.current?.checkpoint()
         trace?("package")
         _ = try archive.xml("[Content_Types].xml", expectedRoot: "Types")

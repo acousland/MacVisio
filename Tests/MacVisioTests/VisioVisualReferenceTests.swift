@@ -142,4 +142,20 @@ final class VisioVisualReferenceTests: XCTestCase {
         XCTAssertEqual(ShapeRichText.attributed(node).string, "PSPF SECURITY ZONES")
         XCTAssertEqual(ShapeRichText.attributed(node, editing: true).string, "Pspf Security Zones")
     }
+
+    /// Visio draws shapes and connectors interleaved in page order: a filled frame drawn first must not cover
+    /// the connectors that follow it (a customer drawing showed no connectors).
+    func testConnectorsFollowVisioPageOrderAmongShapes() {
+        var page = DiagramPage()
+        let frame = DiagramNode(text: "Frame"), box = DiagramNode(text: "Box"), late = DiagramNode(text: "Late")
+        page.nodes = [frame, box, late]
+        let edge = DiagramEdge(source: frame.id, target: box.id), added = DiagramEdge(source: box.id, target: late.id)
+        page.edges = [edge, added]
+        page.sourceOrder = [frame.id, edge.id, box.id, late.id]
+        var drawn: [String] = []
+        let order = DiagramDrawing.connectorOrder(page)!
+        DiagramDrawing.interleave(nodes: page.nodes, edges: page.edges, order: order,
+                                  drawNode: { drawn.append($0.text) }, drawEdge: { drawn.append($0.id == edge.id ? "edge" : "added") })
+        XCTAssertEqual(drawn, ["Frame", "edge", "Box", "Late", "added"])
+    }
 }

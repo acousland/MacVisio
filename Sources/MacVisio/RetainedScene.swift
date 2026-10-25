@@ -229,6 +229,7 @@ final class RetainedRenderPage {
                 || before.formatting.layerNames != after.formatting.layerNames
         }
         page = next
+        sourceOrderCache = nil
         runtime.apply(page: next, changes: changes)
         if previewSource != nil {
             preparePreviewRoutingPage(next, changes: changes)
@@ -439,15 +440,29 @@ final class RetainedRenderPage {
                 prepared.input, shadow: shadow, paperScale: page.paperScale, prepared: prepared)
             lastDrawWork.nodesDrawn += 1
         }
-        for node in candidates where node.kind == .swimlane { drawNode(node, shadow: false) }
-        for edge in edgeQuery.values where page.isVisible(edge, printing: printing) {
+        func drawEdge(_ edge: DiagramEdge) {
             DiagramDrawing.drawEdge(
                 DiagramDrawing.layerColored(edge, in: page), in: page,
                 selected: edge.id == selectedEdge, preparedRoute: routes[edge.id] ?? [],
                 preparedLabel: preparedLabel(edge))
             lastDrawWork.edgesDrawn += 1
         }
+        if let order = sourceOrder {
+            DiagramDrawing.interleave(nodes: candidates, edges: edgeQuery.values.filter { page.isVisible($0, printing: printing) }, order: order,
+                                      drawNode: { drawNode($0, shadow: $0.kind == .swimlane ? false : shadow) }, drawEdge: drawEdge)
+            return
+        }
+        for node in candidates where node.kind == .swimlane { drawNode(node, shadow: false) }
+        for edge in edgeQuery.values where page.isVisible(edge, printing: printing) { drawEdge(edge) }
         for node in candidates where node.kind != .swimlane { drawNode(node, shadow: shadow) }
+    }
+    /// Visio's interleaved z-order, prepared once per page revision.
+    private var sourceOrderCache: (anchors: [UUID: Int], nodeIndex: [UUID: Int])??
+    private var sourceOrder: (anchors: [UUID: Int], nodeIndex: [UUID: Int])? {
+        if let cached = sourceOrderCache { return cached }
+        let order = DiagramDrawing.connectorOrder(page)
+        sourceOrderCache = .some(order)
+        return order
     }
 }
 

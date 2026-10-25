@@ -125,7 +125,16 @@ enum DiagramDrawing {
         NativeFontRendering.font(requested: n.formatting.fontName, size: n.fontSize,
                                  bold: n.bold, italic: n.formatting.italic)
     }
-    static func dash(_ pattern:Int) -> [CGFloat] { switch pattern { case 2:return [6,4]; case 3:return [1,3]; case 4:return [7,3,1,3]; case 5:return [7,3,1,3,1,3]; default:return [] } }
+    /// Visio's standard line patterns (1 solid, 2–23 dashes and dots, longer and finer variants), approximated.
+    static func dash(_ pattern:Int) -> [CGFloat] {
+        switch pattern {
+        case 2,10:return [6,4]; case 3,11:return [1,3]; case 4,12:return [7,3,1,3]; case 5,13:return [7,3,1,3,1,3]
+        case 6,14:return [7,3,7,3,1,3]; case 7,15:return [12,3,6,3]; case 8:return [12,3,6,3,6,3]; case 9,16:return [12,6]
+        case 17:return [3,2]; case 18:return [1,1]; case 19:return [3,1,1,1]; case 20:return [6,2,1,2,1,2]
+        case 21:return [8,2,3,2]; case 22:return [8,4]; case 23:return [2,2]
+        default:return []
+        }
+    }
     static func isTextHidden(for node:DiagramNode) -> Bool { Double(node.formatting.sheet["HideText"]?.value ?? "0") == 1 }
     static func textRect(for n:DiagramNode) -> CGRect {
         if let box = n.formatting.textBox { return box.rect(in:n) }
@@ -308,9 +317,40 @@ enum DiagramDrawing {
     static func orderedNodes(in page:DiagramPage) -> [DiagramNode] {
         ShapeDrawingOrder.ordered(page.nodes,id:\.id,parentID:\.parentID,isGroup:{$0.formatting.isGroup},displayMode:{Double($0.formatting.sheet["DisplayMode"]?.value ?? "").flatMap{Int(exactly:$0)}})
     }
+    /// Visio's z-order for an imported page: for each connector, the index in `page.nodes` of the shape it
+    /// follows in source order (-1 before every shape). Connectors added later have no anchor and go on top.
+    static func connectorOrder(_ page:DiagramPage) -> (anchors:[UUID:Int],nodeIndex:[UUID:Int])? {
+        guard let order = page.sourceOrder else { return nil }
+        var nodeIndex:[UUID:Int] = [:]; for (i,n) in page.nodes.enumerated() where nodeIndex[n.id] == nil { nodeIndex[n.id] = i }
+        let edgeIDs = Set(page.edges.map(\.id))
+        var anchors:[UUID:Int] = [:],last = -1
+        for id in order { if let i = nodeIndex[id] { last = i } else if edgeIDs.contains(id) { anchors[id] = last } }
+        return (anchors,nodeIndex)
+    }
+    /// Draws shapes in their drawing order with each connector drawn after the shape it follows.
+    static func interleave(nodes:[DiagramNode],edges:[DiagramEdge],order:(anchors:[UUID:Int],nodeIndex:[UUID:Int]),
+                           drawNode:(DiagramNode)->Void,drawEdge:(DiagramEdge)->Void) {
+        let sorted = edges.enumerated().sorted { a,b in
+            let x = order.anchors[a.element.id] ?? Int.max,y = order.anchors[b.element.id] ?? Int.max
+            return x != y ? x < y : a.offset < b.offset
+        }.map(\.element)
+        var next = 0
+        for node in nodes {
+            let position = order.nodeIndex[node.id] ?? Int.max
+            while next < sorted.count,(order.anchors[sorted[next].id] ?? Int.max) < position { drawEdge(sorted[next]); next += 1 }
+            drawNode(node)
+        }
+        while next < sorted.count { drawEdge(sorted[next]); next += 1 }
+    }
     static func drawContents(_ page:DiagramPage,printing:Bool = true,shadow:Bool = false) {
         let evidence = PerformanceEvidence.begin(.draw);defer { PerformanceEvidence.end(evidence) }
         let nodes = orderedNodes(in:page)
+        if let order = connectorOrder(page) {
+            interleave(nodes:nodes.filter { page.isVisible($0,printing:printing) },edges:page.edges.filter { page.isVisible($0,printing:printing) },order:order,
+                       drawNode:{ drawNode(layerColored($0,in:page),shadow:$0.kind == .swimlane ? false : shadow,paperScale:page.paperScale) },
+                       drawEdge:{ drawEdge(layerColored($0,in:page),in:page) })
+            return
+        }
         for n in nodes where n.kind == .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:false,paperScale:page.paperScale) }
         for e in page.edges where page.isVisible(e,printing:printing) { drawEdge(layerColored(e,in:page),in:page) }
         for n in nodes where n.kind != .swimlane && page.isVisible(n,printing:printing) { drawNode(layerColored(n,in:page),shadow:shadow,paperScale:page.paperScale) }

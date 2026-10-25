@@ -139,6 +139,18 @@ struct DiagramPage: Codable, Equatable, Identifiable {
     /// Office theme selected by this page's document package. PageSheet theme
     /// indices remain in `sheet`; this carries the selected theme part's data.
     var theme: VisioTheme? = nil
+    /// Visio's z-order on an imported page: shapes and connectors in source document order. Visio draws them
+    /// interleaved in this order (a filled frame drawn before the connectors over it); objects added later
+    /// are drawn on top.
+    var sourceOrder: [UUID]? = nil
+    /// `sourceOrder` is derived from the Visio package when it is opened, so it is not stored.
+    enum CodingKeys: String, CodingKey { case id,name,width,height,nodes,edges,layers,backgroundPageID,isBackground,drawingScale,sheet,theme }
+    /// Equality ignores `sourceOrder`, which only records how the source package ordered the same content.
+    static func == (a: DiagramPage, b: DiagramPage) -> Bool {
+        a.id == b.id && a.name == b.name && a.width == b.width && a.height == b.height && a.nodes == b.nodes && a.edges == b.edges
+            && a.layers == b.layers && a.backgroundPageID == b.backgroundPageID && a.isBackground == b.isBackground
+            && a.drawingScale == b.drawingScale && a.sheet == b.sheet && a.theme == b.theme
+    }
     var paperScale:Double { drawingScale?.factor ?? 1 }
     var isMeasured:Bool { paperScale != 1 || (drawingScale?.type ?? 0) != 0 }
     var paperWidth:Double { width*paperScale }
