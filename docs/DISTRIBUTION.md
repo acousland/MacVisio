@@ -32,9 +32,13 @@ Version 0.22.1 fixes group labels being painted over by member backgrounds, hono
 
 Version 0.22.0 is published with a Developer ID signature, accepted Apple notarization, and a stapled ticket. The final archive passes Gatekeeper and Sparkle archive/feed signature verification. This release requires Apple Silicon and macOS 27 or newer; the signed appcast records that deployment floor. It includes the dark/light/system appearance choices, tabbed ribbon, and bounded line-theme/VSD connector compatibility work. The release assets include `release-verification.json` and `SHA256SUMS.txt`; the source suite passes 378 Swift tests and 7 script tests. See [release notes](RELEASE-0.22.0.md).
 
+## Stable 0.26.0
+
+[MacVisio 0.26.0](https://github.com/acousland/MacVisio/releases/tag/v0.26.0) is the latest stable release. It lays out the editor like Microsoft Visio 2019: the ribbon's tabs, groups and commands, a File view, task panes and status bar. Every stable gate passed without an exception on the exact signed archive. See [release notes](RELEASE-0.26.0.md) and [candidate evidence](delivery/STABLE-0.26.0.md).
+
 ## Stable 0.25.0
 
-[MacVisio 0.25.0](https://github.com/acousland/MacVisio/releases/tag/v0.25.0) is the latest stable release and the first M3 increment: ShapeSheet formulas, theme quick styles and Visio round trips checked against Visio 2019. Every stable gate passed without an exception on the exact signed archive. See [release notes](RELEASE-0.25.0.md) and [candidate evidence](delivery/STABLE-0.25.0.md).
+[MacVisio 0.25.0](https://github.com/acousland/MacVisio/releases/tag/v0.25.0) was the previous stable release and the first M3 increment: ShapeSheet formulas, theme quick styles and Visio round trips checked against Visio 2019. Every stable gate passed without an exception on the exact signed archive. See [release notes](RELEASE-0.25.0.md) and [candidate evidence](delivery/STABLE-0.25.0.md).
 
 ## Stable 0.24.0
 
