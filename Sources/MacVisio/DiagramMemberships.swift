@@ -551,11 +551,15 @@ enum DiagramMemberships {
     /// Both policies are checked: resolving/clearing a role cannot bypass the
     /// guard in the same operation as a geometry change. Undo keeps its existing
     /// restoration path and does not call this native-edit guard.
-    @discardableResult static func validateTransforms(from before: Diagram, to after: Diagram,
+    /// `proposed` is the edit before calculation. A container the edit left in place but calculation resized
+    /// (its own size or position formulas, recalculated as Visio recalculates them) is not a transform of the
+    /// container and its members.
+    @discardableResult static func validateTransforms(from before: Diagram, to after: Diagram, proposed: Diagram? = nil,
                                    beforeSession: CalculationSession? = nil, afterSession: CalculationSession? = nil,
                                    cancellation: LifecycleJobCancellation? = nil) throws -> TransformWork {
         var work = TransformWork()
         let afterPages = Dictionary(after.pages.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first })
+        let proposedPages = proposed.map { Dictionary($0.pages.map { ($0.id, $0) }, uniquingKeysWith: { first, _ in first }) }
         for page in before.pages {
             try checkpoint(cancellation)
             guard let next = afterPages[page.id] else { continue }
@@ -595,6 +599,10 @@ enum DiagramMemberships {
                       old.rect != new.rect || old.rotation != new.rotation
                         || old.formatting.flipX != new.formatting.flipX || old.formatting.flipY != new.formatting.flipY else { continue }
                 if movesRigidlyWithMembers(old, new, before: before, after: after, pageID: page.id) { continue }
+                if let edited = proposedPages?[page.id]?.nodes.first(where: { $0.id == id }),
+                   edited.rect == old.rect, edited.rotation == old.rotation,
+                   edited.formatting.flipX == old.formatting.flipX, edited.formatting.flipY == old.formatting.flipY,
+                   edited.formatting.sheet.filter({ geometryCells.contains($0.key) }) == old.formatting.sheet.filter({ geometryCells.contains($0.key) }) { continue }
                 // A shape translated exactly with its parent (a group part or container heading) keeps its structure.
                 if let parentID = old.parentID, old.parentID == new.parentID, old.width == new.width, old.height == new.height, old.rotation == new.rotation,
                    let oldParent = page.nodes.first(where: { $0.id == parentID }), let newParent = next.nodes.first(where: { $0.id == parentID }),
@@ -605,6 +613,8 @@ enum DiagramMemberships {
         }
         return work
     }
+
+    private static let geometryCells: Set<String> = ["PinX", "PinY", "Width", "Height", "LocPinX", "LocPinY", "Angle", "FlipX", "FlipY"]
 
     static func removalBlockReason(_ objectIDs: Set<UUID>, in page: DiagramPage) -> String? {
         guard !objectIDs.isEmpty else { return nil }

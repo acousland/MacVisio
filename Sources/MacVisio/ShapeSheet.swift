@@ -42,14 +42,22 @@ final class ShapeSheetColorPalette {
             return data
         }
         for data in candidates {
+            // Each calculation builds a palette; the document part rarely changes, so its parse is reused.
+            entriesLock.lock()
+            if let cached = lastEntries, cached.data == data { entriesLock.unlock(); return cached.entries }
+            entriesLock.unlock()
             guard let root = try? VisioXML.document(data).rootElement(), root.localTag == "VisioDocument" else { continue }
-            return Dictionary(root.firstLocal("Colors")?.elementsLocal("ColorEntry").compactMap { entry -> (Int, String)? in
+            let entries = Dictionary(root.firstLocal("Colors")?.elementsLocal("ColorEntry").compactMap { entry -> (Int, String)? in
                 guard let index = entry.attr("IX").flatMap(Int.init), let color = entry.attr("RGB") else { return nil }
                 return (index, color)
             } ?? [], uniquingKeysWith: { first, _ in first })
+            entriesLock.lock(); lastEntries = (data, entries); entriesLock.unlock()
+            return entries
         }
         return [:]
     }
+    private static let entriesLock = NSLock()
+    nonisolated(unsafe) private static var lastEntries: (data: Data, entries: [Int: String])?
 
     func index(for components: [Double]) throws -> Double {
         guard components.count == 3 else { throw DiagramError.invalid("RGB expects three color components.") }

@@ -31,6 +31,7 @@ final class UndoPayloadBudget {
     private var editableCost = 0
     private var chargedDefinitions: DefinitionRegistry?
     private var definitionCharge = 0
+    private var recentDefinitionCharges: [(definitions: DefinitionRegistry?, charge: Int)] = []
 
     init(maximumCharge: Int = ResourceBudgets.undoPayload) {
         precondition(maximumCharge > 0)
@@ -69,6 +70,16 @@ final class UndoPayloadBudget {
     /// Bind the prepared cost map to the exact committed identity.
     func didInstall(stateID: UUID) { currentStateID = stateID }
     func invalidateCurrentEstimate() { currentStateID = nil }
+    /// Undo and redo install a known earlier state: follow it with the committed change set, as an ordinary
+    /// edit does, instead of re-encoding the whole drawing at the next edit. No charge is taken: each action
+    /// was charged once for both directions.
+    func follow(previousStateID: UUID, next: Diagram, changes: DocumentChangeSet, nextStateID: UUID) {
+        guard currentStateID == previousStateID else { currentStateID = nil; return }
+        lastEncodedObjectCount = 0
+        lastVisitedObjects = 0
+        apply(next, changes: changes)
+        currentStateID = nextStateID
+    }
 
     private func rebuild(_ diagram: Diagram) {
         pageCosts = [:]
@@ -86,14 +97,14 @@ final class UndoPayloadBudget {
             for (index, node) in page.nodes.enumerated() {
                 pageNodes[node.id] = index
                 lastVisitedObjects += 1
-                let cost = encodedCharge(node, inline: MemoryLayout<DiagramNode>.stride)
+                let cost = estimatedCharge(node)
                 nodeCosts[ObjectKey(pageID: page.id, objectID: node.id)] = cost
                 editableCost = Self.add(editableCost, cost)
             }
             for (index, edge) in page.edges.enumerated() {
                 pageEdges[edge.id] = index
                 lastVisitedObjects += 1
-                let cost = encodedCharge(edge, inline: MemoryLayout<DiagramEdge>.stride)
+                let cost = estimatedCharge(edge)
                 edgeCosts[ObjectKey(pageID: page.id, objectID: edge.id)] = cost
                 editableCost = Self.add(editableCost, cost)
             }
@@ -155,7 +166,7 @@ final class UndoPayloadBudget {
                 lastVisitedObjects += 1
                 let key = ObjectKey(pageID: page.id, objectID: node.id)
                 editableCost -= nodeCosts[key] ?? 0
-                let cost = encodedCharge(node, inline: MemoryLayout<DiagramNode>.stride)
+                let cost = estimatedCharge(node)
                 nodeCosts[key] = cost
                 editableCost = Self.add(editableCost, cost)
             }
@@ -170,11 +181,47 @@ final class UndoPayloadBudget {
                 lastVisitedObjects += 1
                 let key = ObjectKey(pageID: page.id, objectID: edge.id)
                 editableCost -= edgeCosts[key] ?? 0
-                let cost = encodedCharge(edge, inline: MemoryLayout<DiagramEdge>.stride)
+                let cost = estimatedCharge(edge)
                 edgeCosts[key] = cost
                 editableCost = Self.add(editableCost, cost)
             }
         }
+    }
+
+    /// A shape's undo charge from the size of what it holds (text, cells, paths, runs, image bytes) rather than
+    /// by encoding it: encoding every shape of a large drawing took seconds on the first edit. Charges keep
+    /// JSON's proportions (about four times the stored bytes).
+    private func estimatedCharge(_ node: DiagramNode) -> Int {
+        lastEncodedObjectCount += 1
+        return Self.add(Self.multiply(Self.estimatedBytes(node), by: 4), MemoryLayout<DiagramNode>.stride)
+    }
+    private func estimatedCharge(_ edge: DiagramEdge) -> Int {
+        lastEncodedObjectCount += 1
+        var bytes = 160 + edge.label.utf8.count + (edge.points?.count ?? 0) * 40
+        if let details = edge.details { bytes += Self.estimatedBytes(details) }
+        return Self.add(Self.multiply(bytes, by: 4), MemoryLayout<DiagramEdge>.stride)
+    }
+    static func estimatedBytes(_ node: DiagramNode) -> Int {
+        var bytes = 220 + node.text.utf8.count + node.fill.utf8.count + node.stroke.utf8.count + node.textColor.utf8.count
+        if let details = node.details { bytes += estimatedBytes(details) }
+        return bytes
+    }
+    static func estimatedBytes(_ details: ShapeDetails) -> Int {
+        func cells(_ cells: [String: ShapeSheetCell]) -> Int {
+            cells.reduce(0) { $0 + $1.key.utf8.count + $1.value.value.utf8.count + $1.value.formula.utf8.count + $1.value.unit.utf8.count + 36 }
+        }
+        var bytes = 200 + details.fontName.utf8.count + cells(details.sheet)
+        bytes += details.paths.reduce(0) { $0 + 40 + $1.commands.reduce(0) { $0 + 16 + $1.values.count * 20 } }
+        bytes += details.image.map { $0.data.count * 4 / 3 + $0.mimeType.utf8.count } ?? 0
+        bytes += details.data.reduce(0) { $0 + 60 + $1.key.utf8.count + $1.label.utf8.count + $1.value.utf8.count + $1.format.utf8.count + $1.prompt.utf8.count }
+        bytes += details.hyperlinks.reduce(0) { $0 + 60 + $1.address.utf8.count + $1.subAddress.utf8.count + $1.description.utf8.count }
+        bytes += details.layerNames.reduce(0) { $0 + 4 + $1.utf8.count }
+        bytes += details.connectionPoints.reduce(0) { $0 + 120 + ($1.name?.utf8.count ?? 0) + $1.x.formula.utf8.count + $1.y.formula.utf8.count }
+        bytes += (details.textRuns ?? []).reduce(0) { $0 + 160 + $1.text.utf8.count + $1.character.fontName.utf8.count + cells($1.character.cells) + cells($1.paragraph.cells) }
+        bytes += (details.textFields ?? []).reduce(0) { $0 + 40 + cells($1.cells) + ($1.cached?.utf8.count ?? 0) }
+        bytes += (details.geometry ?? []).reduce(0) { $0 + 40 + cells($1.cells) + $1.rows.reduce(0) { $0 + 30 + $1.type.utf8.count + cells($1.cells) } }
+        bytes += details.controls.reduce(0) { $0 + 40 + $1.name.utf8.count + cells($1.cells) }
+        return bytes
     }
 
     private func metadataCharge(_ page: DiagramPage) -> Int {
@@ -198,8 +245,14 @@ final class UndoPayloadBudget {
 
     private func documentCharge(_ diagram: Diagram) -> Int {
         if chargedDefinitions != diagram.definitions {
+            // An edit compares its previous and next states; remember both so neither is encoded again.
+            if let known = recentDefinitionCharges.first(where: { $0.definitions == diagram.definitions }) {
+                definitionCharge = known.charge
+            } else {
+                definitionCharge = diagram.definitions.flatMap { try? JSONEncoder().encode($0).count } ?? 0
+                recentDefinitionCharges = Array((recentDefinitionCharges + [(diagram.definitions, definitionCharge)]).suffix(2))
+            }
             chargedDefinitions = diagram.definitions
-            definitionCharge = diagram.definitions.flatMap { try? JSONEncoder().encode($0).count } ?? 0
         }
         return Self.add(Self.add(MemoryLayout<Diagram>.stride, Self.multiply(diagram.title.utf8.count, by: 4)),
                         Self.multiply(definitionCharge, by: 4))

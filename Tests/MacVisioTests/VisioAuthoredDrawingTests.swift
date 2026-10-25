@@ -83,4 +83,21 @@ final class VisioAuthoredDrawingTests: XCTestCase {
         XCTAssertEqual(assessment.risks.map(\.message), [])
         XCTAssertFalse(document.calculationIssues.contains { $0.contains("Prop.Status.Format") || $0.contains("closing parenthesis") })
     }
+
+    /// An embedded OLE object with its own empty text block stopped a customer drawing from opening
+    /// ("Invalid rich text runs"): the placeholder label disagreed with the shape's text runs.
+    func testEmbeddedObjectWithEmptyTextBlockOpens() throws {
+        let url = try XCTUnwrap(Bundle.module.url(forResource: "visio-flowchart", withExtension: "vsdx", subdirectory: "Fixtures/Reference"))
+        var parts = try VisioPackage.read(url)
+        var page = String(decoding: try XCTUnwrap(parts["visio/pages/page1.xml"]), as: UTF8.self)
+        let foreign = "<Shape ID='90' Type='Foreign'><Cell N='PinX' V='2'/><Cell N='PinY' V='2'/><Cell N='Width' V='1'/><Cell N='Height' V='1'/><Cell N='LocPinX' V='0.5'/><Cell N='LocPinY' V='0.5'/><Text/></Shape>"
+        page = page.replacingOccurrences(of: "</Shapes>", with: foreign + "</Shapes>")
+        parts["visio/pages/page1.xml"] = Data(page.utf8)
+        let copy = FileManager.default.temporaryDirectory.appendingPathComponent("foreign-\(UUID()).vsdx")
+        defer { try? FileManager.default.removeItem(at: copy) }
+        try VisioPackage.write(parts, to: copy)
+        let document = MacVisioDocument()
+        XCTAssertNoThrow(try document.read(from: copy, ofType: MacVisioDocument.visioType))
+        XCTAssertEqual(document.diagram.page.nodes.count, 6)
+    }
 }

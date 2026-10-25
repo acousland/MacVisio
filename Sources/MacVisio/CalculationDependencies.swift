@@ -133,8 +133,61 @@ struct CalculationDependencyIndex {
         return result
     }
 
+    /// What a shape's dependency source derives from its formatting alone. Building it collects, sorts and
+    /// parses every formula, so it is kept per shape and reused while the formatting is unchanged (unchanged
+    /// shapes share storage, so the check is cheap). It outlives calculation sessions, which undo resets.
+    private struct DerivedParts {
+        var formatting: ShapeDetails
+        var formulas: [String]
+        var dependencySignature: [String]
+        var calculatesGeometry: Bool
+        var hasFields: Bool
+        var hasStructuralOwnerMetadata: Bool
+    }
+    private static let derivedLock = NSLock()
+    nonisolated(unsafe) private static var derived: [UUID: DerivedParts] = [:]
+    private static let derivedLimit = 200_000
+
+    /// Prepares every shape's dependency parts in the background after a drawing opens, so the first edit of
+    /// a large drawing does not parse every formula on the main path. The diagram is an immutable copy.
+    static func warm(_ diagram: Diagram) {
+        guard diagram.pages.reduce(0, { $0 + $1.nodes.count + $1.edges.count }) > 500 else { return }
+        DispatchQueue.global(qos: .utility).async {
+            for page in diagram.pages {
+                for node in page.nodes { _ = source(node, kind: .node, objectIndex: 0, publicID: "", identifierAvailable: false) }
+                for edge in page.edges { _ = source(ConnectorSheetHost.sourceNode(edge), kind: .connector, objectIndex: 0, publicID: "", identifierAvailable: false) }
+            }
+        }
+    }
+
     static func source(_ node: DiagramNode, kind: Kind, objectIndex: Int, endpoints: Set<UUID> = [],
                        publicID: String, identifierAvailable: Bool) -> Source {
+        let formatting = node.formatting
+        derivedLock.lock()
+        let cached = derived[node.id]
+        derivedLock.unlock()
+        let parts: DerivedParts
+        if let cached, cached.formatting == formatting { parts = cached }
+        else {
+            parts = derive(node)
+            derivedLock.lock()
+            if derived.count >= derivedLimit { derived.removeAll(keepingCapacity: true) }
+            derived[node.id] = parts
+            derivedLock.unlock()
+        }
+        return Source(
+            kind: kind, objectIndex: objectIndex, endpoints: endpoints,
+            id: node.id, parent: node.parentID, publicID: publicID,
+            sourceShapeID: formatting.sourceShapeID,
+            identifierAvailable: identifierAvailable,
+            formulas: parts.formulas,
+            calculatesGeometry: parts.calculatesGeometry,
+            hasFields: parts.hasFields,
+            hasStructuralOwnerMetadata: parts.hasStructuralOwnerMetadata,
+            dependencySignature: parts.dependencySignature)
+    }
+
+    private static func derive(_ node: DiagramNode) -> DerivedParts {
             var cells = node.formatting.sheet
             for point in node.formatting.connectionPoints {
                 cells[point.xCell] = point.x
@@ -181,18 +234,15 @@ struct CalculationDependencyIndex {
                 else { return entry }
                 return String(components[0]) + "\u{0}" + signature(expression)
             }
-            return Source(
-                kind: kind, objectIndex: objectIndex, endpoints: endpoints,
-                id: node.id, parent: node.parentID, publicID: publicID,
-                sourceShapeID: node.formatting.sourceShapeID,
-                identifierAvailable: identifierAvailable,
+            return DerivedParts(
+                formatting: node.formatting,
                 formulas: formulas,
+                dependencySignature: dependencySignature,
                 calculatesGeometry: !node.formatting.sheet.isEmpty
                     || !node.formatting.connectionPoints.isEmpty || !node.formatting.controls.isEmpty
                     || node.formatting.geometry != nil,
                 hasFields: node.formatting.textFields?.isEmpty == false,
-                hasStructuralOwnerMetadata: DiagramMemberships.hasStructuralOwnerMetadata(node),
-                dependencySignature: dependencySignature)
+                hasStructuralOwnerMetadata: DiagramMemberships.hasStructuralOwnerMetadata(node))
     }
 
     init(sources: [Source], pageHasFormulas: Bool) {
@@ -229,6 +279,23 @@ struct CalculationDependencyIndex {
             "CEILING", "FLOOR", "RGB", "BITAND", "BITOR", "BITXOR", "HSL", "RED", "GREEN", "BLUE", "HUE",
             "SAT", "LUM", "LUMDIFF", "THEMEVAL", "THEMEPROP", "ISTHEMED", "SHAPETEXT", "TEXTWIDTH",
             "TEXTHEIGHT", "PAGENAME", "PAGENUMBER", "PAGECOUNT", "BKGPAGENAME", "ID", "DATE", "FORMAT",
+            // Pure functions of their arguments or the theme (a theme change recalculates the document).
+            "THEME", "MSOTINT", "TINT", "SHADE", "TONE", "BLEND", "HUEDIFF", "SATDIFF", "MAGNITUDE", "DATETIME",
+            "DATEVALUE", "TIMEVALUE", "LOG10", "TRUNC", "ANG360", "ISERR", "ISERRNA", "ISERROR", "ISERRVALUE", "NA",
+            "CELLISTHEMED",
+            // A cell reference argument is a captured dependency.
+            "FORMULAEXISTS", "DEPENDSON",
+            // Document properties do not change while shapes are edited (a property edit recalculates the document).
+            "FILENAME", "DOCCREATION", "DOCLASTSAVE", "DOCLASTPRINT", "DOCLASTEDIT", "CREATOR", "TITLE", "SUBJECT",
+            "MANAGER", "COMPANY", "CATEGORY", "KEYWORDS", "DESCRIPTION",
+            // Actions are not evaluated during calculation, so they read nothing.
+            "OPENTEXTWIN", "DOCMD", "OPENSHEETWIN", "OPENGROUPWIN", "GOTOPAGE", "OPENPAGE", "OPENFILE", "HYPERLINK",
+            "RUNMACRO", "CALLTHIS", "RUNADDON", "RUNADDONWARGS", "PLAYSOUND", "HELP", "QUEUEMARKEREVENT", "DEFAULTEVENT",
+            "SETF", "GETREF", "SHEETREF",
+            // Geometry and glue functions read their arguments, the shape itself, its parent or a connector's
+            // endpoints, all of which are recorded as dependencies of the shape.
+            "POLYLINE", "NURBS", "PNT", "PNTX", "PNTY", "PAR", "LOC", "LOCTOLOC", "LOCTOPAR", "ANGLETOLOC", "ANGLETOPAR",
+            "_WALKGLUE", "_XFTRIGGER", "_ELLIPSE_THETA", "_ELLIPSE_ECC",
         ]
         let volatileFunctions: Set<String> = ["NOW", "TODAY", "RAND", "RANDOM"]
         for source in sources {
@@ -261,7 +328,12 @@ struct CalculationDependencyIndex {
                     inspect(left)
                     inspect(right)
                 case .call(let rawName, let arguments):
-                    let name = rawName.uppercased()
+                    var name = rawName.uppercased()
+                    // A sheet-qualified call (Sheet.12054!SHEETREF()) depends on that sheet.
+                    if let mark = rawName.lastIndex(of: "!") {
+                        reference(rawName)
+                        name = String(name[name.index(after: mark)...])
+                    }
                     if volatileFunctions.contains(name) {
                         volatileNodes.insert(source.id)
                     } else if !safeFunctions.contains(name) {
@@ -280,6 +352,8 @@ struct CalculationDependencyIndex {
                 )
                 if let expression = try? ShapeSheet.parse(formula) {
                     inspect(expression)
+                } else if formula.trimmingCharacters(in: .whitespaces).uppercased().hasPrefix("USE(") {
+                    // USE("pattern") / USE({GUID}) names a line, fill or arrow pattern master, not a shape.
                 } else {
                     requiresFullPage = true
                 }
@@ -382,15 +456,20 @@ final class CalculationSession {
                 comparedSources += 1
             }
             if !sourceChanged && !changes.pagePropertiesChanged { return entry.index }
+        } else if trustChanges, let entry = entries[key], let changes,
+                  let appended = appendedSources(entry.sources, page: page, binding: binding, changes: changes) {
+            sources = appended
         } else {
             sources = CalculationDependencyIndex.sources(
                 page: page, binding: binding, fieldIdentifiers: fieldIdentifiers)
             comparedSources += sources.count
         }
+        // Shapes' ThePage! references are not tracked, so a page formula that reads a shape forces whole-page
+        // calculation. Other page formulas change only with the page, which recalculates the page anyway.
         let pageHasFormulas =
             page.sheet?.values.contains {
                 let source = $0.formula.trimmingCharacters(in: .whitespacesAndNewlines).uppercased()
-                return !source.isEmpty && !["INH", "NO FORMULA"].contains(source)
+                return !source.isEmpty && !["INH", "NO FORMULA"].contains(source) && source.contains("!")
             } ?? false
         if let entry = entries[key], entry.sources == sources, entry.pageHasFormulas == pageHasFormulas {
             return entry.index
@@ -401,6 +480,52 @@ final class CalculationSession {
         if entries.count >= maximumPages, entries[key] == nil { entries.removeAll(keepingCapacity: true) }
         entries[key] = Entry(sources: sources, pageHasFormulas: pageHasFormulas, index: index)
         return index
+    }
+
+    /// Shapes and connectors added after the existing ones (the usual insertion) extend the retained sources
+    /// instead of rebuilding them from every object on the page. Existing objects must keep their positions
+    /// and public IDs; anything else falls back to a full rebuild.
+    private func appendedSources(_ retained: [CalculationDependencyIndex.Source], page: DiagramPage,
+                                 binding: VisioPageBinding?, changes: PageChangeSet) -> [CalculationDependencyIndex.Source]? {
+        guard !changes.nodeOrderChanged, !changes.edgeOrderChanged, changes.deletedNodeIDs.isEmpty, changes.deletedEdgeIDs.isEmpty,
+              !changes.insertedNodeIDs.isEmpty || !changes.insertedEdgeIDs.isEmpty else { return nil }
+        let oldNodes = retained.filter { $0.kind == .node }, oldEdges = retained.filter { $0.kind == .connector }
+        guard oldNodes.count + changes.insertedNodeIDs.count == page.nodes.count,
+              oldEdges.count + changes.insertedEdgeIDs.count == page.edges.count,
+              Set(page.nodes.suffix(changes.insertedNodeIDs.count).map(\.id)) == changes.insertedNodeIDs,
+              Set(page.edges.suffix(changes.insertedEdgeIDs.count).map(\.id)) == changes.insertedEdgeIDs,
+              zip(oldNodes, page.nodes).allSatisfy({ $0.id == $1.id }), zip(oldEdges, page.edges).allSatisfy({ $0.id == $1.id }) else { return nil }
+        let allocated = CalculationDependencyIndex.publicIDs(page: page, binding: binding)
+        guard retained.allSatisfy({ ($0.identifierAvailable ? allocated[$0.id] == $0.publicID : allocated[$0.id] == nil) }) else { return nil }
+        func make(_ node: DiagramNode, _ kind: CalculationDependencyIndex.Kind, _ index: Int, _ endpoints: Set<UUID>) -> CalculationDependencyIndex.Source {
+            let publicID = allocated[node.id]
+            return CalculationDependencyIndex.source(node, kind: kind, objectIndex: index, endpoints: endpoints,
+                                                     publicID: publicID ?? "", identifierAvailable: publicID != nil)
+        }
+        var nodes = oldNodes, edges = oldEdges
+        for index in oldNodes.count..<page.nodes.count { nodes.append(make(page.nodes[index], .node, index, [])) }
+        for index in oldEdges.count..<page.edges.count {
+            let edge = page.edges[index]; edges.append(make(ConnectorSheetHost.sourceNode(edge), .connector, index, [edge.source, edge.target]))
+        }
+        // Existing objects the edit also changed are re-read.
+        for id in changes.affectedNodeIDs.subtracting(changes.insertedNodeIDs) {
+            guard let i = nodes.firstIndex(where: { $0.id == id }) else { return nil }
+            nodes[i] = make(page.nodes[nodes[i].objectIndex], .node, nodes[i].objectIndex, [])
+        }
+        for id in changes.affectedEdgeIDs.subtracting(changes.insertedEdgeIDs) {
+            guard let i = edges.firstIndex(where: { $0.id == id }) else { return nil }
+            let edge = page.edges[edges[i].objectIndex]
+            edges[i] = make(ConnectorSheetHost.sourceNode(edge), .connector, edges[i].objectIndex, [edge.source, edge.target])
+        }
+        comparedSources += page.nodes.count - oldNodes.count + page.edges.count - oldEdges.count
+        return nodes + edges
+    }
+
+    /// Undo and redo install an earlier state without calculating it: only the pages they changed lose their
+    /// retained indices and host maps.
+    func invalidate(pages: Set<UUID>) {
+        entries = entries.filter { !pages.contains($0.key.pageID) }
+        for id in pages { hosts[id] = nil }
     }
 
     private func rebuildIndex(page: DiagramPage, binding: VisioPageBinding?, fieldIdentifiers: Bool)

@@ -472,7 +472,9 @@ enum VisioFormat {
                         else { pageWarning("import.foreign-object", "An embedded OLE/WMF/EMF object is preserved in the file but cannot be rendered natively.", shapeID: shapeID, feature: "ForeignData") }
                     }
                 }
-                if shape.attributes["Type"] == "Foreign", detail.image == nil,node.text.isEmpty { node.text = "Embedded object" }
+                // A placeholder label only for an object with no text block of its own: a shape's own (empty)
+                // text and its rich-text runs must stay in agreement.
+                if shape.attributes["Type"] == "Foreign", detail.image == nil,node.text.isEmpty,shape.child("Text") == nil,master?.shape.child("Text") == nil { node.text = "Embedded object" }
                 if let parent = parent {
                     var dx = node.center.x-parent.width/2,dy = node.center.y-parent.height/2
                     if parent.formatting.flipX { dx = -dx }; if parent.formatting.flipY { dy = -dy }

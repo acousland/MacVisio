@@ -252,6 +252,7 @@ final class MacVisioDocument: NSDocument {
     override func makeWindowControllers() {
         let controller = EditorWindowController(document: self)
         addWindowController(controller)
+        CalculationDependencyIndex.warm(diagram)
     }
     override func data(ofType typeName: String) throws -> Data {
         let snapshot: Diagram
@@ -1198,7 +1199,7 @@ final class MacVisioDocument: NSDocument {
                         previousFieldDiagnosticsByPage: previousFieldDiagnostics,
                         refreshDiagnostics: refreshDiagnostics, session: session, changes: changes,
                         cancellation: context.cancellation)
-                    try DiagramMemberships.validateTransforms(from: previous, to: output.accepted(ifCurrent: input).diagram, beforeSession: previousMembershipSession, afterSession: session, cancellation: context.cancellation)
+                    try DiagramMemberships.validateTransforms(from: previous, to: output.accepted(ifCurrent: input).diagram, proposed: synchronized, beforeSession: previousMembershipSession, afterSession: session, cancellation: context.cancellation)
                     return prepared.map { output.includingPreparationWork($0.work) } ?? output
                 },
                 completion: { [weak self] outcome in
@@ -1301,7 +1302,7 @@ final class MacVisioDocument: NSDocument {
             refreshDiagnostics: refreshDiagnostics,
             session: workingSession, changes: changes)
         if membershipGuard {
-            do { try DiagramMemberships.validateTransforms(from: diagram, to: calculation.diagram, beforeSession: calculationSession, afterSession: workingSession) }
+            do { try DiagramMemberships.validateTransforms(from: diagram, to: calculation.diagram, proposed: synchronized, beforeSession: calculationSession, afterSession: workingSession) }
             catch {
                 lastCalculationJobError = error
                 for controller in windowControllers { (controller as? EditorWindowController)?.root.showMessage(error.localizedDescription) }
@@ -1378,8 +1379,7 @@ final class MacVisioDocument: NSDocument {
                 while manager.groupingLevel < groupingLevel { manager.beginUndoGrouping() }
             }
         } else {
-            undoPayloadBudget.invalidateCurrentEstimate()
-            calculationSession = CalculationSession()
+            calculationSession.invalidate(pages: Set(changes.pages.keys).union(changes.insertedPageIDs).union(changes.deletedPageIDs))
         }
         let ownsUndoGroup =
             undoManager?.groupingLevel == 0 && !(undoManager?.isUndoing ?? false)
@@ -1398,6 +1398,7 @@ final class MacVisioDocument: NSDocument {
         diagram = next
         if let restoringStateID {
             stateID = restoringStateID
+            undoPayloadBudget.follow(previousStateID: previousStateID, next: next, changes: changes, nextStateID: restoringStateID)
         } else {
             undoPayloadBudget.didInstall(stateID: stateID)
         }

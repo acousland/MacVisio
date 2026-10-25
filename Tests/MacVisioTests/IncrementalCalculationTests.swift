@@ -414,4 +414,45 @@ final class IncrementalCalculationTests: XCTestCase {
             XCTAssertEqual(preview.work.dependencyNodesIndexed, 0)
         }
     }
+
+    /// Found on a large customer drawing: these functions (theme colours, dates, document properties, actions,
+    /// line-pattern USE) made every edit recalculate every shape on the page.
+    func testFunctionsWithoutHiddenDependenciesKeepEditsIncremental() {
+        var input = fixture()
+        let formulas = ["THEMEGUARD(MSOTINT(THEME(\"AccentColor\"),40))", "TINT(RGB(1,2,3),20)", "SHADE(RGB(1,2,3),20)",
+                        "DATETIME(46000)", "DATEVALUE(\"1/1/2026\")", "MAGNITUDE(1,2,3,4)", "FORMULAEXISTS(Sheet.1!Width)",
+                        "OPENTEXTWIN()", "DOCMD(1312)", "FILENAME()", "DOCLASTSAVE()", "USE({050ADB88-0004-0000-8E40-00608CF305B2})"]
+        for (i, formula) in formulas.enumerated() {
+            input.pages[0].nodes[i + 2].formatting.sheet["User.F\(i)"] = ShapeSheetCell(value: "0", formula: formula)
+        }
+        let settled = DiagramCalculation.recalculate(input, now: clock)
+        var edit = settled.diagram
+        edit.pages[0].nodes[0].formatting.sheet["User.Padding"]?.value = "1"
+        let result = withDiagnostics(edit, previous: settled)
+        XCTAssertEqual(result.work.conservativePages, 0, "No page needs whole-page calculation")
+        XCTAssertLessThan(result.work.geometryNodes, 10)
+    }
+
+    private func withDiagnostics(_ edit: Diagram, previous settled: DiagramCalculation.Result) -> DiagramCalculation.Result {
+        DiagramCalculation.recalculate(edit, previous: settled.diagram, previousIssues: settled.issues,
+            previousGeometryIssuesByPage: settled.geometryIssuesByPage, previousFieldIssuesByPage: settled.fieldIssuesByPage,
+            previousGeometryDiagnosticsByPage: settled.geometryDiagnosticsByPage, previousFieldDiagnosticsByPage: settled.fieldDiagnosticsByPage,
+            changes: DocumentChangeSet.between(settled.diagram, edit), now: clock)
+    }
+
+    /// A page with calculation issues stays incremental when the issues' diagnostics are retained, and keeps
+    /// the issues of the shapes it does not recalculate.
+    func testPagesWithIssuesStayIncrementalAndKeepUntouchedIssues() {
+        var input = fixture()
+        input.pages[0].nodes[30].formatting.sheet["User.Bad"] = ShapeSheetCell(value: "retained", formula: "SQRT(-1)")
+        let settled = DiagramCalculation.recalculate(input, now: clock)
+        XCTAssertFalse(settled.issues.isEmpty)
+        var edit = settled.diagram
+        edit.pages[0].nodes[0].formatting.sheet["User.Padding"]?.value = "1"
+        let result = withDiagnostics(edit, previous: settled)
+        XCTAssertEqual(result.work.conservativePages, 0)
+        XCTAssertLessThan(result.work.geometryNodes, 10)
+        XCTAssertEqual(result.issues, settled.issues)
+        XCTAssertEqual(result.geometryDiagnosticsByPage[edit.pages[0].id]?.map(\.message), settled.geometryDiagnosticsByPage[edit.pages[0].id]?.map(\.message))
+    }
 }

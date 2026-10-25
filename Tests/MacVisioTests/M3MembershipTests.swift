@@ -637,6 +637,19 @@ final class M3MembershipTests: XCTestCase {
         XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: plain, to: introduced))
     }
 
+    /// A customer drawing refused every edit: calculation resized its page-frame container (formula-driven
+    /// height, 0.0025 mm different from Visio's cache) and the guard read that as moving the container away from
+    /// its members. A container the edit itself leaves in place is not a transform.
+    func testCalculationResizingAContainerTheEditDidNotTouchIsAllowed() throws {
+        let source = M3MembershipFixture.mixedNative()
+        let before = try DiagramMemberships.settingMembership(in: source, pageID: source.page.id, memberID: source.page.nodes[1].id, containerID: source.page.nodes[0].id, included: true)
+        var proposed = before; proposed.page.nodes[2].text = "Unrelated edit"
+        var calculated = proposed; calculated.page.nodes[0].height += 0.007
+        XCTAssertNoThrow(try DiagramMemberships.validateTransforms(from: before, to: calculated, proposed: proposed))
+        var moved = proposed; moved.page.nodes[0].x += 10
+        XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: before, to: moved, proposed: moved))
+    }
+
     func testUnknownOrIncompatibleStructuralUnitsRefuseRatherThanProveLocalPolicy() throws {
         let source = M3MembershipFixture.mixedNative()
         for (key, unit) in [("User.msvStructureType", "BOOL"), ("User.msvSDContainerResize", "IN"), ("User.msvSDContainerLocked", "VendorUnit"), ("User.msvSDContainerRequiredCategories", "BOOL"), ("Relationships", "STR")] {

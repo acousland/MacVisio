@@ -85,7 +85,10 @@ enum ShapeSheetEngine {
             var affected: Set<UUID>?
             if !contextChanged, let dependency, let comparison, let comparisonPageIndices,
                let oldIndex = comparisonPageIndices[pageID],
-               retainedIssuesByPage[pageID, default: []].isEmpty,
+               // Retained issues can be carried forward only when each has its diagnostic (page-sheet issues are
+               // recalculated on every visit); otherwise the page is recalculated whole.
+               Set(retainedIssuesByPage[pageID] ?? []).filter({ !$0.hasPrefix("ThePage!") })
+                   .isSubset(of: Set((retainedDiagnosticsByPage[pageID] ?? []).map(\.message))),
                !dependency.requiresFullPage {
                 if trusted, let pageChanges, !pageChanges.pagePropertiesChanged, !pageChanges.hierarchyChanged,
                    !pageChanges.nodeOrderChanged, !pageChanges.edgeOrderChanged,
@@ -129,11 +132,23 @@ enum ShapeSheetEngine {
                 work.add(pageContext.work)
                 if page.sheet != sheet { diagram.pages[pageIndex].sheet = page.sheet }
             }
-            guard !candidates.isEmpty || !connectorCandidates.isEmpty else { issuesByPage[pageID] = pageSheetIssues; issues.formUnion(pageSheetIssues); continue }
+            // An incremental pass recalculates only affected objects; the recorded issues of every other object
+            // on the page still hold, so they are carried forward rather than forcing a whole-page pass.
+            let recalculatedIDs = Set(candidates.map { page.nodes[$0].id }).union(connectorCandidates.map { page.edges[$0].id })
+            let currentIDs = Set(page.nodes.map(\.id)).union(page.edges.map(\.id))
+            let carriedDiagnostics: [DocumentDiagnostic] = affected == nil ? [] : (retainedDiagnosticsByPage[pageID] ?? []).filter { diagnostic in
+                guard diagnostic.origin == .calculation, let object = diagnostic.target.objectID else { return false }
+                return !recalculatedIDs.contains(object) && currentIDs.contains(object)
+            }
+            let carriedIssues = carriedDiagnostics.map(\.message)
+            guard !candidates.isEmpty || !connectorCandidates.isEmpty else {
+                issuesByPage[pageID] = Array(Set(pageSheetIssues + carriedIssues)).sorted(); diagnosticsByPage[pageID] = carriedDiagnostics
+                issues.formUnion(pageSheetIssues + carriedIssues); continue
+            }
             work.geometryPages += 1
             if incrementalNodes && affected == nil { work.conservativePages += 1 }
-            var pageIssues = Set<String>(pageSheetIssues)
-            var pageDiagnostics: [DocumentDiagnostic] = []
+            var pageIssues = Set<String>(pageSheetIssues + carriedIssues)
+            var pageDiagnostics: [DocumentDiagnostic] = carriedDiagnostics
             let old = previous?.pages.first(where:{$0.id == page.id})
             let preparedBefore = session.preparedHostNodes, connectorsBefore = session.preparedHostConnectors
             let oldNodesByID = old.map { oldPage in

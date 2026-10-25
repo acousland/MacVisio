@@ -42,12 +42,12 @@ final class PreparedNodeDrawing {
         rect.origin.y += max(0, (rect.height - height) * (vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5))
         rect.size.height = height
         textRect = rect
-        let encodedBytes = (try? JSONEncoder().encode(input).count) ?? Int.max
-        let payload = encodedBytes.multipliedReportingOverflow(by: 4)
+        // The retained input shares the drawing's storage, so only what preparation builds is charged: paths
+        // and laid-out text. Charging the shape's whole encoding (and encoding it) let a large stencil page
+        // overflow the cache, so panning re-prepared shapes on every frame.
         let drawingCost =
             512 + text.length * 16 + (outline.elementCount + vectors.reduce(0) { $0 + $1.elementCount }) * 64
-        let charged = payload.partialValue.addingReportingOverflow(drawingCost)
-        cost = payload.overflow || charged.overflow ? Int.max : charged.partialValue
+        cost = drawingCost
     }
 }
 

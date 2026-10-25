@@ -26,6 +26,9 @@ enum InteractionPerformance {
         guard let editor = document.windowControllers.first as? EditorWindowController,
               let view = editor.window?.contentView else { throw DiagramError.invalid("Editor creation failed.") }
         view.layoutSubtreeIfNeeded();editor.canvas.fitPage();view.layoutSubtreeIfNeeded()
+        // Edits wait for any background calculation started by opening, as the editor's commands do.
+        func settle() { while document.isCalculating { _ = RunLoop.main.run(mode:.default,before:Date().addingTimeInterval(0.01)) } }
+        measure("openCalculation",settle)
         func draw() {
             guard let image = view.bitmapImageRepForCachingDisplay(in:view.bounds) else { return }
             view.cacheDisplay(in:view.bounds,to:image)
@@ -39,21 +42,27 @@ enum InteractionPerformance {
             document.undoManager?.beginUndoGrouping()
             editor.insertShape(.rectangle)
             document.undoManager?.endUndoGrouping()
-            draw()
+            settle();draw()
         }
         guard document.diagram.page.nodes.count == initialCount+1 else { throw DiagramError.invalid("Insertion check failed.") }
-        measure("undo") { document.undoManager?.undo();draw() }
+        measure("undo") { document.undoManager?.undo();settle();draw() }
         guard document.diagram.page.nodes.count == initialCount else { throw DiagramError.invalid("Undo check failed.") }
-        measure("redo") { document.undoManager?.redo();draw() }
+        measure("redo") { document.undoManager?.redo();settle();draw() }
         guard document.diagram.page.nodes.count == initialCount+1 else { throw DiagramError.invalid("Redo check failed.") }
+        if let node = document.diagram.page.nodes.first {
+            measure("moveShape") { var next = document.diagram;if let i = next.page.nodes.firstIndex(where:{$0.id == node.id}) { next.page.nodes[i].x += 12 };document.undoManager?.beginUndoGrouping();document.replace(with:next,action:"Move");document.undoManager?.endUndoGrouping();settle();draw() }
+            measure("moveShapeAgain") { var next = document.diagram;if let i = next.page.nodes.firstIndex(where:{$0.id == node.id}) { next.page.nodes[i].x += 12 };document.undoManager?.beginUndoGrouping();document.replace(with:next,action:"Move");document.undoManager?.endUndoGrouping();settle();draw() }
+            measure("undoMoveAgain") { document.undoManager?.undo();settle();draw() }
+            measure("undoMove") { document.undoManager?.undo();settle();draw() }
+        }
         for (index,page) in document.diagram.pages.enumerated().dropFirst() {
-            measure("switchPage\(index)") { editor.switchPage(page.id);draw() }
+            measure("switchPage\(index)") { editor.switchPage(page.id);settle();draw() }
             let count = document.diagram.page.nodes.count
             measure("insertOnPage\(index)") {
-                document.undoManager?.beginUndoGrouping();editor.insertShape(.rectangle);document.undoManager?.endUndoGrouping();draw()
+                document.undoManager?.beginUndoGrouping();editor.insertShape(.rectangle);document.undoManager?.endUndoGrouping();settle();draw()
             }
             guard document.diagram.page.nodes.count == count+1 else { throw DiagramError.invalid("Page insertion check failed.") }
-            measure("undoOnPage\(index)") { document.undoManager?.undo();draw() }
+            measure("undoOnPage\(index)") { document.undoManager?.undo();settle();draw() }
             guard document.diagram.page.nodes.count == count else { throw DiagramError.invalid("Page undo check failed.") }
         }
         var report:[String:Any] = ["stagesSeconds":stages,"pages":document.diagram.pages.count,"calculationIssueCount":document.calculationIssues.count,
