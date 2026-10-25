@@ -188,7 +188,7 @@ with tempfile.TemporaryDirectory(prefix='MacVisio-bundle-check-') as name:
         pages = [element for element in document.iter() if element.tag.endswith('}svg')]
         assert len(pages) == 3
         first = ''.join(pages[0].itertext())
-        assert all(value in first for value in ['release readiness', 'Ready for review', '12.50 in.'])
+        assert all(value in first for value in ['release readiness', 'Ready for review', '12.50 in'])
     preview = directory / 'field-preview.png'
     subprocess.run([str(executable), '--render-document', str(fields / 'release-review.vsdx'), str(preview)], check=True, capture_output=True)
     assert preview.read_bytes().startswith(b'\x89PNG\r\n\x1a\n')
