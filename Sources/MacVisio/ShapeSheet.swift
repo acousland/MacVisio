@@ -135,6 +135,7 @@ enum ShapeSheet {
                 }
             case .call(let name,let arguments):
                 let name = name.uppercased()
+                try requireReferenceFunction(name)
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1) != 0 { return 0 };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
                 if name == "SETATREFEXPR",arguments.isEmpty { return 0 }
                 if name == "REF",arguments.isEmpty { throw DiagramError.invalid("ShapeSheet #REF! error.") }
@@ -153,6 +154,11 @@ enum ShapeSheet {
                 case "ASIN":try arity(1);result = asin(values[0]); case "ACOS":try arity(1);result = acos(values[0]); case "ATAN":try arity(1);result = atan(values[0])
                 case "ATAN2":try arity(2);result = try arcTangent2(values[0],values[1])
                 case "LN":try arity(1);result = log(values[0]); case "EXP":try arity(1);result = exp(values[0])
+                case "LOG10":try arity(1);result = log10(values[0])
+                case "TRUNC":
+                    try arity(2)  // Visio 2019 rejects TRUNC without its digit count (TRUNC-3).
+                    result = truncated(values[0],digits:values[1])
+                case "ANG360":try arity(1);result = angle360(values[0])
                 case "INT":try arity(1);result = floor(values[0]); case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
                     result = try sign(values[0],fuzz:values.count == 2 ? values[1] : 1e-9)
@@ -163,16 +169,19 @@ enum ShapeSheet {
                     result = try rounded(values[0],toMultiple:multiple,awayFromZero:name == "CEILING")
                 case "BITAND","BITOR","BITXOR":
                     try arity(2)
-                    guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
                     result = try bitwise(name,values)
                 case "RGB":
                     try arity(3)
-                    guard !arguments.contains(where:containsMeasure) else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
-                    result = try colorPalette.index(for:values)
+                    result = try colorPalette.index(for:values.map { Double(colorComponent($0)) })
                 case "MODULUS":try arity(2);result = try modulus(values[0],divisor:values[1])
-                case "DEG":try arity(1);result = values[0]*180 / .pi
-                case "RAD":try arity(1);result = values[0] * .pi/180
-                case "POW":try arity(2);result = pow(values[0],values[1])
+                // DEG and RAD retype a value as an angle; its internal (radian) value is unchanged,
+                // except that RAD reads a plain number as degrees.
+                case "DEG":try arity(1);result = values[0]
+                case "RAD":try arity(1);result = isAngle(arguments[0]) ? values[0] : values[0] * .pi/180
+                case "POW":
+                    try arity(2)
+                    guard values[0] != 0 || values[1] != 0 else { throw DiagramError.invalid("POW(0,0) is undefined (#NUM!).") }
+                    result = pow(values[0],values[1])
                 case "MIN","MAX","SUM":guard !values.isEmpty else { throw DiagramError.invalid("\(name) needs an argument.") };result = name == "MIN" ? values.min()! : name == "MAX" ? values.max()! : values.reduce(0,+)
                 case "AND":result = values.allSatisfy{$0 != 0} ? 1 : 0; case "OR":result = values.contains{$0 != 0} ? 1 : 0; case "NOT":try arity(1);result = values[0] == 0 ? 1 : 0
                 default: throw DiagramError.invalid("Unsupported ShapeSheet function: \(name). The original formula and cached value are retained.")
@@ -180,6 +189,18 @@ enum ShapeSheet {
             }
             guard result.isFinite else { throw DiagramError.invalid("ShapeSheet calculation produced a non-finite value.") }; return result
         }; return try eval(expression)
+    }
+    /// Visio wraps RGB/HSL components to 0...255 after truncating them toward zero: RGB(300,0,0) is RGB(44,0,0).
+    static func colorComponent(_ value:Double) -> Int { guard value.isFinite,abs(value) < 1e15 else { return 0 };return Int(Int64(value.rounded(.towardZero)) & 0xFF) }
+    /// TRUNC drops digits toward zero; negative digit counts truncate to tens, hundreds and so on.
+    static func truncated(_ value:Double,digits:Double) -> Double {
+        let places = max(-15,min(15,Int(digits.rounded(.towardZero)))),scale = pow(10,Double(places))
+        return (value*scale).rounded(.towardZero)/scale
+    }
+    /// ANG360 normalizes an angle (radians internally) to [0, 2pi).
+    static func angle360(_ value:Double) -> Double {
+        let turn = 2 * Double.pi,result = value.truncatingRemainder(dividingBy:turn)
+        return result < 0 ? result+turn : result
     }
     /// MS-VSDX ATan2 returns a default-angle value in (-pi, pi]. The
     /// platform atan2 also accepts signed zero and includes -pi, so its axis
@@ -197,10 +218,12 @@ enum ShapeSheet {
     static func bitwise(_ name:String,_ operands:[Double]) throws -> Double {
         let function = name.uppercased()
         guard operands.count == 2 else { throw DiagramError.invalid("\(function) expects two arguments.") }
-        guard let lhs = UInt16(exactly:operands[0]),let rhs = UInt16(exactly:operands[1]) else {
-            throw DiagramError.invalid("\(function) requires unitless whole-number operands from 0 through 65535.")
-        }
-        let result:UInt16
+        // Visio truncates operands toward zero and uses their low 16 bits: BITOR(-1,0) is 65535.
+        guard operands.allSatisfy(\.isFinite) else { throw DiagramError.invalid("\(function) requires finite operands.") }
+        // Values beyond the integer range convert to 0, as in Visio (BITAND(1e308,1) is 0).
+        func bits(_ value:Double) -> Int64 { abs(value) < 9e18 ? Int64(value.rounded(.towardZero)) & 0xFFFF : 0 }
+        let lhs = bits(operands[0]),rhs = bits(operands[1])
+        let result:Int64
         switch function {
         case "BITAND":result = lhs & rhs
         case "BITOR":result = lhs | rhs
@@ -268,6 +291,20 @@ enum ShapeSheet {
         if abs(number) <= fuzz { return 0 }
         return number > 0 ? 1 : -1
     }
+    /// Functions later Visio versions added, which Visio 2019 (16.0.10730) rejects as unknown names
+    /// (reference cases CONCATENATE-*, EXP-*, TODAY-1). Formulas using them would fail in Visio 2019.
+    static let unavailableInReference: Set<String> = ["CONCATENATE","EXP","TODAY"]
+    static func requireReferenceFunction(_ name:String) throws {
+        if unavailableInReference.contains(name) { throw DiagramError.invalid("\(name) is not available in Visio 2019 (#NAME?).") }
+    }
+    static func isAngle(_ expression:Expression) -> Bool {
+        switch expression {
+        case .measure(_,let unit):return ["DEG","RAD","DA","AD","DEGREE","DEGREES","RADIAN","RADIANS"].contains(unit.uppercased())
+        case .unary(_,let child):return isAngle(child)
+        case .call(let name,_):return ["DEG","RAD","ANG360","ASIN","ACOS","ATAN","ATAN2"].contains(name.uppercased())
+        default:return false
+        }
+    }
     static func containsMeasure(_ expression:Expression) -> Bool {
         switch expression {
         case .measure:return true
@@ -286,7 +323,8 @@ enum ShapeSheet {
             guard text.count <= characterLimit else { throw DiagramError.invalid("ShapeSheet expression is too long.") }
             let characters = Array(text)
             var i = 0
-            let units:[String:Double] = ["in":1,"inch":1,"inches":1,"pt":1/72,"mm":1/25.4,"cm":1/2.54,"m":1000/25.4,"ft":12,"yd":36,"deg":Double.pi/180,"rad":1,"dl":1,"dp":1,"dt":1,"da":1,"de":1]
+            let units:[String:Double] = ["in":1,"inch":1,"inches":1,"pt":1/72,"mm":1/25.4,"cm":1/2.54,"m":1000/25.4,"ft":12,"yd":36,"deg":Double.pi/180,"rad":1,"dl":1,"dp":1,"dt":1,"da":1,"de":1,
+                                         "km":1e6/25.4,"mi":63360,"ed":1,"eh":1.0/24,"em":1.0/1440,"es":1.0/86400,"ew":7]
             while i < characters.count {
                 let c = characters[i]
                 if c.isWhitespace { i += 1; continue }
@@ -331,7 +369,8 @@ enum ShapeSheet {
             case .number(let value):index += 1;left = .number(value)
             case .measure(let value,let unit):index += 1;left = .measure(value,unit)
             case .string(let value):index += 1;left = .string(value)
-            case .op(let op) where op == "+" || op == "-":index += 1;left = .unary(op,try expression(3))
+            // As in Visio (and Excel), negation binds tighter than ^: -2^2 is 4.
+            case .op(let op) where op == "+" || op == "-":index += 1;left = .unary(op,try expression(6))
             case .left:index += 1;left = try expression();guard token == .right else { throw DiagramError.invalid("Missing closing parenthesis.") };index += 1
             case .name(let name):
                 index += 1
@@ -358,9 +397,10 @@ enum ShapeSheet {
             default:throw DiagramError.invalid("Expected a ShapeSheet value.")
             }
             while case .op(let op) = token {
-                let precedence = ["=":0,"==":0,"!=":0,"<>":0,"<":0,">":0,"<=":0,">=":0,"&":1,"+":1,"-":1,"*":2,"/":2,"^":4][op] ?? -1
+                // Visio's binary operators are all left-associative (2^3^2 is 64); & binds below + and -.
+                let precedence = ["=":0,"==":0,"!=":0,"<>":0,"<":0,">":0,"<=":0,">=":0,"&":1,"+":2,"-":2,"*":3,"/":3,"^":5][op] ?? -1
                 if precedence < minimum { break }
-                index += 1;let right = try expression(precedence+(op == "^" ? 0 : 1));left = .binary(op,left,right)
+                index += 1;let right = try expression(precedence+1);left = .binary(op,left,right)
             };return left
         }
     }

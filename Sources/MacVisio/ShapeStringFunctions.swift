@@ -15,6 +15,8 @@ enum ShapeStringFunctions {
             guard (1...2).contains(values.count) else { throw arityError(name, "one or two") }
             let text = values[0].text
             let units = text.utf16.count
+            // A negative length returns the whole text in Visio (LEFT-5, RIGHT-4).
+            if values.count == 2, let requested = try? values[1].numeric(), requested < 0 { return .string(text) }
             let amount = values.count == 2 ? try count(values[1], maximum: units, name: name) : min(1, units)
             let start = name == "LEFT" ? 0 : units - amount
             return .string(try substring(text, start: start, length: amount))
@@ -54,7 +56,8 @@ enum ShapeStringFunctions {
             let units = old.utf16.count
             let position = try positivePosition(values[1], name: name)
             let requested = try nonnegativeWhole(values[2], name: name)
-            guard position <= units + 1 else { throw invalid("REPLACE start_num is outside the text.") }
+            // A start beyond the text appends the new text (REPLACE-3).
+            guard position <= units + 1 else { return .string(old + values[3].text) }
             let start = position - 1
             let remaining = units - start
             let amount = requested >= Double(remaining) ? remaining : (Int(exactly: requested) ?? remaining)
@@ -67,7 +70,7 @@ enum ShapeStringFunctions {
             guard (3...5).contains(values.count) else { throw arityError(name, "three to five") }
             let text = values[0].text
             let needle = values[1].text
-            guard !needle.isEmpty else { throw invalid("SUBSTITUTE with an empty old_text is not supported.") }
+            guard !needle.isEmpty else { return .string(text) }  // SUBSTITUTE-4: nothing to replace
             try boundSearchWork(text, needle)
             let replacement = values[2].text
             var occurrence: Int?
@@ -125,8 +128,9 @@ enum ShapeStringFunctions {
             return .string(String(scalar))
         case "UNICHAR":
             try arity(values, 1, name)
-            let n = try positivePosition(values[0], name: name)
-            guard n <= 65535, let scalar = UnicodeScalar(n) else { throw invalid("UNICHAR requires a Unicode scalar from 1 through 65535.") }
+            // Visio keeps only the low 16 bits: UNICHAR(128512) is U+F600 (UNICHAR-3).
+            let n = try positivePosition(values[0], name: name) & 0xFFFF
+            guard n > 0, let scalar = UnicodeScalar(n) else { throw invalid("UNICHAR requires a nonzero code that is not a surrogate.") }
             return .string(String(scalar))
         default:
             throw invalid("Unsupported ShapeSheet string function: \(name).")

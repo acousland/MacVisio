@@ -35,7 +35,10 @@ struct ShapeParagraphStyle: Codable, Equatable {
         func number(_ key:String) -> Double? { cells.first{$0.key.caseInsensitiveCompare(key) == .orderedSame}.flatMap{Double($0.value.value)}.flatMap{$0.isFinite && abs($0)<100000 ? $0 : nil} }
         if let value = number("SpBefore") { result.paragraphSpacingBefore = max(0,value*72*scale) }
         if let value = number("SpAfter") { result.paragraphSpacing = max(0,value*72*scale) }
-        if let value = number("SpLine") { let height = (value > 0 ? value*72 : value == 0 ? fontSize : -value*fontSize)*scale;result.minimumLineHeight = height;result.maximumLineHeight = height }
+        // Visio's line spacing defaults to 120% of the font size (SpLine -1.2): a 12 pt line is 14.4 pt
+        // (reference cases ARIAL-3 and ARIAL-6), not the font's natural line height.
+        let spacing = number("SpLine") ?? -1.2
+        let height = (spacing > 0 ? spacing*72 : spacing == 0 ? fontSize : -spacing*fontSize)*scale;result.minimumLineHeight = height;result.maximumLineHeight = height
         if let value = number("IndLeft") { result.headIndent = value*72*scale;result.firstLineHeadIndent = result.headIndent }
         if let value = number("IndFirst") { result.firstLineHeadIndent = result.headIndent + value*72*scale }
         if let value = number("IndRight") { result.tailIndent = -value*72*scale }
@@ -135,7 +138,8 @@ enum ShapeRichText {
         let result = NSMutableAttributedString(string:"")
         for (index,run) in runs(for:node).enumerated() {
             let font = NSFontManager.shared.convert(run.character.font,toSize:run.character.size*scale)
-            var attributes:[NSAttributedString.Key:Any] = [.font:font,.foregroundColor:NSColor(hex:run.character.color),.paragraphStyle:run.paragraph.native(fontSize:run.character.size,scale:scale),characterKey:index,paragraphKey:index]
+            // Visio lays text out without pair kerning (METRIC reference cases), so neither does MacVisio.
+            var attributes:[NSAttributedString.Key:Any] = [.font:font,.foregroundColor:NSColor(hex:run.character.color),.paragraphStyle:run.paragraph.native(fontSize:run.character.size,scale:scale),.kern:0,characterKey:index,paragraphKey:index]
             if run.character.underline { attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue }
             if run.character.strikethrough { attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue }
             if let field = run.fieldIndex { attributes[fieldKey] = field;if editing { attributes[.backgroundColor] = NSColor.quaternaryLabelColor };if editing && run.text.isEmpty { attributes[emptyFieldKey] = true } }
@@ -339,7 +343,7 @@ enum ShapeRichText {
     static func svg(_ node:DiagramNode,rect:CGRect,clipRect:CGRect? = nil) -> String {
         guard !node.text.isEmpty else { return "" }
         let storage = NSTextStorage(attributedString:attributed(node)),manager = NSLayoutManager(),container = NSTextContainer(containerSize:CGSize(width:max(1,rect.width),height:100000))
-        container.lineFragmentPadding = 0;manager.addTextContainer(container);storage.addLayoutManager(manager);manager.ensureLayout(for:container)
+        container.lineFragmentPadding = 0;manager.usesFontLeading = false;manager.addTextContainer(container);storage.addLayoutManager(manager);manager.ensureLayout(for:container)
         let height = manager.usedRect(for:container).height,vertical = node.formatting.textBox?.verticalAlignment ?? 1
         let dy = rect.minY+max(0,(rect.height-height)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5))
         func xml(_ value:String) -> String { value.replacingOccurrences(of:"&",with:"&amp;").replacingOccurrences(of:"<",with:"&lt;").replacingOccurrences(of:">",with:"&gt;").replacingOccurrences(of:"\"",with:"&quot;") }
@@ -413,6 +417,17 @@ enum ShapeRichText {
             if let index = run.fieldIndex { let field = XMLElement(name:"fld");field.setAttr("IX",String(index));field.addChild(XMLNode.text(withStringValue:run.text) as! XMLNode);text.addChild(field) }
             else { text.addChild(XMLNode.text(withStringValue:run.text) as! XMLNode) }
         }
+    }
+    static func droppingTerminalMark(_ text:String) -> String {
+        if text.hasSuffix("\r\n") { return String(text.dropLast(2)) }
+        if text.hasSuffix("\n") || text.hasSuffix("\r") { return String(text.dropLast()) }
+        return text
+    }
+    static func droppingTerminalMark(_ runs:[ShapeTextRun]) -> [ShapeTextRun] {
+        guard let last = runs.last,last.fieldIndex == nil else { return runs }
+        var result = runs;result[result.count-1].text = droppingTerminalMark(last.text)
+        if result[result.count-1].text.isEmpty,result.count > 1 { result.removeLast() }
+        return result
     }
     static func synchronizeSources(_ runs:[ShapeTextRun],text:XMLElement) -> [ShapeTextRun] {
         var markers:[(offset:Int,character:Int,paragraph:Int)] = [(0,0,0)],offset = 0,character = 0,paragraph = 0

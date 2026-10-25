@@ -98,8 +98,8 @@ final class ShapeStringFunctionTests: XCTestCase {
         for formula in [
             "MID(\"abc\",0,1)", "MID(\"abc\",1,-1)", "LEFT(\"abc\",1.5)",
             "FIND(\"x\",\"abc\")", "FIND(\"x\",\"abc\",0)", "FIND(\"x\",\"abc\",4)",
-            "REPLACE(\"abc\",0,1,\"x\")", "REPLACE(\"abc\",5,0,\"x\")",
-            "SUBSTITUTE(\"abc\",\"\",\"x\")", "SUBSTITUTE(\"aaa\",\"a\",\"b\",0)",
+            "REPLACE(\"abc\",0,1,\"x\")",
+            "SUBSTITUTE(\"aaa\",\"a\",\"b\",0)",
             "REPT(\"x\",-1)", "CHAR(0)", "CHAR(128)", "UNICHAR(65536)",
             "INDEX(\"1\",\"a;b\")", "INDEX(1.5,\"a;b\")", "INDEX(0,\"a;b\",\"\")", "INDEX(0,\"a;b\",\";\",1,2)",
             "SEARCH(\"x\",\"abc\")", "CODE(\"A\")", "MID(\"abc\",1)"

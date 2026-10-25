@@ -29,9 +29,10 @@ final class M3InverseTrigTests: XCTestCase {
         for (name,input,expected) in [("ASIN",0.5,Double.pi/6),("ASIN",-0.5,-Double.pi/6),
                                       ("ACOS",0.5,Double.pi/3),("ACOS",-0.5,2*Double.pi/3),
                                       ("ATAN",1.0,Double.pi/4),("ATAN",-1.0,-Double.pi/4)] { try assertValue(name,input,expected) }
-        XCTAssertEqual(try scalar("DEG(ASIN(1))"),90,accuracy:1e-12)
-        XCTAssertEqual(try scalar("DEG(ACOS(0))"),90,accuracy:1e-12)
-        XCTAssertEqual(try scalar("DEG(ATAN(1))"),45,accuracy:1e-12)
+        // DEG retypes without scaling (EXPR-48).
+        XCTAssertEqual(try scalar("DEG(ASIN(1))"),Double.pi/2,accuracy:1e-12)
+        XCTAssertEqual(try scalar("DEG(ACOS(0))"),Double.pi/2,accuracy:1e-12)
+        XCTAssertEqual(try scalar("DEG(ATAN(1))"),Double.pi/4,accuracy:1e-12)
     }
 
     func testPrincipalRangesAndInclusiveAsinAcosEndpoints() throws {
@@ -102,10 +103,10 @@ final class M3InverseTrigTests: XCTestCase {
             XCTAssertEqual(try value.numeric(),expected,accuracy:1e-14)
             let scalarResult = try typed(formula,scalar:true);XCTAssertNil(scalarResult.unit);XCTAssertEqual(try scalarResult.numeric(),expected,accuracy:1e-14)
             let sum = try typed(formula+"+30deg");XCTAssertEqual(sum.unit,"DA");XCTAssertEqual(try sum.numeric(),expected+Double.pi/6,accuracy:1e-14)
-            XCTAssertThrowsError(try typed(formula+"+1in"));XCTAssertThrowsError(try typed(formula+"+1"))
+            XCTAssertEqual(try typed(formula+"+1").numeric(),expected+1,accuracy:1e-14)  // EXPR-36
         }
         XCTAssertEqual(try typed("ASIN(0.5)/30deg").numeric(),1,accuracy:1e-14)
-        XCTAssertEqual(try FieldFormatting.format(typed("ACOS(0.5)"),picture:"esc(7)",unit:"DEG",type:2),"60.00 deg.")
+        XCTAssertEqual(try FieldFormatting.format(typed("ACOS(0.5)"),picture:"esc(7)",unit:"DEG",type:2),"60.00 deg")
     }
 
     func testCanonicalUnitInputsDoNotDonateTheirUnitsToTheResult() throws {
@@ -123,7 +124,7 @@ final class M3InverseTrigTests: XCTestCase {
             let text = try typed("\(name)(\"0.5\")");XCTAssertEqual(text.unit,"DA");XCTAssertEqual(try text.numeric(),halfAngle,accuracy:1e-14)
             XCTAssertEqual(try typed("\(name)(TRUE)").numeric(),trueAngle,accuracy:1e-14)
             XCTAssertThrowsError(try scalar("\(name)(\"0.5\")"))
-            let date = Date(timeIntervalSince1970:-25569*86400)
+            let date = SheetValue.date(serial:0)
             let value = try TypedShapeSheet.evaluate(.call(name,[.reference("Day")]),resolve:{_ in .date(date)},call:{_,_ in .number(0)})
             XCTAssertEqual(value.unit,"DA");XCTAssertEqual(try value.numeric(),name == "ACOS" ? Double.pi/2 : 0,accuracy:1e-14)
             for formula in ["\(name)(\"0.5in\")","\(name)(\"TRUE\")","\(name)(\"bad\")","\(name)(1furlong)"] { XCTAssertThrowsError(try typed(formula));XCTAssertThrowsError(try scalar(formula)) }
@@ -139,7 +140,7 @@ final class M3InverseTrigTests: XCTestCase {
         for (formula,expected) in [("SIN(ASIN(0.5))",0.5),("COS(ACOS(0.5))",0.5),("TAN(ATAN(1))",1)] {
             let value = try typed(formula);XCTAssertNil(value.unit);XCTAssertEqual(try value.numeric(),expected,accuracy:1e-14)
         }
-        let degrees = try typed("DEG(ASIN(0.5))");XCTAssertNil(degrees.unit);XCTAssertEqual(try degrees.numeric(),30,accuracy:1e-12)
+        let degrees = try typed("DEG(ASIN(0.5))");XCTAssertEqual(degrees.unit,"DEG");XCTAssertEqual(try degrees.numeric(),Double.pi/6,accuracy:1e-12)  // EXPR-48
     }
 
     func testShapePageAndDocumentHostsShareDaAndRefuseInvalidFormulaCaches() throws {
@@ -166,7 +167,8 @@ final class M3InverseTrigTests: XCTestCase {
     }
 
     func testExplicitDaDegreeAndUnitlessCallerUnitsSurviveActualPublicSave() throws {
-        let cases = [("ASIN(0.5)",Double.pi/6,"0.52","30.00 deg."),("ACOS(0.5)",Double.pi/3,"1.05","60.00 deg."),("ATAN(1)",Double.pi/4,"0.79","45.00 deg.")]
+        // Angles display in degrees without a trailing period (FORMATESC-ang, FIELD-ang).
+        let cases = [("ASIN(0.5)",Double.pi/6,"30.00","30.00 deg"),("ACOS(0.5)",Double.pi/3,"60.00","60.00 deg"),("ATAN(1)",Double.pi/4,"45.00","45.00 deg")]
         var drawing = Diagram();drawing.page.nodes = []
         for (group,item) in cases.enumerated() { for (offset,unit) in ["DA","DEG",""].enumerated() {
             var node = try TextFieldEngine.inserting(formula:item.0,picture:unit == "DEG" ? "esc(7)" : "0.00",type:2,into:DiagramNode(x:Double(100+offset*180),y:Double(100+group*160),text:""))

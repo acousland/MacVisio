@@ -11,7 +11,7 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try value("IFERROR(1/0, 42)"),42)
         XCTAssertEqual(try value("IF(Width!=3,1,0)"),1)
         XCTAssertEqual(try value("MIN(13 in,1 ft,20 cm)"),20/2.54,accuracy:1e-12)
-        XCTAssertEqual(try value("DEG(ATAN2(1,1))"),45,accuracy:1e-12)
+        XCTAssertEqual(try value("DEG(ATAN2(1,1))"),Double.pi/4,accuracy:1e-12)  // DEG retypes; EXPR-48
         XCTAssertEqual(try value("MODULUS(-5,1.4)"),0.6,accuracy:1e-12)
         XCTAssertEqual(try value("ROUND(123.654,-1)"),120)
         XCTAssertEqual(try value("ROUND(123.654,99)"),123.654)
@@ -35,9 +35,9 @@ final class ShapeSheetTests:XCTestCase {
             for formula in ["\(function)(1)","\(function)(1,2,3)"] {
                 XCTAssertThrowsError(try value(formula),formula)
             }
+            // Visio truncates and keeps the low 16 bits of internal values (EXPR-43/44, COERCE-5/8/9).
             for operand in ["-1","65536","1.5","1e308","1in"] {
-                let formula = "\(function)(\(operand),0)"
-                XCTAssertThrowsError(try value(formula),formula)
+                XCTAssertEqual(try value("\(function)(\(operand),0)"),function == "BITAND" ? 0 : [65535,0,1,0,1][["-1","65536","1.5","1e308","1in"].firstIndex(of:operand)!],operand)
             }
         }
     }
@@ -48,9 +48,9 @@ final class ShapeSheetTests:XCTestCase {
         XCTAssertEqual(try typed("BITAND(12,6)"),.number(4))
         XCTAssertEqual(try typed("BITXOR(12,6)"),.number(10))
         XCTAssertEqual(try typed("BITOR(12,6)"),.number(14))
-        XCTAssertThrowsError(try typed("BITAND(1in,1)"))
-        XCTAssertThrowsError(try typed("BITXOR(Mask,1)",resolve:{_ in .quantity(1,"IN")}))
-        XCTAssertThrowsError(try typed("BITOR(Mask,1)",resolve:{_ in .boolean(true)}))
+        XCTAssertEqual(try typed("BITAND(1in,1)"),.number(1))  // COERCE-5
+        XCTAssertEqual(try typed("BITXOR(Mask,1)",resolve:{_ in .quantity(1,"IN")}),.number(0))
+        XCTAssertEqual(try typed("BITOR(Mask,1)",resolve:{_ in .boolean(true)}),.number(1))  // COERCE-6
         for formula in ["BITAND(1)","BITXOR(1,2,3)"] {
             XCTAssertThrowsError(try typed(formula),formula)
         }
@@ -91,11 +91,12 @@ final class ShapeSheetTests:XCTestCase {
     func testTypedSignReturnsUnitlessValueAndComparesCompatibleMeasures() throws {
         func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }
         XCTAssertEqual(try typed("SIGN(1e-11)"),.number(0))
-        XCTAssertEqual(try typed("SIGN(0.005in,1mm)"),.number(0))
-        XCTAssertEqual(try typed("SIGN(-0.005in,0.1mm)"),.number(-1))
-        XCTAssertEqual(try typed("SIGN(0.005in,0.1)"),.number(0))
-        XCTAssertThrowsError(try typed("SIGN(0.005in,1rad)"))
-        XCTAssertThrowsError(try typed("SIGN(0.005,1mm)"))
+        // SIGN keeps its argument's unit and accepts any fuzz unit (SIGN-3, COERCE-10/11).
+        XCTAssertEqual(try typed("SIGN(0.005in,1mm)"),.quantity(0,"IN"))
+        XCTAssertEqual(try typed("SIGN(-0.005in,0.1mm)"),.quantity(-1,"IN"))
+        XCTAssertEqual(try typed("SIGN(0.005in,0.1)"),.quantity(0,"IN"))
+        XCTAssertEqual(try typed("SIGN(0.005in,1rad)"),.quantity(0,"IN"))
+        XCTAssertEqual(try typed("SIGN(0.005,1mm)"),.quantity(0,"MM"))  // ROUNDING-17
     }
     func testInstallerSIGNFuzzFormulaEvaluatesFromHVACCStencil() throws {
         let root = URL(fileURLWithPath:#filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent(),source = root.appendingPathComponent("build/Visio2019-Libraries/HVACC_U.VSSX")
@@ -118,15 +119,16 @@ final class ShapeSheetTests:XCTestCase {
     func testTypedRoundingRetainsCompatibleMeasureUnits() throws {
         func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }
         XCTAssertEqual(try typed("CEILING(1.1in,0.25in)"),.quantity(1.25,"IN"))
-        XCTAssertEqual(try typed("CEILING(26mm,1in)"),.quantity(2,"MM"))
-        XCTAssertEqual(try typed("FLOOR(26mm,1in)"),.quantity(1,"MM"))
+        // Visio rounds the display value to a multiple in internal units (COERCE-27, ROUNDING-1...5).
+        XCTAssertEqual(try typed("CEILING(26mm,1in)").numeric(),26/25.4,accuracy:1e-12)
+        XCTAssertEqual(try typed("FLOOR(26mm,1in)").numeric(),26/25.4,accuracy:1e-12)
         let defaultMillimeters = try typed("CEILING(26mm)"),unitlessMillimeterStep = try typed("CEILING(26mm,1)")
         XCTAssertEqual(try defaultMillimeters.numeric(),26/25.4,accuracy:1e-12);XCTAssertEqual(defaultMillimeters.unit,"MM")
         XCTAssertEqual(try unitlessMillimeterStep.numeric(),26/25.4,accuracy:1e-12);XCTAssertEqual(unitlessMillimeterStep.unit,"MM")
-        XCTAssertEqual(try typed("CEILING(26mm,1mm)"),.quantity(26/25.4,"MM"))
+        XCTAssertEqual(try typed("CEILING(26mm,1mm)").numeric(),26.0236220472/25.4,accuracy:1e-10)
         XCTAssertEqual(try typed("FLOOR(-3.7,-0.5)"),.number(-3.5))
-        XCTAssertThrowsError(try typed("CEILING(1in,1rad)"))
-        XCTAssertThrowsError(try typed("FLOOR(1,1in)"))
+        XCTAssertEqual(try typed("CEILING(1in,1rad)"),.quantity(1,"IN"))
+        XCTAssertEqual(try typed("FLOOR(1,1in)"),.number(1))
     }
     func testInstallerCEILINGAndFLOORFormulasEvaluateFromBLDCORStencil() throws {
         let root = URL(fileURLWithPath:#filePath).deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent(),source = root.appendingPathComponent("build/Visio2019-Libraries/BLDCOR_M.VSSX")

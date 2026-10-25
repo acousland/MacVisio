@@ -1707,6 +1707,69 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-COMMANDS-probe-formulas",
+      "category": "commands",
+      "name": "--probe-formulas",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--probe-formulas\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/DeveloperCommands.swift",
+        "anchor": "\"--probe-formulas\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow."
+      },
+      "child_task_id": "WP-02-T04-INV-COMMANDS-probe-formulas",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-COMMANDS-profile-interactions",
       "category": "commands",
       "name": "--profile-interactions",
@@ -4652,6 +4715,68 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-FUNCTIONS-ANG360",
+      "category": "functions",
+      "name": "ANG360",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"ANG360\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"ANG360\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-ANG360",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-FUNCTIONS-ASIN",
       "category": "functions",
       "name": "ASIN",
@@ -5892,6 +6017,68 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-FUNCTIONS-GETREF",
+      "category": "functions",
+      "name": "GETREF",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"GETREF\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"GETREF\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-GETREF",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-FUNCTIONS-GREEN",
       "category": "functions",
       "name": "GREEN",
@@ -6450,6 +6637,254 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-FUNCTIONS-ISERR",
+      "category": "functions",
+      "name": "ISERR",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERR\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERR\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-ISERR",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-ISERRNA",
+      "category": "functions",
+      "name": "ISERRNA",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERRNA\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERRNA\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-ISERRNA",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-ISERROR",
+      "category": "functions",
+      "name": "ISERROR",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERROR\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERROR\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-ISERROR",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-ISERRVALUE",
+      "category": "functions",
+      "name": "ISERRVALUE",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERRVALUE\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/TypedShapeSheet.swift",
+        "anchor": "\"ISERRVALUE\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-ISERRVALUE",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-FUNCTIONS-ISTHEMED",
       "category": "functions",
       "name": "ISTHEMED",
@@ -6668,6 +7103,68 @@
         "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
       },
       "child_task_id": "WP-02-T04-INV-FUNCTIONS-LN",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-LOG10",
+      "category": "functions",
+      "name": "LOG10",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"LOG10\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"LOG10\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-LOG10",
       "evidence": {
         "preservation": {
           "state": "unverified",
@@ -7256,6 +7753,68 @@
       "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
     },
     {
+      "id": "INV-FUNCTIONS-OPENTEXTWIN",
+      "category": "functions",
+      "name": "OPENTEXTWIN",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"OPENTEXTWIN\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"OPENTEXTWIN\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-OPENTEXTWIN",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
       "id": "INV-FUNCTIONS-OR",
       "category": "functions",
       "name": "OR",
@@ -7536,6 +8095,68 @@
         "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
       },
       "child_task_id": "WP-02-T04-INV-FUNCTIONS-PI",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-POLYLINE",
+      "category": "functions",
+      "name": "POLYLINE",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"POLYLINE\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"POLYLINE\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-POLYLINE",
       "evidence": {
         "preservation": {
           "state": "unverified",
@@ -8342,6 +8963,68 @@
         "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
       },
       "child_task_id": "WP-02-T04-INV-FUNCTIONS-SETATREFEXPR",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-SETF",
+      "category": "functions",
+      "name": "SETF",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"SETF\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheetContext.swift",
+        "anchor": "\"SETF\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-SETF",
       "evidence": {
         "preservation": {
           "state": "unverified",
@@ -9334,6 +10017,68 @@
         "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
       },
       "child_task_id": "WP-02-T04-INV-FUNCTIONS-TRIM",
+      "evidence": {
+        "preservation": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "rendering": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "editing": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "behavior": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        },
+        "interchange": {
+          "state": "unverified",
+          "artifacts": [],
+          "reason": "No dimension-specific acceptance run imported; snapshot classification is not qualification."
+        }
+      },
+      "note": "Source/document occurrence only; does not establish runtime availability or semantic support."
+    },
+    {
+      "id": "INV-FUNCTIONS-TRUNC",
+      "category": "functions",
+      "name": "TRUNC",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "work_packages": [
+        "WP-15"
+      ],
+      "observation": "source",
+      "provenance": {
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"TRUNC\""
+      },
+      "reference_build": null,
+      "applicability": "documented_candidate",
+      "fixture": {
+        "state": "unresolved",
+        "path": null
+      },
+      "source_check": {
+        "kind": "anchor_exists",
+        "path": "Sources/MacVisio/ShapeSheet.swift",
+        "anchor": "\"TRUNC\""
+      },
+      "qualification": {
+        "state": "pending",
+        "prerequisite": "WP-01: licensed installed/registered Visio Professional 2019, frozen executable build, launch/COM and independent round-trip evidence",
+        "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization."
+      },
+      "child_task_id": "WP-02-T04-INV-FUNCTIONS-TRUNC",
       "evidence": {
         "preservation": {
           "state": "unverified",
@@ -11952,6 +12697,22 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-COMMANDS-probe-formulas",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-COMMANDS-probe-formulas",
+      "requirement_ids": [
+        "MV-AUT-02"
+      ],
+      "owner": "WP-09",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Observe exact-build menus, ribbon, context and keyboard commands and execute each workflow. Case: --probe-formulas",
+      "work_packages": [
+        "WP-09",
+        "WP-31"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-COMMANDS-profile-interactions",
       "parent": "WP-02-T04",
       "inventory_id": "INV-COMMANDS-profile-interactions",
@@ -12688,6 +13449,21 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-FUNCTIONS-ANG360",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-ANG360",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: ANG360",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-FUNCTIONS-ASIN",
       "parent": "WP-02-T04",
       "inventory_id": "INV-FUNCTIONS-ASIN",
@@ -12988,6 +13764,21 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-FUNCTIONS-GETREF",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-GETREF",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: GETREF",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-FUNCTIONS-GREEN",
       "parent": "WP-02-T04",
       "inventory_id": "INV-FUNCTIONS-GREEN",
@@ -13123,6 +13914,66 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-FUNCTIONS-ISERR",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-ISERR",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: ISERR",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-ISERRNA",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-ISERRNA",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: ISERRNA",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-ISERROR",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-ISERROR",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: ISERROR",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-ISERRVALUE",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-ISERRVALUE",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: ISERRVALUE",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-FUNCTIONS-ISTHEMED",
       "parent": "WP-02-T04",
       "inventory_id": "INV-FUNCTIONS-ISTHEMED",
@@ -13178,6 +14029,21 @@
       "size": "S",
       "state": "planned",
       "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: LN",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-LOG10",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-LOG10",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: LOG10",
       "work_packages": [
         "WP-15"
       ]
@@ -13318,6 +14184,21 @@
       ]
     },
     {
+      "id": "WP-02-T04-INV-FUNCTIONS-OPENTEXTWIN",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-OPENTEXTWIN",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: OPENTEXTWIN",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
       "id": "WP-02-T04-INV-FUNCTIONS-OR",
       "parent": "WP-02-T04",
       "inventory_id": "INV-FUNCTIONS-OR",
@@ -13388,6 +14269,21 @@
       "size": "S",
       "state": "planned",
       "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: PI",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-POLYLINE",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-POLYLINE",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: POLYLINE",
       "work_packages": [
         "WP-15"
       ]
@@ -13583,6 +14479,21 @@
       "size": "S",
       "state": "planned",
       "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: SETATREFEXPR",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-SETF",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-SETF",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: SETF",
       "work_packages": [
         "WP-15"
       ]
@@ -13823,6 +14734,21 @@
       "size": "S",
       "state": "planned",
       "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: TRIM",
+      "work_packages": [
+        "WP-15"
+      ]
+    },
+    {
+      "id": "WP-02-T04-INV-FUNCTIONS-TRUNC",
+      "parent": "WP-02-T04",
+      "inventory_id": "INV-FUNCTIONS-TRUNC",
+      "requirement_ids": [
+        "MV-SHS-06"
+      ],
+      "owner": "WP-15",
+      "size": "S",
+      "state": "planned",
+      "acceptance_contract": "Enumerate exact-build function names; qualify arity, types, units, context, errors and serialization. Case: TRUNC",
       "work_packages": [
         "WP-15"
       ]
@@ -14356,13 +15282,13 @@
       ]
     }
   ],
-  "entry_count": 183,
+  "entry_count": 195,
   "category_counts": {
     "apis_events": 6,
     "cells": 22,
-    "commands": 36,
+    "commands": 37,
     "filters": 14,
-    "functions": 82,
+    "functions": 93,
     "integrations": 6,
     "masters": 1,
     "solutions": 16

@@ -24,34 +24,46 @@ struct ShapeSheetColor:Equatable {
         }
         return (Int((hue*40).rounded()) % 240,Int((saturation*240).rounded()),Int((luminosity*240).rounded()))
     }
+    /// Windows' integer HLS conversion (HLSMAX 240), which Visio uses: TONE(RGB(100,50,0),50) is
+    /// RGB(89,50,11) exactly (reference case COLORX-4).
     static func fromHSL(hue:Int,saturation:Int,luminosity:Int) -> ShapeSheetColor {
-        let h = Double(hue)/40,s = Double(saturation)/240,l = Double(luminosity)/240
-        let chroma = (1-abs(2*l-1))*s,x = chroma*(1-abs(h.truncatingRemainder(dividingBy:2)-1))
-        let (r,g,b):(Double,Double,Double)
-        switch h {
-        case 0..<1:(r,g,b) = (chroma,x,0)
-        case 1..<2:(r,g,b) = (x,chroma,0)
-        case 2..<3:(r,g,b) = (0,chroma,x)
-        case 3..<4:(r,g,b) = (0,x,chroma)
-        case 4..<5:(r,g,b) = (x,0,chroma)
-        default:(r,g,b) = (chroma,0,x)
+        let scale = 240,maximum = 255
+        guard saturation != 0 else { let value = luminosity*maximum/scale;return ShapeSheetColor(red:value,green:value,blue:value,hsl:(hue,saturation,luminosity)) }
+        let second = luminosity <= scale/2 ? (luminosity*(scale+saturation)+scale/2)/scale : luminosity+saturation-(luminosity*saturation+scale/2)/scale
+        let first = 2*luminosity-second
+        func channel(_ input:Int) -> Int {
+            var hue = input;if hue < 0 { hue += scale };if hue > scale { hue -= scale }
+            let value:Int
+            if hue < scale/6 { value = first+((second-first)*hue+scale/12)/(scale/6) }
+            else if hue < scale/2 { value = second }
+            else if hue < scale*2/3 { value = first+((second-first)*(scale*2/3-hue)+scale/12)/(scale/6) }
+            else { value = first }
+            return (value*maximum+scale/2)/scale
         }
-        let m = l-chroma/2
-        return ShapeSheetColor(red:Int(((r+m)*255).rounded()),green:Int(((g+m)*255).rounded()),blue:Int(((b+m)*255).rounded()),hsl:(hue,saturation,luminosity))
+        return ShapeSheetColor(red:channel(hue+scale/3),green:channel(hue),blue:channel(hue-scale/3),hsl:(hue,saturation,luminosity))
     }
     static func ==(lhs:ShapeSheetColor,rhs:ShapeSheetColor) -> Bool { lhs.red == rhs.red && lhs.green == rhs.green && lhs.blue == rhs.blue }
 }
 
 enum SheetValue:Equatable {
-    case number(Double),quantity(Double,String),string(String),boolean(Bool),date(Date),color(ShapeSheetColor)
-    var text:String { switch self { case .number(let value),.quantity(let value,_):return ShapeSheetEngine.format(value);case .string(let value):return value;case .boolean(let value):return value ? "TRUE" : "FALSE";case .date(let value):return ISO8601DateFormatter().string(from:value);case .color(let value):return value.hex } }
+    case number(Double),quantity(Double,String),string(String),boolean(Bool),date(Date),color(ShapeSheetColor),point(Double,Double)
+    var text:String { switch self { case .number(let value),.quantity(let value,_):return ShapeSheetEngine.format(value);case .string(let value):return value;case .boolean(let value):return value ? "TRUE" : "FALSE";case .date(let value):return ISO8601DateFormatter().string(from:value);case .color(let value):return value.hex;case .point(let x,let y):return String(format:"PNT(%.4f,%.4f)",x,y) } }
     var unit:String? { if case .quantity(_,let unit) = self { return unit };return nil }
-    var dimension:String? { unit.map{["DEG","RAD","DA"].contains($0.uppercased()) ? "angle" : $0.uppercased() == "DE" ? "duration" : "length"} }
-    static func factor(_ unit:String) -> Double? { ["IN":1,"INCH":1,"INCHES":1,"PT":72,"MM":25.4,"CM":2.54,"M":0.0254,"FT":1/12,"YD":1/36,"DEG":180 / .pi,"RAD":1,"DL":1,"DP":1,"DT":1,"DA":1,"DE":1][unit.uppercased()] }
+    var dimension:String? { unit.map{["DEG","RAD","DA"].contains($0.uppercased()) ? "angle" : ["DE","ED","EH","EM","ES","EW"].contains($0.uppercased()) ? "duration" : "length"} }
+    static func factor(_ unit:String) -> Double? { ["IN":1,"INCH":1,"INCHES":1,"PT":72,"MM":25.4,"CM":2.54,"M":0.0254,"FT":1/12,"YD":1/36,"DEG":180 / .pi,"RAD":1,"DL":1,"DP":1,"DT":1,"DA":1,"DE":1,
+                                                         "KM":0.0000254,"MI":1.0/63360,"ED":1,"EH":24,"EM":1440,"ES":86400,"EW":1.0/7][unit.uppercased()] }
     func numeric() throws -> Double {
-        switch self { case .number(let value),.quantity(let value,_):return value;case .boolean(let value):return value ? 1 : 0;case .date(let value):return value.timeIntervalSince1970/86400+25569;case .string(let value):if let n = Double(value),n.isFinite { return n };throw DiagramError.invalid("A numeric value was required.");case .color:throw DiagramError.invalid("A numeric value was required; a color result was supplied.") }
+        switch self { case .number(let value),.quantity(let value,_):return value;case .boolean(let value):return value ? 1 : 0;case .date(let value):return Self.serial(value);case .string(let value):if let n = Double(value),n.isFinite { return n };throw DiagramError.invalid("A numeric value was required.");case .color:throw DiagramError.invalid("A numeric value was required; a color result was supplied.");case .point:throw ShapeSheetError(kind:.value,message:"A numeric value was required; a point was supplied.") }
     }
-    var valid:Bool { switch self { case .number(let n):return n.isFinite;case .quantity(let n,let u):return n.isFinite && Self.factor(u) != nil;case .string(let s):return s.utf8.count <= 1_000_000;case .date(let d):return d.timeIntervalSince1970.isFinite;case .boolean:return true;case .color(let c):return (0...255).contains(c.red) && (0...255).contains(c.green) && (0...255).contains(c.blue) } }
+    /// Visio date serials count local wall-clock days from 30 December 1899, independent of time zone.
+    static func serial(_ date:Date) -> Double {
+        (date.timeIntervalSince1970+Double(TimeZone.current.secondsFromGMT(for:date)))/86400+25569
+    }
+    static func date(serial:Double) -> Date {
+        let utc = Date(timeIntervalSince1970:(serial-25569)*86400)
+        return utc.addingTimeInterval(-Double(TimeZone.current.secondsFromGMT(for:utc)))
+    }
+    var valid:Bool { switch self { case .number(let n):return n.isFinite;case .quantity(let n,let u):return n.isFinite && Self.factor(u) != nil;case .string(let s):return s.utf8.count <= 1_000_000;case .date(let d):return d.timeIntervalSince1970.isFinite;case .boolean:return true;case .color(let c):return (0...255).contains(c.red) && (0...255).contains(c.green) && (0...255).contains(c.blue);case .point(let x,let y):return x.isFinite && y.isFinite } }
 }
 enum TypedShapeSheet {
     static func evaluate(_ formula:String,resolve:@escaping (String)throws->SheetValue,call:@escaping (String,[SheetValue])throws->SheetValue,scalar:Bool = false,specialCall:@escaping (String,[ShapeSheet.Expression],(ShapeSheet.Expression)throws->SheetValue)throws->SheetValue? = {_,_,_ in nil},colorPalette:ShapeSheetColorPalette = ShapeSheetColorPalette()) throws -> SheetValue {
@@ -71,21 +83,37 @@ enum TypedShapeSheet {
             case .unary(let op,let value):let value = try eval(value,depth+1),n = try value.numeric(),number = op == "-" ? -n : n;result = value.unit.map{.quantity(number,$0)} ?? .number(number)
             case .binary(let op,let a,let b):
                 let x = try eval(a,depth+1),y = try eval(b,depth+1)
+                func isText(_ value:SheetValue) -> Bool { if case .string(let text) = value { return Double(text) == nil };return false }
                 if op == "&" { result = .string(x.text+y.text) }
-                else if ["=","==","!=","<>"].contains(op) { guard scalar || x.dimension == nil || y.dimension == nil || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional comparison.") };let equal:Bool;if case .string = x { equal = x.text == y.text } else if case .string = y { equal = x.text == y.text } else { equal = try x.numeric() == y.numeric() };result = .boolean(op == "=" || op == "==" ? equal : !equal) }
+                // Visio compares text case-insensitively.
+                else if ["=","==","!=","<>"].contains(op) { guard scalar || x.dimension == nil || y.dimension == nil || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional comparison.") };let equal:Bool;if case .string = x { equal = x.text.caseInsensitiveCompare(y.text) == .orderedSame } else if case .string = y { equal = x.text.caseInsensitiveCompare(y.text) == .orderedSame } else { equal = try x.numeric() == y.numeric() };result = .boolean(op == "=" || op == "==" ? equal : !equal) }
+                // Ordering comparisons read non-numeric text as zero ("b">"A" is FALSE).
+                else if ["<",">","<=",">="].contains(op),isText(x) || isText(y) {
+                    let p = isText(x) ? 0 : try x.numeric(),q = isText(y) ? 0 : try y.numeric()
+                    result = .boolean(op == "<" ? p<q : op == ">" ? p>q : op == "<=" ? p<=q : p>=q)
+                }
                 else {
                     let p = try x.numeric(),q = try y.numeric()
+                    func isDate(_ value:SheetValue) -> Bool { if case .date = value { return true };return false }
                     switch op {
+                    case "+" where !scalar && (isDate(x) || isDate(y)),"-" where !scalar && (isDate(x) || isDate(y)):
+                        // Date + days is a date; date - date is an elapsed duration in days.
+                        if isDate(x),isDate(y) { guard op == "-" else { throw DiagramError.invalid("Dates cannot be added together.") };result = .quantity(p-q,"DE") }
+                        else if isDate(x) { result = .date(SheetValue.date(serial:op == "+" ? p+q : p-q)) }
+                        else { guard op == "+" else { throw DiagramError.invalid("A date cannot be subtracted from a number.") };result = .date(SheetValue.date(serial:p+q)) }
                     case "+","-":
-                        guard scalar || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional field arithmetic.") }
-                        let n = op == "+" ? p+q : p-q;result = scalar ? .number(n) : x.unit.map{.quantity(n,$0)} ?? .number(n)
-                    case "*":guard scalar || x.unit == nil || y.unit == nil else { throw DiagramError.invalid("Area/compound field units are not yet implemented.") };result = scalar ? .number(p*q) : (x.unit ?? y.unit).map{.quantity(p*q,$0)} ?? .number(p*q)
+                        // Visio adds internal values and keeps the first operand's unit: 1 in+1 is 2 in, and
+                        // ATAN2(1,1)+1 in is an angle (reference cases EXPR-23, EXPR-36, EXPR-41).
+                        let n = op == "+" ? p+q : p-q;result = scalar ? .number(n) : (x.unit ?? y.unit).map{.quantity(n,$0)} ?? .number(n)
+                    // Visio keeps a product of two lengths (an area) in the first operand's length unit.
+                    case "*":result = scalar ? .number(p*q) : (x.unit ?? y.unit).map{.quantity(p*q,$0)} ?? .number(p*q)
                     case "/":guard q != 0 else { throw DiagramError.invalid("Division by zero.") };if scalar { result = .number(p/q) } else if x.unit != nil,y.unit == nil { result = .quantity(p/q,x.unit!) } else if x.unit == nil,y.unit != nil { throw DiagramError.invalid("Reciprocal field units are not yet implemented.") } else { guard x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional division.") };result = .number(p/q) }
                     case "^":guard scalar || x.unit == nil else { throw DiagramError.invalid("Compound field units are not yet implemented.") };result = .number(pow(p,q))
                     case "<",">","<=",">=":guard scalar || x.dimension == nil || y.dimension == nil || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional comparison.") };result = .boolean(op == "<" ? p<q : op == ">" ? p>q : op == "<=" ? p<=q : p>=q);default:throw DiagramError.invalid("Unsupported ShapeSheet operator.") }
                 }
             case .call(let name,let arguments):
                 let name = name.uppercased()
+                try ShapeSheet.requireReferenceFunction(name)
                 if name == "INDEX" {
                     let values = try arguments.enumerated().map { offset, argument -> SheetValue in
                         if case .omitted = argument {
@@ -101,6 +129,14 @@ enum TypedShapeSheet {
                 }
                 if name == "IF",arguments.count == 3 { return try eval(eval(arguments[0],depth+1).numeric() != 0 ? arguments[1] : arguments[2],depth+1) }
                 if name == "IFERROR",arguments.count == 2 { do { return try eval(arguments[0],depth+1) } catch { return try eval(arguments[1],depth+1) } }
+                if ["ISERR","ISERRNA","ISERROR","ISERRVALUE"].contains(name) {
+                    guard arguments.count == 1 else { throw DiagramError.invalid("\(name) expects one argument.") }
+                    do { _ = try eval(arguments[0],depth+1);return .boolean(false) }
+                    catch {
+                        let kind = ShapeSheetError.kind(of:error)
+                        return .boolean(name == "ISERROR" || name == "ISERR" && kind != .na || name == "ISERRNA" && kind == .na || name == "ISERRVALUE" && kind == .value)
+                    }
+                }
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1).numeric() != 0 { return .number(0) };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
                 if name == "SETATREFEXPR",arguments.isEmpty { return .number(0) }
                 if name == "REF",arguments.isEmpty { throw DiagramError.invalid("ShapeSheet #REF! error.") }
@@ -126,18 +162,31 @@ enum TypedShapeSheet {
                     guard first.allSatisfy({$0 < 0x80}),second.allSatisfy({$0 < 0x80}) else { throw DiagramError.invalid("STRSAMEEX Unicode collation is not supported.") }
                     if options == 0 { result = .boolean(first == second) }
                     else { result = .boolean(first.count == second.count && zip(first,second).allSatisfy { asciiFold($0.0) == asciiFold($0.1) }) }
-                case "UPPER":try arity(1);result = .string(values[0].text.uppercased())
-                case "LOWER":try arity(1);result = .string(values[0].text.lowercased())
+                // Visio maps case one character at a time, so ß stays ß (UPPER-2).
+                case "UPPER":try arity(1);result = .string(String(values[0].text.map { character -> String in let upper = String(character).uppercased();return upper.count == 1 ? upper : String(character) }.joined()))
+                case "LOWER":try arity(1);result = .string(String(values[0].text.map { character -> String in let lower = String(character).lowercased();return lower.count == 1 ? lower : String(character) }.joined()))
                 case "LEN","LEFT","RIGHT","MID","FIND","REPLACE","SUBSTITUTE","REPT","INDEX","CHAR","UNICHAR":result = try ShapeStringFunctions.evaluate(name,values)
                 case "TRIM":try arity(1);result = .string(values[0].text.split(whereSeparator:{$0.isWhitespace}).joined(separator:" "))
                 case "CONCATENATE":result = .string(values.map(\.text).joined())
-                case "FIELDPICTURE":try arity(1);let n = try values[0].numeric();guard let index = Int(exactly:n),index >= 0,index <= 10000 else { throw DiagramError.invalid("Invalid field format code.") };result = .string("esc(\(index))")
+                case "FIELDPICTURE":try arity(1);let n = try values[0].numeric();guard n.isFinite,n >= 0,n < 65536 else { throw DiagramError.invalid("Invalid field format code.") };result = .string(VisioPictureFormat.fieldPicture(Int(n)))
                 case "SIGN":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("SIGN expects one or two arguments.") }
-                    if !scalar,values.count == 2,let fuzzDimension = values[1].dimension {
-                        guard let numberDimension = values[0].dimension,numberDimension == fuzzDimension else { throw DiagramError.invalid("SIGN values use incompatible units.") }
-                    }
-                    result = .number(try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9))
+                    let signed = try ShapeSheet.sign(try values[0].numeric(),fuzz:values.count == 2 ? try values[1].numeric() : 1e-9)
+                    // A unitless value takes the fuzz's unit: SIGN(0.05,1 mm) is 25.4 mm (ROUNDING-18).
+                    result = !scalar ? (values[0].unit ?? (values.count == 2 ? values[1].unit : nil)).map{.quantity(signed,$0)} ?? .number(signed) : .number(signed)
+                case "DEG","RAD","ANG360":
+                    try arity(1)
+                    let value = try values[0].numeric(),isAngle = values[0].dimension == "angle" || (scalar && ShapeSheet.isAngle(arguments[0]))
+                    let radians = name == "RAD" && !isAngle ? value * .pi/180 : name == "ANG360" ? ShapeSheet.angle360(value) : value
+                    result = scalar ? .number(radians) : .quantity(radians,name == "RAD" ? "RAD" : values[0].unit.flatMap{["DEG","RAD"].contains($0.uppercased()) ? $0 : nil} ?? "DEG")
+                case "POW":
+                    try arity(2)
+                    let base = try values[0].numeric(),exponent = try values[1].numeric()
+                    guard base != 0 || exponent != 0 else { throw DiagramError.invalid("POW(0,0) is undefined (#NUM!).") }
+                    let power = pow(base,exponent)
+                    result = !scalar ? values[0].unit.map{.quantity(power,$0)} ?? .number(power) : .number(power)
+                case "SQRT" where !scalar && values.count == 1 && values[0].unit != nil:
+                    throw DiagramError.invalid("SQRT of a dimensioned value has no dimension (#DIM!).")
                 case "ASIN","ACOS","ATAN":
                     try arity(1)
                     // These functions return PtgAngDft, whose canonical value
@@ -156,7 +205,8 @@ enum TypedShapeSheet {
                     let remainder = try ShapeSheet.modulus(try values[0].numeric(),divisor:values[1].numeric())
                     // Unit numbers are evaluated in their canonical internal
                     // values; the first operand's unit remains result metadata.
-                    result = !scalar ? values[0].unit.map{.quantity(remainder,$0)} ?? .number(remainder) : .number(remainder)
+                    if !scalar,case .date = values[0] { result = .date(SheetValue.date(serial:remainder)) }  // EXPR-47
+                    else { result = !scalar ? values[0].unit.map{.quantity(remainder,$0)} ?? .number(remainder) : .number(remainder) }
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let first = try values[0].numeric()
@@ -168,35 +218,25 @@ enum TypedShapeSheet {
                         // Invert the parser's literal-unit scale directly. A
                         // reciprocal multiply can push 26mm just below 26.
                         let displayNumber = first/(1/factor)
-                        let displayMultiple:Double
-                        if values.count == 2 {
-                            let multiple = try values[1].numeric()
-                            if let multipleUnit = values[1].unit {
-                                guard values[0].dimension == values[1].dimension,SheetValue.factor(multipleUnit) != nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
-                                displayMultiple = multiple/(1/factor)
-                            } else { displayMultiple = multiple }
-                        } else { displayMultiple = displayNumber < 0 ? -1 : 1 }
+                        // Visio rounds the display value to a multiple taken in internal units:
+                        // CEILING(2.5 cm,1 cm) is 2.7559 cm (COERCE-27).
+                        let displayMultiple = values.count == 2 ? try values[1].numeric() : (displayNumber < 0 ? -1 : 1)
                         result = .quantity(try ShapeSheet.rounded(displayNumber,toMultiple:displayMultiple,awayFromZero:name == "CEILING")/factor,unit)
                     } else {
-                        guard values.count == 1 || values[1].unit == nil else { throw DiagramError.invalid("Rounding values use incompatible units.") }
+                        // A unit multiple is taken in internal units: CEILING(0.5,1 mm) is 0.5118 (ROUNDING-13).
                         let multiple = values.count == 2 ? try values[1].numeric() : (first < 0 ? -1 : 1)
                         result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
                     }
                 case "RGB":
                     try arity(3)
-                    let components = try values.map { value -> Double in
-                        guard case .number(let number) = value else { throw DiagramError.invalid("RGB components must be unitless numbers.") }
-                        return number
-                    }
-                    result = .number(try colorPalette.index(for:components))
+                    // Components are internal values truncated and wrapped: RGB(72 pt,0,0) is RGB(1,0,0) (COERCE-3/4).
+                    let components = try values.map { ShapeSheet.colorComponent(try $0.numeric()) }
+                    // Typed results are colors, as in Visio; scalar hosts still need a color-table index.
+                    if scalar { result = .number(try colorPalette.index(for:components.map(Double.init))) }
+                    else { result = .color(ShapeSheetColor(red:components[0],green:components[1],blue:components[2])) }
                 case "BITAND","BITOR","BITXOR":
                     try arity(2)
-                    guard !arguments.contains(where:ShapeSheet.containsMeasure) else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
-                    let operands = try values.map { value -> Double in
-                        guard case .number(let number) = value else { throw DiagramError.invalid("\(name) requires unitless whole-number operands from 0 through 65535.") }
-                        return number
-                    }
-                    result = .number(try ShapeSheet.bitwise(name,operands))
+                    result = .number(try ShapeSheet.bitwise(name,values.map { try $0.numeric() }))  // internal values (COERCE-5)
                 case "HSL":
                     try arity(3)
                     let components = try values.map { value -> Int in
@@ -206,7 +246,7 @@ enum TypedShapeSheet {
                     }
                     guard components[0] <= 239,components[1] <= 240,components[2] <= 240 else { throw DiagramError.invalid("HSL components are outside the documented Visio ranges.") }
                     let color = ShapeSheetColor.fromHSL(hue:components[0],saturation:components[1],luminosity:components[2])
-                    result = .number(try colorPalette.index(for:color,function:"HSL"))
+                    result = scalar ? .number(try colorPalette.index(for:color,function:"HSL")) : .color(color)
                 case "RED","GREEN","BLUE","HUE","SAT","LUM":
                     try arity(1)
                     let color = try colorValue(values[0],palette:colorPalette)
@@ -224,7 +264,7 @@ enum TypedShapeSheet {
                     let second = try colorValue(values[1],palette:colorPalette).hsl.luminosity
                     result = .number(Double(first-second))
                 default:
-                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
+                    let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","LOG10","TRUNC","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
                         let unit = values.first?.unit
                         let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
@@ -237,9 +277,11 @@ enum TypedShapeSheet {
                             return .number(operand)
                         }
                         let n = try ShapeSheet.evaluate(.call(name,arguments),resolve:{_ in throw DiagramError.invalid("Unexpected numeric reference") })/factor
-                        if !scalar,["MIN","MAX","SUM"].contains(name),let unit = values.first(where:{$0.unit != nil})?.unit {
-                            let dimensions = Set(values.compactMap(\.dimension));guard dimensions.count == 1,try values.allSatisfy({if $0.unit != nil { return true };return try $0.numeric() == 0}) else { throw DiagramError.invalid("Incompatible dimensional aggregate.") };result = .quantity(n,unit)
-                        } else { result = preserve ? .quantity(n,unit!) : .number(n) }
+                        // MIN and MAX keep the unit of the operand they select; SUM keeps the first unit
+                        // (COERCE-17/18/19). Mixed dimensions are not an error in Visio.
+                        if !scalar,["MIN","MAX"].contains(name),let selected = try values.first(where:{try $0.numeric() == n}) { result = selected.unit.map{.quantity(n,$0)} ?? .number(n) }
+                        else if !scalar,name == "SUM",let unit = values.first(where:{$0.unit != nil})?.unit { result = .quantity(n,unit) }
+                        else { result = preserve ? .quantity(n,unit!) : .number(n) }
                     }
                     else { result = try call(name,values) }
                 }
@@ -255,7 +297,8 @@ enum TypedShapeSheet {
         switch value {
         case .color(let color):return color
         case .number(let index):return palette.color(at:index) ?? ShapeSheetColor(red:0,green:0,blue:0)
-        default:throw DiagramError.invalid("A color index or color result was required.")
+        // Other values are read as a color-table index; text that is not a number is index 0 (black).
+        default:return palette.color(at:(try? value.numeric()) ?? 0) ?? ShapeSheetColor(red:0,green:0,blue:0)
         }
     }
 }

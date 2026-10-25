@@ -147,7 +147,8 @@ final class M3NumericBoundaryTests: XCTestCase {
         XCTAssertEqual(try typed("CEILING(1e-308in,1e308in)"),.quantity(1e308,"IN"))
         XCTAssertEqual(try typed("CEILING(-1e-308rad,-1e308rad)"),.quantity(-1e308,"RAD"))
         let zero = try typed("FLOOR(-1e-308in,-1e308in)");XCTAssertEqual(zero.unit,"IN");XCTAssertEqual(try zero.numeric().sign,.minus)
-        for formula in ["CEILING(1in,1rad)","FLOOR(1,1in)"] { XCTAssertThrowsError(try typed(formula),formula) }
+        // Mixed units are accepted (ROUNDING-6, ROUNDING-13).
+        XCTAssertEqual(try typed("CEILING(1in,1rad)"),.quantity(1,"IN"));XCTAssertEqual(try typed("FLOOR(1,1in)"),.number(1))
     }
 
     func testTypedMillimeterWholeAndHalfwayBoundariesKeepTheirAdjacentValuesDistinct() throws {
@@ -176,7 +177,8 @@ final class M3NumericBoundaryTests: XCTestCase {
         }
         // These quantities are computed by typed arithmetic before rounding.
         for (formula,expected) in [("ROUND(13.25mm*2,0)",27.0),("ROUND(-13.25mm*2,0)",-27),
-                                   ("CEILING(13mm*2)",26),("FLOOR(13mm*2)",26),("CEILING(13mm*2,1mm)",26)] {
+                                   ("CEILING(13mm*2)",26),("FLOOR(13mm*2)",26),("CEILING(13mm*2,1)",26)] {
+            // A unit multiple is taken in internal units, so CEILING(26mm,1mm) is 26.0236 mm (ROUNDING-1).
             let result = try typed(formula)
             XCTAssertEqual(result.unit,"MM");XCTAssertEqual(try result.numeric(),expected/25.4,accuracy:1e-14,formula)
         }
@@ -213,7 +215,8 @@ final class M3NumericBoundaryTests: XCTestCase {
     }
 
     func testInvalidRoundingKeepsTypedFieldFormulaUnitAndCachedText() {
-        for formula in ["ROUND(3,32768)","CEILING(1in,1rad)","FLOOR(1e308,1e-308)"] {
+        // FLOOR of a negative value to a positive multiple is #NUM! in Visio (ROUNDING-14).
+        for formula in ["ROUND(3,32768)","FLOOR(-2.5cm,1cm)","FLOOR(1e308,1e-308)"] {
             var diagram = Diagram();var node = DiagramNode(text:"Kept")
             let value = ShapeSheetCell(value:"2",formula:formula,unit:"IN")
             node.formatting.textFields = [ShapeTextField(index:0,cells:["Value":value,"Type":ShapeSheetCell(value:"2")],cached:"Kept")]

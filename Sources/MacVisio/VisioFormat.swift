@@ -396,7 +396,7 @@ enum VisioFormat {
                 let dx = (signedWidth/2-locPinX)*(number(cells["FlipX"]) == 1 ? -1 : 1),dy = (signedHeight/2-locPinY)*(number(cells["FlipY"]) == 1 ? -1 : 1)
                 let centerX = pinX + dx*cos(angle)-dy*sin(angle),centerY = pinY+dx*sin(angle)+dy*cos(angle)
                 let parentOrigin = parent?.sheetOrigin ?? .zero
-                var node = DiagramNode(kind: kind, x: centerX-parentOrigin.x - width / 2, y: (parent?.height ?? page.height) - (centerY-parentOrigin.y) - height / 2, text: shape.child("Text")?.allText ?? master?.shape.child("Text")?.allText ?? "")
+                var node = DiagramNode(kind: kind, x: centerX-parentOrigin.x - width / 2, y: (parent?.height ?? page.height) - (centerY-parentOrigin.y) - height / 2, text: shape.child("Text")?.shapeText ?? master?.shape.child("Text")?.shapeText ?? "")
                 node.width = width; node.height = height; node.rotation = -angle * 180 / .pi
                 node.fill = color(cells["FillForegnd"], palette: palette, fallback: "#FFFFFF")
                 node.stroke = color(cells["LineColor"], palette: palette, fallback: "#000000")
@@ -444,7 +444,7 @@ enum VisioFormat {
                 detail.layerNames = membership.split(separator:";").compactMap { layerNames[String($0)] }
                 if let name = detail.layerNames.first { node.layer = name }
                 detail.data = inheritedRows(shape,master:master?.shape,section:"Property").enumerated().map { i,row in
-                    let c = row.cells; return ShapeDataProperty(key:row.attributes["N"] ?? "Row_\(i)",label:c["Label"]?.value ?? row.attributes["N"] ?? "Property",value:c["Value"]?.value ?? "",type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,format:c["Format"]?.value ?? "",prompt:c["Prompt"]?.value ?? "")
+                    let c = row.cells; return ShapeDataProperty(key:row.attributes["N"] ?? "Row_\(i)",label:c["Label"]?.value ?? row.attributes["N"] ?? "Property",value:c["Value"]?.value ?? "",type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,format:c["Format"]?.value ?? "",prompt:c["Prompt"]?.value ?? "",valueUnit:ShapeDataProperty.importedValueUnit(c["Value"]?.unit,type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,value:c["Value"]?.value ?? ""))
                 }
                 detail.hyperlinks = inheritedRows(shape,master:master?.shape,section:"Hyperlink").map { row in let c = row.cells; return ShapeHyperlink(address:c["Address"]?.value ?? "",subAddress:c["SubAddress"]?.value ?? "",description:c["Description"]?.value ?? "",sourceRowName:row.attributes["N"]) }
                 for (index,row) in inheritedRows(shape,master:master?.shape,section:"Connection").enumerated() {
@@ -468,7 +468,7 @@ enum VisioFormat {
                         let part = try resolve(relation.target,relativeTo:shape.child("ForeignData") != nil ? pagePart : master!.part)
                         let ext = (part as NSString).pathExtension.lowercased()
                         let mime = ["png":"image/png","jpg":"image/jpeg","jpeg":"image/jpeg","gif":"image/gif","bmp":"image/bmp","tif":"image/tiff","tiff":"image/tiff","svg":"image/svg+xml","pdf":"application/pdf"][ext]
-                        if let mime = mime { detail.image = EmbeddedImage(data:try archive.data(part),mimeType:mime); node.text = shape.child("Text")?.allText ?? ""; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00" }
+                        if let mime = mime { detail.image = EmbeddedImage(data:try archive.data(part),mimeType:mime); node.text = shape.child("Text")?.shapeText ?? ""; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00" }
                         else { pageWarning("import.foreign-object", "An embedded OLE/WMF/EMF object is preserved in the file but cannot be rendered natively.", shapeID: shapeID, feature: "ForeignData") }
                     }
                 }
@@ -496,7 +496,7 @@ enum VisioFormat {
                     node.formatting.textFields = fields
                 }
                 if let text = textElement,!node.text.isEmpty || node.formatting.textFields?.isEmpty == false {
-                    node.formatting.textRuns = try richText(text,shape:shape,master:master?.shape,document:document,styles:styles,palette:palette,node:node,warnings:&warnings)
+                    node.formatting.textRuns = ShapeRichText.droppingTerminalMark(try richText(text,shape:shape,master:master?.shape,document:document,styles:styles,palette:palette,node:node,warnings:&warnings))
                     if let first = node.formatting.textRuns?.first {
                         node.fontSize = first.character.size;node.textColor = first.character.color;node.bold = first.character.bold
                         node.formatting.fontName = first.character.fontName;node.formatting.italic = first.character.italic;node.formatting.underline = first.character.underline;node.formatting.alignment = first.paragraph.alignment
@@ -614,7 +614,7 @@ enum VisioFormat {
                     return ConnectionGeometry.matching(cell:connection.attributes["ToCell"] ?? "",part:connection.attributes["ToPart"],on:node)?.id
                 }
                 edge.sourcePort = port(glue[shapeID]?.source,from);edge.targetPort = port(glue[shapeID]?.target,to)
-                edge.label = shape.child("Text")?.allText ?? master?.child("Text")?.allText ?? ""
+                edge.label = shape.child("Text")?.shapeText ?? master?.child("Text")?.shapeText ?? ""
                 edge.color = color(cells["LineColor"],palette:palette,fallback:"#000000")
                 edge.width = try finiteNumber(cells,"LineWeight",default:1/72)*72
                 edge.arrow = (number(cells["EndArrow"]) ?? 0) != 0
@@ -1344,7 +1344,7 @@ enum VisioFormat {
         detail.alignment = number(paragraph["HorzAlign"]) == 0 ? .left : number(paragraph["HorzAlign"]) == 2 ? .right : .center
         detail.layerNames = (cells["LayerMember"]?.value ?? "").split(separator:";").compactMap{layerNames[String($0)]}
         detail.data = inheritedRows(shape,master:master,section:"Property").enumerated().map{i,row in
-            let c = row.cells;return ShapeDataProperty(key:row.attributes["N"] ?? "Row_\(i)",label:c["Label"]?.value ?? row.attributes["N"] ?? "Property",value:c["Value"]?.value ?? "",type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,format:c["Format"]?.value ?? "",prompt:c["Prompt"]?.value ?? "")
+            let c = row.cells;return ShapeDataProperty(key:row.attributes["N"] ?? "Row_\(i)",label:c["Label"]?.value ?? row.attributes["N"] ?? "Property",value:c["Value"]?.value ?? "",type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,format:c["Format"]?.value ?? "",prompt:c["Prompt"]?.value ?? "",valueUnit:ShapeDataProperty.importedValueUnit(c["Value"]?.unit,type:number(c["Type"]).flatMap{Int(exactly:$0)} ?? 0,value:c["Value"]?.value ?? ""))
         }
         detail.hyperlinks = inheritedRows(shape,master:master,section:"Hyperlink").map{row in
             let c = row.cells;return ShapeHyperlink(address:c["Address"]?.value ?? "",subAddress:c["SubAddress"]?.value ?? "",description:c["Description"]?.value ?? "",sourceRowName:row.attributes["N"])
@@ -1364,7 +1364,7 @@ enum VisioFormat {
             var node = edge.textNode;node.details = detail
             node.fontSize = min(500,max(1,try finiteNumber(character,"Size",default:12/72)*72))
             node.textColor = color(character["Color"],palette:palette,fallback:"#000000");node.bold = bits & 1 != 0
-            detail.textRuns = try richText(text,shape:shape,master:master,document:document,styles:styles,palette:palette,node:node,warnings:&warnings)
+            detail.textRuns = ShapeRichText.droppingTerminalMark(try richText(text,shape:shape,master:master,document:document,styles:styles,palette:palette,node:node,warnings:&warnings))
             if let first = detail.textRuns?.first {
                 detail.fontName = first.character.fontName;detail.italic = first.character.italic;detail.underline = first.character.underline;detail.alignment = first.paragraph.alignment
             }
@@ -1937,6 +1937,9 @@ enum VisioFormat {
         func child(_ name: String) -> XElement? { children(named:name).first }
         func attribute(local: String) -> String? { attributes.first { $0.key.split(separator: ":").last.map(String.init) == local }?.value }
         var allText: String { textFragments.joined() }
+        /// Shape text without the terminal paragraph mark Visio writes after the last paragraph
+        /// (CR LF, which XML parsing reads as LF). Visio's own Text property excludes it.
+        var shapeText: String { ShapeRichText.droppingTerminalMark(allText) }
         var cells: [String: XCell] {
             if let cachedCells { return cachedCells }
             var values: [String: XCell] = [:]

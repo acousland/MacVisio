@@ -39,7 +39,16 @@ struct ShapeDataProperty: Codable, Equatable, Identifiable {
     var type: Int = 0
     var format: String = ""
     var prompt: String = ""
+    /// The Value cell's unit as imported (for example STR, or absent for a number). Type 0 rows
+    /// whose value is not marked STR hold numbers in Visio.
+    var valueUnit: String? = nil
     var id: String { key }
+    /// Records only what the type does not already say: a number stored in a type 0 (string) row,
+    /// or a unit on its value.
+    static func importedValueUnit(_ unit: String?, type: Int, value: String) -> String? {
+        guard type == 0, let unit, unit.uppercased() != "STR" else { return nil }
+        return unit.isEmpty ? (Double(value) != nil ? "" : nil) : unit
+    }
 }
 struct ShapeHyperlink: Codable, Equatable {
     var address: String

@@ -126,13 +126,11 @@ final class THEMEVALTests:XCTestCase {
 
         XCTAssertEqual(try context.evaluate("THEMEVAL(1,1.25in)",on:shape.id),.quantity(1.25,"IN"))
         XCTAssertEqual(try context.evaluate("THEMEVAL(QuickStyleFillColor,7)",on:shape.id),.number(7))
-        XCTAssertThrowsError(try context.evaluate("THEMEVAL(\"Dark\")",on:shape.id)) { error in
-            XCTAssertTrue(error.localizedDescription.contains("No Theme column values are unavailable"),error.localizedDescription)
-        }
-        XCTAssertThrowsError(try context.evaluate("THEMEVAL(\"TextColor\",RGB(0,0,0))",on:shape.id)) { error in
-            XCTAssertTrue(error.localizedDescription.contains("unsupported"),error.localizedDescription)
-        }
-        XCTAssertThrowsError(try context.evaluate("THEMEVAL(\"LineWeight\",1.25pt)",on:shape.id))
+        // With no theme, Visio uses its default palette and explicit defaults (THEMEVALX-Dark, COERCE-15, THEMEVALX-default-2).
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"Dark\")",on:shape.id),.color(ShapeSheetColor(red:0,green:0,blue:0)))
+        // Scalar hosts carry colors as color-table indexes; index 0 is black.
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"TextColor\",RGB(0,0,0))",on:shape.id),.number(0))
+        XCTAssertEqual(try context.evaluate("THEMEVAL(\"LineWeight\",1.25pt)",on:shape.id),.quantity(1.25/72,"PT"))
     }
 
     func testOneArgumentStringAndIntegerResolveImportedThemeColors() throws {
@@ -252,7 +250,7 @@ final class THEMEVALTests:XCTestCase {
         var pageNoTheme = DiagramNode(text:"Inherit no theme")
         pageNoTheme.formatting.sheet["ColorSchemeIndex"] = cell("65534")
         XCTAssertEqual(try ShapeSheetContext(page:page(with:pageNoTheme,pageScheme:0)).evaluate("THEMEVAL(\"Dark\",9)",on:pageNoTheme.id),.number(9))
-        XCTAssertThrowsError(try ShapeSheetContext(page:page(with:pageNoTheme,pageScheme:0)).evaluate("THEMEVAL(\"Dark\")",on:pageNoTheme.id))
+        XCTAssertEqual(try ShapeSheetContext(page:page(with:pageNoTheme,pageScheme:0)).evaluate("THEMEVAL(\"Dark\")",on:pageNoTheme.id),.color(ShapeSheetColor(red:0,green:0,blue:0)))  // THEMEVALX-Dark
 
         var associatedMaster = DiagramNode(text:"Associated master")
         associatedMaster.formatting.sheet["ColorSchemeIndex"] = cell("65535")

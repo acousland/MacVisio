@@ -97,7 +97,7 @@ enum PublicationBounds {
         let storage = NSTextStorage(attributedString: text), manager = NSLayoutManager()
         let container = NSTextContainer(containerSize: CGSize(width: max(1, rect.width), height: max(1, rect.height)))
         container.lineFragmentPadding = 0
-        manager.usesFontLeading = true
+        manager.usesFontLeading = false  // Visio's line height is SpLine alone, without font leading
         manager.addTextContainer(container)
         storage.addLayoutManager(manager)
         manager.ensureLayout(for: container)

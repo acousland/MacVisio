@@ -35,7 +35,7 @@ final class PreparedNodeDrawing {
             PerformanceEvidence.count(.textMeasurements)
             return attributed.boundingRect(
                 with: CGSize(width: max(1, rect.width), height: 10000),
-                options: [.usesLineFragmentOrigin, .usesFontLeading])
+                options: [.usesLineFragmentOrigin])
         }
         let height = min(rect.height, ceil(measured.height))
         let vertical = paperNode.formatting.textBox?.verticalAlignment ?? 1
@@ -101,7 +101,7 @@ final class PreparedEdgeLabel {
                 PerformanceEvidence.count(.textMeasurements)
                 if input.runs == nil { return (input.text as NSString).size(withAttributes: attributes) }
                 let bounds = attributed.boundingRect(with: CGSize(width: 100000, height: 100000),
-                    options: [.usesLineFragmentOrigin, .usesFontLeading])
+                    options: [.usesLineFragmentOrigin])
                 // The bounding rect leaves out paragraph indents, which the label's layout still applies.
                 var indent: CGFloat = 0
                 attributed.enumerateAttribute(.paragraphStyle, in: NSRange(location: 0, length: attributed.length)) { value, _, _ in
@@ -122,7 +122,7 @@ final class PreparedEdgeLabel {
     }
 
     func draw(in rect: CGRect) {
-        if isRich { attributed.draw(with: rect, options: [.usesLineFragmentOrigin, .usesFontLeading]) }
+        if isRich { attributed.draw(with: rect, options: [.usesLineFragmentOrigin]) }
         else { (text as NSString).draw(at: rect.origin, withAttributes: attributes) }
     }
 

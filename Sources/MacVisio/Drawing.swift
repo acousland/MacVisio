@@ -181,13 +181,13 @@ enum DiagramDrawing {
         else {
             string = ShapeRichText.attributed(n)
             var rect = layout.rect
-            let measured = PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements); return string.boundingRect(with:CGSize(width:max(1,rect.width),height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]) }
+            let measured = PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements); return string.boundingRect(with:CGSize(width:max(1,rect.width),height:10000),options:[.usesLineFragmentOrigin]) }
             let h = min(rect.height,ceil(measured.height))
             let vertical = n.formatting.textBox?.verticalAlignment ?? 1
             rect.origin.y += max(0,(rect.height-h)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5)); rect.size.height = h
             textRect = rect
         }
-        string.draw(with:textRect,options:[.usesLineFragmentOrigin,.usesFontLeading])
+        string.draw(with:textRect,options:[.usesLineFragmentOrigin])
         NSGraphicsContext.restoreGraphicsState()
     }
     static func textLayout(for node:DiagramNode) -> (rect:CGRect,center:CGPoint,rotation:Double) {

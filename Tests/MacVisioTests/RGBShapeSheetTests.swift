@@ -21,14 +21,15 @@ final class RGBShapeSheetTests: XCTestCase {
             try TypedShapeSheet.evaluate(formula, resolve: { _ in throw DiagramError.invalid("Unexpected reference") }, call: { name, _ in throw DiagramError.invalid("Unexpected function: \(name)") }, colorPalette: palette)
         }
 
-        XCTAssertEqual(try value("RGB(0,0,255)"), .number(4))
-        XCTAssertEqual(try value("RGB(173,173,173)"), .number(31))
-        XCTAssertThrowsError(try value("RGB(1,2,3)"))
+        // Typed results are colors whether or not the document table has them (RGB-1, EXPR-51).
+        XCTAssertEqual(try value("RGB(0,0,255)"), .color(ShapeSheetColor(red: 0, green: 0, blue: 255)))
+        XCTAssertEqual(try value("RGB(173,173,173)"), .color(ShapeSheetColor(red: 173, green: 173, blue: 173)))
+        XCTAssertEqual(try value("RGB(1,2,3)"), .color(ShapeSheetColor(red: 1, green: 2, blue: 3)))
     }
 
     func testDefaultEvaluatorsRejectUnknownColorsWithoutDocumentEntries() {
         XCTAssertThrowsError(try ShapeSheet.evaluate("RGB(1,2,3)", resolve: { _ in 0 }))
-        XCTAssertThrowsError(try TypedShapeSheet.evaluate("RGB(1,2,3)", resolve: { _ in .number(0) }, call: { _, _ in .number(0) }))
+        XCTAssertEqual(try TypedShapeSheet.evaluate("RGB(1,2,3)", resolve: { _ in .number(0) }, call: { _, _ in .number(0) }), .color(ShapeSheetColor(red: 1, green: 2, blue: 3)))
     }
 
     func testShapeSheetEngineUsesImportedDocumentPaletteAndKeepsUnknownCachedValue() {
@@ -56,11 +57,15 @@ final class RGBShapeSheetTests: XCTestCase {
     }
 
     func testRGBRejectsUnsupportedChannelsAndArity() {
-        for formula in ["RGB()", "RGB(1,2)", "RGB(1,2,3,4)", "RGB(-1,0,0)", "RGB(256,0,0)", "RGB(1.5,0,0)", "RGB(1,2,3pt)", "RGB(72pt,0,0)", "RGB(\"1\",0,0)"] {
+        for formula in ["RGB()", "RGB(1,2)", "RGB(1,2,3,4)", "RGB(\"1\",0,0)"] {
             XCTAssertThrowsError(try ShapeSheet.evaluate(formula, resolve: { _ in 0 }), formula)
         }
-        for formula in ["RGB()", "RGB(1,2)", "RGB(1,2,3,4)", "RGB(-1,0,0)", "RGB(256,0,0)", "RGB(1.5,0,0)", "RGB(1,2,3pt)", "RGB(72pt,0,0)", "RGB(TRUE,0,0)", "RGB(\"1\",0,0)"] {
+        for formula in ["RGB()", "RGB(1,2)", "RGB(1,2,3,4)"] {
             XCTAssertThrowsError(try TypedShapeSheet.evaluate(formula, resolve: { _ in .number(0) }, call: { _, _ in .number(0) }), formula)
+        }
+        // Visio truncates internal values and wraps them to 0...255 (RGB-2/3/4, COERCE-1...4).
+        for (formula, red, blue) in [("RGB(-1,0,0)", 255, 0), ("RGB(256,0,0)", 0, 0), ("RGB(1.5,0,0)", 1, 0), ("RGB(1,0,3pt)", 1, 0), ("RGB(72pt,0,0)", 1, 0), ("RGB(TRUE,0,0)", 1, 0), ("RGB(\"1\",0,0)", 1, 0)] {
+            XCTAssertEqual(try TypedShapeSheet.evaluate(formula, resolve: { _ in .number(0) }, call: { _, _ in .number(0) }), .color(ShapeSheetColor(red: red, green: 0, blue: blue)), formula)
         }
     }
 

@@ -75,7 +75,7 @@ final class TextFieldTests:XCTestCase {
     func testTypedStringsBooleansUnitsAndDateFormatting() throws {
         let empty:(String)throws->SheetValue = {_ in throw DiagramError.invalid("Missing")},call:(String,[SheetValue])throws->SheetValue = {_,_ in throw DiagramError.invalid("Unsupported")}
         XCTAssertEqual(try TypedShapeSheet.evaluate("IF(TRUE,\"A\"\"B\" & LOWER(\"C\"),Unknown())",resolve:empty,call:call),.string("A\"Bc"))
-        let quantity = try TypedShapeSheet.evaluate("ROUND(320.4pt,0)",resolve:empty,call:call);XCTAssertEqual(try FieldFormatting.format(quantity,picture:"esc(3)",unit:"PT",type:2),"320 pt.")
+        let quantity = try TypedShapeSheet.evaluate("ROUND(320.4pt,0)",resolve:empty,call:call);XCTAssertEqual(try FieldFormatting.format(quantity,picture:"esc(3)",unit:"PT",type:2),"320 pt")
         XCTAssertEqual(try FieldFormatting.format(.number(1234.567),picture:"#,##0.00"),"1,234.57")
         let date = try XCTUnwrap(FieldFormatting.date("2026-10-14"));XCTAssertEqual(try FieldFormatting.format(.date(date),picture:"yyyy-MM-dd",type:5),"2026-10-14")
     }

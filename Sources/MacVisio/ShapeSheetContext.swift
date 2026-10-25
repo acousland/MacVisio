@@ -18,9 +18,9 @@ final class ShapeSheetContext {
         return result
     }
     let page:DiagramPage
-    private let nodes:[UUID:DiagramNode]
+    let nodes:[UUID:DiagramNode]
     private var identifiers:[String:UUID] = [:]
-    private let publicIDsByObject: [UUID: String]
+    let publicIDsByObject: [UUID: String]
     private var cache:[String:SheetValue] = [:],visiting = Set<String>(),steps = 0
     // Exact spellings are safe aliases inside this immutable page snapshot.
     // Resolve them before repeating control and case-insensitive cell scans.
@@ -31,9 +31,12 @@ final class ShapeSheetContext {
     private var defaultsCache:[UUID:[String:Double]] = [:]
     private let colorPalette:ShapeSheetColorPalette
     private let cancellation:LifecycleJobCancellation?
-    private let document: Diagram?
+    let document: Diagram?
+    /// The saved file, for FILENAME() and DIRECTORY(); nil for a drawing that has not been saved.
+    var documentURL: URL?
+    let pageBinding: VisioPageBinding?
     private let foreground: DiagramPage?
-    private let now: Date
+    let now: Date
     private let mode: ValueMode
     private var definitionSheets: [UUID: DefinitionSheet]?
     private var definitionScopes: [UUID: [String: UUID]] = [:]
@@ -48,6 +51,7 @@ final class ShapeSheetContext {
          document: Diagram? = nil, foreground: DiagramPage? = nil, now: Date = Date(), mode: ValueMode = .scalarGeometry,
          publicIDsByObject: [UUID: String]? = nil) {
         self.page = page
+        pageBinding = binding
         var objects = nodesByID ?? Dictionary(uniqueKeysWithValues:page.nodes.map{($0.id,$0)})
         if nodesByID == nil {
             for edge in page.edges { objects[edge.id] = ConnectorSheetHost.node(edge,in:page,nodesByID:objects) }
@@ -110,6 +114,8 @@ final class ShapeSheetContext {
                 if property.type == 3 { result = .boolean(stored == "1" || stored.uppercased() == "TRUE") }
                 else if property.type == 5,let date = FieldFormatting.date(stored) { result = .date(date) }
                 else if [2,6,7].contains(property.type),let number = Double(stored),number.isFinite { result = numericValue(number, unit: cell?.unit ?? "") }
+                // A type 0 value Visio stored without STR is a number (CELLREF-6).
+                else if property.type == 0,let unit = property.valueUnit,unit.uppercased() != "STR",let number = Double(stored),number.isFinite { result = numericValue(number, unit: unit) }
                 else { result = .string(stored) }
             } else if let cell {
                 result = literalValue(cell, key: canonical)
@@ -270,6 +276,7 @@ final class ShapeSheetContext {
         return try TypedShapeSheet.evaluate(expression,resolve:{try self.value(id,$0)},call:{name,values in try self.contextFunction(name,values:values,id:id)},scalar:mode == .scalarGeometry,specialCall:{name,args,eval in
             if name == "THEMEVAL" {
                 guard args.count <= 2 else { throw DiagramError.invalid("THEMEVAL accepts at most two arguments.") }
+                if let value = try self.noThemeValue(args,host:host,evaluate:eval) { return value }
                 let colorSelector:ThemeColorSelector?
                 let lineSelector:ThemeLineSelector?
                 if args.isEmpty {
@@ -331,9 +338,15 @@ final class ShapeSheetContext {
             }
             if name == "ISTHEMED" {
                 guard args.isEmpty else { throw DiagramError.invalid("ISTHEMED expects no arguments.") }
-                return .boolean(try self.value(id,"ColorSchemeIndex").numeric() > 0)
+                // 65534 follows the page's scheme; a page without one (or 0) has no theme (ISTHEMED-1).
+                var index = try self.value(id,"ColorSchemeIndex").numeric()
+                if index == 65534 { index = Double(self.cellsValue(self.page.sheet,"ColorSchemeIndex") ?? 0) }
+                return .boolean(index > 0 && index != 65534)
             }
+            if let value = try self.referencePathFunction(name, arguments: args, evaluate: eval, id: id) { return value }
             guard ["SHAPETEXT","TEXTWIDTH","TEXTHEIGHT"].contains(name) else { return nil }
+            // Visio 2019 requires TEXTHEIGHT's maximum width (TEXTHEIGHT-1 is rejected).
+            guard name != "TEXTHEIGHT" || args.count == 2 else { throw DiagramError.invalid("TEXTHEIGHT expects a TheText reference and a maximum width.") }
             guard (1...2).contains(args.count),case .reference(let reference) = args[0] else { throw DiagramError.invalid("\(name) requires a TheText reference and an optional parameter.") }
             let (owner,key) = try self.target(reference,from:id);guard key.caseInsensitiveCompare("TheText") == .orderedSame,let source = self.nodes[owner] else { throw DiagramError.invalid("\(name) requires a shape's TheText cell.") }
             if name == "SHAPETEXT" {
@@ -350,10 +363,19 @@ final class ShapeSheetContext {
             self.measuredWork.textMeasurements += 1
             let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil
             let metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum,cancellation:self.cancellation)
-            return .number(name == "TEXTWIDTH" ? metrics.width : metrics.height)
+            // Visio returns a length in the drawing's unit (ARIAL-*, METRIC-*).
+            let length = name == "TEXTWIDTH" ? metrics.width : metrics.height
+            return self.mode == .typedFields ? .quantity(length,self.page.drawingScale?.drawingUnit ?? "IN") : .number(length)
         },colorPalette:colorPalette)
     }
     private func contextFunction(_ name: String, values: [SheetValue], id: UUID) throws -> SheetValue {
+        // A sheet-qualified call such as Sheet.1!ID() evaluates on that sheet (ID-2).
+        if let mark = name.lastIndex(of: "!") {
+            // Visio accepts a sheet qualifier only on argument-free functions (GEOM-5/7 are rejected).
+            guard values.isEmpty else { throw DiagramError.invalid("\(name) cannot take a sheet qualifier (#NAME?).") }
+            let (owner, _) = try target(String(name[..<mark]) + "!PinX", from: id)
+            return try contextFunction(String(name[name.index(after: mark)...]), values: values, id: owner)
+        }
         func arity(_ count: Int) throws {
             guard values.count == count else { throw DiagramError.invalid("\(name) expects \(count) arguments.") }
         }
@@ -364,17 +386,29 @@ final class ShapeSheetContext {
             guard values.count <= 1 else { throw DiagramError.invalid("Invalid PAGENAME arguments.") }
             return .string(context.name)
         case "PAGENUMBER":
-            try arity(0)
+            // Visio returns 0 whenever an argument is supplied (reference cases PAGENUMBER-2, EXPR-53/54).
+            guard values.count <= 1 else { throw DiagramError.invalid("PAGENUMBER expects at most one argument.") }
+            if values.count == 1 { return .number(0) }
             return .number(context.isBackground == true ? 0 : Double((pages.filter { $0.isBackground != true }.firstIndex { $0.id == context.id } ?? -1)+1))
         case "PAGECOUNT": try arity(0); return .number(Double(pages.filter { $0.isBackground != true }.count))
         case "BKGPAGENAME":
             guard values.count <= 1 else { throw DiagramError.invalid("Invalid BKGPAGENAME arguments.") }
-            return .string(pages.first { $0.id == context.backgroundPageID }?.name ?? "")
+            return .string(pages.first { $0.id == context.backgroundPageID }?.name ?? "<no background>")  // BKGPAGENAME-1
         case "ID":
             try arity(0)
             guard let key = publicIDsByObject[id] ?? definitionSheet(id)?.publicID,
                   let value = Double(key), value.isFinite else { throw DiagramError.invalid("Invalid shape ID; this owner has no numeric public identifier.") }
             return .number(value)
+        // Evaluation never runs actions: OPENTEXTWIN is FALSE, GETREF yields the referenced value and
+        // SETF returns 0 without writing (Visio applies SETF only as an action).
+        case "OPENTEXTWIN": try arity(0); return .boolean(false)
+        case "GETREF": try arity(1); return values[0]
+        case "SETF": try arity(2); return .number(0)
+        case "POLYLINE":
+            guard values.count >= 2, values.count % 2 == 0 else { throw DiagramError.invalid("POLYLINE expects x and y types followed by point pairs.") }
+            let flags = try values[0..<2].map { String(Int(try $0.numeric())) }
+            let points = try stride(from: 2, to: values.count, by: 2).map { String(format: "%.4f,%.4f", try values[$0].numeric(), try values[$0+1].numeric()) }
+            return .string("POLYLINE(" + (flags + points).joined(separator: ", ") + ")")
         case "NOW": try arity(0); return .date(now)
         case "TODAY": try arity(0); return .date(Calendar(identifier:.gregorian).startOfDay(for:now))
         case "DATE":
@@ -385,8 +419,10 @@ final class ShapeSheetContext {
                 throw DiagramError.invalid("Invalid date.")
             }
             return .date(date)
-        case "FORMAT": try arity(2); return .string(try FieldFormatting.format(values[0],picture:values[1].text,unit:values[0].unit ?? ""))
-        default: throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")
+        case "FORMAT": try arity(2); return .string(try VisioPictureFormat.format(values[0],picture:values[1].text))
+        default:
+            if let value = try referenceFunction(name, values: values, id: id) { return value }
+            throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")
         }
     }
     private func colorThemeState(for host:FormulaHost) -> ThemeState {
@@ -585,6 +621,47 @@ final class ShapeSheetContext {
             return .color(rgb)
         }
         throw DiagramError.invalid("THEMEVAL theme mapping \(requested) is unavailable; the original formula and cached value are retained.")
+    }
+
+    /// Visio's values for a drawing with no theme applied (THEMEVALX reference cases). An explicit
+    /// default argument wins; selectors Visio cannot resolve without a theme are #VALUE!.
+    private func noThemeValue(_ args:[ShapeSheet.Expression],host:FormulaHost,evaluate:(ShapeSheet.Expression) throws -> SheetValue) throws -> SheetValue? {
+        // Only when the host's effective scheme is "no theme": an explicit 0, or nothing selected on a
+        // page without a theme. A selected theme that was not imported stays unavailable.
+        let own:ShapeSheetCell?
+        switch host {
+        case .shape(let id,_): own = nodes[id]?.formatting.sheet.first { $0.key.caseInsensitiveCompare("ColorSchemeIndex") == .orderedSame }?.value
+        case .page: own = page.sheet?.first { $0.key.caseInsensitiveCompare("ColorSchemeIndex") == .orderedSame }?.value
+        }
+        let explicit = own.flatMap { $0.formula.caseInsensitiveCompare("Inh") == .orderedSame ? nil : Double($0.value) }
+        // An explicit 0 is "no theme"; otherwise only a page without an imported theme or scheme is.
+        let noTheme = explicit == 0 || (explicit == nil || explicit == 65534) && page.theme == nil && (cellsValue(page.sheet,"ColorSchemeIndex") ?? 0) == 0
+        guard noTheme else { return nil }
+        if args.count == 2 { return try evaluate(args[1]) }
+        func rgb(_ r:Int,_ g:Int,_ b:Int) -> SheetValue { .color(ShapeSheetColor(red:r,green:g,blue:b)) }
+        let palette = [rgb(0,0,0),rgb(255,255,255),rgb(192,80,70),rgb(157,187,97),rgb(171,154,192),rgb(75,172,198),rgb(245,157,86),rgb(255,192,0)]
+        let named:[String:SheetValue] = ["fillcolor":rgb(150,175,207),"fillcolor2":rgb(191,206,225),"linecolor":rgb(31,71,125),"shadowcolor":rgb(70,70,70),
+            "lineweight":.quantity(0.75/72,"PT"),"connectorweight":.quantity(0.75/72,"PT"),"linecap":.number(0),"linepattern":.number(1),"fillpattern":.number(1),
+            "shadowpattern":.number(0),"dark":palette[0],"light":palette[1],"textcolor":palette[0]]
+        let selector:String
+        if let first = args.first {
+            let value = try evaluate(first)
+            if case .string(let text) = value { selector = text.lowercased() }
+            else {
+                let index = Int(try value.numeric())
+                guard palette.indices.contains(index) else { throw ShapeSheetError(kind:.value,message:"THEMEVAL color index is outside the no-theme palette (#VALUE!).") }
+                return palette[index]
+            }
+        } else {
+            // THEMEVAL() takes its selector from the host cell, as in FillForegnd=THEMEVAL().
+            let cell = hostCell(for:host)?.lowercased() ?? ""
+            let hostSelectors = ["fillforegnd":"fillcolor","fillbkgnd":"fillcolor2","linecolor":"linecolor","shdwforegnd":"shadowcolor","lineweight":"lineweight",
+                                 "linecap":"linecap","linepattern":"linepattern","fillpattern":"fillpattern","shdwpattern":"shadowpattern"]
+            guard let mapped = hostSelectors[cell] else { throw ShapeSheetError(kind:.na,message:"THEMEVAL() has no theme value for this cell (#N/A).") }
+            selector = mapped
+        }
+        guard let value = named[selector] else { throw ShapeSheetError(kind:.value,message:"THEMEVAL \(selector) needs an applied theme (#VALUE!).") }
+        return value
     }
 
     private func paletteName(_ requested:String) -> String? {

@@ -129,8 +129,9 @@ final class M3ModulusTests: XCTestCase {
         XCTAssertThrowsError(try scalar("MODULUS(\"5\",2)"))
         XCTAssertEqual(try typed("MODULUS(\"5\",\"2\")"),.number(1))
         for value in try values("MODULUS(TRUE,2)") { XCTAssertEqual(value,1) }
+        // A date keeps its type through MODULUS (EXPR-47, COERCE-21); serials are local wall-clock days.
         let date = ShapeSheet.Expression.call("MODULUS",[.reference("Day"),.number(2)])
-        XCTAssertEqual(try TypedShapeSheet.evaluate(date,resolve:{_ in .date(Date(timeIntervalSince1970:0))},call:{_,_ in .number(0)}),.number(1))
+        XCTAssertEqual(try TypedShapeSheet.evaluate(date,resolve:{_ in .date(SheetValue.date(serial:25569))},call:{_,_ in .number(0)}),.date(SheetValue.date(serial:1)))
         XCTAssertThrowsError(try typed("MODULUS(\"5in\",2)"))
     }
 

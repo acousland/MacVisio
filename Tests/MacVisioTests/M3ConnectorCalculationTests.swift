@@ -182,13 +182,13 @@ final class M3ConnectorCalculationTests: XCTestCase {
     func testShapeAndConnectorDateCellsAndFieldsUseOneInjectedClock() throws {
         var input = Diagram(), node = DiagramNode(text: "")
         node.formatting.sheet["User.When"] = ShapeSheetCell(value: "Cached", formula: "NOW()")
-        node.formatting.sheet["User.Day"] = ShapeSheetCell(value: "Cached", formula: "TODAY()")
+        node.formatting.sheet["User.Day"] = ShapeSheetCell(value: "Cached", formula: "DATEVALUE(NOW())")  // TODAY is not in Visio 2019
         node = try TextFieldEngine.inserting(formula: "FORMAT(User.When,\"yyyy-MM-dd HH:mm:ss\")", into: node)
         var edge = DiagramEdge(source: node.id, target: node.id)
         let text = try TextFieldEngine.inserting(formula: "FORMAT(User.When,\"yyyy-MM-dd HH:mm:ss\")", into: edge.textNode)
         edge.details = text.details
         edge.formatting.sheet["User.When"] = ShapeSheetCell(value: "Cached", formula: "NOW()")
-        edge.formatting.sheet["User.Day"] = ShapeSheetCell(value: "Cached", formula: "TODAY()")
+        edge.formatting.sheet["User.Day"] = ShapeSheetCell(value: "Cached", formula: "DATEVALUE(NOW())")
         input.page.nodes = [node]; input.page.edges = [edge]
         let now = try XCTUnwrap(FieldFormatting.date("2020-01-02T03:04:05Z"))
         let result = DiagramCalculation.recalculate(input, now: now)

@@ -115,7 +115,7 @@ enum SVGImport {
                 // measurement is one isolated main-thread operation per text
                 // shape, so a converter cannot perform shared AppKit work on
                 // its worker or monopolize the main loop for the whole file.
-                let measure = { ShapeRichText.attributed(node).boundingRect(with:CGSize(width:10000,height:10000),options:[.usesLineFragmentOrigin,.usesFontLeading]) }
+                let measure = { ShapeRichText.attributed(node).boundingRect(with:CGSize(width:10000,height:10000),options:[.usesLineFragmentOrigin]) }
                 let bounds = Thread.isMainThread ? measure() : DispatchQueue.main.sync(execute:measure)
                 node.width = max(1,bounds.width+4);node.height = max(1,bounds.height)
                 let x = n("x",numbers(first?.attr("x") ?? "").first ?? 0),y = n("y",numbers(first?.attr("y") ?? "").first ?? 0)

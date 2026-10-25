@@ -15,35 +15,10 @@ enum FieldFormatting {
     }
     static func format(_ value:SheetValue,picture:String,unit:String = "",type:Int = 0) throws -> String {
         guard picture.utf8.count <= 16384 else { throw DiagramError.invalid("Field format is too long.") }
-        let text = picture.trimmingCharacters(in:.whitespacesAndNewlines)
-        let code:Int? = text.hasPrefix("esc(") && text.hasSuffix(")") ? Int(text.dropFirst(4).dropLast()) : text.hasPrefix("{<") && text.hasSuffix(">}") ? Int(text.dropFirst(2).dropLast(2)) : nil
-        if let code,[37,38,39].contains(code) { return code == 38 ? value.text.lowercased() : code == 39 ? value.text.uppercased() : value.text }
-        if type == 5 || {if case .date = value { return true };return false}() {
-            let date:Date
-            if case .date(let d) = value { date = d }
-            else if let d = self.date(value.text) { date = d }
-            else { date = Date(timeIntervalSince1970:(try value.numeric()-25569)*86400) }
-            guard (-62135596800...253402300799).contains(date.timeIntervalSince1970) else { throw DiagramError.invalid("Date outside supported range.") }
-            let formats:[Int:String] = [20:"M/d/yyyy",21:"EEEE, MMMM d, yyyy",22:"M/d/yy",23:"MM/dd/yy",24:"MMM d, yyyy",25:"MMMM d, yyyy",26:"d/M/yy",27:"dd/MM/yy",28:"d MMM yyyy",29:"d MMMM yyyy",44:"yyyy-MM-dd",45:"yy-MM-dd",64:"yyyy-M-d",65:"yy-MM-dd",200:"M/d/yyyy",201:"EEEE, MMMM d, yyyy",202:"MMMM d, yyyy",204:"yyyy-MM-dd",209:"MMMM yyyy",210:"MMM yy",215:"HH:mm",216:"HH:mm:ss",31:"H:mm",32:"HH:mm",33:"H:mm",34:"HH:mm",35:"h:mm a",36:"hh:mm a"]
-            let pattern = code.flatMap{formats[$0]} ?? text
-            guard !pattern.isEmpty,code == nil || formats[code!] != nil,pattern.range(of:"^[yMdEHhmsa :/.,'-]+$",options:.regularExpression) != nil else { throw DiagramError.invalid("Unsupported date format; cached field text is retained.") }
-            let formatter = DateFormatter();formatter.locale = .current;formatter.timeZone = .current;formatter.dateFormat = pattern;return formatter.string(from:date)
-        }
-        if case .string = value,type == 0,text.isEmpty || text == "@" { return value.text }
-        if text.isEmpty { return value.text }
-        var n = try value.numeric(),suffix = ""
-        let units:[String:(Double,String)] = ["IN":(1,"in."),"INCH":(1,"in."),"PT":(72,"pt."),"MM":(25.4,"mm"),"CM":(2.54,"cm"),"M":(0.0254,"m"),"FT":(1/12,"ft."),"DEG":(180 / .pi,"deg."),"RAD":(1,"rad.")]
-        if let code {
-            guard (0...9).contains(code) else { throw DiagramError.invalid("Unsupported field format code \(code); cached text is retained.") }
-            if let conversion = units[(unit.isEmpty ? value.unit ?? "" : unit).uppercased()] { n *= conversion.0;if code % 2 == 1 { suffix = " "+conversion.1 } }
-            let digits = code < 2 ? nil : (code-2)/2
-            return (digits.map{String(format:"%.*f",locale:Locale(identifier:"en_US_POSIX"),$0,n)} ?? ShapeSheetEngine.format(n))+suffix
-        }
-        guard text.range(of:"^[#,0]+(?:\\.[0#]+)?%?$",options:.regularExpression) != nil else { throw DiagramError.invalid("Unsupported format picture; cached field text is retained.") }
-        if text.hasSuffix("%") { n *= 100;suffix = "%" }
-        let decimals = text.split(separator:".",omittingEmptySubsequences:false).dropFirst().first.map{String($0).filter{$0 == "0" || $0 == "#"}} ?? ""
-        let formatter = NumberFormatter();formatter.locale = Locale(identifier:"en_US_POSIX");formatter.numberStyle = .decimal;formatter.usesGroupingSeparator = text.contains(",");formatter.minimumFractionDigits = decimals.filter{$0 == "0"}.count;formatter.maximumFractionDigits = decimals.count;formatter.roundingMode = .halfUp
-        guard let result = formatter.string(from:NSNumber(value:n)) else { throw DiagramError.invalid("Field number cannot be formatted.") };return result+suffix
+        var typed = value
+        // Date-typed fields (Type 5) read a number or date text as a date.
+        if type == 5 { if case .string(let text) = value,let date = self.date(text) { typed = .date(date) } else if let serial = try? value.numeric(),case .number = value { typed = .date(SheetValue.date(serial:serial)) } }
+        return try VisioPictureFormat.format(typed,picture:picture,unit:unit)
     }
 }
 
@@ -146,7 +121,9 @@ enum TextFieldEngine {
                         let value = try shared.evaluate(valueCell,on:node.id,hostCell:"Fields.Value[\(field.index+1)]")
                         let formatCell = field.cells["Format"] ?? ShapeSheetCell(value:"",unit:"STR")
                         failingCell = "Fields.Format[\(field.index + 1)]"
-                        let picture = try shared.evaluate(formatCell,on:node.id,hostCell:"Fields.Format[\(field.index+1)]").text
+                        var picture = try shared.evaluate(formatCell,on:node.id,hostCell:"Fields.Format[\(field.index+1)]").text
+                        // Only an explicit empty formula hides a field; an unset format shows the general value.
+                        if picture.isEmpty,formatCell.formula.isEmpty { picture = "esc(0)" }
                         failingCell = nil
                         let display = try FieldFormatting.format(value,picture:picture,unit:valueCell.unit,type:Int(field.cells["Type"]?.value ?? "0") ?? 0)
                         fields[j].cells["Value"]?.value = value.text;fields[j].cached = display;displays[field.index] = display

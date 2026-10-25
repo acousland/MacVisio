@@ -34,9 +34,10 @@ final class M3Atan2Tests: XCTestCase {
     func testDocumentedInputsAndArgumentOrderUseGeometricAngles() throws {
         // Microsoft Learn's first example prints 29.0456, but atan(5/9) in
         // degrees is 29.054604099077146. Follow the function contract.
-        XCTAssertEqual(try scalar("DEG(ATAN2(1.25,2.25))"),29.054604099077146,accuracy:1e-12)
-        XCTAssertEqual(try scalar("DEG(ATAN2(1,SQRT(3)))"),30,accuracy:1e-12)
-        XCTAssertEqual(try scalar("DEG(ATAN2(1,1))"),45,accuracy:1e-12)
+        // DEG retypes the radian value as degrees without scaling it (EXPR-48).
+        XCTAssertEqual(try scalar("DEG(ATAN2(1.25,2.25))"),29.054604099077146 * .pi/180,accuracy:1e-12)
+        XCTAssertEqual(try scalar("DEG(ATAN2(1,SQRT(3)))"),Double.pi/6,accuracy:1e-12)
+        XCTAssertEqual(try scalar("DEG(ATAN2(1,1))"),Double.pi/4,accuracy:1e-12)
         try assertAngle(1,2,0.4636476090008061);try assertAngle(2,1,1.1071487177940904)
     }
 
@@ -98,10 +99,11 @@ final class M3Atan2Tests: XCTestCase {
         XCTAssertEqual(try typed("ATAN2(1,1)+45deg").numeric(),Double.pi/2,accuracy:1e-14)
         XCTAssertEqual(try typed("ATAN2(1,1)/45deg"),.number(1))
         XCTAssertEqual(try typed("ATAN2(1,1)",scalar:true),.number(Double.pi/4))
-        XCTAssertThrowsError(try typed("ATAN2(1,1)+1in"))
-        XCTAssertThrowsError(try typed("ATAN2(1,1)+1"),"Existing typed arithmetic does not coerce an untagged scalar into an angle.")
-        XCTAssertEqual(try FieldFormatting.format(result,picture:"esc(7)",unit:"DEG",type:2),"45.00 deg.")
-        XCTAssertEqual(try FieldFormatting.format(result,picture:"esc(7)",unit:"RAD",type:2),"0.79 rad.")
+        // Visio adds internal values and keeps the first unit (EXPR-36, EXPR-41).
+        XCTAssertEqual(try typed("ATAN2(1,1)+1in").numeric(),Double.pi/4+1,accuracy:1e-14)
+        XCTAssertEqual(try typed("ATAN2(1,1)+1").numeric(),Double.pi/4+1,accuracy:1e-14)
+        XCTAssertEqual(try FieldFormatting.format(result,picture:"esc(7)",unit:"DEG",type:2),"45.00 deg")
+        XCTAssertEqual(try FieldFormatting.format(result,picture:"esc(7)",unit:"RAD",type:2),"0.79 rad")
     }
 
     func testVDoubleUnitInputsUseCanonicalValuesRatherThanDisplayDigits() throws {
@@ -116,7 +118,7 @@ final class M3Atan2Tests: XCTestCase {
         XCTAssertEqual(try typed("ATAN2(TRUE,TRUE)"),.quantity(Double.pi/4,"DA"))
         XCTAssertThrowsError(try scalar("ATAN2(\"1\",\"1\")"))
         let day = ShapeSheet.Expression.call("ATAN2",[.reference("Day"),.number(25569)])
-        XCTAssertEqual(try TypedShapeSheet.evaluate(day,resolve:{_ in .date(Date(timeIntervalSince1970:0))},call:{_,_ in .number(0)}),.quantity(Double.pi/4,"DA"))
+        XCTAssertEqual(try TypedShapeSheet.evaluate(day,resolve:{_ in .date(SheetValue.date(serial:25569))},call:{_,_ in .number(0)}),.quantity(Double.pi/4,"DA"))
         for formula in ["ATAN2(\"1in\",1)","ATAN2(1,\"TRUE\")","ATAN2(\"bad\",1)","ATAN2(1furlong,1)"] {
             XCTAssertThrowsError(try typed(formula));XCTAssertThrowsError(try scalar(formula))
         }
@@ -173,13 +175,13 @@ final class M3Atan2Tests: XCTestCase {
         drawing.page.nodes = [node,degrees,unitless]
         let result = DiagramCalculation.recalculate(drawing)
         XCTAssertTrue(result.issues.isEmpty,result.issues.joined());XCTAssertEqual(result.diagram.page.nodes[0].rotation,-45,accuracy:1e-10)
-        XCTAssertEqual(result.diagram.page.nodes[0].text,"1.57");XCTAssertEqual(result.diagram.page.nodes[1].text,"45.00 deg.")
-        XCTAssertEqual(result.diagram.page.nodes[2].text,"0.79")
+        XCTAssertEqual(result.diagram.page.nodes[0].text,"90.00");XCTAssertEqual(result.diagram.page.nodes[1].text,"45.00 deg")  // angles display in degrees (FORMATESC-ang)
+        XCTAssertEqual(result.diagram.page.nodes[2].text,"45.00")
         XCTAssertEqual(result.diagram.page.nodes[2].formatting.textFields?.first?.cells["Value"]?.unit,"")
         let saved = try publicSave(result.diagram),reopened = DiagramCalculation.recalculate(saved.diagram)
         XCTAssertTrue(reopened.issues.isEmpty,reopened.issues.joined())
         let publicNode = try XCTUnwrap(reopened.diagram.page.nodes.first{$0.formatting.sourceShapeID == "9"})
-        XCTAssertEqual(publicNode.rotation,-45,accuracy:1e-8);XCTAssertEqual(publicNode.text,"1.57")
+        XCTAssertEqual(publicNode.rotation,-45,accuracy:1e-8);XCTAssertEqual(publicNode.text,"90.00")
         XCTAssertEqual(publicNode.formatting.textFields?.first?.cells["Value"]?.unit,"DA")
         XCTAssertEqual(publicNode.formatting.textFields?.first?.cells["Value"]?.formula,"ATAN2(1,1)+45deg")
         let shape = try publicShape(saved.parts,id:"9"),publicAngle = try XCTUnwrap(shape.elementsLocal("Cell").first{$0.attr("N") == "Angle"})
@@ -188,9 +190,9 @@ final class M3Atan2Tests: XCTestCase {
         let field = try publicField(shape,index:expectedFieldIndex)
         XCTAssertEqual(field.attr("U"),"DA");XCTAssertEqual(field.attr("F"),"ATAN2(1,1)+45deg")
         XCTAssertEqual(Double(field.attr("V") ?? "") ?? 0,Double.pi/2,accuracy:1e-11)
-        XCTAssertEqual(reopened.diagram.page.nodes.first{$0.formatting.sourceShapeID == "10"}?.text,"45.00 deg.")
+        XCTAssertEqual(reopened.diagram.page.nodes.first{$0.formatting.sourceShapeID == "10"}?.text,"45.00 deg")
         let unitlessNode = try XCTUnwrap(reopened.diagram.page.nodes.first{$0.formatting.sourceShapeID == "11"})
-        XCTAssertEqual(unitlessNode.text,"0.79");XCTAssertEqual(unitlessNode.formatting.textFields?.first?.cells["Value"]?.unit,"")
+        XCTAssertEqual(unitlessNode.text,"45.00");XCTAssertEqual(unitlessNode.formatting.textFields?.first?.cells["Value"]?.unit,"")
         let unitlessValue = try publicField(publicShape(saved.parts,id:"11"),index:unitlessFieldIndex)
         XCTAssertNil(unitlessValue.attr("U"));XCTAssertEqual(unitlessValue.attr("F"),"ATAN2(1,1)")
         XCTAssertEqual(Double(unitlessValue.attr("V") ?? "") ?? 0,Double.pi/4,accuracy:1e-11)

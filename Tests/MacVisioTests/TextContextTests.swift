@@ -60,7 +60,7 @@ final class TextContextTests:XCTestCase {
     }
     func testTypedArithmeticRetainsPrecisionAndDimensionalAggregates() throws {
         func typed(_ formula:String) throws -> SheetValue { try TypedShapeSheet.evaluate(formula,resolve:{_ in .number(0)},call:{_,_ in .number(0)}) }
-        let value = 0.9999999999999999;XCTAssertEqual(try typed("MIN(0.9999999999999999,1)"),.number(value));XCTAssertEqual(try typed("MAX(0.9999999999999999,0)"),.number(value));XCTAssertEqual(try typed("SUM(1in,25.4mm)"),.quantity(2,"IN"));XCTAssertThrowsError(try typed("1in+1rad"));XCTAssertThrowsError(try typed("1in/1rad"));XCTAssertThrowsError(try typed("MIN(1in,1rad)"))
+        let value = 0.9999999999999999;XCTAssertEqual(try typed("MIN(0.9999999999999999,1)"),.number(value));XCTAssertEqual(try typed("MAX(0.9999999999999999,0)"),.number(value));XCTAssertEqual(try typed("SUM(1in,25.4mm)"),.quantity(2,"IN"));XCTAssertEqual(try typed("1in+1rad"),.quantity(2,"IN"));XCTAssertThrowsError(try typed("1in/1rad"));XCTAssertEqual(try typed("MIN(1in,1rad)"),.quantity(1,"IN"))  // COERCE-17/18
     }
     func testCircularTextDependenciesAndUnsupportedFunctionsRetainCaches() throws {
         var d = model("Saved");d.page.nodes[0].formatting.sheet["Width"] = cell("4","TEXTWIDTH(TheText,Width)");let result = ShapeSheetEngine.recalculate(d);XCTAssertEqual(result.diagram.page.nodes[0].width,288);XCTAssertTrue(result.issues.contains{$0.contains("Circular")})
