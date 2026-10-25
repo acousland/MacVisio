@@ -1,0 +1,35 @@
+{
+ "visioVersion": "16.0",
+ "errors": [],
+ "drawings": {
+  "mac-blank.vsdx": [],
+  "mac-flowchart.vsdx": [],
+  "mac-fresh-flowchart.vsdx": [
+   "Process/'Start': data rows [] became ['Cost', 'EndDate', 'Function', 'Owner', 'ProcessNumber', 'StartDate', 'Status']",
+   "Process/'Prepare order': data rows [] became ['Cost', 'EndDate', 'Function', 'Owner', 'ProcessNumber', 'StartDate', 'Status']",
+   "Process/'In stock?': data rows [] became ['Cost', 'EndDate', 'Function', 'Owner', 'ProcessNumber', 'StartDate', 'Status']",
+   "Process/'Ship': data rows [] became ['Cost', 'EndDate', 'Function', 'Owner', 'ProcessNumber', 'StartDate', 'Status']",
+   "Process/'End': data rows [] became ['Cost', 'EndDate', 'Function', 'Owner', 'ProcessNumber', 'StartDate', 'Status']"
+  ],
+  "mac-fresh-intelligent.vsdx": [
+   "Shapes/'Title: Shapes': 0 fields became 1",
+   "Shapes/'Smart': data rows [] became ['Status']",
+   "Shapes: connections differ: missing {(None, None): 1}, extra {}"
+  ],
+  "mac-fresh-pages.vsdx": [
+   "pages ['Frame', 'Plan', 'Detail'] became ['Plan', 'Detail', 'Frame']",
+   "Frame: background True became False",
+   "Frame: shape texts differ: missing {'Frame / 2': 1}, extra {'Room': 1}",
+   "Plan: shape texts differ: missing {'Room': 1}, extra {'Detail': 1}",
+   "Detail: background None became True",
+   "Detail: shape texts differ: missing {'Detail': 1}, extra {'Frame / 2': 1}"
+  ],
+  "mac-fresh-structure.vsdx": [
+   "Structure: connections differ: missing {(None, None): 1}, extra {}"
+  ],
+  "mac-network.vsdx": [],
+  "mac-organization.vsdx": [],
+  "mac-swimlane.vsdx": []
+ },
+ "passed": false
+}

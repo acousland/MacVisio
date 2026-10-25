@@ -687,6 +687,7 @@ enum VisioFormat {
         importDiagnostics.append(DocumentDiagnostic(code: "import.cached-policy", origin: .importer, severity: .information,
             dimension: .behavior, target: .document, source: .init(part: documentPart, feature: "cached-policy"), displayState: .cached,
             message: "Saved ShapeSheet values are used on open. Supported numeric formulas recalculate after edits; other formulas retain their source and cached values. Data links, macros and advanced effects are not executed."))
+        resolveThemedAppearance(&diagram, bindings: &bindings)
         diagram.visioArchive = VisioDocumentArchive(parts:archive.parts,pagesPart:pagesPart,pages:bindings,connectorHierarchyVersion:1,theme:officeTheme)
         let previewDiagnostics = ImagePreviewDiagnostics.records(in: diagram)
         importDiagnostics += previewDiagnostics
@@ -1104,6 +1105,32 @@ enum VisioFormat {
         }
         return result
     }
+    /// Visio caches theme-driven colors as "Themed"; resolve them through the shape's quick style so the
+    /// drawing shows Visio's colors. The page binding's original receives the same values, so a save
+    /// never mistakes them for edits.
+    private static func resolveThemedAppearance(_ diagram: inout Diagram, bindings: inout [VisioPageBinding]) {
+        for p in diagram.pages.indices where diagram.pages[p].theme != nil {
+            let context = ShapeSheetContext(page: diagram.pages[p], binding: bindings.first { $0.pageID == diagram.pages[p].id }, document: diagram)
+            func themed(_ cell: ShapeSheetCell?) -> Bool { cell.map { $0.value.caseInsensitiveCompare("Themed") == .orderedSame } ?? false }
+            var updates: [UUID: (fill: String?, stroke: String?, text: String?)] = [:]
+            for node in diagram.pages[p].nodes {
+                let sheet = node.formatting.sheet
+                let fill = themed(sheet["FillForegnd"]) ? context.themedColor(.fill, for: node.id)?.hex : nil
+                let stroke = themed(sheet["LineColor"]) ? context.themedColor(.line, for: node.id)?.hex : nil
+                let text = themed(sheet["Char.Color"]) ? context.themedColor(.font, for: node.id)?.hex : nil
+                if fill != nil || stroke != nil || text != nil { updates[node.id] = (fill, stroke, text) }
+            }
+            func apply(_ page: inout DiagramPage) {
+                for i in page.nodes.indices { guard let update = updates[page.nodes[i].id] else { continue }
+                    if let fill = update.fill { page.nodes[i].fill = String(fill.prefix(7)) + String(page.nodes[i].fill.dropFirst(7)) }
+                    if let stroke = update.stroke { page.nodes[i].stroke = String(stroke.prefix(7)) + String(page.nodes[i].stroke.dropFirst(7)) }
+                    if let text = update.text { page.nodes[i].textColor = String(text.prefix(7)) }
+                }
+            }
+            apply(&diagram.pages[p])
+            if let b = bindings.firstIndex(where: { $0.pageID == diagram.pages[p].id }) { apply(&bindings[b].original) }
+        }
+    }
     private struct Relationship { let type: String; let target: String; let external: Bool }
 
     /// A VSDX document selects its Office theme through a document-level OPC
@@ -1161,6 +1188,35 @@ enum VisioFormat {
                     endArrow:line?.attributes["end"].flatMap(Int.init),endSize:line?.attributes["endSize"].flatMap(Int.init))
             }
         }
+        // Quick-style paints. A color element is srgbClr/sysClr/schemeClr with modifier children.
+        func paint(_ color:XElement?) -> VisioThemePaint? {
+            guard let color else { return nil }
+            let modifiers = color.elements.compactMap { modifier -> VisioThemeColorModifier? in
+                guard let raw = modifier.attributes["val"],let value = Double(raw) else { return nil }
+                return VisioThemeColorModifier(name:modifier.name,value:value/100000)
+            }
+            switch color.name {
+            case "schemeClr": return VisioThemePaint(base:color.attributes["val"] ?? "phClr",modifiers:modifiers)
+            case "srgbClr","sysClr": return hexColor(color).map { VisioThemePaint(base:$0,modifiers:modifiers) }
+            default: return nil
+            }
+        }
+        func fillPaint(_ fill:XElement) -> VisioThemePaint? {
+            switch fill.name {
+            case "solidFill": return paint(fill.elements.first)
+            case "gradFill","pattFill","blipFill": return VisioThemePaint(base:"phClr",gradient:true)
+            case "noFill": return VisioThemePaint(base:"none")
+            default: return paint(fill.elements.first)
+            }
+        }
+        func linePaints(_ scheme:XElement?) -> [VisioThemePaint]? {
+            guard let list = scheme?.child("lnStyleLst") else { return nil }
+            return list.elements.filter{$0.name == "ln"}.map { line in line.elements.first(where:{$0.name.hasSuffix("Fill")}).flatMap(fillPaint) ?? VisioThemePaint(base:"phClr") }
+        }
+        func fontPaints(_ list:XElement?) -> [VisioThemePaint]? {
+            guard let list else { return nil }
+            return list.elements.filter{$0.name == "fontProps"}.map { props in paint(props.child("color")?.elements.first) ?? VisioThemePaint(base:"phClr") }
+        }
         let effectScheme = themeElements?.child("fmtScheme")
         let connectorScheme = descendants(themeElements,named:"fmtConnectorScheme").first
         let lineStylesExtension = descendants(themeElements,named:"lineStyles").first
@@ -1206,7 +1262,12 @@ enum VisioFormat {
             effectLineStyles:effectLineStyles,connectorLineStyles:connectorLineStyles,
             effectLineExtensions:effectLineExtensions,connectorLineExtensions:connectorLineExtensions,
             variationColorSchemes:variationColorSchemes,variationColorSchemeMonotone:variationColorSchemeMonotone,
-            variationStyleSchemes:variationStyleSchemes,values:[:],colors:colors)
+            variationStyleSchemes:variationStyleSchemes,values:[:],colors:colors,
+            fillPaints:effectScheme?.child("fillStyleLst").map { $0.elements.compactMap(fillPaint) },
+            linePaints:linePaints(effectScheme),
+            fontPaints:fontPaints(descendants(root,named:"fontStyles").first),
+            connectorLinePaints:linePaints(connectorScheme),
+            connectorFontPaints:fontPaints(descendants(root,named:"connectorFontStyles").first))
     }
 
     /// Build a page-specific theme view, retaining the full variation list and

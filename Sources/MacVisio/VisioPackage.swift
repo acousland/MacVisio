@@ -190,6 +190,25 @@ struct VisioTheme: Codable, Equatable {
     /// Normalized RGB colors keyed as Dark, Light, BackgroundColor and
     /// AccentColor1...AccentColor6.
     var colors: [String: String] = [:]
+    /// Quick-style paints, one-based by matrix index: the fmtScheme fill and line style lists, Visio's
+    /// fontStyles extension, and the connector scheme's line and font lists.
+    var fillPaints: [VisioThemePaint]? = nil
+    var linePaints: [VisioThemePaint]? = nil
+    var fontPaints: [VisioThemePaint]? = nil
+    var connectorLinePaints: [VisioThemePaint]? = nil
+    var connectorFontPaints: [VisioThemePaint]? = nil
+}
+
+/// A DrawingML paint: a base color (`#RRGGBB`, or a scheme slot such as `phClr`, `lt1` or `accent2`) with
+/// its ordered color modifiers. Gradients resolve to their placeholder color, as Visio reports them.
+struct VisioThemePaint: Codable, Equatable {
+    var base: String
+    var modifiers: [VisioThemeColorModifier] = []
+    var gradient = false
+}
+struct VisioThemeColorModifier: Codable, Equatable {
+    var name: String
+    var value: Double
 }
 
 extension VisioTheme {
@@ -199,6 +218,7 @@ extension VisioTheme {
         case effectLineStyles,connectorLineStyles,effectLineExtensions,connectorLineExtensions
         case variationColorSchemes,variationColorSchemeMonotone,variationStyleSchemes
         case variationColorIndex,variationStyleIndex,values,colors
+        case fillPaints,linePaints,fontPaints,connectorLinePaints,connectorFontPaints
     }
 
     init(from decoder:Decoder) throws {
@@ -224,6 +244,11 @@ extension VisioTheme {
         variationStyleIndex = try container.decodeIfPresent(Int.self,forKey:.variationStyleIndex)
         values = try container.decodeIfPresent([String:ShapeSheetCell].self,forKey:.values) ?? [:]
         colors = try container.decodeIfPresent([String:String].self,forKey:.colors) ?? [:]
+        fillPaints = try container.decodeIfPresent([VisioThemePaint].self,forKey:.fillPaints)
+        linePaints = try container.decodeIfPresent([VisioThemePaint].self,forKey:.linePaints)
+        fontPaints = try container.decodeIfPresent([VisioThemePaint].self,forKey:.fontPaints)
+        connectorLinePaints = try container.decodeIfPresent([VisioThemePaint].self,forKey:.connectorLinePaints)
+        connectorFontPaints = try container.decodeIfPresent([VisioThemePaint].self,forKey:.connectorFontPaints)
     }
 }
 

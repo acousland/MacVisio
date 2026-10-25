@@ -206,8 +206,11 @@ final class THEMEVALTests:XCTestCase {
         line.formatting.sheet["User.QuickStyle"] = cell("0","THEMEVAL(QuickStyleLineColor)")
         XCTAssertEqual(try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"),.color(ShapeSheetColor(red:103,green:137,blue:171)))
 
+        // Visio treats 200...206 like 100...106 (quick-style reference: color=200 is the variant color).
         line.formatting.sheet["QuickStyleLineColor"] = cell("200")
-        XCTAssertThrowsError(try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"))
+        let variant = try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle")
+        line.formatting.sheet["QuickStyleLineColor"] = cell("100")
+        XCTAssertEqual(variant,try ShapeSheetContext(page:page(with:line,theme:theme())).value(line.id,"User.QuickStyle"))
     }
 
     func testZeroArgumentResolvesOnlyPaletteHostCellsAndIgnoresGenericThemeValues() throws {
@@ -324,9 +327,8 @@ final class THEMEVALTests:XCTestCase {
         let pageXML = try XCTUnwrap(String(data:pageXMLData,encoding:.utf8))
         let realFormula = "THEMEVAL(\"TextColor\",RGB(0,0,0))"
         XCTAssertTrue(pageXML.contains("F='\(realFormula)'"),"The fixture should retain its real ShapeSheet THEMEVAL formula.")
-        XCTAssertThrowsError(try ShapeSheetContext(page:imported.page).evaluate(realFormula,on:shape.id)) { error in
-            XCTAssertTrue(error.localizedDescription.contains("unsupported"),error.localizedDescription)
-        }
+        // The text quick style resolves to the value Visio itself cached for this formula.
+        XCTAssertEqual(try ShapeSheetContext(page:imported.page).evaluate(realFormula,on:shape.id),.color(try XCTUnwrap(ShapeSheetColor(hex:"#FEFFFF"))))
         XCTAssertTrue(pageXML.contains("V='#feffff' F='\(realFormula)'"),"An unresolved real VSDX formula keeps its imported cached value.")
 
         var themedShape = shape

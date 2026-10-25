@@ -90,6 +90,9 @@ enum RoundTripEdits {
             let from = try endpoint(edit.shape), to = try endpoint(edit.to)
             var edge = DiagramEdge(source: from, target: to); edge.label = edit.text ?? ""
             diagram.pages[p].edges.append(edge)
+        case "fresh":
+            // Write from MacVisio's model alone, without the retained source package.
+            diagram.visioArchive = nil
         case "renamePage":
             diagram.pages[p].name = edit.name ?? diagram.pages[p].name
         case "addPage":

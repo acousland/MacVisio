@@ -289,6 +289,7 @@ final class ShapeSheetContext {
                 if let value = try self.noThemeValue(args,host:host,evaluate:eval) { return value }
                 let colorSelector:ThemeColorSelector?
                 let lineSelector:ThemeLineSelector?
+                if let value = try self.quickStyleThemeValue(args,host:host,evaluate:eval) { return value }
                 if args.isEmpty {
                     guard let cell = self.hostCell(for:host) else {
                         throw DiagramError.invalid("THEMEVAL() has no supported mapping for this host cell.")
@@ -574,6 +575,91 @@ final class ShapeSheetContext {
         return selected - 1
     }
 
+    enum QuickStylePart { case fill, line, font }
+
+    /// THEMEVAL() in a fill, line or text color cell, and the FillColor/LineColor/TextColor/ConnectorColor
+    /// selectors, resolve through the shape's quick style when a theme is active (quick-style reference).
+    private func quickStyleThemeValue(_ args:[ShapeSheet.Expression],host:FormulaHost,evaluate:(ShapeSheet.Expression) throws -> SheetValue) throws -> SheetValue? {
+        guard case .active(let theme) = colorThemeState(for:host) else { return nil }
+        let part:QuickStylePart,connector:Bool
+        if let first = args.first {
+            guard case .string(let name) = try evaluate(first) else { return nil }
+            switch name.lowercased() {
+            case "fillcolor": (part,connector) = (.fill,false)
+            case "linecolor": (part,connector) = (.line,false)
+            case "textcolor": (part,connector) = (.font,isConnectorHost(host))
+            case "connectorcolor": (part,connector) = (.line,true)
+            default: return nil
+            }
+        } else {
+            switch hostCell(for:host)?.lowercased() {
+            case "fillforegnd": (part,connector) = (.fill,false)
+            case "linecolor": (part,connector) = (.line,isConnectorHost(host))
+            case "char.color": (part,connector) = (.font,isConnectorHost(host))
+            default: return nil
+            }
+        }
+        return try quickStyleColor(part,connector:connector,host:host,theme:theme).map { .color($0) }
+    }
+
+    private func isConnectorHost(_ host:FormulaHost) -> Bool {
+        guard case .shape(let id,_) = host else { return false }
+        return page.edges.contains { $0.id == id } || literalIndex(nodes[id]?.formatting.sheet,"QuickStyleType") == 3
+    }
+
+    /// The theme color a shape's quick style gives one part, or nil without an active, imported theme.
+    func themedColor(_ part:QuickStylePart,for id:UUID) -> ShapeSheetColor? {
+        let host = FormulaHost.shape(id,nil)
+        guard case .active(let theme) = colorThemeState(for:host) else { return nil }
+        return try? quickStyleColor(part,connector:isConnectorHost(host),host:host,theme:theme)
+    }
+
+    private func quickStyleColor(_ part:QuickStylePart,connector:Bool,host:FormulaHost,theme:VisioTheme) throws -> ShapeSheetColor? {
+        let cells:[String:ShapeSheetCell]?
+        switch host {
+        case .shape(let id,_): cells = nodes[id]?.formatting.sheet
+        case .page: cells = page.sheet
+        }
+        let name = part == .fill ? "Fill" : part == .line ? "Line" : "Font"
+        guard let matrix = literalIndex(cells,"QuickStyle\(name)Matrix") ?? (part == .line ? nil : 100),
+              let colorIndex = literalIndex(cells,"QuickStyle\(name)Color") ?? Optional(100) else { return nil }
+        // Matrix 0 is the root (classic) style: white fill, black line and text.
+        if matrix == 0 { return part == .fill ? ShapeSheetColor(red:255,green:255,blue:255) : ShapeSheetColor(red:0,green:0,blue:0) }
+        var selected = matrix
+        if (100...103).contains(matrix) {
+            let variation = try variationIndex("VariationStyleIndex",for:host,theme:theme)
+            guard let style = theme.variationStyleSchemes[variation]?.styles[safe:matrix-100] else { return nil }
+            selected = (part == .fill ? style.fillIndex : part == .line ? style.lineIndex : style.fontIndex) ?? 0
+        }
+        let list = part == .fill ? theme.fillPaints : part == .line ? (connector ? theme.connectorLinePaints : theme.linePaints) : (connector ? theme.connectorFontPaints : theme.fontPaints)
+        guard let paints = list,paints.indices.contains(selected-1) else { return nil }
+        guard case .color(let placeholder) = try themeValue(index:colorIndex,in:theme,quickStyle:true) else { return nil }
+        guard let resolved = try resolve(paints[selected-1],placeholder:placeholder,theme:theme) else { return nil }
+        // QuickStyleVariation bit 2 keeps text legible: light text takes the darker of the shape's line
+        // and fill colors (quick-style reference, variation=2/3 in three themes).
+        if part == .font,let variation = literalIndex(cells,"QuickStyleVariation"),variation & 2 != 0,resolved.hsl.luminosity > 168,
+           let line = try quickStyleColor(.line,connector:connector,host:host,theme:theme),let fill = try quickStyleColor(.fill,connector:false,host:host,theme:theme) {
+            return line.hsl.luminosity <= fill.hsl.luminosity ? line : fill
+        }
+        return resolved
+    }
+
+    private func resolve(_ paint:VisioThemePaint,placeholder:ShapeSheetColor,theme:VisioTheme) throws -> ShapeSheetColor? {
+        if paint.gradient { return placeholder }
+        var color:ShapeSheetColor
+        switch paint.base {
+        case "none": return nil
+        case "phClr": color = placeholder
+        case let hex where hex.hasPrefix("#"): guard let value = ShapeSheetColor(hex:hex) else { return nil };color = value
+        default:
+            let slots = ["dk1":"Dark","lt1":"Light","tx1":"Dark","bg1":"Light","dk2":"Dark2","lt2":"Light2","tx2":"Dark2","bg2":"Light2"]
+            let key = slots[paint.base] ?? (paint.base.hasPrefix("accent") ? "AccentColor"+paint.base.dropFirst(6) : paint.base)
+            guard let hex = theme.colors.first(where:{$0.key.caseInsensitiveCompare(key) == .orderedSame})?.value,let value = ShapeSheetColor(hex:hex) else { return nil }
+            color = value
+        }
+        return ThemeColorMath.apply(paint.modifiers,to:color)
+    }
+
     private func themeColorSelector(_ expression:ShapeSheet.Expression) -> ThemeColorSelector? {
         switch expression {
         case .string(let name):
@@ -612,8 +698,11 @@ final class ShapeSheetContext {
             name = ["Dark","Light","AccentColor1","AccentColor2","AccentColor3","AccentColor4","AccentColor5","AccentColor6","BackgroundColor"][index]
         } else if (1...8).contains(index) {
             name = ["Dark","Light","AccentColor1","AccentColor2","AccentColor3","AccentColor4","AccentColor5","AccentColor6"][index-1]
-        } else if quickStyle,(100...106).contains(index) {
-            name = "VariantColor\(index % 100 + 1)"
+        } else if quickStyle,(100...106).contains(index) || (200...206).contains(index) {
+            // A monotone variation uses its first color for every variant selector (flowchart reference:
+            // QuickStyleFillColor 102 resolves to varColor1 in the Office theme's monotone variation).
+            let variation = theme.variationColorIndex ?? 0
+            name = theme.variationColorSchemeMonotone[variation] == true ? "VariantColor1" : "VariantColor\(index % 100 + 1)"
         } else {
             throw DiagramError.invalid("THEMEVAL does not support theme color index \(index).")
         }
@@ -856,3 +945,45 @@ final class ShapeSheetContext {
         switch value { case .boolean(let value):return value ? "1" : "0";case .number(let number),.quantity(let number,_):return CompositeGeometry.number(number);default:return value.text }
     }
 }
+
+/// DrawingML color modifiers. shade and tint work in linear light (shade 75% of RGB(70,114,196) is
+/// RGB(61,100,172), as Visio reports); luminance and saturation modifiers work in HSL.
+enum ThemeColorMath {
+    static func apply(_ modifiers:[VisioThemeColorModifier],to color:ShapeSheetColor) -> ShapeSheetColor {
+        func linear(_ v:Double) -> Double { v <= 0.04045 ? v/12.92 : pow((v+0.055)/1.055,2.4) }
+        func gamma(_ v:Double) -> Double { let c = max(0,min(1,v));return c <= 0.0031308 ? c*12.92 : 1.055*pow(c,1/2.4)-0.055 }
+        // sRGB components in 0...1, kept unrounded between modifiers.
+        var rgb = [Double(color.red)/255,Double(color.green)/255,Double(color.blue)/255]
+        for modifier in modifiers {
+            switch modifier.name {
+            case "shade": rgb = rgb.map { gamma(linear($0)*modifier.value) }
+            case "tint": rgb = rgb.map { gamma(linear($0)*modifier.value+(1-modifier.value)) }
+            case "lumMod","lumOff","satMod":
+                // DrawingML keeps HSL in 1/100000 units (quick-style reference, Integral theme).
+                func unit(_ v:Double) -> Double { (v*100000).rounded()/100000 }
+                var (h,s,l) = hsl(rgb);h = unit(h);s = unit(s);l = unit(l)
+                if modifier.name == "lumMod" { l *= modifier.value } else if modifier.name == "lumOff" { l += modifier.value } else { s *= modifier.value }
+                rgb = fromHSL(h,max(0,min(1,unit(s))),max(0,min(1,unit(l))))
+            default: break  // alpha and other modifiers do not change the RGB value
+            }
+        }
+        let channels = rgb.map { Int(($0*255).rounded()) }
+        return ShapeSheetColor(red:channels[0],green:channels[1],blue:channels[2])
+    }
+    private static func hsl(_ c:[Double]) -> (Double,Double,Double) {
+        let maxV = c.max()!,minV = c.min()!,l = (maxV+minV)/2
+        guard maxV != minV else { return (0,0,l) }
+        let d = maxV-minV,s = l > 0.5 ? d/(2-maxV-minV) : d/(maxV+minV)
+        let h = maxV == c[0] ? (c[1]-c[2])/d+(c[1] < c[2] ? 6 : 0) : maxV == c[1] ? (c[2]-c[0])/d+2 : (c[0]-c[1])/d+4
+        return (h/6,s,l)
+    }
+    private static func fromHSL(_ h:Double,_ s:Double,_ l:Double) -> [Double] {
+        guard s > 0 else { return [l,l,l] }
+        let q = l < 0.5 ? l*(1+s) : l+s-l*s,p = 2*l-q
+        func channel(_ t0:Double) -> Double { var t = t0;if t < 0 { t += 1 };if t > 1 { t -= 1 }
+            return t < 1.0/6 ? p+(q-p)*6*t : t < 0.5 ? q : t < 2.0/3 ? p+(q-p)*(2.0/3-t)*6 : p }
+        return [channel(h+1.0/3),channel(h),channel(h-1.0/3)]
+    }
+}
+
+extension Array { subscript(safe index:Int) -> Element? { indices.contains(index) ? self[index] : nil } }
