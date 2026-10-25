@@ -1,6 +1,15 @@
 import MacVisioInfrastructure
 import AppKit
 
+/// On screen and in bitmaps Visio draws every line at least one device pixel wide, however thin its
+/// weight; vector output (PDF, print) keeps the exact weight.
+func visibleLineWidth(_ width: CGFloat) -> CGFloat {
+    guard width > 0, let context = NSGraphicsContext.current, context.isDrawingToScreen else { return width }
+    let transform = context.cgContext.userSpaceToDeviceSpaceTransform
+    let scale = hypot(transform.a, transform.b)
+    return scale > 0 ? max(width, 1 / scale) : width
+}
+
 extension NSColor {
     convenience init(hex: String) {
         let raw = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -152,20 +161,20 @@ enum DiagramDrawing {
             for (index, vector) in n.formatting.paths.enumerated() {
                 let path = prepared?.vectors[index] ?? vectorPath(vector,in:n.rect)
                 if vector.fill { NSColor(hex:n.fill).setFill(); path.fill() }
-                if vector.stroke { NSColor(hex:n.stroke).setStroke(); path.lineWidth = n.strokeWidth; path.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { path.setLineDash(d,count:d.count,phase:0) }; path.stroke() }
+                if vector.stroke { NSColor(hex:n.stroke).setStroke(); path.lineWidth = visibleLineWidth(n.strokeWidth); path.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { path.setLineDash(d,count:d.count,phase:0) }; path.stroke() }
             }
         } else if shadow && n.kind != .text && n.kind != .swimlane && !n.formatting.isGroup {
             NSGraphicsContext.saveGraphicsState()
             let s = NSShadow(); s.shadowColor = NSColor.black.withAlphaComponent(0.055); s.shadowOffset = NSSize(width:0,height:2/paperScale); s.shadowBlurRadius = 5/paperScale; s.set(); p.fill()
             NSGraphicsContext.restoreGraphicsState()
         } else if !n.formatting.isGroup { p.fill() }
-        if n.formatting.paths.isEmpty && n.formatting.image == nil && !n.formatting.isGroup { NSColor(hex:n.stroke).setStroke(); p.lineWidth = n.strokeWidth; p.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { p.setLineDash(d,count:d.count,phase:0) }; p.stroke() }
+        if n.formatting.paths.isEmpty && n.formatting.image == nil && !n.formatting.isGroup { NSColor(hex:n.stroke).setStroke(); p.lineWidth = visibleLineWidth(n.strokeWidth); p.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { p.setLineDash(d,count:d.count,phase:0) }; p.stroke() }
         if n.kind == .cylinder && n.formatting.paths.isEmpty && n.formatting.geometry == nil {
-            let cap = NSBezierPath(ovalIn:CGRect(x:n.x,y:n.y,width:n.width,height:n.height*0.26)); cap.lineWidth = n.strokeWidth; cap.stroke()
+            let cap = NSBezierPath(ovalIn:CGRect(x:n.x,y:n.y,width:n.width,height:n.height*0.26)); cap.lineWidth = visibleLineWidth(n.strokeWidth); cap.stroke()
         }
         if n.kind == .swimlane && n.formatting.geometry == nil {
             let header = min(110,n.width*0.25)
-            let separator = NSBezierPath(); separator.move(to:CGPoint(x:n.x+header,y:n.y)); separator.line(to:CGPoint(x:n.x+header,y:n.y+n.height)); separator.lineWidth = n.strokeWidth; separator.stroke()
+            let separator = NSBezierPath(); separator.move(to:CGPoint(x:n.x+header,y:n.y)); separator.line(to:CGPoint(x:n.x+header,y:n.y+n.height)); separator.lineWidth = visibleLineWidth(n.strokeWidth); separator.stroke()
         }
         // Keep text glyphs readable while reflecting their block's placement.
         NSGraphicsContext.restoreGraphicsState()
@@ -209,7 +218,13 @@ enum DiagramDrawing {
         path.lineJoinStyle = .round; path.lineCapStyle = .round
         let dash = self.dash(edge.dash ?? 1).map{$0*CGFloat(unit)}; if !dash.isEmpty { path.setLineDash(dash,count:dash.count,phase:0) }
         if selected { NSColor(hex:"#8BB5FF").withAlphaComponent(0.35).setStroke(); path.lineWidth = edge.width+7*unit; path.stroke() }
-        NSColor(hex:edge.color).setStroke(); path.lineWidth = edge.width; path.stroke()
+        let ownGeometry = OneDimensionalGeometry.frame(edge, route: points, pageHeight: page.height)
+        if let ownGeometry {
+            for (shape, vector) in OneDimensionalGeometry.bezierPaths(edge, frame: ownGeometry) {
+                if vector.fill { OneDimensionalGeometry.fillColor(edge).setFill(); shape.fill() }
+                if vector.stroke { shape.lineJoinStyle = .round; if !dash.isEmpty { shape.setLineDash(dash,count:dash.count,phase:0) }; NSColor(hex:edge.color).setStroke(); shape.lineWidth = visibleLineWidth(edge.width); shape.stroke() }
+            }
+        } else { NSColor(hex:edge.color).setStroke(); path.lineWidth = visibleLineWidth(edge.width); path.stroke() }
         if edge.arrow, let previous = points.dropLast().last(where: { hypot($0.x-last.x,$0.y-last.y)>0.5 }) {
             let angle = atan2(last.y-previous.y,last.x-previous.x), size = 8*unit+edge.width
             let arrow = NSBezierPath(); arrow.move(to:last)
@@ -223,12 +238,17 @@ enum DiagramDrawing {
         }
         if !edge.label.isEmpty {
             NSGraphicsContext.saveGraphicsState();let paper = NSAffineTransform();paper.scale(by:unit);paper.concat()
-            let mid = points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2),middle = CGPoint(x:mid.x*page.paperScale,y:mid.y*page.paperScale)
+            let mid = ownGeometry.flatMap { OneDimensionalGeometry.textCenter(edge, frame: $0) } ?? (points.count > 2 ? CGPoint(x:(points[1].x+points[2].x)/2,y:(points[1].y+points[2].y)/2) : CGPoint(x:(first.x+last.x)/2,y:(first.y+last.y)/2)),middle = CGPoint(x:mid.x*page.paperScale,y:mid.y*page.paperScale)
             let label = preparedLabel ?? PreparedEdgeLabel(edge)
             let size = label.size
             let box = CGRect(x:middle.x-size.width/2-5,y:middle.y-size.height/2-3,width:size.width+10,height:size.height+6)
-            NSColor.white.setFill(); NSBezierPath(roundedRect:box,xRadius:4,yRadius:4).fill()
-            label.draw(in:CGRect(x:box.minX+5,y:box.minY+3,width:size.width,height:size.height));NSGraphicsContext.restoreGraphicsState()
+            // A shape's own geometry is its text background; a connector's label sits on a white plate.
+            if ownGeometry == nil { NSColor.white.setFill(); NSBezierPath(roundedRect:box,xRadius:4,yRadius:4).fill() }
+            // In a shape's own text block, paragraph alignment applies across the block's width (less Visio's 4 pt margins).
+            let blockWidth = ownGeometry == nil ? nil : edge.formatting.sheet["TxtWidth"].flatMap { Double($0.value) }.map { max(size.width, ($0 * 72 - 8) * page.paperScale) }
+            if let blockWidth { label.draw(in:CGRect(x:middle.x-blockWidth/2,y:middle.y-size.height/2,width:blockWidth,height:size.height)) }
+            else { label.draw(in:CGRect(x:box.minX+5,y:box.minY+3,width:size.width,height:size.height)) }
+            NSGraphicsContext.restoreGraphicsState()
         }
     }
     static func orderedNodes(in page:DiagramPage) -> [DiagramNode] {

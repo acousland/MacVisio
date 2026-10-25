@@ -655,7 +655,12 @@ enum VisioFormat {
                         var p = CGPoint(x:(pinX+dx*cos(a)-dy*sin(a))*72-(parent?.sheetOrigin.x ?? 0),y:(parent?.height ?? page.height)-(pinY+dx*sin(a)+dy*cos(a))*72+(parent?.sheetOrigin.y ?? 0))
                         if let parent = parent { var x = p.x-parent.width/2,y = p.y-parent.height/2;let b = parent.rotation * .pi/180;if parent.formatting.flipX { x = -x };if parent.formatting.flipY { y = -y };p = CGPoint(x:parent.center.x+x*cos(b)-y*sin(b),y:parent.center.y+x*sin(b)+y*cos(b)) };return DiagramPoint(p)
                     }
-                    if path.commands.allSatisfy({["M","L","Z"].contains($0.kind)}) {
+                    if parent == nil && OneDimensionalGeometry.needsOwnGeometry(cachedPaths.filter { !$0.commands.isEmpty }) {
+                        // Arcs, callouts and other multi-part 1-D shapes draw their own geometry (render only;
+                        // the source geometry is what is saved).
+                        // They are not routed, so their begin-end frame is all the model moves.
+                        var detail = edge.formatting; detail.paths = cachedPaths.filter { !$0.commands.isEmpty }; edge.details = detail; edge.style = .straight
+                    } else if path.commands.allSatisfy({["M","L","Z"].contains($0.kind)}) {
                         var points = path.commands.filter{$0.kind != "Z"}.map{world($0.values[0],$0.values[1])}
                         if path.commands.last?.kind == "Z",let first = points.first { points.append(first) }
                         if points.count >= 2 { edge.points = points }
@@ -1120,7 +1125,16 @@ enum VisioFormat {
                 let text = themed(sheet["Char.Color"]) ? context.themedColor(.font, for: node.id)?.hex : nil
                 if fill != nil || stroke != nil || text != nil { updates[node.id] = (fill, stroke, text) }
             }
+            // Connector labels take the theme's connector font paint.
+            var labelColors: [UUID: String] = [:]
+            for edge in diagram.pages[p].edges where themed(edge.formatting.sheet["Char.Color"]) && edge.formatting.textRuns != nil {
+                if let color = context.themedColor(.font, for: edge.id)?.hex { labelColors[edge.id] = String(color.prefix(7)) }
+            }
             func apply(_ page: inout DiagramPage) {
+                for i in page.edges.indices { guard let color = labelColors[page.edges[i].id],var detail = page.edges[i].details,var runs = detail.textRuns else { continue }
+                    for r in runs.indices { runs[r].character.color = color }
+                    detail.textRuns = runs; page.edges[i].details = detail
+                }
                 for i in page.nodes.indices { guard let update = updates[page.nodes[i].id] else { continue }
                     if let fill = update.fill { page.nodes[i].fill = String(fill.prefix(7)) + String(page.nodes[i].fill.dropFirst(7)) }
                     if let stroke = update.stroke { page.nodes[i].stroke = String(stroke.prefix(7)) + String(page.nodes[i].stroke.dropFirst(7)) }
@@ -1398,6 +1412,7 @@ enum VisioFormat {
         }
         let character = inheritedSectionCells(shape,master:master,styles:styles,section:"Character",styleKey:"TextStyle")
         if let size = character["Size"] { detail.sheet["Char.Size"] = ShapeSheetCell(value:size.value,formula:size.formula,unit:size.unit) }
+        if let color = character["Color"] { detail.sheet["Char.Color"] = ShapeSheetCell(value:color.value,formula:color.formula,unit:color.unit) }
         detail.fontName = fontName(character["Font"]?.value ?? "0",in:document)
         let bits = Int(exactly:number(character["Style"]) ?? 0) ?? 0
         detail.italic = bits & 2 != 0;detail.underline = bits & 4 != 0
@@ -1671,7 +1686,9 @@ enum VisioFormat {
                     for i in 0..<4 { let a = Double(i)*Double.pi/2,b = Double(i+1)*Double.pi/2,p = point(a),q = point(b),t = tangent(a),r = tangent(b); curve(CGPoint(x:p.x+k*t.x,y:p.y+k*t.y),CGPoint(x:q.x-k*r.x,y:q.y-k*r.y),q) }
                     if commandBudget > 0 { path.commands.append(VectorCommand("Z"));commandBudget -= 1 }
                 case "ArcTo":
-                    let sagitta = number(c["A"]) ?? 0,dx = end.x-current.x,dy = end.y-current.y,chord = hypot(dx,dy)
+                    // Visio's bow (A) bulges to the right of the travel direction in the shape's y-up
+                    // coordinates: a Rounded Rectangle's positive bows make convex corners.
+                    let sagitta = -(number(c["A"]) ?? 0),dx = end.x-current.x,dy = end.y-current.y,chord = hypot(dx,dy)
                     if abs(sagitta)<1e-10 || chord<1e-10 { line(end); continue }
                     let offset = chord*chord/(8*sagitta)-sagitta/2
                     let center = CGPoint(x:(current.x+end.x)/2+dy/chord*offset,y:(current.y+end.y)/2-dx/chord*offset)
