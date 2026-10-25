@@ -73,6 +73,9 @@ def compare_drawings(authored: dict, roundtrip: dict, allow: list[dict]) -> list
             local: list[str] = []
             diff(b["shapes"][shape_id], r["shapes"][shape_id], f"{name}/{shape_id}", local)
             if shape_id in targets: continue
+            # Adding or removing a page legitimately changes page-count and page-number fields.
+            if any(a.get("op") == "addPage" for a in allow) and any(f in "".join(b["shapes"][shape_id]["fieldFormulas"]) for f in ("PAGECOUNT", "PAGENUMBER")):
+                local = [d for d in local if not d.endswith(".text") and ".text:" not in d]
             if shape_id in glued: local = [d for d in local if not any(f".cells.{c}." in d for c in ROUTE_CELLS) and ".geometry" not in d]
             out.extend(local)
         if b["connects"] != r["connects"] and not any(a.get("op") in ("connect", "delete") for a in allow if a.get("page") == name):

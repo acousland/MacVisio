@@ -334,7 +334,8 @@ enum VisioPreservation {
                 } else { shapes.addChild(element) }
             }
             if element !== generated && (previous == nil || reroute) {
-                let geometryCells: Set<String> = ["PinX","PinY","Width","Height","LocPinX","LocPinY","Angle","BeginX","BeginY","EndX","EndY","BegTrigger","EndTrigger","ShapeRouteStyle"]
+                // ShapeRouteStyle is the author's routing choice, not route geometry: keep it on reroute.
+                let geometryCells: Set<String> = ["PinX","PinY","Width","Height","LocPinX","LocPinY","Angle","BeginX","BeginY","EndX","EndY","BegTrigger","EndTrigger"]
                 for cell in element.elementsLocal("Cell") where geometryCells.contains(cell.attr("N") ?? "") { cell.detach() }
                 for cell in generated.elementsLocal("Cell") where geometryCells.contains(cell.attr("N") ?? "") { element.addChild(cell.copy() as! XMLNode) }
                 for section in element.elementsLocal("Section") where section.attr("N") == "Geometry" { section.detach() }

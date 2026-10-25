@@ -15,14 +15,7 @@
   "mac-flowchart-move-step.vsdx": {
    "recipe": "flowchart",
    "edit": "move-step",
-   "differences": [
-    "Process/6.cells.ShapeRouteStyle.formula: \"0\" became \"1\"",
-    "Process/6.cells.ShapeRouteStyle.text: \"0\" became \"1\"",
-    "Process/6.cells.ShapeRouteStyle.value: 0 became 1",
-    "Process/7.cells.ShapeRouteStyle.formula: \"0\" became \"1\"",
-    "Process/7.cells.ShapeRouteStyle.text: \"0\" became \"1\"",
-    "Process/7.cells.ShapeRouteStyle.value: 0 became 1"
-   ]
+   "differences": []
   },
   "mac-flowchart-retext.vsdx": {
    "recipe": "flowchart",
@@ -52,16 +45,7 @@
   "mac-pages-add-page.vsdx": {
    "recipe": "pages",
    "edit": "add-page",
-   "differences": [
-    "Frame/1.cells.Char.Color.formula: \"THEMEVAL()\" became \"RGB(0,0,0)\"",
-    "Frame/1.cells.Char.Color.text: \"0\" became \"RGB(0, 0, 0)\"",
-    "Frame/1.cells.Char.Color.value: 0 became 25",
-    "Frame/1.cells.Char.Font.formula: \"THEMEVAL()\" became \"FONT(\\\"Themed\\\")\"",
-    "Frame/1.cells.Char.Font.text: \"4\" became \"0\"",
-    "Frame/1.cells.Char.Font.value: 4 became 0",
-    "Frame/1.cells.Char.Style.formula: \"THEMEVAL()\" became \"0\"",
-    "Frame/1.text: \"Frame / 2\" became \"Frame / 3\""
-   ]
+   "differences": []
   },
   "mac-pages-rename.vsdx": {
    "recipe": "pages",
@@ -90,5 +74,5 @@
   }
  },
  "errors": [],
- "passed": false
+ "passed": true
 }

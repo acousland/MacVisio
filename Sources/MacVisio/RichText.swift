@@ -388,6 +388,9 @@ enum ShapeRichText {
             if abs(VisioXML.number(row,name,.infinity)-value)>1e-10 { VisioXML.set(row,name,value) }
         }
         for (i,style) in characters.enumerated() {
+            // An unchanged run style keeps its authored (or inherited) cells, such as THEMEVAL() fonts
+            // and colors: only text or a field's display changed, so no Character row is written.
+            if !fresh,old.contains(where:{$0.character == style}) { continue }
             let row = row("Character",ci[i],style.sourceIndex,style.cells)
             cached(row,"Size",style.size/72)
             let bits = ((Int(exactly:VisioXML.number(row,"Style")) ?? 0) & ~7) | (style.bold ? 1 : 0) | (style.italic ? 2 : 0) | (style.underline ? 4 : 0)
@@ -395,7 +398,8 @@ enum ShapeRichText {
             if VisioXML.value(row,"Color") != String(style.color.prefix(7)) { VisioXML.set(row,"Color",String(style.color.prefix(7))) }
             cached(row,"ColorTrans",style.color.count == 9 ? 1-Double(UInt8(style.color.suffix(2),radix:16) ?? 255)/255 : 0)
             let font = style.fontName == "System" ? "Arial" : style.fontName
-            VisioXML.set(row,"Font",font,formula:"FONT(\"\(font)\")")
+            // Keep an authored font (including Visio's Themed placeholder and its THEMEVAL formula).
+            if VisioXML.value(row,"Font") != font { VisioXML.set(row,"Font",font,formula:"FONT(\"\(font)\")") }
         }
         for (i,style) in paragraphs.enumerated() {
             let target = row("Paragraph",pi[i],style.sourceIndex,style.cells)

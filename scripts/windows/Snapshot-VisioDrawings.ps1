@@ -73,10 +73,8 @@ function Describe-Shape($Shape, $ParentId, $Output) {
         }
     }
     $fields = @()
-    try {
-        $characters = $Shape.Characters
-        for ($f = 1; $f -le $characters.FieldCount; $f++) { $fields += [string]$characters.FieldFormula($f - 1) }
-    } catch { }
+    # Text field formulas (Text Fields section, index 8).
+    if ($Shape.SectionExists(8, 0)) { for ($r = 0; $r -lt $Shape.RowCount(8); $r++) { $fields += [string]$Shape.CellsSRC(8, $r, 0).FormulaU } }
     $containers = @()
     try { foreach ($c in @($Shape.MemberOfContainers)) { if ($c) { $containers += [int]$c } } } catch { }
     $members = @()
