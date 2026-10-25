@@ -430,7 +430,12 @@ enum BooleanGeometry {
                                           cancellation: LifecycleJobCancellation) throws -> [String] {
         guard let binding = archive.pages.first(where: { $0.pageID == pageID }) else { throw DiagramError.invalid("Union has no public page binding.") }
         let documentPart = try VisioReusableFormat.documentPart(archive.parts)
-        let knownXML = Set(archive.pages.map(\.part) + [documentPart, archive.pagesPart, "[Content_Types].xml", "docProps/core.xml"])
+        // Every Visio 2019 drawing carries a windows part (window sizes and view state), which never refers to shapes.
+        let windowsType = VisioReusableFormat.relationship + "windows"
+        let windowsParts = try archive.parts[VisioXML.relationshipPart(documentPart)].map(VisioXML.document)?.rootElement()?.elementsLocal("Relationship")
+            .filter { $0.attr("Type") == windowsType && $0.attr("TargetMode") == nil }
+            .compactMap { $0.attr("Target") }.map { try VisioFormat.resolve($0, relativeTo: documentPart) } ?? []
+        let knownXML = Set(archive.pages.map(\.part) + [documentPart, archive.pagesPart, "[Content_Types].xml", "docProps/core.xml"] + windowsParts)
         var relationshipSources = Dictionary(([documentPart, archive.pagesPart] + archive.pages.map(\.part)).map { (VisioXML.relationshipPart($0), $0) }, uniquingKeysWith: { first, _ in first })
         relationshipSources["_rels/.rels"] = ""
         let coreParts = Set(archive.pages.map(\.part) + [documentPart, archive.pagesPart])
@@ -473,6 +478,7 @@ enum BooleanGeometry {
                     if source.isEmpty, type == VisioReusableFormat.relationship + "document" { valid = target == documentPart }
                     else if source.isEmpty, type == "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" { valid = target == "docProps/core.xml" }
                     else if source == documentPart, type == VisioReusableFormat.relationship + "pages" { valid = target == archive.pagesPart }
+                    else if source == documentPart, type == windowsType { valid = windowsParts.contains(target) }
                     else if source == archive.pagesPart, type == VisioReusableFormat.relationship + "page" { valid = archive.pages.contains { $0.part == target } }
                     else {
                         valid = archive.pages.contains { $0.part == source }

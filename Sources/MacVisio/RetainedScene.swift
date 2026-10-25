@@ -102,7 +102,13 @@ final class PreparedEdgeLabel {
                 if input.runs == nil { return (input.text as NSString).size(withAttributes: attributes) }
                 let bounds = attributed.boundingRect(with: CGSize(width: 100000, height: 100000),
                     options: [.usesLineFragmentOrigin, .usesFontLeading])
-                return CGSize(width: max(1, ceil(bounds.width)), height: max(1, ceil(bounds.height)))
+                // The bounding rect leaves out paragraph indents, which the label's layout still applies.
+                var indent: CGFloat = 0
+                attributed.enumerateAttribute(.paragraphStyle, in: NSRange(location: 0, length: attributed.length)) { value, _, _ in
+                    guard let style = value as? NSParagraphStyle else { return }
+                    indent = max(indent, max(style.headIndent, style.firstLineHeadIndent) + max(0, -style.tailIndent))
+                }
+                return CGSize(width: max(1, ceil(bounds.width + indent)), height: max(1, ceil(bounds.height)))
             }
         }
         paintBounds = input.runs == nil ? CGRect(origin:.zero,size:size)

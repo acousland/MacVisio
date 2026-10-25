@@ -1043,7 +1043,9 @@ final class CanvasView: NSView {
     }
     func finishPageInteraction() {
         finishEditing(commit: true)
+        applyPendingDrag()
         let protectionFailure = beforeDrag != nil ? commitGesturePreview() : nil
+        lastDragDamage = nil
         dragStart = nil
         beforeDrag = nil
         resizeHandle = nil

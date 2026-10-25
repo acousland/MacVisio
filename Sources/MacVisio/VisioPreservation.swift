@@ -44,6 +44,9 @@ enum VisioPreservation {
             while used.contains(UInt32(nextID)) { nextID += 1;if nextID>UInt32.max { nextID = 0 } }
             pageIDs[page.id] = String(nextID);used.insert(UInt32(nextID));nextID += 1
         }
+        // Only packages MacVisio created get the windows part and the legacy glue upgrade; foreign
+        // packages (even ones MacVisio has since saved) keep their public parts exactly as authored.
+        let macVisioAuthored = createdByMacVisio(source.parts)
         var backgroundSync = false
         if diagram.pages.contains(where:{$0.isBackground == true || $0.backgroundPageID != nil}),let data = parts[source.pagesPart] {
             let index = try VisioXML.document(data)
@@ -62,8 +65,10 @@ enum VisioPreservation {
         }
         if source.pages.map(\.original) == diagram.pages && !backgroundSync {
             try checkRemovedRowReferences(parts)
-            try ensureWindowsPart(parts:&parts)
-            if parts[nativePart] != nil { parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages) }
+            if macVisioAuthored { try ensureWindowsPart(parts:&parts) }
+            if parts[nativePart] != nil {
+                parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:source.pages)
+            }
             var rebased = source;rebased.parts = parts;rebased.definitionRows = definitionRows
             return rebased
         }
@@ -101,7 +106,7 @@ enum VisioPreservation {
                     guard let pageData = parts[binding.part] else { throw DiagramError.invalid("A Visio page is missing.") }
                     let document = try VisioXML.document(pageData)
                     guard let root = document.rootElement() else { throw DiagramError.invalid("Invalid Visio page.") }
-                    try patchPage(page,old:binding.original,binding:&updated,root:root,part:binding.part,parts:&parts,types:typeRoot,layerSheet:sheet)
+                    try patchPage(page,old:binding.original,binding:&updated,root:root,part:binding.part,parts:&parts,types:typeRoot,layerSheet:sheet,upgradeGlue:macVisioAuthored)
                     parts[binding.part] = document.xmlData(options:.nodePreserveAll)
                 }
                 if createdSheet,(sheet.children ?? []).isEmpty,(sheet.attributes ?? []).isEmpty { sheet.detach() }
@@ -143,7 +148,7 @@ enum VisioPreservation {
         parts["[Content_Types].xml"] = types.xmlData(options:.nodePreserveAll)
         try ensureFonts(diagram,parts:&parts,bindings:bindings,original:source.pages.map(\.original))
         try checkRemovedRowReferences(parts)
-        try ensureWindowsPart(parts:&parts)
+        if macVisioAuthored { try ensureWindowsPart(parts:&parts) }
         parts[nativePart] = try VisioFormat.nativeMetadata(diagram,parts:&parts,bindings:bindings)
         var rebased = source;rebased.parts = parts;rebased.definitionRows = definitionRows;rebased.pages = bindings
         return rebased
@@ -162,7 +167,7 @@ enum VisioPreservation {
         return page.nodes != projected.nodes || page.edges != projected.edges || page.layers != old.layers
     }
 
-    private static func patchPage(_ page:DiagramPage,old:DiagramPage,binding:inout VisioPageBinding,root:XMLElement,part:String,parts:inout [String:Data],types:XMLElement,layerSheet:XMLElement) throws {
+    private static func patchPage(_ page:DiagramPage,old:DiagramPage,binding:inout VisioPageBinding,root:XMLElement,part:String,parts:inout [String:Data],types:XMLElement,layerSheet:XMLElement,upgradeGlue:Bool = false) throws {
         let shapes = root.firstLocal("Shapes") ?? XMLElement(name:"Shapes"); if shapes.parent == nil { root.addChild(shapes) }
         let connects = root.firstLocal("Connects") ?? XMLElement(name:"Connects"); if connects.parent == nil { root.addChild(connects) }
         var byID:[String:XMLElement] = [:],numericIDs = Set<UInt32>()
@@ -376,7 +381,7 @@ enum VisioPreservation {
         }
         binding.inheritedShapes = inheritance.filter{newNodeSet.contains($0.key) || newEdgeSet.contains($0.key)}.mapValues{$0}
         for id in required where binding.inheritedShapes?[id] != nil { binding.inheritedShapes?[id]?.implicit = false }
-        upgradeLegacyGlue(root:root)
+        if upgradeGlue { upgradeLegacyGlue(root:root) }
     }
 
     /// Connectors MacVisio wrote before 0.24.0 have Connect records but lack the trigger and glue formulas
@@ -834,6 +839,11 @@ enum VisioPreservation {
             parts[binding.part] = pageXML.xmlData(options:.nodePreserveAll)
         }
         if changedDocument { parts[docPart] = document.xmlData(options:.nodePreserveAll) }
+    }
+    /// MacVisio's own package writer names itself as the creator in the core properties.
+    static func createdByMacVisio(_ parts:[String:Data]) -> Bool {
+        guard let data = parts["docProps/core.xml"],let root = try? VisioXML.document(data).rootElement() else { return false }
+        return root.elementsLocal("creator").first?.stringValue == "MacVisio"
     }
     /// Visio 2019 (16.0.10730) rejects a drawing package without a windows part as having missing or
     /// invalid parts; a client-size-only Windows element is enough for it to open the drawing.
