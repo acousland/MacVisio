@@ -1570,10 +1570,20 @@ final class EditorWindowController: NSWindowController, NSWindowDelegate, NSMenu
         if let error = lastPrintError,(error as? LifecycleJobError) != .cancelled {
             root.status.stringValue = "Printing: "+error.localizedDescription
         } else {
-            root.status.stringValue =
-                "\(page.name)   /   \(prefix)" + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
+            // Visio's status bar: the page's position, then the selected shape's size and angle.
+            let pages = diagramDocument.diagram.orderedPages.filter { $0.isBackground != true }
+            let position = page.isBackground == true ? "Background page" : "Page \((pages.firstIndex { $0.id == page.id } ?? 0) + 1) of \(pages.count)"
+            var detail = prefix
+            if canvas.selectedNodes.count == 1, canvas.tool == .pointer, canvas.pendingSource == nil, let node = selection.first {
+                let unit = page.drawingScale?.drawingUnit ?? "IN", factor = SheetValue.factor(unit) ?? 1, name = unit == "IN" ? "in" : unit.lowercased()
+                func length(_ points: Double) -> String { String(format: "%.4g %@", points / 72 * factor, name) }
+                detail = "Width: \(length(node.width))   Height: \(length(node.height))   Angle: \(Int(node.rotation.rounded()))°"
+            }
+            if root.pageLabel.stringValue != position { root.pageLabel.stringValue = position; root.needsLayout = true }
+            root.status.stringValue = detail + (materialIssues == 0 ? "" : "   /   \(materialIssues) issues")
         }
         root.zoomLabel.stringValue = "\(Int((canvas.zoom*100).rounded()))%"
+        root.zoomSlider.doubleValue = canvas.zoom*100
         root.ribbon.refreshSelection()
     }
     func setTool(_ tool: CanvasTool) {

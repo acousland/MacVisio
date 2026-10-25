@@ -539,6 +539,15 @@ final class EditorRootView: FlippedView {
     let status = uiLabel("",size:11)
     let importNotesButton = NSButton(title:"Import notes",target:nil,action:nil)
     let zoomLabel = uiLabel("100%",size:11,weight:.medium)
+    /// Visio's status bar: the active page's position, the text language and a zoom slider.
+    let languageLabel = uiLabel(Locale.current.localizedString(forIdentifier: Locale.current.identifier) ?? "",size:11)
+    let pageLabel = uiLabel("",size:11)
+    let zoomSlider = NSSlider(value:100,minValue:10,maxValue:400,target:nil,action:nil)
+    private(set) var allPagesButton:NSButton!
+    /// View > Task Panes > Format Shape (hidden by default, as in Visio).
+    var showsFormatPane = UserDefaults.standard.bool(forKey:"MacVisioFormatPaneVisible") {
+        didSet { UserDefaults.standard.set(showsFormatPane,forKey:"MacVisioFormatPaneVisible");inspectorScroll.isHidden = !showsFormatPane;needsLayout = true }
+    }
     private var zoomMinus:NSButton!
     private var zoomPlus:NSButton!
     private var fit:NSButton!
@@ -568,7 +577,14 @@ final class EditorRootView: FlippedView {
         zoomPlus = symbolButton("plus",label:"Zoom in",target:editor,action:#selector(EditorWindowController.zoomIn(_:)))
         fit = symbolButton("arrow.up.left.and.arrow.down.right",label:"Fit page",target:editor,action:#selector(EditorWindowController.fitPage(_:)))
         addPageButton = symbolButton("plus",label:"Add page",target:editor,action:#selector(EditorWindowController.addPage(_:)))
-        [status,snapButton,zoomMinus,zoomLabel,zoomPlus,fit].forEach{footer.addSubview($0)}
+        zoomSlider.target = self;zoomSlider.action = #selector(zoomSliderChanged(_:));zoomSlider.controlSize = .mini
+        zoomSlider.identifier = NSUserInterfaceItemIdentifier("zoomSlider");zoomSlider.setAccessibilityLabel("Zoom")
+        languageLabel.textColor = .secondaryLabelColor
+        [pageLabel,languageLabel,status,zoomMinus,zoomSlider,zoomPlus,zoomLabel,fit].forEach{footer.addSubview($0)}
+        allPagesButton = NSButton(title:"All ▴",target:self,action:#selector(showAllPages(_:)))
+        allPagesButton.isBordered = false;allPagesButton.font = .systemFont(ofSize:11);allPagesButton.identifier = NSUserInterfaceItemIdentifier("allPages")
+        allPagesButton.setAccessibilityLabel("All pages");pageStrip.addSubview(allPagesButton)
+        inspectorScroll.isHidden = !showsFormatPane
         importNotesButton.target = editor;importNotesButton.action = #selector(EditorWindowController.showDocumentIssues(_:))
         importNotesButton.bezelStyle = .recessed;importNotesButton.font = .systemFont(ofSize:11)
         importNotesButton.identifier = NSUserInterfaceItemIdentifier("importNotes")
@@ -597,7 +613,7 @@ final class EditorRootView: FlippedView {
     }
     override func layout() {
         super.layout();guard let editor else{return}
-        let w = bounds.width,h = bounds.height,left = (bounds.width >= 1000 || libraryRequestedInNarrowWindow) ? 224.0 : 0.0,right = 248.0,top = VisioRibbonView.tabHeight+VisioRibbonView.commandHeight,bottom = 30.0,pages = 33.0
+        let w = bounds.width,h = bounds.height,left = (bounds.width >= 1000 || libraryRequestedInNarrowWindow) ? 224.0 : 0.0,right = showsFormatPane ? 248.0 : 0.0,top = VisioRibbonView.tabHeight+VisioRibbonView.commandHeight,bottom = 30.0,pages = 33.0
         stencil.isHidden = left == 0
         let bodyHeight = max(1,h-top-bottom-1)
         ribbon.frame = CGRect(x:0,y:0,width:w,height:top)
@@ -605,16 +621,20 @@ final class EditorRootView: FlippedView {
         inspectorScroll.frame = CGRect(x:w-right,y:top+1,width:right,height:bodyHeight)
         inspector.frame.size = CGSize(width:right,height:max(1100,inspectorScroll.contentSize.height))
         editor.scrollView.frame = CGRect(x:left+1,y:top+1,width:max(1,w-left-right-2),height:max(1,bodyHeight-pages-1))
-        pageScroll.frame = CGRect(x:left+1,y:h-bottom-pages,width:max(1,w-left-right-36),height:pages)
-        addPageButton.frame = CGRect(x:w-right-33,y:h-bottom-pages+3,width:30,height:27)
+        pageScroll.frame = CGRect(x:left+1,y:h-bottom-pages,width:max(1,w-left-right-2),height:pages)
         footer.frame = CGRect(x:0,y:h-bottom,width:w,height:bottom)
-        status.frame = CGRect(x:16,y:8,width:max(150,w-(importNotesButton.isHidden ? 420 : 600)),height:17)
-        importNotesButton.frame = CGRect(x:w-552,y:3,width:180,height:24)
-        snapButton.frame = CGRect(x:w-358,y:4,width:112,height:22)
-        zoomMinus.frame = CGRect(x:w-236,y:3,width:28,height:24)
-        zoomLabel.frame = CGRect(x:w-202,y:7,width:48,height:17);zoomLabel.alignment = .center
-        zoomPlus.frame = CGRect(x:w-149,y:3,width:28,height:24)
-        fit.frame = CGRect(x:w-106,y:3,width:39,height:24)
+        // Visio: "Page 1 of 1" and the language at the left; zoom slider, percentage and Fit Page at the right.
+        let languageWidth = (languageLabel.stringValue as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+8
+        let pageWidth = (pageLabel.stringValue as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+8
+        pageLabel.frame = CGRect(x:12,y:8,width:pageWidth,height:17)
+        languageLabel.frame = CGRect(x:pageLabel.frame.maxX+16,y:8,width:languageWidth,height:17)
+        status.frame = CGRect(x:languageLabel.frame.maxX+16,y:8,width:max(80,w-(importNotesButton.isHidden ? 320 : 530)-languageLabel.frame.maxX),height:17)
+        importNotesButton.frame = CGRect(x:w-520,y:3,width:180,height:24)
+        zoomMinus.frame = CGRect(x:w-300,y:3,width:24,height:24)
+        zoomSlider.frame = CGRect(x:w-274,y:7,width:120,height:16)
+        zoomPlus.frame = CGRect(x:w-152,y:3,width:24,height:24)
+        zoomLabel.frame = CGRect(x:w-126,y:7,width:44,height:17);zoomLabel.alignment = .center
+        fit.frame = CGRect(x:w-74,y:3,width:32,height:24)
         refreshPages();editor.canvas.refreshSize()
     }
     func refreshPages() {
@@ -641,7 +661,11 @@ final class EditorRootView: FlippedView {
             let width = min(180,max(90,(page.name as NSString).size(withAttributes:[.font:NSFont.systemFont(ofSize:11)]).width+32))
             button.frame = CGRect(x:x,y:0,width:width,height:33);button.needsDisplay = true;x += width+1
         }
-        pageStrip.frame = CGRect(x:0,y:0,width:max(x,pageScroll.contentSize.width),height:33)
+        // As in Visio, "All" lists every page and "+" adds one, after the last page tab.
+        allPagesButton.frame = CGRect(x:x+6,y:4,width:44,height:25)
+        addPageButton.removeFromSuperview();pageStrip.addSubview(addPageButton)
+        addPageButton.frame = CGRect(x:x+54,y:3,width:28,height:27)
+        pageStrip.frame = CGRect(x:0,y:0,width:max(x+90,pageScroll.contentSize.width),height:33)
     }
     func capturePageViewState() {
         guard let editor else { return }
@@ -673,6 +697,18 @@ final class EditorRootView: FlippedView {
         status.stringValue = text
         DispatchQueue.main.asyncAfter(deadline:.now()+5){[weak self] in self?.editor?.updateStatus()}
     }
+    @objc private func showAllPages(_ sender:NSButton) {
+        guard let editor else { return }
+        let menu = NSMenu()
+        for page in editor.diagramDocument.diagram.orderedPages {
+            let item = NSMenuItem(title:page.name,action:#selector(pageMenuChosen(_:)),keyEquivalent:"")
+            item.target = self;item.representedObject = page.id;item.state = page.id == editor.diagramDocument.diagram.activePageID ? .on : .off
+            menu.addItem(item)
+        }
+        menu.popUp(positioning:nil,at:CGPoint(x:0,y:0),in:sender)
+    }
+    @objc private func pageMenuChosen(_ sender:NSMenuItem) { if let id = sender.representedObject as? UUID { editor?.switchPage(id) } }
+    @objc private func zoomSliderChanged(_ sender:NSSlider) { editor?.canvas.setZoom(sender.doubleValue/100);editor?.updateStatus() }
     @objc private func pageClicked(_ sender:NSButton) {
         if let raw = sender.identifier?.rawValue,let id = UUID(uuidString:raw){editor?.switchPage(id)}
     }

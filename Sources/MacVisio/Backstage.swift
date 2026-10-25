@@ -181,6 +181,9 @@ extension EditorWindowController {
         backstage.autoresizingMask = [.width, .height]
         root.addSubview(backstage)
     }
+    /// Shape Styles > Format Object: opens the Format Shape task pane.
+    @objc func showFormatPane(_ sender: Any?) { root.showsFormatPane = true }
+    @objc func toggleFormatPane(_ sender: Any?) { root.showsFormatPane.toggle() }
     var showsRulers: Bool { canvas.showsRulers }
     @objc func toggleRulers(_ sender: Any?) { canvas.showsRulers.toggle(); root.ribbon.refreshSelection() }
     /// Design > Orientation: swaps the page's paper width and height when they disagree with the request.

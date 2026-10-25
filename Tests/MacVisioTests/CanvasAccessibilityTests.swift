@@ -295,6 +295,8 @@ final class CanvasAccessibilityTests: XCTestCase {
             var drawing = Diagram(); let node = DiagramNode(text: "Actual controls")
             drawing.page.nodes = [node]
             try withEditor(drawing) { document, editor, window in
+                editor.root.showsFormatPane = true; defer { editor.root.showsFormatPane = false }
+                editor.root.layoutSubtreeIfNeeded()
                 // Selection switches the real inspector from its page layout
                 // to its dynamic shape layout. No fixture key views are added.
                 _ = editor.canvas.focusCanvasObject(CanvasObjectKey(pageID: drawing.page.id, element: .node(node.id)))

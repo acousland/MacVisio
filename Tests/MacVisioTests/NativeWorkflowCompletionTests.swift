@@ -120,7 +120,9 @@ final class NativeWorkflowCompletionTests: XCTestCase {
 
     func testNarrowEditorKeepsInspectorAndCanvasVisibleAndCanRevealLibrary() throws {
         let document = MacVisioDocument(); let editor = EditorWindowController(document: document)
-        document.addWindowController(editor); defer { editor.close(); document.close() }
+        document.addWindowController(editor); defer { editor.root.showsFormatPane = false; editor.close(); document.close() }
+        // The Format Shape pane is hidden until opened, as in Visio; opened, it keeps its width.
+        editor.root.showsFormatPane = true
         editor.root.frame = CGRect(x: 0, y: 0, width: 760, height: 560)
         editor.root.layoutSubtreeIfNeeded()
         XCTAssertTrue(editor.root.stencil.isHidden)

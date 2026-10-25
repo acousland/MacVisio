@@ -102,7 +102,7 @@ enum RibbonDefinition {
                 .stack([RibbonCommand(name: "Fill", kind: .color, size: .small, symbol: "drop", identifier: "fillColor"),
                         RibbonCommand(name: "Line", kind: .color, size: .small, symbol: "pencil.line", identifier: "lineColor"),
                         small("Effects", "sparkles", kind: .menu)])],
-                launcher: launcher("Format Object...")),
+                launcher: launcher("Format Object...", #selector(E.showFormatPane(_:)))),
             RibbonGroupDefinition(name: "Arrange", columns: [
                 .large(large("Align", "align.horizontal.left", kind: .menu, menu: [("Align Left", #selector(E.alignLeft(_:))), ("Align Center", #selector(E.alignCenter(_:))),
                                                                                  ("Align Top", #selector(E.alignTop(_:)))])),
@@ -196,7 +196,7 @@ enum RibbonDefinition {
                 .stack([check("Ruler", #selector(VisioRibbonView.toggleRulers(_:)), id: "showRuler"), check("Grid", #selector(E.toggleGrid(_:)), id: "showGrid"), check("Page Breaks")]),
                 .stack([check("Guides")]),
                 .large(large("Task Panes", "sidebar.right", kind: .menu,
-                             menu: [("Shapes", #selector(E.toggleShapeLibrary(_:))), ("Shape Data", #selector(E.editShapeData(_:))), ("Issues", #selector(E.showDocumentIssues(_:)))]))],
+                             menu: [("Shapes", #selector(E.toggleShapeLibrary(_:))), ("Format Shape", #selector(E.toggleFormatPane(_:))), ("Shape Data", #selector(E.editShapeData(_:))), ("Issues", #selector(E.showDocumentIssues(_:)))]))],
                 launcher: launcher("Ruler & Grid...")),
             RibbonGroupDefinition(name: "Zoom", columns: [
                 .large(large("Zoom...", "magnifyingglass", kind: .button, menu: [], target: .editor)),
