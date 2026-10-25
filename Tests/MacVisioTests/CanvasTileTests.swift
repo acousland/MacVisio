@@ -43,7 +43,8 @@ final class CanvasTileTests: XCTestCase {
         let redPixels = (0..<image.pixelsHigh).lazy.flatMap { y in (0..<image.pixelsWide).lazy.map { x in (x, y) } }
             .filter { x, y in
                 guard let color = image.colorAt(x: x, y: y)?.usingColorSpace(.deviceRGB) else { return false }
-                return color.redComponent > 0.9 && color.greenComponent < 0.2 && color.blueComponent < 0.2
+                // Device RGB depends on the display profile (#FF0000 reads as about 233,51,36 on some displays).
+                return color.redComponent > 0.8 && color.greenComponent < 0.35 && color.blueComponent < 0.35
             }
         XCTAssertNotNil(redPixels.first, "cacheDisplay must still draw shapes through draw(_:)")
     }

@@ -139,6 +139,8 @@ enum TypedShapeSheet {
             case .call(let name,let given):
                 let name = name.uppercased(),arguments = ShapeSheet.withoutSurplusArguments(name,given)
                 try ShapeSheet.requireReferenceFunction(name)
+                // Only the reference functions' no-target (#REF!) result is supported, so the qualified cell is #REF!.
+                if name == ShapeSheet.sheetReferenceCell { _ = try eval(arguments[0],depth+1);throw ShapeSheetError(kind:.reference,message:"The referenced sheet has no supported target (#REF!).") }
                 if name == "INDEX" {
                     let values = try arguments.enumerated().map { offset, argument -> SheetValue in
                         if case .omitted = argument {

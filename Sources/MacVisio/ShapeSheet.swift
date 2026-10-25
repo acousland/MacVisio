@@ -136,6 +136,7 @@ enum ShapeSheet {
             case .call(let name,let given):
                 let name = name.uppercased(),arguments = withoutSurplusArguments(name,given)
                 try requireReferenceFunction(name)
+                if name == sheetReferenceCell { _ = try eval(arguments[0],depth+1);throw ShapeSheetError(kind:.reference,message:"The referenced sheet has no supported target (#REF!).") }
                 if name == "SETATREF",(1...3).contains(arguments.count) { if arguments.count == 3,try eval(arguments[2],depth+1) != 0 { return 0 };if case .string(let reference) = arguments[0] { return try resolve(reference) };return try eval(arguments[0],depth+1) }
                 if name == "SETATREFEXPR",arguments.isEmpty { return 0 }
                 if name == "REF",arguments.isEmpty { throw DiagramError.invalid("ShapeSheet #REF! error.") }
@@ -302,6 +303,8 @@ enum ShapeSheet {
         guard let limit = surplusArgumentLimits[name],arguments.count > limit else { return arguments }
         return Array(arguments.prefix(limit))
     }
+    /// The internal call a sheet-qualified function result parses to (FUNCTION(...)!Cell).
+    static let sheetReferenceCell = "__SHEETREFCELL"
     static func requireReferenceFunction(_ name:String) throws {
         if unavailableInReference.contains(name) { throw DiagramError.invalid("\(name) is not available in Visio 2019 (#NAME?).") }
     }
@@ -401,6 +404,8 @@ enum ShapeSheet {
                         }
                     } else if token != .right { while true { if name.uppercased() == "BOUND",arguments.isEmpty,token == .comma { arguments.append(.number(0)) } else { arguments.append(try expression()) };if token == .comma { index += 1;continue };break } }
                     guard token == .right else { throw DiagramError.invalid("Missing function closing parenthesis.") };index += 1;left = .call(name,arguments)
+                    // A sheet-reference function qualifies a cell: CONTAINERSHEETREF(1,"Swimlane")!User.VISHEADINGTEXT.
+                    if token == .op("!"),index+1 < tokens.count,case .name(let cell) = tokens[index+1] { index += 2;left = .call(sheetReferenceCell,[left,.string(cell)]) }
                 } else { left = .reference(name) }
             default:throw DiagramError.invalid("Expected a ShapeSheet value.")
             }

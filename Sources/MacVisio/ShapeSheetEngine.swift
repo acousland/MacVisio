@@ -123,7 +123,7 @@ enum ShapeSheetEngine {
                 for key in sheet.keys.sorted() where Self.isRecalculatedPageCell(key, sheet[key]!) {
                     do {
                         let cached = ShapeSheetContext.cached(try pageContext.pageCellValue(key))
-                        if sheet[key]!.value != cached { page.sheet?[key]?.value = cached }
+                        if !Self.sameCachedValue(sheet[key]!.value,cached) { page.sheet?[key]?.value = cached }
                     } catch { pageSheetIssues.append("ThePage!\(key): \(error.localizedDescription)") }
                 }
                 work.add(pageContext.work)
@@ -224,7 +224,7 @@ enum ShapeSheetEngine {
                 }
                 for key in node.formatting.sheet.keys.sorted() where key.hasPrefix("User.") || key.hasPrefix("Prop.") {
                     guard let cell = node.formatting.sheet[key],!cell.formula.isEmpty,!["No Formula","Inh"].contains(cell.formula) else { continue }
-                    do { let value = try context.value(node.id,key),cached = ShapeSheetContext.cached(value);if cell.value != cached { node.formatting.sheet[key]?.value = cached } }
+                    do { let value = try context.value(node.id,key),cached = ShapeSheetContext.cached(value);if !Self.sameCachedValue(cell.value,cached) { node.formatting.sheet[key]?.value = cached } }
                     catch { if let data = try? resolveData(node.id,key) { node.formatting.sheet[key]?.value = data.formula } else { pageIssues.insert(error.localizedDescription); recordFailure(error.localizedDescription, cell: key) } }
                 }
                 for j in node.formatting.data.indices { let key = "Prop."+node.formatting.data[j].key;if let cell = node.formatting.sheet[key],!cell.formula.isEmpty,!["No Formula","Inh"].contains(cell.formula) { node.formatting.data[j].value = cell.value } }
@@ -293,7 +293,7 @@ enum ShapeSheetEngine {
                         catch { pageIssues.insert("\(key): \(error.localizedDescription)"); recordFailure("\(key): \(error.localizedDescription)", cell: key) }
                     }
                     let rendered = VisioFormat.geometryPaths(node.formatting.geometry!,width:node.sheetWidth/72,height:node.sheetHeight/72)
-                    if rendered.paths.allSatisfy({$0.commands.allSatisfy{$0.isValid(xScale:node.width*page.paperScale,yScale:node.height*page.paperScale)}}) { node.formatting.paths = rendered.paths } else { pageIssues.insert("Calculated geometry exceeded the drawing bounds; its previous path was retained."); recordFailure("Calculated geometry exceeded the drawing bounds; its previous path was retained.", cell: nil, code: "calculation.geometry.bounds") }
+                    if rendered.paths.allSatisfy({$0.commands.allSatisfy{$0.isValid(xScale:node.width*page.paperScale,yScale:node.height*page.paperScale)}}) { if !Self.samePaths(node.formatting.paths,rendered.paths) { node.formatting.paths = rendered.paths } } else { pageIssues.insert("Calculated geometry exceeded the drawing bounds; its previous path was retained."); recordFailure("Calculated geometry exceeded the drawing bounds; its previous path was retained.", cell: nil, code: "calculation.geometry.bounds") }
                     pageIssues.formUnion(rendered.warnings)
                     for warning in rendered.warnings { recordFailure(warning, cell: nil, code: "calculation.geometry.rendering") }
                 }
@@ -333,6 +333,23 @@ enum ShapeSheetEngine {
         let synchronized = ShapeRichText.synchronizeCalculation(diagram,previous:input,affectedNodeIDsByPage:changedNodeIDsByPage,nodeIndicesByPage:nodeIndicesByPage)
         work.richTextNodes += changedNodeIDsByPage.values.reduce(0) { $0 + $1.count }
         return Calculation(diagram:synchronized,issues:issues.sorted(),issuesByPage:issuesByPage,work:work,changedNodeIDsByPage:changedNodeIDsByPage,changedEdgeIDsByPage:changedEdgeIDsByPage,diagnosticsByPage:diagnosticsByPage)
+    }
+    /// A recalculated number that differs from the stored cache only in its last bits (0.3937007874015748 and
+    /// 0.39370078740157477) is not a change; rewriting it would mark untouched shapes as edited.
+    static func sameCachedValue(_ stored: String, _ calculated: String) -> Bool {
+        if stored == calculated { return true }
+        guard let a = Double(stored), let b = Double(calculated), a.isFinite, b.isFinite else { return false }
+        return abs(a - b) <= 1e-12 * max(1, abs(a), abs(b))
+    }
+    /// Re-rendered geometry that matches within rounding noise keeps the existing paths (no edit).
+    static func samePaths(_ a: [VectorPath], _ b: [VectorPath]) -> Bool {
+        guard a.count == b.count else { return false }
+        return zip(a, b).allSatisfy { x, y in
+            x.fill == y.fill && x.stroke == y.stroke && x.evenOdd == y.evenOdd && x.commands.count == y.commands.count
+                && zip(x.commands, y.commands).allSatisfy { c, d in
+                    c.kind == d.kind && c.values.count == d.values.count && zip(c.values, d.values).allSatisfy { abs($0 - $1) <= 1e-9 }
+                }
+        }
     }
     static func isRecalculatedPageCell(_ key: String, _ cell: ShapeSheetCell) -> Bool {
         (key.hasPrefix("User.") || key.hasPrefix("Prop.")) && !cell.formula.isEmpty && !["Inh", "No Formula"].contains(cell.formula)

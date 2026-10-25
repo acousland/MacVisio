@@ -65,4 +65,22 @@ final class VisioAuthoredDrawingTests: XCTestCase {
         alone.page.nodes[try XCTUnwrap(alone.page.nodes.firstIndex { $0.id == container.id })].x += 36
         XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: document.diagram, to: alone))
     }
+
+    /// Native release check (0.25.0): inserting a shape into Visio's flowchart recalculated the page, rewrote
+    /// untouched terminators with last-bit float noise, and their stencil formulas
+    /// (INDEX(0,Prop.Status.Format), CONTAINERSHEETREF(1,"Swimlane")!User.VISHEADINGTEXT) then failed, so an
+    /// ordinary Save was refused as unsafe.
+    func testInsertingAShapeLeavesStencilShapesUntouchedAndSaveSafe() throws {
+        let document = try open("visio-flowchart")
+        let before = document.diagram
+        var next = before
+        var node = DiagramNode(kind: .rectangle, x: 300, y: 300, text: "Process"); node.width = 120; node.height = 60
+        next.pages[0].nodes.append(node)
+        document.replace(with: next, action: "Insert")
+        XCTAssertEqual(Array(document.diagram.pages[0].nodes.prefix(before.pages[0].nodes.count)), before.pages[0].nodes)
+        XCTAssertEqual(document.diagram.pages[0].edges, before.pages[0].edges)
+        let assessment = DocumentSaveImpact.assess(snapshot: document.diagram, baseline: nil, diagnostics: document.currentDiagnostics, format: .visio)
+        XCTAssertEqual(assessment.risks.map(\.message), [])
+        XCTAssertFalse(document.calculationIssues.contains { $0.contains("Prop.Status.Format") || $0.contains("closing parenthesis") })
+    }
 }

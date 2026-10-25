@@ -124,8 +124,22 @@ final class ShapeSheetContext {
             else if canonical.caseInsensitiveCompare("TxtLocPinX") == .orderedSame { result = numericValue(try number(id,"TxtWidth")/2, unit: implicitUnit(canonical)) }
             else if canonical.caseInsensitiveCompare("TxtLocPinY") == .orderedSame { result = numericValue(try number(id,"TxtHeight")/2, unit: implicitUnit(canonical)) }
             else if let number = defaults(for:node).first(where:{$0.key.caseInsensitiveCompare(canonical) == .orderedSame})?.value { result = numericValue(number, unit: implicitUnit(canonical)) }
+            // Shape Data row cells other than Value (Prop.Status.Format, used by INDEX(0,Prop.Status.Format)).
+            else if let row = Self.propertyRowCell(canonical,on:node) { result = row }
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
         };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;referenceCache[id,default:[:]][key] = result;return result
+    }
+    static func propertyRowCell(_ key:String,on node:DiagramNode) -> SheetValue? {
+        let parts = key.split(separator:".",omittingEmptySubsequences:false).map(String.init)
+        guard parts.count == 3,parts[0].caseInsensitiveCompare("Prop") == .orderedSame,
+              let property = node.formatting.data.first(where:{$0.key.caseInsensitiveCompare(parts[1]) == .orderedSame}) else { return nil }
+        switch parts[2].lowercased() {
+        case "label":return .string(property.label)
+        case "format":return .string(property.format)
+        case "prompt":return .string(property.prompt)
+        case "type":return .number(Double(property.type))
+        default:return nil
+        }
     }
     /// Values keep their unit in both modes: geometry needs it for display-unit rounding
     /// (CEILING(...,1) on a millimetre value rounds to whole millimetres), and still reads numbers.
