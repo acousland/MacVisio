@@ -61,11 +61,24 @@ def compare_drawings(authored: dict, roundtrip: dict, allow: list[dict]) -> list
         if any(a.get("op") == "layerVisible" and a.get("page") == name for a in allow):
             page_diffs = [d for d in page_diffs if not d.startswith(f"{name}.layers")]
         out.extend(page_diffs)
+        # Shapes that move with a moved shape: its container members and its descendants, as in Visio.
+        carried = {(name, m) for (pg, sid) in moved if pg == name and sid in b["shapes"] for m in map(str, b["shapes"][sid]["members"])}
+        changed = True
+        while changed:
+            before_count = len(carried)
+            carried |= {(name, sid) for sid, sh in b["shapes"].items() if sh["parent"] and ((name, sh["parent"]) in moved or (name, sh["parent"]) in carried)}
+            changed = len(carried) != before_count
+        moved = moved | carried
         glued = {c["from"] for c in map(json.loads, b["connects"]) if (name, c["to"]) in moved}
         targets = {a.get("shape") for a in allow if a.get("page") == name}
         for shape_id in sorted(set(b["shapes"]) | set(r["shapes"]), key=lambda s: int(s)):
             if shape_id not in r["shapes"]:
-                out.append(f"{name}/{shape_id} ({b['shapes'][shape_id]['nameU']}) missing"); continue
+                # Deleting a shape deletes the connectors glued to it, Visio's default.
+                deleted = {a.get("shape") for a in allow if a.get("op") == "delete" and a.get("page") == name}
+                glued_to_deleted = any(c["from"] == shape_id and c["to"] in deleted for c in map(json.loads, b["connects"]))
+                if shape_id not in deleted and not glued_to_deleted:
+                    out.append(f"{name}/{shape_id} ({b['shapes'][shape_id]['nameU']}) missing")
+                continue
             if shape_id not in b["shapes"]:
                 if not any(a.get("op") in ("connect", "addShape") and a.get("page") == name for a in allow):
                     out.append(f"{name}/{shape_id} ({r['shapes'][shape_id]['nameU']}) added")
@@ -76,7 +89,8 @@ def compare_drawings(authored: dict, roundtrip: dict, allow: list[dict]) -> list
             # Adding or removing a page legitimately changes page-count and page-number fields.
             if any(a.get("op") == "addPage" for a in allow) and any(f in "".join(b["shapes"][shape_id]["fieldFormulas"]) for f in ("PAGECOUNT", "PAGENUMBER")):
                 local = [d for d in local if not d.endswith(".text") and ".text:" not in d]
-            if shape_id in glued: local = [d for d in local if not any(f".cells.{c}." in d for c in ROUTE_CELLS) and ".geometry" not in d]
+            if shape_id in glued or (name, shape_id) in carried:
+                local = [d for d in local if not any(f".cells.{c}." in d for c in ROUTE_CELLS) and ".geometry" not in d]
             out.extend(local)
         if b["connects"] != r["connects"] and not any(a.get("op") in ("connect", "delete") for a in allow if a.get("page") == name):
             out.append(f"{name} connects changed: {sorted(set(b['connects']) ^ set(r['connects']))[:4]}")

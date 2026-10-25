@@ -2,6 +2,11 @@
  "schemaVersion": 1,
  "visioVersion": "16.0",
  "drawings": {
+  "mac-flowchart-add-and-connect.vsdx": {
+   "recipe": "flowchart",
+   "edit": "add-and-connect",
+   "differences": []
+  },
   "mac-flowchart-connect.vsdx": {
    "recipe": "flowchart",
    "edit": "connect",
@@ -12,9 +17,19 @@
    "edit": "data",
    "differences": []
   },
+  "mac-flowchart-delete-ship.vsdx": {
+   "recipe": "flowchart",
+   "edit": "delete-ship",
+   "differences": []
+  },
   "mac-flowchart-move-step.vsdx": {
    "recipe": "flowchart",
    "edit": "move-step",
+   "differences": []
+  },
+  "mac-flowchart-resize-decision.vsdx": {
+   "recipe": "flowchart",
+   "edit": "resize-decision",
    "differences": []
   },
   "mac-flowchart-retext.vsdx": {
@@ -27,6 +42,11 @@
    "edit": "unchanged",
    "differences": []
   },
+  "mac-intelligent-move-rotated.vsdx": {
+   "recipe": "intelligent",
+   "edit": "move-rotated",
+   "differences": []
+  },
   "mac-intelligent-resize-smart.vsdx": {
    "recipe": "intelligent",
    "edit": "resize-smart",
@@ -35,6 +55,11 @@
   "mac-intelligent-retext-card.vsdx": {
    "recipe": "intelligent",
    "edit": "retext-card",
+   "differences": []
+  },
+  "mac-intelligent-status-data.vsdx": {
+   "recipe": "intelligent",
+   "edit": "status-data",
    "differences": []
   },
   "mac-intelligent-unchanged.vsdx": {
@@ -52,9 +77,24 @@
    "edit": "rename",
    "differences": []
   },
+  "mac-pages-resize-room.vsdx": {
+   "recipe": "pages",
+   "edit": "resize-room",
+   "differences": []
+  },
   "mac-pages-unchanged.vsdx": {
    "recipe": "pages",
    "edit": "unchanged",
+   "differences": []
+  },
+  "mac-structure-move-container.vsdx": {
+   "recipe": "structure",
+   "edit": "move-container",
+   "differences": []
+  },
+  "mac-structure-move-group.vsdx": {
+   "recipe": "structure",
+   "edit": "move-group",
    "differences": []
   },
   "mac-structure-move-member.vsdx": {

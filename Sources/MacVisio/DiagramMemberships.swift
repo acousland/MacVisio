@@ -442,6 +442,44 @@ enum DiagramMemberships {
 
     /// Group/member geometry is independent of memberships. Container motion
     /// with members requires a future shared motion closure, so fail atomically.
+    /// The members of the given containers (and their descendants), which move with a container as in
+    /// Visio. Unproven pages contribute nothing, so a guarded transform is still refused.
+    static func movingMembers(of containerIDs: Set<UUID>, in diagram: Diagram, pageID: UUID) -> Set<UUID> {
+        guard !containerIDs.isEmpty, let page = diagram.pages.first(where: { $0.id == pageID }) else { return [] }
+        // Public shape IDs, from the source binding or the retained public identity.
+        let binding = diagram.visioArchive?.pages.first { $0.pageID == pageID }
+        var byPublicID: [UInt32: UUID] = [:], publicIDs: [UUID: UInt32] = [:]
+        for node in page.nodes {
+            if let key = binding?.nodeIDs[node.id] ?? node.formatting.sourceShapeID, let number = UInt32(key) { byPublicID[number] = node.id; publicIDs[node.id] = number }
+        }
+        var result = Set<UUID>()
+        for id in containerIDs {
+            guard let node = page.nodes.first(where: { $0.id == id }), [Role.container, .list].contains(literalRole(node.formatting.sheet["User.msvStructureType"])),
+                  let formula = try? parse(node.formatting.sheet[relationshipCell]) else { continue }
+            for target in formula.targets(.containerMembers) + formula.targets(.listMembers) { if let member = byPublicID[target] { result.insert(member) } }
+            if let own = publicIDs[id] {
+                for other in page.nodes where other.id != id {
+                    if let clauses = try? parse(other.formatting.sheet[relationshipCell]), (clauses.targets(.containers) + clauses.targets(.list)).contains(own) { result.insert(other.id) }
+                }
+            }
+        }
+        for id in result { result.formUnion(page.descendants(of: id)) }
+        return result.subtracting(containerIDs)
+    }
+
+    /// A container translated together with every member by the same offset keeps its memberships.
+    static func movesRigidlyWithMembers(_ old: DiagramNode, _ new: DiagramNode, before: Diagram, after: Diagram, pageID: UUID) -> Bool {
+        guard old.width == new.width, old.height == new.height, old.rotation == new.rotation,
+              old.formatting.flipX == new.formatting.flipX, old.formatting.flipY == new.formatting.flipY else { return false }
+        let dx = new.x - old.x, dy = new.y - old.y
+        let members = movingMembers(of: [old.id], in: before, pageID: pageID)
+        guard !members.isEmpty, let oldPage = before.pages.first(where: { $0.id == pageID }), let newPage = after.pages.first(where: { $0.id == pageID }) else { return false }
+        return members.allSatisfy { id in
+            guard let a = oldPage.nodes.first(where: { $0.id == id }), let b = newPage.nodes.first(where: { $0.id == id }) else { return false }
+            return abs(b.x - a.x - dx) < 1e-6 && abs(b.y - a.y - dy) < 1e-6 && a.width == b.width && a.height == b.height
+        }
+    }
+
     static func transformBlockReason(_ node: DiagramNode, in page: DiagramPage) -> String? {
         let aliases = node.formatting.sheet.keys.filter { managedCellReason($0) != nil }
         if !aliases.isEmpty && aliases != [relationshipCell] { return "This shape's relationship cell owner is ambiguous. Its transform is read-only." }
@@ -556,6 +594,12 @@ enum DiagramMemberships {
                       let new = lookup(id, page: next, indices: newIndices, fallback: &newFallback),
                       old.rect != new.rect || old.rotation != new.rotation
                         || old.formatting.flipX != new.formatting.flipX || old.formatting.flipY != new.formatting.flipY else { continue }
+                if movesRigidlyWithMembers(old, new, before: before, after: after, pageID: page.id) { continue }
+                // A shape translated exactly with its parent (a group part or container heading) keeps its structure.
+                if let parentID = old.parentID, old.parentID == new.parentID, old.width == new.width, old.height == new.height, old.rotation == new.rotation,
+                   let oldParent = page.nodes.first(where: { $0.id == parentID }), let newParent = next.nodes.first(where: { $0.id == parentID }),
+                   abs((new.x-old.x)-(newParent.x-oldParent.x)) < 1e-6, abs((new.y-old.y)-(newParent.y-oldParent.y)) < 1e-6,
+                   newParent.x != oldParent.x || newParent.y != oldParent.y { continue }
                 if let reason = transformBlockReason(old, in: page) ?? transformBlockReason(new, in: next) { throw invalid(reason) }
             }
         }

@@ -51,6 +51,9 @@ def main() -> int:
         if code:
             sys.exit(f"Visio authoring failed ({code}); see {authored}")
     edits = json.loads(args.edits.read_text()) if args.edits.exists() else {}
+    refusals: dict[str, str] = {}
+    for stale in mac.glob("*.vsdx"):
+        stale.unlink()
     for drawing in sorted(authored.glob("visio-*.vsdx")):
         name = drawing.stem.removeprefix("visio-")
         unchanged = mac / f"mac-{name}-unchanged.vsdx"
@@ -60,13 +63,20 @@ def main() -> int:
             spec = mac / f"{name}-{edit_name}.json"
             spec.write_text(json.dumps(operations, indent=1))
             edited = mac / f"mac-{name}-{edit_name}.vsdx"
-            subprocess.run([str(args.app), "--apply-edits", str(drawing), str(spec), str(edited)], check=True, capture_output=True)
+            result = subprocess.run([str(args.app), "--apply-edits", str(drawing), str(spec), str(edited)], capture_output=True, text=True)
+            if result.returncode:
+                refusals[f"mac-{name}-{edit_name}.vsdx"] = result.stderr.strip()
+                continue
             strip_private(edited)
     code = visio_guest.run(windows / "Snapshot-VisioDrawings.ps1", sorted(mac.glob("*.vsdx")), mac, timeout=1800)
     if code:
         sys.exit(f"Visio snapshot of MacVisio output failed ({code})")
-    return subprocess.run([sys.executable, str(ROOT / "scripts/compare-visio-snapshots.py"), "--authored", str(authored / "snapshots.json"),
+    (args.output / "refusals.json").write_text(json.dumps(refusals, indent=1) + "\n")
+    for file, message in refusals.items():
+        print(f"{file}: MacVisio refused the edit: {message}")
+    code = subprocess.run([sys.executable, str(ROOT / "scripts/compare-visio-snapshots.py"), "--authored", str(authored / "snapshots.json"),
                            "--roundtrip", str(mac / "snapshots.json"), "--edits", str(args.edits), "--report", str(args.output / "comparison.json")]).returncode
+    return code or (1 if refusals else 0)
 
 
 if __name__ == "__main__":

@@ -18,5 +18,5 @@ cells, text, fields, User/Prop rows, controls, geometry rows, connection points 
 differ only where the edit acts, plus the routes of connectors glued to a moved shape and page
 fields after a page is added.
 
-Result (`comparison.json`): all 14 MacVisio outputs pass. Run again with
+Result (`comparison.json`): all 22 MacVisio outputs pass (4 unchanged, 18 edited: moves of stencil shapes, rotated shapes, groups and containers with members; resizes; text, data and field-dependent changes; delete with connector cleanup; add and connect; page rename, add and layer visibility). Run again with
 `python3 scripts/run-roundtrip-reference.py` (guest running and signed in).

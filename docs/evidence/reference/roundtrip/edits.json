@@ -1,20 +1,168 @@
 {
   "flowchart": {
-    "move-step": [{"op": "move", "page": "Process", "shape": "2", "dx": 1.0, "dy": 0.25}],
-    "retext": [{"op": "text", "page": "Process", "shape": "3", "text": "Stock available?"}],
-    "data": [{"op": "cell", "page": "Process", "shape": "2", "cell": "Prop.Owner", "formula": "\"Dispatch\""}],
-    "connect": [{"op": "connect", "page": "Process", "shape": "4", "to": "5", "text": "Done"}]
+    "move-step": [
+      {
+        "op": "move",
+        "page": "Process",
+        "shape": "2",
+        "dx": 1.0,
+        "dy": 0.25
+      }
+    ],
+    "retext": [
+      {
+        "op": "text",
+        "page": "Process",
+        "shape": "3",
+        "text": "Stock available?"
+      }
+    ],
+    "data": [
+      {
+        "op": "cell",
+        "page": "Process",
+        "shape": "2",
+        "cell": "Prop.Owner",
+        "formula": "\"Dispatch\""
+      }
+    ],
+    "connect": [
+      {
+        "op": "connect",
+        "page": "Process",
+        "shape": "4",
+        "to": "5",
+        "text": "Done"
+      }
+    ],
+    "delete-ship": [
+      {
+        "op": "delete",
+        "page": "Process",
+        "shape": "4"
+      }
+    ],
+    "add-and-connect": [
+      {
+        "op": "addShape",
+        "page": "Process",
+        "x": 5,
+        "y": 3,
+        "width": 1,
+        "height": 0.6,
+        "text": "Archive"
+      },
+      {
+        "op": "connect",
+        "page": "Process",
+        "shape": "4",
+        "to": "new",
+        "text": "later"
+      }
+    ],
+    "resize-decision": [
+      {
+        "op": "resize",
+        "page": "Process",
+        "shape": "3",
+        "width": 1.5
+      }
+    ]
   },
   "intelligent": {
-    "resize-smart": [{"op": "resize", "page": "Shapes", "shape": "2", "height": 1.5}],
-    "retext-card": [{"op": "text", "page": "Shapes", "shape": "1", "text": "Renamed card"}]
+    "resize-smart": [
+      {
+        "op": "resize",
+        "page": "Shapes",
+        "shape": "2",
+        "height": 1.5
+      }
+    ],
+    "retext-card": [
+      {
+        "op": "text",
+        "page": "Shapes",
+        "shape": "1",
+        "text": "Renamed card"
+      }
+    ],
+    "move-rotated": [
+      {
+        "op": "move",
+        "page": "Shapes",
+        "shape": "5",
+        "dx": -0.5,
+        "dy": 0
+      }
+    ],
+    "status-data": [
+      {
+        "op": "cell",
+        "page": "Shapes",
+        "shape": "2",
+        "cell": "Prop.Status",
+        "formula": "\"Done\""
+      }
+    ]
   },
   "structure": {
-    "move-member": [{"op": "move", "page": "Structure", "shape": "1", "dx": 0.25, "dy": 0}],
-    "show-notes": [{"op": "layerVisible", "page": "Structure", "layer": "Notes", "visible": true}]
+    "move-member": [
+      {
+        "op": "move",
+        "page": "Structure",
+        "shape": "1",
+        "dx": 0.25,
+        "dy": 0
+      }
+    ],
+    "show-notes": [
+      {
+        "op": "layerVisible",
+        "page": "Structure",
+        "layer": "Notes",
+        "visible": true
+      }
+    ],
+    "move-container": [
+      {
+        "op": "move",
+        "page": "Structure",
+        "shape": "3",
+        "dx": 0.5,
+        "dy": 0.5
+      }
+    ],
+    "move-group": [
+      {
+        "op": "move",
+        "page": "Structure",
+        "shape": "12",
+        "dx": 1,
+        "dy": 0
+      }
+    ]
   },
   "pages": {
-    "rename": [{"op": "renamePage", "page": "Plan", "name": "Floor plan"}],
-    "add-page": [{"op": "addPage", "name": "Extra"}]
+    "rename": [
+      {
+        "op": "renamePage",
+        "page": "Plan",
+        "name": "Floor plan"
+      }
+    ],
+    "add-page": [
+      {
+        "op": "addPage",
+        "name": "Extra"
+      }
+    ],
+    "resize-room": [
+      {
+        "op": "resize",
+        "page": "Plan",
+        "shape": "1",
+        "width": 2.5
+      }
+    ]
   }
 }

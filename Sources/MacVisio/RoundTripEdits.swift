@@ -53,7 +53,13 @@ enum RoundTripEdits {
             if let n = diagram.pages[p].nodes.firstIndex(where: { $0.id == id }) {
                 var node = diagram.pages[p].nodes[n]
                 switch edit.op {
-                case "move": node.x += (edit.dx ?? 0) * 72; node.y -= (edit.dy ?? 0) * 72  // dy is up, as in Visio
+                case "move":
+                    // As in the editor: a group's descendants and a container's members move with it.
+                    let moving = diagram.pages[p].descendants(of: id).union(DiagramMemberships.movingMembers(of: [id], in: diagram, pageID: diagram.pages[p].id))
+                    for index in diagram.pages[p].nodes.indices where moving.contains(diagram.pages[p].nodes[index].id) && index != n {
+                        diagram.pages[p].nodes[index].x += (edit.dx ?? 0) * 72; diagram.pages[p].nodes[index].y -= (edit.dy ?? 0) * 72
+                    }
+                    node.x += (edit.dx ?? 0) * 72; node.y -= (edit.dy ?? 0) * 72  // dy is up, as in Visio
                 case "resize":
                     if let width = edit.width { node.x += (node.width - width * 72) / 2; node.width = width * 72 }
                     if let height = edit.height { node.y += (node.height - height * 72) / 2; node.height = height * 72 }
@@ -76,7 +82,12 @@ enum RoundTripEdits {
             node.y = diagram.pages[p].height - (edit.y ?? 1) * 72 - node.height / 2
             diagram.pages[p].nodes.append(node)
         case "connect":
-            let from = try objectID(diagram, page: p, shape: edit.shape), to = try objectID(diagram, page: p, shape: edit.to)
+            // "new" names the shape added most recently on the page by an earlier operation.
+            func endpoint(_ shape: String?) throws -> UUID {
+                if shape == "new", let last = diagram.pages[p].nodes.last { return last.id }
+                return try objectID(diagram, page: p, shape: shape)
+            }
+            let from = try endpoint(edit.shape), to = try endpoint(edit.to)
             var edge = DiagramEdge(source: from, target: to); edge.label = edit.text ?? ""
             diagram.pages[p].edges.append(edge)
         case "renamePage":

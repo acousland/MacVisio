@@ -70,7 +70,7 @@ function Build-structure($Application, $Document) {
     $page = $Document.Pages.ItemU(1); $page.NameU = 'Structure'; $page.Name = 'Structure'
     $a = $page.Drop($basic.Masters.ItemU('Rectangle'), 2, 7); $a.Text = 'Member A'
     $b = $page.Drop($basic.Masters.ItemU('Rectangle'), 4, 7); $b.Text = 'Member B'
-    $selection = $page.CreateSelection(1); $selection.Select($a, 2); $selection.Select($b, 2)
+    $selection = $page.CreateSelection(0); $selection.Select($a, 2); $selection.Select($b, 2)
     $container = $page.DropContainer($containers.Masters.Item(1), $selection)
     Try-Step { $container.Text = 'Team' }
     $target = $page.Drop($basic.Masters.ItemU('Ellipse'), 6, 3); $target.Text = 'Target'
@@ -79,7 +79,7 @@ function Build-structure($Application, $Document) {
     # A group and two layers, one hidden and not printed.
     $g1 = $page.DrawRectangle(1, 1, 2, 2); $g1.Text = 'G1'
     $g2 = $page.DrawRectangle(2.5, 1, 3.5, 2); $g2.Text = 'G2'
-    $groupSelection = $page.CreateSelection(1); $groupSelection.Select($g1, 2); $groupSelection.Select($g2, 2)
+    $groupSelection = $page.CreateSelection(0); $groupSelection.Select($g1, 2); $groupSelection.Select($g2, 2)
     $group = $groupSelection.Group()
     $notes = $page.Layers.Add('Notes'); $notes.Add($target, 0); $notes.CellsC(4).FormulaU = '0'; $notes.CellsC(5).FormulaU = '0'
     $people = $page.Layers.Add('People'); $people.Add($a, 0); $people.Add($b, 0)

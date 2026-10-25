@@ -868,7 +868,13 @@ final class CanvasView: NSView {
             if !page.isLocked(hit) {
                 dragStart = p
                 beginGesturePreview()
-                let ids = editor?.editableSelectionIDs ?? selectedNodes
+                var ids = editor?.editableSelectionIDs ?? selectedNodes
+                // Containers carry their members, as in Visio.
+                if let document = editor?.diagramDocument {
+                    let members = DiagramMemberships.movingMembers(of: ids, in: document.diagram, pageID: page.id)
+                    let unlocked = Set(page.nodes.filter { members.contains($0.id) && !page.isLocked($0) }.map(\.id))
+                    ids.formUnion(unlocked)
+                }
                 originalRects = Dictionary(
                     uniqueKeysWithValues: page.nodes.filter { ids.contains($0.id) }.map { ($0.id, $0.rect) })
             }
