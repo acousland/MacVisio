@@ -3,7 +3,8 @@ param(
     [Parameter(Mandatory = $true)][string]$InputDirectory,
     [Parameter(Mandatory = $true)][string]$OutputDirectory,
     [string]$Build = '',
-    [string]$Recipes = ''
+    [string]$Recipes = '',
+    [switch]$Export
 )
 # Round-trip reference (M3, G2). In build mode, runs each recipe in Recipes (a PowerShell file defining
 # Build-<Name> functions) to author a drawing with Visio's own UI-level automation and saves it to
@@ -146,6 +147,13 @@ try {
         try {
             $document = $application.Documents.OpenEx([string]$file.FullName, 2 + 64)
             $report.drawings[$file.Name] = Describe-Document $document
+            if ($Export) {
+                $stem = [IO.Path]::GetFileNameWithoutExtension($file.Name)
+                try { $document.ExportAsFixedFormat(1, (Join-Path $OutputDirectory "$stem.pdf"), 1, 0) } catch { $report.errors += [ordered]@{ pdf = $file.Name; error = Get-ErrorRecord $_.Exception } }
+                for ($p = 1; $p -le $document.Pages.Count; $p++) {
+                    try { $document.Pages.Item($p).Export((Join-Path $OutputDirectory "$stem-page$p.png")) } catch { $report.errors += [ordered]@{ png = $file.Name; error = Get-ErrorRecord $_.Exception } }
+                }
+            }
         } catch { $report.errors += [ordered]@{ open = $file.Name; error = Get-ErrorRecord $_.Exception } }
         finally { if ($document) { try { $document.Saved = $true; $document.Close() } catch { } } }
     }
