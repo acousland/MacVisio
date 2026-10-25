@@ -60,6 +60,45 @@ enum DiagramDrawing {
         }
         return result
     }
+    /// Visio's Rounding cell: the corner radius (in drawing points) applied to a shape's line geometry.
+    static func roundingRadius(of node:DiagramNode) -> CGFloat {
+        CGFloat(node.formatting.sheet["Rounding"].flatMap { Double($0.value) }.map { max(0,$0*72) } ?? 0)
+    }
+    /// A shape path with Visio's corner rounding: every corner between straight segments becomes an arc of
+    /// `rounding` radius, limited to half of each adjoining segment. Paths with curves are drawn as authored.
+    static func vectorPath(_ vector:VectorPath,in r:CGRect,rounding:CGFloat) -> NSBezierPath {
+        guard rounding > 0,vector.commands.allSatisfy({ ["M","L","Z"].contains($0.kind) }) else { return vectorPath(vector,in:r) }
+        func p(_ x:Double,_ y:Double) -> CGPoint { CGPoint(x:r.minX+x*r.width,y:r.minY+y*r.height) }
+        var subpaths:[(points:[CGPoint],closed:Bool)] = []
+        for command in vector.commands {
+            switch command.kind {
+            case "M": subpaths.append(([p(command.values[0],command.values[1])],false))
+            case "L": if subpaths.isEmpty { subpaths.append(([],false)) }; subpaths[subpaths.count-1].points.append(p(command.values[0],command.values[1]))
+            default: if !subpaths.isEmpty { subpaths[subpaths.count-1].closed = true }
+            }
+        }
+        let path = NSBezierPath()
+        path.windingRule = vector.evenOdd == true ? .evenOdd : .nonZero
+        for var (points,closed) in subpaths {
+            if let first = points.first,let last = points.last,points.count > 2,hypot(first.x-last.x,first.y-last.y) < 1e-6 { points.removeLast(); closed = true }
+            guard points.count > 1 else { continue }
+            func radius(_ i:Int) -> CGFloat {
+                let a = points[(i+points.count-1)%points.count],b = points[i],c = points[(i+1)%points.count]
+                return min(rounding,hypot(b.x-a.x,b.y-a.y)/2,hypot(c.x-b.x,c.y-b.y)/2)
+            }
+            if closed {
+                let start = CGPoint(x:(points[0].x+points[1].x)/2,y:(points[0].y+points[1].y)/2)
+                path.move(to:start)
+                for k in 1...points.count { let i = k%points.count; path.appendArc(from:points[i],to:points[(i+1)%points.count],radius:radius(i)) }
+                path.line(to:start); path.close()
+            } else {
+                path.move(to:points[0])
+                if points.count > 2 { for i in 1..<(points.count-1) { path.appendArc(from:points[i],to:points[i+1],radius:radius(i)) } }
+                path.line(to:points[points.count-1])
+            }
+        }
+        return path
+    }
     static func vectorPath(_ vector:VectorPath,in r:CGRect) -> NSBezierPath {
         let path = NSBezierPath()
         path.windingRule = vector.evenOdd == true ? .evenOdd : .nonZero
@@ -80,7 +119,7 @@ enum DiagramDrawing {
     }
     static func outline(for n:DiagramNode) -> NSBezierPath {
         guard !n.formatting.paths.isEmpty else { return n.formatting.geometry == nil ? path(for:n.kind,in:n.rect) : NSBezierPath() }
-        let combined = NSBezierPath(); for vector in n.formatting.paths { combined.append(vectorPath(vector,in:n.rect)) }; return combined
+        let combined = NSBezierPath(); for vector in n.formatting.paths { combined.append(vectorPath(vector,in:n.rect,rounding:roundingRadius(of:n))) }; return combined
     }
     static func font(for n:DiagramNode) -> NSFont {
         NativeFontRendering.font(requested: n.formatting.fontName, size: n.fontSize,
@@ -90,7 +129,14 @@ enum DiagramDrawing {
     static func isTextHidden(for node:DiagramNode) -> Bool { Double(node.formatting.sheet["HideText"]?.value ?? "0") == 1 }
     static func textRect(for n:DiagramNode) -> CGRect {
         if let box = n.formatting.textBox { return box.rect(in:n) }
-        var rect = n.rect.insetBy(dx:10,dy:8)
+        // Visio shapes use their margin cells (default 4 pt); a block thinner than its margins collapses to its
+        // centre line, and the text then overflows it as in Visio, rather than becoming a null rectangle.
+        func margin(_ key:String,_ fallback:CGFloat) -> CGFloat { n.formatting.sheet[key].flatMap { Double($0.value) }.map { CGFloat($0)*72 } ?? fallback }
+        let imported = n.formatting.sourceShapeID != nil
+        let left = margin("LeftMargin",imported ? 4 : 10),right = margin("RightMargin",imported ? 4 : 10)
+        let top = margin("TopMargin",imported ? 4 : 8),bottom = margin("BottomMargin",imported ? 4 : 8)
+        let width = max(0,n.rect.width-left-right),height = max(0,n.rect.height-top-bottom)
+        var rect = CGRect(x:width > 0 ? n.rect.minX+left : n.rect.midX,y:height > 0 ? n.rect.minY+top : n.rect.midY,width:width,height:height)
         if n.kind == .diamond { rect = n.rect.insetBy(dx:n.width*0.22,dy:n.height*0.22) }
         if n.kind == .triangle { rect.origin.y += n.height*0.3;rect.size.height -= n.height*0.3 }
         if n.kind == .person { rect = CGRect(x:n.x-30,y:n.y+n.height+5,width:n.width+60,height:40) }
@@ -159,7 +205,7 @@ enum DiagramDrawing {
             }
         } else if !n.formatting.paths.isEmpty {
             for (index, vector) in n.formatting.paths.enumerated() {
-                let path = prepared?.vectors[index] ?? vectorPath(vector,in:n.rect)
+                let path = prepared?.vectors[index] ?? vectorPath(vector,in:n.rect,rounding:roundingRadius(of:n))
                 if vector.fill { NSColor(hex:n.fill).setFill(); path.fill() }
                 if vector.stroke { NSColor(hex:n.stroke).setStroke(); path.lineWidth = visibleLineWidth(n.strokeWidth); path.lineJoinStyle = .round; let d = dash(n.formatting.linePattern); if !d.isEmpty { path.setLineDash(d,count:d.count,phase:0) }; path.stroke() }
             }
@@ -191,13 +237,21 @@ enum DiagramDrawing {
             string = ShapeRichText.attributed(n)
             var rect = layout.rect
             let measured = PerformanceEvidence.measure(.textLayout) { PerformanceEvidence.count(.textMeasurements); return string.boundingRect(with:CGSize(width:max(1,rect.width),height:10000),options:[.usesLineFragmentOrigin]) }
-            let h = min(rect.height,ceil(measured.height))
-            let vertical = n.formatting.textBox?.verticalAlignment ?? 1
-            rect.origin.y += max(0,(rect.height-h)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5)); rect.size.height = h
+            (rect.origin.y,rect.size.height) = alignedText(height:ceil(measured.height),in:rect,vertical:verticalAlignment(of:n))
             textRect = rect
         }
         string.draw(with:textRect,options:[.usesLineFragmentOrigin])
         NSGraphicsContext.restoreGraphicsState()
+    }
+    /// The text block's vertical alignment: its imported text box, else the shape's VerticalAlign cell (0 top,
+    /// 1 middle, 2 bottom).
+    static func verticalAlignment(of node:DiagramNode) -> Int {
+        node.formatting.textBox?.verticalAlignment ?? node.formatting.sheet["VerticalAlign"].flatMap { Double($0.value) }.flatMap { Int(exactly:$0) } ?? 1
+    }
+    /// Places text of `height` in its block as Visio does: text taller than the block overflows it (both ways when
+    /// centred) rather than being clipped, which would drop every line that does not fit.
+    static func alignedText(height:CGFloat,in rect:CGRect,vertical:Int) -> (y:CGFloat,height:CGFloat) {
+        (rect.origin.y + (rect.height-height)*(vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5),height)
     }
     static func textLayout(for node:DiagramNode) -> (rect:CGRect,center:CGPoint,rotation:Double) {
         func reflect(_ point:CGPoint) -> CGPoint { CGPoint(x:node.formatting.flipX ? 2*node.center.x-point.x : point.x,y:node.formatting.flipY ? 2*node.center.y-point.y : point.y) }
@@ -331,7 +385,7 @@ enum DiagramDrawing {
                 geometry = "<image x=\"\(n.x)\" y=\"\(n.y)\" width=\"\(n.width)\" height=\"\(n.height)\" preserveAspectRatio=\"none\" href=\"data:\(xml(image.mimeType));base64,\(image.data.base64EncodedString())\"/>"
             } else if !n.formatting.paths.isEmpty {
                 geometry = n.formatting.paths.map { vector in
-                    "<path d=\"\(pathData(vectorPath(vector,in:n.rect)))\" fill=\"\(vector.fill ? color(n.fill) : "none")\" stroke=\"\(vector.stroke ? color(n.stroke) : "none")\" stroke-width=\"\(n.strokeWidth)\" stroke-linejoin=\"round\"\(dashAttribute)/>"
+                    "<path d=\"\(pathData(vectorPath(vector,in:n.rect,rounding:roundingRadius(of:n))))\" fill=\"\(vector.fill ? color(n.fill) : "none")\" stroke=\"\(vector.stroke ? color(n.stroke) : "none")\" stroke-width=\"\(n.strokeWidth)\" stroke-linejoin=\"round\"\(dashAttribute)/>"
                 }.joined()
             } else if !n.formatting.isGroup && n.formatting.geometry == nil {
                 geometry = "<path d=\"\(pathData(path(for:n.kind,in:n.rect)))\" fill=\"\(color(n.fill))\" stroke=\"\(color(n.stroke))\" stroke-width=\"\(n.strokeWidth)\" stroke-linejoin=\"round\"\(dashAttribute)/>"

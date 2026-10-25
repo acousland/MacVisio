@@ -93,4 +93,53 @@ final class VisioVisualReferenceTests: XCTestCase {
         XCTAssertEqual(visibleLineWidth(2), 2, accuracy: 1e-9)
         XCTAssertEqual(visibleLineWidth(0), 0)
     }
+
+    // Found on a customer drawing (Logical Definition): title-block labels and zone headings were missing or misplaced.
+
+    private func ink(_ node: DiagramNode) -> (count: Int, top: Int) {
+        let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: 300, pixelsHigh: 120, bitsPerSample: 8, samplesPerPixel: 4,
+                                   hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+        NSGraphicsContext.saveGraphicsState(); NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+        let flip = NSAffineTransform(); flip.translateX(by: 0, yBy: 120); flip.scaleX(by: 1, yBy: -1); flip.concat()
+        DiagramDrawing.drawNode(node, shadow: false)
+        NSGraphicsContext.restoreGraphicsState()
+        var count = 0, top = Int.max
+        for y in 0..<120 { for x in 0..<300 where (rep.colorAt(x: x, y: y)?.alphaComponent ?? 0) > 0.5 { count += 1; top = min(top, y) } }
+        return (count, top)
+    }
+    private func label(_ text: String, height: Double, size: Double = 7) -> DiagramNode {
+        var node = DiagramNode(kind: .text, x: 10, y: 10, text: text)
+        node.width = 200; node.height = height; node.fontSize = size; node.fill = "#FFFFFF00"; node.stroke = "#FFFFFF00"
+        node.formatting.sourceShapeID = "7"
+        return node
+    }
+
+    func testTextTallerThanItsBlockOverflowsInsteadOfDisappearing() {
+        // A 7 pt label in a 7.7 pt block: Visio's 4 pt margins exceed the block, and Visio still draws the text.
+        XCTAssertGreaterThan(ink(label("Description:", height: 7.7)).count, 20)
+    }
+
+    func testVerticalAlignCellPlacesTextWithoutAnImportedTextBox() {
+        var top = label("Zone 1", height: 100, size: 12); top.formatting.sheet["VerticalAlign"] = ShapeSheetCell(value: "0")
+        var middle = top; middle.formatting.sheet["VerticalAlign"] = ShapeSheetCell(value: "1")
+        XCTAssertLessThan(ink(top).top + 20, ink(middle).top, "VerticalAlign 0 puts the heading at the top")
+    }
+
+    func testRoundingCellRoundsLineGeometryCorners() {
+        let square = VectorPath(commands: [VectorCommand("M", 0, 0), VectorCommand("L", 1, 0), VectorCommand("L", 1, 1), VectorCommand("L", 0, 1), VectorCommand("Z")])
+        let rect = CGRect(x: 0, y: 0, width: 100, height: 60)
+        let sharp = DiagramDrawing.vectorPath(square, in: rect), rounded = DiagramDrawing.vectorPath(square, in: rect, rounding: 10)
+        XCTAssertTrue(sharp.contains(CGPoint(x: 1, y: 1)))
+        XCTAssertFalse(rounded.contains(CGPoint(x: 1, y: 1)), "The corner is cut by the 10 pt radius")
+        XCTAssertTrue(rounded.contains(CGPoint(x: 50, y: 30)))
+    }
+
+    func testCaseCellShowsCapitalsWithoutChangingStoredText() {
+        var node = label("Pspf Security Zones", height: 20)
+        var run = ShapeTextRun(text: node.text, character: ShapeCharacterStyle(node: node), paragraph: ShapeParagraphStyle())
+        run.character.cells["Case"] = ShapeSheetCell(value: "1")
+        node.formatting.textRuns = [run]
+        XCTAssertEqual(ShapeRichText.attributed(node).string, "PSPF SECURITY ZONES")
+        XCTAssertEqual(ShapeRichText.attributed(node, editing: true).string, "Pspf Security Zones")
+    }
 }

@@ -23,7 +23,7 @@ final class PreparedNodeDrawing {
         self.input = input
         self.paperScale = paperScale
         outline = DiagramDrawing.outline(for: input)
-        vectors = input.formatting.paths.map { DiagramDrawing.vectorPath($0, in: input.rect) }
+        vectors = input.formatting.paths.map { DiagramDrawing.vectorPath($0, in: input.rect, rounding: DiagramDrawing.roundingRadius(of: input)) }
         let paperNode = DrawingScale.paperNode(input, factor: paperScale)
         let layout = DiagramDrawing.textLayout(for: paperNode)
         textCenter = layout.center
@@ -37,10 +37,7 @@ final class PreparedNodeDrawing {
                 with: CGSize(width: max(1, rect.width), height: 10000),
                 options: [.usesLineFragmentOrigin])
         }
-        let height = min(rect.height, ceil(measured.height))
-        let vertical = paperNode.formatting.textBox?.verticalAlignment ?? 1
-        rect.origin.y += max(0, (rect.height - height) * (vertical == 0 ? 0 : vertical == 2 ? 1 : 0.5))
-        rect.size.height = height
+        (rect.origin.y, rect.size.height) = DiagramDrawing.alignedText(height: ceil(measured.height), in: rect, vertical: DiagramDrawing.verticalAlignment(of: paperNode))
         textRect = rect
         // The retained input shares the drawing's storage, so only what preparation builds is charged: paths
         // and laid-out text. Charging the shape's whole encoding (and encoding it) let a large stencil page

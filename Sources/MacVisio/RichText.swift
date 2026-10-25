@@ -143,7 +143,12 @@ enum ShapeRichText {
             if run.character.underline { attributes[.underlineStyle] = NSUnderlineStyle.single.rawValue }
             if run.character.strikethrough { attributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue }
             if let field = run.fieldIndex { attributes[fieldKey] = field;if editing { attributes[.backgroundColor] = NSColor.quaternaryLabelColor };if editing && run.text.isEmpty { attributes[emptyFieldKey] = true } }
-            result.append(NSAttributedString(string:editing && run.fieldIndex != nil && run.text.isEmpty ? "‹field›" : run.text,attributes:attributes))
+            var shown = run.text
+            // Visio's Case cell changes how text is shown, not what is stored: 1 all caps, 2 initial caps.
+            if !editing, let raw = run.character.cells["Case"].flatMap({ Double($0.value) }) {
+                if raw == 1 { shown = shown.uppercased() } else if raw == 2 { shown = shown.capitalized }
+            }
+            result.append(NSAttributedString(string:editing && run.fieldIndex != nil && run.text.isEmpty ? "‹field›" : shown,attributes:attributes))
         }
         return result
     }

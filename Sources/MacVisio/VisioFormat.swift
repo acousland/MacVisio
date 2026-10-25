@@ -499,6 +499,22 @@ enum VisioFormat {
                 }
                 if let text = textElement,!node.text.isEmpty || node.formatting.textFields?.isEmpty == false {
                     node.formatting.textRuns = ShapeRichText.droppingTerminalMark(try richText(text,shape:shape,master:master?.shape,document:document,styles:styles,palette:palette,node:node,warnings:&warnings))
+                    // An instance that shows its master's text but stores its own field values displays those
+                    // values (a title block's "Double-Click Here to Enter Title" field holding the page title).
+                    if shape.child("Text") == nil,var runs = node.formatting.textRuns,var fields = node.formatting.textFields {
+                        let ownRows = shape.children(named:"Section").first{$0.attributes["N"] == "Field"}?.children(named:"Row") ?? []
+                        var changed = false
+                        for f in fields.indices {
+                            guard let own = ownRows.first(where:{($0.attributes["IX"] ?? "") == String(fields[f].index)}),let value = own.cells["Value"],value.value != "Inh" else { continue }
+                            let picture = fields[f].cells["Format"]?.value ?? ""
+                            let typed:SheetValue = value.unit.uppercased() == "STR" || Double(value.value) == nil ? .string(value.value) : .number(Double(value.value)!)
+                            guard let display = try? FieldFormatting.format(typed,picture:picture.isEmpty ? "esc(0)" : picture),display != fields[f].cached else { continue }
+                            fields[f].cached = display
+                            for r in runs.indices where runs[r].fieldIndex == fields[f].index { runs[r].text = display }
+                            changed = true
+                        }
+                        if changed { node.formatting.textFields = fields;node.formatting.textRuns = runs;node.text = runs.map(\.text).joined() }
+                    }
                     if let first = node.formatting.textRuns?.first {
                         node.fontSize = first.character.size;node.textColor = first.character.color;node.bold = first.character.bold
                         node.formatting.fontName = first.character.fontName;node.formatting.italic = first.character.italic;node.formatting.underline = first.character.underline;node.formatting.alignment = first.paragraph.alignment
