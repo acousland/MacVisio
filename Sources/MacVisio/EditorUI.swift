@@ -597,7 +597,7 @@ final class EditorRootView: FlippedView {
     }
     override func layout() {
         super.layout();guard let editor else{return}
-        let w = bounds.width,h = bounds.height,left = (bounds.width >= 1000 || libraryRequestedInNarrowWindow) ? 224.0 : 0.0,right = 248.0,top = 144.0,bottom = 30.0,pages = 33.0
+        let w = bounds.width,h = bounds.height,left = (bounds.width >= 1000 || libraryRequestedInNarrowWindow) ? 224.0 : 0.0,right = 248.0,top = VisioRibbonView.tabHeight+VisioRibbonView.commandHeight,bottom = 30.0,pages = 33.0
         stencil.isHidden = left == 0
         let bodyHeight = max(1,h-top-bottom-1)
         ribbon.frame = CGRect(x:0,y:0,width:w,height:top)

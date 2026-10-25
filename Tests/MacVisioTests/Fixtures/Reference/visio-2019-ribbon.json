@@ -1,0 +1,958 @@
+{
+ "source": "Microsoft Visio Professional 2019 16.0.10730.20102 (en-GB): UI Automation inventory of the ribbon with a drawing open and nothing selected (scripts/windows/Capture-VisioUI.ps1)",
+ "tabs": [
+  "File",
+  "Home",
+  "Insert",
+  "Draw",
+  "Design",
+  "Data",
+  "Process",
+  "Review",
+  "View",
+  "Help"
+ ],
+ "tellMe": "Tell me what you want to do",
+ "ribbon": [
+  {
+   "name": "Home",
+   "groups": [
+    {
+     "name": "Clipboard",
+     "items": [
+      {
+       "name": "Paste",
+       "kind": "split",
+       "enabled": false
+      },
+      {
+       "name": "Cut",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Copy",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Format Painter",
+       "kind": "button",
+       "enabled": false
+      }
+     ]
+    },
+    {
+     "name": "Font",
+     "items": [
+      {
+       "name": "Font",
+       "kind": "combo",
+       "enabled": true
+      },
+      {
+       "name": "Font Size",
+       "kind": "combo",
+       "enabled": true
+      },
+      {
+       "name": "Increase Font Size",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Decrease Font Size",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Bold",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Italic",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Underline",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Strikethrough",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Change Case...",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Font Color",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Font",
+       "kind": "launcher",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Paragraph",
+     "items": [
+      {
+       "name": "Align Top",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Align Middle",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Align Bottom",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Bullets",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Rotate Text",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Align Left",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Center",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Align Right",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Justify",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Decrease Indent",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Increase Indent",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Paragraph",
+       "kind": "launcher",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Tools",
+     "items": [
+      {
+       "name": "Pointer Tool",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Connector",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Text",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Rectangle",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Connection Point",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Text Block",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Shape Styles",
+     "items": [
+      {
+       "name": "Quick Styles",
+       "kind": "menu",
+       "enabled": false
+      },
+      {
+       "name": "Fill",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Line",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Effects",
+       "kind": "menu",
+       "enabled": false
+      },
+      {
+       "name": "Format Object...",
+       "kind": "button",
+       "enabled": false
+      }
+     ]
+    },
+    {
+     "name": "Arrange",
+     "items": [
+      {
+       "name": "Align",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Position",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Bring to Front",
+       "kind": "split",
+       "enabled": false
+      },
+      {
+       "name": "Send to Back",
+       "kind": "split",
+       "enabled": false
+      },
+      {
+       "name": "Group",
+       "kind": "menu",
+       "enabled": false
+      }
+     ]
+    },
+    {
+     "name": "Editing",
+     "items": [
+      {
+       "name": "Change Shape",
+       "kind": "menu",
+       "enabled": false
+      },
+      {
+       "name": "Find",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Layers",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Select",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Insert",
+   "groups": [
+    {
+     "name": "Pages",
+     "items": [
+      {
+       "name": "New Page",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Blank Page",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Illustrations",
+     "items": [
+      {
+       "name": "Pictures...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Online Pictures...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Chart...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "CAD Drawing...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Diagram Parts",
+     "items": [
+      {
+       "name": "Container",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Callout",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Connector",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Links",
+     "items": [
+      {
+       "name": "Link",
+       "kind": "button",
+       "enabled": false
+      }
+     ]
+    },
+    {
+     "name": "Text",
+     "items": [
+      {
+       "name": "Text Box",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Draw Horizontal Text Box",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "ScreenTip...",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Object...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Field...",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Symbol",
+       "kind": "menu",
+       "enabled": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Draw",
+   "groups": [
+    {
+     "name": "Tools",
+     "items": [
+      {
+       "name": "Select",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Draw with Touch",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Stroke Eraser",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Lasso Select",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Pens",
+     "items": [
+      {
+       "name": "Pens",
+       "kind": "gallery",
+       "enabled": true
+      },
+      {
+       "name": "Color",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Thickness",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Convert",
+     "items": [
+      {
+       "name": "Ink to Text",
+       "kind": "button",
+       "enabled": false
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Design",
+   "groups": [
+    {
+     "name": "Page Setup",
+     "items": [
+      {
+       "name": "Orientation",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Size",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Auto Size",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Page Setup...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Themes",
+     "items": [
+      {
+       "name": "Themes",
+       "kind": "gallery",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Variants",
+     "items": [
+      {
+       "name": "Variants",
+       "kind": "gallery",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Backgrounds",
+     "items": [
+      {
+       "name": "Backgrounds",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Borders & Titles",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Page Setup",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Layout",
+     "items": [
+      {
+       "name": "Re-Layout Page",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Connectors",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Layout & Routing...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Data",
+   "groups": [
+    {
+     "name": "External Data",
+     "items": [
+      {
+       "name": "Quick Import",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Custom Import",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Refresh All",
+       "kind": "split",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Data Graphics",
+     "items": [
+      {
+       "name": "Data Graphics",
+       "kind": "gallery",
+       "enabled": false
+      },
+      {
+       "name": "Position",
+       "kind": "menu",
+       "enabled": false
+      },
+      {
+       "name": "Configure",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Auto Space",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Display Data",
+     "items": [
+      {
+       "name": "Insert Legend",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Show/Hide",
+     "items": [
+      {
+       "name": "Shape Data Window",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "External Data Window",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Data Graphic Fields",
+       "kind": "check",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Advanced Data Linking",
+     "items": [
+      {
+       "name": "Link Data",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Advanced Data Graphics",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Process",
+   "groups": [
+    {
+     "name": "Subprocess",
+     "items": [
+      {
+       "name": "Create New",
+       "kind": "button",
+       "enabled": false
+      },
+      {
+       "name": "Link to Existing",
+       "kind": "menu",
+       "enabled": false
+      },
+      {
+       "name": "Create from Selection",
+       "kind": "button",
+       "enabled": false
+      }
+     ]
+    },
+    {
+     "name": "Diagram Validation",
+     "items": [
+      {
+       "name": "Check Diagram",
+       "kind": "split",
+       "enabled": true
+      },
+      {
+       "name": "Ignore This Issue",
+       "kind": "split",
+       "enabled": false
+      },
+      {
+       "name": "Issues Window",
+       "kind": "check",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "SharePoint Workflow",
+     "items": [
+      {
+       "name": "Import",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Export",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Stage Outline",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Create Workflow",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Review",
+   "groups": [
+    {
+     "name": "Proofing",
+     "items": [
+      {
+       "name": "Spelling...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Research...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Thesaurus...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Accessibility",
+     "items": [
+      {
+       "name": "Check Accessibility",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Language",
+     "items": [
+      {
+       "name": "Translate",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Language",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Comments",
+     "items": [
+      {
+       "name": "New Comment",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Comments Pane",
+       "kind": "split",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Reports",
+     "items": [
+      {
+       "name": "Shape Reports",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "View",
+   "groups": [
+    {
+     "name": "Views",
+     "items": [
+      {
+       "name": "Presentation Mode",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Show",
+     "items": [
+      {
+       "name": "Ruler",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Grid",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Page Breaks",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Guides",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Task Panes",
+       "kind": "menu",
+       "enabled": true
+      },
+      {
+       "name": "Ruler & Grid...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Zoom",
+     "items": [
+      {
+       "name": "Zoom...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Fit to Window",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Page Width",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Visual Aids",
+     "items": [
+      {
+       "name": "Dynamic Grid",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "AutoConnect",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Connection Points",
+       "kind": "check",
+       "enabled": true
+      },
+      {
+       "name": "Snap & Glue...",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Window",
+     "items": [
+      {
+       "name": "New Window",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Arrange All",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Cascade",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Switch Windows",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    },
+    {
+     "name": "Macros",
+     "items": [
+      {
+       "name": "Macros",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Add-Ons",
+       "kind": "menu",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "name": "Help",
+   "groups": [
+    {
+     "name": "Help",
+     "items": [
+      {
+       "name": "Help",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Contact Support...",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Feedback",
+       "kind": "button",
+       "enabled": true
+      },
+      {
+       "name": "Show Training",
+       "kind": "button",
+       "enabled": true
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

@@ -58,8 +58,11 @@ final class EditorChromeTests: XCTestCase {
     func testAppearanceControlSwitchesWindowThemeWithoutChangingDocumentOrSVG() throws {
         try withEditor(diagramWithShape()) { document, editor in
             let ribbon = editor.root.ribbon
-            ribbon.selectTab("View")
-            let appearance = try XCTUnwrap(popup(identifier: "appearance", in: ribbon))
+            // As in Visio, the Office theme is chosen in File > Account.
+            editor.showBackstage(nil)
+            let backstage = try XCTUnwrap(editor.root.subviews.compactMap { $0 as? BackstageView }.first)
+            backstage.show("Account")
+            let appearance = try XCTUnwrap(popup(identifier: "appearance", in: backstage))
             let before = document.diagram
             let svgBefore = DiagramDrawing.svg(document.diagram.scene())
 

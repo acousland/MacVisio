@@ -216,6 +216,8 @@ final class CanvasView: NSView {
     var zoom: Double = 0.85
     var coordinateZoom: Double { zoom * document.diagram.page.paperScale }
     var showsGrid = true
+    /// View > Show > Ruler.
+    var showsRulers = true { didSet { needsDisplay = true } }
     var snapsToGrid = true
     var pendingSource: UUID?
     var pendingSourcePort: String?
@@ -561,7 +563,7 @@ final class CanvasView: NSView {
         let pixelStep = tickStep * coordinateZoom
         let topBand = CGRect(x: paper.minX, y: paper.minY - 31, width: paper.width, height: 31)
         let visibleTop = dirtyRect.intersection(topBand)
-        if !visibleTop.isNull, pixelStep > 0 {
+        if showsRulers, !visibleTop.isNull, pixelStep > 0 {
             // Restrict iteration to ticks intersecting this draw pass. Large pages
             // should not make a small invalidation walk every ruler division.
             let first = max(0, ceil((visibleTop.minX - paper.minX - 48) / pixelStep))
@@ -588,7 +590,7 @@ final class CanvasView: NSView {
         }
         let leftBand = CGRect(x: paper.minX - 43, y: paper.minY, width: 43, height: paper.height)
         let visibleLeft = dirtyRect.intersection(leftBand)
-        if !visibleLeft.isNull, pixelStep > 0 {
+        if showsRulers, !visibleLeft.isNull, pixelStep > 0 {
             let first = max(0, ceil((visibleLeft.minY - paper.minY - 6) / pixelStep))
             let last = min(floor(page.height / tickStep), floor((visibleLeft.maxY - paper.minY) / pixelStep))
             let ruler = NSBezierPath()

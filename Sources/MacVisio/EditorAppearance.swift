@@ -37,7 +37,13 @@ enum EditorPalette {
                 NSColor(hex: appearance.bestMatch(from: [.darkAqua, .aqua]) == .darkAqua ? dark : light)
             })
     }
-    static let ribbon = adaptive("ribbon", light: "#FAFAFA", dark: "#292929")
+    // Visio 2019's Colorful Office theme: a blue tab strip over a light command area (Dark Gray in dark mode).
+    static let ribbon = adaptive("ribbon", light: "#F3F3F3", dark: "#292929")
+    static let tabStrip = adaptive("tabStrip", light: "#3955A3", dark: "#1E1E1E")
+    static let tabText = adaptive("tabText", light: "#FFFFFF", dark: "#D4D4D4")
+    static let ribbonHover = adaptive("ribbonHover", light: "#D5E1F2", dark: "#3A3D46")
+    static let ribbonSelected = adaptive("ribbonSelected", light: "#C5D5EE", dark: "#44506A")
+    static let backstage = adaptive("backstage", light: "#3955A3", dark: "#1E1E1E")
     static let panel = adaptive("panel", light: "#F5F5F5", dark: "#252526")
     static let workspace = adaptive("workspace", light: "#DADADA", dark: "#171719")
     static let border = adaptive("border", light: "#D0D0D0", dark: "#414144")
