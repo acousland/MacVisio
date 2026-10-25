@@ -121,7 +121,10 @@ enum DiagramMemberships {
         }
         let source = cell.formula
         let trimmed = source.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmed.isEmpty || trimmed == "0" { return Formula(clauses: [], prefix: "SUM(", suffix: ")") }
+        // An inherited value (Inh) comes from a master or style, which cannot name page shapes:
+        // Visio writes structural DEPENDSON clauses only as local instance formulas, so an inherited
+        // Relationships cell holds no relationships. Every stencil master instance has one.
+        if trimmed.isEmpty || trimmed == "0" || trimmed.caseInsensitiveCompare("Inh") == .orderedSame { return Formula(clauses: [], prefix: "SUM(", suffix: ")") }
         let parts = try callParts(source, expected: "SUM", allowEquals: true)
         guard !parts.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
             return Formula(clauses: [], prefix: parts.prefix, suffix: parts.suffix)

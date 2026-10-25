@@ -9,7 +9,10 @@ enum VisioXML {
         // Enforce streaming depth/node budgets BEFORE allocating the DOM. This
         // pass also retains ordered Text children, which Foundation otherwise
         // loses for whitespace-only runs even with nodePreserveWhitespace.
-        let builder = TextBuilder(),parser = XMLParser(data:data)
+        // XML reads CR LF as one line feed, but XMLParser reports Visio's raw CR LF paragraph marks as
+        // two, which doubled every terminal mark on a re-saved page. Normalize before streaming.
+        let normalized = data.contains(0x0D) ? Data(text.replacingOccurrences(of:"\r\n",with:"\n").utf8) : data
+        let builder = TextBuilder(),parser = XMLParser(data:normalized)
         parser.shouldResolveExternalEntities = false
         parser.delegate = builder
         guard parser.parse() else { throw DiagramError.invalid("Invalid or oversized package XML.") }
@@ -18,7 +21,16 @@ enum VisioXML {
         func find(_ element:XMLElement) { if element.localTag == "Text" { originals.append(element) } else { for child in (element.children ?? []).compactMap({$0 as? XMLElement}) { find(child) } } }
         if let root = document.rootElement() { find(root) }
         guard originals.count == builder.texts.count else { throw DiagramError.invalid("Inconsistent package text XML.") }
-        for (original,rebuilt) in zip(originals,builder.texts) { original.setChildren((rebuilt.children ?? []).map{$0.copy() as! XMLNode}) }
+        // Replace each parsed Text element whole: setChildren on a parsed element can leave its old
+        // whitespace node in the serialized tree, which doubled Visio's terminal paragraph mark.
+        for (original,rebuilt) in zip(originals,builder.texts) {
+            guard let parent = original.parent as? XMLElement else { original.setChildren((rebuilt.children ?? []).map{$0.copy() as! XMLNode});continue }
+            let replacement = XMLElement(name:original.name ?? "Text")
+            for attribute in original.attributes ?? [] { replacement.addAttribute(attribute.copy() as! XMLNode) }
+            for namespace in original.namespaces ?? [] { replacement.addNamespace(namespace.copy() as! XMLNode) }
+            replacement.setChildren((rebuilt.children ?? []).map{$0.copy() as! XMLNode})
+            parent.replaceChild(at:original.index,with:replacement)
+        }
         return document
     }
     static func element(_ xml:String) throws -> XMLElement {

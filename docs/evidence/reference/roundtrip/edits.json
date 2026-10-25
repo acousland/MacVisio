@@ -1,0 +1,20 @@
+{
+  "flowchart": {
+    "move-step": [{"op": "move", "page": "Process", "shape": "2", "dx": 1.0, "dy": 0.25}],
+    "retext": [{"op": "text", "page": "Process", "shape": "3", "text": "Stock available?"}],
+    "data": [{"op": "cell", "page": "Process", "shape": "2", "cell": "Prop.Owner", "formula": "\"Dispatch\""}],
+    "connect": [{"op": "connect", "page": "Process", "shape": "4", "to": "5", "text": "Done"}]
+  },
+  "intelligent": {
+    "resize-smart": [{"op": "resize", "page": "Shapes", "shape": "2", "height": 1.5}],
+    "retext-card": [{"op": "text", "page": "Shapes", "shape": "1", "text": "Renamed card"}]
+  },
+  "structure": {
+    "move-member": [{"op": "move", "page": "Structure", "shape": "1", "dx": 0.25, "dy": 0}],
+    "show-notes": [{"op": "layerVisible", "page": "Structure", "layer": "Notes", "visible": true}]
+  },
+  "pages": {
+    "rename": [{"op": "renamePage", "page": "Plan", "name": "Floor plan"}],
+    "add-page": [{"op": "addPage", "name": "Extra"}]
+  }
+}

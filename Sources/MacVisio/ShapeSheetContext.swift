@@ -127,13 +127,23 @@ final class ShapeSheetContext {
             else { throw DiagramError.invalid("Unknown ShapeSheet cell: \(canonical).") }
         };guard result.valid else { throw DiagramError.invalid("Invalid ShapeSheet value.") };cache[token] = result;referenceCache[id,default:[:]][key] = result;return result
     }
+    /// Values keep their unit in both modes: geometry needs it for display-unit rounding
+    /// (CEILING(...,1) on a millimetre value rounds to whole millimetres), and still reads numbers.
     private func numericValue(_ number: Double, unit: String) -> SheetValue {
-        mode == .typedFields && SheetValue.factor(unit) != nil ? .quantity(number,unit) : .number(number)
+        SheetValue.factor(unit) != nil ? .quantity(number,unit) : .number(number)
+    }
+    /// A drawing-unit (DL) value shown in this page's drawing unit.
+    func displayValue(_ value: SheetValue) -> SheetValue {
+        guard case .quantity(let number, let unit) = value, unit.uppercased() == "DL" else { return value }
+        return .quantity(number, page.drawingScale?.drawingUnit ?? "IN")
     }
     private func implicitUnit(_ key: String) -> String {
         if ["Angle","TxtAngle"].contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame }) { return "RAD" }
-        if (ShapeSheetEngine.geometryKeys + ShapeSheetEngine.textKeys + ["PageWidth","PageHeight"]).contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame && $0 != "VerticalAlign" }) {
-            return page.drawingScale?.drawingUnit ?? "IN"
+        if ["PageWidth","PageHeight"].contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame }) { return page.drawingScale?.drawingUnit ?? "IN" }
+        // Geometry cells stored without a unit are Visio drawing units (DL): they display in the
+        // drawing's unit but round in internal units (ROUNDING-16).
+        if (ShapeSheetEngine.geometryKeys + ShapeSheetEngine.textKeys).contains(where: { $0.caseInsensitiveCompare(key) == .orderedSame && $0 != "VerticalAlign" }) {
+            return "DL"
         }
         return ""
     }
@@ -364,8 +374,7 @@ final class ShapeSheetContext {
             let maximum = args.count == 2 ? try eval(args[1]).numeric() : name == "TEXTHEIGHT" ? try self.number(owner,"TxtWidth") : nil
             let metrics = try ShapeTextFunctions.metrics(node,page:self.page,maximumWidth:maximum,cancellation:self.cancellation)
             // Visio returns a length in the drawing's unit (ARIAL-*, METRIC-*).
-            let length = name == "TEXTWIDTH" ? metrics.width : metrics.height
-            return self.mode == .typedFields ? .quantity(length,self.page.drawingScale?.drawingUnit ?? "IN") : .number(length)
+            return .quantity(name == "TEXTWIDTH" ? metrics.width : metrics.height,"DL")
         },colorPalette:colorPalette)
     }
     private func contextFunction(_ name: String, values: [SheetValue], id: UUID) throws -> SheetValue {
@@ -419,7 +428,7 @@ final class ShapeSheetContext {
                 throw DiagramError.invalid("Invalid date.")
             }
             return .date(date)
-        case "FORMAT": try arity(2); return .string(try VisioPictureFormat.format(values[0],picture:values[1].text))
+        case "FORMAT": try arity(2); return .string(try VisioPictureFormat.format(displayValue(values[0]),picture:values[1].text))
         default:
             if let value = try referenceFunction(name, values: values, id: id) { return value }
             throw DiagramError.invalid("Unsupported ShapeSheet function: \(name).")
@@ -653,12 +662,13 @@ final class ShapeSheetContext {
                 return palette[index]
             }
         } else {
-            // THEMEVAL() takes its selector from the host cell, as in FillForegnd=THEMEVAL().
+            // THEMEVAL() in a host cell gives Visio's classic defaults without a theme: black line and
+            // text, white fill, 0.75 pt, solid patterns (round-trip snapshot, intelligent drawing).
             let cell = hostCell(for:host)?.lowercased() ?? ""
-            let hostSelectors = ["fillforegnd":"fillcolor","fillbkgnd":"fillcolor2","linecolor":"linecolor","shdwforegnd":"shadowcolor","lineweight":"lineweight",
-                                 "linecap":"linecap","linepattern":"linepattern","fillpattern":"fillpattern","shdwpattern":"shadowpattern"]
-            guard let mapped = hostSelectors[cell] else { throw ShapeSheetError(kind:.na,message:"THEMEVAL() has no theme value for this cell (#N/A).") }
-            selector = mapped
+            let hostDefaults:[String:SheetValue] = ["linecolor":palette[0],"fillforegnd":palette[1],"fillbkgnd":palette[0],"char.color":palette[0],
+                "lineweight":.quantity(0.75/72,"PT"),"linepattern":.number(1),"fillpattern":.number(1),"shdwpattern":.number(0),"linecap":.number(0)]
+            guard let value = hostDefaults[cell] else { throw ShapeSheetError(kind:.na,message:"THEMEVAL() has no theme value for this cell (#N/A).") }
+            return value
         }
         guard let value = named[selector] else { throw ShapeSheetError(kind:.value,message:"THEMEVAL \(selector) needs an applied theme (#VALUE!).") }
         return value

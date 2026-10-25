@@ -104,10 +104,12 @@ enum TypedShapeSheet {
                     case "+","-":
                         // Visio adds internal values and keeps the first operand's unit: 1 in+1 is 2 in, and
                         // ATAN2(1,1)+1 in is an angle (reference cases EXPR-23, EXPR-36, EXPR-41).
-                        let n = op == "+" ? p+q : p-q;result = scalar ? .number(n) : (x.unit ?? y.unit).map{.quantity(n,$0)} ?? .number(n)
+                        // A drawing-unit (DL) operand adopts an explicit unit: TEXTHEIGHT(...)+0MM is in mm.
+                        let unit = x.unit?.uppercased() == "DL" && y.unit != nil ? y.unit : x.unit ?? y.unit
+                        let n = op == "+" ? p+q : p-q;result = unit.map{.quantity(n,$0)} ?? .number(n)
                     // Visio keeps a product of two lengths (an area) in the first operand's length unit.
-                    case "*":result = scalar ? .number(p*q) : (x.unit ?? y.unit).map{.quantity(p*q,$0)} ?? .number(p*q)
-                    case "/":guard q != 0 else { throw DiagramError.invalid("Division by zero.") };if scalar { result = .number(p/q) } else if x.unit != nil,y.unit == nil { result = .quantity(p/q,x.unit!) } else if x.unit == nil,y.unit != nil { throw DiagramError.invalid("Reciprocal field units are not yet implemented.") } else { guard x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional division.") };result = .number(p/q) }
+                    case "*":result = (x.unit ?? y.unit).map{.quantity(p*q,$0)} ?? .number(p*q)
+                    case "/":guard q != 0 else { throw DiagramError.invalid("Division by zero.") };if x.unit != nil,y.unit == nil { result = .quantity(p/q,x.unit!) } else if scalar { result = .number(p/q) } else if x.unit == nil,y.unit != nil { throw DiagramError.invalid("Reciprocal field units are not yet implemented.") } else { guard x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional division.") };result = .number(p/q) }
                     case "^":guard scalar || x.unit == nil else { throw DiagramError.invalid("Compound field units are not yet implemented.") };result = .number(pow(p,q))
                     case "<",">","<=",">=":guard scalar || x.dimension == nil || y.dimension == nil || x.dimension == y.dimension else { throw DiagramError.invalid("Incompatible dimensional comparison.") };result = .boolean(op == "<" ? p<q : op == ">" ? p>q : op == "<=" ? p<=q : p>=q);default:throw DiagramError.invalid("Unsupported ShapeSheet operator.") }
                 }
@@ -210,10 +212,8 @@ enum TypedShapeSheet {
                 case "CEILING","FLOOR":
                     guard (1...2).contains(values.count) else { throw DiagramError.invalid("\(name) expects one or two arguments.") }
                     let first = try values[0].numeric()
-                    if scalar {
-                        let multiple = values.count == 2 ? try values[1].numeric() : (first < 0 ? -1 : 1)
-                        result = .number(try ShapeSheet.rounded(first,toMultiple:multiple,awayFromZero:name == "CEILING"))
-                    } else if let unit = values[0].unit {
+                    // Geometry (scalar) hosts round in display units too; they only read the number.
+                    if let unit = values[0].unit {
                         guard let factor = SheetValue.factor(unit) else { throw DiagramError.invalid("Rounding uses an unsupported unit.") }
                         // Invert the parser's literal-unit scale directly. A
                         // reciprocal multiply can push 26mm just below 26.
@@ -267,7 +267,7 @@ enum TypedShapeSheet {
                     let numeric = Set(["PI","ABS","SQRT","SIN","COS","TAN","LN","EXP","LOG10","TRUNC","INT","SIGN","ROUND","DEG","RAD","POW","MIN","MAX","SUM","AND","OR","NOT"])
                     if numeric.contains(name) {
                         let unit = values.first?.unit
-                        let preserve = !scalar && ["ROUND","INT","ABS"].contains(name) && unit != nil
+                        let preserve = ["ROUND","INT","ABS"].contains(name) && unit != nil
                         let factor = preserve ? SheetValue.factor(unit!)! : 1
                         let arguments = try values.enumerated().map { offset,value -> ShapeSheet.Expression in
                             let number = try value.numeric()

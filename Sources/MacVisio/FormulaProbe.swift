@@ -51,7 +51,7 @@ enum FormulaProbe {
         for field in fields {
             let evaluation = context()
             do {
-                let value = try evaluation.evaluate(field.formula, on: host), picture = try evaluation.evaluate(field.format, on: host).text
+                let value = evaluation.displayValue(try evaluation.evaluate(field.formula, on: host)), picture = try evaluation.evaluate(field.format, on: host).text
                 displays.append(["id": field.id, "text": try FieldFormatting.format(value, picture: picture)])
             } catch { displays.append(["id": field.id, "error": error.localizedDescription]) }
         }

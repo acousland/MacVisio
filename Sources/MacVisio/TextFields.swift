@@ -118,7 +118,7 @@ enum TextFieldEngine {
                     var failingCell: String? = "Fields.Value[\(field.index + 1)]"
                     do {
                         guard let valueCell = field.cells["Value"] else { throw DiagramError.invalid("Unresolved field definition; cached display is retained.") }
-                        let value = try shared.evaluate(valueCell,on:node.id,hostCell:"Fields.Value[\(field.index+1)]")
+                        let value = shared.displayValue(try shared.evaluate(valueCell,on:node.id,hostCell:"Fields.Value[\(field.index+1)]"))
                         let formatCell = field.cells["Format"] ?? ShapeSheetCell(value:"",unit:"STR")
                         failingCell = "Fields.Format[\(field.index + 1)]"
                         var picture = try shared.evaluate(formatCell,on:node.id,hostCell:"Fields.Format[\(field.index+1)]").text

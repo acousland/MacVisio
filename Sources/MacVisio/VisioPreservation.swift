@@ -340,8 +340,13 @@ enum VisioPreservation {
                 for section in element.elementsLocal("Section") where section.attr("N") == "Geometry" { section.detach() }
                 for section in generated.elementsLocal("Section") where section.attr("N") == "Geometry" { element.addChild(section.copy() as! XMLNode) }
             }
-            if previous?.color != edge.color { VisioXML.set(element,"LineColor",String(edge.color.prefix(7))) }
-            if previous?.width != edge.width { VisioXML.set(element,"LineWeight",edge.width/72) }
+            // As for shapes: a value recalculated from an unchanged formula is not an edit.
+            func derivedEdge(_ key:String,_ matches:(String) -> Bool) -> Bool {
+                guard let cell = edge.formatting.sheet[key],!cell.formula.isEmpty,previous?.formatting.sheet[key]?.formula == cell.formula else { return false }
+                return matches(cell.value)
+            }
+            if previous?.color != edge.color,!derivedEdge("LineColor",{ $0.prefix(7).uppercased() == edge.color.prefix(7).uppercased() }) { VisioXML.set(element,"LineColor",String(edge.color.prefix(7))) }
+            if previous?.width != edge.width,!derivedEdge("LineWeight",{ Double($0).map { abs($0-edge.width/72) < 1e-9 } ?? false }) { VisioXML.set(element,"LineWeight",edge.width/72) }
             if previous?.arrow != edge.arrow { VisioXML.set(element,"EndArrow",edge.arrow ? 4 : 0) }
             if previous?.startArrow != edge.startArrow { VisioXML.set(element,"BeginArrow",edge.startArrow == true ? 4 : 0) }
             if previous?.dash != edge.dash { VisioXML.set(element,"LinePattern",Double(edge.dash ?? 1)) }
@@ -577,12 +582,21 @@ enum VisioPreservation {
             if node.formatting.textRuns != nil { ShapeRichText.patch(node,element:element,previous:old) } else { VisioXML.setText(element,node.text) }
         }
         if node.formatting.textFields != old.formatting.textFields { TextFieldEngine.patch(node.formatting.textFields ?? [],element:element,previous:old.formatting.textFields ?? []) }
-        if node.fill != old.fill { VisioXML.set(element,"FillForegnd",String(node.fill.prefix(7))); VisioXML.set(element,"FillPattern",alpha(node.fill) == 0 ? 0 : 1); VisioXML.set(element,"FillForegndTrans",1-alpha(node.fill)) }
-        if node.stroke != old.stroke { VisioXML.set(element,"LineColor",String(node.stroke.prefix(7))); VisioXML.set(element,"LinePattern",Double(alpha(node.stroke) == 0 ? 0 : node.formatting.linePattern)); VisioXML.set(element,"LineColorTrans",1-alpha(node.stroke)) }
-        if node.strokeWidth != old.strokeWidth { VisioXML.set(element,"LineWeight",node.strokeWidth/72) }
+        // A property that recalculation derived from an unchanged formula is not an edit: Visio
+        // recomputes it on open, and writing it would replace the formula (or materialize an inherited
+        // cell) with a literal. A user edit leaves the property inconsistent with the cell's cache.
+        func derived(_ key:String,_ matches:(String) -> Bool) -> Bool {
+            guard let cell = node.formatting.sheet[key],!cell.formula.isEmpty,old.formatting.sheet[key]?.formula == cell.formula else { return false }
+            return matches(cell.value)
+        }
+        func sameNumber(_ value:Double) -> (String) -> Bool { { Double($0).map { abs($0-value) < 1e-9 } ?? false } }
+        func sameColor(_ hex:String) -> (String) -> Bool { { $0.prefix(7).uppercased() == hex.prefix(7).uppercased() } }
+        if node.fill != old.fill,!derived("FillForegnd",sameColor(node.fill)) { VisioXML.set(element,"FillForegnd",String(node.fill.prefix(7))); VisioXML.set(element,"FillPattern",alpha(node.fill) == 0 ? 0 : 1); VisioXML.set(element,"FillForegndTrans",1-alpha(node.fill)) }
+        if node.stroke != old.stroke,!derived("LineColor",sameColor(node.stroke)) { VisioXML.set(element,"LineColor",String(node.stroke.prefix(7))); VisioXML.set(element,"LinePattern",Double(alpha(node.stroke) == 0 ? 0 : node.formatting.linePattern)); VisioXML.set(element,"LineColorTrans",1-alpha(node.stroke)) }
+        if node.strokeWidth != old.strokeWidth,!derived("LineWeight",sameNumber(node.strokeWidth/72)) { VisioXML.set(element,"LineWeight",node.strokeWidth/72) }
         if node.locked != old.locked { VisioXML.set(element,"LockMoveX",node.locked ? 1 : 0); VisioXML.set(element,"LockMoveY",node.locked ? 1 : 0) }
-        if node.fontSize != old.fontSize { VisioXML.set(VisioXML.row(element,"Character"),"Size",node.fontSize/72) }
-        if node.textColor != old.textColor { VisioXML.set(VisioXML.row(element,"Character"),"Color",String(node.textColor.prefix(7))) }
+        if node.fontSize != old.fontSize,!derived("Char.Size",sameNumber(node.fontSize/72)) { VisioXML.set(VisioXML.row(element,"Character"),"Size",node.fontSize/72) }
+        if node.textColor != old.textColor,!derived("Char.Color",sameColor(node.textColor)) { VisioXML.set(VisioXML.row(element,"Character"),"Color",String(node.textColor.prefix(7))) }
         if node.bold != old.bold || node.formatting.italic != old.formatting.italic || node.formatting.underline != old.formatting.underline {
             let row = VisioXML.row(element,"Character"), extra = Int(VisioXML.number(VisioXML.row(element,"Character"),"Style")) & ~7
             VisioXML.set(row,"Style",Double(extra | (node.bold ? 1 : 0) | (node.formatting.italic ? 2 : 0) | (node.formatting.underline ? 4 : 0)))

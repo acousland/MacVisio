@@ -140,8 +140,10 @@ final class M3NumericBoundaryTests: XCTestCase {
             let field = try typed(formula)
             XCTAssertEqual(field.unit,"MM");XCTAssertEqual(try field.numeric(),26/25.4,accuracy:1e-14)
         }
-        for (formula,expected) in [("ROUND(26mm,0)",1.0),("CEILING(26mm)",2),("FLOOR(26mm)",1)] {
-            XCTAssertEqual(try scalar(formula),expected);XCTAssertEqual(try typed(formula,scalar:true),.number(expected))
+        // Visio has one evaluator: geometry cells round in display units as well. A flowchart master's
+        // Height = MAX(User.DefaultHeight,CEILING(TEXTHEIGHT(TheText,TxtWidth)+0MM,1)) caches 15 mm, not 1 in.
+        for formula in ["ROUND(26mm,0)","CEILING(26mm)","FLOOR(26mm)"] {
+            XCTAssertEqual(try typed(formula,scalar:true).numeric(),26/25.4,accuracy:1e-14,formula)
         }
         let angle = try typed("ROUND(90.25deg,0)");XCTAssertEqual(angle.unit,"DEG");XCTAssertEqual(try angle.numeric(),Double.pi/2,accuracy:1e-14)
         XCTAssertEqual(try typed("CEILING(1e-308in,1e308in)"),.quantity(1e308,"IN"))
@@ -199,7 +201,7 @@ final class M3NumericBoundaryTests: XCTestCase {
         page.nodes = [node];page.sheet = ["User.Rounded":rounded,"User.Bad":ShapeSheetCell(value:"9",formula:"ROUND(1,32768)")]
         let scalar = ShapeSheetContext(page:page,mode:.scalarGeometry),field = ShapeSheetContext(page:page,mode:.typedFields)
         for address in ["User.Rounded","ThePage!User.Rounded"] {
-            XCTAssertEqual(try scalar.value(node.id,address),.number(1))
+            XCTAssertEqual(try scalar.value(node.id,address).numeric(),26/25.4,accuracy:1e-14)
             let result = try field.value(node.id,address);XCTAssertEqual(result.unit,"MM");XCTAssertEqual(try result.numeric(),26/25.4,accuracy:1e-14)
         }
         XCTAssertThrowsError(try scalar.value(node.id,"ThePage!User.Bad"));XCTAssertThrowsError(try field.value(node.id,"ThePage!User.Bad"))

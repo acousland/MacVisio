@@ -25,7 +25,5 @@
     "FIELDCODE-date-8": "East Asian calendar pictures, as above.",
     "FIELDCODE-num-8": "East Asian calendar pictures, as above."
   },
-  "open": {
-    "ROUNDING-16": "Open (WP-15-T02): Visio rounds geometry cells (drawing units) in internal units but explicit unit literals in their display units; MacVisio does not yet distinguish the two on metric pages."
-  }
+  "open": {}
 }

@@ -1,0 +1,94 @@
+{
+ "schemaVersion": 1,
+ "visioVersion": "16.0",
+ "drawings": {
+  "mac-flowchart-connect.vsdx": {
+   "recipe": "flowchart",
+   "edit": "connect",
+   "differences": []
+  },
+  "mac-flowchart-data.vsdx": {
+   "recipe": "flowchart",
+   "edit": "data",
+   "differences": []
+  },
+  "mac-flowchart-move-step.vsdx": {
+   "recipe": "flowchart",
+   "edit": "move-step",
+   "differences": [
+    "Process/6.cells.ShapeRouteStyle.formula: \"0\" became \"1\"",
+    "Process/6.cells.ShapeRouteStyle.text: \"0\" became \"1\"",
+    "Process/6.cells.ShapeRouteStyle.value: 0 became 1",
+    "Process/7.cells.ShapeRouteStyle.formula: \"0\" became \"1\"",
+    "Process/7.cells.ShapeRouteStyle.text: \"0\" became \"1\"",
+    "Process/7.cells.ShapeRouteStyle.value: 0 became 1"
+   ]
+  },
+  "mac-flowchart-retext.vsdx": {
+   "recipe": "flowchart",
+   "edit": "retext",
+   "differences": []
+  },
+  "mac-flowchart-unchanged.vsdx": {
+   "recipe": "flowchart",
+   "edit": "unchanged",
+   "differences": []
+  },
+  "mac-intelligent-resize-smart.vsdx": {
+   "recipe": "intelligent",
+   "edit": "resize-smart",
+   "differences": []
+  },
+  "mac-intelligent-retext-card.vsdx": {
+   "recipe": "intelligent",
+   "edit": "retext-card",
+   "differences": []
+  },
+  "mac-intelligent-unchanged.vsdx": {
+   "recipe": "intelligent",
+   "edit": "unchanged",
+   "differences": []
+  },
+  "mac-pages-add-page.vsdx": {
+   "recipe": "pages",
+   "edit": "add-page",
+   "differences": [
+    "Frame/1.cells.Char.Color.formula: \"THEMEVAL()\" became \"RGB(0,0,0)\"",
+    "Frame/1.cells.Char.Color.text: \"0\" became \"RGB(0, 0, 0)\"",
+    "Frame/1.cells.Char.Color.value: 0 became 25",
+    "Frame/1.cells.Char.Font.formula: \"THEMEVAL()\" became \"FONT(\\\"Themed\\\")\"",
+    "Frame/1.cells.Char.Font.text: \"4\" became \"0\"",
+    "Frame/1.cells.Char.Font.value: 4 became 0",
+    "Frame/1.cells.Char.Style.formula: \"THEMEVAL()\" became \"0\"",
+    "Frame/1.text: \"Frame / 2\" became \"Frame / 3\""
+   ]
+  },
+  "mac-pages-rename.vsdx": {
+   "recipe": "pages",
+   "edit": "rename",
+   "differences": []
+  },
+  "mac-pages-unchanged.vsdx": {
+   "recipe": "pages",
+   "edit": "unchanged",
+   "differences": []
+  },
+  "mac-structure-move-member.vsdx": {
+   "recipe": "structure",
+   "edit": "move-member",
+   "differences": []
+  },
+  "mac-structure-show-notes.vsdx": {
+   "recipe": "structure",
+   "edit": "show-notes",
+   "differences": []
+  },
+  "mac-structure-unchanged.vsdx": {
+   "recipe": "structure",
+   "edit": "unchanged",
+   "differences": []
+  }
+ },
+ "errors": [],
+ "passed": false
+}
