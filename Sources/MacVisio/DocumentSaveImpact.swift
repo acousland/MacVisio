@@ -208,7 +208,7 @@ enum DocumentSaveImpact {
                     }
                 }
             }
-            for (id, original) in oldNodes where nodes[id] != original && !(nodes[id].map { onlyRecalculated(original, $0) } ?? false) {
+            for (id, original) in oldNodes where nodes[id] != original && !(nodes[id].map { onlyPlacedOrRecalculated(original, $0) } ?? false) {
                 let target = DocumentDiagnostic.Target.shape(page: binding.pageID, shape: id)
                 let sourceID = binding.nodeIDs[id] ?? original.formatting.sourceShapeID
                 let element = sourceID.flatMap { elements[$0] }
@@ -320,10 +320,21 @@ enum DocumentSaveImpact {
         return x == y
     }
 
+    /// Moving, resizing or re-homing a shape in a container, with everything else only recalculated. Visio
+    /// writes the shape's local geometry and Relationships cells for the same gestures, and the shape's other
+    /// formulas are written back unchanged, so the edit does not change behaviour the shape's source defines.
+    static func onlyPlacedOrRecalculated(_ original: DiagramNode, _ current: DiagramNode) -> Bool {
+        var placed = original
+        placed.x = current.x; placed.y = current.y; placed.width = current.width; placed.height = current.height
+        for key in placementCells { placed.formatting.sheet[key] = current.formatting.sheet[key] }
+        return placed == current || onlyRecalculated(placed, current)
+    }
+    private static let placementCells = localGeometryCells.union([DiagramMemberships.relationshipCell])
+
     private static func authoredSheetChanged(_ current: [String: ShapeSheetCell]?, _ original: [String: ShapeSheetCell]) -> Bool {
         guard let current else { return true }
         return Set(current.keys).union(original.keys).contains { key in
-            if localGeometryCells.contains(key) { return false }
+            if placementCells.contains(key) { return false }
             guard current[key] != original[key] else { return false }
             guard let next = current[key], let old = original[key] else { return true }
             return !next.hasSameAuthoredFormula(as: old)

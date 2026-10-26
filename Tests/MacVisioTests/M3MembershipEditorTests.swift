@@ -249,20 +249,26 @@ final class M3MembershipEditorTests: XCTestCase {
         }
     }
 
-    func testNativeContainerDragRefusesWithoutUndoButMemberMotionKeepsMembership() throws {
+    /// As in Visio: dragging a container carries its members in one undoable move.
+    func testNativeContainerDragCarriesMembersAndMemberMotionKeepsMembership() throws {
         let source = M3MembershipFixture.mixedNative()
         let model = try DiagramMemberships.settingMembership(in: source, pageID: source.page.id, memberID: source.page.nodes[1].id, containerID: source.page.nodes[0].id, included: true)
         try withEditor(model) { document, editor in
             let container = document.diagram.page.nodes[0], member = document.diagram.page.nodes[1]
             editor.canvas.select([container.id])
-            let before = document.diagram, state = document.stateID, revision = document.revision
+            let before = document.diagram
             try drag(from: container.center, to: CGPoint(x: container.center.x + 30, y: container.center.y), editor: editor)
-            XCTAssertEqual(document.diagram, before); XCTAssertEqual(document.stateID, state); XCTAssertEqual(document.revision, revision)
-            XCTAssertFalse(document.undoManager?.canUndo ?? true); XCTAssertFalse(document.isDocumentEdited)
+            XCTAssertNil(document.lastCalculationJobError)
+            XCTAssertEqual(document.diagram.page.nodes[0].x, container.x + 30, accuracy: 1e-8)
+            XCTAssertEqual(document.diagram.page.nodes[1].x, member.x + 30, accuracy: 1e-8)
+            XCTAssertEqual(document.diagram.page.nodes[1].formatting.sheet["Relationships"], member.formatting.sheet["Relationships"])
+            document.undoManager?.undo(); XCTAssertEqual(document.diagram, before)
             editor.canvas.select([member.id])
             try drag(from: member.center, to: CGPoint(x: member.center.x + 25, y: member.center.y), editor: editor)
             XCTAssertEqual(document.diagram.page.nodes[1].x, member.x + 25, accuracy: 1e-8)
-            XCTAssertEqual(document.diagram.page.nodes[1].formatting.sheet["Relationships"], member.formatting.sheet["Relationships"])
+            // This member lies outside its container's bounds, so dropping it leaves the container, as in
+            // Visio; the move and the membership change undo together.
+            XCTAssertFalse(document.diagram.page.nodes[0].formatting.sheet["Relationships"]?.formula.contains("Sheet.2!") ?? true)
             document.undoManager?.undo(); XCTAssertEqual(document.diagram, before)
         }
     }
@@ -403,7 +409,7 @@ final class M3MembershipEditorTests: XCTestCase {
     }
 
     func testRetainedOwnerWithoutRelationshipsCutRefusalPreservesClipboardAndNativeHistory() throws {
-        for variant in M3MembershipFixture.RetainedOwnerCase.allCases {
+        for variant in M3MembershipFixture.RetainedOwnerCase.allCases where !M3MembershipFixture.RetainedOwnerCase.ordinaryMasterInstances.contains(variant) {
             let model = try M3MembershipFixture.retainedOwnerWithoutRelationships(variant)
             try withEditor(model) { document, editor in
                 let board = NSPasteboard(name: NSPasteboard.Name("M3RetainedOwnerCut-\(UUID())")); defer { board.releaseGlobally() }

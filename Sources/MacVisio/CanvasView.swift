@@ -94,7 +94,10 @@ final class CanvasView: NSView {
             document.adjustControlInEditor(baseline: baseline, node: id, control: name, to: point)
         } else if let next {
             if let reason = gestureBlockReason(next) { return reason }
-            document.replaceInEditor(with: next, action: resizeHandle == nil ? "Move Shapes" : "Resize Shape")
+            // A moved shape joins or leaves containers as in Visio; containers expand to keep it.
+            let dropped = resizeHandle == nil && next != beforeDrag
+                ? ContainerDrops.apply(to: next, pageID: next.page.id, dragged: draggedIDs, moving: Set(originalRects.keys)) : next
+            document.replaceInEditor(with: dropped, action: resizeHandle == nil ? "Move Shapes" : "Resize Shape")
         }
         return nil
     }
@@ -234,6 +237,8 @@ final class CanvasView: NSView {
     private var beforeDrag: Diagram?
     private var originalRects: [UUID: CGRect] = [:]
     private var resizeHandle: Int?
+    /// The shapes picked up by a move, without the members their containers carry.
+    private var draggedIDs = Set<UUID>()
     private var controlDrag: (UUID, String)?
     private var controlBaseline: ControlEditing.Baseline?
     private(set) var controlPreviewPoint: CGPoint?
@@ -871,6 +876,7 @@ final class CanvasView: NSView {
                 dragStart = p
                 beginGesturePreview()
                 var ids = editor?.editableSelectionIDs ?? selectedNodes
+                draggedIDs = ids
                 // Containers carry their members, as in Visio.
                 if let document = editor?.diagramDocument {
                     let members = DiagramMemberships.movingMembers(of: ids, in: document.diagram, pageID: page.id)

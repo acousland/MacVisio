@@ -41,6 +41,8 @@ enum M3MembershipFixture {
         case master, masterShape, ancestorMaster, deletedShape, deletedAncestor
         case deletedUserRow, deletedUserSection, foreignUserSection, unknownUserRowAttribute
         case foreignShapeOwnershipAttribute, staleLexicalID, missingBoundOwner
+        /// Proven like any other shape: Visio resolves what they inherit.
+        static let ordinaryMasterInstances: [RetainedOwnerCase] = [.masterShape, .ancestorMaster]
     }
 
     /// Independently authored public XML paired with an older native cache.
@@ -372,7 +374,12 @@ final class M3MembershipTests: XCTestCase {
     func testContainerTransformAndReferencedIdentityRemovalRefuseAtomically() throws {
         let drawing = try M3MembershipFixture.drawing(), before = drawing
         let container = try XCTUnwrap(drawing.page.nodes.first { $0.formatting.sourceShapeID == "20" })
-        for key in ["X", "Y", "Width", "Height", "Rotation"] { XCTAssertNotNil(NativeEditProtection.blockReason(for: key, node: container, in: drawing.page)) }
+        // As in Visio, a container with members can be moved (carrying them) and resized; moving it away from
+        // its members alone is refused.
+        for key in ["X", "Y", "Width", "Height"] { XCTAssertNil(NativeEditProtection.blockReason(for: key, node: container, in: drawing.page)) }
+        var alone = drawing
+        alone.page.nodes[try XCTUnwrap(alone.page.nodes.firstIndex { $0.id == container.id })].x += 10
+        XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: drawing, to: alone))
         XCTAssertThrowsError(try DiagramMemberships.validateRemoval([container.id], in: drawing, pageID: drawing.page.id))
         XCTAssertThrowsError(try DiagramMemberships.validateRemoval([try M3MembershipFixture.id("11", in: drawing)], in: drawing, pageID: drawing.page.id))
         XCTAssertEqual(drawing, before)
@@ -419,6 +426,8 @@ final class M3MembershipTests: XCTestCase {
                 default: cell.setAttr("VendorRelationshipPolicy", "unknown")
                 }
             }
+            // A master instance is an ordinary member in Visio; foreign and opaque owners stay read-only.
+            if change == 0 { XCTAssertNoThrow(try edit(drawing)); continue }
             XCTAssertThrowsError(try edit(drawing)); XCTAssertEqual(drawing.page, source.page)
             XCTAssertEqual(try VisioPreservation.prepared(drawing).parts["visio/pages/page1.xml"], drawing.visioArchive?.parts["visio/pages/page1.xml"])
         }
@@ -496,7 +505,11 @@ final class M3MembershipTests: XCTestCase {
 
     func testProtectedUnresolvedAndAutomaticResizePoliciesRefuseTheWholeEdge() throws {
         let source = try M3MembershipFixture.drawing()
-        for key in ["LockFormat", "User.msvSDContainerLocked", "User.msvSDContainerResize", "User.msvSDUnknownPolicy"] {
+        // Expanding as needed (resize policy 1) is applied by the gesture that moves the member (ContainerDrops).
+        var expanding = source
+        expanding.page.nodes[try XCTUnwrap(expanding.page.nodes.firstIndex { $0.formatting.sourceShapeID == "40" })].formatting.sheet["User.msvSDContainerResize"] = ShapeSheetCell(value: "1")
+        XCTAssertNoThrow(try edit(expanding))
+        for key in ["LockFormat", "User.msvSDContainerLocked", "User.msvSDUnknownPolicy"] {
             var drawing = source
             let offset = try XCTUnwrap(drawing.page.nodes.firstIndex { $0.formatting.sourceShapeID == "40" })
             drawing.page.nodes[offset].formatting.sheet[key] = ShapeSheetCell(value: "1")
@@ -578,11 +591,11 @@ final class M3MembershipTests: XCTestCase {
         parts["[Content_Types].xml"] = types.xmlData(options: .nodePreserveAll)
         var drawing = try VisioFormat.readPublic(parts: parts, title: "Partial local policy").diagram
         let offset = try XCTUnwrap(drawing.page.nodes.firstIndex { $0.formatting.sourceShapeID == "40" })
-        // An older native cache can have only the explicit local overrides.
-        drawing.page.nodes[offset].formatting.sheet["User.msvSDVendorInheritedPolicy"] = nil
+        // The master's policy is resolved into the instance's sheet and checked like a local one.
         let before = drawing
         XCTAssertEqual(drawing.page.nodes[offset].formatting.sheet["User.msvStructureType"]?.value, "Container")
-        XCTAssertThrowsError(try edit(drawing)) { XCTAssertTrue($0.localizedDescription.contains("Inherited")) }
+        XCTAssertNotNil(drawing.page.nodes[offset].formatting.sheet["User.msvSDVendorInheritedPolicy"])
+        XCTAssertThrowsError(try edit(drawing)) { XCTAssertTrue($0.localizedDescription.contains("policy"), $0.localizedDescription) }
         XCTAssertEqual(drawing, before)
     }
 
@@ -632,7 +645,7 @@ final class M3MembershipTests: XCTestCase {
         introduced.page.nodes[0].formatting.sheet["User.msvStructureType"] = ShapeSheetCell(value: "Container", formula: "\"Container\"", unit: "STR")
         introduced.page.nodes[0].formatting.sheet["Relationships"] = ShapeSheetCell(value: "0", formula: "0")
         introduced.page.nodes[0].formatting.sheet["User.msvSDContainerResize"] = ShapeSheetCell(value: "1")
-        XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: plain, to: introduced))
+        XCTAssertNoThrow(try DiagramMemberships.validateTransforms(from: plain, to: introduced), "An empty container that expands as needed moves freely")
         introduced.page.nodes[0].formatting.sheet["User.msvStructureType"]?.formula = "VendorRole()"
         XCTAssertThrowsError(try DiagramMemberships.validateTransforms(from: plain, to: introduced))
     }
@@ -699,6 +712,13 @@ final class M3MembershipTests: XCTestCase {
             let entry = try XCTUnwrap(index.entries[affected])
             XCTAssertTrue(index.issues.isEmpty, "\(variant): \(index.issues)")
             XCTAssertNil(entry.cell, "\(variant)")
+            if M3MembershipFixture.RetainedOwnerCase.ordinaryMasterInstances.contains(variant) {
+                // Master instances are ordinary shapes in Visio: copying and deleting them is allowed.
+                XCTAssertFalse(entry.unprovenRetainedOwnership, "\(variant)")
+                XCTAssertNoThrow(try DiagramMemberships.validateCopy([affected], in: drawing, pageID: drawing.page.id))
+                XCTAssertNoThrow(try DiagramMemberships.validateRemoval([affected], in: drawing, pageID: drawing.page.id))
+                continue
+            }
             XCTAssertNotNil(entry.sourceRefusal, "\(variant)")
             XCTAssertTrue(entry.unprovenRetainedOwnership, "\(variant)")
             let before = drawing
@@ -733,8 +753,8 @@ final class M3MembershipTests: XCTestCase {
     }
 
     func testNewUnboundChildCannotHideAnUnprovenRetainedAncestor() throws {
-        var drawing = try M3MembershipFixture.retainedOwnerWithoutRelationships(.ancestorMaster)
-        var child = DiagramNode(text: "Unsaved child of retained master group")
+        var drawing = try M3MembershipFixture.retainedOwnerWithoutRelationships(.deletedAncestor)
+        var child = DiagramNode(text: "Unsaved child of retained deleted group")
         child.parentID = try M3MembershipFixture.id("10", in: drawing); drawing.page.nodes.append(child)
         let index = try DiagramMemberships.index(in: drawing, pageID: drawing.page.id)
         let entry = try XCTUnwrap(index.entries[child.id])

@@ -65,8 +65,9 @@ final class DocumentSaveImpactTests: XCTestCase {
                 shapeXML: xml.replacingOccurrences(
                     of: "</ForeignData>", with: "<UnknownAction/></ForeignData>"))
             unknown.page.nodes[0].formatting.image = EmbeddedImage(data: png, mimeType: "image/png")
+            // Moving it writes the object back unchanged; an edit to the object itself needs review.
             var affected = unknown
-            affected.page.nodes[0].x += 20
+            affected.page.nodes[0].text = "Edited"
             XCTAssertEqual(
                 DocumentSaveImpact.assess(
                     snapshot: affected, baseline: .init(snapshot: unknown),

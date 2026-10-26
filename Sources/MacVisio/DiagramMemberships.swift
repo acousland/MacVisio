@@ -7,7 +7,10 @@ enum DiagramMemberships {
     static let namespace = "http://schemas.microsoft.com/office/visio/2012/main"
     static let relationshipCell = "Relationships"
     static let maximumReferences = 150_000
-    private static let supportedContainerPolicies: Set<String> = ["User.msvSDContainerLocked", "User.msvSDContainerRequiredCategories", "User.msvSDContainerExcludedCategories", "User.msvSDContainerMargin", "User.msvSDContainerResize"]
+    private static let supportedContainerPolicies: Set<String> = ["User.msvSDContainerLocked", "User.msvSDContainerRequiredCategories", "User.msvSDContainerExcludedCategories", "User.msvSDContainerMargin", "User.msvSDContainerResize",
+        // Presentation only: highlight, ribbon and style choices that every Visio container master carries.
+        "User.msvSDContainerNoHighlight", "User.msvSDContainerNoRibbon", "User.msvSDContainerStyle", "User.msvSDContainerStyleCount",
+        "User.msvSDHeadingStyle", "User.msvSDHeadingStyleCount", "User.msvSDContainerHeadingEdge"]
 
     static func managedCellReason(_ key: String) -> String? {
         guard key.trimmingCharacters(in: .whitespacesAndNewlines).caseInsensitiveCompare(relationshipCell) == .orderedSame else { return nil }
@@ -36,16 +39,24 @@ enum DiagramMemberships {
         case containerMembers = 1, listMembers, callouts, containers, list, calloutTarget
         case leftBoundary, rightBoundary, topBoundary, bottomBoundary, overlappingList
     }
-    enum Role: String { case container = "Container", list = "List", callout = "Callout", ordinary = "" }
+    enum Role: String {
+        case container = "Container", list = "List", callout = "Callout", ordinary = ""
+        /// Visio writes 0 for no role, and Heading on a container's heading part.
+        init?(visio value: String) {
+            if value == "0" || value == "Heading" { self = .ordinary } else { self.init(rawValue: value) }
+        }
+    }
     struct Clause: Equatable {
         let kind: Kind
         let targets: [UInt32]
         let raw: String
         fileprivate let prefix: String
         fileprivate let arguments: [String]
+        /// Each target's own argument text, so retained lexical forms survive a rewrite.
+        fileprivate let targetArguments: [String]
         fileprivate let suffix: String
         fileprivate func replacing(_ next: [UInt32]) -> String {
-            let retained = Dictionary(uniqueKeysWithValues: zip(targets, arguments.dropFirst()).map { ($0.0, $0.1) })
+            let retained = Dictionary(uniqueKeysWithValues: zip(targets, targetArguments).map { ($0.0, $0.1) })
             return prefix + ([arguments[0]] + next.map { retained[$0] ?? "Sheet.\($0)!SheetRef()" }).joined(separator: ",") + suffix
         }
     }
@@ -93,6 +104,9 @@ enum DiagramMemberships {
         let outgoing: [UUID: [Relation]]
         let incoming: [UUID: [Relation]]
         let issues: [String]
+        /// The first issue of each shape it concerns; issues that concern the whole page are in `pageIssues`.
+        var issuesByShape: [UUID: String] = [:]
+        var pageIssues: [String] = []
         var containers: [Entry] { order.compactMap { entries[$0] }.filter { $0.role == .container && !$0.connector } }
         func contains(member: UUID, container: UUID) -> Bool {
             outgoing[member, default: []].contains { $0.kind == .containers && $0.target == container }
@@ -138,10 +152,12 @@ enum DiagramMemberships {
                   let kind = Kind(rawValue: numeric), seen.insert(kind).inserted else {
                 throw invalid("The relationship category is unknown or repeated.")
             }
-            var ids: [UInt32] = [], unique = Set<UInt32>()
+            var ids: [UInt32] = [], targetArguments: [String] = [], unique = Set<UInt32>()
             for argument in arguments.dropFirst() {
                 let reference = try callParts(argument, expected: nil)
                 let owner = reference.name.uppercased()
+                // Visio leaves REF() where a related shape was deleted; it relates nothing.
+                if owner == "REF", reference.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { continue }
                 guard owner.hasPrefix("SHEET."), owner.hasSuffix("!SHEETREF"),
                       reference.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
                       let id = UInt32(owner.dropFirst(6).dropLast(9)), unique.insert(id).inserted else {
@@ -149,12 +165,12 @@ enum DiagramMemberships {
                 }
                 references += 1
                 guard references <= maximumReferences else { throw invalid("The relationship set is too large.") }
-                ids.append(id)
+                ids.append(id); targetArguments.append(argument)
             }
             if [.list, .calloutTarget, .leftBoundary, .rightBoundary, .topBoundary, .bottomBoundary, .overlappingList].contains(kind), ids.count > 1 {
                 throw invalid("A singular structural relationship has multiple targets.")
             }
-            clauses.append(Clause(kind: kind, targets: ids, raw: raw, prefix: call.prefix, arguments: arguments, suffix: call.suffix))
+            clauses.append(Clause(kind: kind, targets: ids, raw: raw, prefix: call.prefix, arguments: arguments, targetArguments: targetArguments, suffix: call.suffix))
         }
         return Formula(clauses: clauses, prefix: parts.prefix, suffix: parts.suffix)
     }
@@ -187,6 +203,7 @@ enum DiagramMemberships {
         _ = try VisioIDAllocator(reserved: reserved)
         let reservations = Set(reserved.compactMap(UInt32.init))
         var entries: [UUID: Entry] = [:], byID: [UInt32: UUID] = [:], order: [UUID] = [], issues: [String] = []
+        var issuesByShape: [UUID: String] = [:], pageIssues: [String] = []
         for (offset, object) in objects.enumerated() {
             if offset.isMultiple(of: 128) { try checkpoint(cancellation) }
             let (id, text, detail, connector, explicit) = object
@@ -224,24 +241,21 @@ enum DiagramMemberships {
                 else if let explicit, original?.sourceID != explicit { refusal = "The public shape's bound source identity changed. Reopen the drawing before editing." }
                 else if original?.deleted == true { refusal = "A deleted public shape or ancestor cannot own a membership edit. Reopen a live source." }
                 else if original?.ambiguous == true { refusal = "The public shape or structural cell owner is ambiguous." }
-                else if original?.hasMaster == true {
-                    refusal = "Inherited structural role/policy closure is not proven. Membership edits on source master instances remain read-only, including partial local overrides."
-                } else if detail.sheet[relationshipCell] == nil && original?.cells[relationshipCell] != nil {
+                // Master instances are ordinary in Visio: their inherited role and policy cells are resolved
+                // into the shape's sheet on import and checked like local ones.
+                else if detail.sheet[relationshipCell] == nil && original?.cells[relationshipCell] != nil {
                     refusal = "Public relationships are missing from this native cache. Reopen the public drawing before editing."
                 }
             }
             let role = literalRole(detail.sheet["User.msvStructureType"])
-            if let structure = detail.sheet["User.msvStructureType"], literalString(structure).flatMap(Role.init(rawValue:)) == nil {
+            if let structure = detail.sheet["User.msvStructureType"], literalString(structure).flatMap(Role.init(visio:)) == nil {
                 refusal = "The structured-shape role is unknown or unresolved and remains read-only."
-            }
-            if role != .ordinary, sourceBacked, original?.cells["User.msvStructureType"] == nil {
-                refusal = "Inherited structured-shape roles are read-only."
             }
             if let original, sourceBacked {
                 // Do not let a narrowed/sanitized native cache turn unknown
                 // source units or unresolved role/policy literals into proof.
                 for (key, value) in original.cells {
-                    if key == "User.msvStructureType", literalString(value).flatMap(Role.init(rawValue:)) == nil {
+                    if key == "User.msvStructureType", literalString(value).flatMap(Role.init(visio:)) == nil {
                         refusal = "The public structured-shape role or its unit is unresolved."
                     }
                     if ["User.msvSDContainerLocked", "User.msvSDContainerResize"].contains(key), literalNumber(value) == nil {
@@ -269,7 +283,7 @@ enum DiagramMemberships {
             let unprovenRetainedOwnership = refusal != nil && !newUnboundOrdinary
             let name = original?.name.isEmpty == false ? original!.name : text.isEmpty ? "Unnamed shape" : text
             entries[id] = Entry(id: id, publicID: publicID, sourceID: original?.sourceID ?? explicit ?? String(publicID), title: "\(name) · Sheet.\(publicID)", role: role, cell: cell, formula: formula, sourceRefusal: refusal, unprovenRetainedOwnership: unprovenRetainedOwnership, connector: connector)
-            if let refusal, cell != nil { issues.append("Sheet.\(publicID): \(refusal)") }
+            if let refusal, cell != nil { issues.append("Sheet.\(publicID): \(refusal)"); issuesByShape[id] = issuesByShape[id] ?? issues.last }
         }
         let parentIDs = Dictionary((page.nodes.map { ($0.id, $0.parentID) } + page.edges.map { ($0.id, $0.parentID) })
             .compactMap { id, parent in parent.map { (id, $0) } }, uniquingKeysWith: { first, _ in first })
@@ -292,13 +306,16 @@ enum DiagramMemberships {
             guard let entry = entries[id], let formula = entry.formula else { continue }
             for clause in formula.clauses {
                 for targetID in clause.targets {
-                    guard let target = byID[targetID], target != id else { issues.append("Sheet.\(entry.publicID) has an unresolved or self relationship."); continue }
+                    guard let target = byID[targetID], target != id else {
+                        issues.append("Sheet.\(entry.publicID) has an unresolved or self relationship."); issuesByShape[id] = issuesByShape[id] ?? issues.last; continue
+                    }
                     let relation = Relation(owner: id, target: target, kind: clause.kind)
                     if clause.kind == .containerMembers && ![Role.container, .list].contains(entry.role)
                         || clause.kind == .containers && ![Role.container, .list].contains(entries[target]?.role ?? .ordinary)
                         || clause.kind == .listMembers && entry.role != .list
                         || clause.kind == .list && entries[target]?.role != .list {
                         issues.append("A structural relationship has no proven container/list role.")
+                        for shape in [id, target] { issuesByShape[shape] = issuesByShape[shape] ?? issues.last }
                     }
                     relations.append(relation); outgoing[id, default: []].append(relation); incoming[target, default: []].append(relation)
                     guard relations.count <= maximumReferences else { throw invalid("The page has too many structural references.") }
@@ -307,16 +324,19 @@ enum DiagramMemberships {
         }
         for (id, source) in raw where byID[id] == nil && source.cells[relationshipCell] != nil {
             issues.append("An unmodeled public shape has structural relationships. Reopen a supported source before editing.")
+            pageIssues.append(issues.last!)
         }
         let relationSet = Set(relations)
         for relation in relations where relation.kind == .containerMembers || relation.kind == .containers {
             let reverse: Kind = relation.kind == .containerMembers ? .containers : .containerMembers
             if !relationSet.contains(Relation(owner: relation.target, target: relation.owner, kind: reverse)) {
                 issues.append("A container membership lacks its reciprocal public clause.")
+                for shape in [relation.owner, relation.target] { issuesByShape[shape] = issuesByShape[shape] ?? issues.last }
             }
         }
         try checkpoint(cancellation)
-        return Index(pageID: page.id, entries: entries, order: order, byPublicID: byID, relations: relations, outgoing: outgoing, incoming: incoming, issues: issues)
+        return Index(pageID: page.id, entries: entries, order: order, byPublicID: byID, relations: relations, outgoing: outgoing, incoming: incoming, issues: issues,
+                     issuesByShape: issuesByShape, pageIssues: pageIssues)
     }
 
     /// Existing containers only. Lists, callouts and lane-specific policies are
@@ -324,8 +344,10 @@ enum DiagramMemberships {
     static func settingMembership(in diagram: Diagram, pageID: UUID, memberID: UUID, containerID: UUID, included: Bool,
                                   cancellation: LifecycleJobCancellation? = nil) throws -> Diagram {
         try checkpoint(cancellation)
+        // Only the two shapes and their own relationships need to be proven; issues elsewhere on the
+        // page do not stop Visio from changing this membership.
         let index = try index(in: diagram, pageID: pageID, cancellation: cancellation)
-        guard index.issues.isEmpty else { throw invalid(index.issues[0]) }
+        if let issue = index.pageIssues.first ?? index.issuesByShape[memberID] ?? index.issuesByShape[containerID] { throw invalid(issue) }
         guard let member = index.entries[memberID], let container = index.entries[containerID], memberID != containerID,
               container.role == .container, !container.connector else {
             throw invalid("Choose one existing shape and a different explicit Container owner.")
@@ -485,14 +507,12 @@ enum DiagramMemberships {
         if !aliases.isEmpty && aliases != [relationshipCell] { return "This shape's relationship cell owner is ambiguous. Its transform is read-only." }
         let roleCell = node.formatting.sheet["User.msvStructureType"]
         let role = literalRole(roleCell)
-        if let roleCell, literalString(roleCell).flatMap(Role.init(rawValue:)) == nil {
+        if let roleCell, literalString(roleCell).flatMap(Role.init(visio:)) == nil {
             return "The structured shape's role is unresolved. Its transform is read-only."
         }
-        let parsed: Formula
-        do { parsed = try parse(node.formatting.sheet[relationshipCell]) }
-        catch { return "This shape has unproven relationships. Its transform is read-only." }
-        if !parsed.targets(.containerMembers).isEmpty || !parsed.targets(.listMembers).isEmpty {
-            return "This container has members. Detach them explicitly before transforming it; moving members with a container is not available yet."
+        // Members move with a dragged container (CanvasView), as in Visio; resizing keeps them.
+        guard (try? parse(node.formatting.sheet[relationshipCell])) != nil else {
+            return "This shape has unproven relationships. Its transform is read-only."
         }
         guard role == .container || role == .list else { return nil }
         guard node.formatting.sheet[relationshipCell] != nil else { return "The container has no explicit relationship owner. Its transform is read-only." }
@@ -505,8 +525,9 @@ enum DiagramMemberships {
             if let locked = node.formatting.sheet["User.msvSDContainerLocked"], literalNumber(locked) == nil {
                 return "The container's membership policy is unresolved. Its transform is read-only."
             }
-            if node.formatting.sheet["User.msvSDContainerResize"].flatMap(literalNumber) != 0 {
-                return "The container's resize policy is unresolved or automatic. Its transform is read-only."
+            // Absent, the master's policy applies: Visio's container masters expand as needed.
+            if let resize = node.formatting.sheet["User.msvSDContainerResize"], literalNumber(resize) == nil {
+                return "The container's resize policy is unresolved. Its transform is read-only."
             }
         }
         return nil
@@ -608,6 +629,12 @@ enum DiagramMemberships {
                    let oldParent = page.nodes.first(where: { $0.id == parentID }), let newParent = next.nodes.first(where: { $0.id == parentID }),
                    abs((new.x-old.x)-(newParent.x-oldParent.x)) < 1e-6, abs((new.y-old.y)-(newParent.y-oldParent.y)) < 1e-6,
                    newParent.x != oldParent.x || newParent.y != oldParent.y { continue }
+                // Dragging carries a container's members (CanvasView); moving the container alone, as a typed
+                // position would, leaves them behind. Resizing keeps them, as in Visio.
+                if old.width == new.width, old.height == new.height, old.rotation == new.rotation,
+                   !movingMembers(of: [id], in: before, pageID: page.id).isEmpty {
+                    throw invalid("Move this container together with its members by dragging it.")
+                }
                 if let reason = transformBlockReason(old, in: page) ?? transformBlockReason(new, in: next) { throw invalid(reason) }
             }
         }
@@ -656,23 +683,23 @@ enum DiagramMemberships {
         for (key, required) in [("User.msvSDContainerRequiredCategories", true), ("User.msvSDContainerExcludedCategories", false)] {
             if let cell = container.sheet[key] {
                 guard let text = literalString(cell) else { throw invalid("The container's category policy is unresolved.") }
-                let values = Set(text.split(separator: ";").map(String.init))
+                // Visio's masters write 0 for "no categories".
+                let values = Set(text.split(separator: ";").map(String.init)).subtracting(["0"])
                 if required && !values.isEmpty && values.isDisjoint(with: categories) || !required && !values.isDisjoint(with: categories) {
                     throw invalid("The shape does not satisfy the container's explicit category policy.")
                 }
             }
         }
         }
-        // Automatic resize would require geometry changes beyond this edge-only
-        // transaction. An explicit literal 0 is the bounded behavior.
-        if container.sheet["User.msvSDContainerResize"].flatMap(literalNumber) != 0 {
-            throw invalid("Automatic container resize is read-only in this membership editor.")
+        // Expanding to fit is applied by the gesture that moved the member (ContainerDrops).
+        if let resize = container.sheet["User.msvSDContainerResize"], literalNumber(resize) == nil {
+            throw invalid("The container's resize policy is unresolved.")
         }
     }
-    private static func literalRole(_ cell: ShapeSheetCell?) -> Role {
-        guard let cell, let value = literalString(cell), let role = Role(rawValue: value) else { return .ordinary }; return role
+    static func literalRole(_ cell: ShapeSheetCell?) -> Role {
+        guard let cell, let value = literalString(cell), let role = Role(visio: value) else { return .ordinary }; return role
     }
-    private static func literalNumber(_ cell: ShapeSheetCell) -> Double? {
+    static func literalNumber(_ cell: ShapeSheetCell) -> Double? {
         guard ["", "BOOL"].contains(cell.unit), let value = Double(cell.value), value.isFinite else { return nil }
         let formula = cell.formula.trimmingCharacters(in: .whitespacesAndNewlines)
         return formula.isEmpty || Double(formula) == value ? value : nil
