@@ -129,6 +129,24 @@ been removed from the current tooling.
 This change does not supply signing credentials or accepted journeys. No candidate is currently accepted
 by this tooling change. Local packaging/verifier commands do not publish.
 
+## Quick releases
+
+When the owner asks for a release without the full stable gates, run:
+
+```
+python3 scripts/quick-release.py <version> <build> --bump --publish
+```
+
+Write `docs/RELEASE-<version>.md` first. The script runs the following steps:
+
+1. checks the signing identity, the `renoir-notary` notary login and `gh` sign-in before starting;
+2. runs the Swift and Python tests;
+3. builds and signs the app, then notarises, staples and verifies it;
+4. packages the zip, appcast and SHA256SUMS;
+5. with `--publish`, fast-forwards `main` and creates the GitHub release.
+
+Completed stages are recorded in `build/stable-<version>/progress.json`, so a rerun from the same commit resumes where it stopped. Every refusal prints one `STOP:` line saying what to do; missing credentials are restored by the owner. Leave out `--publish` to stop at the notarised candidate. Release notes for a quick release say that the update, performance, Visio interchange and hands-on gates were not rerun.
+
 ## Stable manifest and evidence
 
 The manifest is JSON, at most 1 MiB. Required top-level fields are:
