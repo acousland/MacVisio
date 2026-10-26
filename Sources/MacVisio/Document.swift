@@ -380,6 +380,16 @@ final class MacVisioDocument: NSDocument {
         legacyNative = false
         saveImpactBaseline = .init(snapshot: diagram)
     }
+    /// Formulas read the drawing's own name (FILENAME()); a Save As or move gives them the new one.
+    override var fileURL: URL? {
+        didSet {
+            guard diagram.fileURL != fileURL else { return }
+            // The location is not an edit: keep the saved identity and calculation runtime.
+            let identity = stateID, priorRevision = revision, priorRuntimeRevision = runtimeRevision
+            diagram.fileURL = fileURL
+            stateID = identity; revision = priorRevision; runtimeRevision = priorRuntimeRevision
+        }
+    }
     override func read(from url: URL, ofType typeName: String) throws {
         let evidence = PerformanceEvidence.begin(.open)
         defer { PerformanceEvidence.end(evidence) }
@@ -423,7 +433,9 @@ final class MacVisioDocument: NSDocument {
         }
         try version.check(contentsAt: url)
         resetDiagnosticsForRead()
-        diagram = loaded
+        var located = loaded
+        located.fileURL = url
+        diagram = located
         importWarnings = warnings
         typedImportDiagnostics = typedDiagnostics
         legacyNative = isLegacy

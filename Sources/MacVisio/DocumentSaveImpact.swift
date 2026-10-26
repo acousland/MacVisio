@@ -208,7 +208,7 @@ enum DocumentSaveImpact {
                     }
                 }
             }
-            for (id, original) in oldNodes where nodes[id] != original {
+            for (id, original) in oldNodes where nodes[id] != original && !(nodes[id].map { onlyRecalculated(original, $0) } ?? false) {
                 let target = DocumentDiagnostic.Target.shape(page: binding.pageID, shape: id)
                 let sourceID = binding.nodeIDs[id] ?? original.formatting.sourceShapeID
                 let element = sourceID.flatMap { elements[$0] }
@@ -255,7 +255,8 @@ enum DocumentSaveImpact {
             let affected: Bool
             switch diagnostic.target {
             case .shape(let pageID, let id):
-                affected = pages[pageID]?.nodes.first { $0.id == id } != originals[pageID]?.nodes.first { $0.id == id }
+                let current = pages[pageID]?.nodes.first { $0.id == id }, original = originals[pageID]?.nodes.first { $0.id == id }
+                affected = current != original && !(current.flatMap { c in original.map { onlyRecalculated($0, c) } } ?? false)
                     && diagnostic.source.cell != nil
             case .connector(let pageID, let id):
                 affected = pages[pageID]?.edges.first { $0.id == id } != originals[pageID]?.edges.first { $0.id == id }
@@ -278,9 +279,51 @@ enum DocumentSaveImpact {
         return Assessment(risks: risks)
     }
 
+    /// Moving or resizing a master instance gives it local geometry values, as Visio does; that is an ordinary
+    /// edit, not a change to what the instance inherits.
+    private static let localGeometryCells: Set<String> = ["PinX", "PinY", "Width", "Height", "LocPinX", "LocPinY", "Angle",
+                                                          "BeginX", "BeginY", "EndX", "EndY", "FlipX", "FlipY"]
+
+    /// A shape the edit did not touch but calculation updated: every changed cell keeps its own formula, and its
+    /// position, size, paths, text block and field displays follow from those values. The writer does not write
+    /// such values back (Visio recalculates them), so they carry no save risk.
+    static func onlyRecalculated(_ original: DiagramNode, _ current: DiagramNode) -> Bool {
+        func formulaDriven(_ cell: ShapeSheetCell?) -> Bool {
+            guard let formula = cell?.formula.trimmingCharacters(in: .whitespaces), !formula.isEmpty else { return false }
+            return !["INH", "NO FORMULA"].contains(formula.uppercased())
+        }
+        let a = original.formatting, b = current.formatting
+        let changedCells = Set(a.sheet.keys).union(b.sheet.keys).filter { a.sheet[$0] != b.sheet[$0] }
+        for key in changedCells {
+            guard let old = a.sheet[key], let new = b.sheet[key], old.formula == new.formula, old.unit == new.unit, formulaDriven(new) else { return false }
+        }
+        // Geometry may move only when a formula-driven geometry cell changed with it.
+        let geometryMoved = original.x != current.x || original.y != current.y || original.width != current.width
+            || original.height != current.height || original.rotation != current.rotation
+        if geometryMoved && !changedCells.contains(where: { localGeometryCells.contains($0) }) { return false }
+        // Field displays may change only when the fields' own formulas did not.
+        func formulas(_ fields: [ShapeTextField]?) -> [[String: String]]? { fields?.map { $0.cells.mapValues { $0.formula + "\u{0}" + $0.unit } } }
+        if formulas(a.textFields) != formulas(b.textFields) { return false }
+        let fieldsShown = (a.textFields?.isEmpty == false)
+        if !fieldsShown && (original.text != current.text || a.textRuns != b.textRuns) { return false }
+        var x = original, y = current
+        x.x = 0; y.x = 0; x.y = 0; y.y = 0; x.width = 0; y.width = 0; x.height = 0; y.height = 0; x.rotation = 0; y.rotation = 0
+        x.fontSize = 0; y.fontSize = 0; x.strokeWidth = 0; y.strokeWidth = 0
+        if fieldsShown { x.text = ""; y.text = "" }
+        var dx = a, dy = b
+        dx.sheet = [:]; dy.sheet = [:]; dx.paths = []; dy.paths = []; dx.textBox = nil; dy.textBox = nil
+        dx.textFields = nil; dy.textFields = nil
+        if fieldsShown { dx.textRuns = nil; dy.textRuns = nil }
+        dx.controls = dx.controls.map { var c = $0; c.cells = c.cells.mapValues { ShapeSheetCell(value: "", formula: $0.formula, unit: $0.unit) }; return c }
+        dy.controls = dy.controls.map { var c = $0; c.cells = c.cells.mapValues { ShapeSheetCell(value: "", formula: $0.formula, unit: $0.unit) }; return c }
+        x.details = dx; y.details = dy
+        return x == y
+    }
+
     private static func authoredSheetChanged(_ current: [String: ShapeSheetCell]?, _ original: [String: ShapeSheetCell]) -> Bool {
         guard let current else { return true }
         return Set(current.keys).union(original.keys).contains { key in
+            if localGeometryCells.contains(key) { return false }
             guard current[key] != original[key] else { return false }
             guard let next = current[key], let old = original[key] else { return true }
             return !next.hasSameAuthoredFormula(as: old)

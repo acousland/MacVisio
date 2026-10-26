@@ -60,6 +60,7 @@ final class ShapeSheetContext {
         self.colorPalette = colorPalette
         self.cancellation = cancellation
         self.document = document; self.foreground = foreground; self.now = now; self.mode = mode
+        documentURL = document?.fileURL
         if let publicIDsByObject { self.publicIDsByObject = publicIDsByObject }
         else if let identifiers { self.publicIDsByObject = Dictionary(identifiers.map { ($0.value, $0.key) }, uniquingKeysWith: { first,_ in first }) }
         else { self.publicIDsByObject = CalculationDependencyIndex.publicIDs(page:page,binding:binding) }

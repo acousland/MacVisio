@@ -202,6 +202,13 @@ struct Diagram: Codable, Equatable {
     var visioArchive: VisioDocumentArchive?
     var legacySource: LegacyVisioSource?
     var definitions: DefinitionRegistry?
+    /// Where the drawing is open from, for FILENAME() and DIRECTORY(). Never stored and not part of equality.
+    var fileURL: URL? = nil
+    enum CodingKeys: String, CodingKey { case version,title,pages,activePageID,visioArchive,legacySource,definitions }
+    static func == (a: Diagram, b: Diagram) -> Bool {
+        a.version == b.version && a.title == b.title && a.pages == b.pages && a.activePageID == b.activePageID
+            && a.visioArchive == b.visioArchive && a.legacySource == b.legacySource && a.definitions == b.definitions
+    }
     init() { activePageID = pages[0].id }
     var activePageIndex: Int { pages.firstIndex { $0.id == activePageID } ?? 0 }
     var page: DiagramPage {
